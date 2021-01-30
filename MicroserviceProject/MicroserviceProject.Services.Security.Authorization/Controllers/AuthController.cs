@@ -2,8 +2,8 @@
 using MicroserviceProject.Model.Communication.Errors;
 using MicroserviceProject.Model.Communication.Validations;
 using MicroserviceProject.Model.Security;
-using MicroserviceProject.Services.Security.Authorization.Persistence.Exceptions;
-using MicroserviceProject.Services.Security.Authorization.Persistence.Providers;
+using MicroserviceProject.Services.Security.Authorization.Persistence.Sql.Exceptions;
+using MicroserviceProject.Services.Security.Authorization.Persistence.Sql.Providers;
 
 using Microsoft.AspNetCore.Mvc;
 

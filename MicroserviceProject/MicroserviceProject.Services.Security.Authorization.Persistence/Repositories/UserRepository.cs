@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MicroserviceProject.Services.Security.Authorization.Persistence.Repositories
+namespace MicroserviceProject.Services.Security.Authorization.Persistence.Sql.Repositories
 {
     /// <summary>
     /// Kullanıcı repository sınıfı

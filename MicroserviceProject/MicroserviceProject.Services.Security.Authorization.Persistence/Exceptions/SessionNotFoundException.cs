@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MicroserviceProject.Services.Security.Authorization.Persistence.Exceptions
+namespace MicroserviceProject.Services.Security.Authorization.Persistence.Sql.Exceptions
 {
     /// <summary>
     /// Oturum bilgisi bulunamadı istisnası

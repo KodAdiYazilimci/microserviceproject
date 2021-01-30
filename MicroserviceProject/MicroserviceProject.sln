@@ -43,7 +43,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services.Security", "Servic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Services.Security.Authorization", "MicroserviceProject.Services.Security.Authorization\MicroserviceProject.Services.Security.Authorization.csproj", "{C31D38DC-1E19-4D59-A59F-28745858BEFD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Services.Security.Authorization.Persistence", "MicroserviceProject.Services.Security.Authorization.Persistence\MicroserviceProject.Services.Security.Authorization.Persistence.csproj", "{832D31B3-7FEA-488B-ADEE-ABBF4E3BD484}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Services.Security.Authorization.Persistence.Sql", "MicroserviceProject.Services.Security.Authorization.Persistence\MicroserviceProject.Services.Security.Authorization.Persistence.Sql.csproj", "{832D31B3-7FEA-488B-ADEE-ABBF4E3BD484}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure.Cryptography", "Infrastructure.Cryptography", "{6A1F6E82-33F9-4571-94FE-C332DBED3DF8}"
 EndProject

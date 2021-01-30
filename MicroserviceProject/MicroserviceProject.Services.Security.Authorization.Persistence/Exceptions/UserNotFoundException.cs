@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MicroserviceProject.Services.Security.Authorization.Persistence.Exceptions
+namespace MicroserviceProject.Services.Security.Authorization.Persistence.Sql.Exceptions
 {
     /// <summary>
     /// Kullanıcı bulunamadı istisnası

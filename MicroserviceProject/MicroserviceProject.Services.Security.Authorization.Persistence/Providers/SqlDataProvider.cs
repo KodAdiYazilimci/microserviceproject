@@ -1,13 +1,13 @@
 ﻿using MicroserviceProject.Infrastructure.Cryptography.SHA256;
 using MicroserviceProject.Model.Security;
-using MicroserviceProject.Services.Security.Authorization.Persistence.Exceptions;
-using MicroserviceProject.Services.Security.Authorization.Persistence.Repositories;
+using MicroserviceProject.Services.Security.Authorization.Persistence.Sql.Exceptions;
+using MicroserviceProject.Services.Security.Authorization.Persistence.Sql.Repositories;
 
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MicroserviceProject.Services.Security.Authorization.Persistence.Providers
+namespace MicroserviceProject.Services.Security.Authorization.Persistence.Sql.Providers
 {
     /// <summary>
     /// MS SQL veritabanı sağlayıcısı
