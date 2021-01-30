@@ -187,6 +187,7 @@ namespace MicroserviceProject.Services.Moderator
                         if (callModel.CallType.ToUpper() == "POST")
                         {
                             HttpPostProvider httpPostProvider = new HttpPostProvider();
+                            httpPostProvider.Headers = new List<HttpHeader>();
                             httpPostProvider.Headers.Add(new HttpHeader("Authorization", _serviceToken));
 
                             SetQueryParameters(queryParameters, callModel, httpPostProvider);
@@ -202,6 +203,7 @@ namespace MicroserviceProject.Services.Moderator
                         else if (callModel.CallType.ToUpper() == "GET")
                         {
                             HttpGetProvider httpGetProvider = new HttpGetProvider();
+                            httpGetProvider.Headers = new List<HttpHeader>();
                             httpGetProvider.Headers.Add(new HttpHeader("Authorization", _serviceToken));
 
                             SetQueryParameters(queryParameters, callModel, httpGetProvider);
@@ -210,7 +212,7 @@ namespace MicroserviceProject.Services.Moderator
                                 await
                                 httpGetProvider
                                 .GetAsync<ServiceResult<TResult>>(
-                                    url: callModel.ServiceName, cancellationToken);
+                                    url: callModel.Endpoint, cancellationToken);
                         }
                         else
                         {
