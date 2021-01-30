@@ -21,7 +21,7 @@ namespace MicroserviceProject.Model.Communication.Basics
         /// <summary>
         /// Yanıtın başarılı olma durumu
         /// </summary>
-        public bool IsSuccess { get; set; }
+        public bool IsSuccess { get; set; } = true;
 
         /// <summary>
         /// Yanıta konu olan hata

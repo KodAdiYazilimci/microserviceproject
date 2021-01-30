@@ -52,9 +52,15 @@ namespace MicroserviceProject.Services.Security.Authorization.Persistence.Provid
                         SessionId = session.Id
                     };
                 }
+                else
+                {
+                    throw new UserNotFoundException();
+                }
             }
-
-            return null;
+            else
+            {
+                throw new SessionNotFoundException();
+            }
         }
 
         public async Task<Token> GetTokenAsync(Credential credential, CancellationToken cancellationToken)
