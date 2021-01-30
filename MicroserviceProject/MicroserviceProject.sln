@@ -17,15 +17,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleSourceService", "Samp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleDataProviderService", "SampleDataProviderService\SampleDataProviderService.csproj", "{1880D70D-2F3D-4415-8D4C-EAA49391D15F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure.Security", "Infrastructure.Security", "{4B50141F-7DDA-4045-87E0-EFBF72CEFB63}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure.Common.Security", "Infrastructure.Common.Security", "{4B50141F-7DDA-4045-87E0-EFBF72CEFB63}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common.Model.Communication.Services", "Common.Model.Communication.Services", "{EA18A86E-A639-4351-938B-ECB91DCEECA1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Model.Communication.Services.HR", "Common.Model.Communication.Services.HR\Common.Model.Communication.Services.HR.csproj", "{44BA5A30-0579-46EB-B2D4-578FFDF80C59}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Common.Model.Communication.Services.HR", "Common.Model.Communication.Services.HR\MicroserviceProject.Common.Model.Communication.Services.HR.csproj", "{44BA5A30-0579-46EB-B2D4-578FFDF80C59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Model.Communication.Services.Finance", "Common.Model.Communication.Services.Finance\Common.Model.Communication.Services.Finance.csproj", "{F0206610-F187-46C2-83EF-ED563DDBD083}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Common.Model.Communication.Services.Finance", "Common.Model.Communication.Services.Finance\MicroserviceProject.Common.Model.Communication.Services.Finance.csproj", "{F0206610-F187-46C2-83EF-ED563DDBD083}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure.Logging", "Infrastructure.Logging", "{423CC89D-F00D-45D2-BE00-931786875AA6}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure.Common.Logging", "Infrastructure.Common.Logging", "{423CC89D-F00D-45D2-BE00-931786875AA6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common.Model.Logging", "Common.Model.Logging", "{89C4AB6A-CF8B-4008-BF50-642F83E3E8E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Common.Model.Logging", "MicroserviceProject.Common.Model.Logging\MicroserviceProject.Common.Model.Logging.csproj", "{F18295DD-A926-44D8-BFD8-D8CE8B33C982}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +61,10 @@ Global
 		{F0206610-F187-46C2-83EF-ED563DDBD083}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0206610-F187-46C2-83EF-ED563DDBD083}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F0206610-F187-46C2-83EF-ED563DDBD083}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F18295DD-A926-44D8-BFD8-D8CE8B33C982}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F18295DD-A926-44D8-BFD8-D8CE8B33C982}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F18295DD-A926-44D8-BFD8-D8CE8B33C982}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F18295DD-A926-44D8-BFD8-D8CE8B33C982}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,6 +76,7 @@ Global
 		{1880D70D-2F3D-4415-8D4C-EAA49391D15F} = {B8BC82E7-C1AE-457E-9B15-0F750DD6C897}
 		{44BA5A30-0579-46EB-B2D4-578FFDF80C59} = {EA18A86E-A639-4351-938B-ECB91DCEECA1}
 		{F0206610-F187-46C2-83EF-ED563DDBD083} = {EA18A86E-A639-4351-938B-ECB91DCEECA1}
+		{F18295DD-A926-44D8-BFD8-D8CE8B33C982} = {89C4AB6A-CF8B-4008-BF50-642F83E3E8E3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C136217B-3CA6-4AEC-95E4-D62936481A67}

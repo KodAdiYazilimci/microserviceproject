@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Common.Model.Communication.Services.HR.People
+﻿namespace MicroserviceProject.Common.Model.Communication.Services.HR.People
 {
     public class Person
     {
