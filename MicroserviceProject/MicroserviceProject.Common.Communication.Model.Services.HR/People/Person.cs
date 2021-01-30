@@ -1,4 +1,4 @@
-﻿namespace MicroserviceProject.Common.Model.Communication.Services.HR.People
+﻿namespace MicroserviceProject.Common.Communication.Model.Services.HR.People
 {
     public class Person
     {

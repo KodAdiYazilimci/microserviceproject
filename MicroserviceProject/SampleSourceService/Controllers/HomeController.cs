@@ -1,13 +1,10 @@
-﻿using MicroserviceProject.Common.Model.Communication.Basics;
+﻿using MicroserviceProject.Common.Communication.Model.Basics;
 using MicroserviceProject.Infrastructure.Communication.Http.Providers;
 
 using Microsoft.AspNetCore.Mvc;
 
 using SampleSourceService.Model;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 

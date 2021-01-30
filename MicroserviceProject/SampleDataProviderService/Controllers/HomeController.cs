@@ -1,13 +1,8 @@
-﻿using MicroserviceProject.Common.Model.Communication.Basics;
+﻿using MicroserviceProject.Common.Communication.Model.Basics;
 
 using Microsoft.AspNetCore.Mvc;
 
 using SampleDataProviderService.Model;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SampleDataProviderService.Controllers
 {

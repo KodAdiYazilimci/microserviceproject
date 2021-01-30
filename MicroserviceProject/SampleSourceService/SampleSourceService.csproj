@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MicroserviceProject.Common.Communication.Model\MicroserviceProject.Common.Communication.Model.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Infrastructure.Communication.Http\MicroserviceProject.Infrastructure.Communication.Http.csproj" />
-    <ProjectReference Include="..\MicroserviceProjet.Common.Model.Communication\MicroserviceProject.Common.Model.Communication.csproj" />
   </ItemGroup>
 
 </Project>

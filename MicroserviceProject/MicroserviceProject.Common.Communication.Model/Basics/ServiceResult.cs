@@ -1,7 +1,7 @@
-﻿using MicroserviceProject.Common.Model.Communication.Errors;
-using MicroserviceProject.Common.Model.Communication.Validations;
+﻿using MicroserviceProject.Common.Communication.Model.Errors;
+using MicroserviceProject.Common.Communication.Model.Validations;
 
-namespace MicroserviceProject.Common.Model.Communication.Basics
+namespace MicroserviceProject.Common.Communication.Model.Basics
 {
     /// <summary>
     /// Bir servisten dönen yanıt

@@ -1,4 +1,4 @@
-﻿namespace MicroserviceProject.Common.Model.Communication.Validations
+﻿namespace MicroserviceProject.Common.Communication.Model.Validations
 {
     /// <summary>
     /// Doğrulamaya ait detay
