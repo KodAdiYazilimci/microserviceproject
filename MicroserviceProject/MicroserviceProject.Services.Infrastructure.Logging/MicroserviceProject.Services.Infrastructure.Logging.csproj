@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MicroserviceProject.Infrastructure.Logging.File\MicroserviceProject.Infrastructure.Logging.File.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Infrastructure.Logging\MicroserviceProject.Infrastructure.Logging.csproj" />
+    <ProjectReference Include="..\Model.Communication\MicroserviceProject.Model.Communication.csproj" />
+    <ProjectReference Include="..\Model.Logging\MicroserviceProject.Model.Logging.csproj" />
+  </ItemGroup>
+
+
+</Project>
