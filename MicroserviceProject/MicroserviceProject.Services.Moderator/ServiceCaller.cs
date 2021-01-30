@@ -41,6 +41,19 @@ namespace MicroserviceProject.Services.Moderator
         private readonly string _serviceToken;
 
         /// <summary>
+        /// Servis bilgisi önbellekte bulunamadı tutucu
+        /// </summary>
+        /// <param name="serviceName">Bulunamayan servis adı</param>
+        /// <returns></returns>
+        public delegate string NoServiceFoundInCacheHandler(string serviceName);
+
+        /// <summary>
+        /// Servis bilgisi önbellekte bulunamadığında ateşlenecek olay.
+        /// Dönüş değeri yeniden önbelleğe yüklenir
+        /// </summary>
+        public event NoServiceFoundInCacheHandler OnNoServiceFoundInCache;
+
+        /// <summary>
         /// Bir servisle çağrı kurmayı sağlayan moderatör sınıf
         /// </summary>
         /// <param name="memoryCache">Servis bilgisini tutan önbellek nesnesi</param>
@@ -71,7 +84,10 @@ namespace MicroserviceProject.Services.Moderator
 
             if (string.IsNullOrEmpty(serviceJson))
             {
-                serviceJson = ""; // TO DO: Servis bilgisini tekrar çekmeyi dene
+                if (OnNoServiceFoundInCache != null)
+                {
+                    serviceJson = OnNoServiceFoundInCache(serviceName);
+                }
 
                 _memoryCache.Set<string>(
                     key: SERVICE_ENDPOINT_CACHE_PREFIX + serviceName.ToLower(),
@@ -149,7 +165,10 @@ namespace MicroserviceProject.Services.Moderator
 
             if (string.IsNullOrEmpty(serviceJson))
             {
-                serviceJson = ""; // TO DO: Servis bilgisini tekrar çekmeyi dene
+                if (OnNoServiceFoundInCache != null)
+                {
+                    serviceJson = OnNoServiceFoundInCache(serviceName);
+                }
 
                 _memoryCache.Set<string>(
                     key: SERVICE_ENDPOINT_CACHE_PREFIX + serviceName.ToLower(),
