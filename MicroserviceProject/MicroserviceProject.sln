@@ -27,37 +27,37 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Model.C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Model.Logging", "Model.Logging\MicroserviceProject.Model.Logging.csproj", "{20EF04F7-4ACE-4FDC-8E7A-CF358A34526A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrastructure.Communication.Http", "Infrastructure.Communication.Http\MicroserviceProject.Infrastructure.Communication.Http.csproj", "{4CCCD482-C37D-4A2D-A169-92C654B0F93F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrastructure.Logging", "MicroserviceProject.Infrastructure.Logging\MicroserviceProject.Infrastructure.Logging.csproj", "{FE4127D7-8C88-4A35-BF31-12145BC0CB99}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Infrastructure.Logging", "MicroserviceProject.Infrastructure.Logging\MicroserviceProject.Infrastructure.Logging.csproj", "{FE4127D7-8C88-4A35-BF31-12145BC0CB99}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Infrastructure.Logging.File", "MicroserviceProject.Infrastructure.Logging.File\MicroserviceProject.Infrastructure.Logging.File.csproj", "{6FF6E9F6-0B0B-43A8-8767-4A6DF86A7E83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrastructure.Logging.File", "MicroserviceProject.Infrastructure.Logging.File\MicroserviceProject.Infrastructure.Logging.File.csproj", "{6FF6E9F6-0B0B-43A8-8767-4A6DF86A7E83}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scheduled.Web", "Scheduled.Web", "{47E399DB-3D80-4645-8CC7-1A6090728514}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication", "MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication\MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.csproj", "{B8817C26-8465-4910-A4F6-4B6277EC5DEC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication", "MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication\MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.csproj", "{B8817C26-8465-4910-A4F6-4B6277EC5DEC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Model.Security", "Model.Security", "{71C5DED7-9F2F-4160-AA6A-D8E46771BB08}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Model.Security", "MicroserviceProject.Model.Security\MicroserviceProject.Model.Security.csproj", "{A778245D-6F20-4780-A399-77221B73F84B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Model.Security", "MicroserviceProject.Model.Security\MicroserviceProject.Model.Security.csproj", "{A778245D-6F20-4780-A399-77221B73F84B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services.Security", "Services.Security", "{63E37307-7818-4EB9-B941-E787E7FBBF8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Services.Security.Authorization", "MicroserviceProject.Services.Security.Authorization\MicroserviceProject.Services.Security.Authorization.csproj", "{C31D38DC-1E19-4D59-A59F-28745858BEFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Services.Security.Authorization", "MicroserviceProject.Services.Security.Authorization\MicroserviceProject.Services.Security.Authorization.csproj", "{C31D38DC-1E19-4D59-A59F-28745858BEFD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Services.Security.Authorization.Persistence", "MicroserviceProject.Services.Security.Authorization.Persistence\MicroserviceProject.Services.Security.Authorization.Persistence.csproj", "{832D31B3-7FEA-488B-ADEE-ABBF4E3BD484}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Services.Security.Authorization.Persistence", "MicroserviceProject.Services.Security.Authorization.Persistence\MicroserviceProject.Services.Security.Authorization.Persistence.csproj", "{832D31B3-7FEA-488B-ADEE-ABBF4E3BD484}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure.Cryptography", "Infrastructure.Cryptography", "{6A1F6E82-33F9-4571-94FE-C332DBED3DF8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Infrastructure.Cryptography.RSA", "MicroserviceProject.Infrastructure.Cryptography.RSA\MicroserviceProject.Infrastructure.Cryptography.RSA.csproj", "{CC6C6796-50DB-46F3-A6BC-03669650FFBF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrastructure.Cryptography.RSA", "MicroserviceProject.Infrastructure.Cryptography.RSA\MicroserviceProject.Infrastructure.Cryptography.RSA.csproj", "{CC6C6796-50DB-46F3-A6BC-03669650FFBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Infrastructure.Cryptography.SHA256", "MicroserviceProject.Infrastructure.Cryptography.SHA256\MicroserviceProject.Infrastructure.Cryptography.SHA256.csproj", "{422B8170-F96C-4DDC-9B8E-60C237E802FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrastructure.Cryptography.SHA256", "MicroserviceProject.Infrastructure.Cryptography.SHA256\MicroserviceProject.Infrastructure.Cryptography.SHA256.csproj", "{422B8170-F96C-4DDC-9B8E-60C237E802FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Infrastructure.Cryptography.Rijndael", "MicroserviceProject.Infrastructure.Cryptography.Rijndael\MicroserviceProject.Infrastructure.Cryptography.Rijndael.csproj", "{4FDD1FE0-A36F-4F98-B4BF-C7EC87DED880}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrastructure.Cryptography.Rijndael", "MicroserviceProject.Infrastructure.Cryptography.Rijndael\MicroserviceProject.Infrastructure.Cryptography.Rijndael.csproj", "{4FDD1FE0-A36F-4F98-B4BF-C7EC87DED880}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Model.Cryptography", "Model.Cryptography", "{727F52C1-35AE-4F6B-9664-C665B367442B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Model.Cryptography.Rijndael", "MicroserviceProject.Model.Cryptography.Rijndael\MicroserviceProject.Model.Cryptography.Rijndael.csproj", "{41A80E77-40E2-424C-8812-8FAED112E8D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Model.Cryptography.Rijndael", "MicroserviceProject.Model.Cryptography.Rijndael\MicroserviceProject.Model.Cryptography.Rijndael.csproj", "{41A80E77-40E2-424C-8812-8FAED112E8D6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrastructure.Communication.Http", "MicroserviceProject.Infrastructure.Communication.Http\MicroserviceProject.Infrastructure.Communication.Http.csproj", "{F15A9AAD-5CAE-4C20-ACF5-8CA76CF09082}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -89,10 +89,6 @@ Global
 		{20EF04F7-4ACE-4FDC-8E7A-CF358A34526A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20EF04F7-4ACE-4FDC-8E7A-CF358A34526A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20EF04F7-4ACE-4FDC-8E7A-CF358A34526A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4CCCD482-C37D-4A2D-A169-92C654B0F93F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4CCCD482-C37D-4A2D-A169-92C654B0F93F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4CCCD482-C37D-4A2D-A169-92C654B0F93F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4CCCD482-C37D-4A2D-A169-92C654B0F93F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FE4127D7-8C88-4A35-BF31-12145BC0CB99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FE4127D7-8C88-4A35-BF31-12145BC0CB99}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE4127D7-8C88-4A35-BF31-12145BC0CB99}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -133,6 +129,10 @@ Global
 		{41A80E77-40E2-424C-8812-8FAED112E8D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{41A80E77-40E2-424C-8812-8FAED112E8D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{41A80E77-40E2-424C-8812-8FAED112E8D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F15A9AAD-5CAE-4C20-ACF5-8CA76CF09082}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F15A9AAD-5CAE-4C20-ACF5-8CA76CF09082}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F15A9AAD-5CAE-4C20-ACF5-8CA76CF09082}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F15A9AAD-5CAE-4C20-ACF5-8CA76CF09082}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -144,7 +144,6 @@ Global
 		{645D33D7-57C6-4702-8D13-334B29F87C69} = {849EF387-04B1-4C7B-B7EE-3DB4BEC442A7}
 		{FBEA5C32-231D-4F44-8B56-CD3CFA52112C} = {849EF387-04B1-4C7B-B7EE-3DB4BEC442A7}
 		{20EF04F7-4ACE-4FDC-8E7A-CF358A34526A} = {CDAAB76B-6A4E-4FB3-8313-969FC443E8EF}
-		{4CCCD482-C37D-4A2D-A169-92C654B0F93F} = {2FA72A9D-33B2-4392-8FE4-EE7FA6D9F147}
 		{FE4127D7-8C88-4A35-BF31-12145BC0CB99} = {423CC89D-F00D-45D2-BE00-931786875AA6}
 		{6FF6E9F6-0B0B-43A8-8767-4A6DF86A7E83} = {423CC89D-F00D-45D2-BE00-931786875AA6}
 		{B8817C26-8465-4910-A4F6-4B6277EC5DEC} = {4B50141F-7DDA-4045-87E0-EFBF72CEFB63}
@@ -155,6 +154,7 @@ Global
 		{422B8170-F96C-4DDC-9B8E-60C237E802FF} = {6A1F6E82-33F9-4571-94FE-C332DBED3DF8}
 		{4FDD1FE0-A36F-4F98-B4BF-C7EC87DED880} = {6A1F6E82-33F9-4571-94FE-C332DBED3DF8}
 		{41A80E77-40E2-424C-8812-8FAED112E8D6} = {727F52C1-35AE-4F6B-9664-C665B367442B}
+		{F15A9AAD-5CAE-4C20-ACF5-8CA76CF09082} = {2FA72A9D-33B2-4392-8FE4-EE7FA6D9F147}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C136217B-3CA6-4AEC-95E4-D62936481A67}
