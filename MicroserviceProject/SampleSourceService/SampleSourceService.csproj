@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MicroserviceProject.Infrastructure.Communication.Http\MicroserviceProject.Infrastructure.Communication.Http.csproj" />
+    <ProjectReference Include="..\MicroserviceProjet.Common.Model.Communication\MicroserviceProject.Common.Model.Communication.csproj" />
+  </ItemGroup>
+
+</Project>

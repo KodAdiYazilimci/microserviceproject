@@ -23,4 +23,16 @@ namespace MicroserviceProject.Common.Model.Communication.Basics
         /// </summary>
         public Validation Validation { get; set; }
     }
+
+    /// <summary>
+    /// Bir servisten dönen yanıt
+    /// </summary>
+    /// <typeparam name="TResult">Servisten dönecek datanın tipi</typeparam>
+    public class ServiceResult<TResult> : ServiceResult
+    {
+        /// <summary>
+        /// Yanıtın içerisindeki data
+        /// </summary>
+        public TResult Data { get; set; }
+    }
 }
