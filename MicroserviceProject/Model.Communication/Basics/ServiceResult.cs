@@ -8,6 +8,16 @@ namespace MicroserviceProject.Model.Communication.Basics
     /// </summary>
     public class ServiceResult
     {
+        public ServiceResult()
+        {
+
+        }
+
+        public ServiceResult(bool isSuccess)
+        {
+            this.IsSuccess = IsSuccess;
+        }
+
         /// <summary>
         /// Yanıtın başarılı olma durumu
         /// </summary>

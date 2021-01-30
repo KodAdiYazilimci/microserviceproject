@@ -2,7 +2,6 @@
 {
     public class User
     {
-
         /// <summary>
         /// Kullanılacak bölge kodu
         /// </summary>
@@ -34,5 +33,6 @@
         public string Email { get; set; }
 
         public bool IsAdmin { get; set; }
+        public string Password { get; set; }
     }
 }

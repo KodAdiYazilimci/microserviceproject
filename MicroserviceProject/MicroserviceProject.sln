@@ -45,6 +45,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services.Security", "Servic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Services.Security.Authorization", "MicroserviceProject.Services.Security.Authorization\MicroserviceProject.Services.Security.Authorization.csproj", "{C31D38DC-1E19-4D59-A59F-28745858BEFD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Services.Security.Authorization.Persistence", "MicroserviceProject.Services.Security.Authorization.Persistence\MicroserviceProject.Services.Security.Authorization.Persistence.csproj", "{832D31B3-7FEA-488B-ADEE-ABBF4E3BD484}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure.Cryptography", "Infrastructure.Cryptography", "{6A1F6E82-33F9-4571-94FE-C332DBED3DF8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Infrastructure.Cryptography.RSA", "MicroserviceProject.Infrastructure.Cryptography.RSA\MicroserviceProject.Infrastructure.Cryptography.RSA.csproj", "{CC6C6796-50DB-46F3-A6BC-03669650FFBF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Infrastructure.Cryptography.SHA256", "MicroserviceProject.Infrastructure.Cryptography.SHA256\MicroserviceProject.Infrastructure.Cryptography.SHA256.csproj", "{422B8170-F96C-4DDC-9B8E-60C237E802FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Infrastructure.Cryptography.Rijndael", "MicroserviceProject.Infrastructure.Cryptography.Rijndael\MicroserviceProject.Infrastructure.Cryptography.Rijndael.csproj", "{4FDD1FE0-A36F-4F98-B4BF-C7EC87DED880}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Model.Cryptography", "Model.Cryptography", "{727F52C1-35AE-4F6B-9664-C665B367442B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Model.Cryptography.Rijndael", "MicroserviceProject.Model.Cryptography.Rijndael\MicroserviceProject.Model.Cryptography.Rijndael.csproj", "{41A80E77-40E2-424C-8812-8FAED112E8D6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +113,26 @@ Global
 		{C31D38DC-1E19-4D59-A59F-28745858BEFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C31D38DC-1E19-4D59-A59F-28745858BEFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C31D38DC-1E19-4D59-A59F-28745858BEFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{832D31B3-7FEA-488B-ADEE-ABBF4E3BD484}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{832D31B3-7FEA-488B-ADEE-ABBF4E3BD484}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{832D31B3-7FEA-488B-ADEE-ABBF4E3BD484}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{832D31B3-7FEA-488B-ADEE-ABBF4E3BD484}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC6C6796-50DB-46F3-A6BC-03669650FFBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC6C6796-50DB-46F3-A6BC-03669650FFBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC6C6796-50DB-46F3-A6BC-03669650FFBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC6C6796-50DB-46F3-A6BC-03669650FFBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{422B8170-F96C-4DDC-9B8E-60C237E802FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{422B8170-F96C-4DDC-9B8E-60C237E802FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{422B8170-F96C-4DDC-9B8E-60C237E802FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{422B8170-F96C-4DDC-9B8E-60C237E802FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FDD1FE0-A36F-4F98-B4BF-C7EC87DED880}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FDD1FE0-A36F-4F98-B4BF-C7EC87DED880}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FDD1FE0-A36F-4F98-B4BF-C7EC87DED880}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FDD1FE0-A36F-4F98-B4BF-C7EC87DED880}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41A80E77-40E2-424C-8812-8FAED112E8D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41A80E77-40E2-424C-8812-8FAED112E8D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41A80E77-40E2-424C-8812-8FAED112E8D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41A80E77-40E2-424C-8812-8FAED112E8D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -116,6 +150,11 @@ Global
 		{B8817C26-8465-4910-A4F6-4B6277EC5DEC} = {4B50141F-7DDA-4045-87E0-EFBF72CEFB63}
 		{A778245D-6F20-4780-A399-77221B73F84B} = {71C5DED7-9F2F-4160-AA6A-D8E46771BB08}
 		{C31D38DC-1E19-4D59-A59F-28745858BEFD} = {63E37307-7818-4EB9-B941-E787E7FBBF8F}
+		{832D31B3-7FEA-488B-ADEE-ABBF4E3BD484} = {63E37307-7818-4EB9-B941-E787E7FBBF8F}
+		{CC6C6796-50DB-46F3-A6BC-03669650FFBF} = {6A1F6E82-33F9-4571-94FE-C332DBED3DF8}
+		{422B8170-F96C-4DDC-9B8E-60C237E802FF} = {6A1F6E82-33F9-4571-94FE-C332DBED3DF8}
+		{4FDD1FE0-A36F-4F98-B4BF-C7EC87DED880} = {6A1F6E82-33F9-4571-94FE-C332DBED3DF8}
+		{41A80E77-40E2-424C-8812-8FAED112E8D6} = {727F52C1-35AE-4F6B-9664-C665B367442B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C136217B-3CA6-4AEC-95E4-D62936481A67}
