@@ -1,5 +1,8 @@
 ﻿namespace MicroserviceProject.Model.Security
 {
+    /// <summary>
+    /// Kullanıcının modeli
+    /// </summary>
     public class User
     {
         /// <summary>

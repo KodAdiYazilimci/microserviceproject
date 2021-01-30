@@ -2,6 +2,9 @@
 
 namespace MicroserviceProject.Infrastructure.Cryptography.SHA256
 {
+    /// <summary>
+    /// SHA256 kriptolama işlemleri sınıfı
+    /// </summary>
     public static class SHA256Cryptography
     {
         /// <summary>

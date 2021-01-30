@@ -8,11 +8,18 @@ namespace MicroserviceProject.Model.Communication.Basics
     /// </summary>
     public class ServiceResult
     {
+        /// <summary>
+        /// Bir servisten dönen yanıt
+        /// </summary>
         public ServiceResult()
         {
 
         }
 
+        /// <summary>
+        /// Bir servisten dönen yanıt
+        /// </summary>
+        /// <param name="isSuccess">Yanıtın başarılı olma durumu</param>
         public ServiceResult(bool isSuccess)
         {
             this.IsSuccess = IsSuccess;

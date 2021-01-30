@@ -6,15 +6,30 @@ using System.Threading.Tasks;
 
 namespace MicroserviceProject.Infrastructure.Logging.Managers
 {
+    /// <summary>
+    /// Log yazma işlemlerini yürüten sınıf
+    /// </summary>
+    /// <typeparam name="TModel">Yazılacak logun tipi</typeparam>
     public class LogManager<TModel> where TModel : BaseLogModel, new()
     {
-        public List<ILogger<TModel>> _loggers;
+        /// <summary>
+        /// Log yazacak logger sınıfları
+        /// </summary>
+        private List<ILogger<TModel>> _loggers;
 
+        /// <summary>
+        /// Log yazma işlemlerini yürüten sınıf
+        /// </summary>
+        /// <param name="loggers">Log yazacak logger sınıfları</param>
         public LogManager(List<ILogger<TModel>> loggers)
         {
             _loggers = loggers;
         }
 
+        /// <summary>
+        /// Log yazar
+        /// </summary>
+        /// <param name="model">Yazılacak logun modeli</param>
         public void Log(TModel model)
         {
             Task[] tasks = new Task[_loggers.Count];

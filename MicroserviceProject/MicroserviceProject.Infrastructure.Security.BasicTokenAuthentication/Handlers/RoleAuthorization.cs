@@ -13,8 +13,17 @@ using System.Threading.Tasks;
 
 namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.Handlers
 {
+    /// <summary>
+    /// Rol denetimi yapan sınıf
+    /// </summary>
     public class RoleAuthorizationHandler : AuthorizationHandler<RolesRequirement>
     {
+        /// <summary>
+        /// Rol denetimi yapar
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="requirement"></param>
+        /// <returns></returns>
         protected override Task HandleRequirementAsync(
             AuthorizationHandlerContext context,
             RolesRequirement requirement)

@@ -9,11 +9,26 @@ using System.Threading.Tasks;
 
 namespace MicroserviceProject.Services.Security.Authorization.Persistence.Providers
 {
+    /// <summary>
+    /// MS SQL veritabanı sağlayıcısı
+    /// </summary>
     public class SqlDataProvider
     {
+        /// <summary>
+        /// Oturum repository
+        /// </summary>
         private readonly SessionRepository sessionRepository;
+
+        /// <summary>
+        /// Kullanıcı repository
+        /// </summary>
         private readonly UserRepository userRepository;
 
+        /// <summary>
+        /// MS SQL veritabanı sağlayıcısı
+        /// </summary>
+        /// <param name="sessionRepository">Oturum repository</param>
+        /// <param name="userRepository">Kullanıcı repository</param>
         public SqlDataProvider(
             SessionRepository sessionRepository,
             UserRepository userRepository)
@@ -22,6 +37,12 @@ namespace MicroserviceProject.Services.Security.Authorization.Persistence.Provid
             this.userRepository = userRepository;
         }
 
+        /// <summary>
+        /// Kullanıcıyı asenkron olarak getirir
+        /// </summary>
+        /// <param name="token">Kullanıcının token değeri</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
         public async Task<User> GetUserAsync(string token, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -63,6 +84,12 @@ namespace MicroserviceProject.Services.Security.Authorization.Persistence.Provid
             }
         }
 
+        /// <summary>
+        /// Kullanıcı kimliğine göre token verir
+        /// </summary>
+        /// <param name="credential">Kullanıcının kimlik bilgleri</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
         public async Task<Token> GetTokenAsync(Credential credential, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -103,6 +130,12 @@ namespace MicroserviceProject.Services.Security.Authorization.Persistence.Provid
             }
         }
 
+        /// <summary>
+        /// Kullanıcı oluşturur ve ardından token verir
+        /// </summary>
+        /// <param name="credential">Kullanıcının kimlik bilgileri</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
         public async Task<Token> RegisterUserAsync(Credential credential, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -114,6 +147,12 @@ namespace MicroserviceProject.Services.Security.Authorization.Persistence.Provid
             return await GetTokenAsync(credential, cancellationToken);
         }
 
+        /// <summary>
+        /// Kullanıcının varlığını e-posta adresine göre kontrol eder
+        /// </summary>
+        /// <param name="email">E-posta adresi</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
         public async Task<bool> CheckUserAsync(string email, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();

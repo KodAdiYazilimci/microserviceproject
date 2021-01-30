@@ -6,11 +6,15 @@ using System.Security.Cryptography;
 namespace MicroserviceProject.Infrastructure.Cryptography.Rijndael
 {
     /// <summary>
-    /// Kriptolama işlemleri sınıfı
+    /// Rijndael kriptolama işlemleri sınıfı
     /// </summary>
     public static class RijndaelCryptography
     {
-
+        /// <summary>
+        /// Kriptolama işlemini yapar
+        /// </summary>
+        /// <param name="value">Kriptolanacak data</param>
+        /// <returns></returns>
         public static CryptModel Crypt(byte[] value)
         {
             using (System.Security.Cryptography.Rijndael myRijndael = System.Security.Cryptography.Rijndael.Create())
@@ -27,6 +31,13 @@ namespace MicroserviceProject.Infrastructure.Cryptography.Rijndael
             }
         }
 
+        /// <summary>
+        /// Kriptolanmış veriyi çözer
+        /// </summary>
+        /// <param name="encrypted">Kriptolanmış veri</param>
+        /// <param name="key">Kriptolanmış verinin özel anahtarı</param>
+        /// <param name="iv">Kriptolanmış verinin public anahtarı</param>
+        /// <returns></returns>
         public static CryptModel DeCrypt(byte[] encrypted, byte[] key, byte[] iv)
         {
             // Decrypt the bytes to a string.

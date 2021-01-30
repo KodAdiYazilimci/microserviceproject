@@ -16,8 +16,18 @@ using System.Threading.Tasks;
 
 namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.Handlers
 {
+    /// <summary>
+    /// Kimlik doğrulama denetimi yapacak sınıf
+    /// </summary>
     public class MasterAuthentication : AuthenticationHandler<AuthenticationSchemeOptions>
     {
+        /// <summary>
+        /// Kimlik doğrulama denetimi yapacak sınıf
+        /// </summary>
+        /// <param name="options"></param>
+        /// <param name="loggerFactory"></param>
+        /// <param name="urlEncoder"></param>
+        /// <param name="systemClock"></param>
         public MasterAuthentication(
             IOptionsMonitor<AuthenticationSchemeOptions> options,
             ILoggerFactory loggerFactory,
@@ -26,6 +36,10 @@ namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.H
         {
         }
 
+        /// <summary>
+        /// Kimlik denetimini sağlar
+        /// </summary>
+        /// <returns></returns>
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();

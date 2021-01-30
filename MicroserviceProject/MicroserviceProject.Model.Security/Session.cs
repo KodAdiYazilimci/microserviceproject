@@ -3,10 +3,15 @@
 namespace MicroserviceProject.Model.Security
 {
     /// <summary>
-    /// Kullanıcı oturumları entity nesnesi
+    /// Kullanıcı oturumları modeli
     /// </summary>
     public class Session
     {
+        /// <summary>
+        /// Oturumun Id değeri
+        /// </summary>
+        public int Id { get; set; }
+
         /// <summary>
         /// Oturumun IP adresi
         /// </summary>
@@ -36,6 +41,5 @@ namespace MicroserviceProject.Model.Security
         /// Oturumun son geçerlilik tarihi
         /// </summary>
         public DateTime ValidTo { get; set; }
-        public int Id { get; set; }
     }
 }

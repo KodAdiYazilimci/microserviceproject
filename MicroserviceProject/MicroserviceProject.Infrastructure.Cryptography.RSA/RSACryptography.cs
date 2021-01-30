@@ -2,8 +2,16 @@
 
 namespace MicroserviceProject.Infrastructure.Cryptography.RSA
 {
+    /// <summary>
+    /// RSA kriptolama işlemleri sınıfı
+    /// </summary>
     public static class RSACryptography
     {
+        /// <summary>
+        /// Kriptolama yapar
+        /// </summary>
+        /// <param name="data">Kriptolanacak data</param>
+        /// <returns></returns>
         public static byte[] Crypt(byte[] data)
         {
             byte[] encryptedData;
@@ -22,6 +30,11 @@ namespace MicroserviceProject.Infrastructure.Cryptography.RSA
             return encryptedData;
         }
 
+        /// <summary>
+        /// Kriptolanmış veriyi çözer
+        /// </summary>
+        /// <param name="data">Kriptolanmış veri</param>
+        /// <returns></returns>
         public static byte[] Decrypt(byte[] data)
         {
             byte[] decryptedData;

@@ -5,8 +5,16 @@ using System.Security.Claims;
 
 namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.Persistence
 {
+    /// <summary>
+    /// Kimlik bilgisi sağlayan sınıf
+    /// </summary>
     public class AuthenticationPersistence
     {
+        /// <summary>
+        /// Kimlik bilgilerini verir
+        /// </summary>
+        /// <param name="user">Kimlik bilgisi getirilecek kullanıcı</param>
+        /// <returns></returns>
         public static IEnumerable<Claim> GetClaims(User user)
         {
             return new List<Claim>()
