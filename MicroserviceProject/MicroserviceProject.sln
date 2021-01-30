@@ -35,6 +35,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Infrast
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scheduled.Web", "Scheduled.Web", "{47E399DB-3D80-4645-8CC7-1A6090728514}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication", "MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication\MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.csproj", "{B8817C26-8465-4910-A4F6-4B6277EC5DEC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Model.Security", "Model.Security", "{71C5DED7-9F2F-4160-AA6A-D8E46771BB08}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Model.Security", "MicroserviceProject.Model.Security\MicroserviceProject.Model.Security.csproj", "{A778245D-6F20-4780-A399-77221B73F84B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services.Security", "Services.Security", "{63E37307-7818-4EB9-B941-E787E7FBBF8F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Services.Security.Authorization", "MicroserviceProject.Services.Security.Authorization\MicroserviceProject.Services.Security.Authorization.csproj", "{C31D38DC-1E19-4D59-A59F-28745858BEFD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +87,18 @@ Global
 		{6FF6E9F6-0B0B-43A8-8767-4A6DF86A7E83}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6FF6E9F6-0B0B-43A8-8767-4A6DF86A7E83}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6FF6E9F6-0B0B-43A8-8767-4A6DF86A7E83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8817C26-8465-4910-A4F6-4B6277EC5DEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8817C26-8465-4910-A4F6-4B6277EC5DEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8817C26-8465-4910-A4F6-4B6277EC5DEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8817C26-8465-4910-A4F6-4B6277EC5DEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A778245D-6F20-4780-A399-77221B73F84B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A778245D-6F20-4780-A399-77221B73F84B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A778245D-6F20-4780-A399-77221B73F84B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A778245D-6F20-4780-A399-77221B73F84B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C31D38DC-1E19-4D59-A59F-28745858BEFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C31D38DC-1E19-4D59-A59F-28745858BEFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C31D38DC-1E19-4D59-A59F-28745858BEFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C31D38DC-1E19-4D59-A59F-28745858BEFD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -91,6 +113,9 @@ Global
 		{4CCCD482-C37D-4A2D-A169-92C654B0F93F} = {2FA72A9D-33B2-4392-8FE4-EE7FA6D9F147}
 		{FE4127D7-8C88-4A35-BF31-12145BC0CB99} = {423CC89D-F00D-45D2-BE00-931786875AA6}
 		{6FF6E9F6-0B0B-43A8-8767-4A6DF86A7E83} = {423CC89D-F00D-45D2-BE00-931786875AA6}
+		{B8817C26-8465-4910-A4F6-4B6277EC5DEC} = {4B50141F-7DDA-4045-87E0-EFBF72CEFB63}
+		{A778245D-6F20-4780-A399-77221B73F84B} = {71C5DED7-9F2F-4160-AA6A-D8E46771BB08}
+		{C31D38DC-1E19-4D59-A59F-28745858BEFD} = {63E37307-7818-4EB9-B941-E787E7FBBF8F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C136217B-3CA6-4AEC-95E4-D62936481A67}
