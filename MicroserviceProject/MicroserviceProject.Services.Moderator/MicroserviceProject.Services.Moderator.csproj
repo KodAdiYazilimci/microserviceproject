@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MicroserviceProject.Infrastructure.Communication.Http\MicroserviceProject.Infrastructure.Communication.Http.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Model.Security\MicroserviceProject.Model.Security.csproj" />
+    <ProjectReference Include="..\Model.Communication.Services.Finance\MicroserviceProject.Model.Communication.Services.Finance.csproj" />
+    <ProjectReference Include="..\Model.Communication.Services.HR\MicroserviceProject.Model.Communication.Services.HR.csproj" />
+    <ProjectReference Include="..\Model.Communication\MicroserviceProject.Model.Communication.csproj" />
+    <ProjectReference Include="..\Model.Logging\MicroserviceProject.Model.Logging.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,10 +1,29 @@
 ﻿namespace MicroserviceProject.Infrastructure.Communication.Http.Models
 {
     /// <summary>
-    /// Http isteğinin header ı
+    /// Http isteğinin headerı
     /// </summary>
     public class HttpHeader
     {
+        /// <summary>
+        /// Http isteğinin headerı
+        /// </summary>
+        public HttpHeader()
+        {
+
+        }
+
+        /// <summary>
+        /// Http isteğinin headerı
+        /// </summary>
+        /// <param name="key">Headerın anahtarı</param>
+        /// <param name="value">Headerın değeri</param>
+        public HttpHeader(string key, string value)
+        {
+            this.Key = key;
+            this.Value = value;
+        }
+
         /// <summary>
         /// Headerın anahtarı
         /// </summary>

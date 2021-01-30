@@ -63,6 +63,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services.Infrastructure", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Services.Infrastructure.Logging", "MicroserviceProject.Services.Infrastructure.Logging\MicroserviceProject.Services.Infrastructure.Logging.csproj", "{BA84773B-7932-4987-AE08-C0D33EC3339E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Services.Moderator", "MicroserviceProject.Services.Moderator\MicroserviceProject.Services.Moderator.csproj", "{C7411661-10AF-43D3-845C-1E7557D1C963}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -141,6 +143,10 @@ Global
 		{BA84773B-7932-4987-AE08-C0D33EC3339E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA84773B-7932-4987-AE08-C0D33EC3339E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA84773B-7932-4987-AE08-C0D33EC3339E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7411661-10AF-43D3-845C-1E7557D1C963}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7411661-10AF-43D3-845C-1E7557D1C963}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7411661-10AF-43D3-845C-1E7557D1C963}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7411661-10AF-43D3-845C-1E7557D1C963}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -164,6 +170,7 @@ Global
 		{41A80E77-40E2-424C-8812-8FAED112E8D6} = {727F52C1-35AE-4F6B-9664-C665B367442B}
 		{F15A9AAD-5CAE-4C20-ACF5-8CA76CF09082} = {2FA72A9D-33B2-4392-8FE4-EE7FA6D9F147}
 		{BA84773B-7932-4987-AE08-C0D33EC3339E} = {2669D375-E38F-4991-B50C-CAEFD1C57054}
+		{C7411661-10AF-43D3-845C-1E7557D1C963} = {B8BC82E7-C1AE-457E-9B15-0F750DD6C897}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C136217B-3CA6-4AEC-95E4-D62936481A67}
