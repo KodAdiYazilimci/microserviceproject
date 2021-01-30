@@ -1,4 +1,4 @@
-﻿using MicroserviceProject.Common.Communication.Model.Basics;
+﻿using MicroserviceProject.Model.Communication.Basics;
 
 using Microsoft.AspNetCore.Mvc;
 

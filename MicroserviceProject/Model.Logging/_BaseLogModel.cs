@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MicroserviceProject.Common.Logging.Model
+namespace MicroserviceProject.Model.Logging
 {
     public abstract class BaseLogModel
     {

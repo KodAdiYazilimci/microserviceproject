@@ -1,4 +1,4 @@
-﻿namespace MicroserviceProject.Common.Communication.Model.Services.Finance.Currency
+﻿namespace MicroserviceProject.Model.Communication.Services.Finance.Currency
 {
     public class CurrencyDefinition
     {
