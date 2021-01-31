@@ -1,7 +1,7 @@
 ﻿using MicroserviceProject.Infrastructure.Communication.Http.Models;
 using MicroserviceProject.Infrastructure.Communication.Http.Providers;
 using MicroserviceProject.Model.Communication.Basics;
-using MicroserviceProject.Services.Moderator.Models;
+using MicroserviceProject.Model.Communication.Moderator;
 
 using Microsoft.Extensions.Caching.Memory;
 

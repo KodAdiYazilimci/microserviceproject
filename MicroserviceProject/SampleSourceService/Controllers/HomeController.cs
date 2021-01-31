@@ -1,17 +1,17 @@
 ﻿using MicroserviceProject.Model.Communication.Basics;
-using MicroserviceProject.Infrastructure.Communication.Http.Providers;
+using MicroserviceProject.Model.Communication.Moderator;
+using MicroserviceProject.Services.Moderator;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
+
+using Newtonsoft.Json;
 
 using SampleSourceService.Model;
 
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using MicroserviceProject.Services.Moderator;
-using Newtonsoft.Json;
-using MicroserviceProject.Services.Moderator.Models;
-using System.Collections.Generic;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace SampleSourceService.Controllers
 {
