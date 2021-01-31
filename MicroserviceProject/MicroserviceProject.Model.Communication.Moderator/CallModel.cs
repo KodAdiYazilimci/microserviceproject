@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace MicroserviceProject.Model.Communication.Moderator
 {
@@ -7,6 +8,8 @@ namespace MicroserviceProject.Model.Communication.Moderator
     /// </summary>
     public class CallModel
     {
+        [Key]
+        public int Id { get; set; }
         /// <summary>
         /// Çağırılacak servisin adı
         /// </summary>
@@ -24,7 +27,7 @@ namespace MicroserviceProject.Model.Communication.Moderator
 
         /// <summary>
         /// Çağırılacak servisin query string parametreleri
-        /// </summary>
-        public List<string> QueryKeys { get; set; }
+        /// </summary>        
+        public virtual ICollection<QueryKey> QueryKeys { get; set; }
     }
 }

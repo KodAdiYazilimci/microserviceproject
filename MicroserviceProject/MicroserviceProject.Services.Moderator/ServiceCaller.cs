@@ -248,14 +248,14 @@ namespace MicroserviceProject.Services.Moderator
 
                 foreach (var key in callModel.QueryKeys)
                 {
-                    if (queryParameters.Any(x => x.Key == key)
+                    if (queryParameters.Any(x => x.Key == key.Key)
                         &&
-                        !string.IsNullOrEmpty(queryParameters.FirstOrDefault(x => x.Key == key).Value))
+                        !string.IsNullOrEmpty(queryParameters.FirstOrDefault(x => x.Key == key.Key).Value))
                     {
                         httpGetProvider.Queries.Add(new HttpQuery()
                         {
-                            Key = key,
-                            Value = queryParameters.FirstOrDefault(x => x.Key == key).Value
+                            Key = key.Key,
+                            Value = queryParameters.FirstOrDefault(x => x.Key == key.Key).Value
                         });
                     }
                     else
@@ -285,14 +285,14 @@ namespace MicroserviceProject.Services.Moderator
 
                 foreach (var key in callModel.QueryKeys)
                 {
-                    if (queryParameters.Any(x => x.Key == key)
+                    if (queryParameters.Any(x => x.Key == key.Key)
                         &&
-                        !string.IsNullOrEmpty(queryParameters.FirstOrDefault(x => x.Key == key).Value))
+                        !string.IsNullOrEmpty(queryParameters.FirstOrDefault(x => x.Key == key.Key).Value))
                     {
                         httpPostProvider.Queries.Add(new HttpQuery()
                         {
-                            Key = key,
-                            Value = queryParameters.FirstOrDefault(x => x.Key == key).Value
+                            Key = key.Key,
+                            Value = queryParameters.FirstOrDefault(x => x.Key == key.Key).Value
                         });
                     }
                     else

@@ -1,4 +1,6 @@
-﻿using MicroserviceProject.Model.Communication.Basics;
+﻿using Infrastructure.Persistence.InMemory.ServiceRoutes.Configuration;
+
+using MicroserviceProject.Model.Communication.Basics;
 using MicroserviceProject.Model.Communication.Moderator;
 using MicroserviceProject.Services.Moderator;
 
@@ -10,6 +12,7 @@ using Newtonsoft.Json;
 using SampleSourceService.Model;
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,10 +21,14 @@ namespace SampleSourceService.Controllers
     public class HomeController : Controller
     {
         private readonly IMemoryCache _memoryCache;
+        private readonly ServiceRouteContext _serviceRouteContext;
 
-        public HomeController(IMemoryCache memoryCache)
+        public HomeController(
+            IMemoryCache memoryCache,
+            ServiceRouteContext serviceRouteContext)
         {
             _memoryCache = memoryCache;
+            _serviceRouteContext = serviceRouteContext;
         }
 
         [HttpGet]
@@ -32,52 +39,35 @@ namespace SampleSourceService.Controllers
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            //HttpGetProvider httpGetProvider = new HttpGetProvider();
-
-            //ServiceResult<SampleModel> getResult = await httpGetProvider.GetAsync<ServiceResult<SampleModel>>("http://localhost:15269/GetData", cancellationTokenSource.Token);
-
-            //HttpPostProvider httpPostProvider = new HttpPostProvider();
-
-            //ServiceResult<SampleModel> result = await httpPostProvider.PostAsync<ServiceResult<SampleModel>, SampleModel>("http://localhost:15269/PostData", new SampleModel()
-            //{
-            //    Id = 2,
-            //    Name = "test 2"
-            //}, cancellationTokenSource.Token);
-
             ServiceCaller serviceCaller = new ServiceCaller(_memoryCache, "1234");
-
-            serviceCaller.OnNoServiceFoundInCache += delegate
+            serviceCaller.OnNoServiceFoundInCache += (serviceName) =>
             {
-                return JsonConvert.SerializeObject(new CallModel()
-                {
-                    CallType = "GET",
-                    Endpoint = "http://localhost:15269/GetData",
-                    QueryKeys = new List<string>(),
-                    ServiceName = "sampledataprovider.getdata"
-                });
+                var callModel = (from c in _serviceRouteContext.CallModels
+                                 where c.ServiceName == serviceName
+                                 select
+                                 new CallModel()
+                                 {
+                                     Id = c.Id,
+                                     ServiceName = c.ServiceName,
+                                     Endpoint = c.Endpoint,
+                                     CallType = c.CallType,
+                                     QueryKeys = _serviceRouteContext.QueryKeys.Where(x => x.CallModelId == c.Id).ToList()
+                                 }).FirstOrDefault();
+
+                return JsonConvert.SerializeObject(callModel);
             };
 
-            ServiceResult<SampleModel> result = await serviceCaller.Call<SampleModel>("sampledataprovider.getdata", null, null, cancellationTokenSource.Token);
+            ServiceResult<SampleModel> result = await serviceCaller.Call<SampleModel>(
+                serviceName: "sampledataprovider.getdata",
+                postData: null,
+                queryParameters: new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("number", "3") },
+                cancellationToken: cancellationTokenSource.Token);
 
-            serviceCaller = new ServiceCaller(_memoryCache, "1234");
-
-            serviceCaller.OnNoServiceFoundInCache += delegate
-            {
-                return JsonConvert.SerializeObject(new CallModel()
-                {
-                    CallType = "POST",
-                    Endpoint = "http://localhost:15269/PostData",
-                    QueryKeys = new List<string>(),
-                    ServiceName = "sampledataprovider.getdata"
-                });
-            };
-
-            result = await serviceCaller.Call<SampleModel>("sampledataprovider.postdata", new SampleModel()
-            {
-                Id = 2,
-                Name = "test 2"
-            }, null, cancellationTokenSource.Token);
-
+            result = await serviceCaller.Call<SampleModel>(
+                serviceName: "sampledataprovider.postdata",
+                postData: new SampleModel() { Id = 2, Name = "test 2" },
+                queryParameters: null,
+                cancellationToken: cancellationTokenSource.Token);
 
             return Json(result);
         }

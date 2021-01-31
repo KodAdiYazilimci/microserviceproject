@@ -10,7 +10,7 @@ namespace SampleDataProviderService.Controllers
     {
         [HttpGet]
         [Route("GetData")]
-        public IActionResult GetData()
+        public IActionResult GetData(int number)
         {
             ServiceResult<SampleModel> serviceResult = new ServiceResult<SampleModel>();
 
