@@ -75,7 +75,7 @@ namespace MicroserviceProject.Services.Security.Authorization.Controllers
             }
             catch (UserNotFoundException unf)
             {
-                return BadRequest(new ServiceResult()
+                return Unauthorized(new ServiceResult()
                 {
                     IsSuccess = false,
                     Error = new Error() { Description = unf.ToString() }
@@ -106,7 +106,7 @@ namespace MicroserviceProject.Services.Security.Authorization.Controllers
             }
             catch (UserNotFoundException unf)
             {
-                return BadRequest(new ServiceResult()
+                return Unauthorized(new ServiceResult()
                 {
                     IsSuccess = false,
                     Error = new Error() { Description = unf.ToString() }
@@ -114,7 +114,7 @@ namespace MicroserviceProject.Services.Security.Authorization.Controllers
             }
             catch (SessionNotFoundException snf)
             {
-                return BadRequest(new ServiceResult()
+                return Unauthorized(new ServiceResult()
                 {
                     IsSuccess = false,
                     Error = new Error() { Description = snf.ToString() }
@@ -122,7 +122,7 @@ namespace MicroserviceProject.Services.Security.Authorization.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ServiceResult(isSuccess: false) { Error = new Error() { Description = ex.ToString() } });
+                return BadRequest(new ServiceResult() { IsSuccess = false, Error = new Error() { Description = ex.ToString() } });
             }
         }
 
@@ -139,7 +139,7 @@ namespace MicroserviceProject.Services.Security.Authorization.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ServiceResult(isSuccess: false) { Error = new Error() { Description = ex.ToString() } });
+                return Unauthorized(new ServiceResult() { IsSuccess = false, Error = new Error() { Description = ex.ToString() } });
             }
         }
 
@@ -158,11 +158,11 @@ namespace MicroserviceProject.Services.Security.Authorization.Controllers
             }
             catch (UserNotFoundException unf)
             {
-                return BadRequest(new ServiceResult(isSuccess: false) { Error = new Error() { Description = unf.ToString() } });
+                return BadRequest(new ServiceResult() { IsSuccess = false, Error = new Error() { Description = unf.ToString() } });
             }
             catch (Exception ex)
             {
-                return BadRequest(new ServiceResult(isSuccess: false) { Error = new Error() { Description = ex.ToString() } });
+                return BadRequest(new ServiceResult() { IsSuccess = false, Error = new Error() { Description = ex.ToString() } });
             }
         }
     }

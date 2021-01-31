@@ -1,5 +1,4 @@
-﻿using MicroserviceProject.Infrastructure.Logging.Managers;
-using MicroserviceProject.Model.Communication.Basics;
+﻿using MicroserviceProject.Model.Communication.Basics;
 using MicroserviceProject.Model.Communication.Errors;
 using MicroserviceProject.Model.Logging;
 using MicroserviceProject.Services.Infrastructure.Logging.Logging.Loggers;
@@ -7,9 +6,6 @@ using MicroserviceProject.Services.Infrastructure.Logging.Logging.Loggers;
 using Microsoft.AspNetCore.Mvc;
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MicroserviceProject.Services.Infrastructure.Logging.Controllers
 {
@@ -33,7 +29,7 @@ namespace MicroserviceProject.Services.Infrastructure.Logging.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ServiceResult(isSuccess: false)
+                return BadRequest(new ServiceResult()
                 {
                     IsSuccess = false,
                     Error = new Error() { Description = ex.ToString() }

@@ -38,6 +38,15 @@ namespace Infrastructure.Persistence.InMemory.ServiceRoutes.Persistence
                     ServiceName = "sampledataprovider.postdata"
                 });
 
+                context.CallModels.Add(new CallModel()
+                {
+                    Id = 3,
+                    CallType = "GET",
+                    Endpoint = "http://localhost:16859/Auth/GetUser",
+                    QueryKeys = new List<QueryKey>() { new QueryKey() { Id = 2, CallModelId = 3, Key = "token" } },
+                    ServiceName = "authorization.getuser"
+                });
+
                 context.SaveChanges();
             }
         }

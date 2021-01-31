@@ -1,3 +1,6 @@
+using MicroserviceProject.Services.Security.Authorization.Persistence.Sql.Providers;
+using MicroserviceProject.Services.Security.Authorization.Persistence.Sql.Repositories;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +28,9 @@ namespace MicroserviceProject.Services.Security.Authorization
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddScoped<SessionRepository>(x => new SessionRepository(""));
+            services.AddScoped<UserRepository>(x => new UserRepository(""));
+            services.AddScoped<SqlDataProvider>();
             services.AddControllers();
         }
 

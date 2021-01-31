@@ -1,5 +1,6 @@
 ﻿using MicroserviceProject.Model.Communication.Basics;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using SampleDataProviderService.Model;
@@ -10,6 +11,7 @@ namespace SampleDataProviderService.Controllers
     {
         [HttpGet]
         [Route("GetData")]
+        [Authorize]
         public IActionResult GetData(int number)
         {
             ServiceResult<SampleModel> serviceResult = new ServiceResult<SampleModel>();
@@ -21,6 +23,7 @@ namespace SampleDataProviderService.Controllers
 
         [HttpPost]
         [Route("PostData")]
+        [Authorize]
         public IActionResult PostData([FromBody] SampleModel sampleModel)
         {
             ServiceResult<SampleModel> serviceResult = new ServiceResult<SampleModel>();

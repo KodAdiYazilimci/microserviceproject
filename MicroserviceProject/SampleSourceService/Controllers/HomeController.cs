@@ -63,11 +63,11 @@ namespace SampleSourceService.Controllers
                 queryParameters: new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("number", "3") },
                 cancellationToken: cancellationTokenSource.Token);
 
-            result = await serviceCaller.Call<SampleModel>(
-                serviceName: "sampledataprovider.postdata",
-                postData: new SampleModel() { Id = 2, Name = "test 2" },
-                queryParameters: null,
-                cancellationToken: cancellationTokenSource.Token);
+            //result = await serviceCaller.Call<SampleModel>(
+            //    serviceName: "sampledataprovider.postdata",
+            //    postData: new SampleModel() { Id = 2, Name = "test 2" },
+            //    queryParameters: null,
+            //    cancellationToken: cancellationTokenSource.Token);
 
             return Json(result);
         }

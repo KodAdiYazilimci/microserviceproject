@@ -1,6 +1,7 @@
 ﻿using MicroserviceProject.Infrastructure.Communication.Http.Models;
 using MicroserviceProject.Infrastructure.Communication.Http.Providers;
 using MicroserviceProject.Model.Communication.Basics;
+using MicroserviceProject.Model.Communication.Errors;
 using MicroserviceProject.Model.Communication.Moderator;
 
 using Microsoft.Extensions.Caching.Memory;
@@ -9,7 +10,9 @@ using Newtonsoft.Json;
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -80,70 +83,96 @@ namespace MicroserviceProject.Services.Moderator
           List<KeyValuePair<string, string>> queryParameters,
           CancellationToken cancellationToken)
         {
-            string serviceJson = _memoryCache.Get<string>(SERVICE_ENDPOINT_CACHE_PREFIX + serviceName.ToLower());
-
-            if (string.IsNullOrEmpty(serviceJson))
+            try
             {
-                if (OnNoServiceFoundInCache != null)
+                string serviceJson = _memoryCache.Get<string>(SERVICE_ENDPOINT_CACHE_PREFIX + serviceName.ToLower());
+
+                if (string.IsNullOrEmpty(serviceJson))
                 {
-                    serviceJson = OnNoServiceFoundInCache(serviceName);
+                    if (OnNoServiceFoundInCache != null)
+                    {
+                        serviceJson = OnNoServiceFoundInCache(serviceName);
+                    }
+
+                    _memoryCache.Set<string>(
+                        key: SERVICE_ENDPOINT_CACHE_PREFIX + serviceName.ToLower(),
+                        value: serviceJson,
+                        absoluteExpiration: DateTime.Now.AddMinutes(SERVICE_ENDPOINT_CACHE_TIMEOUT));
                 }
 
-                _memoryCache.Set<string>(
-                    key: SERVICE_ENDPOINT_CACHE_PREFIX + serviceName.ToLower(),
-                    value: serviceJson,
-                    absoluteExpiration: DateTime.Now.AddMinutes(SERVICE_ENDPOINT_CACHE_TIMEOUT));
-            }
-
-            if (!string.IsNullOrEmpty(serviceJson))
-            {
-                CallModel callModel = JsonConvert.DeserializeObject<CallModel>(serviceJson);
-
-                if (callModel != null)
+                if (!string.IsNullOrEmpty(serviceJson))
                 {
-                    if (!string.IsNullOrEmpty(callModel.CallType))
+                    CallModel callModel = JsonConvert.DeserializeObject<CallModel>(serviceJson);
+
+                    if (callModel != null)
                     {
-                        if (callModel.CallType.ToUpper() == "POST")
+                        if (!string.IsNullOrEmpty(callModel.CallType))
                         {
-                            HttpPostProvider httpPostProvider = new HttpPostProvider();
-                            httpPostProvider.Headers.Add(new HttpHeader("Authorization", _serviceToken));
+                            if (callModel.CallType.ToUpper() == "POST")
+                            {
+                                HttpPostProvider httpPostProvider = new HttpPostProvider();
+                                httpPostProvider.Headers.Add(new HttpHeader("Authorization", _serviceToken));
 
-                            SetQueryParameters(queryParameters, callModel, httpPostProvider);
+                                SetQueryParameters(queryParameters, callModel, httpPostProvider);
 
-                            return
-                                await
-                                httpPostProvider
-                                .PostAsync<ServiceResult, object>(
-                                    url: callModel.Endpoint,
-                                    postData: postData,
-                                    cancellationToken: cancellationToken);
-                        }
-                        else if (callModel.CallType.ToUpper() == "GET")
-                        {
-                            HttpGetProvider httpGetProvider = new HttpGetProvider();
-                            httpGetProvider.Headers.Add(new HttpHeader("Authorization", _serviceToken));
+                                return
+                                    await
+                                    httpPostProvider
+                                    .PostAsync<ServiceResult, object>(
+                                        url: callModel.Endpoint,
+                                        postData: postData,
+                                        cancellationToken: cancellationToken);
+                            }
+                            else if (callModel.CallType.ToUpper() == "GET")
+                            {
+                                HttpGetProvider httpGetProvider = new HttpGetProvider();
+                                httpGetProvider.Headers.Add(new HttpHeader("Authorization", _serviceToken));
 
-                            SetQueryParameters(queryParameters, callModel, httpGetProvider);
+                                SetQueryParameters(queryParameters, callModel, httpGetProvider);
 
-                            return
-                                await
-                                httpGetProvider
-                                .GetAsync<ServiceResult>(
-                                    url: callModel.ServiceName, cancellationToken);
+                                return
+                                    await
+                                    httpGetProvider
+                                    .GetAsync<ServiceResult>(
+                                        url: callModel.ServiceName, cancellationToken);
+                            }
+                            else
+                            {
+                                throw new Exception("Servis çağrı tipi doğru belirtilmemiş");
+                            }
                         }
                         else
                         {
-                            throw new Exception("Servis çağrı tipi doğru belirtilmemiş");
+                            throw new Exception("Servis çağrı tipi belirtilmemiş");
                         }
                     }
-                    else
+                }
+
+                throw new Exception("Servis çağrısı bulunamadı");
+            }
+            catch (WebException wex)
+            {
+                if (wex.Status == WebExceptionStatus.ProtocolError && wex.Response != null)
+                {
+                    if (wex.Response is HttpWebResponse && (wex.Response as HttpWebResponse).StatusCode == HttpStatusCode.Unauthorized)
                     {
-                        throw new Exception("Servis çağrı tipi belirtilmemiş");
+                        return new ServiceResult() { IsSuccess = false, Error = new Error() { Code = "401", Description = wex.ToString() } };
+                    }
+
+                    using (StreamReader streamReader = new StreamReader(wex.Response.GetResponseStream()))
+                    {
+                        string response = await streamReader.ReadToEndAsync();
+
+                        return JsonConvert.DeserializeObject<ServiceResult>(response);
                     }
                 }
-            }
 
-            throw new Exception("Servis çağrısı bulunamadı");
+                throw wex;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -161,72 +190,98 @@ namespace MicroserviceProject.Services.Moderator
             List<KeyValuePair<string, string>> queryParameters,
             CancellationToken cancellationToken)
         {
-            string serviceJson = _memoryCache.Get<string>(SERVICE_ENDPOINT_CACHE_PREFIX + serviceName.ToLower());
-
-            if (string.IsNullOrEmpty(serviceJson))
+            try
             {
-                if (OnNoServiceFoundInCache != null)
+                string serviceJson = _memoryCache.Get<string>(SERVICE_ENDPOINT_CACHE_PREFIX + serviceName.ToLower());
+
+                if (string.IsNullOrEmpty(serviceJson))
                 {
-                    serviceJson = OnNoServiceFoundInCache(serviceName);
+                    if (OnNoServiceFoundInCache != null)
+                    {
+                        serviceJson = OnNoServiceFoundInCache(serviceName);
+                    }
+
+                    _memoryCache.Set<string>(
+                        key: SERVICE_ENDPOINT_CACHE_PREFIX + serviceName.ToLower(),
+                        value: serviceJson,
+                        absoluteExpiration: DateTime.Now.AddMinutes(SERVICE_ENDPOINT_CACHE_TIMEOUT));
                 }
 
-                _memoryCache.Set<string>(
-                    key: SERVICE_ENDPOINT_CACHE_PREFIX + serviceName.ToLower(),
-                    value: serviceJson,
-                    absoluteExpiration: DateTime.Now.AddMinutes(SERVICE_ENDPOINT_CACHE_TIMEOUT));
-            }
-
-            if (!string.IsNullOrEmpty(serviceJson))
-            {
-                CallModel callModel = JsonConvert.DeserializeObject<CallModel>(serviceJson);
-
-                if (callModel != null)
+                if (!string.IsNullOrEmpty(serviceJson))
                 {
-                    if (!string.IsNullOrEmpty(callModel.CallType))
+                    CallModel callModel = JsonConvert.DeserializeObject<CallModel>(serviceJson);
+
+                    if (callModel != null)
                     {
-                        if (callModel.CallType.ToUpper() == "POST")
+                        if (!string.IsNullOrEmpty(callModel.CallType))
                         {
-                            HttpPostProvider httpPostProvider = new HttpPostProvider();
-                            httpPostProvider.Headers = new List<HttpHeader>();
-                            httpPostProvider.Headers.Add(new HttpHeader("Authorization", _serviceToken));
+                            if (callModel.CallType.ToUpper() == "POST")
+                            {
+                                HttpPostProvider httpPostProvider = new HttpPostProvider();
+                                httpPostProvider.Headers = new List<HttpHeader>();
+                                httpPostProvider.Headers.Add(new HttpHeader("Authorization", _serviceToken));
 
-                            SetQueryParameters(queryParameters, callModel, httpPostProvider);
+                                SetQueryParameters(queryParameters, callModel, httpPostProvider);
 
-                            return
-                                await
-                                httpPostProvider
-                                .PostAsync<ServiceResult<TResult>, object>(
-                                    url: callModel.Endpoint,
-                                    postData: postData,
-                                    cancellationToken: cancellationToken);
-                        }
-                        else if (callModel.CallType.ToUpper() == "GET")
-                        {
-                            HttpGetProvider httpGetProvider = new HttpGetProvider();
-                            httpGetProvider.Headers = new List<HttpHeader>();
-                            httpGetProvider.Headers.Add(new HttpHeader("Authorization", _serviceToken));
+                                return
+                                    await
+                                    httpPostProvider
+                                    .PostAsync<ServiceResult<TResult>, object>(
+                                        url: callModel.Endpoint,
+                                        postData: postData,
+                                        cancellationToken: cancellationToken);
+                            }
+                            else if (callModel.CallType.ToUpper() == "GET")
+                            {
+                                HttpGetProvider httpGetProvider = new HttpGetProvider();
+                                httpGetProvider.Headers = new List<HttpHeader>();
+                                httpGetProvider.Headers.Add(new HttpHeader("Authorization", _serviceToken));
 
-                            SetQueryParameters(queryParameters, callModel, httpGetProvider);
+                                SetQueryParameters(queryParameters, callModel, httpGetProvider);
 
-                            return
-                                await
-                                httpGetProvider
-                                .GetAsync<ServiceResult<TResult>>(
-                                    url: callModel.Endpoint, cancellationToken);
+                                return
+                                    await
+                                    httpGetProvider
+                                    .GetAsync<ServiceResult<TResult>>(
+                                        url: callModel.Endpoint, cancellationToken);
+                            }
+                            else
+                            {
+                                throw new Exception("Servis çağrı tipi doğru belirtilmemiş");
+                            }
                         }
                         else
                         {
-                            throw new Exception("Servis çağrı tipi doğru belirtilmemiş");
+                            throw new Exception("Servis çağrı tipi belirtilmemiş");
                         }
                     }
-                    else
+                }
+
+                throw new Exception("Servis çağrısı bulunamadı");
+            }
+            catch (WebException wex)
+            {
+                if (wex.Status == WebExceptionStatus.ProtocolError && wex.Response != null)
+                {
+                    if (wex.Response is HttpWebResponse && (wex.Response as HttpWebResponse).StatusCode == HttpStatusCode.Unauthorized)
                     {
-                        throw new Exception("Servis çağrı tipi belirtilmemiş");
+                        return new ServiceResult<TResult>() { IsSuccess = false, Error = new Error() { Code = "401", Description = wex.ToString() } };
+                    }
+
+                    using (StreamReader streamReader = new StreamReader(wex.Response.GetResponseStream()))
+                    {
+                        string response = await streamReader.ReadToEndAsync();
+
+                        return JsonConvert.DeserializeObject<ServiceResult<TResult>>(response);
                     }
                 }
-            }
 
-            throw new Exception("Servis çağrısı bulunamadı");
+                throw wex;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>

@@ -1,6 +1,13 @@
+using Infrastructure.Persistence.InMemory.ServiceRoutes.Configuration;
+
+using MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.Handlers;
+using MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.Schemes;
+
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,7 +32,15 @@ namespace SampleDataProviderService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMemoryCache();
+            services.AddDbContext<ServiceRouteContext>(optionsBuilder =>
+            {
+                optionsBuilder.UseInMemoryDatabase("ServiceRoutesInMemoryDB");
+            });
 
+            services
+                .AddAuthentication(Default.DefaultScheme)
+                .AddScheme<AuthenticationSchemeOptions, MasterAuthentication>(Default.DefaultScheme, null);
             services.AddControllers();
         }
 
@@ -39,6 +54,7 @@ namespace SampleDataProviderService
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
