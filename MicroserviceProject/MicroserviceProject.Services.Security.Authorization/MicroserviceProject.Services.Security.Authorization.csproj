@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MicroserviceProject.Model.Communication\MicroserviceProject.Model.Communication.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Model.Security\MicroserviceProject.Model.Security.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Services.Security.Authorization.Business\MicroserviceProject.Services.Security.Authorization.Business.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Services.Security.Authorization.Persistence\MicroserviceProject.Services.Security.Authorization.Persistence.Sql.csproj" />
     <ProjectReference Include="..\Model.Communication\MicroserviceProject.Model.Communication.csproj" />
   </ItemGroup>

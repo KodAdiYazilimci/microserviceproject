@@ -2,8 +2,8 @@
 using MicroserviceProject.Model.Communication.Errors;
 using MicroserviceProject.Model.Communication.Validations;
 using MicroserviceProject.Model.Security;
+using MicroserviceProject.Services.Security.Authorization.Business.Services;
 using MicroserviceProject.Services.Security.Authorization.Persistence.Sql.Exceptions;
-using MicroserviceProject.Services.Security.Authorization.Persistence.Sql.Providers;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,12 +17,15 @@ namespace MicroserviceProject.Services.Security.Authorization.Controllers
     [Route("Auth")]
     public class AuthController : Controller
     {
-        private readonly SqlDataProvider authorizationDataProvider;
+        private readonly SessionService _sessionService;
+        private readonly UserService _userService;
 
         public AuthController(
-            SqlDataProvider authorizationDataProvider)
+            SessionService sessionService,
+            UserService userService)
         {
-            this.authorizationDataProvider = authorizationDataProvider;
+            _sessionService = sessionService;
+            _userService = userService;
         }
 
         [Route("GetToken")]
@@ -65,7 +68,7 @@ namespace MicroserviceProject.Services.Security.Authorization.Controllers
                     return BadRequest(serviceResult);
                 }
 
-                var token = await authorizationDataProvider.GetTokenAsync(credential, new CancellationTokenSource().Token);
+                var token = await _sessionService.GetTokenAsync(credential, new CancellationTokenSource().Token);
 
                 return Ok(new ServiceResult<Token>()
                 {
@@ -97,7 +100,7 @@ namespace MicroserviceProject.Services.Security.Authorization.Controllers
         {
             try
             {
-                User user = await authorizationDataProvider.GetUserAsync(token, new CancellationTokenSource().Token);
+                User user = await _userService.GetUserAsync(token, new CancellationTokenSource().Token);
 
                 return Ok(new ServiceResult<User>()
                 {
@@ -134,7 +137,7 @@ namespace MicroserviceProject.Services.Security.Authorization.Controllers
             {
                 return Ok(new ServiceResult<bool>()
                 {
-                    Data = await authorizationDataProvider.CheckUserAsync(email, new CancellationTokenSource().Token)
+                    Data = await _userService.CheckUserAsync(email, new CancellationTokenSource().Token)
                 });
             }
             catch (Exception ex)
@@ -149,11 +152,11 @@ namespace MicroserviceProject.Services.Security.Authorization.Controllers
         {
             try
             {
-                Token token = await authorizationDataProvider.RegisterUserAsync(credential, new CancellationTokenSource().Token);
+                await _userService.RegisterUserAsync(credential, new CancellationTokenSource().Token);
 
-                return Ok(new ServiceResult<Token>()
+                return Ok(new ServiceResult()
                 {
-                    Data = token
+                    IsSuccess = true
                 });
             }
             catch (UserNotFoundException unf)

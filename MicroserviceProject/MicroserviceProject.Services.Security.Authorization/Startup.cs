@@ -1,6 +1,6 @@
 using MicroserviceProject.Model.Communication.Basics;
 using MicroserviceProject.Model.Communication.Errors;
-using MicroserviceProject.Services.Security.Authorization.Persistence.Sql.Providers;
+using MicroserviceProject.Services.Security.Authorization.Business.Services;
 using MicroserviceProject.Services.Security.Authorization.Persistence.Sql.Repositories;
 
 using Microsoft.AspNetCore.Builder;
@@ -31,7 +31,8 @@ namespace MicroserviceProject.Services.Security.Authorization
         {
             services.AddScoped<SessionRepository>(x => new SessionRepository(""));
             services.AddScoped<UserRepository>(x => new UserRepository(""));
-            services.AddScoped<SqlDataProvider>();
+            services.AddScoped<SessionService>();
+            services.AddScoped<UserService>();
             services.AddControllers();
         }
 
