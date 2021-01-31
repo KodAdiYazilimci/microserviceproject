@@ -1,4 +1,4 @@
-﻿using Infrastructure.Persistence.InMemory.ServiceRoutes.Configuration;
+﻿using MicroserviceProject.Infrastructure.Persistence.InMemory.ServiceRoutes.Configuration;
 
 using MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.Persistence;
 using MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.Schemes;

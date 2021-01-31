@@ -1,10 +1,10 @@
-﻿using Infrastructure.Persistence.InMemory.ServiceRoutes.Persistence;
+﻿using MicroserviceProject.Infrastructure.Persistence.InMemory.ServiceRoutes.Persistence;
 
 using MicroserviceProject.Model.Communication.Moderator;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Persistence.InMemory.ServiceRoutes.Configuration
+namespace MicroserviceProject.Infrastructure.Persistence.InMemory.ServiceRoutes.Configuration
 {
     /// <summary>
     /// Micro servis endpoint bilgilerini tutan inmemory veritabanı

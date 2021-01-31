@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MicroserviceProject.Infrastructure.Communication.Http\MicroserviceProject.Infrastructure.Communication.Http.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Model.Communication.Moderator\MicroserviceProject.Model.Communication.Moderator.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Model.Communication\MicroserviceProject.Model.Communication.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Model.Security\MicroserviceProject.Model.Security.csproj" />
     <ProjectReference Include="..\Model.Communication.Services.Finance\MicroserviceProject.Model.Communication.Services.Finance.csproj" />
     <ProjectReference Include="..\Model.Communication.Services.HR\MicroserviceProject.Model.Communication.Services.HR.csproj" />

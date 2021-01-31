@@ -1,11 +1,11 @@
-﻿using Infrastructure.Persistence.InMemory.ServiceRoutes.Configuration;
+﻿using MicroserviceProject.Infrastructure.Persistence.InMemory.ServiceRoutes.Configuration;
 
 using MicroserviceProject.Model.Communication.Moderator;
 
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Infrastructure.Persistence.InMemory.ServiceRoutes.Persistence
+namespace MicroserviceProject.Infrastructure.Persistence.InMemory.ServiceRoutes.Persistence
 {
     /// <summary>
     /// InMemory veritabanına temel verileri yükleyen sınıf

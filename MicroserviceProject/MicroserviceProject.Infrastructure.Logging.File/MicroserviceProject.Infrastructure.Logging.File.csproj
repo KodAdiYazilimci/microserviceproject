@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MicroserviceProject.Infrastructure.Logging\MicroserviceProject.Infrastructure.Logging.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Model.Logging\MicroserviceProject.Model.Logging.csproj" />
     <ProjectReference Include="..\Model.Logging\MicroserviceProject.Model.Logging.csproj" />
   </ItemGroup>
 
