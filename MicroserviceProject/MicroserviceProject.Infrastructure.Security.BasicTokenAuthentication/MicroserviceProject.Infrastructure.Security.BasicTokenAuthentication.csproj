@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Infrastructure.Persistence.InMemory.ServiceRoutes\Infrastructure.Persistence.InMemory.ServiceRoutes.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Infrastructure.Persistence.InMemory.ServiceRoutes\Infrastructure.Persistence.InMemory.ServiceRoutes.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Model.Communication.Moderator\MicroserviceProject.Model.Communication.Moderator.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Model.Security\MicroserviceProject.Model.Security.csproj" />

@@ -9,6 +9,7 @@ using MicroserviceProject.Services.Moderator;
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
@@ -34,10 +35,12 @@ namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.H
         /// Önbellekte tutulacak token bazlı kullanıcı oturumları için önbellek anahtarı
         /// </summary>
         private const string CACHEDTOKENBASEDSESSIONS = "CACHED_TOKENBASED_SESSIONS";
+        private const string TAKENTOKENFORTHISSERVICE = "TAKEN_TOKEN_FOR_THIS_SERVICE";
 
+
+        private readonly IConfiguration _configuration;
         private readonly IMemoryCache _memoryCache;
         private readonly ServiceRouteContext _serviceRouteContext;
-        //private readonly ServiceCaller _serviceCaller;
 
         /// <summary>
         /// Kimlik doğrulama denetimi yapacak sınıf
@@ -51,14 +54,15 @@ namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.H
             ILoggerFactory loggerFactory,
             UrlEncoder urlEncoder,
             ISystemClock systemClock,
-            IMemoryCache memoryCache
-            //, ServiceCaller serviceCaller
-            , ServiceRouteContext serviceRouteContext
+            IMemoryCache memoryCache,
+            ServiceRouteContext serviceRouteContext,
+            IConfiguration configuration
             ) : base(options, loggerFactory, urlEncoder, systemClock)
         {
             _memoryCache = memoryCache;
             //_serviceCaller = serviceCaller;
             _serviceRouteContext = serviceRouteContext;
+            _configuration = configuration;
         }
 
         /// <summary>
@@ -79,7 +83,7 @@ namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.H
             }
             else
             {
-                return AuthenticateResult.Fail("Lütfen tekrar oturum açın!");                
+                return AuthenticateResult.Fail("Lütfen tekrar oturum açın!");
             }
         }
 
@@ -97,7 +101,36 @@ namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.H
                     return user;
                 }
 
-                ServiceCaller _serviceCaller = new ServiceCaller(_memoryCache, "1234");
+                Token takenTokenForThisService = _memoryCache.Get<Token>(TAKENTOKENFORTHISSERVICE);
+
+                if (string.IsNullOrWhiteSpace(takenTokenForThisService.TokenKey) 
+                    || 
+                    takenTokenForThisService.ValidTo <= DateTime.Now)
+                {
+                    ServiceCaller serviceCaller = new ServiceCaller(_memoryCache, "");
+
+                    ServiceResult<Token> tokenResult =
+                        await serviceCaller.Call<Token>(
+                            serviceName: "authorization.gettoken",
+                            postData: new Credential()
+                            {
+                                Email = _configuration.GetSection("Configuration").GetSection("Credential").GetSection("email").Value,
+                                Password = _configuration.GetSection("Configuration").GetSection("Credential").GetSection("password").Value
+                            },
+                            queryParameters: null,
+                            cancellationToken: cancellationToken);
+
+                    if (tokenResult.IsSuccess && tokenResult.Data != null)
+                    {
+                        _memoryCache.Set<string>(TAKENTOKENFORTHISSERVICE, tokenResult.Data.TokenKey);
+                    }
+                    else
+                    {
+                        throw new Exception("Kaynak servis yetki tokenı elde edilemedi");
+                    }
+                }
+
+                ServiceCaller _serviceCaller = new ServiceCaller(_memoryCache, takenTokenForThisService.TokenKey);
 
                 _serviceCaller.OnNoServiceFoundInCache += (serviceName) =>
                 {

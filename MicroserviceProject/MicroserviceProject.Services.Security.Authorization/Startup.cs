@@ -24,15 +24,25 @@ namespace MicroserviceProject.Services.Security.Authorization
             Configuration = configuration;
         }
 
+        private string AuthorizationConnectionString
+        {
+            get
+            {
+                return Configuration.GetSection("Configuration").GetSection("DataSources").GetSection("Authorization").Value;
+            }
+        }
+
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<SessionRepository>(x => new SessionRepository(""));
-            services.AddScoped<UserRepository>(x => new UserRepository(""));
+            services.AddScoped<SessionRepository>(x => new SessionRepository(AuthorizationConnectionString));
+            services.AddScoped<UserRepository>(x => new UserRepository(AuthorizationConnectionString));
+
             services.AddScoped<SessionService>();
             services.AddScoped<UserService>();
+
             services.AddControllers();
         }
 

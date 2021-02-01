@@ -47,6 +47,15 @@ namespace MicroserviceProject.Infrastructure.Persistence.InMemory.ServiceRoutes.
                     ServiceName = "authorization.getuser"
                 });
 
+                context.CallModels.Add(new CallModel()
+                {
+                    Id = 4,
+                    CallType = "POST",
+                    QueryKeys = new List<QueryKey>(),
+                    Endpoint = "http://localhost:16859/Auth/GetToken",
+                    ServiceName = "authorization.gettoken"
+                });
+
                 context.SaveChanges();
             }
         }
