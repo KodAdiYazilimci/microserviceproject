@@ -60,7 +60,6 @@ namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.H
             ) : base(options, loggerFactory, urlEncoder, systemClock)
         {
             _memoryCache = memoryCache;
-            //_serviceCaller = serviceCaller;
             _serviceRouteContext = serviceRouteContext;
             _configuration = configuration;
         }
@@ -103,11 +102,15 @@ namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.H
 
                 Token takenTokenForThisService = _memoryCache.Get<Token>(TAKENTOKENFORTHISSERVICE);
 
-                if (string.IsNullOrWhiteSpace(takenTokenForThisService.TokenKey) 
+                if (string.IsNullOrWhiteSpace(takenTokenForThisService?.TokenKey) 
                     || 
                     takenTokenForThisService.ValidTo <= DateTime.Now)
                 {
                     ServiceCaller serviceCaller = new ServiceCaller(_memoryCache, "");
+                    serviceCaller.OnNoServiceFoundInCache += (serviceName) =>
+                    {
+                        return GetServiceFromInMemoryDB(serviceName);
+                    };
 
                     ServiceResult<Token> tokenResult =
                         await serviceCaller.Call<Token>(
@@ -122,6 +125,7 @@ namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.H
 
                     if (tokenResult.IsSuccess && tokenResult.Data != null)
                     {
+                        takenTokenForThisService = tokenResult.Data;
                         _memoryCache.Set<string>(TAKENTOKENFORTHISSERVICE, tokenResult.Data.TokenKey);
                     }
                     else
@@ -131,22 +135,9 @@ namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.H
                 }
 
                 ServiceCaller _serviceCaller = new ServiceCaller(_memoryCache, takenTokenForThisService.TokenKey);
-
                 _serviceCaller.OnNoServiceFoundInCache += (serviceName) =>
                 {
-                    var callModel = (from c in _serviceRouteContext.CallModels
-                                     where c.ServiceName == serviceName
-                                     select
-                                     new CallModel()
-                                     {
-                                         Id = c.Id,
-                                         ServiceName = c.ServiceName,
-                                         Endpoint = c.Endpoint,
-                                         CallType = c.CallType,
-                                         QueryKeys = _serviceRouteContext.QueryKeys.Where(x => x.CallModelId == c.Id).ToList()
-                                     }).FirstOrDefault();
-
-                    return JsonConvert.SerializeObject(callModel);
+                    return GetServiceFromInMemoryDB(serviceName);
                 };
 
                 ServiceResult<User> serviceResult =
@@ -167,6 +158,23 @@ namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.H
 
             //throw new SessionExpiredException("Lütfen tekrar oturum açın!");
             return null;
+        }
+
+        private string GetServiceFromInMemoryDB(string serviceName)
+        {
+            var callModel = (from c in _serviceRouteContext.CallModels
+                             where c.ServiceName == serviceName
+                             select
+                             new CallModel()
+                             {
+                                 Id = c.Id,
+                                 ServiceName = c.ServiceName,
+                                 Endpoint = c.Endpoint,
+                                 CallType = c.CallType,
+                                 QueryKeys = _serviceRouteContext.QueryKeys.Where(x => x.CallModelId == c.Id).ToList()
+                             }).FirstOrDefault();
+
+            return JsonConvert.SerializeObject(callModel);
         }
 
         /// <summary>
