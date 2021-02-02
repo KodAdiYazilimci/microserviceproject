@@ -126,7 +126,7 @@ namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.H
                     if (tokenResult.IsSuccess && tokenResult.Data != null)
                     {
                         takenTokenForThisService = tokenResult.Data;
-                        _memoryCache.Set<string>(TAKENTOKENFORTHISSERVICE, tokenResult.Data.TokenKey);
+                        _memoryCache.Set<Token>(TAKENTOKENFORTHISSERVICE, tokenResult.Data);
                     }
                     else
                     {
