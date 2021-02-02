@@ -24,7 +24,6 @@ namespace SampleSourceService.Controllers
 {
     public class HomeController : Controller
     {
-        private const string CACHEDTOKENBASEDSESSIONS = "CACHED_TOKENBASED_SESSIONS";
         private const string TAKENTOKENFORTHISSERVICE = "TAKEN_TOKEN_FOR_THIS_SERVICE";
         private const string CACHEDSERVICEROUTES = "CACHED_SERVICE_ROUTES";
 
@@ -106,6 +105,12 @@ namespace SampleSourceService.Controllers
             return Json(result);
         }
 
+        /// <summary>
+        /// Servis rota bilgisini verir
+        /// </summary>
+        /// <param name="serviceName">Bilgisi getirilecek servisin adı</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
         private async Task<string> GetServiceAsync(string serviceName, CancellationToken cancellationToken)
         {
             List<ServiceRoute> serviceRoutes = _memoryCache.Get<List<ServiceRoute>>(CACHEDSERVICEROUTES);
