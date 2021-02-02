@@ -64,8 +64,8 @@ namespace SampleSourceService.Controllers
                         serviceName: "authorization.gettoken",
                         postData: new Credential()
                         {
-                            Email = _configuration.GetSection("Configuration").GetSection("Credential").GetSection("email").Value,
-                            Password = _configuration.GetSection("Configuration").GetSection("Credential").GetSection("password").Value
+                            Email = _configuration.GetSection("Configuration").GetSection("Authorization").GetSection("Credential").GetSection("email").Value,
+                            Password = _configuration.GetSection("Configuration").GetSection("Authorization").GetSection("Credential").GetSection("password").Value
                         },
                         queryParameters: null,
                         cancellationToken: cancellationTokenSource.Token);

@@ -28,7 +28,7 @@ namespace MicroserviceProject.Services.Security.Authorization
         {
             get
             {
-                return Configuration.GetSection("Configuration").GetSection("DataSources").GetSection("Authorization").Value;
+                return Configuration.GetSection("Configuration").GetSection("Authorization").GetSection("DataSource").Value;
             }
         }
 

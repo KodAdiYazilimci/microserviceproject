@@ -102,8 +102,8 @@ namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.H
 
                 Token takenTokenForThisService = _memoryCache.Get<Token>(TAKENTOKENFORTHISSERVICE);
 
-                if (string.IsNullOrWhiteSpace(takenTokenForThisService?.TokenKey) 
-                    || 
+                if (string.IsNullOrWhiteSpace(takenTokenForThisService?.TokenKey)
+                    ||
                     takenTokenForThisService.ValidTo <= DateTime.Now)
                 {
                     ServiceCaller serviceCaller = new ServiceCaller(_memoryCache, "");
@@ -117,8 +117,8 @@ namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.H
                             serviceName: "authorization.gettoken",
                             postData: new Credential()
                             {
-                                Email = _configuration.GetSection("Configuration").GetSection("Credential").GetSection("email").Value,
-                                Password = _configuration.GetSection("Configuration").GetSection("Credential").GetSection("password").Value
+                                Email = _configuration.GetSection("Configuration").GetSection("Authorization").GetSection("Credential").GetSection("email").Value,
+                                Password = _configuration.GetSection("Configuration").GetSection("Authorization").GetSection("Credential").GetSection("password").Value
                             },
                             queryParameters: null,
                             cancellationToken: cancellationToken);
