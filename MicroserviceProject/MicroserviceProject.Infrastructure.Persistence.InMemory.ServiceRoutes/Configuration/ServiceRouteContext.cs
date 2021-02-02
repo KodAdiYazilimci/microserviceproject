@@ -14,12 +14,12 @@ namespace MicroserviceProject.Infrastructure.Persistence.InMemory.ServiceRoutes.
         /// <summary>
         /// Servis çağrı modelleri
         /// </summary>
-        public DbSet<CallModel> CallModels { get; set; }
+        public DbSet<ServiceRoute> CallModels { get; set; }
 
         /// <summary>
         /// Servis çağrılarına ait query string anahtarları
         /// </summary>
-        public DbSet<QueryKey> QueryKeys { get; set; }
+        public DbSet<RouteQuery> QueryKeys { get; set; }
 
         /// <summary>
         /// Micro servis endpoint bilgilerini tutan inmemory veritabanı

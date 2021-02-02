@@ -1,4 +1,5 @@
-using MicroserviceProject.Infrastructure.Persistence.InMemory.ServiceRoutes.Configuration;
+using Infrastructure.Persistence.ServiceRoutes.Sql.Repositories;
+
 using MicroserviceProject.Model.Communication.Basics;
 using MicroserviceProject.Model.Communication.Errors;
 
@@ -30,10 +31,9 @@ namespace SampleSourceService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMemoryCache();
-            services.AddDbContext<ServiceRouteContext>(optionsBuilder =>
-            {
-                optionsBuilder.UseInMemoryDatabase("ServiceRoutesInMemoryDB");
-            });
+            services.AddSingleton(x => 
+                    new ServiceRoutes(
+                        Configuration.GetSection("Configuration").GetSection("Routing").GetSection("DataSource").Value));
 
             //services.AddSingleton<ServiceCaller>(x =>
             //{

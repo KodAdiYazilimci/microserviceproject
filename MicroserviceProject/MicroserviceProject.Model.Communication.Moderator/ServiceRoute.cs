@@ -1,14 +1,12 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace MicroserviceProject.Model.Communication.Moderator
 {
     /// <summary>
     /// Çağrı modeli
     /// </summary>
-    public class CallModel
+    public class ServiceRoute
     {
-        [Key]
         public int Id { get; set; }
         /// <summary>
         /// Çağırılacak servisin adı
@@ -28,6 +26,6 @@ namespace MicroserviceProject.Model.Communication.Moderator
         /// <summary>
         /// Çağırılacak servisin query string parametreleri
         /// </summary>        
-        public virtual ICollection<QueryKey> QueryKeys { get; set; }
+        public virtual ICollection<RouteQuery> QueryKeys { get; set; } = new List<RouteQuery>();
     }
 }

@@ -20,38 +20,38 @@ namespace MicroserviceProject.Infrastructure.Persistence.InMemory.ServiceRoutes.
         {
             if (!context.CallModels.Any())
             {
-                context.CallModels.Add(new CallModel()
+                context.CallModels.Add(new ServiceRoute()
                 {
                     Id = 1,
                     CallType = "GET",
                     Endpoint = "http://localhost:15269/GetData",
-                    QueryKeys = new List<QueryKey>() { new QueryKey() { Id = 1, CallModelId = 1, Key = "number" } },
+                    QueryKeys = new List<RouteQuery>() { new RouteQuery() { Id = 1, CallModelId = 1, Key = "number" } },
                     ServiceName = "sampledataprovider.getdata"
                 });
 
-                context.CallModels.Add(new CallModel()
+                context.CallModels.Add(new ServiceRoute()
                 {
                     Id = 2,
                     CallType = "POST",
                     Endpoint = "http://localhost:15269/PostData",
-                    QueryKeys = new List<QueryKey>(),
+                    QueryKeys = new List<RouteQuery>(),
                     ServiceName = "sampledataprovider.postdata"
                 });
 
-                context.CallModels.Add(new CallModel()
+                context.CallModels.Add(new ServiceRoute()
                 {
                     Id = 3,
                     CallType = "GET",
                     Endpoint = "http://localhost:16859/Auth/GetUser",
-                    QueryKeys = new List<QueryKey>() { new QueryKey() { Id = 2, CallModelId = 3, Key = "token" } },
+                    QueryKeys = new List<RouteQuery>() { new RouteQuery() { Id = 2, CallModelId = 3, Key = "token" } },
                     ServiceName = "authorization.getuser"
                 });
 
-                context.CallModels.Add(new CallModel()
+                context.CallModels.Add(new ServiceRoute()
                 {
                     Id = 4,
                     CallType = "POST",
-                    QueryKeys = new List<QueryKey>(),
+                    QueryKeys = new List<RouteQuery>(),
                     Endpoint = "http://localhost:16859/Auth/GetToken",
                     ServiceName = "authorization.gettoken"
                 });

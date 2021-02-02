@@ -48,13 +48,13 @@ namespace MicroserviceProject.Services.Moderator
         /// </summary>
         /// <param name="serviceName">Bulunamayan servis adı</param>
         /// <returns></returns>
-        public delegate string NoServiceFoundInCacheHandler(string serviceName);
+        public delegate Task<string> NoServiceFoundInCacheHandlerAsync(string serviceName);
 
         /// <summary>
         /// Servis bilgisi önbellekte bulunamadığında ateşlenecek olay.
         /// Dönüş değeri yeniden önbelleğe yüklenir
         /// </summary>
-        public event NoServiceFoundInCacheHandler OnNoServiceFoundInCache;
+        public event NoServiceFoundInCacheHandlerAsync OnNoServiceFoundInCacheAsync;
 
         /// <summary>
         /// Bir servisle çağrı kurmayı sağlayan moderatör sınıf
@@ -89,9 +89,9 @@ namespace MicroserviceProject.Services.Moderator
 
                 if (string.IsNullOrEmpty(serviceJson))
                 {
-                    if (OnNoServiceFoundInCache != null)
+                    if (OnNoServiceFoundInCacheAsync != null)
                     {
-                        serviceJson = OnNoServiceFoundInCache(serviceName);
+                        serviceJson = await OnNoServiceFoundInCacheAsync(serviceName);
                     }
 
                     _memoryCache.Set<string>(
@@ -102,7 +102,7 @@ namespace MicroserviceProject.Services.Moderator
 
                 if (!string.IsNullOrEmpty(serviceJson))
                 {
-                    CallModel callModel = JsonConvert.DeserializeObject<CallModel>(serviceJson);
+                    ServiceRoute callModel = JsonConvert.DeserializeObject<ServiceRoute>(serviceJson);
 
                     if (callModel != null)
                     {
@@ -196,9 +196,9 @@ namespace MicroserviceProject.Services.Moderator
 
                 if (string.IsNullOrEmpty(serviceJson))
                 {
-                    if (OnNoServiceFoundInCache != null)
+                    if (OnNoServiceFoundInCacheAsync != null)
                     {
-                        serviceJson = OnNoServiceFoundInCache(serviceName);
+                        serviceJson = await OnNoServiceFoundInCacheAsync(serviceName);
                     }
 
                     _memoryCache.Set<string>(
@@ -209,7 +209,7 @@ namespace MicroserviceProject.Services.Moderator
 
                 if (!string.IsNullOrEmpty(serviceJson))
                 {
-                    CallModel callModel = JsonConvert.DeserializeObject<CallModel>(serviceJson);
+                    ServiceRoute callModel = JsonConvert.DeserializeObject<ServiceRoute>(serviceJson);
 
                     if (callModel != null)
                     {
@@ -290,7 +290,7 @@ namespace MicroserviceProject.Services.Moderator
         /// <param name="queryParameters">Eklenecek query string parametreleri</param>
         /// <param name="callModel">Servisin çağrı modeli</param>
         /// <param name="httpGetProvider">HttpGet sağlayıcısı</param>
-        private void SetQueryParameters(List<KeyValuePair<string, string>> queryParameters, CallModel callModel, HttpGetProvider httpGetProvider)
+        private void SetQueryParameters(List<KeyValuePair<string, string>> queryParameters, ServiceRoute callModel, HttpGetProvider httpGetProvider)
         {
             if (callModel.QueryKeys != null && callModel.QueryKeys.Any())
             {
@@ -327,7 +327,7 @@ namespace MicroserviceProject.Services.Moderator
         /// <param name="queryParameters">Eklenecek query string parametreleri</param>
         /// <param name="callModel">Servisin çağrı modeli</param>
         /// <param name="httpPostProvider">HttpPost sağlayıcısı</param>
-        private void SetQueryParameters(List<KeyValuePair<string, string>> queryParameters, CallModel callModel, HttpPostProvider httpPostProvider)
+        private void SetQueryParameters(List<KeyValuePair<string, string>> queryParameters, ServiceRoute callModel, HttpPostProvider httpPostProvider)
         {
             if (callModel.QueryKeys != null && callModel.QueryKeys.Any())
             {

@@ -1,4 +1,5 @@
-﻿using MicroserviceProject.Infrastructure.Persistence.InMemory.ServiceRoutes.Configuration;
+﻿
+using Infrastructure.Persistence.ServiceRoutes.Sql.Repositories;
 
 using MicroserviceProject.Model.Communication.Basics;
 using MicroserviceProject.Model.Communication.Moderator;
@@ -25,19 +26,20 @@ namespace SampleSourceService.Controllers
     {
         private const string CACHEDTOKENBASEDSESSIONS = "CACHED_TOKENBASED_SESSIONS";
         private const string TAKENTOKENFORTHISSERVICE = "TAKEN_TOKEN_FOR_THIS_SERVICE";
+        private const string CACHEDSERVICEROUTES = "CACHED_SERVICE_ROUTES";
 
         private readonly IConfiguration _configuration;
         private readonly IMemoryCache _memoryCache;
-        private readonly ServiceRouteContext _serviceRouteContext;
+        private readonly ServiceRoutes _serviceRouteRepository;
 
         public HomeController(
             IConfiguration configuration,
             IMemoryCache memoryCache,
-            ServiceRouteContext serviceRouteContext)
+            ServiceRoutes serviceRouteRepository)
         {
             _configuration = configuration;
             _memoryCache = memoryCache;
-            _serviceRouteContext = serviceRouteContext;
+            _serviceRouteRepository = serviceRouteRepository;
         }
 
         [HttpGet]
@@ -45,6 +47,8 @@ namespace SampleSourceService.Controllers
         [Route("Index")]
         [Route("Home/Index")]
         public async Task<IActionResult> Index()
+        
+        
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
@@ -55,9 +59,9 @@ namespace SampleSourceService.Controllers
                 takenTokenForThisService.ValidTo <= DateTime.Now)
             {
                 ServiceCaller serviceTokenCaller = new ServiceCaller(_memoryCache, "");
-                serviceTokenCaller.OnNoServiceFoundInCache += (serviceName) =>
+                serviceTokenCaller.OnNoServiceFoundInCacheAsync += async (serviceName) =>
                 {
-                    return GetServiceFromInMemoryDB(serviceName);
+                    return await GetServiceAsync(serviceName, cancellationTokenSource.Token);
                 };
                 ServiceResult<Token> tokenResult =
                     await serviceTokenCaller.Call<Token>(
@@ -82,9 +86,9 @@ namespace SampleSourceService.Controllers
             }
 
             ServiceCaller serviceCaller = new ServiceCaller(_memoryCache, takenTokenForThisService.TokenKey);
-            serviceCaller.OnNoServiceFoundInCache += (serviceName) =>
+            serviceCaller.OnNoServiceFoundInCacheAsync += async (serviceName) =>
             {
-                return GetServiceFromInMemoryDB(serviceName);
+                return await GetServiceAsync(serviceName, cancellationTokenSource.Token);
             };
 
             ServiceResult<SampleModel> result = await serviceCaller.Call<SampleModel>(
@@ -102,21 +106,22 @@ namespace SampleSourceService.Controllers
             return Json(result);
         }
 
-        private string GetServiceFromInMemoryDB(string serviceName)
+        private async Task<string> GetServiceAsync(string serviceName, CancellationToken cancellationToken)
         {
-            var callModel = (from c in _serviceRouteContext.CallModels
-                             where c.ServiceName == serviceName
-                             select
-                             new CallModel()
-                             {
-                                 Id = c.Id,
-                                 ServiceName = c.ServiceName,
-                                 Endpoint = c.Endpoint,
-                                 CallType = c.CallType,
-                                 QueryKeys = _serviceRouteContext.QueryKeys.Where(x => x.CallModelId == c.Id).ToList()
-                             }).FirstOrDefault();
+            List<ServiceRoute> serviceRoutes = _memoryCache.Get<List<ServiceRoute>>(CACHEDSERVICEROUTES);
 
-            return JsonConvert.SerializeObject(callModel);
+            if (serviceRoutes == null || !serviceRoutes.Any())
+            {
+                serviceRoutes = await _serviceRouteRepository.GetServiceRoutesAsync(cancellationToken);
+
+                return JsonConvert.SerializeObject(serviceRoutes.FirstOrDefault(x => x.ServiceName == serviceName));
+            }
+
+            serviceRoutes = await _serviceRouteRepository.GetServiceRoutesAsync(cancellationToken);
+
+            _memoryCache.Set<List<ServiceRoute>>(CACHEDSERVICEROUTES, serviceRoutes, DateTime.Now.AddMinutes(60));
+
+            return JsonConvert.SerializeObject(serviceRoutes.FirstOrDefault(x => x.ServiceName == serviceName));
         }
     }
 }
