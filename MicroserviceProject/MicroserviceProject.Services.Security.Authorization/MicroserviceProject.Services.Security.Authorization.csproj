@@ -9,6 +9,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MicroserviceProject.Infrastructure.Logging.File\MicroserviceProject.Infrastructure.Logging.File.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Infrastructure.Logging\MicroserviceProject.Infrastructure.Logging.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Model.Communication\MicroserviceProject.Model.Communication.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Model.Security\MicroserviceProject.Model.Security.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Services.Security.Authorization.Business\MicroserviceProject.Services.Security.Authorization.Business.csproj" />

@@ -2,6 +2,7 @@ using MicroserviceProject.Model.Communication.Basics;
 using MicroserviceProject.Model.Communication.Errors;
 using MicroserviceProject.Services.Security.Authorization.Business.Services;
 using MicroserviceProject.Services.Security.Authorization.Persistence.Sql.Repositories;
+using MicroserviceProject.Services.Security.Authorization.Util.Logging.Loggers;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -37,6 +38,8 @@ namespace MicroserviceProject.Services.Security.Authorization
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<RequestResponseLogger>(x => new RequestResponseLogger(Configuration));
+
             services.AddScoped<SessionRepository>(x => new SessionRepository(AuthorizationConnectionString));
             services.AddScoped<UserRepository>(x => new UserRepository(AuthorizationConnectionString));
 
@@ -80,6 +83,8 @@ namespace MicroserviceProject.Services.Security.Authorization
             {
                 endpoints.MapControllers();
             });
+
+            app.UseMiddleware<Middleware>();
         }
     }
 }
