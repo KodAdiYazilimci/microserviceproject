@@ -7,10 +7,11 @@ using MicroserviceProject.Services.Security.Authorization.Configuration.Logging;
 using Microsoft.Extensions.Configuration;
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MicroserviceProject.Services.Security.Authorization.Util.Logging.Loggers
 {
-    public class RequestResponseLogger : ILogger<RequestResponseLogModel>
+    public class RequestResponseLogger
     {
         private readonly LogManager<RequestResponseLogModel> _logManager;
 

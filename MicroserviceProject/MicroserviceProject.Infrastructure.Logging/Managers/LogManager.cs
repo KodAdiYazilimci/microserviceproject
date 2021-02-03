@@ -36,10 +36,7 @@ namespace MicroserviceProject.Infrastructure.Logging.Managers
 
             for (int i = 0; i < _loggers.Count; i++)
             {
-                tasks[i] = Task.Run(() =>
-                {
-                    _loggers[i].Log(model);
-                });
+                tasks[i] = _loggers[i].LogAsync(model);
             }
 
             Task.WaitAll(tasks);

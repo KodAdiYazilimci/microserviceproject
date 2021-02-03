@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -37,40 +38,74 @@ namespace MicroserviceProject.Services.Security.Authorization
             _next = next;
         }
 
-        public Task Invoke(HttpContext httpContext, RequestResponseLogger requestResponseLogger)
+        public async Task Invoke(HttpContext httpContext, RequestResponseLogger requestResponseLogger)
         {
             var httpRequestTimeFeature = new HttpRequestTimeFeature();
             httpContext.Features.Set<IHttpRequestTimeFeature>(httpRequestTimeFeature);
 
-            // Start the Timer using Stopwatch  
             var watch = new Stopwatch();
             watch.Start();
+
+            string response = string.Empty;
+
+            try
+            {
+                var originalBody = httpContext.Response.Body;
+                using (var newBody = new MemoryStream())
+                {
+                    httpContext.Response.Body = newBody;
+
+                    try
+                    {
+                        await _next(httpContext);
+                    }
+                    finally
+                    {
+                        newBody.Seek(0, SeekOrigin.Begin);
+                        response = await new StreamReader(httpContext.Response.Body).ReadToEndAsync();
+                        newBody.Seek(0, SeekOrigin.Begin);
+                        await newBody.CopyToAsync(originalBody);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
 
             httpContext.Response.OnCompleted(() =>
             {
                 watch.Stop();
 
-                requestResponseLogger.Log(new RequestResponseLogModel()
+                try
                 {
-                    ApplicationName = "MicroserviceProject.Services.Security.Authorization",
-                    Date = DateTime.Now,
-                    Host = httpContext.Request.Host.ToString(),
-                    IpAddress = httpContext.Connection.RemoteIpAddress.ToString(),
-                    MachineName = Environment.MachineName,
-                    Method = httpContext.Request.Method,
-                    Protocol = httpContext.Request.Protocol,
-                    RequestContentLength = httpContext.Request.ContentLength,
-                    ResponseContentLength = httpContext.Response.ContentLength,
-                    ResponseContentType = httpContext.Response.ContentType,
-                    ResponseTime = watch.ElapsedMilliseconds,
-                    StatusCode = httpContext.Response.StatusCode,
-                    Url = httpContext.Request.Path.ToString()
-                });
+                    requestResponseLogger.Log(new RequestResponseLogModel()
+                    {
+                        ApplicationName = "MicroserviceProject.Services.Security.Authorization",
+                        Content = response,
+                        Date = DateTime.Now,
+                        Host = httpContext.Request.Host.ToString(),
+                        IpAddress = httpContext.Connection.RemoteIpAddress.ToString(),
+                        MachineName = Environment.MachineName,
+                        Method = httpContext.Request.Method,
+                        Protocol = httpContext.Request.Protocol,
+                        RequestContentLength = httpContext.Request.ContentLength,
+                        ResponseContentLength = httpContext.Response.ContentLength,
+                        ResponseContentType = httpContext.Response.ContentType,
+                        ResponseTime = watch.ElapsedMilliseconds,
+                        StatusCode = httpContext.Response.StatusCode,
+                        Url = httpContext.Request.Path.ToString()
+                    });
+                }
+                catch (Exception ex)
+                {
+
+                }
 
                 return Task.CompletedTask;
             });
 
-            return _next(httpContext);
+            //return _next(httpContext);
         }
     }
 

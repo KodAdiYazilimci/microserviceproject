@@ -79,12 +79,18 @@ namespace MicroserviceProject.Services.Security.Authorization
 
             app.UseAuthorization();
 
+            app.UseMiddleware<Middleware>();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
 
-            app.UseMiddleware<Middleware>();
+            //app.Use(async (context, next) => {
+            //    context.Request.EnableBuffering();
+            //    await next();
+            //});
+
         }
     }
 }

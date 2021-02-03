@@ -3,6 +3,8 @@ using MicroserviceProject.Infrastructure.Logging.File.Configuration;
 using MicroserviceProject.Model.Logging;
 
 using System.IO;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace MicroserviceProject.Infrastructure.Logging.File.Loggers
 {
@@ -30,9 +32,14 @@ namespace MicroserviceProject.Infrastructure.Logging.File.Loggers
         /// Json formatta log yazar
         /// </summary>
         /// <param name="model">Yazılacak logun modeli</param>
-        public void Log(TModel model)
+        public async Task LogAsync(TModel model)
         {
-            string jsonText = Newtonsoft.Json.JsonConvert.SerializeObject(model);
+            StringBuilder sbJsonText = new StringBuilder(Newtonsoft.Json.JsonConvert.SerializeObject(model));
+
+            if (sbJsonText.Length > 0)
+            {
+                sbJsonText.Append("\r\n");
+            }
 
             DirectoryInfo directoryInfo = new DirectoryInfo(_fileConfiguration.Path);
 
@@ -41,8 +48,7 @@ namespace MicroserviceProject.Infrastructure.Logging.File.Loggers
                 directoryInfo.Create();
             }
 
-
-            System.IO.File.AppendAllText(_fileConfiguration.Path + "\\" + _fileConfiguration.FileName, jsonText, _fileConfiguration.Encoding);
+            await System.IO.File.AppendAllTextAsync(_fileConfiguration.Path + "\\" + _fileConfiguration.FileName, sbJsonText.ToString(), _fileConfiguration.Encoding);
         }
     }
 }

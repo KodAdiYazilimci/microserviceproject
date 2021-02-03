@@ -1,5 +1,7 @@
 ﻿using MicroserviceProject.Model.Logging;
 
+using System.Threading.Tasks;
+
 namespace MicroserviceProject.Infrastructure.Logging.Abstraction
 {
     /// <summary>
@@ -12,6 +14,6 @@ namespace MicroserviceProject.Infrastructure.Logging.Abstraction
         /// Log yazar
         /// </summary>
         /// <param name="model">Yazılacak logun modeli</param>
-        void Log(TModel model);
+        Task LogAsync(TModel model);
     }
 }
