@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MicroserviceProject.Model.Logging\MicroserviceProject.Model.Logging.csproj" />
-    <ProjectReference Include="..\Model.Logging\MicroserviceProject.Model.Logging.csproj" />
   </ItemGroup>
 
 </Project>
