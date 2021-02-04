@@ -29,12 +29,12 @@ namespace SampleSourceService.Controllers
 
         private readonly IConfiguration _configuration;
         private readonly IMemoryCache _memoryCache;
-        private readonly ServiceRoutes _serviceRouteRepository;
+        private readonly ServiceRouteRepository _serviceRouteRepository;
 
         public HomeController(
             IConfiguration configuration,
             IMemoryCache memoryCache,
-            ServiceRoutes serviceRouteRepository)
+            ServiceRouteRepository serviceRouteRepository)
         {
             _configuration = configuration;
             _memoryCache = memoryCache;

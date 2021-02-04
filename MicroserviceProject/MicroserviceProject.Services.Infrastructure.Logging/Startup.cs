@@ -1,3 +1,5 @@
+using MicroserviceProject.Services.Infrastructure.Logging.Logging.Consumers;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +20,8 @@ namespace MicroserviceProject.Services.Infrastructure.Logging
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            RequestResponseLogConsumer requestResponseLogConsumer = new RequestResponseLogConsumer(Configuration);
         }
 
         public IConfiguration Configuration { get; }

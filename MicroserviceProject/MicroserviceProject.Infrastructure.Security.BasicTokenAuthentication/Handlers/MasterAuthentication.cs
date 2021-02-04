@@ -40,7 +40,7 @@ namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.H
 
         private readonly IConfiguration _configuration;
         private readonly IMemoryCache _memoryCache;
-        private readonly ServiceRoutes _serviceRouteRepository;
+        private readonly ServiceRouteRepository _serviceRouteRepository;
 
         /// <summary>
         /// Kimlik doğrulama denetimi yapacak sınıf
@@ -55,7 +55,7 @@ namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.H
             UrlEncoder urlEncoder,
             ISystemClock systemClock,
             IMemoryCache memoryCache,
-            ServiceRoutes serviceRouteRepository,
+            ServiceRouteRepository serviceRouteRepository,
             IConfiguration configuration
             ) : base(options, loggerFactory, urlEncoder, systemClock)
         {

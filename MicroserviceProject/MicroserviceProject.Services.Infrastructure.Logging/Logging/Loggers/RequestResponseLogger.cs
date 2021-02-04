@@ -4,6 +4,8 @@ using MicroserviceProject.Infrastructure.Logging.Managers;
 using MicroserviceProject.Model.Logging;
 using MicroserviceProject.Services.Infrastructure.Logging.Logging.Configuration;
 
+using Microsoft.Extensions.Configuration;
+
 using System.Collections.Generic;
 
 namespace MicroserviceProject.Services.Infrastructure.Logging.Logging.Loggers
@@ -20,14 +22,15 @@ namespace MicroserviceProject.Services.Infrastructure.Logging.Logging.Loggers
 
         /// <summary>
         /// Request-Response loglarını yazan sınıf
+        /// <paramref name="configuration">Request-response log ayarlarının çekileceği configuration</paramref>
         /// </summary>
-        public RequestResponseLogger()
+        public RequestResponseLogger(IConfiguration configuration)
         {
             List<ILogger<RequestResponseLogModel>> loggers = new List<ILogger<RequestResponseLogModel>>();
 
-            JsonFileLogger<RequestResponseLogModel> jsonFileLogger = 
+            JsonFileLogger<RequestResponseLogModel> jsonFileLogger =
                 new JsonFileLogger<RequestResponseLogModel>(
-                    new RequestResponseLogFileConfiguration());
+                    new RequestResponseLogFileConfiguration(configuration));
 
             loggers.Add(jsonFileLogger);
 

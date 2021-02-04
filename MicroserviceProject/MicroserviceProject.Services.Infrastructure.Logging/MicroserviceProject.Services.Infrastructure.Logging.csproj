@@ -5,12 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.Persistence.Logging.Sql\Infrastructure.Persistence.Logging.Sql.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Infrastructure.Logging.File\MicroserviceProject.Infrastructure.Logging.File.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Infrastructure.Logging.RabbitMq\MicroserviceProject.Infrastructure.Logging.RabbitMq.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Infrastructure.Logging\MicroserviceProject.Infrastructure.Logging.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Model.Communication\MicroserviceProject.Model.Communication.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Model.Logging\MicroserviceProject.Model.Logging.csproj" />
-    <ProjectReference Include="..\Model.Communication\MicroserviceProject.Model.Communication.csproj" />
-    <ProjectReference Include="..\Model.Logging\MicroserviceProject.Model.Logging.csproj" />
   </ItemGroup>
 
 

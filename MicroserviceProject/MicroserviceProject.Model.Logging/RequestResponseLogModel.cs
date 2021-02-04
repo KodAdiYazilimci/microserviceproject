@@ -1,5 +1,8 @@
 ﻿namespace MicroserviceProject.Model.Logging
 {
+    /// <summary>
+    /// Request-response log modeli
+    /// </summary>
     public class RequestResponseLogModel : BaseLogModel
     {
         public string Content { get; set; }

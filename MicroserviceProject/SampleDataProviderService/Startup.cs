@@ -35,7 +35,7 @@ namespace SampleDataProviderService
         {
             services.AddMemoryCache();
             services.AddSingleton(x => 
-                    new ServiceRoutes(
+                    new ServiceRouteRepository(
                         Configuration.GetSection("Configuration").GetSection("Routing").GetSection("DataSource").Value));
 
             services

@@ -6,9 +6,16 @@ using System.Text;
 
 namespace MicroserviceProject.Services.Security.Authorization.Configuration.Logging
 {
-    public class DefaultFileConfiguration : IFileConfiguration
+    /// <summary>
+    /// Request-response logları için dosya yapılandırma ayarları
+    /// </summary>
+    public class RequestResponseLogFileConfiguration : IFileConfiguration
     {
-        public DefaultFileConfiguration(IConfiguration configuration)
+        /// <summary>
+        /// Request-response logları için rabbit sunucusunun yapılandırma ayarları
+        /// </summary>
+        /// <param name="configuration">Request-response log ayarlarının çekileceği configuration</param>
+        public RequestResponseLogFileConfiguration(IConfiguration configuration)
         {
             Path = configuration
                 .GetSection("Configuration")
@@ -34,8 +41,19 @@ namespace MicroserviceProject.Services.Security.Authorization.Configuration.Logg
             Encoding = Encoding.GetEncoding(encodingCode);
         }
 
+        /// <summary>
+        /// Yazılacak log dosyasının konumu
+        /// </summary>
         public string Path { get; set; }
+
+        /// <summary>
+        /// Yazılacak log dosyasının adı
+        /// </summary>
         public string FileName { get; set; }
+
+        /// <summary>
+        /// Yazılacak log dosyasının kodlaması
+        /// </summary>
         public Encoding Encoding { get; set; }
     }
 }

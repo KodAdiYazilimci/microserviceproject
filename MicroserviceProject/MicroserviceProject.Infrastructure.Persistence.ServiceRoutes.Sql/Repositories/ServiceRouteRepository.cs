@@ -12,7 +12,7 @@ namespace Infrastructure.Persistence.ServiceRoutes.Sql.Repositories
     /// <summary>
     /// Servis rotaları repository sınıfı
     /// </summary>
-    public class ServiceRoutes
+    public class ServiceRouteRepository
     {
         /// <summary>
         /// Veritabanı bağlantı cümlesi
@@ -23,7 +23,7 @@ namespace Infrastructure.Persistence.ServiceRoutes.Sql.Repositories
         /// Servis rotaları repository sınıfı
         /// </summary>
         /// <param name="connectionString">Veritabanı bağlantı cümlesi</param>
-        public ServiceRoutes(string connectionString) //: base(connectionString)
+        public ServiceRouteRepository(string connectionString)
         {
             this.connectionString = connectionString;
         }
