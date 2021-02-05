@@ -1,14 +1,14 @@
-﻿using MicroserviceProject.Model.Communication.Basics;
+﻿
+using MicroserviceProject.Model.Communication.Basics;
 using MicroserviceProject.Model.Communication.Errors;
-using MicroserviceProject.Model.Communication.Validations;
 using MicroserviceProject.Model.Security;
 using MicroserviceProject.Services.Security.Authorization.Business.Services;
 using MicroserviceProject.Services.Security.Authorization.Persistence.Sql.Exceptions;
+using MicroserviceProject.Services.Security.Authorization.Util.Validation.Auth.GetToken;
 
 using Microsoft.AspNetCore.Mvc;
 
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -30,42 +30,15 @@ namespace MicroserviceProject.Services.Security.Authorization.Controllers
 
         [Route("GetToken")]
         [HttpPost]
-        public async Task<IActionResult> GetToken([FromBody] Credential credential)
+        public async Task<IActionResult> GetToken([FromBody] Credential credential, CancellationToken cancellationToken)
         {
             try
             {
-                if (credential == null || string.IsNullOrEmpty(credential.Email) || string.IsNullOrEmpty(credential.Password))
+                var validateResult = await GetTokenValidator.ValidateAsync(credential, cancellationToken);
+
+                if (!validateResult.IsSuccess)
                 {
-                    ServiceResult serviceResult = new ServiceResult()
-                    {
-                        IsSuccess = false,
-                        Error = new Error()
-                        {
-                            Description = "Geçersiz kullanıcı adı ve parola ikilisi"
-                        },
-                        Validation = new Validation()
-                        {
-                            IsValid = false,
-                            ValidationItems = new List<ValidationItem>()
-                        }
-                    };
-
-                    if (credential == null)
-                    {
-                        serviceResult.Validation.ValidationItems.Add(new ValidationItem() { Key = nameof(Credential), Value = null });
-                    }
-
-                    if (string.IsNullOrEmpty(credential.Email))
-                    {
-                        serviceResult.Validation.ValidationItems.Add(new ValidationItem() { Key = nameof(Credential.Email), Value = credential.Email });
-                    }
-
-                    if (string.IsNullOrEmpty(credential.Password))
-                    {
-                        serviceResult.Validation.ValidationItems.Add(new ValidationItem() { Key = nameof(Credential.Password), Value = credential.Password });
-                    }
-
-                    return BadRequest(serviceResult);
+                    return BadRequest(validateResult);
                 }
 
                 var token = await _sessionService.GetTokenAsync(credential, new CancellationTokenSource().Token);
