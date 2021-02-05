@@ -1,10 +1,10 @@
 ﻿
 using Infrastructure.Persistence.ServiceRoutes.Sql.Repositories;
 
+using MicroserviceProject.Infrastructure.Communication.Moderator;
 using MicroserviceProject.Model.Communication.Basics;
 using MicroserviceProject.Model.Communication.Moderator;
 using MicroserviceProject.Model.Security;
-using MicroserviceProject.Services.Moderator;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
@@ -45,9 +45,7 @@ namespace SampleSourceService.Controllers
         [Route("")]
         [Route("Index")]
         [Route("Home/Index")]
-        public async Task<IActionResult> Index()
-        
-        
+        public async Task<IActionResult> Index()      
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 

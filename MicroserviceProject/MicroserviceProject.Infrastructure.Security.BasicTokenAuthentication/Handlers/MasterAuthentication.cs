@@ -1,11 +1,11 @@
 ﻿using Infrastructure.Persistence.ServiceRoutes.Sql.Repositories;
 
+using MicroserviceProject.Infrastructure.Communication.Moderator;
 using MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.Persistence;
 using MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.Schemes;
 using MicroserviceProject.Model.Communication.Basics;
 using MicroserviceProject.Model.Communication.Moderator;
 using MicroserviceProject.Model.Security;
-using MicroserviceProject.Services.Moderator;
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Caching.Memory;

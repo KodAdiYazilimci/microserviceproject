@@ -16,7 +16,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MicroserviceProject.Services.Moderator
+namespace MicroserviceProject.Infrastructure.Communication.Moderator
 {
     /// <summary>
     /// Bir servisle çağrı kurmayı sağlayan moderatör sınıf

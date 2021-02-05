@@ -18,7 +18,7 @@
     <ProjectReference Include="..\MicroserviceProject.Infrastructure.Logging.RabbitMq\MicroserviceProject.Infrastructure.Logging.RabbitMq.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Infrastructure.Persistence.ServiceRoutes.Sql\Infrastructure.Persistence.ServiceRoutes.Sql.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication\MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.csproj" />
-    <ProjectReference Include="..\MicroserviceProject.Services.Moderator\MicroserviceProject.Services.Moderator.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Model.Communication\MicroserviceProject.Model.Communication.csproj" />
   </ItemGroup>
 
 
