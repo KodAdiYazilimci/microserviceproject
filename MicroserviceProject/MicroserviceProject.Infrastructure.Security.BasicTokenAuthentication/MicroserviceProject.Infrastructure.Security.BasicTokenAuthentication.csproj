@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,8 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MicroserviceProject.Infrastructure.Persistence.ServiceRoutes.Sql\Infrastructure.Persistence.ServiceRoutes.Sql.csproj" />
-    <ProjectReference Include="..\MicroserviceProject.Model.Communication.Moderator\MicroserviceProject.Model.Communication.Moderator.csproj" />
-    <ProjectReference Include="..\MicroserviceProject.Model.Security\MicroserviceProject.Model.Security.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Services.Moderator\MicroserviceProject.Services.Moderator.csproj" />
   </ItemGroup>
 

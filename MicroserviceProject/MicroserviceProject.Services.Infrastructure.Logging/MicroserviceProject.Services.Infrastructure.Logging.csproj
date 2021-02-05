@@ -14,16 +14,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure.Persistence.Logging.Sql\Infrastructure.Persistence.Logging.Sql.csproj" />
-    <ProjectReference Include="..\MicroserviceProject.Infrastructure.Communication.Http\MicroserviceProject.Infrastructure.Communication.Http.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Infrastructure.Logging.File\MicroserviceProject.Infrastructure.Logging.File.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Infrastructure.Logging.RabbitMq\MicroserviceProject.Infrastructure.Logging.RabbitMq.csproj" />
-    <ProjectReference Include="..\MicroserviceProject.Infrastructure.Logging\MicroserviceProject.Infrastructure.Logging.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Infrastructure.Persistence.ServiceRoutes.Sql\Infrastructure.Persistence.ServiceRoutes.Sql.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication\MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.csproj" />
-    <ProjectReference Include="..\MicroserviceProject.Model.Communication.Moderator\MicroserviceProject.Model.Communication.Moderator.csproj" />
-    <ProjectReference Include="..\MicroserviceProject.Model.Communication\MicroserviceProject.Model.Communication.csproj" />
-    <ProjectReference Include="..\MicroserviceProject.Model.Logging\MicroserviceProject.Model.Logging.csproj" />
-    <ProjectReference Include="..\MicroserviceProject.Model.Security\MicroserviceProject.Model.Security.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Services.Moderator\MicroserviceProject.Services.Moderator.csproj" />
   </ItemGroup>
 

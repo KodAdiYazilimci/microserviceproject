@@ -9,9 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MicroserviceProject.Infrastructure.Communication.Http\MicroserviceProject.Infrastructure.Communication.Http.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Infrastructure.Persistence.ServiceRoutes.Sql\Infrastructure.Persistence.ServiceRoutes.Sql.csproj" />
-    <ProjectReference Include="..\MicroserviceProject.Model.Communication\MicroserviceProject.Model.Communication.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Services.Moderator\MicroserviceProject.Services.Moderator.csproj" />
   </ItemGroup>
 
