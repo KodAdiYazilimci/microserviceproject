@@ -46,6 +46,23 @@ namespace MicroserviceProject.Services.Security.Authorization
             services.AddScoped<SessionService>();
             services.AddScoped<UserService>();
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("CoreSwagger", new Microsoft.OpenApi.Models.OpenApiInfo
+                {
+                    Title = "MicroserviceProject.Services.Security.Authorization Swagger",
+                    Version = "1.0.0",
+                    Description = "ApiGateway+UI",
+                    Contact = new Microsoft.OpenApi.Models.OpenApiContact()
+                    {
+                        Name = "Swagger Implementation Serkan Camur",
+                        Url = new System.Uri("http://serkancamur.com.tr"),
+                        Email = "serkan@serkancamur.com.tr"
+                    },
+                    TermsOfService = new System.Uri("http://swagger.io/terms/")
+                });
+            });
+
             services.AddControllers();
         }
 
@@ -86,11 +103,11 @@ namespace MicroserviceProject.Services.Security.Authorization
                 endpoints.MapControllers();
             });
 
-            //app.Use(async (context, next) => {
-            //    context.Request.EnableBuffering();
-            //    await next();
-            //});
-
+            app.UseSwagger();
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/CoreSwagger/swagger.json", "CoreSwagger");
+            });
         }
     }
 }
