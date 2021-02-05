@@ -101,7 +101,7 @@ namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.H
                     return user;
                 }
 
-                RouteProvider routeProvider = new RouteProvider(_configuration);
+                RouteNameProvider routeProvider = new RouteNameProvider(_configuration);
                 CredentialProvider credentialProvider = new CredentialProvider(_configuration);
 
                 Token takenTokenForThisService = _memoryCache.Get<Token>(TAKENTOKENFORTHISSERVICE);

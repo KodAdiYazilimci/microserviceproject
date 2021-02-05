@@ -14,4 +14,8 @@
     <ProjectReference Include="..\MicroserviceProject.Infrastructure.Security.Model\MicroserviceProject.Infrastructure.Security.Model.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Util\Communication\" />
+  </ItemGroup>
+
 </Project>

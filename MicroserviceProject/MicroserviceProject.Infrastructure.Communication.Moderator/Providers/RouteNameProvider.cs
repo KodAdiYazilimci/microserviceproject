@@ -5,7 +5,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator.Providers
     /// <summary>
     /// Servis rotalarına ait endpoint isimlerini sağlayan sınıf
     /// </summary>
-    public class RouteProvider
+    public class RouteNameProvider
     {
         /// <summary>
         /// Endpoint isimlerini getiren configuration
@@ -16,7 +16,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator.Providers
         /// Servis rotalarına ait endpoint isimlerini sağlayan sınıf
         /// </summary>
         /// <param name="configuration">Endpoint isimlerini getiren configuration</param>
-        public RouteProvider(IConfiguration configuration)
+        public RouteNameProvider(IConfiguration configuration)
         {
             _configuration = configuration;
         }

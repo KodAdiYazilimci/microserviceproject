@@ -167,11 +167,11 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                     }
                 }
 
-                throw wex;
+                throw;
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                throw;
             }
         }
 
@@ -276,11 +276,11 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                     }
                 }
 
-                throw wex;
+                throw;
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                throw;
             }
         }
 

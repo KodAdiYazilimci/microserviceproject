@@ -17,7 +17,7 @@ namespace MicroserviceProject.Services.Infrastructure.Logging.Configuration.Serv
         /// <returns></returns>
         public static IServiceCollection RegisterRouteProvider(this IServiceCollection services)
         {
-            services.AddSingleton<RouteProvider>();
+            services.AddSingleton<RouteNameProvider>();
 
             return services;
         }

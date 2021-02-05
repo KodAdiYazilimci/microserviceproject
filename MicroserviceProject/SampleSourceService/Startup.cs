@@ -36,7 +36,9 @@ namespace SampleSourceService
                     new ServiceRouteRepository(
                         Configuration.GetSection("Configuration").GetSection("Routing").GetSection("DataSource").Value));
 
+            services.RegisterCredentialProvider();
             services.RegisterRouteProvider();
+            services.RegisterServiceCommunicator();
 
             //services.AddSingleton<ServiceCaller>(x =>
             //{
