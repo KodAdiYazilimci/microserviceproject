@@ -40,6 +40,8 @@ namespace MicroserviceProject.Services.Infrastructure.Logging
             services.RegisterRepositories(Configuration);
 
             services.RegisterRouteProvider();
+            services.RegisterCredentialProvider();
+            services.RegisterServiceCommunicator();
             services.RegisterAuthentication();
 
             services.RegisterSwagger();

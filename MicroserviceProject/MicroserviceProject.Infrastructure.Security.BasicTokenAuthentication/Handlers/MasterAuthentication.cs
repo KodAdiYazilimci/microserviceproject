@@ -41,6 +41,8 @@ namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.H
 
         private readonly IConfiguration _configuration;
         private readonly IMemoryCache _memoryCache;
+        private readonly RouteNameProvider _routeNameProvider;
+        private readonly ServiceCommunicator _serviceCommunicator;
         private readonly ServiceRouteRepository _serviceRouteRepository;
 
         /// <summary>
@@ -56,13 +58,17 @@ namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.H
             UrlEncoder urlEncoder,
             ISystemClock systemClock,
             IMemoryCache memoryCache,
+            RouteNameProvider routeNameProvider,
             ServiceRouteRepository serviceRouteRepository,
+            ServiceCommunicator serviceCommunicator,
             IConfiguration configuration
             ) : base(options, loggerFactory, urlEncoder, systemClock)
         {
-            _memoryCache = memoryCache;
-            _serviceRouteRepository = serviceRouteRepository;
             _configuration = configuration;
+            _memoryCache = memoryCache;
+            _routeNameProvider = routeNameProvider;
+            _serviceRouteRepository = serviceRouteRepository;
+            _serviceCommunicator = serviceCommunicator;
         }
 
         /// <summary>
@@ -99,56 +105,12 @@ namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.H
                 if (user != null)
                 {
                     return user;
-                }
-
-                RouteNameProvider routeProvider = new RouteNameProvider(_configuration);
-                CredentialProvider credentialProvider = new CredentialProvider(_configuration);
-
-                Token takenTokenForThisService = _memoryCache.Get<Token>(TAKENTOKENFORTHISSERVICE);
-
-                if (string.IsNullOrWhiteSpace(takenTokenForThisService?.TokenKey)
-                    ||
-                    takenTokenForThisService.ValidTo <= DateTime.Now)
-                {
-                    ServiceCaller serviceCaller = new ServiceCaller(_memoryCache, "");
-                    serviceCaller.OnNoServiceFoundInCacheAsync += async (serviceName) =>
-                    {
-                        return await GetServiceAsync(serviceName, cancellationToken);
-                    };
-                  
-
-                    ServiceResult<Token> tokenResult =
-                        await serviceCaller.Call<Token>(
-                            serviceName: routeProvider.Auth_GetToken,
-                            postData: new Credential()
-                            {
-                                Email = credentialProvider.GetEmail,
-                                Password =  credentialProvider.GetPassword
-                            },
-                            queryParameters: null,
-                            cancellationToken: cancellationToken);
-
-                    if (tokenResult.IsSuccess && tokenResult.Data != null)
-                    {
-                        takenTokenForThisService = tokenResult.Data;
-                        _memoryCache.Set<Token>(TAKENTOKENFORTHISSERVICE, tokenResult.Data);
-                    }
-                    else
-                    {
-                        throw new Exception("Kaynak servis yetki tokenı elde edilemedi");
-                    }
-                }
-
-                ServiceCaller _serviceCaller = new ServiceCaller(_memoryCache, takenTokenForThisService.TokenKey);
-                _serviceCaller.OnNoServiceFoundInCacheAsync += async (serviceName) =>
-                {
-                    return await GetServiceAsync(serviceName, cancellationToken);
-                };
+                }              
 
                 ServiceResult<User> serviceResult =
                     await
-                    _serviceCaller.Call<User>(
-                        serviceName: routeProvider.Auth_GetUser,
+                    _serviceCommunicator.Call<User>(
+                        serviceName: _routeNameProvider.Auth_GetUser,
                         postData: null,
                         queryParameters: new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("token", headerToken) },
                         cancellationToken: cancellationToken);
@@ -163,24 +125,6 @@ namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.H
 
             //throw new SessionExpiredException("Lütfen tekrar oturum açın!");
             return null;
-        }
-
-        private async Task<string> GetServiceAsync(string serviceName, CancellationToken cancellationToken)
-        {
-            List<ServiceRoute> serviceRoutes = _memoryCache.Get<List<ServiceRoute>>(CACHEDSERVICEROUTES);
-
-            if (serviceRoutes == null || !serviceRoutes.Any())
-            {
-                serviceRoutes = await _serviceRouteRepository.GetServiceRoutesAsync(cancellationToken);
-
-                return JsonConvert.SerializeObject(serviceRoutes.FirstOrDefault(x => x.ServiceName == serviceName));
-            }
-
-            serviceRoutes = await _serviceRouteRepository.GetServiceRoutesAsync(cancellationToken);
-
-            _memoryCache.Set<List<ServiceRoute>>(CACHEDSERVICEROUTES, serviceRoutes, DateTime.Now.AddMinutes(60));
-
-            return JsonConvert.SerializeObject(serviceRoutes.FirstOrDefault(x => x.ServiceName == serviceName));
         }
 
         /// <summary>

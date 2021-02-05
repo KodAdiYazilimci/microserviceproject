@@ -2,22 +2,22 @@
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace MicroserviceProject.Services.Infrastructure.Logging.Configuration.Services
+namespace SampleDataProviderService.Configuration.Services
 {
     /// <summary>
-    /// Servis rotaları DI sınıfı
+    /// Servis kimliği sağlayıcısı DI sınıfı
     /// </summary>
-    public static class RouteProviderConfiguration
+    public static class CredentialProviderConfiguration
     {
         /// <summary>
-        /// Servis rotalarını enjekte eder
+        /// Servis kimliği sağlayıcısını enjekte eder
         /// </summary>
         /// <param name="services">DI servisleri nesnesi</param>
         /// <param name="configuration">Configuration nesnesi</param>
         /// <returns></returns>
-        public static IServiceCollection RegisterRouteProvider(this IServiceCollection services)
-        {
-            services.AddSingleton<RouteNameProvider>();
+        public static IServiceCollection RegisterCredentialProvider(this IServiceCollection services)
+        {           
+            services.AddSingleton<CredentialProvider>();
 
             return services;
         }

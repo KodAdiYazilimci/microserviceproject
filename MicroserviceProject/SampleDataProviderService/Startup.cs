@@ -17,6 +17,8 @@ using Microsoft.Extensions.Hosting;
 
 using Newtonsoft.Json;
 
+using SampleDataProviderService.Configuration.Services;
+
 using System.Net;
 
 namespace SampleDataProviderService
@@ -34,9 +36,10 @@ namespace SampleDataProviderService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMemoryCache();
-            services.AddSingleton(x => 
-                    new ServiceRouteRepository(
-                        Configuration.GetSection("Configuration").GetSection("Routing").GetSection("DataSource").Value));
+            services.RegisterRouteProvider();
+            services.RegisterRepositories(Configuration);
+            services.RegisterCredentialProvider();
+            services.RegisterServiceCommunicator();
 
             services
                 .AddAuthentication(Default.DefaultScheme)
