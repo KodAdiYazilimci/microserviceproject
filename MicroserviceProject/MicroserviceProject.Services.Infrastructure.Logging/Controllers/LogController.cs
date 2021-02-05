@@ -1,4 +1,5 @@
-﻿using Infrastructure.Persistence.Logging.Sql.Repositories;
+﻿
+using Infrastructure.Persistence.Logging.Sql.Repositories;
 
 using MicroserviceProject.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Infrastructure.Communication.Model.Errors;
