@@ -3,6 +3,7 @@ using MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.Handl
 using MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.Schemes;
 using MicroserviceProject.Model.Communication.Basics;
 using MicroserviceProject.Model.Communication.Errors;
+using MicroserviceProject.Services.Infrastructure.Logging.Configuration.Services;
 using MicroserviceProject.Services.Infrastructure.Logging.Configuration.Services.Repositories;
 using MicroserviceProject.Services.Infrastructure.Logging.Util.Logging.Consumers;
 using MicroserviceProject.Services.Infrastructure.Logging.Util.Logging.Loggers;
@@ -39,30 +40,13 @@ namespace MicroserviceProject.Services.Infrastructure.Logging
         {
             services.AddMemoryCache();
 
-            services.AddSingleton<RequestResponseLogger>(x => new RequestResponseLogger(Configuration));
+            services.RegisterLogger(Configuration);
 
             services.RegisterRepositories(Configuration);
 
-            services
-                .AddAuthentication(Default.DefaultScheme)
-                .AddScheme<AuthenticationSchemeOptions, MasterAuthentication>(Default.DefaultScheme, null);
+            services.RegisterAuthentication();
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("CoreSwagger", new Microsoft.OpenApi.Models.OpenApiInfo
-                {
-                    Title = "MicroserviceProject.Services.Infrastructure.Logging Swagger",
-                    Version = "1.0.0",
-                    Description = "ApiGateway+UI",
-                    Contact = new Microsoft.OpenApi.Models.OpenApiContact()
-                    {
-                        Name = "Swagger Implementation Serkan Camur",
-                        Url = new System.Uri("http://serkancamur.com.tr"),
-                        Email = "serkan@serkancamur.com.tr"
-                    },
-                    TermsOfService = new System.Uri("http://swagger.io/terms/")
-                });
-            });
+            services.RegisterSwagger();
 
             services.AddControllers();
         }

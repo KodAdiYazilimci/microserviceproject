@@ -1,6 +1,7 @@
 using MicroserviceProject.Model.Communication.Basics;
 using MicroserviceProject.Model.Communication.Errors;
 using MicroserviceProject.Services.Security.Authorization.Business.Services;
+using MicroserviceProject.Services.Security.Authorization.Configuration.Services;
 using MicroserviceProject.Services.Security.Authorization.Persistence.Sql.Repositories;
 using MicroserviceProject.Services.Security.Authorization.Util.Logging.Loggers;
 
@@ -25,43 +26,18 @@ namespace MicroserviceProject.Services.Security.Authorization
             Configuration = configuration;
         }
 
-        private string AuthorizationConnectionString
-        {
-            get
-            {
-                return Configuration.GetSection("Configuration").GetSection("Authorization").GetSection("DataSource").Value;
-            }
-        }
-
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<RequestResponseLogger>(x => new RequestResponseLogger(Configuration));
+            services.RegisterLogger(Configuration);
 
-            services.AddScoped<SessionRepository>(x => new SessionRepository(AuthorizationConnectionString));
-            services.AddScoped<UserRepository>(x => new UserRepository(AuthorizationConnectionString));
+            services.RegisterRepositories(Configuration);
 
-            services.AddScoped<SessionService>();
-            services.AddScoped<UserService>();
+            services.RegisterServices();
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("CoreSwagger", new Microsoft.OpenApi.Models.OpenApiInfo
-                {
-                    Title = "MicroserviceProject.Services.Security.Authorization Swagger",
-                    Version = "1.0.0",
-                    Description = "ApiGateway+UI",
-                    Contact = new Microsoft.OpenApi.Models.OpenApiContact()
-                    {
-                        Name = "Swagger Implementation Serkan Camur",
-                        Url = new System.Uri("http://serkancamur.com.tr"),
-                        Email = "serkan@serkancamur.com.tr"
-                    },
-                    TermsOfService = new System.Uri("http://swagger.io/terms/")
-                });
-            });
+            services.RegisterSwagger();
 
             services.AddControllers();
         }
