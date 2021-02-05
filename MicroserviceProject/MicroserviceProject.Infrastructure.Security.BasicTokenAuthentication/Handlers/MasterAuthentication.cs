@@ -3,6 +3,7 @@
 using MicroserviceProject.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Infrastructure.Communication.Model.Moderator;
 using MicroserviceProject.Infrastructure.Communication.Moderator;
+using MicroserviceProject.Infrastructure.Communication.Moderator.Providers;
 using MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.Persistence;
 using MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.Schemes;
 using MicroserviceProject.Infrastructure.Security.Model;
@@ -100,6 +101,9 @@ namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.H
                     return user;
                 }
 
+                RouteProvider routeProvider = new RouteProvider(_configuration);
+                CredentialProvider credentialProvider = new CredentialProvider(_configuration);
+
                 Token takenTokenForThisService = _memoryCache.Get<Token>(TAKENTOKENFORTHISSERVICE);
 
                 if (string.IsNullOrWhiteSpace(takenTokenForThisService?.TokenKey)
@@ -111,16 +115,15 @@ namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.H
                     {
                         return await GetServiceAsync(serviceName, cancellationToken);
                     };
-
-                    string getTokenEndpoint = _configuration.GetSection("Configuration").GetSection("Authorization").GetSection("Endpoints").GetSection("GetToken").Value;
+                  
 
                     ServiceResult<Token> tokenResult =
                         await serviceCaller.Call<Token>(
-                            serviceName: getTokenEndpoint,
+                            serviceName: routeProvider.Auth_GetToken,
                             postData: new Credential()
                             {
-                                Email = _configuration.GetSection("Configuration").GetSection("Authorization").GetSection("Credential").GetSection("email").Value,
-                                Password = _configuration.GetSection("Configuration").GetSection("Authorization").GetSection("Credential").GetSection("password").Value
+                                Email = credentialProvider.GetEmail,
+                                Password =  credentialProvider.GetPassword
                             },
                             queryParameters: null,
                             cancellationToken: cancellationToken);
@@ -142,12 +145,10 @@ namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.H
                     return await GetServiceAsync(serviceName, cancellationToken);
                 };
 
-                string getUserEndpoint = _configuration.GetSection("Configuration").GetSection("Authorization").GetSection("Endpoints").GetSection("GetUser").Value;
-
                 ServiceResult<User> serviceResult =
                     await
                     _serviceCaller.Call<User>(
-                        serviceName: getUserEndpoint,
+                        serviceName: routeProvider.Auth_GetUser,
                         postData: null,
                         queryParameters: new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("token", headerToken) },
                         cancellationToken: cancellationToken);

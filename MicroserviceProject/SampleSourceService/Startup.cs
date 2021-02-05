@@ -13,6 +13,8 @@ using Microsoft.Extensions.Hosting;
 
 using Newtonsoft.Json;
 
+using SampleSourceService.Configuration.Services;
+
 using System.Net;
 
 namespace SampleSourceService
@@ -33,6 +35,8 @@ namespace SampleSourceService
             services.AddSingleton(x => 
                     new ServiceRouteRepository(
                         Configuration.GetSection("Configuration").GetSection("Routing").GetSection("DataSource").Value));
+
+            services.RegisterRouteProvider();
 
             //services.AddSingleton<ServiceCaller>(x =>
             //{

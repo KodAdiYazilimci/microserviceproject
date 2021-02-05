@@ -4,6 +4,7 @@ using Infrastructure.Persistence.ServiceRoutes.Sql.Repositories;
 using MicroserviceProject.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Infrastructure.Communication.Model.Moderator;
 using MicroserviceProject.Infrastructure.Communication.Moderator;
+using MicroserviceProject.Infrastructure.Communication.Moderator.Providers;
 using MicroserviceProject.Infrastructure.Security.Model;
 
 using Microsoft.AspNetCore.Mvc;
@@ -30,22 +31,25 @@ namespace SampleSourceService.Controllers
         private readonly IConfiguration _configuration;
         private readonly IMemoryCache _memoryCache;
         private readonly ServiceRouteRepository _serviceRouteRepository;
+        private readonly RouteProvider _routeProvider;
 
         public HomeController(
             IConfiguration configuration,
             IMemoryCache memoryCache,
-            ServiceRouteRepository serviceRouteRepository)
+            ServiceRouteRepository serviceRouteRepository,
+            RouteProvider routeProvider)
         {
             _configuration = configuration;
             _memoryCache = memoryCache;
             _serviceRouteRepository = serviceRouteRepository;
+            _routeProvider = routeProvider;
         }
 
         [HttpGet]
         [Route("")]
         [Route("Index")]
         [Route("Home/Index")]
-        public async Task<IActionResult> Index()      
+        public async Task<IActionResult> Index()
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
@@ -55,6 +59,8 @@ namespace SampleSourceService.Controllers
                 ||
                 takenTokenForThisService.ValidTo <= DateTime.Now)
             {
+                CredentialProvider credentialProvider = new CredentialProvider(_configuration);
+
                 ServiceCaller serviceTokenCaller = new ServiceCaller(_memoryCache, "");
                 serviceTokenCaller.OnNoServiceFoundInCacheAsync += async (serviceName) =>
                 {
@@ -62,11 +68,11 @@ namespace SampleSourceService.Controllers
                 };
                 ServiceResult<Token> tokenResult =
                     await serviceTokenCaller.Call<Token>(
-                        serviceName: "authorization.gettoken",
+                        serviceName: _routeProvider.Auth_GetToken,
                         postData: new Credential()
                         {
-                            Email = _configuration.GetSection("Configuration").GetSection("Authorization").GetSection("Credential").GetSection("email").Value,
-                            Password = _configuration.GetSection("Configuration").GetSection("Authorization").GetSection("Credential").GetSection("password").Value
+                            Email = credentialProvider.GetEmail,
+                            Password = credentialProvider.GetPassword
                         },
                         queryParameters: null,
                         cancellationToken: cancellationTokenSource.Token);
@@ -89,16 +95,16 @@ namespace SampleSourceService.Controllers
             };
 
             ServiceResult<SampleModel> result = await serviceCaller.Call<SampleModel>(
-                serviceName: "sampledataprovider.getdata",
+                serviceName: _routeProvider.SampleDataProvider_GetData,
                 postData: null,
                 queryParameters: new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("number", "3") },
                 cancellationToken: cancellationTokenSource.Token);
 
-            //result = await serviceCaller.Call<SampleModel>(
-            //    serviceName: "sampledataprovider.postdata",
-            //    postData: new SampleModel() { Id = 2, Name = "test 2" },
-            //    queryParameters: null,
-            //    cancellationToken: cancellationTokenSource.Token);
+            result = await serviceCaller.Call<SampleModel>(
+                serviceName: _routeProvider.SampleDataProvider_PostData,
+                postData: new SampleModel() { Id = 2, Name = "test 2" },
+                queryParameters: null,
+                cancellationToken: cancellationTokenSource.Token);
 
             return Json(result);
         }
