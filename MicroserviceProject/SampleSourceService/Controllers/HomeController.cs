@@ -1,10 +1,10 @@
 ﻿
 using Infrastructure.Persistence.ServiceRoutes.Sql.Repositories;
 
+using MicroserviceProject.Infrastructure.Communication.Model.Basics;
+using MicroserviceProject.Infrastructure.Communication.Model.Moderator;
 using MicroserviceProject.Infrastructure.Communication.Moderator;
-using MicroserviceProject.Model.Communication.Basics;
-using MicroserviceProject.Model.Communication.Moderator;
-using MicroserviceProject.Model.Security;
+using MicroserviceProject.Infrastructure.Security.Model;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;

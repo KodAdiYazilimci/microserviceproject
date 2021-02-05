@@ -1,6 +1,6 @@
 ﻿using MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.Requirements;
 using MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.Util;
-using MicroserviceProject.Model.Security;
+using MicroserviceProject.Infrastructure.Security.Model;
 
 using Microsoft.AspNetCore.Authorization;
 

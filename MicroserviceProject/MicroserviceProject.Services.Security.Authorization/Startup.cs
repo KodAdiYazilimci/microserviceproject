@@ -1,9 +1,6 @@
-using MicroserviceProject.Model.Communication.Basics;
-using MicroserviceProject.Model.Communication.Errors;
-using MicroserviceProject.Services.Security.Authorization.Business.Services;
+using MicroserviceProject.Infrastructure.Communication.Model.Basics;
+using MicroserviceProject.Infrastructure.Communication.Model.Errors;
 using MicroserviceProject.Services.Security.Authorization.Configuration.Services;
-using MicroserviceProject.Services.Security.Authorization.Persistence.Sql.Repositories;
-using MicroserviceProject.Services.Security.Authorization.Util.Logging.Loggers;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;

@@ -1,10 +1,10 @@
 
 using Infrastructure.Persistence.ServiceRoutes.Sql.Repositories;
 
+using MicroserviceProject.Infrastructure.Communication.Model.Basics;
+using MicroserviceProject.Infrastructure.Communication.Model.Errors;
 using MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.Handlers;
 using MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.Schemes;
-using MicroserviceProject.Model.Communication.Basics;
-using MicroserviceProject.Model.Communication.Errors;
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;

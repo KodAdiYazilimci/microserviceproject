@@ -1,7 +1,7 @@
 using Infrastructure.Persistence.ServiceRoutes.Sql.Repositories;
 
-using MicroserviceProject.Model.Communication.Basics;
-using MicroserviceProject.Model.Communication.Errors;
+using MicroserviceProject.Infrastructure.Communication.Model.Basics;
+using MicroserviceProject.Infrastructure.Communication.Model.Errors;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;

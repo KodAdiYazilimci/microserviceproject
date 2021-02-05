@@ -1,4 +1,4 @@
-﻿using MicroserviceProject.Model.Logging;
+﻿using MicroserviceProject.Infrastructure.Logging.Model;
 using MicroserviceProject.Services.Infrastructure.Logging.Util.Logging.Loggers;
 
 using Microsoft.AspNetCore.Builder;

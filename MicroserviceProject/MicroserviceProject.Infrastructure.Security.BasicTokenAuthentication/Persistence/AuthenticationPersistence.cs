@@ -1,4 +1,4 @@
-﻿using MicroserviceProject.Model.Security;
+﻿using MicroserviceProject.Infrastructure.Security.Model;
 
 using System.Collections.Generic;
 using System.Security.Claims;

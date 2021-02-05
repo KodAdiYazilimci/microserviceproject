@@ -1,8 +1,8 @@
 ﻿using Infrastructure.Persistence.Logging.Sql.Repositories;
 
-using MicroserviceProject.Model.Communication.Basics;
-using MicroserviceProject.Model.Communication.Errors;
-using MicroserviceProject.Model.Logging;
+using MicroserviceProject.Infrastructure.Communication.Model.Basics;
+using MicroserviceProject.Infrastructure.Communication.Model.Errors;
+using MicroserviceProject.Infrastructure.Logging.Model;
 using MicroserviceProject.Services.Infrastructure.Logging.Util.Validation.Logging.WriteRequestResponseLog;
 
 using Microsoft.AspNetCore.Authorization;

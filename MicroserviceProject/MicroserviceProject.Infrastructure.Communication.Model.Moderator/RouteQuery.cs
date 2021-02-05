@@ -1,4 +1,4 @@
-﻿namespace MicroserviceProject.Model.Communication.Moderator
+﻿namespace MicroserviceProject.Infrastructure.Communication.Model.Moderator
 {
     /// <summary>
     /// Çağırılacak servisin query string parametreleri

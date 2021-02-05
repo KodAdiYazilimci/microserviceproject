@@ -1,9 +1,9 @@
 ﻿using FluentValidation.Results;
 
-using MicroserviceProject.Model.Communication.Basics;
-using MicroserviceProject.Model.Communication.Errors;
-using MicroserviceProject.Model.Communication.Validations;
-using MicroserviceProject.Model.Logging;
+using MicroserviceProject.Infrastructure.Communication.Model.Basics;
+using MicroserviceProject.Infrastructure.Communication.Model.Errors;
+using MicroserviceProject.Infrastructure.Communication.Model.Validations;
+using MicroserviceProject.Infrastructure.Logging.Model;
 
 using System.Collections.Generic;
 using System.Linq;
@@ -41,7 +41,7 @@ namespace MicroserviceProject.Services.Infrastructure.Logging.Util.Validation.Lo
                         {
                             Description = "Geçersiz parametre"
                         },
-                        Validation = new Model.Communication.Validations.Validation()
+                        Validation = new MicroserviceProject.Infrastructure.Communication.Model.Validations.Validation()
                         {
                             IsValid = false,
                             ValidationItems = new List<ValidationItem>()
@@ -69,7 +69,7 @@ namespace MicroserviceProject.Services.Infrastructure.Logging.Util.Validation.Lo
                     {
                         Description = "Geçersiz parametre"
                     },
-                    Validation = new Model.Communication.Validations.Validation()
+                    Validation = new MicroserviceProject.Infrastructure.Communication.Model.Validations.Validation()
                     {
                         IsValid = false,
                         ValidationItems = new List<ValidationItem>()

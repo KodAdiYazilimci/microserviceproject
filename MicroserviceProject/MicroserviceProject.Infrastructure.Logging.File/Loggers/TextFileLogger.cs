@@ -1,6 +1,6 @@
 ﻿using MicroserviceProject.Infrastructure.Logging.Abstraction;
 using MicroserviceProject.Infrastructure.Logging.File.Configuration;
-using MicroserviceProject.Model.Logging;
+using MicroserviceProject.Infrastructure.Logging.Model;
 
 using System.IO;
 using System.Threading.Tasks;

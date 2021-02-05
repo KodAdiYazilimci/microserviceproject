@@ -8,8 +8,6 @@
     <ProjectReference Include="..\MicroserviceProject.Infrastructure.Cryptography.Rijndael\MicroserviceProject.Infrastructure.Cryptography.Rijndael.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Infrastructure.Cryptography.RSA\MicroserviceProject.Infrastructure.Cryptography.RSA.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Infrastructure.Cryptography.SHA256\MicroserviceProject.Infrastructure.Cryptography.SHA256.csproj" />
-    <ProjectReference Include="..\MicroserviceProject.Model.Cryptography.Rijndael\MicroserviceProject.Model.Cryptography.Rijndael.csproj" />
-    <ProjectReference Include="..\MicroserviceProject.Model.Security\MicroserviceProject.Model.Security.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Services.Security.Authorization.Persistence\MicroserviceProject.Services.Security.Authorization.Persistence.Sql.csproj" />
   </ItemGroup>
 

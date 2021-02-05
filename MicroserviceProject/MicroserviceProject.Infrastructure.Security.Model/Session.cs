@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MicroserviceProject.Model.Security
+namespace MicroserviceProject.Infrastructure.Security.Model
 {
     /// <summary>
     /// Kullanıcı oturumları modeli

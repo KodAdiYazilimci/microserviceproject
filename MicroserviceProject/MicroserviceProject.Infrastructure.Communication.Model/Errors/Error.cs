@@ -1,4 +1,4 @@
-﻿namespace MicroserviceProject.Model.Communication.Errors
+﻿namespace MicroserviceProject.Infrastructure.Communication.Model.Errors
 {
     /// <summary>
     /// Servisten dönen hata

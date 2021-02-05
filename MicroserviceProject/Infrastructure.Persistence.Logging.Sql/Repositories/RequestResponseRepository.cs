@@ -1,4 +1,5 @@
-﻿using MicroserviceProject.Model.Logging;
+﻿
+using MicroserviceProject.Infrastructure.Logging.Model;
 
 using System;
 using System.Data;

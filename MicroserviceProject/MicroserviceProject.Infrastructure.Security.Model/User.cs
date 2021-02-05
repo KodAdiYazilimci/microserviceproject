@@ -1,4 +1,4 @@
-﻿namespace MicroserviceProject.Model.Security
+﻿namespace MicroserviceProject.Infrastructure.Security.Model
 {
     /// <summary>
     /// Kullanıcının modeli

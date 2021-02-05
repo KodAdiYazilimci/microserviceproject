@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MicroserviceProject.Model.Communication.Moderator\MicroserviceProject.Model.Communication.Moderator.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Infrastructure.Communication.Model.Moderator\MicroserviceProject.Infrastructure.Communication.Model.Moderator.csproj" />
   </ItemGroup>
 
 </Project>

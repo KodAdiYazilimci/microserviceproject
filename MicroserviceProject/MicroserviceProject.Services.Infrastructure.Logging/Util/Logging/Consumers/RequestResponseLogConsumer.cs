@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Persistence.Logging.Sql.Repositories;
 
+using MicroserviceProject.Infrastructure.Logging.Model;
 using MicroserviceProject.Infrastructure.Logging.RabbitMq.Consumers;
-using MicroserviceProject.Model.Logging;
 using MicroserviceProject.Services.Infrastructure.Logging.Configuration.Logging;
 
 using Microsoft.Extensions.Configuration;

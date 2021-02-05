@@ -1,5 +1,5 @@
 ﻿using MicroserviceProject.Infrastructure.Logging.Abstraction;
-using MicroserviceProject.Model.Logging;
+using MicroserviceProject.Infrastructure.Logging.Model;
 
 using System.Collections.Generic;
 using System.Threading.Tasks;

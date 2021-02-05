@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MicroserviceProject.Model.Cryptography.Rijndael\MicroserviceProject.Model.Cryptography.Rijndael.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Infrastructure.Cryptography.Model.Rijndael\MicroserviceProject.Infrastructure.Cryptography.Model.Rijndael.csproj" />
   </ItemGroup>
 
 </Project>

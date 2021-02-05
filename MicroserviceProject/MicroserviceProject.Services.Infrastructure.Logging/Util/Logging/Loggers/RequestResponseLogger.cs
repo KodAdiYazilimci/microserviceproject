@@ -1,7 +1,7 @@
 ﻿using MicroserviceProject.Infrastructure.Logging.Abstraction;
 using MicroserviceProject.Infrastructure.Logging.File.Loggers;
 using MicroserviceProject.Infrastructure.Logging.Managers;
-using MicroserviceProject.Model.Logging;
+using MicroserviceProject.Infrastructure.Logging.Model;
 using MicroserviceProject.Services.Infrastructure.Logging.Configuration.Logging;
 
 using Microsoft.Extensions.Configuration;

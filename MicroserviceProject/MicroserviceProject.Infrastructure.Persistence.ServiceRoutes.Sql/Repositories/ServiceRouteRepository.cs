@@ -1,4 +1,5 @@
-﻿using MicroserviceProject.Model.Communication.Moderator;
+﻿
+using MicroserviceProject.Infrastructure.Communication.Model.Moderator;
 
 using System;
 using System.Collections.Generic;

@@ -1,4 +1,5 @@
-﻿using MicroserviceProject.Model.Cryptography.Rijndael;
+﻿
+using MicroserviceProject.Infrastructure.Cryptography.Model.Rijndael;
 
 using System.IO;
 using System.Security.Cryptography;

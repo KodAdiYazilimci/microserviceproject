@@ -1,7 +1,7 @@
 ﻿
-using MicroserviceProject.Model.Communication.Basics;
-using MicroserviceProject.Model.Communication.Errors;
-using MicroserviceProject.Model.Security;
+using MicroserviceProject.Infrastructure.Communication.Model.Basics;
+using MicroserviceProject.Infrastructure.Communication.Model.Errors;
+using MicroserviceProject.Infrastructure.Security.Model;
 using MicroserviceProject.Services.Security.Authorization.Business.Services;
 using MicroserviceProject.Services.Security.Authorization.Persistence.Sql.Exceptions;
 using MicroserviceProject.Services.Security.Authorization.Util.Validation.Auth.GetToken;

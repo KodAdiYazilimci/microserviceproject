@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MicroserviceProject.Model.Logging
+namespace MicroserviceProject.Infrastructure.Logging.Model
 {
     /// <summary>
     /// Yazılacak logların ortak modeli

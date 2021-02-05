@@ -13,9 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MicroserviceProject.Infrastructure.Communication.Model\MicroserviceProject.Infrastructure.Communication.Model.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Infrastructure.Logging.File\MicroserviceProject.Infrastructure.Logging.File.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Infrastructure.Logging.RabbitMq\MicroserviceProject.Infrastructure.Logging.RabbitMq.csproj" />
-    <ProjectReference Include="..\MicroserviceProject.Model.Communication\MicroserviceProject.Model.Communication.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Services.Security.Authorization.Business\MicroserviceProject.Services.Security.Authorization.Business.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Services.Security.Authorization.Persistence\MicroserviceProject.Services.Security.Authorization.Persistence.Sql.csproj" />
   </ItemGroup>

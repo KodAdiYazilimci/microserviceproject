@@ -1,14 +1,9 @@
-
-using MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.Handlers;
-using MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.Schemes;
-using MicroserviceProject.Model.Communication.Basics;
-using MicroserviceProject.Model.Communication.Errors;
+using MicroserviceProject.Infrastructure.Communication.Model.Basics;
+using MicroserviceProject.Infrastructure.Communication.Model.Errors;
 using MicroserviceProject.Services.Infrastructure.Logging.Configuration.Services;
 using MicroserviceProject.Services.Infrastructure.Logging.Configuration.Services.Repositories;
 using MicroserviceProject.Services.Infrastructure.Logging.Util.Logging.Consumers;
-using MicroserviceProject.Services.Infrastructure.Logging.Util.Logging.Loggers;
 
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;

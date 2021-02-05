@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-using MicroserviceProject.Model.Security;
+using MicroserviceProject.Infrastructure.Security.Model;
 
 namespace MicroserviceProject.Services.Security.Authorization.Configuration.Validation.Auth.GetToken
 {

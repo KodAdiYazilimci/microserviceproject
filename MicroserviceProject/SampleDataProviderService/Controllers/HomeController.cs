@@ -1,4 +1,5 @@
-﻿using MicroserviceProject.Model.Communication.Basics;
+﻿
+using MicroserviceProject.Infrastructure.Communication.Model.Basics;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

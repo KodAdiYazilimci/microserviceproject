@@ -1,9 +1,9 @@
 ﻿using FluentValidation.Results;
 
-using MicroserviceProject.Model.Communication.Basics;
-using MicroserviceProject.Model.Communication.Errors;
-using MicroserviceProject.Model.Communication.Validations;
-using MicroserviceProject.Model.Security;
+using MicroserviceProject.Infrastructure.Communication.Model.Basics;
+using MicroserviceProject.Infrastructure.Communication.Model.Errors;
+using MicroserviceProject.Infrastructure.Communication.Model.Validations;
+using MicroserviceProject.Infrastructure.Security.Model;
 
 using System.Collections.Generic;
 using System.Linq;
@@ -40,7 +40,7 @@ namespace MicroserviceProject.Services.Security.Authorization.Util.Validation.Au
                         {
                             Description = "Geçersiz parametre"
                         },
-                        Validation = new Model.Communication.Validations.Validation()
+                        Validation = new Infrastructure.Communication.Model.Validations.Validation()
                         {
                             IsValid = false,
                             ValidationItems = new List<ValidationItem>()
@@ -68,7 +68,7 @@ namespace MicroserviceProject.Services.Security.Authorization.Util.Validation.Au
                     {
                         Description = "Geçersiz parametre"
                     },
-                    Validation = new Model.Communication.Validations.Validation()
+                    Validation = new Infrastructure.Communication.Model.Validations.Validation()
                     {
                         IsValid = false,
                         ValidationItems = new List<ValidationItem>()

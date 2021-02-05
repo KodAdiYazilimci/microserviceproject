@@ -1,8 +1,8 @@
 ﻿using MicroserviceProject.Infrastructure.Logging.Abstraction;
 using MicroserviceProject.Infrastructure.Logging.File.Loggers;
 using MicroserviceProject.Infrastructure.Logging.Managers;
+using MicroserviceProject.Infrastructure.Logging.Model;
 using MicroserviceProject.Infrastructure.Logging.RabbitMq.Producers;
-using MicroserviceProject.Model.Logging;
 using MicroserviceProject.Services.Security.Authorization.Configuration.Logging;
 
 using Microsoft.Extensions.Configuration;

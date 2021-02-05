@@ -1,6 +1,6 @@
 ﻿using MicroserviceProject.Infrastructure.Logging.Abstraction;
+using MicroserviceProject.Infrastructure.Logging.Model;
 using MicroserviceProject.Infrastructure.Logging.RabbitMq.Configuration;
-using MicroserviceProject.Model.Logging;
 
 using Newtonsoft.Json;
 

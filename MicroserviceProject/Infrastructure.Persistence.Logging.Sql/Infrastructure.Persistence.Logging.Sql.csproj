@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MicroserviceProject.Model.Logging\MicroserviceProject.Model.Logging.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Infrastructure.Logging.Model\MicroserviceProject.Infrastructure.Logging.Model.csproj" />
   </ItemGroup>
 
 </Project>
