@@ -71,6 +71,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrast
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrastructure.Cryptography.Model.Rijndael", "MicroserviceProject.Infrastructure.Cryptography.Model.Rijndael\MicroserviceProject.Infrastructure.Cryptography.Model.Rijndael.csproj", "{D637F0D3-B619-4AFD-817F-DBF4DC85F9FC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Infrastructure.Communication.Model.Http", "MicroserviceProject.Infrastructure.Communication.Model.Http\MicroserviceProject.Infrastructure.Communication.Model.Http.csproj", "{96004AFA-4B52-48A0-9ABE-8FDE77C522C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -165,6 +167,10 @@ Global
 		{D637F0D3-B619-4AFD-817F-DBF4DC85F9FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D637F0D3-B619-4AFD-817F-DBF4DC85F9FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D637F0D3-B619-4AFD-817F-DBF4DC85F9FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96004AFA-4B52-48A0-9ABE-8FDE77C522C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96004AFA-4B52-48A0-9ABE-8FDE77C522C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96004AFA-4B52-48A0-9ABE-8FDE77C522C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96004AFA-4B52-48A0-9ABE-8FDE77C522C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -192,6 +198,7 @@ Global
 		{E16709AF-25BF-474B-8C64-55ECA0DB0F8B} = {4B50141F-7DDA-4045-87E0-EFBF72CEFB63}
 		{03418824-2ED2-4CF5-BCE8-7027A24869B9} = {423CC89D-F00D-45D2-BE00-931786875AA6}
 		{D637F0D3-B619-4AFD-817F-DBF4DC85F9FC} = {6A1F6E82-33F9-4571-94FE-C332DBED3DF8}
+		{96004AFA-4B52-48A0-9ABE-8FDE77C522C9} = {2FA72A9D-33B2-4392-8FE4-EE7FA6D9F147}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C136217B-3CA6-4AEC-95E4-D62936481A67}

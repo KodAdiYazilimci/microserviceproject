@@ -1,4 +1,5 @@
-﻿using MicroserviceProject.Infrastructure.Communication.Http.Models;
+﻿
+using MicroserviceProject.Infrastructure.Communication.Model.Http;
 
 using System;
 using System.Collections.Generic;

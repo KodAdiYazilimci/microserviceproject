@@ -1,4 +1,4 @@
-﻿namespace MicroserviceProject.Infrastructure.Communication.Http.Models
+﻿namespace MicroserviceProject.Infrastructure.Communication.Model.Http
 {
     /// <summary>
     /// Http isteğinin headerı

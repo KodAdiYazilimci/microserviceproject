@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MicroserviceProject.Infrastructure.Communication.Http.Models
+﻿namespace MicroserviceProject.Infrastructure.Communication.Model.Http
 {
     /// <summary>
     /// Http isteğin QueryString parametreleri
