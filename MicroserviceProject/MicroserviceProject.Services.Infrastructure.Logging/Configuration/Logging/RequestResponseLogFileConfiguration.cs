@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 
 using System.Text;
 
-namespace MicroserviceProject.Services.Infrastructure.Logging.Logging.Configuration
+namespace MicroserviceProject.Services.Infrastructure.Logging.Configuration.Logging
 {
     /// <summary>
     /// Request-response logları için dosya yapılandırma ayarları

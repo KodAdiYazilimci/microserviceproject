@@ -2,14 +2,14 @@
 
 using MicroserviceProject.Infrastructure.Logging.RabbitMq.Consumers;
 using MicroserviceProject.Model.Logging;
-using MicroserviceProject.Services.Infrastructure.Logging.Logging.Configuration;
+using MicroserviceProject.Services.Infrastructure.Logging.Configuration.Logging;
 
 using Microsoft.Extensions.Configuration;
 
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MicroserviceProject.Services.Infrastructure.Logging.Logging.Consumers
+namespace MicroserviceProject.Services.Infrastructure.Logging.Util.Logging.Consumers
 {
     /// <summary>
     /// Rabbit sunucusundaki request-response loglarını tüketecek varsayılan sınıf
@@ -36,7 +36,10 @@ namespace MicroserviceProject.Services.Infrastructure.Logging.Logging.Consumers
             _defaultLogProducer.OnConsumed += _defaultLogProducer_OnConsumed;
 
             _requestResponseRepository = new RequestResponseRepository(GetConnectionString(configuration));
+        }
 
+        public void StartToConsume()
+        {
             _defaultLogProducer.StartToConsume();
         }
 

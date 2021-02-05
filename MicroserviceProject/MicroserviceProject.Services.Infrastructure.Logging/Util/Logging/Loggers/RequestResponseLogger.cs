@@ -2,13 +2,13 @@
 using MicroserviceProject.Infrastructure.Logging.File.Loggers;
 using MicroserviceProject.Infrastructure.Logging.Managers;
 using MicroserviceProject.Model.Logging;
-using MicroserviceProject.Services.Infrastructure.Logging.Logging.Configuration;
+using MicroserviceProject.Services.Infrastructure.Logging.Configuration.Logging;
 
 using Microsoft.Extensions.Configuration;
 
 using System.Collections.Generic;
 
-namespace MicroserviceProject.Services.Infrastructure.Logging.Logging.Loggers
+namespace MicroserviceProject.Services.Infrastructure.Logging.Util.Logging.Loggers
 {
     /// <summary>
     /// Request-Response loglarını yazan sınıf

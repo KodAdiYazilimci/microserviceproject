@@ -2,12 +2,7 @@
 
 using Microsoft.Extensions.Configuration;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MicroserviceProject.Services.Infrastructure.Logging.Logging.Configuration
+namespace MicroserviceProject.Services.Infrastructure.Logging.Configuration.Logging
 {
     /// <summary>
     /// Request-response logları için rabbit sunucusunun yapılandırma ayarları

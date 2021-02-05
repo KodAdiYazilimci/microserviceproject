@@ -3,19 +3,19 @@
 using MicroserviceProject.Model.Communication.Basics;
 using MicroserviceProject.Model.Communication.Errors;
 using MicroserviceProject.Model.Communication.Validations;
-using MicroserviceProject.Model.Security;
+using MicroserviceProject.Model.Logging;
 
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MicroserviceProject.Services.Security.Authorization.Util.Validation.Auth.GetToken
+namespace MicroserviceProject.Services.Infrastructure.Logging.Util.Validation.Logging.WriteRequestResponseLog
 {
     /// <summary>
-    /// Auth/GetToken endpoint için validasyon
+    /// Logging/WriteRequestResponseLog Http endpoint için validasyon
     /// </summary>
-    public class GetTokenValidator
+    public static class WriteRequestResponseLogValidator
     {
         /// <summary>
         /// Request body doğrular
@@ -23,9 +23,10 @@ namespace MicroserviceProject.Services.Security.Authorization.Util.Validation.Au
         /// <param name="credential">Doğrulanacak nesne</param>
         /// <param name="cancellationToken">İptal tokenı</param>
         /// <returns></returns>
-        public static async Task<ServiceResult> ValidateAsync(Credential credential, CancellationToken cancellationToken)
+        public static async Task<ServiceResult> ValidateAsync(RequestResponseLogModel credential, CancellationToken cancellationToken)
         {
-            Configuration.Validation.Auth.GetToken.CredentialRule validationRules = new Configuration.Validation.Auth.GetToken.CredentialRule();
+            Configuration.Validation.Logging.WriteRequestResponseLog.RequestResponseLogModelRule validationRules =
+                new Configuration.Validation.Logging.WriteRequestResponseLog.RequestResponseLogModelRule();
 
             if (credential != null)
             {

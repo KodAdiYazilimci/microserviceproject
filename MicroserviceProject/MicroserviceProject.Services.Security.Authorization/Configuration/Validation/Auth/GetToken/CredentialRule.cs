@@ -4,6 +4,9 @@ using MicroserviceProject.Model.Security;
 
 namespace MicroserviceProject.Services.Security.Authorization.Configuration.Validation.Auth.GetToken
 {
+    /// <summary>
+    /// Auth/GetToken endpoint için validasyon kuralı
+    /// </summary>
     public class CredentialRule : AbstractValidator<Credential>
     {
         public CredentialRule()
