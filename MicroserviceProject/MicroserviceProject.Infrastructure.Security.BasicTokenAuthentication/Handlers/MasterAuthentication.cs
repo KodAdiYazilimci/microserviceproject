@@ -112,9 +112,11 @@ namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.H
                         return await GetServiceAsync(serviceName, cancellationToken);
                     };
 
+                    string getTokenEndpoint = _configuration.GetSection("Configuration").GetSection("Authorization").GetSection("Endpoints").GetSection("GetToken").Value;
+
                     ServiceResult<Token> tokenResult =
                         await serviceCaller.Call<Token>(
-                            serviceName: "authorization.gettoken",
+                            serviceName: getTokenEndpoint,
                             postData: new Credential()
                             {
                                 Email = _configuration.GetSection("Configuration").GetSection("Authorization").GetSection("Credential").GetSection("email").Value,
@@ -140,10 +142,12 @@ namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.H
                     return await GetServiceAsync(serviceName, cancellationToken);
                 };
 
+                string getUserEndpoint = _configuration.GetSection("Configuration").GetSection("Authorization").GetSection("Endpoints").GetSection("GetUser").Value;
+
                 ServiceResult<User> serviceResult =
                     await
                     _serviceCaller.Call<User>(
-                        serviceName: "authorization.getuser",
+                        serviceName: getUserEndpoint,
                         postData: null,
                         queryParameters: new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("token", headerToken) },
                         cancellationToken: cancellationToken);
