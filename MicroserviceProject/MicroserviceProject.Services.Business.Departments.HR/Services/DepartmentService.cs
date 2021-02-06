@@ -20,8 +20,13 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
     /// <summary>
     /// Departman işlemleri iş mantığı sınıfı
     /// </summary>
-    public class DepartmentService
+    public class DepartmentService : IDisposable
     {
+        /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
         /// <summary>
         /// Önbelleğe alınan departmanların önbellekteki adı
         /// </summary>
@@ -121,6 +126,33 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
             }
 
             return createdDepartmentId;
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
+        public void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (!disposed)
+                {
+                    _cacheDataProvider.Dispose();
+                    _departmentRepository.Dispose();
+                    _unitOfWork.Dispose();
+                }
+
+                disposed = true;
+            }
         }
     }
 }

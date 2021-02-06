@@ -13,8 +13,13 @@ namespace MicroserviceProject.Infrastructure.Caching.Redis
     /// <summary>
     /// Rediste tutulan önbellek yönetimini sağlar
     /// </summary>
-    public class CacheDataProvider
+    public class CacheDataProvider : IDisposable
     {
+        /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
         /// <summary>
         /// Yapılandırma ayarları için configuration nesnesi
         /// </summary>
@@ -155,6 +160,31 @@ namespace MicroserviceProject.Infrastructure.Caching.Redis
             {
                 item = default(T);
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
+        public void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (!disposed)
+                {
+                    
+                }
+
+                disposed = true;
             }
         }
     }

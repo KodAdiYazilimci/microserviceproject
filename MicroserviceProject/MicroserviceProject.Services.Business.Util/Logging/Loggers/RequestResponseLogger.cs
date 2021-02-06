@@ -7,6 +7,7 @@ using MicroserviceProject.Services.Business.Configuration.Logging;
 
 using Microsoft.Extensions.Configuration;
 
+using System;
 using System.Collections.Generic;
 
 namespace MicroserviceProject.Services.Business.Util.Logging.Loggers
@@ -14,8 +15,13 @@ namespace MicroserviceProject.Services.Business.Util.Logging.Loggers
     /// <summary>
     /// Request-response loglarını yazan sınıf
     /// </summary>
-    public class RequestResponseLogger
+    public class RequestResponseLogger : IDisposable
     {
+        /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
         /// <summary>
         /// Log yazma işlemlerini yürütecek yönetici
         /// </summary>
@@ -42,6 +48,31 @@ namespace MicroserviceProject.Services.Business.Util.Logging.Loggers
             loggers.Add(jsonFileLogger);
 
             _logManager = new LogManager<RequestResponseLogModel>(loggers);
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
+        public void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (!disposed)
+                {
+                    _logManager.Dispose();
+                }
+
+                disposed = true;
+            }
         }
 
         /// <summary>

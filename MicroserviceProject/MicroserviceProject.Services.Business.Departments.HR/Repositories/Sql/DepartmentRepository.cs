@@ -15,8 +15,13 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
     /// <summary>
     /// Departman tablosu için repository sınıfı
     /// </summary>
-    public class DepartmentRepository : BaseRepository
+    public class DepartmentRepository : BaseRepository, IDisposable
     {
+        /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
         /// <summary>
         /// Departman tablosu için repository sınıfı
         /// </summary>
@@ -86,6 +91,31 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
             sqlCommand.Parameters.AddWithValue("@NAME", ((object)department.Name) ?? DBNull.Value);
 
             return (int)await sqlCommand.ExecuteScalarAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
+        public void Dispose(bool disposing)
+        {
+            if (disposed)
+            {
+                if (!disposed)
+                {
+                    UnitOfWork.Dispose();
+                }
+
+                disposed = true;
+            }
         }
     }
 }
