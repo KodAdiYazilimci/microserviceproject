@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Persistence.ServiceRoutes.Sql.Repositories;
 
-using MicroserviceProject.Services.Business.Departments.HR.Repositories;
+using MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

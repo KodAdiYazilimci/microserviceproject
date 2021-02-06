@@ -1,5 +1,5 @@
-﻿using MicroserviceProject.Services.Business.Departments.HR.Util.UnitOfWork;
-using MicroserviceProject.Services.Business.Departments.Model.Department.HR;
+﻿using MicroserviceProject.Services.Business.Departments.HR.Entities.Sql;
+using MicroserviceProject.Services.Business.Departments.HR.Util.UnitOfWork;
 
 using Microsoft.Extensions.Configuration;
 
@@ -10,21 +10,36 @@ using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MicroserviceProject.Services.Business.Departments.HR.Repositories
+namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
 {
+    /// <summary>
+    /// Departman tablosu için repository sınıfı
+    /// </summary>
     public class DepartmentRepository : BaseRepository
     {
+        /// <summary>
+        /// Repository yapılandırmaları için configuration nesnesi
+        /// </summary>
         private readonly IConfiguration _configuration;
 
+        /// <summary>
+        /// Departman tablosu için repository sınıfı
+        /// </summary>
+        /// <param name="configuration">Repository yapılandırmaları için configuration nesnesi</param>
         public DepartmentRepository(IConfiguration configuration)
             : base(configuration)
         {
             _configuration = configuration;
         }
 
-        public async Task<List<DepartmentModel>> GetDepartmentsAsync(CancellationToken cancellationToken)
+        /// <summary>
+        /// Departmanların listesini verir
+        /// </summary>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<List<DepartmentEntity>> GetDepartmentsAsync(CancellationToken cancellationToken)
         {
-            List<DepartmentModel> departments = new List<DepartmentModel>();
+            List<DepartmentEntity> departments = new List<DepartmentEntity>();
 
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
             {
@@ -51,7 +66,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories
                     {
                         while (await sqlDataReader.ReadAsync(cancellationToken))
                         {
-                            DepartmentModel department = new DepartmentModel();
+                            DepartmentEntity department = new DepartmentEntity();
 
                             department.Id = sqlDataReader.GetInt32("ID");
                             department.Name = sqlDataReader.GetString("NAME");
@@ -81,7 +96,13 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories
             return departments;
         }
 
-        public async Task CreateDepartmentAsync(DepartmentModel department, CancellationToken cancellationToken)
+        /// <summary>
+        /// Yeni departman oluşturur
+        /// </summary>
+        /// <param name="department">Oluşturulacak departman nesnesi</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task CreateDepartmentAsync(DepartmentEntity department, CancellationToken cancellationToken)
         {
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
             using (UnitOfWork unitOfWork = new UnitOfWork(sqlConnection))

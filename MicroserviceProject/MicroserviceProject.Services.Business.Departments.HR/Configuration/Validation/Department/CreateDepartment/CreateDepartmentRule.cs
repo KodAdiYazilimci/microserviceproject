@@ -9,6 +9,9 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Configuration.Val
     /// </summary>
     public class CreateDepartmentRule : AbstractValidator<DepartmentModel>
     {
+        /// <summary>
+        /// Department/CreateDepartment Http endpoint için validasyon kuralı
+        /// </summary>
         public CreateDepartmentRule()
         {
             RuleFor(x => x.Name).NotEmpty().WithMessage("Departman adı boş geçilemez");
