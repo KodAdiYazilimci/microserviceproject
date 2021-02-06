@@ -5,7 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\MicroserviceProject.Infrastructure.Communication.Moderator\MicroserviceProject.Infrastructure.Communication.Moderator.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Infrastructure.Logging.File\MicroserviceProject.Infrastructure.Logging.File.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Infrastructure.Logging.RabbitMq\MicroserviceProject.Infrastructure.Logging.RabbitMq.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication\MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Services.Business.Departments.Model\MicroserviceProject.Services.Business.Departments.Model.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="9.5.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.0.0" />
   </ItemGroup>
 
 </Project>

@@ -1,15 +1,18 @@
+using MicroserviceProject.Infrastructure.Communication.Model.Basics;
+using MicroserviceProject.Infrastructure.Communication.Model.Errors;
+using MicroserviceProject.Services.Business.Departments.HR.Configuration.Services;
+
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
+
+using System.Net;
 
 namespace MicroserviceProject.Services.Business.Departments.HR
 {
@@ -25,8 +28,16 @@ namespace MicroserviceProject.Services.Business.Departments.HR
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
+            services.AddMemoryCache();
+            services.RegisterAuthentication();
+            services.RegisterBusinessServices();
+            services.RegisterCredentialProvider();
+            services.RegisterLogger();
+            services.RegisterRouteProvider();
+            services.RegisterRepositories(Configuration);
+            services.RegisterServiceCommunicator();
+            services.RegisterSwagger();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -37,13 +48,40 @@ namespace MicroserviceProject.Services.Business.Departments.HR
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseExceptionHandler(handler =>
+            {
+                handler.Run(async context =>
+                {
+                    context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    context.Response.ContentType = "application/json";
+                    await
+                    context.Response.WriteAsync(JsonConvert.SerializeObject(new ServiceResult()
+                    {
+                        IsSuccess = false,
+                        Error = new Error()
+                        {
+                            Description = context.Features.Get<IExceptionHandlerPathFeature>().Error.Message
+                        }
+                    }));
+                });
+            });
+
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseMiddleware<Middleware>();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/CoreSwagger/swagger.json", "CoreSwagger");
             });
         }
     }
