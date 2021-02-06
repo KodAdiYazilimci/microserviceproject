@@ -32,6 +32,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR
             services.AddMemoryCache();
             services.RegisterAuthentication();
             services.RegisterBusinessServices();
+            services.RegisterCaching();
             services.RegisterCredentialProvider();
             services.RegisterLogger();
             services.RegisterMappings();

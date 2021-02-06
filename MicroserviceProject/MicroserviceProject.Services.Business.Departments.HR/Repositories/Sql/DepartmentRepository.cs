@@ -102,8 +102,10 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
         /// <param name="department">Oluşturulacak departman nesnesi</param>
         /// <param name="cancellationToken">İptal tokenı</param>
         /// <returns></returns>
-        public async Task CreateDepartmentAsync(DepartmentEntity department, CancellationToken cancellationToken)
+        public async Task<int> CreateDepartmentAsync(DepartmentEntity department, CancellationToken cancellationToken)
         {
+            int generatedId = 0;
+
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
             using (UnitOfWork unitOfWork = new UnitOfWork(sqlConnection))
             {
@@ -111,16 +113,21 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
                                                          INSERT INTO [DEPARTMENTS].[HR]
                                                          ([NAME])
                                                          VALUES
-                                                         (@NAME)", sqlConnection, unitOfWork.SqlTransaction);
+                                                         (@NAME);
+                                                         SELECT CAST(scope_identity() AS int)",
+                                                         sqlConnection,
+                                                         unitOfWork.SqlTransaction);
 
                 sqlCommand.Transaction = unitOfWork.SqlTransaction;
 
                 sqlCommand.Parameters.AddWithValue("@NAME", ((object)department.Name) ?? DBNull.Value);
 
-                await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
+                generatedId = (int)await sqlCommand.ExecuteScalarAsync(cancellationToken);
 
                 await unitOfWork.SaveAsync(cancellationToken);
             };
+
+            return generatedId;
         }
     }
 }

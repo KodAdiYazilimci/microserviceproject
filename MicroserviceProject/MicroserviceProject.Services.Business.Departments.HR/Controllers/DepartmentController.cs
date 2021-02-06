@@ -61,7 +61,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Controllers
         {
             try
             {
-                ServiceResult validationResult = 
+                ServiceResult validationResult =
                     await CreateDepartmentValidator.ValidateAsync(department, cancellationToken);
 
                 if (!validationResult.IsSuccess)
@@ -69,11 +69,12 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Controllers
                     return BadRequest(validationResult);
                 }
 
-                await _departmentService.CreateDepartmentAsync(department, cancellationToken);
+                int generatedId = await _departmentService.CreateDepartmentAsync(department, cancellationToken);
 
-                ServiceResult serviceResult = new ServiceResult()
+                ServiceResult<int> serviceResult = new ServiceResult<int>()
                 {
-                    IsSuccess = true
+                    IsSuccess = true,
+                    Data = generatedId
                 };
 
                 return Ok(serviceResult);
