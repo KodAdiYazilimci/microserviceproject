@@ -1,6 +1,7 @@
 using MicroserviceProject.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Infrastructure.Communication.Model.Errors;
-using MicroserviceProject.Services.Business.Departments.HR.Configuration.Services;
+using MicroserviceProject.Services.Business.Departments.HR.DI;
+using MicroserviceProject.Services.Business.DI;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;

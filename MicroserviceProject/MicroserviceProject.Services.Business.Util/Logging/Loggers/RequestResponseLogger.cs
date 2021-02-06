@@ -3,13 +3,13 @@ using MicroserviceProject.Infrastructure.Logging.File.Loggers;
 using MicroserviceProject.Infrastructure.Logging.Managers;
 using MicroserviceProject.Infrastructure.Logging.Model;
 using MicroserviceProject.Infrastructure.Logging.RabbitMq.Producers;
-using MicroserviceProject.Services.Business.Departments.HR.Configuration.Services;
+using MicroserviceProject.Services.Business.Configuration.Logging;
 
 using Microsoft.Extensions.Configuration;
 
 using System.Collections.Generic;
 
-namespace MicroserviceProject.Services.Business.Departments.HR.Util.Logging.Loggers
+namespace MicroserviceProject.Services.Business.Util.Logging.Loggers
 {
     /// <summary>
     /// Request-response loglarını yazan sınıf

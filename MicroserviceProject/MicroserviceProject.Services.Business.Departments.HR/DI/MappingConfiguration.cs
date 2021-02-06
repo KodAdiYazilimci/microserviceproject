@@ -4,7 +4,7 @@ using MicroserviceProject.Services.Business.Departments.HR.Configuration.Mapping
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace MicroserviceProject.Services.Business.Departments.HR.Configuration.Services
+namespace MicroserviceProject.Services.Business.Departments.HR.DI
 {
     /// <summary>
     /// Mapping için DI sınıfı

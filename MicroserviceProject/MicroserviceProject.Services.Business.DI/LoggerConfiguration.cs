@@ -1,8 +1,9 @@
-﻿using MicroserviceProject.Services.Business.Departments.HR.Util.Logging.Loggers;
+﻿
+using MicroserviceProject.Services.Business.Util.Logging.Loggers;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace MicroserviceProject.Services.Business.Departments.HR.Configuration.Services
+namespace MicroserviceProject.Services.Business.DI
 {
     /// <summary>
     /// Loggerların DI sınıfı

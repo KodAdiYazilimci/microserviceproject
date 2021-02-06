@@ -5,25 +5,23 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Configuration\Services\MappingConfiguration.cs~RFc676221.TMP" />
+    <None Remove="DI\MappingConfiguration.cs~RFc676221.TMP" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MicroserviceProject.Infrastructure.Caching.Redis\MicroserviceProject.Infrastructure.Caching.Redis.csproj" />
-    <ProjectReference Include="..\MicroserviceProject.Infrastructure.Communication.Moderator\MicroserviceProject.Infrastructure.Communication.Moderator.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Infrastructure.Logging.File\MicroserviceProject.Infrastructure.Logging.File.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Infrastructure.Logging.RabbitMq\MicroserviceProject.Infrastructure.Logging.RabbitMq.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication\MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Services.Business.DI\MicroserviceProject.Services.Business.DI.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Services.Business.Model\MicroserviceProject.Services.Business.Model.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Services.Business.Util\MicroserviceProject.Services.Business.Util.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="FluentValidation" Version="9.5.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.0.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.0.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.0.0" />
   </ItemGroup>
 
 </Project>

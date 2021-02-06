@@ -2,7 +2,7 @@
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace MicroserviceProject.Services.Business.Departments.HR.Configuration.Services
+namespace MicroserviceProject.Services.Business.DI
 {
     /// <summary>
     /// Servis iletişim sağlayıcı DI sınıfı

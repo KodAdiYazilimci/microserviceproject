@@ -5,7 +5,7 @@ using MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace MicroserviceProject.Services.Business.Departments.HR.Configuration.Services
+namespace MicroserviceProject.Services.Business.Departments.HR.DI
 {
     /// <summary>
     /// Repository DI sınıfı
