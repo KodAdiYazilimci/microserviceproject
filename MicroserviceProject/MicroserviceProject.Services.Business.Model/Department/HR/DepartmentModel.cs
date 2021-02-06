@@ -1,4 +1,4 @@
-﻿namespace MicroserviceProject.Services.Business.Departments.Model.Department.HR
+﻿namespace MicroserviceProject.Services.Business.Model.Department.HR
 {
     public class DepartmentModel
     {
