@@ -5,19 +5,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="DI\MappingConfiguration.cs~RFc676221.TMP" />
+    <Folder Include="Controllers\" />
+    <Folder Include="Configuration\" />
+    <Folder Include="DI\" />
+    <Folder Include="Entities\" />
+    <Folder Include="Repositories\" />
+    <Folder Include="Services\" />
+    <Folder Include="Util\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MicroserviceProject.Services.Business.DI\MicroserviceProject.Services.Business.DI.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Services.Business.Model\MicroserviceProject.Services.Business.Model.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Services.Business.Util\MicroserviceProject.Services.Business.Util.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="10.1.1" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
-    <PackageReference Include="FluentValidation" Version="9.5.0" />
   </ItemGroup>
 
 </Project>
