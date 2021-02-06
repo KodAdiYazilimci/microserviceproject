@@ -1,13 +1,12 @@
-﻿using MicroserviceProject.Services.Business.Departments.Model.Department.HR;
+﻿using MicroserviceProject.Services.Business.Departments.HR.Util.UnitOfWork;
+using MicroserviceProject.Services.Business.Departments.Model.Department.HR;
 
 using Microsoft.Extensions.Configuration;
 
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -85,50 +84,21 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories
         public async Task CreateDepartmentAsync(DepartmentModel department, CancellationToken cancellationToken)
         {
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
+            using (UnitOfWork unitOfWork = new UnitOfWork(sqlConnection))
             {
-                Exception exception = null;
-                SqlTransaction sqlTransaction = null;
+                SqlCommand sqlCommand = new SqlCommand(@"
+                                                         INSERT INTO [DEPARTMENTS].[HR]
+                                                         ([NAME])
+                                                         VALUES
+                                                         (@NAME)", sqlConnection, unitOfWork.SqlTransaction);
 
-                try
-                {
-                    if (sqlConnection.State != ConnectionState.Open)
-                    {
-                        await sqlConnection.OpenAsync(cancellationToken);
-                    }
+                sqlCommand.Transaction = unitOfWork.SqlTransaction;
 
-                    sqlTransaction = (SqlTransaction)await sqlConnection.BeginTransactionAsync(cancellationToken);
+                sqlCommand.Parameters.AddWithValue("@NAME", ((object)department.Name) ?? DBNull.Value);
 
-                    SqlCommand sqlCommand = new SqlCommand(@"
-                                                            INSERT INTO [DEPARTMENTS].[HR]
-                                                            ([NAME])
-                                                            VALUES
-                                                            (@NAME)", sqlConnection, sqlTransaction);
-                    sqlCommand.Transaction = sqlTransaction;
+                await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
 
-                    sqlCommand.Parameters.AddWithValue("@NAME", ((object)department.Name) ?? DBNull.Value);
-
-                    await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
-
-                    await sqlTransaction.CommitAsync(cancellationToken);
-                }
-                catch (Exception ex)
-                {
-                    exception = ex;
-
-                    await sqlTransaction?.RollbackAsync(cancellationToken);
-                }
-                finally
-                {
-                    if (sqlConnection.State != ConnectionState.Closed)
-                    {
-                        await sqlConnection.CloseAsync();
-                    }
-                }
-
-                if (exception != null)
-                {
-                    throw exception;
-                }
+                await unitOfWork.SaveAsync(cancellationToken);
             };
         }
     }
