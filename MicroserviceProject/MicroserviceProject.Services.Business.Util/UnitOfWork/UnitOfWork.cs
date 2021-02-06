@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+
+using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading;
@@ -12,42 +14,80 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Util.UnitOfWork
     public class UnitOfWork : IUnitOfWork, IDisposable
     {
         /// <summary>
-        /// Veritabanı bağlantı nesnesi
-        /// </summary>
-        private SqlConnection _sqlConnection;
-
-        /// <summary>
-        /// Sql bütünlük yönetiminden sorumlu transaction nesnesi
-        /// </summary>
-        private SqlTransaction _sqlTransaction;
-
-        /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
         private bool disposed = false;
 
         /// <summary>
-        /// Ms SQL veritabanı işlemleri transaction için iş birimi sınıfı
+        /// Repository yapılandırmaları için configuration nesnesi
         /// </summary>
-        /// <param name="sqlConnection">Veritabanı bağlantı nesnesi</param>
-        public UnitOfWork(SqlConnection sqlConnection)
+        private readonly IConfiguration _configuration;
+
+        /// <summary>
+        /// Repository sınıflarda kullanılacak veritabanı bağlantı cümlesi
+        /// </summary>
+        private string ConnectionString
         {
-            _sqlConnection = sqlConnection;
-
-            if (sqlConnection.State != ConnectionState.Open)
+            get
             {
-                _sqlConnection.Open();
+                return _configuration
+                    .GetSection("Persistence")
+                    .GetSection("DataSource").Value;
             }
-
-            _sqlTransaction = _sqlConnection.BeginTransaction();
         }
+
+        /// <summary>
+        /// Veritabanı bağlantı nesnesi
+        /// </summary>
+        private SqlConnection sqlConnection;
+
+        /// <summary>
+        /// Veritabanı bağlantı nesnesi
+        /// </summary>
+        public SqlConnection SqlConnection
+        {
+            get
+            {
+                if (sqlConnection == null)
+                    sqlConnection = new SqlConnection(ConnectionString);
+
+                return sqlConnection;
+            }
+        }
+
+        /// <summary>
+        /// Sql bütünlük yönetiminden sorumlu transaction nesnesi
+        /// </summary>
+        private SqlTransaction sqlTransaction;
 
         /// <summary>
         /// Sql bütünlük yönetiminden sorumlu transaction nesnesi
         /// </summary>
         public SqlTransaction SqlTransaction
         {
-            get { return _sqlTransaction; }
+            get
+            {
+                if (sqlTransaction == null)
+                {
+                    if (SqlConnection.State != ConnectionState.Open)
+                    {
+                        SqlConnection.Open();
+                    }
+
+                    sqlTransaction = SqlConnection.BeginTransaction();
+                }
+
+                return sqlTransaction;
+            }
+        }
+
+        /// <summary>
+        /// Ms SQL veritabanı işlemleri transaction için iş birimi sınıfı
+        /// </summary>
+        /// <param name="configuration">Repository yapılandırmaları için configuration nesnesi</param>
+        public UnitOfWork(IConfiguration configuration)
+        {
+            _configuration = configuration;
         }
 
         /// <summary>
@@ -68,16 +108,14 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Util.UnitOfWork
             {
                 if (!disposed)
                 {
-                    if (_sqlConnection.State != ConnectionState.Closed)
+                    if (SqlConnection.State != ConnectionState.Closed)
                     {
-                        _sqlConnection.Close();
+                        SqlConnection.Close();
                     }
 
-                    _sqlTransaction.Dispose();
-                    _sqlTransaction = null;
+                    SqlTransaction.Dispose();
 
-                    _sqlConnection.Dispose();
-                    _sqlConnection = null;
+                    SqlConnection.Dispose();
                 }
 
                 disposed = true;
@@ -95,7 +133,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Util.UnitOfWork
 
             try
             {
-                await _sqlTransaction.CommitAsync(cancellationToken);
+                await SqlTransaction.CommitAsync(cancellationToken);
             }
             catch (Exception ex)
             {
@@ -103,9 +141,9 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Util.UnitOfWork
             }
             finally
             {
-                if (_sqlConnection.State != ConnectionState.Closed)
+                if (SqlConnection.State != ConnectionState.Closed)
                 {
-                    await _sqlConnection.CloseAsync();
+                    await SqlConnection.CloseAsync();
                 }
             }
 

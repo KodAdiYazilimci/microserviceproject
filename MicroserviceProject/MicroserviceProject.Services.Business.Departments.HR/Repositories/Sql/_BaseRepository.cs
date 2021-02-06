@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using MicroserviceProject.Services.Business.Departments.HR.Util.UnitOfWork;
 
 namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
 {
@@ -8,30 +8,17 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
     public class BaseRepository
     {
         /// <summary>
-        /// Repository yapılandırmaları için configuration nesnesi
+        /// Veritabanı işlemlerini kapsayan iş birimi nesnesi
         /// </summary>
-        private readonly IConfiguration _configuration;
+        protected readonly IUnitOfWork UnitOfWork;
 
         /// <summary>
         /// Repository sınıfları için temel sınıf
         /// </summary>
-        /// <param name="configuration">Repository yapılandırmaları için configuration nesnesi</param>
-        public BaseRepository(IConfiguration configuration)
+        /// <param name="configuration">Veritabanı işlemlerini kapsayan iş birimi nesnesi</param>
+        public BaseRepository(IUnitOfWork unitOfWork)
         {
-            _configuration = configuration;
-        }
-
-        /// <summary>
-        /// Repository sınıflarda kullanılacak veritabanı bağlantı cümlesi
-        /// </summary>
-        protected string ConnectionString
-        {
-            get
-            {
-                return _configuration
-                    .GetSection("Persistence")
-                    .GetSection("DataSource").Value;
-            }
+            UnitOfWork = unitOfWork;
         }
     }
 }

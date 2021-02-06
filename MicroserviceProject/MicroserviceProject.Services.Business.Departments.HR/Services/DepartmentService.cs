@@ -3,7 +3,10 @@
 using MicroserviceProject.Infrastructure.Caching.Redis;
 using MicroserviceProject.Services.Business.Departments.HR.Entities.Sql;
 using MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql;
+using MicroserviceProject.Services.Business.Departments.HR.Util.UnitOfWork;
 using MicroserviceProject.Services.Business.Model.Department.HR;
+
+using Microsoft.Extensions.Configuration;
 
 using System;
 using System.Collections.Generic;
@@ -40,18 +43,27 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
         private readonly DepartmentRepository _departmentRepository;
 
         /// <summary>
+        /// Veritabanı iş birimi nesnesi
+        /// </summary>
+        private readonly IUnitOfWork _unitOfWork;
+
+        /// <summary>
         /// Departman işlemleri iş mantığı sınıfı
         /// </summary>
         /// <param name="mapper">Mapping işlemleri için mapper nesnesi</param>
+        /// <param name="unitOfWork">Veritabanı iş birimi nesnesi</param>
+        /// <param name="cacheDataProvider">Rediste tutulan önbellek yönetimini sağlayan sınıf</param>
         /// <param name="departmentRepository">Departman tablosu için repository sınıfı</param>
         public DepartmentService(
             IMapper mapper,
+            IUnitOfWork unitOfWork,
             CacheDataProvider cacheDataProvider,
             DepartmentRepository departmentRepository)
         {
-            _cacheDataProvider = cacheDataProvider;
             _mapper = mapper;
+            _cacheDataProvider = cacheDataProvider;
             _departmentRepository = departmentRepository;
+            _unitOfWork = unitOfWork;
         }
 
         /// <summary>
@@ -61,11 +73,9 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
         /// <returns></returns>
         public async Task<List<DepartmentModel>> GetDepartmentsAsync(CancellationToken cancellationToken)
         {
-            if (_cacheDataProvider.TryGetValue(
-                CACHED_DEPARTMENTS_KEY, 
-                out List<DepartmentModel> cachedDepartments) 
+            if (_cacheDataProvider.TryGetValue(CACHED_DEPARTMENTS_KEY, out List<DepartmentModel> cachedDepartments)
                 &&
-                cachedDepartments!=null && cachedDepartments.Any())
+                cachedDepartments != null && cachedDepartments.Any())
             {
                 return cachedDepartments;
             }
@@ -75,7 +85,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
             List<DepartmentModel> mappedDepartments =
                 _mapper.Map<List<DepartmentEntity>, List<DepartmentModel>>(departments);
 
-            _cacheDataProvider.Set(CACHED_DEPARTMENTS_KEY, departments);
+            _cacheDataProvider.Set(CACHED_DEPARTMENTS_KEY, mappedDepartments);
 
             return mappedDepartments;
         }
@@ -91,6 +101,8 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
             DepartmentEntity mappedDepartment = _mapper.Map<DepartmentModel, DepartmentEntity>(department);
 
             int createdDepartmentId = await _departmentRepository.CreateDepartmentAsync(mappedDepartment, cancellationToken);
+
+            await _unitOfWork.SaveAsync(cancellationToken);
 
             department.Id = createdDepartmentId;
 

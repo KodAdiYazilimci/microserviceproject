@@ -15,6 +15,11 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Util.UnitOfWork
         SqlTransaction SqlTransaction { get; }
 
         /// <summary>
+        /// Veritabanı bağlantı nesnesi
+        /// </summary>
+        SqlConnection SqlConnection { get; }
+
+        /// <summary>
         /// Veritabanı işlem bütünlüğünü çalıştırır
         /// </summary>
         /// <param name="cancellationToken">İptal tokenı</param>

@@ -40,6 +40,7 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting
             //services.RegisterRepositories(Configuration);
             services.RegisterServiceCommunicator();
             services.RegisterSwagger();
+            services.RegisterUnitOfWork();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
