@@ -40,6 +40,7 @@ namespace SampleSourceService.Controllers
                 queryParameters: new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("number", "3") },
                 cancellationToken: cancellationTokenSource.Token);
 
+
             result = await _serviceCommunicator.Call<SampleModel>(
                 serviceName: _routeProvider.SampleDataProvider_PostData,
                 postData: new SampleModel() { Id = 2, Name = "test 2" },

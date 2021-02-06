@@ -67,7 +67,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrast
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrastructure.Persistence.Logging.Sql", "MicroserviceProject.Infrastructure.Persistence.Logging.Sql\MicroserviceProject.Infrastructure.Persistence.Logging.Sql.csproj", "{AE2CA920-EDAD-4E2F-BBA1-49F6ECDE23F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Infrastructure.Persistence.ServiceRoutes.Sql", "MicroserviceProject.Infrastructure.Persistence.ServiceRoutes.Sql\MicroserviceProject.Infrastructure.Persistence.ServiceRoutes.Sql.csproj", "{D6A7E796-2E24-4917-997E-E3B77415B7B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrastructure.Persistence.ServiceRoutes.Sql", "MicroserviceProject.Infrastructure.Persistence.ServiceRoutes.Sql\MicroserviceProject.Infrastructure.Persistence.ServiceRoutes.Sql.csproj", "{D6A7E796-2E24-4917-997E-E3B77415B7B0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services.Business.Departments", "Services.Business.Departments", "{9F4C005C-2FF8-4430-8D84-1A7721EEA920}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Services.Business.Departments.HR", "MicroserviceProject.Services.Business.Departments.HR\MicroserviceProject.Services.Business.Departments.HR.csproj", "{C1FDEAB3-B2A2-4D90-A0FF-B4B25C2C6728}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{E02EC0E8-179F-4E07-A44C-F43CBE4B8D33}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -159,6 +165,10 @@ Global
 		{D6A7E796-2E24-4917-997E-E3B77415B7B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6A7E796-2E24-4917-997E-E3B77415B7B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6A7E796-2E24-4917-997E-E3B77415B7B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1FDEAB3-B2A2-4D90-A0FF-B4B25C2C6728}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1FDEAB3-B2A2-4D90-A0FF-B4B25C2C6728}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1FDEAB3-B2A2-4D90-A0FF-B4B25C2C6728}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1FDEAB3-B2A2-4D90-A0FF-B4B25C2C6728}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -185,6 +195,7 @@ Global
 		{96004AFA-4B52-48A0-9ABE-8FDE77C522C9} = {2FA72A9D-33B2-4392-8FE4-EE7FA6D9F147}
 		{AE2CA920-EDAD-4E2F-BBA1-49F6ECDE23F6} = {A46D95B0-ECBB-47A0-BD3D-88E934F7E002}
 		{D6A7E796-2E24-4917-997E-E3B77415B7B0} = {A46D95B0-ECBB-47A0-BD3D-88E934F7E002}
+		{C1FDEAB3-B2A2-4D90-A0FF-B4B25C2C6728} = {9F4C005C-2FF8-4430-8D84-1A7721EEA920}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C136217B-3CA6-4AEC-95E4-D62936481A67}

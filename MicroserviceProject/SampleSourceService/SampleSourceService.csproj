@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Util\Communication\" />
+    <Folder Include="Util\" />
   </ItemGroup>
 
 </Project>
