@@ -15,9 +15,9 @@ using System.Threading.Tasks;
 namespace MicroserviceProject.Services.Business.Departments.HR.Services
 {
     /// <summary>
-    /// Departman işlemleri iş mantığı sınıfı
+    /// Kişi işlemleri iş mantığı sınıfı
     /// </summary>
-    public class DepartmentService : IDisposable
+    public class PersonService : IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -25,9 +25,9 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
         private bool disposed = false;
 
         /// <summary>
-        /// Önbelleğe alınan departmanların önbellekteki adı
+        /// Önbelleğe alınan kişilerin önbellekteki adı
         /// </summary>
-        private const string CACHED_DEPARTMENTS_KEY = "MicroserviceProject.Services.Business.Departments.HR.Departments";
+        private const string CACHED_PEOPLE_KEY = "MicroserviceProject.Services.Business.Departments.HR.People";
 
         /// <summary>
         /// Rediste tutulan önbellek yönetimini sağlayan sınıf
@@ -40,9 +40,9 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Departman tablosu için repository sınıfı
+        /// Kişi tablosu için repository sınıfı
         /// </summary>
-        private readonly DepartmentRepository _departmentRepository;
+        private readonly PersonRepository _personRepository;
 
         /// <summary>
         /// Veritabanı iş birimi nesnesi
@@ -50,79 +50,79 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
         private readonly IUnitOfWork _unitOfWork;
 
         /// <summary>
-        /// Departman işlemleri iş mantığı sınıfı
+        /// Kişi işlemleri iş mantığı sınıfı
         /// </summary>
         /// <param name="mapper">Mapping işlemleri için mapper nesnesi</param>
         /// <param name="unitOfWork">Veritabanı iş birimi nesnesi</param>
         /// <param name="cacheDataProvider">Rediste tutulan önbellek yönetimini sağlayan sınıf</param>
-        /// <param name="departmentRepository">Departman tablosu için repository sınıfı</param>
-        public DepartmentService(
+        /// <param name="personRepository">Kişi tablosu için repository sınıfı</param>
+        public PersonService(
             IMapper mapper,
             IUnitOfWork unitOfWork,
             CacheDataProvider cacheDataProvider,
-            DepartmentRepository departmentRepository)
+            PersonRepository personRepository)
         {
             _mapper = mapper;
             _cacheDataProvider = cacheDataProvider;
-            _departmentRepository = departmentRepository;
+            _personRepository = personRepository;
             _unitOfWork = unitOfWork;
         }
 
         /// <summary>
-        /// Departmanların listesini verir
+        /// Kişilerin listesini verir
         /// </summary>
-        /// <param name="cancellationToken">ptal tokenı</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<List<DepartmentModel>> GetDepartmentsAsync(CancellationToken cancellationToken)
+        public async Task<List<PersonModel>> GetPeopleAsync(CancellationToken cancellationToken)
         {
-            if (_cacheDataProvider.TryGetValue(CACHED_DEPARTMENTS_KEY, out List<DepartmentModel> cachedDepartments)
+            if (_cacheDataProvider.TryGetValue(CACHED_PEOPLE_KEY, out List<PersonModel> cachedPeople)
                 &&
-                cachedDepartments != null && cachedDepartments.Any())
+                cachedPeople != null && cachedPeople.Any())
             {
-                return cachedDepartments;
+                return cachedPeople;
             }
 
-            List<DepartmentEntity> departments = await _departmentRepository.GetDepartmentsAsync(cancellationToken);
+            List<PersonEntity> people = await _personRepository.GetPeopleAsync(cancellationToken);
 
-            List<DepartmentModel> mappedDepartments =
-                _mapper.Map<List<DepartmentEntity>, List<DepartmentModel>>(departments);
+            List<PersonModel> mappedPeople =
+                _mapper.Map<List<PersonEntity>, List<PersonModel>>(people);
 
-            _cacheDataProvider.Set(CACHED_DEPARTMENTS_KEY, mappedDepartments);
+            _cacheDataProvider.Set(CACHED_PEOPLE_KEY, mappedPeople);
 
-            return mappedDepartments;
+            return mappedPeople;
         }
 
         /// <summary>
-        /// Yeni departman oluşturur
+        /// Yeni kişi oluşturur
         /// </summary>
-        /// <param name="department">Oluşturulacak departman nesnesi</param>
+        /// <param name="person">Oluşturulacak kişi nesnesi</param>
         /// <param name="cancellationToken">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<int> CreateDepartmentAsync(DepartmentModel department, CancellationToken cancellationToken)
+        public async Task<int> CreatePersonAsync(PersonModel person, CancellationToken cancellationToken)
         {
-            DepartmentEntity mappedDepartment = _mapper.Map<DepartmentModel, DepartmentEntity>(department);
+            PersonEntity mappedPerson = _mapper.Map<PersonModel, PersonEntity>(person);
 
-            int createdDepartmentId = await _departmentRepository.CreateDepartmentAsync(mappedDepartment, cancellationToken);
+            int createdPersonId = await _personRepository.CreatePersonAsync(mappedPerson, cancellationToken);
 
             await _unitOfWork.SaveAsync(cancellationToken);
 
-            department.Id = createdDepartmentId;
+            person.Id = createdPersonId;
 
-            if (_cacheDataProvider.TryGetValue(CACHED_DEPARTMENTS_KEY, out List<DepartmentModel> cachedDepartments))
+            if (_cacheDataProvider.TryGetValue(CACHED_PEOPLE_KEY, out List<PersonModel> cachedPeople))
             {
-                cachedDepartments.Add(department);
-                _cacheDataProvider.Set(CACHED_DEPARTMENTS_KEY, cachedDepartments);
+                cachedPeople.Add(person);
+                _cacheDataProvider.Set(CACHED_PEOPLE_KEY, cachedPeople);
             }
             else
             {
-                List<DepartmentModel> departments = await GetDepartmentsAsync(cancellationToken);
+                List<PersonModel> people = await GetPeopleAsync(cancellationToken);
 
-                departments.Add(department);
+                people.Add(person);
 
-                _cacheDataProvider.Set(CACHED_DEPARTMENTS_KEY, departments);
+                _cacheDataProvider.Set(CACHED_PEOPLE_KEY, people);
             }
 
-            return createdDepartmentId;
+            return createdPersonId;
         }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                 if (!disposed)
                 {
                     _cacheDataProvider.Dispose();
-                    _departmentRepository.Dispose();
+                    _personRepository.Dispose();
                     _unitOfWork.Dispose();
                 }
 

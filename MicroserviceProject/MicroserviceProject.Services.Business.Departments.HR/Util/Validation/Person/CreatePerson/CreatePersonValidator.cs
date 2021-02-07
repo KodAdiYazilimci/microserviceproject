@@ -3,7 +3,7 @@
 using MicroserviceProject.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Infrastructure.Communication.Model.Errors;
 using MicroserviceProject.Infrastructure.Communication.Model.Validations;
-using MicroserviceProject.Services.Business.Departments.HR.Configuration.Validation.Department.CreateDepartment;
+using MicroserviceProject.Services.Business.Departments.HR.Configuration.Validation.Person.CreatePerson;
 using MicroserviceProject.Services.Business.Model.Department.HR;
 
 using System.Collections.Generic;
@@ -11,26 +11,26 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MicroserviceProject.Services.Business.Departments.HR.Util.Validation.Department.CreateDepartment
+namespace MicroserviceProject.Services.Business.Departments.HR.Util.Validation.Person.CreatePerson
 {
     /// <summary>
-    /// Department/CreateDepartment Http endpoint için validasyon kuralını doğrulayan sınıf
+    /// Person/CreatePerson Http endpoint için validasyon kuralını doğrulayan sınıf
     /// </summary>
-    public class CreateDepartmentValidator
+    public class CreatePersonValidator
     {
         /// <summary>
         /// Request body doğrular
         /// </summary>
-        /// <param name="department">Doğrulanacak nesne</param>
+        /// <param name="person">Doğrulanacak nesne</param>
         /// <param name="cancellationToken">İptal tokenı</param>
         /// <returns></returns>
-        public static async Task<ServiceResult> ValidateAsync(DepartmentModel department, CancellationToken cancellationToken)
+        public static async Task<ServiceResult> ValidateAsync(PersonModel person, CancellationToken cancellationToken)
         {
             CreatePersonRule validationRules = new CreatePersonRule();
 
-            if (department != null)
+            if (person != null)
             {
-                ValidationResult validationResult = await validationRules.ValidateAsync(department, cancellationToken);
+                ValidationResult validationResult = await validationRules.ValidateAsync(person, cancellationToken);
 
                 if (!validationResult.IsValid)
                 {
