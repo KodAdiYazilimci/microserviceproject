@@ -24,6 +24,10 @@ namespace MicroserviceProject.Services.Business.Departments.HR.DI
                 new ServiceRouteRepository(GetServiceRouteRepositoryConnectionString(configuration)));
 
             services.AddScoped<DepartmentRepository>();
+            services.AddScoped<PersonRepository>();
+            services.AddScoped<TitleRepository>();
+            services.AddScoped<WorkerRepository>();
+            services.AddScoped<WorkerRelationRepository>();
 
             return services;
         }

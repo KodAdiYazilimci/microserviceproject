@@ -1,11 +1,20 @@
-﻿namespace MicroserviceProject.Services.Business.Departments.HR.Entities.Sql
+﻿using System.Collections.Generic;
+
+namespace MicroserviceProject.Services.Business.Departments.HR.Entities.Sql
 {
     /// <summary>
     /// Departman tablosu entity sınıfı
     /// </summary>
-    public class DepartmentEntity
+    public class DepartmentEntity : BaseEntity
     {
-        public int Id { get; set; }
+        /// <summary>
+        /// Departmanın adı
+        /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Departmanın çalışanları
+        /// </summary>
+        public virtual ICollection<WorkerEntity> Workers { get; set; }
     }
 }

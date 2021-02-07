@@ -1,11 +1,16 @@
-﻿using MicroserviceProject.Services.Business.Departments.HR.Util.UnitOfWork;
+﻿using MicroserviceProject.Services.Business.Departments.HR.Entities.Sql;
+using MicroserviceProject.Services.Business.Departments.HR.Util.UnitOfWork;
+
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
 {
     /// <summary>
     /// Repository sınıfları için temel sınıf
     /// </summary>
-    public class BaseRepository
+    public abstract class BaseRepository<TEntity> where TEntity : BaseEntity, new()
     {
         /// <summary>
         /// Veritabanı işlemlerini kapsayan iş birimi nesnesi
@@ -20,5 +25,8 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
         {
             UnitOfWork = unitOfWork;
         }
+
+        public abstract Task<int> CreateAsync(TEntity entity, CancellationToken cancellationToken);
+        public abstract Task<List<TEntity>> GetListAsync(CancellationToken cancellationToken);
     }
 }

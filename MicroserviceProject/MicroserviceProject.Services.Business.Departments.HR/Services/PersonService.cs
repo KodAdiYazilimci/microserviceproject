@@ -28,6 +28,8 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
         /// Önbelleğe alınan kişilerin önbellekteki adı
         /// </summary>
         private const string CACHED_PEOPLE_KEY = "MicroserviceProject.Services.Business.Departments.HR.People";
+        private const string CACHED_WORKERS_KEY = "MicroserviceProject.Services.Business.Departments.HR.Workers";
+        private const string CACHED_TITLES_KEY = "MicroserviceProject.Services.Business.Departments.HR.Titles";
 
         /// <summary>
         /// Rediste tutulan önbellek yönetimini sağlayan sınıf
@@ -45,6 +47,21 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
         private readonly PersonRepository _personRepository;
 
         /// <summary>
+        /// Ünvan tablosu için repository sınıfı
+        /// </summary>
+        private readonly TitleRepository _titleRepository;
+
+        /// <summary>
+        /// Çalışan tablosu için repository sınıfı
+        /// </summary>
+        private readonly WorkerRepository _workerRepository;
+
+        /// <summary>
+        /// Çalışan ilişkileri tablosu için repository sınıfı
+        /// </summary>
+        private readonly WorkerRelationRepository _workerRelationRepository;
+
+        /// <summary>
         /// Veritabanı iş birimi nesnesi
         /// </summary>
         private readonly IUnitOfWork _unitOfWork;
@@ -60,12 +77,19 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
             IMapper mapper,
             IUnitOfWork unitOfWork,
             CacheDataProvider cacheDataProvider,
-            PersonRepository personRepository)
+            PersonRepository personRepository,
+            TitleRepository titleRepository,
+            WorkerRepository workerRepository,
+            WorkerRelationRepository workerRelationRepository)
         {
             _mapper = mapper;
             _cacheDataProvider = cacheDataProvider;
-            _personRepository = personRepository;
             _unitOfWork = unitOfWork;
+
+            _personRepository = personRepository;
+            _titleRepository = titleRepository;
+            _workerRepository = workerRepository;
+            _workerRelationRepository = workerRelationRepository;
         }
 
         /// <summary>
@@ -82,7 +106,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                 return cachedPeople;
             }
 
-            List<PersonEntity> people = await _personRepository.GetPeopleAsync(cancellationToken);
+            List<PersonEntity> people = await _personRepository.GetListAsync(cancellationToken);
 
             List<PersonModel> mappedPeople =
                 _mapper.Map<List<PersonEntity>, List<PersonModel>>(people);
@@ -102,7 +126,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
         {
             PersonEntity mappedPerson = _mapper.Map<PersonModel, PersonEntity>(person);
 
-            int createdPersonId = await _personRepository.CreatePersonAsync(mappedPerson, cancellationToken);
+            int createdPersonId = await _personRepository.CreateAsync(mappedPerson, cancellationToken);
 
             await _unitOfWork.SaveAsync(cancellationToken);
 
@@ -123,6 +147,120 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
             }
 
             return createdPersonId;
+        }
+
+        /// <summary>
+        /// Ünvanların listesini verir
+        /// </summary>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<List<TitleModel>> GetTitlesAsync(CancellationToken cancellationToken)
+        {
+            if (_cacheDataProvider.TryGetValue(CACHED_TITLES_KEY, out List<TitleModel> cachedTitles)
+                &&
+                cachedTitles != null && cachedTitles.Any())
+            {
+                return cachedTitles;
+            }
+
+            List<TitleEntity> titles = await _titleRepository.GetListAsync(cancellationToken);
+
+            List<TitleModel> mappedTitles =
+                _mapper.Map<List<TitleEntity>, List<TitleModel>>(titles);
+
+            _cacheDataProvider.Set(CACHED_TITLES_KEY, mappedTitles);
+
+            return mappedTitles;
+        }
+
+        /// <summary>
+        /// Yeni ünvan oluşturur
+        /// </summary>
+        /// <param name="title">Oluşturulacak ünvan nesnesi</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<int> CreateTitleAsync(TitleModel title, CancellationToken cancellationToken)
+        {
+            TitleEntity mappedTitles = _mapper.Map<TitleModel, TitleEntity>(title);
+
+            int createdTitleId = await _titleRepository.CreateAsync(mappedTitles, cancellationToken);
+
+            await _unitOfWork.SaveAsync(cancellationToken);
+
+            title.Id = createdTitleId;
+
+            if (_cacheDataProvider.TryGetValue(CACHED_TITLES_KEY, out List<TitleModel> cachedTitles))
+            {
+                cachedTitles.Add(title);
+                _cacheDataProvider.Set(CACHED_TITLES_KEY, cachedTitles);
+            }
+            else
+            {
+                List<TitleModel> titles = await GetTitlesAsync(cancellationToken);
+
+                titles.Add(title);
+
+                _cacheDataProvider.Set(CACHED_TITLES_KEY, titles);
+            }
+
+            return createdTitleId;
+        }
+
+        /// <summary>
+        /// Çalışanların listesini verir
+        /// </summary>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<List<WorkerModel>> GetWorkersAsync(CancellationToken cancellationToken)
+        {
+            if (_cacheDataProvider.TryGetValue(CACHED_WORKERS_KEY, out List<WorkerModel> cachedWorkers)
+                &&
+                cachedWorkers != null && cachedWorkers.Any())
+            {
+                return cachedWorkers;
+            }
+
+            List<WorkerEntity> workers = await _workerRepository.GetListAsync(cancellationToken);
+
+            List<WorkerModel> mappedWorkers =
+                _mapper.Map<List<WorkerEntity>, List<WorkerModel>>(workers);
+
+            _cacheDataProvider.Set(CACHED_WORKERS_KEY, mappedWorkers);
+
+            return mappedWorkers;
+        }
+
+        /// <summary>
+        /// Yeni çalışan oluşturur
+        /// </summary>
+        /// <param name="worker">Oluşturulacak çalışan nesnesi</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<int> CreateWorkerAsync(WorkerModel worker, CancellationToken cancellationToken)
+        {
+            WorkerEntity mappedWorker = _mapper.Map<WorkerModel, WorkerEntity>(worker);
+
+            int createdWorkerId = await _workerRepository.CreateAsync(mappedWorker, cancellationToken);
+
+            await _unitOfWork.SaveAsync(cancellationToken);
+
+            worker.Id = createdWorkerId;
+
+            if (_cacheDataProvider.TryGetValue(CACHED_WORKERS_KEY, out List<WorkerModel> cachedWorkers))
+            {
+                cachedWorkers.Add(worker);
+                _cacheDataProvider.Set(CACHED_WORKERS_KEY, cachedWorkers);
+            }
+            else
+            {
+                List<WorkerModel> workers = await GetWorkersAsync(cancellationToken);
+
+                workers.Add(worker);
+
+                _cacheDataProvider.Set(CACHED_WORKERS_KEY, workers);
+            }
+
+            return createdWorkerId;
         }
 
         /// <summary>

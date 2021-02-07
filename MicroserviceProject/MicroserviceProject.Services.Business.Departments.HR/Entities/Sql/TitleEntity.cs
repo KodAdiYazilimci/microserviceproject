@@ -3,17 +3,17 @@
 namespace MicroserviceProject.Services.Business.Departments.HR.Entities.Sql
 {
     /// <summary>
-    /// Kişi tablosu entity sınıfı
+    /// Ünvanlar tablosu entity sınıfı
     /// </summary>
-    public class PersonEntity : BaseEntity
+    public class TitleEntity : BaseEntity
     {
         /// <summary>
-        /// Kişinin adı
+        /// Ünvanın adı
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Kişiye ait çalışan kayıtları
+        /// Ünvana ait çalışan kayıtları
         /// </summary>
         public virtual ICollection<WorkerEntity> Workers { get; set; }
     }

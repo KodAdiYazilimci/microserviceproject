@@ -17,6 +17,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.DI
         public static IServiceCollection RegisterBusinessServices(this IServiceCollection services)
         {
             services.AddScoped<DepartmentService>();
+            services.AddScoped<PersonService>();
 
             return services;
         }

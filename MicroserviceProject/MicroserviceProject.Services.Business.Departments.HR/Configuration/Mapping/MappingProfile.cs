@@ -18,10 +18,16 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Configuration.Map
             // Model => Entity
 
             CreateMap<DepartmentModel, DepartmentEntity>();
+            CreateMap<PersonModel, PersonEntity>();
+            CreateMap<TitleModel, TitleEntity>();
+            CreateMap<WorkerModel, WorkerEntity>();
 
             // Entity => Model
 
             CreateMap<DepartmentEntity, DepartmentModel>();
+            CreateMap<PersonEntity, PersonModel>();
+            CreateMap<TitleEntity, TitleModel>();
+            CreateMap<WorkerEntity, WorkerModel>();
         }
     }
 }

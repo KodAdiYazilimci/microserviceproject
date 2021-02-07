@@ -15,7 +15,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
     /// <summary>
     /// Departman tablosu için repository sınıfı
     /// </summary>
-    public class DepartmentRepository : BaseRepository, IDisposable
+    public class DepartmentRepository : BaseRepository<DepartmentEntity>, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -36,7 +36,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
         /// </summary>
         /// <param name="cancellationToken">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<List<DepartmentEntity>> GetDepartmentsAsync(CancellationToken cancellationToken)
+        public override async Task<List<DepartmentEntity>> GetListAsync(CancellationToken cancellationToken)
         {
             List<DepartmentEntity> departments = new List<DepartmentEntity>();
 
@@ -76,7 +76,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
         /// <param name="unitOfWork">Oluşturma esnasında kullanılacak transaction nesnesi</param>
         /// <param name="cancellationToken">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<int> CreateDepartmentAsync(DepartmentEntity department, CancellationToken cancellationToken)
+        public override async Task<int> CreateAsync(DepartmentEntity department, CancellationToken cancellationToken)
         {
             SqlCommand sqlCommand = new SqlCommand(@"INSERT INTO [HR].[DEPARTMENTS]
                                                      ([NAME])
@@ -107,7 +107,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
         /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
         public void Dispose(bool disposing)
         {
-            if (disposed)
+            if (disposing)
             {
                 if (!disposed)
                 {

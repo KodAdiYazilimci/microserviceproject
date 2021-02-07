@@ -82,7 +82,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                 return cachedDepartments;
             }
 
-            List<DepartmentEntity> departments = await _departmentRepository.GetDepartmentsAsync(cancellationToken);
+            List<DepartmentEntity> departments = await _departmentRepository.GetListAsync(cancellationToken);
 
             List<DepartmentModel> mappedDepartments =
                 _mapper.Map<List<DepartmentEntity>, List<DepartmentModel>>(departments);
@@ -102,7 +102,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
         {
             DepartmentEntity mappedDepartment = _mapper.Map<DepartmentModel, DepartmentEntity>(department);
 
-            int createdDepartmentId = await _departmentRepository.CreateDepartmentAsync(mappedDepartment, cancellationToken);
+            int createdDepartmentId = await _departmentRepository.CreateAsync(mappedDepartment, cancellationToken);
 
             await _unitOfWork.SaveAsync(cancellationToken);
 

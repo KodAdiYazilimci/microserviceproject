@@ -1,8 +1,6 @@
 ﻿using MicroserviceProject.Services.Business.Departments.HR.Entities.Sql;
 using MicroserviceProject.Services.Business.Departments.HR.Util.UnitOfWork;
 
-using Microsoft.Extensions.Configuration;
-
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,9 +11,9 @@ using System.Threading.Tasks;
 namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
 {
     /// <summary>
-    /// Kişi tablosu için repository sınıfı
+    /// Ünvan tablosu için repository sınıfı
     /// </summary>
-    public class PersonRepository : BaseRepository<PersonEntity>, IDisposable
+    public class TitleRepository : BaseRepository<TitleEntity>, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -23,28 +21,28 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
         private bool disposed = false;
 
         /// <summary>
-        /// Kişi tablosu için repository sınıfı
+        /// Ünvan tablosu için repository sınıfı
         /// </summary>
         /// <param name="unitOfWork">Veritabanı işlemlerini kapsayan iş birimi nesnesi</param>
-        public PersonRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public TitleRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
 
         }
 
         /// <summary>
-        /// Kişilerin listesini verir
+        /// Ünvanların listesini verir
         /// </summary>
         /// <param name="cancellationToken">İptal tokenı</param>
         /// <returns></returns>
-        public override async Task<List<PersonEntity>> GetListAsync(CancellationToken cancellationToken)
+        public override async Task<List<TitleEntity>> GetListAsync(CancellationToken cancellationToken)
         {
-            List<PersonEntity> people = new List<PersonEntity>();
+            List<TitleEntity> titles = new List<TitleEntity>();
 
             SqlCommand sqlCommand = new SqlCommand(@"SELECT 
                                                      [ID],
                                                      [NAME],
                                                      [DELETEDATE]
-                                                     FROM [HR].[PEOPLE]
+                                                     FROM [HR].[TITLES]
                                                      WHERE DELETEDATE IS NULL",
                                                      UnitOfWork.SqlConnection,
                                                      UnitOfWork.SqlTransaction);
@@ -57,28 +55,28 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
             {
                 while (await sqlDataReader.ReadAsync(cancellationToken))
                 {
-                    PersonEntity person = new PersonEntity();
+                    TitleEntity title = new TitleEntity();
 
-                    person.Id = sqlDataReader.GetInt32("ID");
-                    person.Name = sqlDataReader.GetString("NAME");
+                    title.Id = sqlDataReader.GetInt32("ID");
+                    title.Name = sqlDataReader.GetString("NAME");
 
-                    people.Add(person);
+                    titles.Add(title);
                 }
             }
 
-            return people;
+            return titles;
         }
 
         /// <summary>
-        /// Yeni kişi oluşturur
+        /// Yeni ünvan oluşturur
         /// </summary>
-        /// <param name="person">Oluşturulacak kişi nesnesi</param><
+        /// <param name="title">Oluşturulacak ünvan nesnesi</param><
         /// <param name="unitOfWork">Oluşturma esnasında kullanılacak transaction nesnesi</param>
         /// <param name="cancellationToken">İptal tokenı</param>
         /// <returns></returns>
-        public override async Task<int> CreateAsync(PersonEntity person, CancellationToken cancellationToken)
+        public override async Task<int> CreateAsync(TitleEntity title, CancellationToken cancellationToken)
         {
-            SqlCommand sqlCommand = new SqlCommand(@"INSERT INTO [HR].[PEOPLE]
+            SqlCommand sqlCommand = new SqlCommand(@"INSERT INTO [HR].[TITLES]
                                                      ([NAME])
                                                      VALUES
                                                      (@NAME);
@@ -88,7 +86,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
 
             sqlCommand.Transaction = UnitOfWork.SqlTransaction;
 
-            sqlCommand.Parameters.AddWithValue("@NAME", ((object)person.Name) ?? DBNull.Value);
+            sqlCommand.Parameters.AddWithValue("@NAME", ((object)title.Name) ?? DBNull.Value);
 
             return (int)await sqlCommand.ExecuteScalarAsync(cancellationToken);
         }
