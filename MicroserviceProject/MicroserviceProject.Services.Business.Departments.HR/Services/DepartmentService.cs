@@ -71,7 +71,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
         /// <summary>
         /// Departmanların listesini verir
         /// </summary>
-        /// <param name="cancellationToken">ptal tokenı</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
         /// <returns></returns>
         public async Task<List<DepartmentModel>> GetDepartmentsAsync(CancellationToken cancellationToken)
         {

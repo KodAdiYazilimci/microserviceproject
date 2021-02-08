@@ -39,7 +39,7 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositor
         {
             List<SalaryPaymentEntity> salaryPayments = new List<SalaryPaymentEntity>();
 
-            SqlCommand sqlCommand = new SqlCommand(@"SELECT [ID]
+            SqlCommand sqlCommand = new SqlCommand(@"SELECT [ID],
                                                      [BANK_ACCOUNT_ID],
                                                      [CURRENCY_ID],
                                                      [DATE],
@@ -48,6 +48,53 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositor
                                                      WHERE DELETEDATE IS NULL",
                                                      UnitOfWork.SqlConnection,
                                                      UnitOfWork.SqlTransaction);
+
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+            SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationToken);
+
+            if (sqlDataReader.HasRows)
+            {
+                while (await sqlDataReader.ReadAsync(cancellationToken))
+                {
+                    SalaryPaymentEntity salaryPayment = new SalaryPaymentEntity();
+
+                    salaryPayment.Id = sqlDataReader.GetInt32("ID");
+                    salaryPayment.BankAccountId = sqlDataReader.GetInt32("BANK_ACCOUNT_ID");
+                    salaryPayment.CurrencyId = sqlDataReader.GetInt32("CURRENCY_ID");
+                    salaryPayment.Date = sqlDataReader.GetDateTime("DATE");
+                    salaryPayment.Amount = sqlDataReader.GetDecimal("AMOUNT");
+
+                    salaryPayments.Add(salaryPayment);
+                }
+            }
+
+            return salaryPayments;
+        }
+
+
+        public async Task<List<SalaryPaymentEntity>> GetSalaryPaymentsOfWorkerAsync(int workerId, CancellationToken cancellationToken)
+        {
+            List<SalaryPaymentEntity> salaryPayments = new List<SalaryPaymentEntity>();
+
+            SqlCommand sqlCommand = new SqlCommand(@"
+                                                     SELECT 
+                                                     SP.[ID],
+                                                     SP.[BANK_ACCOUNT_ID],
+                                                     SP.[CURRENCY_ID],
+                                                     SP.[DATE],
+                                                     SP.[AMOUNT]
+                                                     FROM [SALARY_PAYMENTS] SP
+                                                     INNER JOIN BANK_ACCOUNTS BA
+                                                     ON SP.BANK_ACCOUNT_ID = BA.ID
+                                                     WHERE 
+                                                     SP.DELETEDATE IS NULL
+                                                     AND
+                                                     BA.WORKERID = @WORKERID",
+                                                     UnitOfWork.SqlConnection,
+                                                     UnitOfWork.SqlTransaction);
+
+            sqlCommand.Parameters.AddWithValue("@WORKERID", ((object)workerId) ?? DBNull.Value);
 
             sqlCommand.Transaction = UnitOfWork.SqlTransaction;
 

@@ -8,6 +8,7 @@ using MicroserviceProject.Services.Business.Util.UnitOfWork;
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -92,7 +93,7 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Services
         /// <returns></returns>
         public async Task<List<BankAccountModel>> GetBankAccounts(int workerId, CancellationToken cancellationToken)
         {
-            List<BankAccountEntity> bankAccounts = 
+            List<BankAccountEntity> bankAccounts =
                 await _bankAccountRepository.GetBankAccountsAsync(workerId, cancellationToken);
 
             List<BankAccountModel> mappedBankAccounts =
@@ -116,6 +117,97 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Services
             await _unitOfWork.SaveAsync(cancellationToken);
 
             return createdBankAccountId;
+        }
+
+        /// <summary>
+        /// Para birimlerinin listesini verir
+        /// </summary>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<List<CurrencyModel>> GetCurrenciesAsync(CancellationToken cancellationToken)
+        {
+            if (_cacheDataProvider.TryGetValue(CACHED_CURRENCIES_KEY, out List<CurrencyModel> cureencies)
+                &&
+                cureencies != null && cureencies.Any())
+            {
+                return cureencies;
+            }
+
+            List<CurrencyEntity> currencies = await _currencyRepository.GetListAsync(cancellationToken);
+
+            List<CurrencyModel> mappedDepartments =
+                _mapper.Map<List<CurrencyEntity>, List<CurrencyModel>>(currencies);
+
+            _cacheDataProvider.Set(CACHED_CURRENCIES_KEY, mappedDepartments);
+
+            return mappedDepartments;
+        }
+
+        /// <summary>
+        /// Yeni para birimi oluşturur
+        /// </summary>
+        /// <param name="currency">Oluşturulacak para birimi nesnesi</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<int> CreateCurrencyAsync(CurrencyModel currency, CancellationToken cancellationToken)
+        {
+            CurrencyEntity mappedCurrency = _mapper.Map<CurrencyModel, CurrencyEntity>(currency);
+
+            int createdCurrencyId = await _currencyRepository.CreateAsync(mappedCurrency, cancellationToken);
+
+            await _unitOfWork.SaveAsync(cancellationToken);
+
+            currency.Id = createdCurrencyId;
+
+            if (_cacheDataProvider.TryGetValue(CACHED_CURRENCIES_KEY, out List<CurrencyModel> cachedCurrencies))
+            {
+                cachedCurrencies.Add(currency);
+                _cacheDataProvider.Set(CACHED_CURRENCIES_KEY, cachedCurrencies);
+            }
+            else
+            {
+                List<CurrencyModel> currencies = await GetCurrenciesAsync(cancellationToken);
+
+                currencies.Add(currency);
+
+                _cacheDataProvider.Set(CACHED_CURRENCIES_KEY, currencies);
+            }
+
+            return createdCurrencyId;
+        }
+
+        /// <summary>
+        /// Bir çalışanın maaş ödemelerini verir
+        /// </summary>
+        /// <param name="workerId">Çalışanın Id si</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<List<SalaryPaymentModel>> GetSalaryPaymentsOfWorkerAsync(int workerId, CancellationToken cancellationToken)
+        {
+            List<SalaryPaymentEntity> bankAccounts =
+           await _salaryPaymentRepository.GetSalaryPaymentsOfWorkerAsync(workerId, cancellationToken);
+
+            List<SalaryPaymentModel> mappedSalaryPayments =
+                _mapper.Map<List<SalaryPaymentEntity>, List<SalaryPaymentModel>>(bankAccounts);
+
+            return mappedSalaryPayments;
+        }
+
+        /// <summary>
+        /// Yeni bir maaş ödemesi oluşturur
+        /// </summary>
+        /// <param name="salaryPayment">Oluşturulacak maaş ödemesinin nesnesi</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<int> CreateSalaryPaymentAsync(SalaryPaymentModel salaryPayment, CancellationToken cancellationToken)
+        {
+            SalaryPaymentEntity mappedBankAccount = _mapper.Map<SalaryPaymentModel, SalaryPaymentEntity>(salaryPayment);
+
+            int createdSalaryPaymentId = await _salaryPaymentRepository.CreateAsync(mappedBankAccount, cancellationToken);
+
+            await _unitOfWork.SaveAsync(cancellationToken);
+
+            return createdSalaryPaymentId;
         }
 
         /// <summary>

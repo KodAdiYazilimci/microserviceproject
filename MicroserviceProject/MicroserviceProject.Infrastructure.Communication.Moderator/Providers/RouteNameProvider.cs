@@ -107,5 +107,31 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator.Providers
                     .GetSection("GetBankAccountsOfWorker").Value;
             }
         }
+
+        public string Accounting_GetCurrencies
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("Accounting")
+                    .GetSection("GetCurrencies").Value;
+            }
+        }
+
+        public string Accounting_CreateCurrency
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("Accounting")
+                    .GetSection("CreateCurrency").Value;
+            }
+        }
     }
 }
