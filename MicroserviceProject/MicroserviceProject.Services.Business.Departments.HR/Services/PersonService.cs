@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 
 using MicroserviceProject.Infrastructure.Caching.Redis;
+using MicroserviceProject.Infrastructure.Communication.Moderator;
+using MicroserviceProject.Infrastructure.Communication.Moderator.Providers;
 using MicroserviceProject.Services.Business.Departments.HR.Entities.Sql;
 using MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql;
-using MicroserviceProject.Services.Business.Departments.HR.Util.UnitOfWork;
+using MicroserviceProject.Services.Business.Model.Department.Accounting;
 using MicroserviceProject.Services.Business.Model.Department.HR;
+using MicroserviceProject.Services.Business.Util.UnitOfWork;
 
 using System;
 using System.Collections.Generic;
@@ -42,6 +45,21 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
         private readonly IMapper _mapper;
 
         /// <summary>
+        /// Servislerin rota isimlerini sağlayan sınıf
+        /// </summary>
+        private readonly RouteNameProvider _routeNameProvider;
+
+        /// <summary>
+        /// Diğer servislerle iletişim kuracak ara bulucu
+        /// </summary>
+        private readonly ServiceCommunicator _serviceCommunicator;
+
+        /// <summary>
+        /// Veritabanı iş birimi nesnesi
+        /// </summary>
+        private readonly IUnitOfWork _unitOfWork;
+
+        /// <summary>
         /// Kişi tablosu için repository sınıfı
         /// </summary>
         private readonly PersonRepository _personRepository;
@@ -61,20 +79,23 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
         /// </summary>
         private readonly WorkerRelationRepository _workerRelationRepository;
 
-        /// <summary>
-        /// Veritabanı iş birimi nesnesi
-        /// </summary>
-        private readonly IUnitOfWork _unitOfWork;
 
         /// <summary>
         /// Kişi işlemleri iş mantığı sınıfı
         /// </summary>
         /// <param name="mapper">Mapping işlemleri için mapper nesnesi</param>
+        /// <param name="routeNameProvider">Servislerin rota isimlerini sağlayan sınıf</param>
+        /// <param name="serviceCommunicator">Diğer servislerle iletişim kuracak ara bulucu</param>
         /// <param name="unitOfWork">Veritabanı iş birimi nesnesi</param>
         /// <param name="cacheDataProvider">Rediste tutulan önbellek yönetimini sağlayan sınıf</param>
         /// <param name="personRepository">Kişi tablosu için repository sınıfı</param>
+        /// <param name="titleRepository">Kişi tablosu için repository sınıfı</param>
+        /// <param name="workerRepository">Çalışan tablosu için repository sınıfı</param>
+        /// <param name="workerRelationRepository">Çalışan ilişkileri tablosu için repository sınıfı</param>
         public PersonService(
             IMapper mapper,
+            RouteNameProvider routeNameProvider,
+            ServiceCommunicator serviceCommunicator,
             IUnitOfWork unitOfWork,
             CacheDataProvider cacheDataProvider,
             PersonRepository personRepository,
@@ -82,8 +103,10 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
             WorkerRepository workerRepository,
             WorkerRelationRepository workerRelationRepository)
         {
-            _mapper = mapper;
             _cacheDataProvider = cacheDataProvider;
+            _routeNameProvider = routeNameProvider;
+            _serviceCommunicator = serviceCommunicator;
+            _mapper = mapper;
             _unitOfWork = unitOfWork;
 
             _personRepository = personRepository;
@@ -241,6 +264,16 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
             WorkerEntity mappedWorker = _mapper.Map<WorkerModel, WorkerEntity>(worker);
 
             int createdWorkerId = await _workerRepository.CreateAsync(mappedWorker, cancellationToken);
+
+            await _serviceCommunicator.Call<int>(
+                serviceName: _routeNameProvider.Accounting_CreateBankAccount,
+                postData: new BankAccountModel()
+                {
+                    Worker = worker,
+                    IBAN = worker.BankAccounts.FirstOrDefault().IBAN
+                },
+                queryParameters: null,
+                cancellationToken: cancellationToken);
 
             await _unitOfWork.SaveAsync(cancellationToken);
 

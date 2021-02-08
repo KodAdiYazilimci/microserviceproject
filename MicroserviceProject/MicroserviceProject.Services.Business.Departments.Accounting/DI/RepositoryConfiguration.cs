@@ -1,11 +1,11 @@
 ﻿using Infrastructure.Persistence.ServiceRoutes.Sql.Repositories;
 
-using MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql;
+using MicroserviceProject.Services.Business.Departments.Accounting.Repositories.Sql;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace MicroserviceProject.Services.Business.Departments.HR.DI
+namespace MicroserviceProject.Services.Business.Departments.Accounting.DI
 {
     /// <summary>
     /// Repository DI sınıfı
@@ -23,11 +23,9 @@ namespace MicroserviceProject.Services.Business.Departments.HR.DI
             services.AddSingleton(x =>
                 new ServiceRouteRepository(GetServiceRouteRepositoryConnectionString(configuration)));
 
-            services.AddScoped<DepartmentRepository>();
-            services.AddScoped<PersonRepository>();
-            services.AddScoped<TitleRepository>();
-            services.AddScoped<WorkerRepository>();
-            services.AddScoped<WorkerRelationRepository>();
+            services.AddScoped<BankAccountRepository>();
+            services.AddScoped<CurrencyRepository>();
+            services.AddScoped<SalaryPaymentRepository>();
 
             return services;
         }

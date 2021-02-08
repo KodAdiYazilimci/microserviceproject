@@ -1,11 +1,12 @@
-﻿using MicroserviceProject.Services.Business.Departments.HR.Entities.Sql;
+﻿
+using MicroserviceProject.Services.Business.Departments.Accounting.Entities.Sql;
 using MicroserviceProject.Services.Business.Util.UnitOfWork;
 
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
+namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositories.Sql
 {
     /// <summary>
     /// Repository sınıfları için temel sınıf

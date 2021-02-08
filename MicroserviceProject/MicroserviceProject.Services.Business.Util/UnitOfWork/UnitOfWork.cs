@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MicroserviceProject.Services.Business.Departments.HR.Util.UnitOfWork
+namespace MicroserviceProject.Services.Business.Util.UnitOfWork
 {
     /// <summary>
     /// Ms SQL veritabanı işlemleri transaction için iş birimi sınıfı

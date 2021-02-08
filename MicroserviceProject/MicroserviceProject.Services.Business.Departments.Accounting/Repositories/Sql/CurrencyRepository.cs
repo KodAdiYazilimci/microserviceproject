@@ -1,4 +1,5 @@
-﻿using MicroserviceProject.Services.Business.Departments.HR.Entities.Sql;
+﻿using MicroserviceProject.Services.Business.Departments.Accounting.Entities.Sql;
+using MicroserviceProject.Services.Business.Departments.Accounting.Repositories.Sql;
 using MicroserviceProject.Services.Business.Util.UnitOfWork;
 
 using System;
@@ -8,12 +9,12 @@ using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
+namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositories.Sql
 {
     /// <summary>
-    /// Kişi tablosu için repository sınıfı
+    /// Para birimleri tablosu için repository sınıfı
     /// </summary>
-    public class PersonRepository : BaseRepository<PersonEntity>, IDisposable
+    public class CurrencyRepository : BaseRepository<CurrencyEntity>, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -21,28 +22,28 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
         private bool disposed = false;
 
         /// <summary>
-        /// Kişi tablosu için repository sınıfı
+        /// Para birimleri tablosu için repository sınıfı
         /// </summary>
         /// <param name="unitOfWork">Veritabanı işlemlerini kapsayan iş birimi nesnesi</param>
-        public PersonRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public CurrencyRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
 
         }
 
         /// <summary>
-        /// Kişilerin listesini verir
+        /// Para birimlerinin listesini verir
         /// </summary>
         /// <param name="cancellationToken">İptal tokenı</param>
         /// <returns></returns>
-        public override async Task<List<PersonEntity>> GetListAsync(CancellationToken cancellationToken)
+        public override async Task<List<CurrencyEntity>> GetListAsync(CancellationToken cancellationToken)
         {
-            List<PersonEntity> people = new List<PersonEntity>();
+            List<CurrencyEntity> currencies = new List<CurrencyEntity>();
 
             SqlCommand sqlCommand = new SqlCommand(@"SELECT 
                                                      [ID],
                                                      [NAME],
                                                      [DELETEDATE]
-                                                     FROM [HR].[PEOPLE]
+                                                     FROM [Accounting].[CURRENCIES]
                                                      WHERE DELETEDATE IS NULL",
                                                      UnitOfWork.SqlConnection,
                                                      UnitOfWork.SqlTransaction);
@@ -55,28 +56,28 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
             {
                 while (await sqlDataReader.ReadAsync(cancellationToken))
                 {
-                    PersonEntity person = new PersonEntity();
+                    CurrencyEntity currency = new CurrencyEntity();
 
-                    person.Id = sqlDataReader.GetInt32("ID");
-                    person.Name = sqlDataReader.GetString("NAME");
+                    currency.Id = sqlDataReader.GetInt32("ID");
+                    currency.Name = sqlDataReader.GetString("NAME");
 
-                    people.Add(person);
+                    currencies.Add(currency);
                 }
             }
 
-            return people;
+            return currencies;
         }
 
         /// <summary>
-        /// Yeni kişi oluşturur
+        /// Yeni Para birimi oluşturur
         /// </summary>
-        /// <param name="person">Oluşturulacak kişi nesnesi</param><
+        /// <param name="currency">Oluşturulacak Para birimi nesnesi</param><
         /// <param name="unitOfWork">Oluşturma esnasında kullanılacak transaction nesnesi</param>
         /// <param name="cancellationToken">İptal tokenı</param>
         /// <returns></returns>
-        public override async Task<int> CreateAsync(PersonEntity person, CancellationToken cancellationToken)
+        public override async Task<int> CreateAsync(CurrencyEntity currency, CancellationToken cancellationToken)
         {
-            SqlCommand sqlCommand = new SqlCommand(@"INSERT INTO [HR].[PEOPLE]
+            SqlCommand sqlCommand = new SqlCommand(@"INSERT INTO [Accounting].[CURRENCIES]
                                                      ([NAME])
                                                      VALUES
                                                      (@NAME);
@@ -86,7 +87,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
 
             sqlCommand.Transaction = UnitOfWork.SqlTransaction;
 
-            sqlCommand.Parameters.AddWithValue("@NAME", ((object)person.Name) ?? DBNull.Value);
+            sqlCommand.Parameters.AddWithValue("@NAME", ((object)currency.Name) ?? DBNull.Value);
 
             return (int)await sqlCommand.ExecuteScalarAsync(cancellationToken);
         }

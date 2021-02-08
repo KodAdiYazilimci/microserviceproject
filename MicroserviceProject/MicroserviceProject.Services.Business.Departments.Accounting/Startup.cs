@@ -1,5 +1,7 @@
 using MicroserviceProject.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Infrastructure.Communication.Model.Errors;
+using MicroserviceProject.Services.Business.Departments.Accounting.DI;
+using MicroserviceProject.Services.Business.Departments.HR.DI;
 using MicroserviceProject.Services.Business.DI;
 
 using Microsoft.AspNetCore.Builder;
@@ -31,13 +33,13 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting
             services.AddControllers();
             services.AddMemoryCache();
             services.RegisterAuthentication();
-            //services.RegisterBusinessServices();
+            services.RegisterBusinessServices();
             services.RegisterCaching();
             services.RegisterCredentialProvider();
             services.RegisterLogger();
-            //services.RegisterMappings();
+            services.RegisterMappings();
             services.RegisterRouteProvider();
-            //services.RegisterRepositories(Configuration);
+            services.RegisterRepositories(Configuration);
             services.RegisterServiceCommunicator();
             services.RegisterSwagger();
             services.RegisterUnitOfWork();

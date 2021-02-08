@@ -78,5 +78,34 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator.Providers
                     .GetSection("PostData").Value;
             }
         }
+
+        /// <summary>
+        /// Çalışan için banka hesabı oluşturur
+        /// </summary>
+        public string Accounting_CreateBankAccount
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("Accounting")
+                    .GetSection("CreateBankAccount").Value;
+            }
+        }
+
+        public string Accounting_GetBankAccountsOfWorker
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("Accounting")
+                    .GetSection("GetBankAccountsOfWorker").Value;
+            }
+        }
     }
 }
