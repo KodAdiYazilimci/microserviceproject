@@ -81,15 +81,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrast
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Services.Business.Model", "MicroserviceProject.Services.Business.Model\MicroserviceProject.Services.Business.Model.csproj", "{888F7009-5CCF-4818-B9A9-9640CC4CF431}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Services.Business.DI", "MicroserviceProject.Services.Business.DI\MicroserviceProject.Services.Business.DI.csproj", "{8AC21323-9485-49F0-B1E5-2CC4BFA3D55F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Services.Business.DI", "MicroserviceProject.Services.Business.DI\MicroserviceProject.Services.Business.DI.csproj", "{8AC21323-9485-49F0-B1E5-2CC4BFA3D55F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Services.Business.Util", "MicroserviceProject.Services.Business.Util\MicroserviceProject.Services.Business.Util.csproj", "{59849B7A-5406-4B9D-8D0C-BA265072FA94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Services.Business.Util", "MicroserviceProject.Services.Business.Util\MicroserviceProject.Services.Business.Util.csproj", "{59849B7A-5406-4B9D-8D0C-BA265072FA94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Services.Business.Configuration", "MicroserviceProject.Services.Business.Configuration\MicroserviceProject.Services.Business.Configuration.csproj", "{129C7B17-5F14-45BF-B4B9-26CDB52DFA04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Services.Business.Configuration", "MicroserviceProject.Services.Business.Configuration\MicroserviceProject.Services.Business.Configuration.csproj", "{129C7B17-5F14-45BF-B4B9-26CDB52DFA04}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services.Business.Departments", "Services.Business.Departments", "{B0F2E640-1B33-4428-B49F-183375231B02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Services.Business.Departments.Accounting", "MicroserviceProject.Services.Business.Departments.Accounting\MicroserviceProject.Services.Business.Departments.Accounting.csproj", "{27E61F0F-5227-40EA-BEA5-465FEB81C398}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Services.Business.Departments.Accounting", "MicroserviceProject.Services.Business.Departments.Accounting\MicroserviceProject.Services.Business.Departments.Accounting.csproj", "{27E61F0F-5227-40EA-BEA5-465FEB81C398}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Presentation.UI.WindowsForm", "MicroserviceProject.Presentation.UI.WindowsForm\MicroserviceProject.Presentation.UI.WindowsForm.csproj", "{A70CA59E-7652-404A-B60F-253E4EF8D5B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -209,6 +211,10 @@ Global
 		{27E61F0F-5227-40EA-BEA5-465FEB81C398}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27E61F0F-5227-40EA-BEA5-465FEB81C398}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27E61F0F-5227-40EA-BEA5-465FEB81C398}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A70CA59E-7652-404A-B60F-253E4EF8D5B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A70CA59E-7652-404A-B60F-253E4EF8D5B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A70CA59E-7652-404A-B60F-253E4EF8D5B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A70CA59E-7652-404A-B60F-253E4EF8D5B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -242,6 +248,7 @@ Global
 		{59849B7A-5406-4B9D-8D0C-BA265072FA94} = {9F4C005C-2FF8-4430-8D84-1A7721EEA920}
 		{129C7B17-5F14-45BF-B4B9-26CDB52DFA04} = {9F4C005C-2FF8-4430-8D84-1A7721EEA920}
 		{27E61F0F-5227-40EA-BEA5-465FEB81C398} = {B0F2E640-1B33-4428-B49F-183375231B02}
+		{A70CA59E-7652-404A-B60F-253E4EF8D5B3} = {E02EC0E8-179F-4E07-A44C-F43CBE4B8D33}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C136217B-3CA6-4AEC-95E4-D62936481A67}
