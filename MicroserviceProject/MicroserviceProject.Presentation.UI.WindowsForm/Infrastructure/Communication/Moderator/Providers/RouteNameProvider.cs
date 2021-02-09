@@ -103,5 +103,117 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moder
                     .ToString();
             }
         }
+
+        /// <summary>
+        /// Departmanları verir
+        /// </summary>
+        public string HR_GetDepartments
+        {
+            get
+            {
+                return
+                    ConfigurationManager
+                    .AppSettings["Services.Endpoints.HR.GetDepartments"]
+                    .ToString();
+            }
+        }
+
+        /// <summary>
+        /// Yeni departman oluşturur
+        /// </summary>
+        public string HR_CreateDepartment
+        {
+            get
+            {
+                return
+                    ConfigurationManager
+                    .AppSettings["Services.Endpoints.HR.CreateDepartment"]
+                    .ToString();
+            }
+        }
+
+        /// <summary>
+        /// Kişi listesini verir
+        /// </summary>
+        public string HR_GetPeople
+        {
+            get
+            {
+                return
+                    ConfigurationManager
+                    .AppSettings["Services.Endpoints.HR.GetPeople"]
+                    .ToString();
+            }
+        }
+
+        /// <summary>
+        /// Kişi oluşturur
+        /// </summary>
+        public string HR_CreatePerson
+        {
+            get
+            {
+                return
+                    ConfigurationManager
+                    .AppSettings["Services.Endpoints.HR.CreatePerson"]
+                    .ToString();
+            }
+        }
+
+        /// <summary>
+        /// Ünvanları verir
+        /// </summary>
+        public string HR_GetTitles
+        {
+            get
+            {
+                return
+                    ConfigurationManager
+                    .AppSettings["Services.Endpoints.HR.GetTitles"]
+                    .ToString();
+            }
+        }
+
+        /// <summary>
+        /// Yeni bir ünvan oluşturur
+        /// </summary>
+        public string HR_CreateTitle
+        {
+            get
+            {
+                return
+                    ConfigurationManager
+                    .AppSettings["Services.Endpoints.HR.CreateTitle"]
+                    .ToString();
+            }
+        }
+
+        /// <summary>
+        /// Çalışanları verir
+        /// </summary>
+        public string HR_GetWorkers
+        {
+            get
+            {
+                return
+                    ConfigurationManager
+                    .AppSettings["Services.Endpoints.HR.GetWorkers"]
+                    .ToString();
+            }
+        }
+
+        /// <summary>
+        /// Yeni bir çalışan oluşturur
+        /// </summary>
+        public string HR_CreateWorker
+        {
+            get
+            {
+                return
+                    ConfigurationManager
+                    .AppSettings["Services.Endpoints.HR.CreateWorker"]
+                    .ToString();
+            }
+        }
     }
 }

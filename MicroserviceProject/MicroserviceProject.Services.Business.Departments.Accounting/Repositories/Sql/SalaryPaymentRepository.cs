@@ -44,7 +44,7 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositor
                                                      [CURRENCY_ID],
                                                      [DATE],
                                                      [AMOUNT]
-                                                     FROM [Accounting].[SALARY_PAYMENTS]
+                                                     FROM [SALARY_PAYMENTS]
                                                      WHERE DELETEDATE IS NULL",
                                                      UnitOfWork.SqlConnection,
                                                      UnitOfWork.SqlTransaction);
@@ -128,7 +128,7 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositor
         /// <returns></returns>
         public override async Task<int> CreateAsync(SalaryPaymentEntity salaryPayment, CancellationToken cancellationToken)
         {
-            SqlCommand sqlCommand = new SqlCommand(@"INSERT INTO [Accounting].[SALARY_PAYMENTS]
+            SqlCommand sqlCommand = new SqlCommand(@"INSERT INTO [SALARY_PAYMENTS]
                                                      ([BANK_ACCOUNT_ID],
                                                      [CURRENCY_ID],
                                                      [DATE],

@@ -43,7 +43,7 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositor
                                                      [ID],
                                                      [NAME],
                                                      [DELETEDATE]
-                                                     FROM [Accounting].[CURRENCIES]
+                                                     FROM [CURRENCIES]
                                                      WHERE DELETEDATE IS NULL",
                                                      UnitOfWork.SqlConnection,
                                                      UnitOfWork.SqlTransaction);
@@ -77,7 +77,7 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositor
         /// <returns></returns>
         public override async Task<int> CreateAsync(CurrencyEntity currency, CancellationToken cancellationToken)
         {
-            SqlCommand sqlCommand = new SqlCommand(@"INSERT INTO [Accounting].[CURRENCIES]
+            SqlCommand sqlCommand = new SqlCommand(@"INSERT INTO [CURRENCIES]
                                                      ([NAME])
                                                      VALUES
                                                      (@NAME);

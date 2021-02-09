@@ -41,7 +41,7 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositor
             SqlCommand sqlCommand = new SqlCommand(@"SELECT [ID],
                                                      [WORKERID],
                                                      [IBAN],
-                                                     FROM [Accounting].[BANK_ACCOUNTS]
+                                                     FROM [BANK_ACCOUNTS]
                                                      WHERE DELETEDATE IS NULL",
                                                      UnitOfWork.SqlConnection,
                                                      UnitOfWork.SqlTransaction);
@@ -79,7 +79,7 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositor
             SqlCommand sqlCommand = new SqlCommand(@"SELECT [ID],
                                                      [WORKERID],
                                                      [IBAN],
-                                                     FROM [Accounting].[BANK_ACCOUNTS]
+                                                     FROM [BANK_ACCOUNTS]
                                                      WHERE DELETEDATE IS NULL
                                                      AND
                                                      WORKERID = @WORKERID",
@@ -118,7 +118,7 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositor
         /// <returns></returns>
         public override async Task<int> CreateAsync(BankAccountEntity bankAccount, CancellationToken cancellationToken)
         {
-            SqlCommand sqlCommand = new SqlCommand(@"INSERT INTO [Accounting].[BANK_ACCOUNTS]
+            SqlCommand sqlCommand = new SqlCommand(@"INSERT INTO [BANK_ACCOUNTS]
                                                     ([WORKERID],
                                                      [IBAN])
                                                      VALUES

@@ -43,7 +43,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
                                                      [MANAGERID],
                                                      [FROMDATE],
                                                      [TODATE]
-                                                     FROM [dbo].[WORKERRELATIONS]
+                                                     FROM [WORKERRELATIONS]
                                                      WHERE DELETEDATE IS NULL",
                                                      UnitOfWork.SqlConnection,
                                                      UnitOfWork.SqlTransaction);
@@ -80,7 +80,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
         /// <returns></returns>
         public override async Task<int> CreateAsync(WorkerRelationEntity workerRelation, CancellationToken cancellationToken)
         {
-            SqlCommand sqlCommand = new SqlCommand(@"INSERT INTO [dbo].[WORKERRELATIONS]
+            SqlCommand sqlCommand = new SqlCommand(@"INSERT INTO [WORKERRELATIONS]
                                                      ([WORKERID]
                                                      [MANAGERID]
                                                      [FROMDATE]

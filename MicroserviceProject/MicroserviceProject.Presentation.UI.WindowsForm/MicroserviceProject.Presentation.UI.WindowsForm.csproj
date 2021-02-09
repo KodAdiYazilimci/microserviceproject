@@ -99,6 +99,13 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business.Model\Department\Accounting\BankAccountModel.cs" />
+    <Compile Include="Business.Model\Department\Accounting\CurrencyModel.cs" />
+    <Compile Include="Business.Model\Department\Accounting\SalaryPaymentModel.cs" />
+    <Compile Include="Business.Model\Department\HR\DepartmentModel.cs" />
+    <Compile Include="Business.Model\Department\HR\PersonModel.cs" />
+    <Compile Include="Business.Model\Department\HR\TitleModel.cs" />
+    <Compile Include="Business.Model\Department\HR\WorkerModel.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
