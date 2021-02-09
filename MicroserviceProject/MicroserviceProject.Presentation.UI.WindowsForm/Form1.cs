@@ -4,6 +4,7 @@ using MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moderator
 using MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moderator.Providers;
 using MicroserviceProject.Presentation.UI.Infrastructure.Persistence.Repositories;
 using MicroserviceProject.Presentation.UI.Infrastructure.Security.Model;
+using MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.HR;
 
 using Microsoft.Extensions.Caching.Memory;
 
@@ -66,6 +67,8 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
         private void btnKisileriGetir_Click(object sender, EventArgs e)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+
+            lstKisiler.Items.Clear();
 
             try
             {
@@ -131,6 +134,129 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
                 cancellationTokenSource.Cancel();
                 MessageBox.Show(ex.ToString());
             }
+        }
+
+        private void btnDepartmanlariGetir_Click(object sender, EventArgs e)
+        {
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+
+            lstDepartmanlar.Items.Clear();
+
+            try
+            {
+                Task.Run(async delegate
+                {
+                    ServiceResult<List<DepartmentModel>> departmentServiceResult =
+                        await _serviceCommunicator.Call<List<DepartmentModel>>(
+                            serviceName: _routeNameProvider.HR_GetDepartments,
+                            postData: null,
+                            queryParameters: null,
+                            cancellationToken: cancellationTokenSource.Token);
+
+                    if (departmentServiceResult.IsSuccess)
+                    {
+                        foreach (var department in departmentServiceResult.Data)
+                        {
+                            lstDepartmanlar.Items.Add(department);
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception(departmentServiceResult.Error.Description);
+                    }
+                },
+                cancellationToken: cancellationTokenSource.Token).Wait();
+            }
+            catch (Exception ex)
+            {
+                cancellationTokenSource.Cancel();
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void btnDepartmanOlustur_Click(object sender, EventArgs e)
+        {
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+
+            try
+            {
+                Task.Run(async delegate
+                {
+                    ServiceResult<int> createDepartmentServiceResult =
+                                await _serviceCommunicator.Call<int>(
+                                    serviceName: _routeNameProvider.HR_CreateDepartment,
+                                    postData: new DepartmentModel()
+                                    {
+                                        Name = "TestDepartman"
+                                    },
+                                    queryParameters: null,
+                                    cancellationToken: cancellationTokenSource.Token);
+
+                    if (createDepartmentServiceResult.IsSuccess)
+                    {
+                        MessageBox.Show("Departman oluşturuldu");
+                    }
+                    else
+                        throw new Exception(createDepartmentServiceResult.Error.Description);
+                },
+                cancellationToken: cancellationTokenSource.Token).Wait();
+            }
+            catch (Exception ex)
+            {
+                cancellationTokenSource.Cancel();
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void btnCalisanlariGetir_Click(object sender, EventArgs e)
+        {
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+
+            lstCalisanlar.Items.Clear();
+
+            try
+            {
+                Task.Run(async delegate
+                {
+                    ServiceResult<List<WorkerModel>> workersServiceResult =
+                        await _serviceCommunicator.Call<List<WorkerModel>>(
+                            serviceName: _routeNameProvider.HR_GetWorkers,
+                            postData: null,
+                            queryParameters: null,
+                            cancellationToken: cancellationTokenSource.Token);
+
+                    if (workersServiceResult.IsSuccess)
+                    {
+                        foreach (var worker in workersServiceResult.Data)
+                        {
+                            lstCalisanlar.Items.Add(worker);
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception(workersServiceResult.Error.Description);
+                    }
+                },
+                cancellationToken: cancellationTokenSource.Token).Wait();
+            }
+            catch (Exception ex)
+            {
+                cancellationTokenSource.Cancel();
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void btnCalisanOlustur_Click(object sender, EventArgs e)
+        {
+            CreateWorkerForm createWorkerForm =
+                new CreateWorkerForm(
+                    _credentialProvider,
+                    _memoryCache,
+                    _routeNameProvider,
+                    _serviceCommunicator,
+                    _serviceRouteRepository);
+
+            createWorkerForm.ShowDialog();
         }
     }
 }

@@ -106,6 +106,12 @@
     <Compile Include="Business.Model\Department\HR\PersonModel.cs" />
     <Compile Include="Business.Model\Department\HR\TitleModel.cs" />
     <Compile Include="Business.Model\Department\HR\WorkerModel.cs" />
+    <Compile Include="Dialogs\HR\CreateWorkerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\HR\CreateWorkerForm.Designer.cs">
+      <DependentUpon>CreateWorkerForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -134,6 +140,9 @@
     <Compile Include="Infrastructure\Security\Model\User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Dialogs\HR\CreateWorkerForm.resx">
+      <DependentUpon>CreateWorkerForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

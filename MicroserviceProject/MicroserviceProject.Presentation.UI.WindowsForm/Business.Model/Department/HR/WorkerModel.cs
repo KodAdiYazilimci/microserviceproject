@@ -52,6 +52,10 @@ namespace MicroserviceProject.Presentation.UI.Business.Model.Department.HR
         /// Çalışanın banka hesapları
         /// </summary>
         public List<BankAccountModel> BankAccounts { get; set; }
-        
+
+        public override string ToString()
+        {
+            return $"{this.Title} {this.Person.Name}({this.Department.Name})";
+        }
     }
 }
