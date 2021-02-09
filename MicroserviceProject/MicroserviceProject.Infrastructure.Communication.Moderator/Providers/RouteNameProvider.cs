@@ -80,6 +80,134 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator.Providers
         }
 
         /// <summary>
+        /// Departmanları verir
+        /// </summary>
+        public string HR_GetDepartments
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("HR")
+                    .GetSection("GetDepartments").Value;
+            }
+        }
+
+        /// <summary>
+        /// Yeni departman oluşturur
+        /// </summary>
+        public string HR_CreateDepartment
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("HR")
+                    .GetSection("CreateDepartment<").Value;
+            }
+        }
+
+        /// <summary>
+        /// Kişi listesini verir
+        /// </summary>
+        public string HR_GetPeople
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("HR")
+                    .GetSection("GetPeople").Value;
+            }
+        }
+
+        /// <summary>
+        /// Kişi oluşturur
+        /// </summary>
+        public string HR_CreatePerson
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("HR")
+                    .GetSection("CreatePerson").Value;
+            }
+        }
+
+        /// <summary>
+        /// Ünvanları verir
+        /// </summary>
+        public string HR_GetTitles
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("HR")
+                    .GetSection("GetTitles").Value;
+            }
+        }
+
+        /// <summary>
+        /// Yeni bir ünvan oluşturur
+        /// </summary>
+        public string HR_CreateTitle
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("HR")
+                    .GetSection("CreateTitle").Value;
+            }
+        }
+
+        /// <summary>
+        /// Çalışanları verir
+        /// </summary>
+        public string HR_GetWorkers
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("HR")
+                    .GetSection("GetWorkers").Value;
+            }
+        }
+
+        /// <summary>
+        /// Yeni bir çalışan oluşturur
+        /// </summary>
+        public string HR_CreateWorker
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("HR")
+                    .GetSection("CreateWorker").Value;
+            }
+        }
+
+        /// <summary>
         /// Çalışan için banka hesabı oluşturur
         /// </summary>
         public string Accounting_CreateBankAccount
