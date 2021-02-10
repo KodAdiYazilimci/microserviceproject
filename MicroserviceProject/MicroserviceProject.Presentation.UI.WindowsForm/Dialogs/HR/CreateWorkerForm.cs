@@ -1,4 +1,5 @@
-﻿using MicroserviceProject.Presentation.UI.Business.Model.Department.HR;
+﻿using MicroserviceProject.Presentation.UI.Business.Model.Department.Accounting;
+using MicroserviceProject.Presentation.UI.Business.Model.Department.HR;
 using MicroserviceProject.Presentation.UI.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moderator;
 using MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moderator.Providers;
@@ -51,11 +52,68 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.HR
             GetPeople();
             GetTitles();
             GetDepartments();
+            GetWorkers();
         }
 
         private void btnKaydet_Click(object sender, EventArgs e)
         {
+            List<WorkerModel> managers = new List<WorkerModel>();
+            var managersEnumerator = clYoneticiler.CheckedItems.GetEnumerator();
 
+            while (managersEnumerator.MoveNext())
+            {
+                var worker = managersEnumerator.Current;
+                managers.Add(worker as WorkerModel);
+            }
+
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+            bool success = false;
+
+            try
+            {
+                var worker = new WorkerModel
+                {
+                    Title = cmbUnvanlar.SelectedItem as TitleModel,
+                    Person = cmbKisiler.SelectedItem as PersonModel,
+                    Department = cmbDepartmanlar.SelectedItem as DepartmentModel,
+                    FromDate = dtBaslamaTarihi.Value,
+                    BankAccounts = new List<BankAccountModel>()
+                    {
+                         new BankAccountModel(){ IBAN = txtIBAN.Text}
+                    },
+                    Managers = managers
+                };
+
+                Task.Run(async delegate
+                {
+                    ServiceResult<int> createWorkerServiceResult =
+                        await _serviceCommunicator.Call<int>(
+                            serviceName: _routeNameProvider.HR_CreateWorker,
+                            postData: worker,
+                            queryParameters: null,
+                            cancellationToken: cancellationTokenSource.Token);
+
+                    if (createWorkerServiceResult.IsSuccess)
+                    {
+                        success = true;
+                    }
+                    else
+                    {
+                        throw new Exception(createWorkerServiceResult.Error.Description);
+                    }
+                },
+                cancellationToken: cancellationTokenSource.Token).Wait();
+            }
+            catch (Exception ex)
+            {
+                cancellationTokenSource.Cancel();
+                MessageBox.Show(ex.ToString());
+            }
+
+            if (success)
+            {
+                this.Close();
+            }
         }
 
         private void btnVazgec_Click(object sender, EventArgs e)
@@ -99,6 +157,11 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.HR
                 cancellationTokenSource.Cancel();
                 MessageBox.Show(ex.ToString());
             }
+
+            if (cmbKisiler.Items.Count > 0)
+            {
+                cmbKisiler.SelectedIndex = 0;
+            }
         }
 
         private void GetTitles()
@@ -137,6 +200,11 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.HR
                 cancellationTokenSource.Cancel();
                 MessageBox.Show(ex.ToString());
             }
+
+            if (cmbUnvanlar.Items.Count > 0)
+            {
+                cmbUnvanlar.SelectedIndex = 0;
+            }
         }
 
         private void GetDepartments()
@@ -174,6 +242,54 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.HR
             {
                 cancellationTokenSource.Cancel();
                 MessageBox.Show(ex.ToString());
+            }
+
+            if (cmbDepartmanlar.Items.Count > 0)
+            {
+                cmbDepartmanlar.SelectedIndex = 0;
+            }
+        }
+
+        private void GetWorkers()
+        {
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+
+            clYoneticiler.Items.Clear();
+
+            try
+            {
+                Task.Run(async delegate
+                {
+                    ServiceResult<List<WorkerModel>> workersServiceResult =
+                        await _serviceCommunicator.Call<List<WorkerModel>>(
+                            serviceName: _routeNameProvider.HR_GetWorkers,
+                            postData: null,
+                            queryParameters: null,
+                            cancellationToken: cancellationTokenSource.Token);
+
+                    if (workersServiceResult.IsSuccess)
+                    {
+                        foreach (var department in workersServiceResult.Data)
+                        {
+                            clYoneticiler.Items.Add(department);
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception(workersServiceResult.Error.Description);
+                    }
+                },
+                cancellationToken: cancellationTokenSource.Token).Wait();
+            }
+            catch (Exception ex)
+            {
+                cancellationTokenSource.Cancel();
+                MessageBox.Show(ex.ToString());
+            }
+
+            if (clYoneticiler.Items.Count > 0)
+            {
+                clYoneticiler.SelectedIndex = 0;
             }
         }
     }

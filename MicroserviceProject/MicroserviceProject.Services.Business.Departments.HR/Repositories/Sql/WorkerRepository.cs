@@ -86,15 +86,13 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
         public override async Task<int> CreateAsync(WorkerEntity worker, CancellationToken cancellationToken)
         {
             SqlCommand sqlCommand = new SqlCommand(@"INSERT INTO [WORKERS]
-                                                    ([NAME],
-                                                    [FROMDATE],
+                                                    ([FROMDATE],
                                                     [TODATE],
                                                     [DEPARTMENTID],
                                                     [PERSONID],
                                                     [TITLEID])
                                                     VALUES
-                                                    (@NAME,
-                                                     @FROMDATE,
+                                                    (@FROMDATE,
                                                      @TODATE,
                                                      @DEPARTMENTID,
                                                      @PERSONID,
@@ -105,12 +103,11 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
 
             sqlCommand.Transaction = UnitOfWork.SqlTransaction;
 
-            sqlCommand.Parameters.AddWithValue("@NAME", ((object)worker.Name) ?? DBNull.Value);
             sqlCommand.Parameters.AddWithValue("@FROMDATE", ((object)worker.FromDate) ?? DBNull.Value);
             sqlCommand.Parameters.AddWithValue("@TODATE", ((object)worker.ToDate) ?? DBNull.Value);
             sqlCommand.Parameters.AddWithValue("@DEPARTMENTID", ((object)worker.DepartmentId) ?? DBNull.Value);
             sqlCommand.Parameters.AddWithValue("@PERSONID", ((object)worker.PersonId) ?? DBNull.Value);
-            sqlCommand.Parameters.AddWithValue("@TITLEID", ((object)worker.Title) ?? DBNull.Value);
+            sqlCommand.Parameters.AddWithValue("@TITLEID", ((object)worker.TitleId) ?? DBNull.Value);
 
             return (int)await sqlCommand.ExecuteScalarAsync(cancellationToken);
         }

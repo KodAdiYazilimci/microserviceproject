@@ -104,36 +104,15 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
 
         private void bnKisiOlustur_Click(object sender, EventArgs e)
         {
-            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+            CreatePersonForm createPersonForm =
+                new CreatePersonForm(
+                    _credentialProvider,
+                    _memoryCache,
+                    _routeNameProvider,
+                    _serviceCommunicator,
+                    _serviceRouteRepository);
 
-            try
-            {
-                Task.Run(async delegate
-                {
-                    ServiceResult<int> createPersonServiceResult =
-                                await _serviceCommunicator.Call<int>(
-                                    serviceName: _routeNameProvider.HR_CreatePerson,
-                                    postData: new PersonModel()
-                                    {
-                                        Name = "TestUser"
-                                    },
-                                    queryParameters: null,
-                                    cancellationToken: cancellationTokenSource.Token);
-
-                    if (createPersonServiceResult.IsSuccess)
-                    {
-                        MessageBox.Show("Kişi oluşturuldu");
-                    }
-                    else
-                        throw new Exception(createPersonServiceResult.Error.Description);
-                },
-                cancellationToken: cancellationTokenSource.Token).Wait();
-            }
-            catch (Exception ex)
-            {
-                cancellationTokenSource.Cancel();
-                MessageBox.Show(ex.ToString());
-            }
+            createPersonForm.ShowDialog();
         }
 
         private void btnDepartmanlariGetir_Click(object sender, EventArgs e)

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 
 using MicroserviceProject.Infrastructure.Caching.Redis;
+using MicroserviceProject.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Infrastructure.Communication.Moderator;
 using MicroserviceProject.Infrastructure.Communication.Moderator.Providers;
 using MicroserviceProject.Services.Business.Departments.HR.Entities.Sql;
@@ -263,21 +264,25 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
         {
             WorkerEntity mappedWorker = _mapper.Map<WorkerModel, WorkerEntity>(worker);
 
-            int createdWorkerId = await _workerRepository.CreateAsync(mappedWorker, cancellationToken);
+            worker.Id = await _workerRepository.CreateAsync(mappedWorker, cancellationToken);
 
-            await _serviceCommunicator.Call<int>(
-                serviceName: _routeNameProvider.Accounting_CreateBankAccount,
-                postData: new BankAccountModel()
-                {
-                    Worker = worker,
-                    IBAN = worker.BankAccounts.FirstOrDefault().IBAN
-                },
-                queryParameters: null,
-                cancellationToken: cancellationToken);
+            ServiceResult<int> createBankAccountServiceResult = await _serviceCommunicator.Call<int>(
+                 serviceName: _routeNameProvider.Accounting_CreateBankAccount,
+                 postData: new BankAccountModel()
+                 {
+                     Worker = worker,
+                     IBAN = worker.BankAccounts.FirstOrDefault().IBAN
+                 },
+                 queryParameters: null,
+                 cancellationToken: cancellationToken);
+
+            if (!createBankAccountServiceResult.IsSuccess)
+            {
+                throw new Exception(createBankAccountServiceResult.Error.Description);
+            }
 
             await _unitOfWork.SaveAsync(cancellationToken);
 
-            worker.Id = createdWorkerId;
 
             if (_cacheDataProvider.TryGetValue(CACHED_WORKERS_KEY, out List<WorkerModel> cachedWorkers))
             {
@@ -293,7 +298,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                 _cacheDataProvider.Set(CACHED_WORKERS_KEY, workers);
             }
 
-            return createdWorkerId;
+            return worker.Id;
         }
 
         /// <summary>
