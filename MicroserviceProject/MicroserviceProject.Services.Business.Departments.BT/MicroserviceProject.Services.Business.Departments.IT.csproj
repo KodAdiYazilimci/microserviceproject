@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Configuration\Mapping\" />
+    <Folder Include="Configuration\Validation\" />
+    <Folder Include="Controllers\" />
+    <Folder Include="DI\" />
+    <Folder Include="Entities\Sql\" />
+    <Folder Include="Repositories\Sql\" />
+    <Folder Include="Util\Validation\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MicroserviceProject.Services.Business.DI\MicroserviceProject.Services.Business.DI.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Services.Business.Model\MicroserviceProject.Services.Business.Model.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Services.Business.Util\MicroserviceProject.Services.Business.Util.csproj" />
+  </ItemGroup>
+
+</Project>
