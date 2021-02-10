@@ -42,9 +42,10 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositor
             SqlCommand sqlCommand = new SqlCommand(@"SELECT 
                                                      [ID],
                                                      [NAME],
-                                                     [DELETEDATE]
-                                                     FROM [CURRENCIES]
-                                                     WHERE DELETEDATE IS NULL",
+                                                     [SHORT_NAME],
+                                                     [DELETE_DATE]
+                                                     FROM [ACCOUNTING_CURRENCIES]
+                                                     WHERE DELETE_DATE IS NULL",
                                                      UnitOfWork.SqlConnection,
                                                      UnitOfWork.SqlTransaction);
 
@@ -60,6 +61,7 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositor
 
                     currency.Id = sqlDataReader.GetInt32("ID");
                     currency.Name = sqlDataReader.GetString("NAME");
+                    currency.ShortName = sqlDataReader.GetString("SHORT_NAME");
 
                     currencies.Add(currency);
                 }
@@ -77,10 +79,12 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositor
         /// <returns></returns>
         public override async Task<int> CreateAsync(CurrencyEntity currency, CancellationToken cancellationToken)
         {
-            SqlCommand sqlCommand = new SqlCommand(@"INSERT INTO [CURRENCIES]
-                                                     ([NAME])
+            SqlCommand sqlCommand = new SqlCommand(@"INSERT INTO [ACCOUNTING_CURRENCIES]
+                                                     ([NAME],
+                                                     [SHORT_NAME])
                                                      VALUES
-                                                     (@NAME);
+                                                     (@NAME,
+                                                      @SHORT_NAME);
                                                      SELECT CAST(scope_identity() AS int)",
                                                      UnitOfWork.SqlConnection,
                                                      UnitOfWork.SqlTransaction);
@@ -88,6 +92,7 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositor
             sqlCommand.Transaction = UnitOfWork.SqlTransaction;
 
             sqlCommand.Parameters.AddWithValue("@NAME", ((object)currency.Name) ?? DBNull.Value);
+            sqlCommand.Parameters.AddWithValue("@SHORT_NAME", ((object)currency.ShortName) ?? DBNull.Value);
 
             return (int)await sqlCommand.ExecuteScalarAsync(cancellationToken);
         }

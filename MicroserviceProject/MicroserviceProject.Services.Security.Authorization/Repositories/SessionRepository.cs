@@ -138,7 +138,7 @@ namespace MicroserviceProject.Services.Security.Authorization.Persistence.Sql.Re
                                       AND 
                                       VALIDTO > GETDATE()
                                       AND
-                                      DELETEDATE IS NULL
+                                      DELETE_DATE IS NULL
                                       AND
                                       ISVALID = 1", sqlConnection);
 

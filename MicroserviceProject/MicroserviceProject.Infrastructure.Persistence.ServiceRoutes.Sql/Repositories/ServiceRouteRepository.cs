@@ -45,7 +45,7 @@ namespace Infrastructure.Persistence.ServiceRoutes.Sql.Repositories
                     new SqlCommand(@"
                                     SELECT R.* FROM SERVICE_ROUTES R
                                     WHERE 
-                                    R.DELETEDATE IS NULL", sqlConnection);
+                                    R.DELETE_DATE IS NULL", sqlConnection);
 
                 if (sqlConnection.State != ConnectionState.Open)
                 {
@@ -82,7 +82,7 @@ namespace Infrastructure.Persistence.ServiceRoutes.Sql.Repositories
                                                                   WHERE
                                                                   Q.SERVICE_ROUTE_ID=@ROUTEID
                                                                   AND
-                                                                  Q.DELETEDATE IS NULL", sqlConnection);
+                                                                  Q.DELETE_DATE IS NULL", sqlConnection);
 
                     sqlQueryCommand.Parameters.AddWithValue("@ROUTEID", route.Id);
 

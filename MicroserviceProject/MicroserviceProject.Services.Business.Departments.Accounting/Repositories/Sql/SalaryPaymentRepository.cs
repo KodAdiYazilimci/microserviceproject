@@ -40,12 +40,12 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositor
             List<SalaryPaymentEntity> salaryPayments = new List<SalaryPaymentEntity>();
 
             SqlCommand sqlCommand = new SqlCommand(@"SELECT [ID],
-                                                     [BANK_ACCOUNT_ID],
-                                                     [CURRENCY_ID],
+                                                     [ACCOUNTING_BANK_ACCOUNTS_ID],
+                                                     [ACCOUNTING_CURRENCIES_ID],
                                                      [DATE],
                                                      [AMOUNT]
-                                                     FROM [SALARY_PAYMENTS]
-                                                     WHERE DELETEDATE IS NULL",
+                                                     FROM [ACCOUNTING_SALARY_PAYMENTS]
+                                                     WHERE DELETE_DATE IS NULL",
                                                      UnitOfWork.SqlConnection,
                                                      UnitOfWork.SqlTransaction);
 
@@ -60,8 +60,8 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositor
                     SalaryPaymentEntity salaryPayment = new SalaryPaymentEntity();
 
                     salaryPayment.Id = sqlDataReader.GetInt32("ID");
-                    salaryPayment.BankAccountId = sqlDataReader.GetInt32("BANK_ACCOUNT_ID");
-                    salaryPayment.CurrencyId = sqlDataReader.GetInt32("CURRENCY_ID");
+                    salaryPayment.BankAccountId = sqlDataReader.GetInt32("ACCOUNTING_BANK_ACCOUNTS_ID");
+                    salaryPayment.CurrencyId = sqlDataReader.GetInt32("ACCOUNTING_CURRENCIES_ID");
                     salaryPayment.Date = sqlDataReader.GetDateTime("DATE");
                     salaryPayment.Amount = sqlDataReader.GetDecimal("AMOUNT");
 
@@ -80,21 +80,21 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositor
             SqlCommand sqlCommand = new SqlCommand(@"
                                                      SELECT 
                                                      SP.[ID],
-                                                     SP.[BANK_ACCOUNT_ID],
-                                                     SP.[CURRENCY_ID],
+                                                     SP.[ACCOUNTING_BANK_ACCOUNTS_ID],
+                                                     SP.[ACCOUNTING_CURRENCIES_ID],
                                                      SP.[DATE],
                                                      SP.[AMOUNT]
-                                                     FROM [SALARY_PAYMENTS] SP
-                                                     INNER JOIN BANK_ACCOUNTS BA
-                                                     ON SP.BANK_ACCOUNT_ID = BA.ID
+                                                     FROM [ACCOUNTING_SALARY_PAYMENTS] SP
+                                                     INNER JOIN ACCOUNTING_BANK_ACCOUNTS BA
+                                                     ON SP.ACCOUNTING_BANK_ACCOUNTS_ID = BA.ID
                                                      WHERE 
-                                                     SP.DELETEDATE IS NULL
+                                                     SP.DELETE_DATE IS NULL
                                                      AND
-                                                     BA.WORKERID = @WORKERID",
+                                                     BA.HR_WORKERS_ID = @HR_WORKERS_ID",
                                                      UnitOfWork.SqlConnection,
                                                      UnitOfWork.SqlTransaction);
 
-            sqlCommand.Parameters.AddWithValue("@WORKERID", ((object)workerId) ?? DBNull.Value);
+            sqlCommand.Parameters.AddWithValue("@HR_WORKERS_ID", ((object)workerId) ?? DBNull.Value);
 
             sqlCommand.Transaction = UnitOfWork.SqlTransaction;
 
@@ -107,8 +107,8 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositor
                     SalaryPaymentEntity salaryPayment = new SalaryPaymentEntity();
 
                     salaryPayment.Id = sqlDataReader.GetInt32("ID");
-                    salaryPayment.BankAccountId = sqlDataReader.GetInt32("BANK_ACCOUNT_ID");
-                    salaryPayment.CurrencyId = sqlDataReader.GetInt32("CURRENCY_ID");
+                    salaryPayment.BankAccountId = sqlDataReader.GetInt32("ACCOUNTING_BANK_ACCOUNTS_ID");
+                    salaryPayment.CurrencyId = sqlDataReader.GetInt32("ACCOUNTING_CURRENCIES_ID");
                     salaryPayment.Date = sqlDataReader.GetDateTime("DATE");
                     salaryPayment.Amount = sqlDataReader.GetDecimal("AMOUNT");
 
@@ -128,14 +128,14 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositor
         /// <returns></returns>
         public override async Task<int> CreateAsync(SalaryPaymentEntity salaryPayment, CancellationToken cancellationToken)
         {
-            SqlCommand sqlCommand = new SqlCommand(@"INSERT INTO [SALARY_PAYMENTS]
-                                                     ([BANK_ACCOUNT_ID],
-                                                     [CURRENCY_ID],
+            SqlCommand sqlCommand = new SqlCommand(@"INSERT INTO [ACCOUNTING_SALARY_PAYMENTS]
+                                                     ([ACCOUNTING_BANK_ACCOUNTS_ID],
+                                                     [ACCOUNTING_CURRENCIES_ID],
                                                      [DATE],
                                                      [AMOUNT])
                                                      VALUES
-                                                     (@BANK_ACCOUNT_ID,
-                                                      @CURRENCY_ID,
+                                                     (@ACCOUNTING_BANK_ACCOUNTS_ID,
+                                                      @ACCOUNTING_CURRENCIES_ID,
                                                       @DATE, 
                                                       @AMOUNT);
                                                      SELECT CAST(scope_identity() AS int)",
@@ -144,8 +144,8 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositor
 
             sqlCommand.Transaction = UnitOfWork.SqlTransaction;
 
-            sqlCommand.Parameters.AddWithValue("@BANK_ACCOUNT_ID", ((object)salaryPayment.BankAccountId) ?? DBNull.Value);
-            sqlCommand.Parameters.AddWithValue("@CURRENCY_ID", ((object)salaryPayment.CurrencyId) ?? DBNull.Value);
+            sqlCommand.Parameters.AddWithValue("@ACCOUNTING_BANK_ACCOUNTS_ID", ((object)salaryPayment.BankAccountId) ?? DBNull.Value);
+            sqlCommand.Parameters.AddWithValue("@ACCOUNTING_CURRENCIES_ID", ((object)salaryPayment.CurrencyId) ?? DBNull.Value);
             sqlCommand.Parameters.AddWithValue("@DATE", ((object)salaryPayment.Date) ?? DBNull.Value);
             sqlCommand.Parameters.AddWithValue("@AMOUNT", ((object)salaryPayment.Amount) ?? DBNull.Value);
 

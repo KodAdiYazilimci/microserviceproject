@@ -41,9 +41,9 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
             SqlCommand sqlCommand = new SqlCommand(@"SELECT 
                                                      [ID],
                                                      [NAME],
-                                                     [DELETEDATE]
-                                                     FROM [DEPARTMENTS]
-                                                     WHERE DELETEDATE IS NULL",
+                                                     [DELETE_DATE]
+                                                     FROM [HR_DEPARTMENTS]
+                                                     WHERE DELETE_DATE IS NULL",
                                                      UnitOfWork.SqlConnection,
                                                      UnitOfWork.SqlTransaction);
 
@@ -76,7 +76,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
         /// <returns></returns>
         public override async Task<int> CreateAsync(DepartmentEntity department, CancellationToken cancellationToken)
         {
-            SqlCommand sqlCommand = new SqlCommand(@"INSERT INTO [DEPARTMENTS]
+            SqlCommand sqlCommand = new SqlCommand(@"INSERT INTO [HR_DEPARTMENTS]
                                                      ([NAME])
                                                      VALUES
                                                      (@NAME);

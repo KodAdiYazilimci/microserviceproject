@@ -39,10 +39,10 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositor
             List<BankAccountEntity> bankAccounts = new List<BankAccountEntity>();
 
             SqlCommand sqlCommand = new SqlCommand(@"SELECT [ID],
-                                                     [WORKERID],
+                                                     [WORKERS_ID],
                                                      [IBAN],
-                                                     FROM [BANK_ACCOUNTS]
-                                                     WHERE DELETEDATE IS NULL",
+                                                     FROM [ACCOUNTING_BANK_ACCOUNTS]
+                                                     WHERE DELETE_DATE IS NULL",
                                                      UnitOfWork.SqlConnection,
                                                      UnitOfWork.SqlTransaction);
 
@@ -57,7 +57,7 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositor
                     BankAccountEntity bankAccount = new BankAccountEntity();
 
                     bankAccount.Id = sqlDataReader.GetInt32("ID");
-                    bankAccount.WorkerId = sqlDataReader.GetInt32("WORKERID");
+                    bankAccount.WorkerId = sqlDataReader.GetInt32("HR_WORKERS_ID");
                     bankAccount.IBAN = sqlDataReader.GetString("IBAN");
 
                     bankAccounts.Add(bankAccount);
@@ -77,16 +77,16 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositor
             List<BankAccountEntity> bankAccounts = new List<BankAccountEntity>();
 
             SqlCommand sqlCommand = new SqlCommand(@"SELECT [ID],
-                                                     [WORKERID],
+                                                     [WORKERS_ID],
                                                      [IBAN],
-                                                     FROM [BANK_ACCOUNTS]
-                                                     WHERE DELETEDATE IS NULL
+                                                     FROM [ACCOUNTING_BANK_ACCOUNTS]
+                                                     WHERE DELETE_DATE IS NULL
                                                      AND
-                                                     WORKERID = @WORKERID",
+                                                     HR_WORKERS_ID = @HR_WORKERS_ID",
                                                      UnitOfWork.SqlConnection,
                                                      UnitOfWork.SqlTransaction);
 
-            sqlCommand.Parameters.AddWithValue("@WORKERID", ((object)workerId) ?? DBNull.Value);
+            sqlCommand.Parameters.AddWithValue("@HR_WORKERS_ID", ((object)workerId) ?? DBNull.Value);
 
             sqlCommand.Transaction = UnitOfWork.SqlTransaction;
 
@@ -99,7 +99,7 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositor
                     BankAccountEntity bankAccount = new BankAccountEntity();
 
                     bankAccount.Id = sqlDataReader.GetInt32("ID");
-                    bankAccount.WorkerId = sqlDataReader.GetInt32("WORKERID");
+                    bankAccount.WorkerId = sqlDataReader.GetInt32("HR_WORKERS_ID");
                     bankAccount.IBAN = sqlDataReader.GetString("IBAN");
 
                     bankAccounts.Add(bankAccount);
@@ -118,11 +118,11 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositor
         /// <returns></returns>
         public override async Task<int> CreateAsync(BankAccountEntity bankAccount, CancellationToken cancellationToken)
         {
-            SqlCommand sqlCommand = new SqlCommand(@"INSERT INTO [BANK_ACCOUNTS]
-                                                    ([WORKERID],
+            SqlCommand sqlCommand = new SqlCommand(@"INSERT INTO [ACCOUNTING_BANK_ACCOUNTS]
+                                                    ([WORKERS_ID],
                                                      [IBAN])
                                                      VALUES
-                                                    (@WORKERID,
+                                                    (@HR_WORKERS_ID,
                                                      @IBAN);
                                                      SELECT CAST(scope_identity() AS int)",
                                                      UnitOfWork.SqlConnection,
@@ -130,7 +130,7 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositor
 
             sqlCommand.Transaction = UnitOfWork.SqlTransaction;
 
-            sqlCommand.Parameters.AddWithValue("@WORKERID", ((object)bankAccount.WorkerId) ?? DBNull.Value);
+            sqlCommand.Parameters.AddWithValue("@HR_WORKERS_ID", ((object)bankAccount.WorkerId) ?? DBNull.Value);
             sqlCommand.Parameters.AddWithValue("@IBAN", ((object)bankAccount.IBAN) ?? DBNull.Value);
 
             return (int)await sqlCommand.ExecuteScalarAsync(cancellationToken);

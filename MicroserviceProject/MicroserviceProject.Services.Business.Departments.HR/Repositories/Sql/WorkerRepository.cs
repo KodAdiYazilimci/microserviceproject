@@ -41,13 +41,13 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
             SqlCommand sqlCommand = new SqlCommand(@"SELECT 
                                                      [ID]
                                                      [NAME],
-                                                     [FROMDATE],
-                                                     [TODATE],
-                                                     [DEPARTMENTID],
-                                                     [PERSONID],
-                                                     [TITLEID]
-                                                     FROM [WORKERS]
-                                                     WHERE DELETEDATE IS NULL",
+                                                     [FROM_DATE],
+                                                     [TO_DATE],
+                                                     [HR_DEPARTMENTS_ID],
+                                                     [HR_PEOPLE_ID],
+                                                     [HR_TITLES_ID]
+                                                     FROM [HR_WORKERS]
+                                                     WHERE DELETE_DATE IS NULL",
                                                      UnitOfWork.SqlConnection,
                                                      UnitOfWork.SqlTransaction);
 
@@ -63,11 +63,11 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
 
                     worker.Id = sqlDataReader.GetInt32("ID");
                     worker.Name = sqlDataReader.GetString("NAME");
-                    worker.FromDate = sqlDataReader.GetDateTime("FROMDATE");
-                    worker.ToDate = sqlDataReader.GetDateTime("TODATE");
-                    worker.DepartmentId = sqlDataReader.GetInt32("DEPARTMENTID");
-                    worker.PersonId = sqlDataReader.GetInt32("PERSONID");
-                    worker.TitleId = sqlDataReader.GetInt32("TITLEID");
+                    worker.FromDate = sqlDataReader.GetDateTime("FROM_DATE");
+                    worker.ToDate = sqlDataReader.GetDateTime("TO_DATE");
+                    worker.DepartmentId = sqlDataReader.GetInt32("HR_DEPARTMENTS_ID");
+                    worker.PersonId = sqlDataReader.GetInt32("HR_PEOPLE_ID");
+                    worker.TitleId = sqlDataReader.GetInt32("HR_TITLES_ID");
 
                     workers.Add(worker);
                 }
@@ -85,29 +85,29 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
         /// <returns></returns>
         public override async Task<int> CreateAsync(WorkerEntity worker, CancellationToken cancellationToken)
         {
-            SqlCommand sqlCommand = new SqlCommand(@"INSERT INTO [WORKERS]
-                                                    ([FROMDATE],
-                                                    [TODATE],
-                                                    [DEPARTMENTID],
-                                                    [PERSONID],
-                                                    [TITLEID])
+            SqlCommand sqlCommand = new SqlCommand(@"INSERT INTO [HR_WORKERS]
+                                                    ([FROM_DATE],
+                                                    [TO_DATE],
+                                                    [HR_DEPARTMENTS_ID],
+                                                    [HR_PEOPLE_ID],
+                                                    [HR_TITLES_ID])
                                                     VALUES
-                                                    (@FROMDATE,
-                                                     @TODATE,
-                                                     @DEPARTMENTID,
-                                                     @PERSONID,
-                                                     @TITLEID);
+                                                    (@FROM_DATE,
+                                                     @TO_DATE,
+                                                     @HR_DEPARTMENTS_ID,
+                                                     @HR_PEOPLE_ID,
+                                                     @HR_TITLES_ID);
                                                      SELECT CAST(scope_identity() AS int)",
                                                      UnitOfWork.SqlConnection,
                                                      UnitOfWork.SqlTransaction);
 
             sqlCommand.Transaction = UnitOfWork.SqlTransaction;
 
-            sqlCommand.Parameters.AddWithValue("@FROMDATE", ((object)worker.FromDate) ?? DBNull.Value);
-            sqlCommand.Parameters.AddWithValue("@TODATE", ((object)worker.ToDate) ?? DBNull.Value);
-            sqlCommand.Parameters.AddWithValue("@DEPARTMENTID", ((object)worker.DepartmentId) ?? DBNull.Value);
-            sqlCommand.Parameters.AddWithValue("@PERSONID", ((object)worker.PersonId) ?? DBNull.Value);
-            sqlCommand.Parameters.AddWithValue("@TITLEID", ((object)worker.TitleId) ?? DBNull.Value);
+            sqlCommand.Parameters.AddWithValue("@FROM_DATE", ((object)worker.FromDate) ?? DBNull.Value);
+            sqlCommand.Parameters.AddWithValue("@TO_DATE", ((object)worker.ToDate) ?? DBNull.Value);
+            sqlCommand.Parameters.AddWithValue("@HR_DEPARTMENTS_ID", ((object)worker.DepartmentId) ?? DBNull.Value);
+            sqlCommand.Parameters.AddWithValue("@HR_PEOPLE_ID", ((object)worker.PersonId) ?? DBNull.Value);
+            sqlCommand.Parameters.AddWithValue("@HR_TITLES_ID", ((object)worker.TitleId) ?? DBNull.Value);
 
             return (int)await sqlCommand.ExecuteScalarAsync(cancellationToken);
         }

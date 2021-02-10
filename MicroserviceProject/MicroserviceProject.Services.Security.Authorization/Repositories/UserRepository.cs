@@ -49,7 +49,7 @@ namespace MicroserviceProject.Services.Security.Authorization.Persistence.Sql.Re
                     new SqlCommand(@"
                                     SELECT * FROM USERS 
                                     WHERE 
-                                    DELETEDATE IS NULL", sqlConnection);
+                                    DELETE_DATE IS NULL", sqlConnection);
 
                 if (sqlConnection.State != ConnectionState.Open)
                 {
@@ -112,7 +112,7 @@ namespace MicroserviceProject.Services.Security.Authorization.Persistence.Sql.Re
 
             try
             {
-                SqlCommand sqlCommand = new SqlCommand(@"SELECT TOP 1 * FROM USERS WHERE ID = @id AND DELETEDATE IS NULL", sqlConnection);
+                SqlCommand sqlCommand = new SqlCommand(@"SELECT TOP 1 * FROM USERS WHERE ID = @id AND DELETE_DATE IS NULL", sqlConnection);
                 sqlCommand.Parameters.AddWithValue("@id", userId);
 
                 if (sqlConnection.State != ConnectionState.Open)
@@ -176,7 +176,7 @@ namespace MicroserviceProject.Services.Security.Authorization.Persistence.Sql.Re
 
             try
             {
-                SqlCommand sqlCommand = new SqlCommand(@"SELECT TOP 1 * FROM USERS WHERE EMAIL = @EMAIL AND PASSWORD=@PASSWORD AND DELETEDATE IS NULL", sqlConnection);
+                SqlCommand sqlCommand = new SqlCommand(@"SELECT TOP 1 * FROM USERS WHERE EMAIL = @EMAIL AND PASSWORD=@PASSWORD AND DELETE_DATE IS NULL", sqlConnection);
                 sqlCommand.Parameters.AddWithValue("@EMAIL", email);
                 sqlCommand.Parameters.AddWithValue("@PASSWORD", password);
 
@@ -310,7 +310,7 @@ namespace MicroserviceProject.Services.Security.Authorization.Persistence.Sql.Re
 
             try
             {
-                SqlCommand sqlCommand = new SqlCommand(@"SELECT TOP 1 * FROM USERS WHERE EMAIL = @EMAIL AND DELETEDATE IS NULL", sqlConnection);
+                SqlCommand sqlCommand = new SqlCommand(@"SELECT TOP 1 * FROM USERS WHERE EMAIL = @EMAIL AND DELETE_DATE IS NULL", sqlConnection);
                 sqlCommand.Parameters.AddWithValue("@EMAIL", email);
 
                 if (sqlConnection.State != ConnectionState.Open)
