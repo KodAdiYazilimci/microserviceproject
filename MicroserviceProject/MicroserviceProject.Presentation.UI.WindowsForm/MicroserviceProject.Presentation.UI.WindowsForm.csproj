@@ -106,6 +106,7 @@
     <Compile Include="Business.Model\Department\HR\PersonModel.cs" />
     <Compile Include="Business.Model\Department\HR\TitleModel.cs" />
     <Compile Include="Business.Model\Department\HR\WorkerModel.cs" />
+    <Compile Include="Business.Model\Department\IT\InventoryModel.cs" />
     <Compile Include="Dialogs\HR\CreatePersonForm.cs">
       <SubType>Form</SubType>
     </Compile>
