@@ -75,7 +75,7 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Repositories.Sql
         /// <returns></returns>
         public override async Task<int> CreateAsync(InventoryEntity inventory, CancellationToken cancellationToken)
         {
-            SqlCommand sqlCommand = new SqlCommand(@"[dbo].[IT_INVENTORIES]
+            SqlCommand sqlCommand = new SqlCommand(@"INSERT INTO [dbo].[IT_INVENTORIES]
                                                      ([NAME])
                                                      VALUES
                                                      (@NAME);
@@ -113,6 +113,49 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Repositories.Sql
 
                 disposed = true;
             }
+        }
+
+        /// <summary>
+        /// Belirli Id ye sahip envanterleri verir
+        /// </summary>
+        /// <param name="inventoryIds">Getirilecek envanterlerin Id değerleri</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<List<InventoryEntity>> GetForSpecificIdAsync(List<int> inventoryIds, CancellationToken cancellationToken)
+        {
+            List<InventoryEntity> inventories = new List<InventoryEntity>();
+
+            SqlCommand sqlCommand = new SqlCommand(@"SELECT 
+                                                     [ID],
+                                                     [NAME]
+                                                     FROM [dbo].[IT_INVENTORIES]
+                                                     WHERE 
+                                                     DELETE_DATE IS NULL
+                                                     AND
+                                                     ID IN @IDS",
+                                                     UnitOfWork.SqlConnection,
+                                                     UnitOfWork.SqlTransaction);
+
+            sqlCommand.Parameters.AddWithValue("@IDS",((object)string.Join(',', inventoryIds)) ?? DBNull.Value);
+
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+            SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationToken);
+
+            if (sqlDataReader.HasRows)
+            {
+                while (await sqlDataReader.ReadAsync(cancellationToken))
+                {
+                    InventoryEntity inventory = new InventoryEntity();
+
+                    inventory.Id = sqlDataReader.GetInt32("ID");
+                    inventory.Name = sqlDataReader.GetString("NAME");
+
+                    inventories.Add(inventory);
+                }
+            }
+
+            return inventories;
         }
     }
 }

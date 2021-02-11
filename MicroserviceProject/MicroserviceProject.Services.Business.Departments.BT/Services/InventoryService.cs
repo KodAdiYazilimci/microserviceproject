@@ -3,6 +3,7 @@
 using MicroserviceProject.Infrastructure.Caching.Redis;
 using MicroserviceProject.Services.Business.Departments.IT.Entities.Sql;
 using MicroserviceProject.Services.Business.Departments.IT.Repositories.Sql;
+using MicroserviceProject.Services.Business.Model.Department.HR;
 using MicroserviceProject.Services.Business.Model.Department.IT;
 using MicroserviceProject.Services.Business.Util.UnitOfWork;
 
@@ -45,6 +46,11 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Services
         private readonly InventoryRepository _inventoryRepository;
 
         /// <summary>
+        /// Çalışan envanterleri tablosu için repository sınıfı
+        /// </summary>
+        private readonly WorkerInventoryRepository _workerInventoryRepository;
+
+        /// <summary>
         /// Veritabanı iş birimi nesnesi
         /// </summary>
         private readonly IUnitOfWork _unitOfWork;
@@ -56,16 +62,19 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Services
         /// <param name="unitOfWork">Veritabanı iş birimi nesnesi</param>
         /// <param name="cacheDataProvider">Rediste tutulan önbellek yönetimini sağlayan sınıf</param>
         /// <param name="inventoryRepository">Envanter tablosu için repository sınıfı</param>
+        /// <param name="workerInventoryRepository">Çalışan envanterleri tablosu için repository sınıfı</param>
         public InventoryService(
             IMapper mapper,
             IUnitOfWork unitOfWork,
             CacheDataProvider cacheDataProvider,
-            InventoryRepository inventoryRepository)
+            InventoryRepository inventoryRepository,
+            WorkerInventoryRepository workerInventoryRepository)
         {
             _mapper = mapper;
+            _unitOfWork = unitOfWork;
             _cacheDataProvider = cacheDataProvider;
             _inventoryRepository = inventoryRepository;
-            _unitOfWork = unitOfWork;
+            _workerInventoryRepository = workerInventoryRepository;
         }
 
         /// <summary>
@@ -123,6 +132,43 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Services
             }
 
             return createdInventoryId;
+        }
+
+        /// <summary>
+        /// Bir çalışana envanter ataması yapar
+        /// </summary>
+        /// <param name="worker">Envanter bilgisini içeren çalışan nesnesi</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<WorkerModel> AssignInventoryToWorkerAsync(WorkerModel worker, CancellationToken cancellationToken)
+        {
+            List<int> inventoryIds = worker.Inventories.Select(x => x.Id).ToList();
+
+            List<InventoryEntity> inventories =
+                await _inventoryRepository.GetForSpecificIdAsync(inventoryIds, cancellationToken);
+
+            foreach (var inventoryId in inventoryIds)
+            {
+                if (!inventories.Select(x => x.Id).Contains(inventoryId))
+                {
+                    throw new Exception($"{inventoryId} Id değerine sahip envanter bulunamadı");
+                }
+            }
+
+            foreach (var inventoryModel in worker.Inventories)
+            {
+                inventoryModel.Id = await _workerInventoryRepository.CreateAsync(new WorkerInventoryEntity
+                {
+                    FromDate = inventoryModel.FromDate,
+                    ToDate = inventoryModel.ToDate,
+                    InventoryId = inventoryModel.Id,
+                    WorkerId = worker.Id
+                }, cancellationToken);
+            }
+
+            await _unitOfWork.SaveAsync(cancellationToken);
+
+            return worker;
         }
 
         /// <summary>

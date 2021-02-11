@@ -215,5 +215,48 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moder
                     .ToString();
             }
         }
+
+
+        /// <summary>
+        /// IT envanterlerini verir
+        /// </summary>
+        public string IT_GetInventories
+        {
+            get
+            {
+                return
+                    ConfigurationManager
+                    .AppSettings["Services.Endpoints.IT.GetInventories"]
+                    .ToString();
+            }
+        }
+
+        /// <summary>
+        /// IT envanteri oluşturur
+        /// </summary>
+        public string IT_CreateInventory
+        {
+            get
+            {
+                return
+                    ConfigurationManager
+                    .AppSettings["Services.Endpoints.IT.CreateInventory"]
+                    .ToString();
+            }
+        }
+
+        /// <summary>
+        /// Çalışana IT envanteri ataması yapar
+        /// </summary>
+        public string IT_AssignInventoryToWorker
+        {
+            get
+            {
+                return
+                    ConfigurationManager
+                    .AppSettings["Services.Endpoints.IT.AssignInventoryToWorker"]
+                    .ToString();
+            }
+        }
     }
 }

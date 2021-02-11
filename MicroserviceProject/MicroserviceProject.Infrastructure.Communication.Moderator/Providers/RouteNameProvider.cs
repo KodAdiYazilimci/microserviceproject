@@ -53,32 +53,6 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator.Providers
             }
         }
 
-        public string SampleDataProvider_GetData
-        {
-            get
-            {
-                return
-                    _configuration
-                    .GetSection("Services")
-                    .GetSection("Endpoints")
-                    .GetSection("SampleDataProvider")
-                    .GetSection("GetData").Value;
-            }
-        }
-
-        public string SampleDataProvider_PostData
-        {
-            get
-            {
-                return
-                    _configuration
-                    .GetSection("Services")
-                    .GetSection("Endpoints")
-                    .GetSection("SampleDataProvider")
-                    .GetSection("PostData").Value;
-            }
-        }
-
         /// <summary>
         /// Departmanları verir
         /// </summary>
@@ -223,6 +197,9 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator.Providers
             }
         }
 
+        /// <summary>
+        /// Çalışanın banka hesaplarını getirir
+        /// </summary>
         public string Accounting_GetBankAccountsOfWorker
         {
             get
@@ -236,6 +213,9 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator.Providers
             }
         }
 
+        /// <summary>
+        /// Para birimlerini getirir
+        /// </summary>
         public string Accounting_GetCurrencies
         {
             get
@@ -249,6 +229,9 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator.Providers
             }
         }
 
+        /// <summary>
+        /// Para birimi oluşturur
+        /// </summary>
         public string Accounting_CreateCurrency
         {
             get
@@ -259,6 +242,54 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator.Providers
                     .GetSection("Endpoints")
                     .GetSection("Accounting")
                     .GetSection("CreateCurrency").Value;
+            }
+        }
+
+        /// <summary>
+        /// IT envanterlerini verir
+        /// </summary>
+        public string IT_GetInventories
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("IT")
+                    .GetSection("GetInventories").Value;
+            }
+        }
+
+        /// <summary>
+        /// IT envanteri oluşturur
+        /// </summary>
+        public string IT_CreateInventory
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("IT")
+                    .GetSection("CreateInventory").Value;
+            }
+        }
+
+        /// <summary>
+        /// Çalışana IT envanteri ataması yapar
+        /// </summary>
+        public string IT_AssignInventoryToWorker
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("IT")
+                    .GetSection("AssignInventoryToWorker").Value;
             }
         }
     }
