@@ -7,10 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure.Communicatio
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{B8BC82E7-C1AE-457E-9B15-0F750DD6C897}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleSourceService", "SampleSourceService\SampleSourceService.csproj", "{6AF2BF37-8E5C-4B7D-8131-082415BF7AF4}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleDataProviderService", "SampleDataProviderService\SampleDataProviderService.csproj", "{1880D70D-2F3D-4415-8D4C-EAA49391D15F}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure.Security", "Infrastructure.Security", "{4B50141F-7DDA-4045-87E0-EFBF72CEFB63}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure.Logging", "Infrastructure.Logging", "{423CC89D-F00D-45D2-BE00-931786875AA6}"
@@ -93,7 +89,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Service
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Presentation.UI.WindowsForm", "MicroserviceProject.Presentation.UI.WindowsForm\MicroserviceProject.Presentation.UI.WindowsForm.csproj", "{A70CA59E-7652-404A-B60F-253E4EF8D5B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Services.Business.Departments.IT", "MicroserviceProject.Services.Business.Departments.BT\MicroserviceProject.Services.Business.Departments.IT.csproj", "{EBCA1D84-8375-4AF7-B596-9074784CFB3E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Services.Business.Departments.IT", "MicroserviceProject.Services.Business.Departments.BT\MicroserviceProject.Services.Business.Departments.IT.csproj", "{EBCA1D84-8375-4AF7-B596-9074784CFB3E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -101,14 +97,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6AF2BF37-8E5C-4B7D-8131-082415BF7AF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6AF2BF37-8E5C-4B7D-8131-082415BF7AF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6AF2BF37-8E5C-4B7D-8131-082415BF7AF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6AF2BF37-8E5C-4B7D-8131-082415BF7AF4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1880D70D-2F3D-4415-8D4C-EAA49391D15F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1880D70D-2F3D-4415-8D4C-EAA49391D15F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1880D70D-2F3D-4415-8D4C-EAA49391D15F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1880D70D-2F3D-4415-8D4C-EAA49391D15F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FE4127D7-8C88-4A35-BF31-12145BC0CB99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FE4127D7-8C88-4A35-BF31-12145BC0CB99}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE4127D7-8C88-4A35-BF31-12145BC0CB99}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -226,8 +214,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{6AF2BF37-8E5C-4B7D-8131-082415BF7AF4} = {B8BC82E7-C1AE-457E-9B15-0F750DD6C897}
-		{1880D70D-2F3D-4415-8D4C-EAA49391D15F} = {B8BC82E7-C1AE-457E-9B15-0F750DD6C897}
 		{FE4127D7-8C88-4A35-BF31-12145BC0CB99} = {423CC89D-F00D-45D2-BE00-931786875AA6}
 		{6FF6E9F6-0B0B-43A8-8767-4A6DF86A7E83} = {423CC89D-F00D-45D2-BE00-931786875AA6}
 		{B8817C26-8465-4910-A4F6-4B6277EC5DEC} = {4B50141F-7DDA-4045-87E0-EFBF72CEFB63}
