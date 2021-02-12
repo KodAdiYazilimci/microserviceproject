@@ -119,6 +119,12 @@
     <Compile Include="Dialogs\HR\CreateWorkerForm.Designer.cs">
       <DependentUpon>CreateWorkerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\IT\CreateInventoryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\IT\CreateInventoryForm.Designer.cs">
+      <DependentUpon>CreateInventoryForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -152,6 +158,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\HR\CreateWorkerForm.resx">
       <DependentUpon>CreateWorkerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\IT\CreateInventoryForm.resx">
+      <DependentUpon>CreateInventoryForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

@@ -11,5 +11,10 @@ namespace MicroserviceProject.Presentation.UI.Business.Model.Department.IT
         public string Name { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime? ToDate { get; set; }
+
+        public override string ToString()
+        {
+            return this.Name;
+        }
     }
 }

@@ -31,24 +31,30 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.lstKisiler = new System.Windows.Forms.ListBox();
-            this.btnKisileriGetir = new System.Windows.Forms.Button();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.bnKisiOlustur = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.btnDepartmanOlustur = new System.Windows.Forms.Button();
             this.lstDepartmanlar = new System.Windows.Forms.ListBox();
             this.btnDepartmanlariGetir = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnCalisanOlustur = new System.Windows.Forms.Button();
             this.lstCalisanlar = new System.Windows.Forms.ListBox();
             this.btnCalisanlariGetir = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.bnKisiOlustur = new System.Windows.Forms.Button();
+            this.lstKisiler = new System.Windows.Forms.ListBox();
+            this.btnKisileriGetir = new System.Windows.Forms.Button();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.btnEnvanterOlustur = new System.Windows.Forms.Button();
+            this.lstEnvanterler = new System.Windows.Forms.ListBox();
+            this.btnEnvanterleriGetir = new System.Windows.Forms.Button();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.groupBox3.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -73,68 +79,6 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "İK";
             this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.btnCalisanOlustur);
-            this.groupBox2.Controls.Add(this.lstCalisanlar);
-            this.groupBox2.Controls.Add(this.btnCalisanlariGetir);
-            this.groupBox2.Location = new System.Drawing.Point(486, 7);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(275, 386);
-            this.groupBox2.TabIndex = 1;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Çalışanlar";
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.bnKisiOlustur);
-            this.groupBox1.Controls.Add(this.lstKisiler);
-            this.groupBox1.Controls.Add(this.btnKisileriGetir);
-            this.groupBox1.Location = new System.Drawing.Point(7, 7);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(232, 386);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Kişiler";
-            // 
-            // lstKisiler
-            // 
-            this.lstKisiler.FormattingEnabled = true;
-            this.lstKisiler.Location = new System.Drawing.Point(7, 49);
-            this.lstKisiler.Name = "lstKisiler";
-            this.lstKisiler.Size = new System.Drawing.Size(216, 329);
-            this.lstKisiler.TabIndex = 1;
-            // 
-            // btnKisileriGetir
-            // 
-            this.btnKisileriGetir.Location = new System.Drawing.Point(6, 19);
-            this.btnKisileriGetir.Name = "btnKisileriGetir";
-            this.btnKisileriGetir.Size = new System.Drawing.Size(131, 23);
-            this.btnKisileriGetir.TabIndex = 0;
-            this.btnKisileriGetir.Text = "Kişileri Getir";
-            this.btnKisileriGetir.UseVisualStyleBackColor = true;
-            this.btnKisileriGetir.Click += new System.EventHandler(this.btnKisileriGetir_Click);
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(767, 399);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // bnKisiOlustur
-            // 
-            this.bnKisiOlustur.Location = new System.Drawing.Point(143, 19);
-            this.bnKisiOlustur.Name = "bnKisiOlustur";
-            this.bnKisiOlustur.Size = new System.Drawing.Size(75, 23);
-            this.bnKisiOlustur.TabIndex = 2;
-            this.bnKisiOlustur.Text = "Kişi Oluştur";
-            this.bnKisiOlustur.UseVisualStyleBackColor = true;
-            this.bnKisiOlustur.Click += new System.EventHandler(this.bnKisiOlustur_Click);
             // 
             // groupBox3
             // 
@@ -176,6 +120,18 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             this.btnDepartmanlariGetir.UseVisualStyleBackColor = true;
             this.btnDepartmanlariGetir.Click += new System.EventHandler(this.btnDepartmanlariGetir_Click);
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.btnCalisanOlustur);
+            this.groupBox2.Controls.Add(this.lstCalisanlar);
+            this.groupBox2.Controls.Add(this.btnCalisanlariGetir);
+            this.groupBox2.Location = new System.Drawing.Point(486, 7);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(275, 386);
+            this.groupBox2.TabIndex = 1;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Çalışanlar";
+            // 
             // btnCalisanOlustur
             // 
             this.btnCalisanOlustur.Location = new System.Drawing.Point(143, 19);
@@ -204,6 +160,97 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             this.btnCalisanlariGetir.UseVisualStyleBackColor = true;
             this.btnCalisanlariGetir.Click += new System.EventHandler(this.btnCalisanlariGetir_Click);
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.bnKisiOlustur);
+            this.groupBox1.Controls.Add(this.lstKisiler);
+            this.groupBox1.Controls.Add(this.btnKisileriGetir);
+            this.groupBox1.Location = new System.Drawing.Point(7, 7);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(232, 386);
+            this.groupBox1.TabIndex = 0;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Kişiler";
+            // 
+            // bnKisiOlustur
+            // 
+            this.bnKisiOlustur.Location = new System.Drawing.Point(143, 19);
+            this.bnKisiOlustur.Name = "bnKisiOlustur";
+            this.bnKisiOlustur.Size = new System.Drawing.Size(75, 23);
+            this.bnKisiOlustur.TabIndex = 2;
+            this.bnKisiOlustur.Text = "Kişi Oluştur";
+            this.bnKisiOlustur.UseVisualStyleBackColor = true;
+            this.bnKisiOlustur.Click += new System.EventHandler(this.bnKisiOlustur_Click);
+            // 
+            // lstKisiler
+            // 
+            this.lstKisiler.FormattingEnabled = true;
+            this.lstKisiler.Location = new System.Drawing.Point(7, 49);
+            this.lstKisiler.Name = "lstKisiler";
+            this.lstKisiler.Size = new System.Drawing.Size(216, 329);
+            this.lstKisiler.TabIndex = 1;
+            // 
+            // btnKisileriGetir
+            // 
+            this.btnKisileriGetir.Location = new System.Drawing.Point(6, 19);
+            this.btnKisileriGetir.Name = "btnKisileriGetir";
+            this.btnKisileriGetir.Size = new System.Drawing.Size(131, 23);
+            this.btnKisileriGetir.TabIndex = 0;
+            this.btnKisileriGetir.Text = "Kişileri Getir";
+            this.btnKisileriGetir.UseVisualStyleBackColor = true;
+            this.btnKisileriGetir.Click += new System.EventHandler(this.btnKisileriGetir_Click);
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.groupBox4);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(767, 399);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "IT";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // btnEnvanterOlustur
+            // 
+            this.btnEnvanterOlustur.Location = new System.Drawing.Point(143, 19);
+            this.btnEnvanterOlustur.Name = "btnEnvanterOlustur";
+            this.btnEnvanterOlustur.Size = new System.Drawing.Size(75, 23);
+            this.btnEnvanterOlustur.TabIndex = 2;
+            this.btnEnvanterOlustur.Text = "Env. Oluştur";
+            this.btnEnvanterOlustur.UseVisualStyleBackColor = true;
+            this.btnEnvanterOlustur.Click += new System.EventHandler(this.btnEnvanterOlustur_Click);
+            // 
+            // lstEnvanterler
+            // 
+            this.lstEnvanterler.FormattingEnabled = true;
+            this.lstEnvanterler.Location = new System.Drawing.Point(7, 49);
+            this.lstEnvanterler.Name = "lstEnvanterler";
+            this.lstEnvanterler.Size = new System.Drawing.Size(216, 329);
+            this.lstEnvanterler.TabIndex = 1;
+            // 
+            // btnEnvanterleriGetir
+            // 
+            this.btnEnvanterleriGetir.Location = new System.Drawing.Point(6, 19);
+            this.btnEnvanterleriGetir.Name = "btnEnvanterleriGetir";
+            this.btnEnvanterleriGetir.Size = new System.Drawing.Size(131, 23);
+            this.btnEnvanterleriGetir.TabIndex = 0;
+            this.btnEnvanterleriGetir.Text = "Envanterleri Getir";
+            this.btnEnvanterleriGetir.UseVisualStyleBackColor = true;
+            this.btnEnvanterleriGetir.Click += new System.EventHandler(this.btnEnvanterleriGetir_Click);
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.btnEnvanterOlustur);
+            this.groupBox4.Controls.Add(this.lstEnvanterler);
+            this.groupBox4.Controls.Add(this.btnEnvanterleriGetir);
+            this.groupBox4.Location = new System.Drawing.Point(6, 7);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(232, 386);
+            this.groupBox4.TabIndex = 1;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Envanterler";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -215,9 +262,11 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -239,6 +288,10 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
         private System.Windows.Forms.Button btnCalisanOlustur;
         private System.Windows.Forms.ListBox lstCalisanlar;
         private System.Windows.Forms.Button btnCalisanlariGetir;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Button btnEnvanterOlustur;
+        private System.Windows.Forms.ListBox lstEnvanterler;
+        private System.Windows.Forms.Button btnEnvanterleriGetir;
     }
 }
 

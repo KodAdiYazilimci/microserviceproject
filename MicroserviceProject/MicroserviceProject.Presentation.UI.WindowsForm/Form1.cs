@@ -1,4 +1,5 @@
 ﻿using MicroserviceProject.Presentation.UI.Business.Model.Department.HR;
+using MicroserviceProject.Presentation.UI.Business.Model.Department.IT;
 using MicroserviceProject.Presentation.UI.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moderator;
 using MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moderator.Providers;
@@ -236,6 +237,57 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
                     _serviceRouteRepository);
 
             createWorkerForm.ShowDialog();
+        }
+
+        private void btnEnvanterleriGetir_Click(object sender, EventArgs e)
+        {
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+
+            lstEnvanterler.Items.Clear();
+
+            try
+            {
+                Task.Run(async delegate
+                {
+                    ServiceResult<List<InventoryModel>> inventoryServiceResult =
+                        await _serviceCommunicator.Call<List<InventoryModel>>(
+                            serviceName: _routeNameProvider.IT_GetInventories,
+                            postData: null,
+                            queryParameters: null,
+                            cancellationToken: cancellationTokenSource.Token);
+
+                    if (inventoryServiceResult.IsSuccess)
+                    {
+                        foreach (var inventory in inventoryServiceResult.Data)
+                        {
+                            lstEnvanterler.Items.Add(inventory);
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception(inventoryServiceResult.Error.Description);
+                    }
+                },
+                cancellationToken: cancellationTokenSource.Token).Wait();
+            }
+            catch (Exception ex)
+            {
+                cancellationTokenSource.Cancel();
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void btnEnvanterOlustur_Click(object sender, EventArgs e)
+        {
+            CreateInventoryForm createInventoryForm =
+                new CreateInventoryForm(
+                    _credentialProvider,
+                    _memoryCache,
+                    _routeNameProvider,
+                    _serviceCommunicator,
+                    _serviceRouteRepository);
+
+            createInventoryForm.ShowDialog();
         }
     }
 }
