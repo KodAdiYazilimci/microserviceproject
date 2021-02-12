@@ -1,4 +1,4 @@
-﻿namespace MicroserviceProject.Infrastructure.Logging.RabbitMq.Configuration
+﻿namespace MicroserviceProject.Infrastructure.Communication.Mq.Rabbit
 {
     /// <summary>
     /// Rabbit sunucusunun yapılandırma ayarları

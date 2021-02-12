@@ -1,6 +1,6 @@
-﻿using MicroserviceProject.Infrastructure.Logging.Abstraction;
+﻿using MicroserviceProject.Infrastructure.Communication.Mq.Rabbit;
+using MicroserviceProject.Infrastructure.Logging.Abstraction;
 using MicroserviceProject.Infrastructure.Logging.Model;
-using MicroserviceProject.Infrastructure.Logging.RabbitMq.Configuration;
 
 using Newtonsoft.Json;
 
@@ -15,7 +15,7 @@ namespace MicroserviceProject.Infrastructure.Logging.RabbitMq.Producers
     /// Rabbit sunucusuna log üretecek varsayılan sınıf
     /// </summary>
     /// <typeparam name="TModel">Log modelinin tipi</typeparam>
-    public class DefaultLogProducer<TModel> : ILogger<TModel> where TModel : BaseLogModel, new()
+    public class DefaultLogProducer<TModel> : Publisher<TModel>, ILogger<TModel> where TModel : BaseLogModel, new()
     {
         /// <summary>
         /// Log modelini üretmek için rabbit sunucusunun yapılandırma ayarları
@@ -26,7 +26,7 @@ namespace MicroserviceProject.Infrastructure.Logging.RabbitMq.Producers
         /// Rabbit sunucusuna log üretecek varsayılan sınıf
         /// </summary>
         /// <param name="rabbitConfiguration">Log modelini üretmek için rabbit sunucusunun yapılandırma ayarları</param>
-        public DefaultLogProducer(IRabbitConfiguration rabbitConfiguration)
+        public DefaultLogProducer(IRabbitConfiguration rabbitConfiguration) : base(rabbitConfiguration)
         {
             _rabbitConfiguration = rabbitConfiguration;
         }
@@ -38,28 +38,7 @@ namespace MicroserviceProject.Infrastructure.Logging.RabbitMq.Producers
         /// <returns></returns>
         public Task LogAsync(TModel model)
         {
-            var factory = new ConnectionFactory()
-            {
-                HostName = _rabbitConfiguration.Host,
-                UserName = _rabbitConfiguration.UserName,
-                Password = _rabbitConfiguration.Password
-            };
-
-            using (var connection = factory.CreateConnection())
-            {
-                using (var channel = connection.CreateModel())
-                {
-                    QueueDeclareOk queue = channel.QueueDeclare(queue: _rabbitConfiguration.QueueName, durable: false, exclusive: false, autoDelete: false, arguments: null);
-
-                    string jsonLog = JsonConvert.SerializeObject(model);
-
-                    byte[] jsonBuffer = UTF8Encoding.UTF8.GetBytes(jsonLog);
-
-                    channel.BasicPublish(exchange: "", routingKey: _rabbitConfiguration.QueueName, mandatory: true, basicProperties: null, body: jsonBuffer);
-                }
-            }
-
-            return Task.CompletedTask;
+            return base.Publish(model);
         }
     }
 }

@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MicroserviceProject.Infrastructure.Communication.Mq.Rabbit\MicroserviceProject.Infrastructure.Communication.Mq.Rabbit.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Infrastructure.Logging\MicroserviceProject.Infrastructure.Logging.csproj" />
   </ItemGroup>
 

@@ -1,4 +1,4 @@
-﻿using MicroserviceProject.Infrastructure.Logging.RabbitMq.Configuration;
+﻿using MicroserviceProject.Infrastructure.Communication.Mq.Rabbit;
 
 using Microsoft.Extensions.Configuration;
 
