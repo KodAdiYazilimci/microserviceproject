@@ -99,6 +99,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business.Model\Department\AA\InventoryModel.cs" />
     <Compile Include="Business.Model\Department\Accounting\BankAccountModel.cs" />
     <Compile Include="Business.Model\Department\Accounting\CurrencyModel.cs" />
     <Compile Include="Business.Model\Department\Accounting\SalaryPaymentModel.cs" />

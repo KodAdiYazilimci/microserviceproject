@@ -292,5 +292,53 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator.Providers
                     .GetSection("AssignInventoryToWorker").Value;
             }
         }
+
+        /// <summary>
+        /// İdari işler envanterlerini verir
+        /// </summary>
+        public string AA_GetInventories
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("AA")
+                    .GetSection("GetInventories").Value;
+            }
+        }
+
+        /// <summary>
+        /// İdari işler envanteri oluşturur
+        /// </summary>
+        public string AA_CreateInventory
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("AA")
+                    .GetSection("CreateInventory").Value;
+            }
+        }
+
+        /// <summary>
+        /// Çalışana idari işler envanteri ataması yapar
+        /// </summary>
+        public string AA_AssignInventoryToWorker
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("AA")
+                    .GetSection("AssignInventoryToWorker").Value;
+            }
+        }
     }
 }
