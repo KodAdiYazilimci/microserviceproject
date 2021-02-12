@@ -1,4 +1,4 @@
-﻿using MicroserviceProject.Presentation.UI.Business.Model.Department.IT;
+﻿using MicroserviceProject.Presentation.UI.Business.Model.Department.AA;
 using MicroserviceProject.Presentation.UI.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moderator;
 using MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moderator.Providers;
@@ -11,7 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.IT
+namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.AA
 {
     public partial class CreateInventoryForm : Form
     {
@@ -56,7 +56,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.IT
                 {
                     ServiceResult<int> createInventoryServiceResult =
                                 await _serviceCommunicator.Call<int>(
-                                    serviceName: _routeNameProvider.IT_CreateInventory,
+                                    serviceName: _routeNameProvider.AA_CreateInventory,
                                     postData: new InventoryModel()
                                     {
                                         Name = txtIsim.Text

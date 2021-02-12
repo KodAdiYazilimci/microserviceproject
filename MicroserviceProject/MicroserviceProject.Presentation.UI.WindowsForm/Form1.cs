@@ -4,19 +4,13 @@ using MicroserviceProject.Presentation.UI.Infrastructure.Communication.Model.Bas
 using MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moderator;
 using MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moderator.Providers;
 using MicroserviceProject.Presentation.UI.Infrastructure.Persistence.Repositories;
-using MicroserviceProject.Presentation.UI.Infrastructure.Security.Model;
 using MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.HR;
 
 using Microsoft.Extensions.Caching.Memory;
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Configuration;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -279,8 +273,59 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
 
         private void btnEnvanterOlustur_Click(object sender, EventArgs e)
         {
-            CreateInventoryForm createInventoryForm =
-                new CreateInventoryForm(
+            Dialogs.IT.CreateInventoryForm createInventoryForm =
+                new Dialogs.IT.CreateInventoryForm(
+                    _credentialProvider,
+                    _memoryCache,
+                    _routeNameProvider,
+                    _serviceCommunicator,
+                    _serviceRouteRepository);
+
+            createInventoryForm.ShowDialog();
+        }
+
+        private void btnIdariIslerEnvanterleriGetir_Click(object sender, EventArgs e)
+        {
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+
+            lstIdariIslerEnvanterler.Items.Clear();
+
+            try
+            {
+                Task.Run(async delegate
+                {
+                    ServiceResult<List<InventoryModel>> inventoryServiceResult =
+                        await _serviceCommunicator.Call<List<InventoryModel>>(
+                            serviceName: _routeNameProvider.AA_GetInventories,
+                            postData: null,
+                            queryParameters: null,
+                            cancellationToken: cancellationTokenSource.Token);
+
+                    if (inventoryServiceResult.IsSuccess)
+                    {
+                        foreach (var inventory in inventoryServiceResult.Data)
+                        {
+                            lstIdariIslerEnvanterler.Items.Add(inventory);
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception(inventoryServiceResult.Error.Description);
+                    }
+                },
+                cancellationToken: cancellationTokenSource.Token).Wait();
+            }
+            catch (Exception ex)
+            {
+                cancellationTokenSource.Cancel();
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void btnIdariIslerEnventerOlustur_Click(object sender, EventArgs e)
+        {
+            Dialogs.AA.CreateInventoryForm createInventoryForm =
+                new Dialogs.AA.CreateInventoryForm(
                     _credentialProvider,
                     _memoryCache,
                     _routeNameProvider,

@@ -44,10 +44,15 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             this.lstKisiler = new System.Windows.Forms.ListBox();
             this.btnKisileriGetir = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.btnEnvanterOlustur = new System.Windows.Forms.Button();
             this.lstEnvanterler = new System.Windows.Forms.ListBox();
             this.btnEnvanterleriGetir = new System.Windows.Forms.Button();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.btnIdariIslerEnventerOlustur = new System.Windows.Forms.Button();
+            this.lstIdariIslerEnvanterler = new System.Windows.Forms.ListBox();
+            this.btnIdariIslerEnvanterleriGetir = new System.Windows.Forms.Button();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -55,12 +60,15 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             this.groupBox1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Location = new System.Drawing.Point(13, 13);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -211,6 +219,18 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             this.tabPage2.Text = "IT";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.btnEnvanterOlustur);
+            this.groupBox4.Controls.Add(this.lstEnvanterler);
+            this.groupBox4.Controls.Add(this.btnEnvanterleriGetir);
+            this.groupBox4.Location = new System.Drawing.Point(6, 7);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(232, 386);
+            this.groupBox4.TabIndex = 1;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Envanterler";
+            // 
             // btnEnvanterOlustur
             // 
             this.btnEnvanterOlustur.Location = new System.Drawing.Point(143, 19);
@@ -239,17 +259,56 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             this.btnEnvanterleriGetir.UseVisualStyleBackColor = true;
             this.btnEnvanterleriGetir.Click += new System.EventHandler(this.btnEnvanterleriGetir_Click);
             // 
-            // groupBox4
+            // tabPage3
             // 
-            this.groupBox4.Controls.Add(this.btnEnvanterOlustur);
-            this.groupBox4.Controls.Add(this.lstEnvanterler);
-            this.groupBox4.Controls.Add(this.btnEnvanterleriGetir);
-            this.groupBox4.Location = new System.Drawing.Point(6, 7);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(232, 386);
-            this.groupBox4.TabIndex = 1;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Envanterler";
+            this.tabPage3.Controls.Add(this.groupBox5);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(767, 399);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "İdari İşler";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // btnIdariIslerEnventerOlustur
+            // 
+            this.btnIdariIslerEnventerOlustur.Location = new System.Drawing.Point(143, 19);
+            this.btnIdariIslerEnventerOlustur.Name = "btnIdariIslerEnventerOlustur";
+            this.btnIdariIslerEnventerOlustur.Size = new System.Drawing.Size(75, 23);
+            this.btnIdariIslerEnventerOlustur.TabIndex = 2;
+            this.btnIdariIslerEnventerOlustur.Text = "Env. Oluştur";
+            this.btnIdariIslerEnventerOlustur.UseVisualStyleBackColor = true;
+            this.btnIdariIslerEnventerOlustur.Click += new System.EventHandler(this.btnIdariIslerEnventerOlustur_Click);
+            // 
+            // lstIdariIslerEnvanterler
+            // 
+            this.lstIdariIslerEnvanterler.FormattingEnabled = true;
+            this.lstIdariIslerEnvanterler.Location = new System.Drawing.Point(7, 49);
+            this.lstIdariIslerEnvanterler.Name = "lstIdariIslerEnvanterler";
+            this.lstIdariIslerEnvanterler.Size = new System.Drawing.Size(216, 329);
+            this.lstIdariIslerEnvanterler.TabIndex = 1;
+            // 
+            // btnIdariIslerEnvanterleriGetir
+            // 
+            this.btnIdariIslerEnvanterleriGetir.Location = new System.Drawing.Point(6, 19);
+            this.btnIdariIslerEnvanterleriGetir.Name = "btnIdariIslerEnvanterleriGetir";
+            this.btnIdariIslerEnvanterleriGetir.Size = new System.Drawing.Size(131, 23);
+            this.btnIdariIslerEnvanterleriGetir.TabIndex = 0;
+            this.btnIdariIslerEnvanterleriGetir.Text = "Envanterleri Getir";
+            this.btnIdariIslerEnvanterleriGetir.UseVisualStyleBackColor = true;
+            this.btnIdariIslerEnvanterleriGetir.Click += new System.EventHandler(this.btnIdariIslerEnvanterleriGetir_Click);
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.btnIdariIslerEnventerOlustur);
+            this.groupBox5.Controls.Add(this.lstIdariIslerEnvanterler);
+            this.groupBox5.Controls.Add(this.btnIdariIslerEnvanterleriGetir);
+            this.groupBox5.Location = new System.Drawing.Point(6, 7);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(232, 386);
+            this.groupBox5.TabIndex = 2;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Envanterler";
             // 
             // Form1
             // 
@@ -267,6 +326,8 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             this.groupBox1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -292,6 +353,11 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
         private System.Windows.Forms.Button btnEnvanterOlustur;
         private System.Windows.Forms.ListBox lstEnvanterler;
         private System.Windows.Forms.Button btnEnvanterleriGetir;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.Button btnIdariIslerEnventerOlustur;
+        private System.Windows.Forms.ListBox lstIdariIslerEnvanterler;
+        private System.Windows.Forms.Button btnIdariIslerEnvanterleriGetir;
     }
 }
 

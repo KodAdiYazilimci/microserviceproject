@@ -1,5 +1,5 @@
 ﻿
-namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.IT
+namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.AA
 {
     partial class CreateInventoryForm
     {

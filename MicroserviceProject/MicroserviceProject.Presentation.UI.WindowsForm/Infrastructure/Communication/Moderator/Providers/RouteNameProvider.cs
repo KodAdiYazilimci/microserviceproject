@@ -258,5 +258,47 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moder
                     .ToString();
             }
         }
+
+        /// <summary>
+        /// İdari işler envanterlerini verir
+        /// </summary>
+        public string AA_GetInventories
+        {
+            get
+            {
+                return
+                    ConfigurationManager
+                    .AppSettings["Services.Endpoints.AA.GetInventories"]
+                    .ToString();
+            }
+        }
+
+        /// <summary>
+        /// İdari işler envanteri oluşturur
+        /// </summary>
+        public string AA_CreateInventory
+        {
+            get
+            {
+                return
+                    ConfigurationManager
+                    .AppSettings["Services.Endpoints.AA.CreateInventory"]
+                    .ToString();
+            }
+        }
+
+        /// <summary>
+        /// Çalışana idari işler envanteri ataması yapar
+        /// </summary>
+        public string AA_AssignInventoryToWorker
+        {
+            get
+            {
+                return
+                    ConfigurationManager
+                    .AppSettings["Services.Endpoints.AA.AssignInventoryToWorker"]
+                    .ToString();
+            }
+        }
     }
 }
