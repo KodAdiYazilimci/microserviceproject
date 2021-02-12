@@ -38,6 +38,7 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting
             services.RegisterCredentialProvider();
             services.RegisterLogger();
             services.RegisterMappings();
+            services.RegisterQueues();
             services.RegisterRouteProvider();
             services.RegisterRepositories(Configuration);
             services.RegisterServiceCommunicator();

@@ -38,7 +38,7 @@ namespace MicroserviceProject.Infrastructure.Logging.RabbitMq.Producers
         /// <returns></returns>
         public Task LogAsync(TModel model)
         {
-            return base.Publish(model);
+            return base.PublishAsync(model);
         }
     }
 }

@@ -8,6 +8,7 @@ using MicroserviceProject.Services.Business.Departments.HR.Entities.Sql;
 using MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql;
 using MicroserviceProject.Services.Business.Model.Department.Accounting;
 using MicroserviceProject.Services.Business.Model.Department.HR;
+using MicroserviceProject.Services.Business.Util.Communication.Rabbit.AA;
 using MicroserviceProject.Services.Business.Util.UnitOfWork;
 
 using System;
@@ -80,6 +81,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
         /// </summary>
         private readonly WorkerRelationRepository _workerRelationRepository;
 
+        private readonly AssignInventoryToWorkerPublisher _assignInventoryToWorkerPublisher;
 
         /// <summary>
         /// Kişi işlemleri iş mantığı sınıfı
@@ -97,6 +99,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
             IMapper mapper,
             RouteNameProvider routeNameProvider,
             ServiceCommunicator serviceCommunicator,
+            AssignInventoryToWorkerPublisher assignInventoryToWorkerPublisher,
             IUnitOfWork unitOfWork,
             CacheDataProvider cacheDataProvider,
             PersonRepository personRepository,
@@ -107,6 +110,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
             _cacheDataProvider = cacheDataProvider;
             _routeNameProvider = routeNameProvider;
             _serviceCommunicator = serviceCommunicator;
+            _assignInventoryToWorkerPublisher = assignInventoryToWorkerPublisher;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
 
@@ -275,6 +279,10 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                  },
                  queryParameters: null,
                  cancellationToken: cancellationToken);
+
+            // İdari işler departmanının kendi envanterlerini ataması için rabbit e kayıt ekle
+
+            await _assignInventoryToWorkerPublisher.PublishAsync(worker);
 
             if (!createBankAccountServiceResult.IsSuccess)
             {

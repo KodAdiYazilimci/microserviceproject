@@ -34,7 +34,7 @@ namespace MicroserviceProject.Infrastructure.Logging.RabbitMq.Producers
         /// </summary>
         /// <param name="model">Üretilecek data nesnesi</param>
         /// <returns></returns>
-        public virtual Task Publish(TModel model)
+        public virtual Task PublishAsync(TModel model)
         {
             var factory = new ConnectionFactory()
             {

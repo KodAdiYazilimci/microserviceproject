@@ -2,7 +2,6 @@ using MicroserviceProject.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Infrastructure.Communication.Model.Errors;
 using MicroserviceProject.Services.Infrastructure.Logging.Configuration.Services;
 using MicroserviceProject.Services.Infrastructure.Logging.Configuration.Services.Repositories;
-using MicroserviceProject.Services.Infrastructure.Logging.Util.Logging.Consumers;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -23,9 +22,6 @@ namespace MicroserviceProject.Services.Infrastructure.Logging
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-
-            RequestResponseLogConsumer requestResponseLogConsumer = new RequestResponseLogConsumer(Configuration);
-            requestResponseLogConsumer.StartToConsume();
         }
 
         public IConfiguration Configuration { get; }

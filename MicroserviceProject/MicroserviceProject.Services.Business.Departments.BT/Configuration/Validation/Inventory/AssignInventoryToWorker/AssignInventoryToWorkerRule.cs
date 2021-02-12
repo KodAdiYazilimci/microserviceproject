@@ -17,8 +17,8 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Configuration.Val
         public AssignInventoryToWorkerRule()
         {
             RuleFor(x => x.Id).NotEmpty().WithMessage("Çalışan Id si boş geçilemez");
-            RuleFor(x => x.Inventories).NotNull().WithMessage("Envanter bilgisi boş geçilemez");
-            RuleFor(x => x.Inventories.Any()).NotEqual(false).WithMessage("Envanter bilgisi boş geçilemez");
+            RuleFor(x => x.ITInventories).NotNull().WithMessage("Envanter bilgisi boş geçilemez");
+            RuleFor(x => x.ITInventories.Any()).NotEqual(false).WithMessage("Envanter bilgisi boş geçilemez");
         }
     }
 }

@@ -37,6 +37,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR
             services.RegisterCredentialProvider();
             services.RegisterLogger();
             services.RegisterMappings();
+            services.RegisterQueues();
             services.RegisterRouteProvider();
             services.RegisterRepositories(Configuration);
             services.RegisterServiceCommunicator();

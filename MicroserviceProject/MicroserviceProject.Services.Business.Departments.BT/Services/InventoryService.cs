@@ -142,7 +142,7 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Services
         /// <returns></returns>
         public async Task<WorkerModel> AssignInventoryToWorkerAsync(WorkerModel worker, CancellationToken cancellationToken)
         {
-            List<int> inventoryIds = worker.Inventories.Select(x => x.Id).ToList();
+            List<int> inventoryIds = worker.ITInventories.Select(x => x.Id).ToList();
 
             List<InventoryEntity> inventories =
                 await _inventoryRepository.GetForSpecificIdAsync(inventoryIds, cancellationToken);
@@ -155,7 +155,7 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Services
                 }
             }
 
-            foreach (var inventoryModel in worker.Inventories)
+            foreach (var inventoryModel in worker.ITInventories)
             {
                 inventoryModel.Id = await _workerInventoryRepository.CreateAsync(new WorkerInventoryEntity
                 {

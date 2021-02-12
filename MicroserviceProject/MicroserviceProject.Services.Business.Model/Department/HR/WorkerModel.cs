@@ -1,5 +1,4 @@
 ﻿using MicroserviceProject.Services.Business.Model.Department.Accounting;
-using MicroserviceProject.Services.Business.Model.Department.IT;
 
 using System;
 using System.Collections.Generic;
@@ -54,9 +53,14 @@ namespace MicroserviceProject.Services.Business.Model.Department.HR
         public List<BankAccountModel> BankAccounts { get; set; }
 
         /// <summary>
-        /// Çalışanın envanterleri
+        /// Çalışanın IT envanterleri
         /// </summary>
-        public List<InventoryModel> Inventories { get; set; }
+        public List<IT.InventoryModel> ITInventories { get; set; }
+
+        /// <summary>
+        /// Çalışanın idari işler envanterleri
+        /// </summary>
+        public List<AA.InventoryModel> AAInventories { get; set; }
 
     }
 }
