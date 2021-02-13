@@ -4,6 +4,7 @@ using MicroserviceProject.Infrastructure.Logging.Managers;
 using MicroserviceProject.Infrastructure.Logging.Model;
 using MicroserviceProject.Infrastructure.Logging.RabbitMq.Producers;
 using MicroserviceProject.Services.Business.Configuration.Logging;
+using MicroserviceProject.Services.Configuration.Logging;
 
 using Microsoft.Extensions.Configuration;
 

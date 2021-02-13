@@ -1,5 +1,5 @@
-﻿using MicroserviceProject.Services.Business.Configuration.Communication.Rabbit.AA;
-using MicroserviceProject.Services.Business.Model.Department.HR;
+﻿using MicroserviceProject.Services.Business.Model.Department.HR;
+using MicroserviceProject.Services.Configuration.Communication.Rabbit.AA;
 
 namespace MicroserviceProject.Services.Business.Util.Communication.Rabbit.AA
 {

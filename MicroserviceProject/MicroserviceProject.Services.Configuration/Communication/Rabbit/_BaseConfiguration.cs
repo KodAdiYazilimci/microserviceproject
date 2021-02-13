@@ -2,7 +2,7 @@
 
 using Microsoft.Extensions.Configuration;
 
-namespace MicroserviceProject.Services.Business.Configuration.Communication.Rabbit
+namespace MicroserviceProject.Services.Configuration.Communication.Rabbit
 {
     /// <summary>
     /// Rabbit kuyrukları için temel yapılandırma sınıfı

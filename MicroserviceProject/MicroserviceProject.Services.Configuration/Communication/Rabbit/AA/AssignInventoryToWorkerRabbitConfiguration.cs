@@ -1,7 +1,7 @@
 ﻿
 using Microsoft.Extensions.Configuration;
 
-namespace MicroserviceProject.Services.Business.Configuration.Communication.Rabbit.AA
+namespace MicroserviceProject.Services.Configuration.Communication.Rabbit.AA
 {
     /// <summary>
     /// Çalışana envanter ekleyecek rabbit kuyruğu için yapılandırma sınıfı

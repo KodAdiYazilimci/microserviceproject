@@ -1,15 +1,11 @@
 using MicroserviceProject.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Infrastructure.Communication.Model.Errors;
-using MicroserviceProject.Services.Business.Departments.Accounting.DI;
-using MicroserviceProject.Services.Business.Departments.HR.DI;
-using MicroserviceProject.Services.Business.DI;
 using MicroserviceProject.Services.DI;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -17,34 +13,18 @@ using Newtonsoft.Json;
 
 using System.Net;
 
-namespace MicroserviceProject.Services.Business.Departments.Accounting
+namespace MicroserviceProject.Services.MQ.AA
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
-        public IConfiguration Configuration { get; }
-
         // This method gets called by the runtime. Use this method to add services to the container.
+        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
             services.AddMemoryCache();
-            services.RegisterAuthentication();
-            services.RegisterBusinessServices();
-            services.RegisterCaching();
-            services.RegisterCredentialProvider();
-            services.RegisterLogger();
-            services.RegisterMappings();
-            services.RegisterQueues();
             services.RegisterRouteProvider();
-            services.RegisterRepositories(Configuration);
+            services.RegisterCredentialProvider();
             services.RegisterServiceCommunicator();
-            services.RegisterSwagger();
-            services.RegisterUnitOfWork();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,24 +51,6 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting
                         }
                     }));
                 });
-            });
-
-            app.UseRouting();
-
-            app.UseAuthentication();
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
-
-            app.UseMiddleware<Middleware>();
-
-            app.UseSwagger();
-            app.UseSwaggerUI(options =>
-            {
-                options.SwaggerEndpoint("/swagger/CoreSwagger/swagger.json", "CoreSwagger");
             });
         }
     }

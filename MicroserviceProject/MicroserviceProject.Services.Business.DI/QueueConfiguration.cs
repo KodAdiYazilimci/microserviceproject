@@ -1,6 +1,5 @@
-﻿
-using MicroserviceProject.Services.Business.Configuration.Communication.Rabbit.AA;
-using MicroserviceProject.Services.Business.Util.Communication.Rabbit.AA;
+﻿using MicroserviceProject.Services.Business.Util.Communication.Rabbit.AA;
+using MicroserviceProject.Services.Configuration.Communication.Rabbit.AA;
 
 using Microsoft.Extensions.DependencyInjection;
 

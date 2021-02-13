@@ -1,14 +1,19 @@
+using MicroserviceProject.Services.MQ.AA.DI;
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace MicroserviceProject.Services.Business.Departments.AA
+namespace MicroserviceProject.Services.MQ.AA
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();
+
+            host.RegisterConsumers();
+
+            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

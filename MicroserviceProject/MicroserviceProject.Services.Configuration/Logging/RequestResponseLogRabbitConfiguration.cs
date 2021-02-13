@@ -2,7 +2,7 @@
 
 using Microsoft.Extensions.Configuration;
 
-namespace MicroserviceProject.Services.Business.Configuration.Logging
+namespace MicroserviceProject.Services.Configuration.Logging
 {
     /// <summary>
     /// Request-response logları için rabbit sunucusunun yapılandırma ayarları
