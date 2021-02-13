@@ -1,6 +1,8 @@
 ﻿
 using MicroserviceProject.Infrastructure.Communication.Model.Moderator;
 
+using Microsoft.Extensions.Configuration;
+
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -16,17 +18,29 @@ namespace Infrastructure.Persistence.ServiceRoutes.Sql.Repositories
     public class ServiceRouteRepository
     {
         /// <summary>
-        /// Veritabanı bağlantı cümlesi
+        /// Veritabanı bağlantı cümlesini sağlayacak connection nesnesi
         /// </summary>
-        private readonly string connectionString;
+        private readonly IConfiguration _configuration;
 
         /// <summary>
         /// Servis rotaları repository sınıfı
         /// </summary>
-        /// <param name="connectionString">Veritabanı bağlantı cümlesi</param>
-        public ServiceRouteRepository(string connectionString)
+        /// <param name="configuration">Veritabanı bağlantı cümlesini sağlayacak connection nesnesi</param>
+        public ServiceRouteRepository(IConfiguration configuration)
         {
-            this.connectionString = connectionString;
+            this._configuration = configuration;
+        }
+
+        private string ConnectionString
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Configuration")
+                    .GetSection("Routing")
+                    .GetSection("DataSource").Value;
+            }
         }
 
         public async Task<List<ServiceRoute>> GetServiceRoutesAsync(CancellationToken cancellationToken)
@@ -37,7 +51,7 @@ namespace Infrastructure.Persistence.ServiceRoutes.Sql.Repositories
 
             Exception exception = null;
 
-            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            SqlConnection sqlConnection = new SqlConnection(ConnectionString);
 
             try
             {

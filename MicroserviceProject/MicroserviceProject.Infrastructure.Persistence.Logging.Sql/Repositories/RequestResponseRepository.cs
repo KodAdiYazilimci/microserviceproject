@@ -1,6 +1,8 @@
 ﻿
 using MicroserviceProject.Infrastructure.Logging.Model;
 
+using Microsoft.Extensions.Configuration;
+
 using System;
 using System.Data;
 using System.Data.SqlClient;
@@ -15,17 +17,17 @@ namespace Infrastructure.Persistence.Logging.Sql.Repositories
     public class RequestResponseRepository
     {
         /// <summary>
-        /// Veritabanı bağlantı cümlesi
+        /// Veritabanı bağlantı cümlesini verecek configuration nesnesi
         /// </summary>
-        private readonly string connectionString;
+        private readonly IConfiguration _configuration;
 
         /// <summary>
         /// Request-Response logları repository sınıfı
         /// </summary>
-        /// <param name="connectionString">Veritabanı bağlantı cümlesi</param>
-        public RequestResponseRepository(string connectionString)
+        /// <param name="configuration">Veritabanı bağlantı cümlesini verecek configuration nesnesi</param>
+        public RequestResponseRepository(IConfiguration configuration)
         {
-            this.connectionString = connectionString;
+            this._configuration = configuration;
         }
 
         /// <summary>
@@ -41,7 +43,7 @@ namespace Infrastructure.Persistence.Logging.Sql.Repositories
             Exception exception = null;
             int result = 0;
 
-            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            SqlConnection sqlConnection = new SqlConnection(ConnectionString);
 
             try
             {
@@ -84,7 +86,7 @@ namespace Infrastructure.Persistence.Logging.Sql.Repositories
 
                 sqlCommand.Parameters.AddWithValue("@MACHINE_NAME", ((object)requestResponseLogModel.MachineName) ?? DBNull.Value);
                 sqlCommand.Parameters.AddWithValue("@APPLICATION_NAME", ((object)requestResponseLogModel.ApplicationName) ?? DBNull.Value);
-                sqlCommand.Parameters.AddWithValue("@LOG_TEXT", ((object) requestResponseLogModel.LogText) ?? DBNull.Value);
+                sqlCommand.Parameters.AddWithValue("@LOG_TEXT", ((object)requestResponseLogModel.LogText) ?? DBNull.Value);
                 sqlCommand.Parameters.AddWithValue("@DATE", ((object)requestResponseLogModel.Date) ?? DBNull.Value);
                 sqlCommand.Parameters.AddWithValue("@CONTENT", ((object)requestResponseLogModel.Content) ?? DBNull.Value);
                 sqlCommand.Parameters.AddWithValue("@REQUEST_CONTENT_LENGTH", ((object)requestResponseLogModel.RequestContentLength) ?? DBNull.Value);
@@ -123,6 +125,28 @@ namespace Infrastructure.Persistence.Logging.Sql.Repositories
             }
 
             return result;
+        }
+
+
+        /// <summary>
+        /// Request-response loglarının yazılacağı veritabanı bağlantı cümlesini verir
+        /// </summary>
+        /// <returns></returns>
+        private string ConnectionString
+        {
+            get
+            {
+                string connectionString =
+                    _configuration
+                    .GetSection("Configuration")
+                    .GetSection("Logging")
+                    .GetSection("RequestResponseLogging")
+                    .GetSection("RabbitConfiguration")
+                    .GetSection("RequestResponseLogging")
+                    .GetSection("DataSource").Value;
+
+                return connectionString;
+            }
         }
     }
 }

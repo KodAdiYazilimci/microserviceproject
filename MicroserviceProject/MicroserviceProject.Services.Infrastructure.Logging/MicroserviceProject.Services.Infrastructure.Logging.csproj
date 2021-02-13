@@ -7,9 +7,6 @@
   <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="9.5.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.6.3" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.6.3" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="5.6.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,6 +14,11 @@
     <ProjectReference Include="..\MicroserviceProject.Infrastructure.Logging.RabbitMq\MicroserviceProject.Infrastructure.Logging.RabbitMq.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Infrastructure.Persistence.Logging.Sql\MicroserviceProject.Infrastructure.Persistence.Logging.Sql.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication\MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Services.Business.DI\MicroserviceProject.Services.Business.DI.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Services.Business.Model\MicroserviceProject.Services.Business.Model.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Services.Business.Util\MicroserviceProject.Services.Business.Util.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Services.Configuration\MicroserviceProject.Services.Configuration.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Services.DI\MicroserviceProject.Services.DI.csproj" />
   </ItemGroup>
 
 

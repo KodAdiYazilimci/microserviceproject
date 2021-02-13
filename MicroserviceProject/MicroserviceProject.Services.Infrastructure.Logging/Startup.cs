@@ -1,5 +1,7 @@
 using MicroserviceProject.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Infrastructure.Communication.Model.Errors;
+using MicroserviceProject.Services.Business.DI;
+using MicroserviceProject.Services.DI;
 using MicroserviceProject.Services.Infrastructure.Logging.Configuration.Services;
 using MicroserviceProject.Services.Infrastructure.Logging.Configuration.Services.Repositories;
 
@@ -29,20 +31,19 @@ namespace MicroserviceProject.Services.Infrastructure.Logging
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMemoryCache();
-
-            services.RegisterLogger(Configuration);
-
-            services.RegisterRepositories(Configuration);
-
-            services.RegisterRouteProvider();
-            services.RegisterCredentialProvider();
-            services.RegisterServiceCommunicator();
-            services.RegisterAuthentication();
-
-            services.RegisterSwagger();
-
             services.AddControllers();
+            services.AddMemoryCache();
+            services.RegisterAuthentication();
+            services.RegisterCaching();
+            services.RegisterCredentialProvider();
+            services.RegisterLogger();
+            services.RegisterQueues();
+            services.RegisterRouteProvider();
+            services.RegisterRepositories();
+            services.RegisterRouteRepositories();
+            services.RegisterServiceCommunicator();
+            services.RegisterSwagger();
+            services.RegisterUnitOfWork();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

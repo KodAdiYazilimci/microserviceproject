@@ -27,6 +27,7 @@ namespace MicroserviceProject.Services.MQ.AA
             services.RegisterCredentialProvider();
             services.RegisterServiceCommunicator();
             services.RegisterConsumers();
+            services.RegisterRouteRepositories();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

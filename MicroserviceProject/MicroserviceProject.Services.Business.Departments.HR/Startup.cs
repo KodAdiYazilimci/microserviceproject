@@ -41,6 +41,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR
             services.RegisterQueues();
             services.RegisterRouteProvider();
             services.RegisterRepositories(Configuration);
+            services.RegisterRouteRepositories();
             services.RegisterServiceCommunicator();
             services.RegisterSwagger();
             services.RegisterUnitOfWork();

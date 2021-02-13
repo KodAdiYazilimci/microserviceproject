@@ -1,4 +1,3 @@
-using MicroserviceProject.Services.MQ.AA.DI;
 using MicroserviceProject.Services.MQ.AA.Util.Consumers.Inventory;
 
 using Microsoft.AspNetCore.Hosting;

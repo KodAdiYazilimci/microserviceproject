@@ -18,11 +18,8 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.DI
         /// <param name="services">DI servisleri nesnesi</param>
         /// <param name="configuration">Configuration nesnesi</param>
         /// <returns></returns>
-        public static IServiceCollection RegisterRepositories(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection RegisterRepositories(this IServiceCollection services)
         {
-            services.AddSingleton(x =>
-                new ServiceRouteRepository(GetServiceRouteRepositoryConnectionString(configuration)));
-
             services.AddScoped<BankAccountRepository>();
             services.AddScoped<CurrencyRepository>();
             services.AddScoped<SalaryPaymentRepository>();

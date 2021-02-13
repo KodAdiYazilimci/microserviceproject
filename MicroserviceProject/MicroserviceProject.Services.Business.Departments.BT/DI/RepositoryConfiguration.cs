@@ -20,9 +20,6 @@ namespace MicroserviceProject.Services.Business.Departments.IT.DI
         /// <returns></returns>
         public static IServiceCollection RegisterRepositories(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddSingleton(x =>
-                new ServiceRouteRepository(GetServiceRouteRepositoryConnectionString(configuration)));
-
             services.AddScoped<InventoryRepository>();
             services.AddScoped<WorkerInventoryRepository>();
 

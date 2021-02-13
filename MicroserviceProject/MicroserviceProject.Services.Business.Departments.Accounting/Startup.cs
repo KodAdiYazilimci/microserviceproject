@@ -41,7 +41,8 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting
             services.RegisterMappings();
             services.RegisterQueues();
             services.RegisterRouteProvider();
-            services.RegisterRepositories(Configuration);
+            services.RegisterRepositories();
+            services.RegisterRouteRepositories();
             services.RegisterServiceCommunicator();
             services.RegisterSwagger();
             services.RegisterUnitOfWork();

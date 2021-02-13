@@ -35,7 +35,7 @@ namespace MicroserviceProject.Services.Infrastructure.Logging.Util.Logging.Consu
 
             _defaultLogProducer.OnConsumed += _defaultLogProducer_OnConsumed;
 
-            _requestResponseRepository = new RequestResponseRepository(GetConnectionString(configuration));
+            _requestResponseRepository = new RequestResponseRepository(configuration);
         }
 
         public void StartToConsume()
@@ -56,26 +56,6 @@ namespace MicroserviceProject.Services.Infrastructure.Logging.Util.Logging.Consu
 
                 await _requestResponseRepository.InsertLogAsync(requestResponseLog, cancellationTokenSource.Token);
             }
-        }
-
-        /// <summary>
-        /// Logların yazılacağı veritabanı bağlantı cümlesini verir
-        /// </summary>
-        /// <param name="configuration">Veritabanı bağlantı cümlesini getirecek configuration</param>
-        /// <returns></returns>
-        private string GetConnectionString(IConfiguration configuration)
-        {
-            string connectionString =
-                configuration
-                .GetSection("Configuration")
-                .GetSection("Logging")
-                .GetSection("RequestResponseLogging")
-                .GetSection("RabbitConfiguration")
-                .GetSection("RequestResponseLogging")
-                .GetSection("DataSource").Value;
-
-            return connectionString;
-
         }
     }
 }

@@ -20,9 +20,6 @@ namespace MicroserviceProject.Services.Business.Departments.HR.DI
         /// <returns></returns>
         public static IServiceCollection RegisterRepositories(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddSingleton(x =>
-                new ServiceRouteRepository(GetServiceRouteRepositoryConnectionString(configuration)));
-
             services.AddScoped<DepartmentRepository>();
             services.AddScoped<PersonRepository>();
             services.AddScoped<TitleRepository>();
