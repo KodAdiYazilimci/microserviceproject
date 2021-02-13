@@ -2,12 +2,12 @@
 using MicroserviceProject.Infrastructure.Communication.Moderator.Providers;
 using MicroserviceProject.Infrastructure.Communication.Mq.Rabbit;
 using MicroserviceProject.Services.Business.Model.Department.HR;
-using MicroserviceProject.Services.Configuration.Communication.Rabbit.AA;
+using MicroserviceProject.Services.Configuration.Communication.Rabbit.IT;
 
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MicroserviceProject.Services.MQ.AA.Util.Consumers.Inventory
+namespace MicroserviceProject.Services.MQ.IT.Util.Consumers.Inventory
 {
     /// <summary>
     /// Çalışana envanter ataması yapan kayıtları tüketen sınıf
@@ -28,7 +28,7 @@ namespace MicroserviceProject.Services.MQ.AA.Util.Consumers.Inventory
         /// <param name="rabbitConfiguration">Kuyruk ayarlarının alınacağın configuration nesnesi</param>
         /// <param name="inventoryService">Yakalanan kayıtları işleyecek envanter servisi nesnesi</param>
         public AssignInventoryToWorkerConsumer(
-            AAAssignInventoryToWorkerRabbitConfiguration rabbitConfiguration,
+            ITAssignInventoryToWorkerRabbitConfiguration rabbitConfiguration,
             RouteNameProvider routeNameProvider,
             ServiceCommunicator serviceCommunicator)
         {
@@ -45,7 +45,7 @@ namespace MicroserviceProject.Services.MQ.AA.Util.Consumers.Inventory
 
             var serviceResult =
                 await _serviceCommunicator.Call<int>(
-                 serviceName: _routeNameProvider.AA_AssignInventoryToWorker,
+                 serviceName: _routeNameProvider.IT_AssignInventoryToWorker,
                  postData: data,
                  queryParameters: null,
                  cancellationToken: cancellationTokenSource.Token);

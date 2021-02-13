@@ -6,14 +6,14 @@ namespace MicroserviceProject.Services.Configuration.Communication.Rabbit.AA
     /// <summary>
     /// Çalışana envanter ekleyecek rabbit kuyruğu için yapılandırma sınıfı
     /// </summary>
-    public class AssignInventoryToWorkerRabbitConfiguration : BaseConfiguration
+    public class AAAssignInventoryToWorkerRabbitConfiguration : BaseConfiguration
     {
         /// <summary>
         /// Çalışana envanter ekleyecek rabbit kuyruğu için yapılandırma sınıfı
         /// <paramref name="configuration">Ayarların okunacağı configuration nesnesi</paramref>
         /// </summary>
         /// <param name="configuration"></param>
-        public AssignInventoryToWorkerRabbitConfiguration(IConfiguration configuration)
+        public AAAssignInventoryToWorkerRabbitConfiguration(IConfiguration configuration)
             : base(configuration)
         {
             QueueName =

@@ -1,10 +1,10 @@
 ﻿
-using MicroserviceProject.Services.Configuration.Communication.Rabbit.AA;
-using MicroserviceProject.Services.MQ.AA.Util.Consumers.Inventory;
+using MicroserviceProject.Services.Configuration.Communication.Rabbit.IT;
+using MicroserviceProject.Services.MQ.IT.Util.Consumers.Inventory;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace MicroserviceProject.Services.MQ.AA.DI
+namespace MicroserviceProject.Services.MQ.IT.DI
 {
     /// <summary>
     /// Rabbit kuyruk tüketici sınıfların DI sınıfı
@@ -18,7 +18,7 @@ namespace MicroserviceProject.Services.MQ.AA.DI
         /// <returns></returns>
         public static IServiceCollection RegisterConsumers(this IServiceCollection services)
         {
-            services.AddSingleton<AAAssignInventoryToWorkerRabbitConfiguration>();
+            services.AddSingleton<ITAssignInventoryToWorkerRabbitConfiguration>();
             services.AddSingleton<AssignInventoryToWorkerConsumer>();
 
 

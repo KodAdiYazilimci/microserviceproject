@@ -103,6 +103,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Service
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Services.Configuration", "MicroserviceProject.Services.Configuration\MicroserviceProject.Services.Configuration.csproj", "{C035A103-3266-471E-8CB5-AEC8FF14740F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Services.MQ.IT", "MicroserviceProject.Services.MQ.IT\MicroserviceProject.Services.MQ.IT.csproj", "{36F13103-1448-4FCD-81DA-33F900EBC3CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -241,6 +243,10 @@ Global
 		{C035A103-3266-471E-8CB5-AEC8FF14740F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C035A103-3266-471E-8CB5-AEC8FF14740F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C035A103-3266-471E-8CB5-AEC8FF14740F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36F13103-1448-4FCD-81DA-33F900EBC3CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36F13103-1448-4FCD-81DA-33F900EBC3CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36F13103-1448-4FCD-81DA-33F900EBC3CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36F13103-1448-4FCD-81DA-33F900EBC3CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -279,6 +285,7 @@ Global
 		{4D1E460D-0616-472C-9C93-00CA16E543F5} = {EE45587A-115E-45A0-B5DD-96769BDF8AF5}
 		{CF140940-7EC5-45CD-A3F7-B34DA3DD3307} = {B8BC82E7-C1AE-457E-9B15-0F750DD6C897}
 		{C035A103-3266-471E-8CB5-AEC8FF14740F} = {B8BC82E7-C1AE-457E-9B15-0F750DD6C897}
+		{36F13103-1448-4FCD-81DA-33F900EBC3CF} = {EE45587A-115E-45A0-B5DD-96769BDF8AF5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C136217B-3CA6-4AEC-95E4-D62936481A67}

@@ -294,6 +294,22 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator.Providers
         }
 
         /// <summary>
+        /// Yeni çalışanlar için IT tarafından varsayılan envanterleri verir
+        /// </summary>
+        public string IT_GetInventoriesForNewWorker
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("IT")
+                    .GetSection("GetInventoriesForNewWorker").Value;
+            }
+        }
+
+        /// <summary>
         /// İdari işler envanterlerini verir
         /// </summary>
         public string AA_GetInventories

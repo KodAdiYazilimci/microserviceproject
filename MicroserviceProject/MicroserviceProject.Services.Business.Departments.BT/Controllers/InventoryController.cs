@@ -123,5 +123,32 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Controllers
                 });
             }
         }
+
+        [HttpGet]
+        [Route(nameof(GetInventoriesForNewWorker))]
+        public IActionResult GetInventoriesForNewWorker(CancellationToken cancellationToken)
+        {
+            try
+            {
+                List<InventoryModel> inventories =
+                    _inventoryService.GetInventoriesForNewWorker(cancellationToken);
+
+                ServiceResult<List<InventoryModel>> serviceResult = new ServiceResult<List<InventoryModel>>()
+                {
+                    IsSuccess = true,
+                    Data = inventories
+                };
+
+                return Ok(serviceResult);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ServiceResult()
+                {
+                    IsSuccess = false,
+                    Error = new Error() { Description = ex.ToString() }
+                });
+            }
+        }
     }
 }

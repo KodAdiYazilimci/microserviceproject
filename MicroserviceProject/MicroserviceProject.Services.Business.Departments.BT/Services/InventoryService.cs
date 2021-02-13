@@ -31,6 +31,11 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Services
         private const string CACHED_INVENTORIES_KEY = "MicroserviceProject.Services.Business.Departments.IT.Inventories";
 
         /// <summary>
+        /// Önbelleğe alınan varsayılan envanterlerin önbellekteki adı
+        /// </summary>
+        private const string CACHED_INVENTORIES_DEFAULTS_KEY = "MicroserviceProject.Services.Business.Departments.IT.InventoryDefaults";
+
+        /// <summary>
         /// Rediste tutulan önbellek yönetimini sağlayan sınıf
         /// </summary>
         private readonly CacheDataProvider _cacheDataProvider;
@@ -44,6 +49,11 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Services
         /// Envanter tablosu için repository sınıfı
         /// </summary>
         private readonly InventoryRepository _inventoryRepository;
+
+        /// <summary>
+        /// Varsayılan envanterler tablosu için repository sınıfı
+        /// </summary>
+        private readonly InventoryDefaultsRepository _inventoryDefaultsRepository;
 
         /// <summary>
         /// Çalışan envanterleri tablosu için repository sınıfı
@@ -62,18 +72,21 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Services
         /// <param name="unitOfWork">Veritabanı iş birimi nesnesi</param>
         /// <param name="cacheDataProvider">Rediste tutulan önbellek yönetimini sağlayan sınıf</param>
         /// <param name="inventoryRepository">Envanter tablosu için repository sınıfı</param>
+        /// <param name="inventoryDefaultsRepository">Varsayılan envanterler tablosu için repository sınıfı</param>
         /// <param name="workerInventoryRepository">Çalışan envanterleri tablosu için repository sınıfı</param>
         public InventoryService(
             IMapper mapper,
             IUnitOfWork unitOfWork,
             CacheDataProvider cacheDataProvider,
             InventoryRepository inventoryRepository,
+            InventoryDefaultsRepository inventoryDefaultsRepository,
             WorkerInventoryRepository workerInventoryRepository)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _cacheDataProvider = cacheDataProvider;
             _inventoryRepository = inventoryRepository;
+            _inventoryDefaultsRepository = inventoryDefaultsRepository;
             _workerInventoryRepository = workerInventoryRepository;
         }
 
@@ -132,6 +145,43 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Services
             }
 
             return createdInventoryId;
+        }
+
+        /// <summary>
+        /// Yeni çalışanlara verilecek envanterlerin listesini verir
+        /// </summary>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public List<InventoryModel> GetInventoriesForNewWorker(CancellationToken cancellationToken)
+        {
+            if (_cacheDataProvider.TryGetValue(CACHED_INVENTORIES_DEFAULTS_KEY, out List<InventoryModel> cachedInventories)
+                &&
+                cachedInventories != null && cachedInventories.Any())
+            {
+                return cachedInventories;
+            }
+
+            Task<List<InventoryEntity>> inventoriesTask = _inventoryRepository.GetListAsync(cancellationToken);
+            Task<List<InventoryDefaultsEntity>> inventoryDefaultsTask = _inventoryDefaultsRepository.GetListAsync(cancellationToken);
+
+            Task.WaitAll(new Task[] { inventoriesTask, inventoryDefaultsTask });
+
+            List<InventoryModel> inventories = (from inv in inventoriesTask.Result
+                                                join def in inventoryDefaultsTask.Result
+                                                on
+                                                inv.Id equals def.InventoryId
+                                                where
+                                                def.ForNewWorker
+                                                select
+                                                new InventoryModel()
+                                                {
+                                                    Id = inv.Id,
+                                                    Name = inv.Name
+                                                }).ToList();
+
+            _cacheDataProvider.Set(CACHED_INVENTORIES_DEFAULTS_KEY, inventories, new TimeSpan(hours: 0, minutes: 10, seconds: 0));
+
+            return inventories;
         }
 
         /// <summary>

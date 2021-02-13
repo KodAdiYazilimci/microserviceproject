@@ -50,6 +50,9 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
         /// </summary>
         private readonly InventoryRepository _inventoryRepository;
 
+        /// <summary>
+        /// Varsayılan envanterler tablosu için repository sınıfı
+        /// </summary>
         private readonly InventoryDefaultsRepository _inventoryDefaultsRepository;
 
         /// <summary>
@@ -68,7 +71,8 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
         /// <param name="mapper">Mapping işlemleri için mapper nesnesi</param>
         /// <param name="unitOfWork">Veritabanı iş birimi nesnesi</param>
         /// <param name="cacheDataProvider">Rediste tutulan önbellek yönetimini sağlayan sınıf</param>
-        /// <param name="inventoryRepository">Envanter tablosu için repository sınıfı</param>
+        /// <param name="inventoryRepository">Envanter tablosu için repository sınıfı</param><
+        /// <param name="inventoryDefaultsRepository">Varsayılan envanterler tablosu için repository sınıfı</param>
         /// <param name="workerInventoryRepository">Çalışan envanterleri tablosu için repository sınıfı</param>
         public InventoryService(
             IMapper mapper,
@@ -143,6 +147,11 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
             return createdInventoryId;
         }
 
+        /// <summary>
+        /// Yeni çalışanlara verilecek envanterlerin listesini verir
+        /// </summary>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
         public List<InventoryModel> GetInventoriesForNewWorker(CancellationToken cancellationToken)
         {
             if (_cacheDataProvider.TryGetValue(CACHED_INVENTORIES_DEFAULTS_KEY, out List<InventoryModel> cachedInventories)
@@ -161,6 +170,8 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
                                                 join def in inventoryDefaultsTask.Result
                                                 on
                                                 inv.Id equals def.InventoryId
+                                                where
+                                                def.ForNewWorker
                                                 select
                                                 new InventoryModel()
                                                 {

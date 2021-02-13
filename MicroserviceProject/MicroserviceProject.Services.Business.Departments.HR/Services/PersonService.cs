@@ -6,10 +6,10 @@ using MicroserviceProject.Infrastructure.Communication.Moderator;
 using MicroserviceProject.Infrastructure.Communication.Moderator.Providers;
 using MicroserviceProject.Services.Business.Departments.HR.Entities.Sql;
 using MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql;
-using MicroserviceProject.Services.Business.Model.Department.AA;
 using MicroserviceProject.Services.Business.Model.Department.Accounting;
 using MicroserviceProject.Services.Business.Model.Department.HR;
 using MicroserviceProject.Services.Business.Util.Communication.Rabbit.AA;
+using MicroserviceProject.Services.Business.Util.Communication.Rabbit.IT;
 using MicroserviceProject.Services.Business.Util.UnitOfWork;
 
 using System;
@@ -82,7 +82,16 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
         /// </summary>
         private readonly WorkerRelationRepository _workerRelationRepository;
 
-        private readonly AssignInventoryToWorkerPublisher _assignInventoryToWorkerPublisher;
+        /// <summary>
+        /// İdari işler tarafından yeni çalışana varsayılan envanter ataması yapacak kuyruğa
+        /// kayıt ekleyecek nesne
+        /// </summary>
+        private readonly AAAssignInventoryToWorkerPublisher _AAassignInventoryToWorkerPublisher;
+
+        /// <summary>
+        /// IT tarafından yeni çalışana varsayılan envanter ataması yapacak kuyruğa kayıt ekleyecek nesne
+        /// </summary>
+        private readonly ITAssignInventoryToWorkerPublisher _ITAssignInventoryToWorkerPublisher;
 
         /// <summary>
         /// Kişi işlemleri iş mantığı sınıfı
@@ -90,6 +99,10 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
         /// <param name="mapper">Mapping işlemleri için mapper nesnesi</param>
         /// <param name="routeNameProvider">Servislerin rota isimlerini sağlayan sınıf</param>
         /// <param name="serviceCommunicator">Diğer servislerle iletişim kuracak ara bulucu</param>
+        /// <param name="AAassignInventoryToWorkerPublisher">İdari işler tarafından yeni çalışana 
+        /// varsayılan envanter ataması yapacak kuyruğa kayıt ekleyecek nesne</param>
+        /// <param name="ITassignInventoryToWorkerPublisher">IT tarafından yeni çalışana varsayılan envanter 
+        /// ataması yapacak kuyruğa kayıt ekleyecek nesne</param>
         /// <param name="unitOfWork">Veritabanı iş birimi nesnesi</param>
         /// <param name="cacheDataProvider">Rediste tutulan önbellek yönetimini sağlayan sınıf</param>
         /// <param name="personRepository">Kişi tablosu için repository sınıfı</param>
@@ -100,7 +113,8 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
             IMapper mapper,
             RouteNameProvider routeNameProvider,
             ServiceCommunicator serviceCommunicator,
-            AssignInventoryToWorkerPublisher assignInventoryToWorkerPublisher,
+            AAAssignInventoryToWorkerPublisher AAassignInventoryToWorkerPublisher,
+            ITAssignInventoryToWorkerPublisher ITassignInventoryToWorkerPublisher,
             IUnitOfWork unitOfWork,
             CacheDataProvider cacheDataProvider,
             PersonRepository personRepository,
@@ -111,7 +125,8 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
             _cacheDataProvider = cacheDataProvider;
             _routeNameProvider = routeNameProvider;
             _serviceCommunicator = serviceCommunicator;
-            _assignInventoryToWorkerPublisher = assignInventoryToWorkerPublisher;
+            _AAassignInventoryToWorkerPublisher = AAassignInventoryToWorkerPublisher;
+            _ITAssignInventoryToWorkerPublisher = ITassignInventoryToWorkerPublisher;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
 
@@ -284,12 +299,12 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
             // İdari işler departmanının kendi envanterlerini ataması için rabbit e kayıt ekle
 
             if (worker.AAInventories == null)
-                worker.AAInventories = new List<InventoryModel>();
+                worker.AAInventories = new List<Model.Department.AA.InventoryModel>();
 
             if (!worker.AAInventories.Any())
             {
-                ServiceResult<List<InventoryModel>> defaultInventoriesServiceResult =
-                    await _serviceCommunicator.Call<List<InventoryModel>>(
+                ServiceResult<List<Model.Department.AA.InventoryModel>> defaultInventoriesServiceResult =
+                    await _serviceCommunicator.Call<List<Model.Department.AA.InventoryModel>>(
                         serviceName: _routeNameProvider.AA_GetInventoriesForNewWorker,
                         postData: null,
                         queryParameters: null,
@@ -305,15 +320,38 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                 }
             }
 
-            await _assignInventoryToWorkerPublisher.PublishAsync(worker);
+            await _AAassignInventoryToWorkerPublisher.PublishAsync(worker);
 
             if (!createBankAccountServiceResult.IsSuccess)
             {
                 throw new Exception(createBankAccountServiceResult.Error.Description);
             }
 
-            await _unitOfWork.SaveAsync(cancellationToken);
+            if (worker.ITInventories == null)
+                worker.ITInventories = new List<Model.Department.IT.InventoryModel>();
 
+            if (!worker.ITInventories.Any())
+            {
+                ServiceResult<List<Model.Department.IT.InventoryModel>> defaultInventoriesServiceResult =
+                    await _serviceCommunicator.Call<List<Model.Department.IT.InventoryModel>>(
+                        serviceName: _routeNameProvider.IT_GetInventoriesForNewWorker,
+                        postData: null,
+                        queryParameters: null,
+                        cancellationToken);
+
+                if (defaultInventoriesServiceResult.IsSuccess)
+                {
+                    worker.ITInventories.AddRange(defaultInventoriesServiceResult.Data);
+                }
+                else
+                {
+                    throw new Exception(defaultInventoriesServiceResult.Error.Description);
+                }
+            }
+
+            await _ITAssignInventoryToWorkerPublisher.PublishAsync(worker);
+
+            await _unitOfWork.SaveAsync(cancellationToken);
 
             if (_cacheDataProvider.TryGetValue(CACHED_WORKERS_KEY, out List<WorkerModel> cachedWorkers))
             {

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace MicroserviceProject.Services.Business.Departments.IT.Entities.Sql
 {
@@ -19,5 +16,10 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Entities.Sql
         /// Envanteri kullanan çalışanlar
         /// </summary>
         public virtual ICollection<WorkerInventoryEntity> WorkerInventories { get; set; }
+
+        /// <summary>
+        /// Envantere ait varsayılanlar bilgisi
+        /// </summary>
+        public virtual ICollection<InventoryDefaultsEntity> InventoryDefaults { get; set; }
     }
 }
