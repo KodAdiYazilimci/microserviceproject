@@ -1,6 +1,7 @@
 using MicroserviceProject.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Infrastructure.Communication.Model.Errors;
 using MicroserviceProject.Services.DI;
+using MicroserviceProject.Services.MQ.AA.DI;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -25,6 +26,7 @@ namespace MicroserviceProject.Services.MQ.AA
             services.RegisterRouteProvider();
             services.RegisterCredentialProvider();
             services.RegisterServiceCommunicator();
+            services.RegisterConsumers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

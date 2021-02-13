@@ -1,5 +1,6 @@
 ﻿using MicroserviceProject.Infrastructure.Communication.Mq.Rabbit;
 using MicroserviceProject.Services.Business.Model.Department.HR;
+using MicroserviceProject.Services.Configuration.Communication.Rabbit.AA;
 
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,7 +23,7 @@ namespace MicroserviceProject.Services.MQ.AA.Util.Consumers.Inventory
         /// <param name="rabbitConfiguration">Kuyruk ayarlarının alınacağın configuration nesnesi</param>
         /// <param name="inventoryService">Yakalanan kayıtları işleyecek envanter servisi nesnesi</param>
         public AssignInventoryToWorkerConsumer(
-            IRabbitConfiguration rabbitConfiguration)
+            AssignInventoryToWorkerRabbitConfiguration rabbitConfiguration)
         {
             _consumer = new Consumer<WorkerModel>(rabbitConfiguration);
             _consumer.OnConsumed += _consumer_OnConsumed;

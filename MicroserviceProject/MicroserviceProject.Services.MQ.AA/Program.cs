@@ -1,4 +1,5 @@
 using MicroserviceProject.Services.MQ.AA.DI;
+using MicroserviceProject.Services.MQ.AA.Util.Consumers.Inventory;
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
@@ -11,7 +12,10 @@ namespace MicroserviceProject.Services.MQ.AA
         {
             var host = CreateHostBuilder(args).Build();
 
-            host.RegisterConsumers();
+            AssignInventoryToWorkerConsumer assignInventoryToWorkerConsumer =
+                    (AssignInventoryToWorkerConsumer)host.Services.GetService(typeof(AssignInventoryToWorkerConsumer));
+
+            assignInventoryToWorkerConsumer.StartToConsume();
 
             host.Run();
         }
