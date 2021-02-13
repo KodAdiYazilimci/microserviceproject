@@ -18,9 +18,10 @@ namespace MicroserviceProject.Services.Business.Departments.AA.DI
         /// <param name="services">DI servisleri nesnesi</param>
         /// <param name="configuration">Configuration nesnesi</param>
         /// <returns></returns>
-        public static IServiceCollection RegisterRepositories(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection RegisterRepositories(this IServiceCollection services)
         {
             services.AddScoped<InventoryRepository>();
+            services.AddScoped<InventoryDefaultsRepository>();
             services.AddScoped<WorkerInventoryRepository>();
 
             return services;

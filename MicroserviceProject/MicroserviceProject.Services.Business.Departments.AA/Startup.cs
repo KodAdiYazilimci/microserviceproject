@@ -40,7 +40,7 @@ namespace MicroserviceProject.Services.Business.Departments.AA
             services.RegisterMappings();
             services.RegisterQueues();
             services.RegisterRouteProvider();
-            services.RegisterRepositories(Configuration);
+            services.RegisterRepositories();
             services.RegisterRouteRepositories();
             services.RegisterServiceCommunicator();
             services.RegisterSwagger();

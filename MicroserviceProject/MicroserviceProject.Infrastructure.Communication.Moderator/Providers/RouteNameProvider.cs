@@ -340,5 +340,21 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator.Providers
                     .GetSection("AssignInventoryToWorker").Value;
             }
         }
+
+        /// <summary>
+        /// Yeni çalışanlar için idari işler tarafından varsayılan envanterleri verir
+        /// </summary>
+        public string AA_GetInventoriesForNewWorker
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("AA")
+                    .GetSection("GetInventoriesForNewWorker").Value;
+            }
+        }
     }
 }

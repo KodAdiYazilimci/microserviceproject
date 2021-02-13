@@ -6,6 +6,7 @@ using MicroserviceProject.Infrastructure.Communication.Moderator;
 using MicroserviceProject.Infrastructure.Communication.Moderator.Providers;
 using MicroserviceProject.Services.Business.Departments.HR.Entities.Sql;
 using MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql;
+using MicroserviceProject.Services.Business.Model.Department.AA;
 using MicroserviceProject.Services.Business.Model.Department.Accounting;
 using MicroserviceProject.Services.Business.Model.Department.HR;
 using MicroserviceProject.Services.Business.Util.Communication.Rabbit.AA;
@@ -281,6 +282,28 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                  cancellationToken: cancellationToken);
 
             // İdari işler departmanının kendi envanterlerini ataması için rabbit e kayıt ekle
+
+            if (worker.AAInventories == null)
+                worker.AAInventories = new List<InventoryModel>();
+
+            if (!worker.AAInventories.Any())
+            {
+                ServiceResult<List<InventoryModel>> defaultInventoriesServiceResult =
+                    await _serviceCommunicator.Call<List<InventoryModel>>(
+                        serviceName: _routeNameProvider.AA_GetInventoriesForNewWorker,
+                        postData: null,
+                        queryParameters: null,
+                        cancellationToken);
+
+                if (defaultInventoriesServiceResult.IsSuccess)
+                {
+                    worker.AAInventories.AddRange(defaultInventoriesServiceResult.Data);
+                }
+                else
+                {
+                    throw new Exception(defaultInventoriesServiceResult.Error.Description);
+                }
+            }
 
             await _assignInventoryToWorkerPublisher.PublishAsync(worker);
 

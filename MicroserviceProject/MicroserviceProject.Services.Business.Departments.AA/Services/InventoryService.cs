@@ -31,6 +31,11 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
         private const string CACHED_INVENTORIES_KEY = "MicroserviceProject.Services.Business.Departments.AA.Inventories";
 
         /// <summary>
+        /// Önbelleğe alınan varsayılan envanterlerin önbellekteki adı
+        /// </summary>
+        private const string CACHED_INVENTORIES_DEFAULTS_KEY = "MicroserviceProject.Services.Business.Departments.AA.InventoryDefaults";
+
+        /// <summary>
         /// Rediste tutulan önbellek yönetimini sağlayan sınıf
         /// </summary>
         private readonly CacheDataProvider _cacheDataProvider;
@@ -44,6 +49,8 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
         /// Envanter tablosu için repository sınıfı
         /// </summary>
         private readonly InventoryRepository _inventoryRepository;
+
+        private readonly InventoryDefaultsRepository _inventoryDefaultsRepository;
 
         /// <summary>
         /// Çalışan envanterleri tablosu için repository sınıfı
@@ -68,12 +75,14 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
             IUnitOfWork unitOfWork,
             CacheDataProvider cacheDataProvider,
             InventoryRepository inventoryRepository,
+            InventoryDefaultsRepository inventoryDefaultsRepository,
             WorkerInventoryRepository workerInventoryRepository)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _cacheDataProvider = cacheDataProvider;
             _inventoryRepository = inventoryRepository;
+            _inventoryDefaultsRepository = inventoryDefaultsRepository;
             _workerInventoryRepository = workerInventoryRepository;
         }
 
@@ -132,6 +141,36 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
             }
 
             return createdInventoryId;
+        }
+
+        public List<InventoryModel> GetInventoriesForNewWorker(CancellationToken cancellationToken)
+        {
+            if (_cacheDataProvider.TryGetValue(CACHED_INVENTORIES_DEFAULTS_KEY, out List<InventoryModel> cachedInventories)
+                &&
+                cachedInventories != null && cachedInventories.Any())
+            {
+                return cachedInventories;
+            }
+
+            Task<List<InventoryEntity>> inventoriesTask = _inventoryRepository.GetListAsync(cancellationToken);
+            Task<List<InventoryDefaultsEntity>> inventoryDefaultsTask = _inventoryDefaultsRepository.GetListAsync(cancellationToken);
+
+            Task.WaitAll(new Task[] { inventoriesTask, inventoryDefaultsTask });
+
+            List<InventoryModel> inventories = (from inv in inventoriesTask.Result
+                                                join def in inventoryDefaultsTask.Result
+                                                on
+                                                inv.Id equals def.InventoryId
+                                                select
+                                                new InventoryModel()
+                                                {
+                                                    Id = inv.Id,
+                                                    Name = inv.Name
+                                                }).ToList();
+
+            _cacheDataProvider.Set(CACHED_INVENTORIES_DEFAULTS_KEY, inventories, new TimeSpan(hours: 0, minutes: 10, seconds: 0));
+
+            return inventories;
         }
 
         /// <summary>

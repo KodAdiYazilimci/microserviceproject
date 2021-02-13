@@ -15,6 +15,6 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Entities.Sql
         /// <summary>
         /// Kaydın silinme tarihi
         /// </summary>
-        public DateTime DeleteDate { get; set; }
+        public DateTime? DeleteDate { get; set; }
     }
 }

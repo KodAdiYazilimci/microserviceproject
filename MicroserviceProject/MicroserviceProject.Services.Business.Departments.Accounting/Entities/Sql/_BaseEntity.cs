@@ -15,6 +15,6 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Entities.
         /// <summary>
         /// Kaydın silinme tarihi
         /// </summary>
-        public DateTime DeleteDate { get; set; }
+        public DateTime? DeleteDate { get; set; }
     }
 }
