@@ -141,8 +141,7 @@ namespace Infrastructure.Persistence.Logging.Sql.Repositories
                     .GetSection("Configuration")
                     .GetSection("Logging")
                     .GetSection("RequestResponseLogging")
-                    .GetSection("RabbitConfiguration")
-                    .GetSection("RequestResponseLogging")
+                    .GetSection("DataBaseConfiguration")
                     .GetSection("DataSource").Value;
 
                 return connectionString;
