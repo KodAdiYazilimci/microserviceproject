@@ -1,6 +1,8 @@
 ﻿using MicroserviceProject.Services.Business.Util.Communication.Rabbit.AA;
+using MicroserviceProject.Services.Business.Util.Communication.Rabbit.Account;
 using MicroserviceProject.Services.Business.Util.Communication.Rabbit.IT;
 using MicroserviceProject.Services.Configuration.Communication.Rabbit.AA;
+using MicroserviceProject.Services.Configuration.Communication.Rabbit.Accounting;
 using MicroserviceProject.Services.Configuration.Communication.Rabbit.IT;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -21,9 +23,11 @@ namespace MicroserviceProject.Services.Business.DI
         {
             services.AddSingleton<AAAssignInventoryToWorkerRabbitConfiguration>();
             services.AddSingleton<ITAssignInventoryToWorkerRabbitConfiguration>();
+            services.AddSingleton<CreateBankAccountRabbitConfiguration>();
 
             services.AddSingleton<AAAssignInventoryToWorkerPublisher>();
             services.AddSingleton<ITAssignInventoryToWorkerPublisher>();
+            services.AddSingleton<CreateBankAccountPublisher>();
 
             return services;
         }

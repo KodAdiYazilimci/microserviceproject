@@ -2,17 +2,17 @@
 using MicroserviceProject.Infrastructure.Communication.Moderator.Providers;
 using MicroserviceProject.Infrastructure.Communication.Mq.Rabbit;
 using MicroserviceProject.Services.Business.Model.Department.HR;
-using MicroserviceProject.Services.Configuration.Communication.Rabbit.IT;
+using MicroserviceProject.Services.Configuration.Communication.Rabbit.Accounting;
 
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MicroserviceProject.Services.MQ.IT.Util.Consumers.Inventory
+namespace MicroserviceProject.Services.MQ.Accounting.Util.Consumers.Inventory
 {
     /// <summary>
-    /// Çalışana envanter ataması yapan kayıtları tüketen sınıf
+    /// Çalışana maaş hesabı açacak kayıtları tüketen sınıf
     /// </summary>
-    public class AssignInventoryToWorkerConsumer
+    public class CreateBankAccountConsumer
     {
         /// <summary>
         /// Rabbit kuyruğuyla iletişim kuracak tüketici sınıf
@@ -30,13 +30,13 @@ namespace MicroserviceProject.Services.MQ.IT.Util.Consumers.Inventory
         private readonly ServiceCommunicator _serviceCommunicator;
 
         /// <summary>
-        /// Çalışana envanter ataması yapan kayıtları tüketen sınıf
+        /// Çalışana maaş hesabı açacak kayıtları tüketen sınıf
         /// </summary>
         /// <param name="rabbitConfiguration">Kuyruk ayarlarının alınacağın configuration nesnesi</param>
         /// <param name="routeNameProvider">Kuyruktan alınan verinin iletileceği servisin adını veren nesne</param>
         /// <param name="serviceCommunicator">Kuyruktan alınan verinin iletileceği servisle iletişimi kuracak nesne</param>
-        public AssignInventoryToWorkerConsumer(
-            ITAssignInventoryToWorkerRabbitConfiguration rabbitConfiguration,
+        public CreateBankAccountConsumer(
+            CreateBankAccountRabbitConfiguration rabbitConfiguration,
             RouteNameProvider routeNameProvider,
             ServiceCommunicator serviceCommunicator)
         {
@@ -53,7 +53,7 @@ namespace MicroserviceProject.Services.MQ.IT.Util.Consumers.Inventory
 
             var serviceResult =
                 await _serviceCommunicator.Call<int>(
-                 serviceName: _routeNameProvider.IT_AssignInventoryToWorker,
+                 serviceName: _routeNameProvider.Accounting_CreateBankAccount,
                  postData: data,
                  queryParameters: null,
                  cancellationToken: cancellationTokenSource.Token);

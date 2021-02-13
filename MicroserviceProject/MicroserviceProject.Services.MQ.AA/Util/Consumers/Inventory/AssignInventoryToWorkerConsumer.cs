@@ -19,14 +19,22 @@ namespace MicroserviceProject.Services.MQ.AA.Util.Consumers.Inventory
         /// </summary>
         private readonly Consumer<WorkerModel> _consumer;
 
+        /// <summary>
+        /// Kuyruktan alınan verinin iletileceği servisin adını veren nesne
+        /// </summary>
         private readonly RouteNameProvider _routeNameProvider;
+
+        /// <summary>
+        /// Kuyruktan alınan verinin iletileceği servisle iletişimi kuracak nesne
+        /// </summary>
         private readonly ServiceCommunicator _serviceCommunicator;
 
         /// <summary>
         /// Çalışana envanter ataması yapan kayıtları tüketen sınıf
         /// </summary>
         /// <param name="rabbitConfiguration">Kuyruk ayarlarının alınacağın configuration nesnesi</param>
-        /// <param name="inventoryService">Yakalanan kayıtları işleyecek envanter servisi nesnesi</param>
+        /// <param name="routeNameProvider">Kuyruktan alınan verinin iletileceği servisin adını veren nesne</param>
+        /// <param name="serviceCommunicator">Kuyruktan alınan verinin iletileceği servisle iletişimi kuracak nesne</param>
         public AssignInventoryToWorkerConsumer(
             AAAssignInventoryToWorkerRabbitConfiguration rabbitConfiguration,
             RouteNameProvider routeNameProvider,

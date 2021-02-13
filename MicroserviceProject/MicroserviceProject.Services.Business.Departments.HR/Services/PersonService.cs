@@ -9,6 +9,7 @@ using MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql;
 using MicroserviceProject.Services.Business.Model.Department.Accounting;
 using MicroserviceProject.Services.Business.Model.Department.HR;
 using MicroserviceProject.Services.Business.Util.Communication.Rabbit.AA;
+using MicroserviceProject.Services.Business.Util.Communication.Rabbit.Account;
 using MicroserviceProject.Services.Business.Util.Communication.Rabbit.IT;
 using MicroserviceProject.Services.Business.Util.UnitOfWork;
 
@@ -94,6 +95,11 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
         private readonly ITAssignInventoryToWorkerPublisher _ITAssignInventoryToWorkerPublisher;
 
         /// <summary>
+        /// Muhasebe tarafından yeni çalışana maaş hesabı açacak kuyruğa kayıt ekleyecek nesne
+        /// </summary>
+        private readonly CreateBankAccountPublisher _createBankAccountPublisher;
+
+        /// <summary>
         /// Kişi işlemleri iş mantığı sınıfı
         /// </summary>
         /// <param name="mapper">Mapping işlemleri için mapper nesnesi</param>
@@ -103,6 +109,8 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
         /// varsayılan envanter ataması yapacak kuyruğa kayıt ekleyecek nesne</param>
         /// <param name="ITassignInventoryToWorkerPublisher">IT tarafından yeni çalışana varsayılan envanter 
         /// ataması yapacak kuyruğa kayıt ekleyecek nesne</param>
+        /// <param name="createBankAccountPublisher">Muhasebe tarafından yeni çalışana maaş hesabı açacak 
+        /// kuyruğa kayıt ekleyecek nesne</param>
         /// <param name="unitOfWork">Veritabanı iş birimi nesnesi</param>
         /// <param name="cacheDataProvider">Rediste tutulan önbellek yönetimini sağlayan sınıf</param>
         /// <param name="personRepository">Kişi tablosu için repository sınıfı</param>
@@ -115,6 +123,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
             ServiceCommunicator serviceCommunicator,
             AAAssignInventoryToWorkerPublisher AAassignInventoryToWorkerPublisher,
             ITAssignInventoryToWorkerPublisher ITassignInventoryToWorkerPublisher,
+            CreateBankAccountPublisher createBankAccountPublisher,
             IUnitOfWork unitOfWork,
             CacheDataProvider cacheDataProvider,
             PersonRepository personRepository,
@@ -127,6 +136,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
             _serviceCommunicator = serviceCommunicator;
             _AAassignInventoryToWorkerPublisher = AAassignInventoryToWorkerPublisher;
             _ITAssignInventoryToWorkerPublisher = ITassignInventoryToWorkerPublisher;
+            _createBankAccountPublisher = createBankAccountPublisher;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
 
@@ -286,17 +296,20 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
 
             worker.Id = await _workerRepository.CreateAsync(mappedWorker, cancellationToken);
 
-            ServiceResult<int> createBankAccountServiceResult = await _serviceCommunicator.Call<int>(
-                 serviceName: _routeNameProvider.Accounting_CreateBankAccount,
-                 postData: new BankAccountModel()
-                 {
-                     Worker = worker,
-                     IBAN = worker.BankAccounts.FirstOrDefault().IBAN
-                 },
-                 queryParameters: null,
-                 cancellationToken: cancellationToken);
+            // Not: Burada doğrudan diğer servislerle de iletişime geçilebilir 
+            // veya rabbit kuyruğuna kayıt atılabilir
 
-            // İdari işler departmanının kendi envanterlerini ataması için rabbit e kayıt ekle
+            #region Muhasebe departmanının banka hesabı açması için rabbit e kayıt ekler
+
+            await _createBankAccountPublisher.PublishAsync(new BankAccountModel()
+            {
+                Worker = worker,
+                IBAN = worker.BankAccounts.FirstOrDefault().IBAN
+            });
+
+            #endregion
+
+            #region İdari işler departmanının kendi envanterlerini ataması için rabbit e kayıt ekle
 
             if (worker.AAInventories == null)
                 worker.AAInventories = new List<Model.Department.AA.InventoryModel>();
@@ -322,10 +335,9 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
 
             await _AAassignInventoryToWorkerPublisher.PublishAsync(worker);
 
-            if (!createBankAccountServiceResult.IsSuccess)
-            {
-                throw new Exception(createBankAccountServiceResult.Error.Description);
-            }
+            #endregion
+
+            #region IT departmanının kendi envanterlerini ataması için rabbit e kayıt ekle
 
             if (worker.ITInventories == null)
                 worker.ITInventories = new List<Model.Department.IT.InventoryModel>();
@@ -350,6 +362,8 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
             }
 
             await _ITAssignInventoryToWorkerPublisher.PublishAsync(worker);
+
+            #endregion
 
             await _unitOfWork.SaveAsync(cancellationToken);
 
