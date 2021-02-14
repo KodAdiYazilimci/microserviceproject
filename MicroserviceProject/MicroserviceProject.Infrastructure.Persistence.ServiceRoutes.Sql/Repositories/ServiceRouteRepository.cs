@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -145,11 +146,10 @@ namespace Infrastructure.Persistence.ServiceRoutes.Sql.Repositories
                         {
                             ServiceRoute alternativeRoute = new ServiceRoute();
 
-                            alternativeRoute.Id = sqlAlternativeRouteReader.GetInt32("ALTERNATIVE_SERVICE_ROUTE_ID");
+                            alternativeRoute.Id = sqlAlternativeRouteReader.GetInt32("ID");
                             alternativeRoute.ServiceName = sqlAlternativeRouteReader.GetString("NAME");
                             alternativeRoute.CallType = sqlAlternativeRouteReader.GetString("CALLTYPE");
                             alternativeRoute.Endpoint = sqlAlternativeRouteReader.GetString("ENDPOINT");
-                            alternativeRoute.QueryKeys = route.QueryKeys;
 
                             if (route.AlternativeRoutes == null)
                             {
@@ -157,6 +157,43 @@ namespace Infrastructure.Persistence.ServiceRoutes.Sql.Repositories
                             }
 
                             route.AlternativeRoutes.Add(alternativeRoute);
+                        }
+                    }
+                }
+
+                foreach (var route in routes)
+                {
+                    if (route.AlternativeRoutes!=null && route.AlternativeRoutes.Any())
+                    {
+                        foreach (var alternativeRoute in route.AlternativeRoutes)
+                        {
+                            if (alternativeRoute.QueryKeys == null)
+                                alternativeRoute.QueryKeys = new List<RouteQuery>();
+
+                            SqlCommand sqlAlternativeRouteQueryCommand = new SqlCommand(@"SELECT Q.* FROM SERVICE_ROUTES_QUERYKEYS Q
+                                                                  WHERE
+                                                                  Q.SERVICE_ROUTE_ID=@ROUTEID
+                                                                  AND
+                                                                  Q.DELETE_DATE IS NULL", sqlConnection);
+
+                            sqlAlternativeRouteQueryCommand.Parameters.AddWithValue("@ROUTEID", alternativeRoute.Id);
+
+                            SqlDataReader sqlAlternativeRouteQueryReader = await sqlAlternativeRouteQueryCommand.ExecuteReaderAsync(cancellationToken);
+
+                            if (sqlAlternativeRouteQueryReader.HasRows)
+                            {
+                                while (await sqlAlternativeRouteQueryReader.ReadAsync(cancellationToken))
+                                {
+                                    cancellationToken.ThrowIfCancellationRequested();
+
+                                    RouteQuery queryKey = new RouteQuery();
+                                    queryKey.Id = Convert.ToInt32(sqlAlternativeRouteQueryReader["ID"]);
+                                    queryKey.CallModelId = Convert.ToInt32(sqlAlternativeRouteQueryReader["SERVICE_ROUTE_ID"]);
+                                    queryKey.Key = sqlAlternativeRouteQueryReader["KEY"].ToString();
+
+                                    alternativeRoute.QueryKeys.Add(queryKey);
+                                }
+                            }
                         }
                     }
                 }
