@@ -2,6 +2,10 @@
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "http://localhost/MicroserviceProject.Services.Business.Departments.HR",
+      "sslPort": 0
+    },
     "iisExpress": {
       "applicationUrl": "http://localhost:26920",
       "sslPort": 0
@@ -26,6 +30,12 @@
       },
       "dotnetRunMessages": "true",
       "applicationUrl": "http://localhost:5000"
+    },
+    "IIS": {
+      "commandName": "IIS",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
     }
   }
 }
