@@ -146,7 +146,7 @@ namespace Infrastructure.Persistence.ServiceRoutes.Sql.Repositories
                         {
                             ServiceRoute alternativeRoute = new ServiceRoute();
 
-                            alternativeRoute.Id = sqlAlternativeRouteReader.GetInt32("ID");
+                            alternativeRoute.Id = sqlAlternativeRouteReader.GetInt32("ALTERNATIVE_SERVICE_ROUTE_ID");
                             alternativeRoute.ServiceName = sqlAlternativeRouteReader.GetString("NAME");
                             alternativeRoute.CallType = sqlAlternativeRouteReader.GetString("CALLTYPE");
                             alternativeRoute.Endpoint = sqlAlternativeRouteReader.GetString("ENDPOINT");
