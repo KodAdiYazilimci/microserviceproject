@@ -99,6 +99,49 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Persistence.Reposit
                         }
                     }
                 }
+
+                foreach (var route in routes)
+                {
+                    SqlCommand sqlAlternativesCommand = new SqlCommand(@"SELECT 
+                                                                         ALT.ALTERNATIVE_SERVICE_ROUTE_ID,
+                                                                         RO.[NAME],
+                                                                         RO.CALLTYPE,
+                                                                         RO.[ENDPOINT]
+                                                                         FROM SERVICE_ROUTES_ALTERNATIVES ALT
+                                                                         INNER JOIN SERVICE_ROUTES RO
+                                                                         ON ALT.ALTERNATIVE_SERVICE_ROUTE_ID = RO.ID
+                                                                         WHERE 
+                                                                         ALT.DELETE_DATE IS NULL
+                                                                         AND
+                                                                         RO.DELETE_DATE IS NULL
+                                                                         AND
+                                                                         ALT.SERVICE_ROUTES_ID = @SERVICE_ROUTES_ID", sqlConnection);
+
+                    sqlAlternativesCommand.Parameters.AddWithValue("@SERVICE_ROUTES_ID", (((object)route.Id) ?? DBNull.Value));
+
+                    SqlDataReader sqlAlternativeRouteReader = await sqlAlternativesCommand.ExecuteReaderAsync(cancellationToken);
+
+                    if (sqlAlternativeRouteReader.HasRows)
+                    {
+                        while (await sqlAlternativeRouteReader.ReadAsync(cancellationToken))
+                        {
+                            ServiceRoute alternativeRoute = new ServiceRoute();
+
+                            alternativeRoute.Id = Convert.ToInt32(sqlAlternativeRouteReader["ALTERNATIVE_SERVICE_ROUTE_ID"]);
+                            alternativeRoute.ServiceName = sqlAlternativeRouteReader["NAME"].ToString();
+                            alternativeRoute.CallType = sqlAlternativeRouteReader["CALLTYPE"].ToString();
+                            alternativeRoute.Endpoint = sqlAlternativeRouteReader["ENDPOINT"].ToString();
+                            alternativeRoute.QueryKeys = route.QueryKeys;
+
+                            if (route.AlternativeRoutes == null)
+                            {
+                                route.AlternativeRoutes = new List<ServiceRoute>();
+                            }
+
+                            route.AlternativeRoutes.Add(alternativeRoute);
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {

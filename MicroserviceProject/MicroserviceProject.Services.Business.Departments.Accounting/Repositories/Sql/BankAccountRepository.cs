@@ -77,8 +77,8 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositor
             List<BankAccountEntity> bankAccounts = new List<BankAccountEntity>();
 
             SqlCommand sqlCommand = new SqlCommand(@"SELECT [ID],
-                                                     [WORKERS_ID],
-                                                     [IBAN],
+                                                     [HR_WORKERS_ID],
+                                                     [IBAN]
                                                      FROM [ACCOUNTING_BANK_ACCOUNTS]
                                                      WHERE DELETE_DATE IS NULL
                                                      AND

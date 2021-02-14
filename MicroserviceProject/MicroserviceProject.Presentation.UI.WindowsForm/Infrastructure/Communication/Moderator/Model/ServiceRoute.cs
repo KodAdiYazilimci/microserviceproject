@@ -24,6 +24,11 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moder
         public string Endpoint { get; set; }
 
         /// <summary>
+        /// Bu servis endpoint ile başarısız iletişim kurulması halinde denenecek diğer endpointler
+        /// </summary>
+        public List<ServiceRoute> AlternativeRoutes { get; set; }
+
+        /// <summary>
         /// Çağırılacak servisin query string parametreleri
         /// </summary>        
         public virtual ICollection<RouteQuery> QueryKeys { get; set; } = new List<RouteQuery>();

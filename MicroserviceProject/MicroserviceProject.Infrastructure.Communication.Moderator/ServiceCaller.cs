@@ -83,6 +83,8 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
           List<KeyValuePair<string, string>> queryParameters,
           CancellationToken cancellationToken)
         {
+            ServiceRoute serviceRoute = null;
+
             try
             {
                 string serviceJson = _memoryCache.Get<string>(SERVICE_ENDPOINT_CACHE_PREFIX + serviceName.ToLower());
@@ -102,39 +104,41 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
 
                 if (!string.IsNullOrEmpty(serviceJson))
                 {
-                    ServiceRoute callModel = JsonConvert.DeserializeObject<ServiceRoute>(serviceJson);
+                    serviceRoute = JsonConvert.DeserializeObject<ServiceRoute>(serviceJson);
 
-                    if (callModel != null)
+                    if (serviceRoute != null)
                     {
-                        if (!string.IsNullOrEmpty(callModel.CallType))
+                        if (!string.IsNullOrEmpty(serviceRoute.CallType))
                         {
-                            if (callModel.CallType.ToUpper() == "POST")
+                            if (serviceRoute.CallType.ToUpper() == "POST")
                             {
                                 HttpPostProvider httpPostProvider = new HttpPostProvider();
+                                httpPostProvider.Headers = new List<HttpHeader>();
                                 httpPostProvider.Headers.Add(new HttpHeader("Authorization", _serviceToken));
 
-                                SetQueryParameters(queryParameters, callModel, httpPostProvider);
+                                SetQueryParameters(queryParameters, serviceRoute, httpPostProvider);
 
                                 return
                                     await
                                     httpPostProvider
                                     .PostAsync<ServiceResult, object>(
-                                        url: callModel.Endpoint,
+                                        url: serviceRoute.Endpoint,
                                         postData: postData,
                                         cancellationToken: cancellationToken);
                             }
-                            else if (callModel.CallType.ToUpper() == "GET")
+                            else if (serviceRoute.CallType.ToUpper() == "GET")
                             {
                                 HttpGetProvider httpGetProvider = new HttpGetProvider();
+                                httpGetProvider.Headers = new List<HttpHeader>();
                                 httpGetProvider.Headers.Add(new HttpHeader("Authorization", _serviceToken));
 
-                                SetQueryParameters(queryParameters, callModel, httpGetProvider);
+                                SetQueryParameters(queryParameters, serviceRoute, httpGetProvider);
 
                                 return
                                     await
                                     httpGetProvider
                                     .GetAsync<ServiceResult>(
-                                        url: callModel.ServiceName, cancellationToken);
+                                        url: serviceRoute.Endpoint, cancellationToken);
                             }
                             else
                             {
@@ -158,20 +162,56 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                     {
                         return new ServiceResult() { IsSuccess = false, Error = new Error() { Code = "401", Description = wex.ToString() } };
                     }
-
-                    using (StreamReader streamReader = new StreamReader(wex.Response.GetResponseStream()))
+                    else if (wex.Response is HttpWebResponse && (wex.Response as HttpWebResponse).StatusCode == HttpStatusCode.BadRequest)
                     {
-                        string response = await streamReader.ReadToEndAsync();
+                        using (StreamReader streamReader = new StreamReader(wex.Response.GetResponseStream()))
+                        {
+                            string response = await streamReader.ReadToEndAsync();
 
-                        return JsonConvert.DeserializeObject<ServiceResult>(response);
+                            return JsonConvert.DeserializeObject<ServiceResult>(response);
+                        }
+                    }
+                    else if (wex.Response is HttpWebResponse)
+                    {
+                        if (serviceRoute != null && serviceRoute.AlternativeRoutes != null && serviceRoute.AlternativeRoutes.Any())
+                        {
+                            foreach (var route in serviceRoute.AlternativeRoutes)
+                            {
+                                var alternativeCallResult = await Call(
+                                    serviceName: route.ServiceName,
+                                    postData: postData,
+                                    queryParameters: queryParameters,
+                                    cancellationToken: cancellationToken);
+
+                                if (alternativeCallResult.IsSuccess)
+                                    return alternativeCallResult;
+                            }
+                        }
+                    }
+                }
+                else if (wex.Status == WebExceptionStatus.UnknownError)
+                {
+                    if (serviceRoute != null && serviceRoute.AlternativeRoutes != null && serviceRoute.AlternativeRoutes.Any())
+                    {
+                        foreach (var route in serviceRoute.AlternativeRoutes)
+                        {
+                            var alternativeCallResult = await Call(
+                                serviceName: route.ServiceName,
+                                postData: postData,
+                                queryParameters: queryParameters,
+                                cancellationToken: cancellationToken);
+
+                            if (alternativeCallResult.IsSuccess)
+                                return alternativeCallResult;
+                        }
                     }
                 }
 
-                throw;
+                return new ServiceResult() { IsSuccess = false, Error = new Error() { Description = wex.ToString() } };
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                return new ServiceResult() { IsSuccess = false, Error = new Error() { Description = ex.ToString() } };
             }
         }
 
@@ -190,6 +230,8 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
             List<KeyValuePair<string, string>> queryParameters,
             CancellationToken cancellationToken)
         {
+            ServiceRoute serviceRoute = null;
+
             try
             {
                 string serviceJson = _memoryCache.Get<string>(SERVICE_ENDPOINT_CACHE_PREFIX + serviceName.ToLower());
@@ -209,41 +251,41 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
 
                 if (!string.IsNullOrEmpty(serviceJson))
                 {
-                    ServiceRoute callModel = JsonConvert.DeserializeObject<ServiceRoute>(serviceJson);
+                    serviceRoute = JsonConvert.DeserializeObject<ServiceRoute>(serviceJson);
 
-                    if (callModel != null)
+                    if (serviceRoute != null)
                     {
-                        if (!string.IsNullOrEmpty(callModel.CallType))
+                        if (!string.IsNullOrEmpty(serviceRoute.CallType))
                         {
-                            if (callModel.CallType.ToUpper() == "POST")
+                            if (serviceRoute.CallType.ToUpper() == "POST")
                             {
                                 HttpPostProvider httpPostProvider = new HttpPostProvider();
                                 httpPostProvider.Headers = new List<HttpHeader>();
                                 httpPostProvider.Headers.Add(new HttpHeader("Authorization", _serviceToken));
 
-                                SetQueryParameters(queryParameters, callModel, httpPostProvider);
+                                SetQueryParameters(queryParameters, serviceRoute, httpPostProvider);
 
                                 return
                                     await
                                     httpPostProvider
                                     .PostAsync<ServiceResult<TResult>, object>(
-                                        url: callModel.Endpoint,
+                                        url: serviceRoute.Endpoint,
                                         postData: postData,
                                         cancellationToken: cancellationToken);
                             }
-                            else if (callModel.CallType.ToUpper() == "GET")
+                            else if (serviceRoute.CallType.ToUpper() == "GET")
                             {
                                 HttpGetProvider httpGetProvider = new HttpGetProvider();
                                 httpGetProvider.Headers = new List<HttpHeader>();
                                 httpGetProvider.Headers.Add(new HttpHeader("Authorization", _serviceToken));
 
-                                SetQueryParameters(queryParameters, callModel, httpGetProvider);
+                                SetQueryParameters(queryParameters, serviceRoute, httpGetProvider);
 
                                 return
                                     await
                                     httpGetProvider
                                     .GetAsync<ServiceResult<TResult>>(
-                                        url: callModel.Endpoint, cancellationToken);
+                                        url: serviceRoute.Endpoint, cancellationToken);
                             }
                             else
                             {
@@ -267,20 +309,56 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                     {
                         return new ServiceResult<TResult>() { IsSuccess = false, Error = new Error() { Code = "401", Description = wex.ToString() } };
                     }
-
-                    using (StreamReader streamReader = new StreamReader(wex.Response.GetResponseStream()))
+                    else if (wex.Response is HttpWebResponse && (wex.Response as HttpWebResponse).StatusCode == HttpStatusCode.BadRequest)
                     {
-                        string response = await streamReader.ReadToEndAsync();
+                        using (StreamReader streamReader = new StreamReader(wex.Response.GetResponseStream()))
+                        {
+                            string response = await streamReader.ReadToEndAsync();
 
-                        return JsonConvert.DeserializeObject<ServiceResult<TResult>>(response);
+                            return JsonConvert.DeserializeObject<ServiceResult<TResult>>(response);
+                        }
+                    }
+                    else if (wex.Response is HttpWebResponse)
+                    {
+                        if (serviceRoute != null && serviceRoute.AlternativeRoutes != null && serviceRoute.AlternativeRoutes.Any())
+                        {
+                            foreach (var route in serviceRoute.AlternativeRoutes)
+                            {
+                                var alternativeCallResult = await Call<TResult>(
+                                    serviceName: route.ServiceName,
+                                    postData: postData,
+                                    queryParameters: queryParameters,
+                                    cancellationToken: cancellationToken);
+
+                                if (alternativeCallResult.IsSuccess)
+                                    return alternativeCallResult;
+                            }
+                        }
+                    }
+                }
+                else if (wex.Status == WebExceptionStatus.UnknownError)
+                {
+                    if (serviceRoute != null && serviceRoute.AlternativeRoutes != null && serviceRoute.AlternativeRoutes.Any())
+                    {
+                        foreach (var route in serviceRoute.AlternativeRoutes)
+                        {
+                            var alternativeCallResult = await Call<TResult>(
+                                serviceName: route.ServiceName,
+                                postData: postData,
+                                queryParameters: queryParameters,
+                                cancellationToken: cancellationToken);
+
+                            if (alternativeCallResult.IsSuccess)
+                                return alternativeCallResult;
+                        }
                     }
                 }
 
-                throw;
+                return new ServiceResult<TResult>() { IsSuccess = false, Error = new Error() { Description = wex.ToString() } };
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                return new ServiceResult<TResult>() { IsSuccess = false, Error = new Error() { Description = ex.ToString() } };
             }
         }
 

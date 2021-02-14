@@ -63,7 +63,12 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Repositories.Sql
                     workerInventory.WorkerId = sqlDataReader.GetInt32("HR_WORKERS_ID");
                     workerInventory.InventoryId = sqlDataReader.GetInt32("IT_INVENTORIES_ID");
                     workerInventory.FromDate = sqlDataReader.GetDateTime("FROM_DATE");
-                    workerInventory.ToDate = sqlDataReader.GetDateTime("TO_DATE");
+                    workerInventory.ToDate =
+                        sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("TO_DATE"))
+                        ?
+                        null
+                        :
+                        sqlDataReader.GetDateTime("TO_DATE");
 
                     workerInventories.Add(workerInventory);
                 }

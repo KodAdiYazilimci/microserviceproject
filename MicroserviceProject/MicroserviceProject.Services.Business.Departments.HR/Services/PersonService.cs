@@ -279,6 +279,25 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
             List<WorkerModel> mappedWorkers =
                 _mapper.Map<List<WorkerEntity>, List<WorkerModel>>(workers);
 
+            foreach (var worker in mappedWorkers)
+            {
+                ServiceResult<List<BankAccountModel>> bankAccountsServiceResult =
+                 await _serviceCommunicator.Call<List<BankAccountModel>>(
+                     serviceName: _routeNameProvider.Accounting_GetBankAccountsOfWorker,
+                     postData: null,
+                     queryParameters: new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("workerId", worker.Id.ToString()) },
+                     cancellationToken: cancellationToken);
+
+                if (bankAccountsServiceResult.IsSuccess)
+                {
+                    worker.BankAccounts = bankAccountsServiceResult.Data;
+                }
+                else
+                {
+                    throw new Exception(bankAccountsServiceResult.Error.Description);
+                }
+            }
+
             _cacheDataProvider.Set(CACHED_WORKERS_KEY, mappedWorkers);
 
             return mappedWorkers;

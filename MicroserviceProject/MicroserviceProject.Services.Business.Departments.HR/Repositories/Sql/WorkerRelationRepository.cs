@@ -62,7 +62,12 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
                     workerRelation.WorkerId = sqlDataReader.GetInt32("HR_WORKERS_ID");
                     workerRelation.ManagerId = sqlDataReader.GetInt32("HR_WORKERS_MANAGER_ID");
                     workerRelation.FromDate = sqlDataReader.GetDateTime("FROM_DATE");
-                    workerRelation.ToDate = sqlDataReader.GetDateTime("TO_DATE");
+                    workerRelation.ToDate =
+                        sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("TO_DATE"))
+                        ?
+                        null
+                        :
+                        sqlDataReader.GetDateTime("TO_DATE");
 
                     workerRelations.Add(workerRelation);
                 }

@@ -39,8 +39,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
             List<WorkerEntity> workers = new List<WorkerEntity>();
 
             SqlCommand sqlCommand = new SqlCommand(@"SELECT 
-                                                     [ID]
-                                                     [NAME],
+                                                     [ID],
                                                      [FROM_DATE],
                                                      [TO_DATE],
                                                      [HR_DEPARTMENTS_ID],
@@ -62,9 +61,13 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
                     WorkerEntity worker = new WorkerEntity();
 
                     worker.Id = sqlDataReader.GetInt32("ID");
-                    worker.Name = sqlDataReader.GetString("NAME");
                     worker.FromDate = sqlDataReader.GetDateTime("FROM_DATE");
-                    worker.ToDate = sqlDataReader.GetDateTime("TO_DATE");
+                    worker.ToDate =
+                        sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("TO_DATE"))
+                        ?
+                        null
+                        :
+                        sqlDataReader.GetDateTime("TO_DATE");
                     worker.DepartmentId = sqlDataReader.GetInt32("HR_DEPARTMENTS_ID");
                     worker.PersonId = sqlDataReader.GetInt32("HR_PEOPLE_ID");
                     worker.TitleId = sqlDataReader.GetInt32("HR_TITLES_ID");

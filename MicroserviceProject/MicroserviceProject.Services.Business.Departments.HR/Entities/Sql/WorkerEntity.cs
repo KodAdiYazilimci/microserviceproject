@@ -9,11 +9,6 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Entities.Sql
     public class WorkerEntity : BaseEntity
     {
         /// <summary>
-        /// Çalışanın adı
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
         /// Başlama tarihi
         /// </summary>
         public DateTime FromDate { get; set; }
