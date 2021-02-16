@@ -1,6 +1,8 @@
 using MicroserviceProject.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Infrastructure.Communication.Model.Errors;
 using MicroserviceProject.Services.Infrastructure.Authorization.Configuration.Services;
+using MicroserviceProject.Services.Logging.DI;
+using MicroserviceProject.Services.Util.DI;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -28,7 +30,7 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.RegisterLogger(Configuration);
+            services.RegisterLogger();
 
             services.RegisterRepositories(Configuration);
 
