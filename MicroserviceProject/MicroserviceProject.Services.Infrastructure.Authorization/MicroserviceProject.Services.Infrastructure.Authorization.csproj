@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="9.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MicroserviceProject.Infrastructure.Communication.Model\MicroserviceProject.Infrastructure.Communication.Model.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Infrastructure.Cryptography.Rijndael\MicroserviceProject.Infrastructure.Cryptography.Rijndael.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Infrastructure.Cryptography.RSA\MicroserviceProject.Infrastructure.Cryptography.RSA.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Infrastructure.Cryptography.SHA256\MicroserviceProject.Infrastructure.Cryptography.SHA256.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Infrastructure.Logging.File\MicroserviceProject.Infrastructure.Logging.File.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Infrastructure.Logging.RabbitMq\MicroserviceProject.Infrastructure.Logging.RabbitMq.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Infrastructure.Security.Model\MicroserviceProject.Infrastructure.Security.Model.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Services.Cache\MicroserviceProject.Services.Cache.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Services.Communication\MicroserviceProject.Services.Communication.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Services.Logging\MicroserviceProject.Services.Logging.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Services.Util\MicroserviceProject.Services.Util.csproj" />
+  </ItemGroup>
+
+</Project>
