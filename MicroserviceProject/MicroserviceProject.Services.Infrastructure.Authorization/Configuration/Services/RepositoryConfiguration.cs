@@ -18,24 +18,10 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Configuratio
         /// <returns></returns>
         public static IServiceCollection RegisterRepositories(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddScoped<SessionRepository>(x => new SessionRepository(GetAuthorizationConnectionString(configuration)));
-            services.AddScoped<UserRepository>(x => new UserRepository(GetAuthorizationConnectionString(configuration)));
+            services.AddScoped<SessionRepository>();
+            services.AddScoped<UserRepository>();
 
             return services;
-        }
-
-        /// <summary>
-        /// Yetki altyapısı için kullanılacak veritabanı bağlantı cümlesini verir
-        /// </summary>
-        /// <param name="configuration">Bağlantı cümlesini verecek Configuration nesnesi</param>
-        /// <returns></returns>
-        private static string GetAuthorizationConnectionString(IConfiguration configuration)
-        {
-            return
-                configuration
-                .GetSection("Configuration")
-                .GetSection("Authorization")
-                .GetSection("DataSource").Value;
         }
     }
 }

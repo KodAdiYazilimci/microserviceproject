@@ -1,6 +1,8 @@
 ﻿
 using MicroserviceProject.Infrastructure.Security.Model;
 
+using Microsoft.Extensions.Configuration;
+
 using System;
 using System.Data;
 using System.Data.SqlClient;
@@ -12,20 +14,15 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Persistence.
     /// <summary>
     /// Oturum repository sınıfı
     /// </summary>
-    public class SessionRepository
+    public class SessionRepository : BaseRepository
     {
-        /// <summary>
-        /// Veritabanı bağlantı cümlesi
-        /// </summary>
-        private readonly string connectionString;
-
         /// <summary>
         /// Oturum repository sınıfı
         /// </summary>
-        /// <param name="connectionString">Veritabanı bağlantı cümlesi</param>
-        public SessionRepository(string connectionString) //: base(connectionString)
+        /// <param name="connectionString">Veritabanı bağlantı cümlesini getirecek configuration nesnesi</param>
+        public SessionRepository(IConfiguration configuration) : base(configuration)
         {
-            this.connectionString = connectionString;
+
         }
 
         /// <summary>
@@ -42,7 +39,7 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Persistence.
 
             DateTime currentDate = DateTime.Now;
 
-            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            SqlConnection sqlConnection = new SqlConnection(AuthorizationConnectionString);
 
             try
             {
@@ -120,7 +117,7 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Persistence.
 
             Exception exception = null;
 
-            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            SqlConnection sqlConnection = new SqlConnection(AuthorizationConnectionString);
 
             try
             {

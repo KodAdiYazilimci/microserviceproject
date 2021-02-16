@@ -1,6 +1,8 @@
 ﻿
 using MicroserviceProject.Infrastructure.Security.Model;
 
+using Microsoft.Extensions.Configuration;
+
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,20 +15,15 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Persistence.
     /// <summary>
     /// Kullanıcı repository sınıfı
     /// </summary>
-    public class UserRepository
+    public class UserRepository : BaseRepository
     {
-        /// <summary>
-        /// Veritabanı bağlantı cümlesi
-        /// </summary>
-        private readonly string connectionString;
-
         /// <summary>
         /// Kullanıcı repository sınıfı
         /// </summary>
-        /// <param name="connectionString">Veritabanı bağlantı cümlesi</param>
-        public UserRepository(string connectionString) //: base(connectionString)
+        /// <param name="connectionString">Veritabanı bağlantı cümlesini getirecek configuration nesnesi</param>
+        public UserRepository(IConfiguration configuration) : base(configuration)
         {
-            this.connectionString = connectionString;
+
         }
 
         /// <summary>
@@ -41,7 +38,7 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Persistence.
 
             Exception exception = null;
 
-            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            SqlConnection sqlConnection = new SqlConnection(AuthorizationConnectionString);
 
             try
             {
@@ -108,7 +105,7 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Persistence.
 
             Exception exception = null;
 
-            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            SqlConnection sqlConnection = new SqlConnection(AuthorizationConnectionString);
 
             try
             {
@@ -172,7 +169,7 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Persistence.
 
             Exception exception = null;
 
-            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            SqlConnection sqlConnection = new SqlConnection(AuthorizationConnectionString);
 
             try
             {
@@ -239,7 +236,7 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Persistence.
 
             Exception exception = null;
 
-            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            SqlConnection sqlConnection = new SqlConnection(AuthorizationConnectionString);
 
             try
             {
@@ -306,7 +303,7 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Persistence.
 
             Exception exception = null;
 
-            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            SqlConnection sqlConnection = new SqlConnection(AuthorizationConnectionString);
 
             try
             {
