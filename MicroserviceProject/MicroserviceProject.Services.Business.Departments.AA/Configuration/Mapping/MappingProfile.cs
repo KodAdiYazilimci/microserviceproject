@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 
 using MicroserviceProject.Services.Business.Departments.AA.Entities.Sql;
-using MicroserviceProject.Services.Business.Model.Department.AA;
+using MicroserviceProject.Services.Model.Department.AA;
 
 namespace MicroserviceProject.Services.Business.Departments.AA.Configuration.Mapping
 {

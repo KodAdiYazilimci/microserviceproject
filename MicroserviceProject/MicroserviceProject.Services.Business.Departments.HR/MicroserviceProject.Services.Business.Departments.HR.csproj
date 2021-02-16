@@ -9,9 +9,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MicroserviceProject.Services.Business.DI\MicroserviceProject.Services.Business.DI.csproj" />
-    <ProjectReference Include="..\MicroserviceProject.Services.Business.Util\MicroserviceProject.Services.Business.Util.csproj" />
-    <ProjectReference Include="..\MicroserviceProject.Services.DI\MicroserviceProject.Services.DI.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Services.Authentication\MicroserviceProject.Services.Authentication.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Services.Cache\MicroserviceProject.Services.Cache.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Services.Communication\MicroserviceProject.Services.Communication.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Services.Logging\MicroserviceProject.Services.Logging.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Services.UnitOfWork\MicroserviceProject.Services.UnitOfWork.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Services.Util\MicroserviceProject.Services.Util.csproj" />
   </ItemGroup>
 
   <ItemGroup>

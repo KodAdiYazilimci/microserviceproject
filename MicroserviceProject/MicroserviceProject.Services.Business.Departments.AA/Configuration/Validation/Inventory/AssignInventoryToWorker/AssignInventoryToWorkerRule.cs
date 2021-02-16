@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-using MicroserviceProject.Services.Business.Model.Department.HR;
+using MicroserviceProject.Services.Model.Department.HR;
 
 using System.Linq;
 

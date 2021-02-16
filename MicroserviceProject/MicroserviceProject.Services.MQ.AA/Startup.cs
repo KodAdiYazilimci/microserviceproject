@@ -1,6 +1,7 @@
 using MicroserviceProject.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Infrastructure.Communication.Model.Errors;
-using MicroserviceProject.Services.DI;
+using MicroserviceProject.Services.Authentication;
+using MicroserviceProject.Services.Communication.DI;
 using MicroserviceProject.Services.MQ.AA.DI;
 
 using Microsoft.AspNetCore.Builder;

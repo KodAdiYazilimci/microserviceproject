@@ -2,7 +2,7 @@
 using MicroserviceProject.Infrastructure.Communication.Model.Errors;
 using MicroserviceProject.Services.Business.Departments.Accounting.Services;
 using MicroserviceProject.Services.Business.Departments.Accounting.Util.Validation.Department.CreateDepartment;
-using MicroserviceProject.Services.Business.Model.Department.Accounting;
+using MicroserviceProject.Services.Model.Department.Accounting;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

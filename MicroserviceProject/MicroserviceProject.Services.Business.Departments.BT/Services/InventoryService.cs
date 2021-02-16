@@ -3,9 +3,9 @@
 using MicroserviceProject.Infrastructure.Caching.Redis;
 using MicroserviceProject.Services.Business.Departments.IT.Entities.Sql;
 using MicroserviceProject.Services.Business.Departments.IT.Repositories.Sql;
-using MicroserviceProject.Services.Business.Model.Department.HR;
-using MicroserviceProject.Services.Business.Model.Department.IT;
-using MicroserviceProject.Services.Business.Util.UnitOfWork;
+using MicroserviceProject.Services.Model.Department.HR;
+using MicroserviceProject.Services.Model.Department.IT;
+using MicroserviceProject.Services.UnitOfWork;
 
 using System;
 using System.Collections.Generic;

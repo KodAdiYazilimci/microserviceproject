@@ -1,8 +1,8 @@
 ﻿using MicroserviceProject.Infrastructure.Communication.Moderator;
 using MicroserviceProject.Infrastructure.Communication.Moderator.Providers;
 using MicroserviceProject.Infrastructure.Communication.Mq.Rabbit;
-using MicroserviceProject.Services.Business.Model.Department.HR;
-using MicroserviceProject.Services.Configuration.Communication.Rabbit.Accounting;
+using MicroserviceProject.Services.Communication.Configuration.Rabbit.Accounting;
+using MicroserviceProject.Services.Model.Department.HR;
 
 using System.Threading;
 using System.Threading.Tasks;

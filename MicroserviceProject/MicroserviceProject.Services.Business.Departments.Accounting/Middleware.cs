@@ -1,5 +1,5 @@
 ﻿using MicroserviceProject.Infrastructure.Logging.Model;
-using MicroserviceProject.Services.Business.Util.Logging.Loggers;
+using MicroserviceProject.Services.Logging.Loggers;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;

@@ -1,5 +1,5 @@
 ﻿using MicroserviceProject.Services.Business.Departments.AA.Entities.Sql;
-using MicroserviceProject.Services.Business.Util.UnitOfWork;
+using MicroserviceProject.Services.UnitOfWork;
 
 using System;
 using System.Collections.Generic;

@@ -2,14 +2,13 @@
 using MicroserviceProject.Infrastructure.Communication.Model.Errors;
 using MicroserviceProject.Services.Business.Departments.HR.Services;
 using MicroserviceProject.Services.Business.Departments.HR.Util.Validation.Department.CreateDepartment;
-using MicroserviceProject.Services.Business.Model.Department.HR;
+using MicroserviceProject.Services.Model.Department.HR;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 

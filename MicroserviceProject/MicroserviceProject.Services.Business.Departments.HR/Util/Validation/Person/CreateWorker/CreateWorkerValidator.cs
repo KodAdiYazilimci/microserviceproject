@@ -4,7 +4,7 @@ using MicroserviceProject.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Infrastructure.Communication.Model.Errors;
 using MicroserviceProject.Infrastructure.Communication.Model.Validations;
 using MicroserviceProject.Services.Business.Departments.HR.Configuration.Validation.Person.CreateWorker;
-using MicroserviceProject.Services.Business.Model.Department.HR;
+using MicroserviceProject.Services.Model.Department.HR;
 
 using System.Collections.Generic;
 using System.Linq;

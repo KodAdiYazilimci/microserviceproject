@@ -1,8 +1,13 @@
 using MicroserviceProject.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Infrastructure.Communication.Model.Errors;
+using MicroserviceProject.Services.Authentication;
+using MicroserviceProject.Services.Authentication.DI;
 using MicroserviceProject.Services.Business.Departments.HR.DI;
-using MicroserviceProject.Services.Business.DI;
-using MicroserviceProject.Services.DI;
+using MicroserviceProject.Services.Cache.DI;
+using MicroserviceProject.Services.Communication.DI;
+using MicroserviceProject.Services.Logging.DI;
+using MicroserviceProject.Services.UnitOfWork.DI;
+using MicroserviceProject.Services.Util.DI;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;

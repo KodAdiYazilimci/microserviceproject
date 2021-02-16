@@ -3,8 +3,8 @@ using MicroserviceProject.Infrastructure.Communication.Model.Errors;
 using MicroserviceProject.Services.Business.Departments.AA.Services;
 using MicroserviceProject.Services.Business.Departments.AA.Util.Validation.Inventory.AssignInventoryToWorker;
 using MicroserviceProject.Services.Business.Departments.AA.Util.Validation.Inventory.CreateInventory;
-using MicroserviceProject.Services.Business.Model.Department.HR;
-using MicroserviceProject.Services.Business.Model.Department.AA;
+using MicroserviceProject.Services.Model.Department.AA;
+using MicroserviceProject.Services.Model.Department.HR;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-using MicroserviceProject.Services.Business.Model.Department.IT;
+using MicroserviceProject.Services.Model.Department.IT;
 
 namespace MicroserviceProject.Services.Business.Departments.IT.Configuration.Validation.Inventory.CreateInventory
 {

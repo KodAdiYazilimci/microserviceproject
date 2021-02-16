@@ -4,7 +4,7 @@ using MicroserviceProject.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Infrastructure.Communication.Model.Errors;
 using MicroserviceProject.Infrastructure.Communication.Model.Validations;
 using MicroserviceProject.Services.Business.Departments.Accounting.Configuration.Validation.BankAccounts.CreateBankAccount;
-using MicroserviceProject.Services.Business.Model.Department.Accounting;
+using MicroserviceProject.Services.Model.Department.Accounting;
 
 using System.Collections.Generic;
 using System.Linq;

@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-using MicroserviceProject.Services.Business.Model.Department.Accounting;
+using MicroserviceProject.Services.Model.Department.Accounting;
 
 namespace MicroserviceProject.Services.Business.Departments.Accounting.Configuration.Validation.BankAccounts.CreateBankAccount
 {

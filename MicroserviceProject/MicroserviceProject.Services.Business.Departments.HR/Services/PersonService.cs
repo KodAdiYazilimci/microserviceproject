@@ -6,12 +6,12 @@ using MicroserviceProject.Infrastructure.Communication.Moderator;
 using MicroserviceProject.Infrastructure.Communication.Moderator.Providers;
 using MicroserviceProject.Services.Business.Departments.HR.Entities.Sql;
 using MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql;
-using MicroserviceProject.Services.Business.Model.Department.Accounting;
-using MicroserviceProject.Services.Business.Model.Department.HR;
-using MicroserviceProject.Services.Business.Util.Communication.Rabbit.AA;
-using MicroserviceProject.Services.Business.Util.Communication.Rabbit.Account;
-using MicroserviceProject.Services.Business.Util.Communication.Rabbit.IT;
-using MicroserviceProject.Services.Business.Util.UnitOfWork;
+using MicroserviceProject.Services.Communication.Publishers.AA;
+using MicroserviceProject.Services.Communication.Publishers.Account;
+using MicroserviceProject.Services.Communication.Publishers.IT;
+using MicroserviceProject.Services.Model.Department.Accounting;
+using MicroserviceProject.Services.Model.Department.HR;
+using MicroserviceProject.Services.UnitOfWork;
 
 using System;
 using System.Collections.Generic;

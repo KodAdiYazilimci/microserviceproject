@@ -1,5 +1,4 @@
-﻿
-using MicroserviceProject.Services.Configuration.Communication.Rabbit.Accounting;
+﻿using MicroserviceProject.Services.Communication.Configuration.Rabbit.Accounting;
 using MicroserviceProject.Services.MQ.Accounting.Util.Consumers.Inventory;
 
 using Microsoft.Extensions.DependencyInjection;

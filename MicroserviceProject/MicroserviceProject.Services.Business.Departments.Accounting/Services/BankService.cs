@@ -3,8 +3,8 @@
 using MicroserviceProject.Infrastructure.Caching.Redis;
 using MicroserviceProject.Services.Business.Departments.Accounting.Entities.Sql;
 using MicroserviceProject.Services.Business.Departments.Accounting.Repositories.Sql;
-using MicroserviceProject.Services.Business.Model.Department.Accounting;
-using MicroserviceProject.Services.Business.Util.UnitOfWork;
+using MicroserviceProject.Services.Model.Department.Accounting;
+using MicroserviceProject.Services.UnitOfWork;
 
 using System;
 using System.Collections.Generic;

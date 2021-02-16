@@ -4,7 +4,7 @@ using MicroserviceProject.Services.Business.Departments.HR.Services;
 using MicroserviceProject.Services.Business.Departments.HR.Util.Validation.Person.CreatePerson;
 using MicroserviceProject.Services.Business.Departments.HR.Util.Validation.Person.CreateTitle;
 using MicroserviceProject.Services.Business.Departments.HR.Util.Validation.Person.CreateWorker;
-using MicroserviceProject.Services.Business.Model.Department.HR;
+using MicroserviceProject.Services.Model.Department.HR;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

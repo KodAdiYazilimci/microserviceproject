@@ -4,7 +4,7 @@ using MicroserviceProject.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Infrastructure.Communication.Model.Errors;
 using MicroserviceProject.Infrastructure.Communication.Model.Validations;
 using MicroserviceProject.Services.Business.Departments.AA.Configuration.Validation.Inventory.CreateInventory;
-using MicroserviceProject.Services.Business.Model.Department.AA;
+using MicroserviceProject.Services.Model.Department.AA;
 
 using System.Collections.Generic;
 using System.Linq;
