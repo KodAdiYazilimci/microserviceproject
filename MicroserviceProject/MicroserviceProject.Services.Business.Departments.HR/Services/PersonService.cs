@@ -64,6 +64,11 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
         private readonly IUnitOfWork _unitOfWork;
 
         /// <summary>
+        /// Departmanlar tablosu için repository sınıfı
+        /// </summary>
+        private readonly DepartmentRepository _departmentRepository;
+
+        /// <summary>
         /// Kişi tablosu için repository sınıfı
         /// </summary>
         private readonly PersonRepository _personRepository;
@@ -113,6 +118,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
         /// kuyruğa kayıt ekleyecek nesne</param>
         /// <param name="unitOfWork">Veritabanı iş birimi nesnesi</param>
         /// <param name="cacheDataProvider">Rediste tutulan önbellek yönetimini sağlayan sınıf</param>
+        /// <param name="departmentRepository">Departmanlar tablosu için repository sınıfı</param>
         /// <param name="personRepository">Kişi tablosu için repository sınıfı</param>
         /// <param name="titleRepository">Kişi tablosu için repository sınıfı</param>
         /// <param name="workerRepository">Çalışan tablosu için repository sınıfı</param>
@@ -126,6 +132,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
             CreateBankAccountPublisher createBankAccountPublisher,
             IUnitOfWork unitOfWork,
             CacheDataProvider cacheDataProvider,
+            DepartmentRepository departmentRepository,
             PersonRepository personRepository,
             TitleRepository titleRepository,
             WorkerRepository workerRepository,
@@ -140,6 +147,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
             _mapper = mapper;
             _unitOfWork = unitOfWork;
 
+            _departmentRepository = departmentRepository;
             _personRepository = personRepository;
             _titleRepository = titleRepository;
             _workerRepository = workerRepository;
@@ -274,12 +282,9 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                 return cachedWorkers;
             }
 
-            List<WorkerEntity> workers = await _workerRepository.GetListAsync(cancellationToken);
+            List<WorkerModel> workerModels = GetWorkers(cancellationToken);
 
-            List<WorkerModel> mappedWorkers =
-                _mapper.Map<List<WorkerEntity>, List<WorkerModel>>(workers);
-
-            foreach (var worker in mappedWorkers)
+            foreach (var worker in workerModels)
             {
                 ServiceResult<List<BankAccountModel>> bankAccountsServiceResult =
                  await _serviceCommunicator.Call<List<BankAccountModel>>(
@@ -298,9 +303,40 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                 }
             }
 
-            _cacheDataProvider.Set(CACHED_WORKERS_KEY, mappedWorkers);
+            _cacheDataProvider.Set(CACHED_WORKERS_KEY, workerModels);
 
-            return mappedWorkers;
+            return workerModels;
+        }
+
+        private List<WorkerModel> GetWorkers(CancellationToken cancellationToken)
+        {
+            Task<List<DepartmentEntity>> departmentTask = _departmentRepository.GetListAsync(cancellationToken);
+
+            Task<List<PersonEntity>> personTask = _personRepository.GetListAsync(cancellationToken);
+
+            Task<List<TitleEntity>> titleTask = _titleRepository.GetListAsync(cancellationToken);
+
+            Task<List<WorkerEntity>> workerTask = _workerRepository.GetListAsync(cancellationToken);
+
+            Task<List<WorkerRelationEntity>> workerRelationTask = _workerRelationRepository.GetListAsync(cancellationToken);
+
+            Task.WaitAll(new Task[] { departmentTask, personTask, titleTask, workerTask, workerRelationTask });
+
+            var workerModels = (from w in workerTask.Result
+                                join t in titleTask.Result
+                                on w.TitleId equals t.Id
+                                join p in personTask.Result
+                                on w.PersonId equals p.Id
+                                select new WorkerModel
+                                {
+                                    Id = w.Id,
+                                    Department = _mapper.Map<DepartmentModel>(departmentTask.Result.FirstOrDefault(x => x.Id == w.DepartmentId)),
+                                    Title = _mapper.Map<TitleModel>(titleTask.Result.FirstOrDefault(x => x.Id == w.TitleId)),
+                                    Person = _mapper.Map<PersonModel>(p),
+                                    FromDate = w.FromDate,
+                                    ToDate = w.ToDate
+                                }).ToList();
+            return workerModels;
         }
 
         /// <summary>
