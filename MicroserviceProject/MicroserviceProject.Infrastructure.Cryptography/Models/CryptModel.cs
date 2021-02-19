@@ -1,4 +1,4 @@
-﻿namespace MicroserviceProject.Infrastructure.Cryptography.Model.Rijndael
+﻿namespace MicroserviceProject.Infrastructure.Cryptography.Models
 {
     /// <summary>
     /// Rijndael kriptolama modeli

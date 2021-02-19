@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace MicroserviceProject.Infrastructure.Cryptography.SHA256
+namespace MicroserviceProject.Infrastructure.Cryptography.Ciphers
 {
     /// <summary>
     /// SHA256 kriptolama işlemleri sınıfı

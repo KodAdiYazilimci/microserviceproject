@@ -1,10 +1,10 @@
 ﻿
-using MicroserviceProject.Infrastructure.Cryptography.Model.Rijndael;
+using MicroserviceProject.Infrastructure.Cryptography.Models;
 
 using System.IO;
 using System.Security.Cryptography;
 
-namespace MicroserviceProject.Infrastructure.Cryptography.Rijndael
+namespace MicroserviceProject.Infrastructure.Cryptography.Ciphers
 {
     /// <summary>
     /// Rijndael kriptolama işlemleri sınıfı

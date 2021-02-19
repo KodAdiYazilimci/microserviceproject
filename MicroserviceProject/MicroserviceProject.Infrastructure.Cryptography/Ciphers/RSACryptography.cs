@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace MicroserviceProject.Infrastructure.Cryptography.RSA
+namespace MicroserviceProject.Infrastructure.Cryptography.Ciphers
 {
     /// <summary>
     /// RSA kriptolama işlemleri sınıfı

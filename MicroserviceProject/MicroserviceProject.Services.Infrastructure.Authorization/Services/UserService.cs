@@ -1,4 +1,4 @@
-﻿using MicroserviceProject.Infrastructure.Cryptography.SHA256;
+﻿using MicroserviceProject.Infrastructure.Cryptography.Ciphers;
 using MicroserviceProject.Infrastructure.Security.Model;
 using MicroserviceProject.Services.Infrastructure.Authorization.Persistence.Sql.Exceptions;
 using MicroserviceProject.Services.Infrastructure.Authorization.Persistence.Sql.Repositories;
