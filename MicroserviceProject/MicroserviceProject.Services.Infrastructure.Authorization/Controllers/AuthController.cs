@@ -1,6 +1,5 @@
-﻿
-using MicroserviceProject.Infrastructure.Communication.Model.Basics;
-using MicroserviceProject.Infrastructure.Communication.Model.Errors;
+﻿using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Basics;
+using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Errors;
 using MicroserviceProject.Infrastructure.Security.Model;
 using MicroserviceProject.Services.Infrastructure.Authorization.Business.Services;
 using MicroserviceProject.Services.Infrastructure.Authorization.Persistence.Sql.Exceptions;

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MicroserviceProject.Infrastructure.Communication.Model.Validations
+namespace MicroserviceProject.Infrastructure.Communication.Moderator.Model.Validations
 {
     /// <summary>
     /// Servisten dönen doğrulama

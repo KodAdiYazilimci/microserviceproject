@@ -1,8 +1,8 @@
 ﻿using FluentValidation.Results;
 
-using MicroserviceProject.Infrastructure.Communication.Model.Basics;
-using MicroserviceProject.Infrastructure.Communication.Model.Errors;
-using MicroserviceProject.Infrastructure.Communication.Model.Validations;
+using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Basics;
+using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Errors;
+using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Validations;
 using MicroserviceProject.Services.Business.Departments.AA.Configuration.Validation.Inventory.CreateInventory;
 using MicroserviceProject.Services.Model.Department.AA;
 
@@ -41,7 +41,7 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Util.Validation.I
                         {
                             Description = "Geçersiz parametre"
                         },
-                        Validation = new Infrastructure.Communication.Model.Validations.Validation()
+                        Validation = new Infrastructure.Communication.Moderator.Model.Validations.Validation()
                         {
                             IsValid = false,
                             ValidationItems = new List<ValidationItem>()
@@ -69,7 +69,7 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Util.Validation.I
                     {
                         Description = "Geçersiz parametre"
                     },
-                    Validation = new Infrastructure.Communication.Model.Validations.Validation()
+                    Validation = new Infrastructure.Communication.Moderator.Model.Validations.Validation()
                     {
                         IsValid = false,
                         ValidationItems = new List<ValidationItem>()

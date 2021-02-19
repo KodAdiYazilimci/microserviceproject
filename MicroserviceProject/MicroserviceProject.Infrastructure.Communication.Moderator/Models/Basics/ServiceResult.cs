@@ -1,7 +1,7 @@
-﻿using MicroserviceProject.Infrastructure.Communication.Model.Errors;
-using MicroserviceProject.Infrastructure.Communication.Model.Validations;
+﻿using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Errors;
+using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Validations;
 
-namespace MicroserviceProject.Infrastructure.Communication.Model.Basics
+namespace MicroserviceProject.Infrastructure.Communication.Moderator.Model.Basics
 {
     /// <summary>
     /// Bir servisten dönen yanıt

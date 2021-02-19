@@ -1,4 +1,4 @@
-﻿namespace MicroserviceProject.Infrastructure.Communication.Moderator.Models
+﻿namespace MicroserviceProject.Infrastructure.Communication.Moderator.Models.Routing
 {
     /// <summary>
     /// Çağırılacak servisin query string parametreleri

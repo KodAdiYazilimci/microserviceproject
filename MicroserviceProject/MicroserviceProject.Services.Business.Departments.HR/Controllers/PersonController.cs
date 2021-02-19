@@ -1,5 +1,5 @@
-﻿using MicroserviceProject.Infrastructure.Communication.Model.Basics;
-using MicroserviceProject.Infrastructure.Communication.Model.Errors;
+﻿using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Basics;
+using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Errors;
 using MicroserviceProject.Services.Business.Departments.HR.Services;
 using MicroserviceProject.Services.Business.Departments.HR.Util.Validation.Person.CreatePerson;
 using MicroserviceProject.Services.Business.Departments.HR.Util.Validation.Person.CreateTitle;

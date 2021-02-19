@@ -1,5 +1,5 @@
-using MicroserviceProject.Infrastructure.Communication.Model.Basics;
-using MicroserviceProject.Infrastructure.Communication.Model.Errors;
+using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Basics;
+using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Errors;
 using MicroserviceProject.Services.Authentication;
 using MicroserviceProject.Services.Communication.DI;
 using MicroserviceProject.Services.MQ.AA.DI;

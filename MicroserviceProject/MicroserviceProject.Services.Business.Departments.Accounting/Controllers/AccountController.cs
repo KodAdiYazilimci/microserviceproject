@@ -1,5 +1,5 @@
-﻿using MicroserviceProject.Infrastructure.Communication.Model.Basics;
-using MicroserviceProject.Infrastructure.Communication.Model.Errors;
+﻿using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Basics;
+using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Errors;
 using MicroserviceProject.Services.Business.Departments.Accounting.Services;
 using MicroserviceProject.Services.Business.Departments.Accounting.Util.Validation.Department.CreateDepartment;
 using MicroserviceProject.Services.Model.Department.Accounting;

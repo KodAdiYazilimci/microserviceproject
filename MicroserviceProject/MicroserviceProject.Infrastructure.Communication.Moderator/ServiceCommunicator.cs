@@ -1,6 +1,5 @@
-﻿
-using MicroserviceProject.Infrastructure.Communication.Model.Basics;
-using MicroserviceProject.Infrastructure.Communication.Moderator.Models;
+﻿using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Basics;
+using MicroserviceProject.Infrastructure.Communication.Moderator.Models.Routing;
 using MicroserviceProject.Infrastructure.Communication.Moderator.Providers;
 using MicroserviceProject.Infrastructure.Communication.Moderator.Repositories.Sql;
 using MicroserviceProject.Infrastructure.Security.Model;

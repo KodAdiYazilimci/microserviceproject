@@ -1,5 +1,5 @@
-﻿using MicroserviceProject.Infrastructure.Communication.Model.Basics;
-using MicroserviceProject.Infrastructure.Communication.Model.Errors;
+﻿using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Basics;
+using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Errors;
 using MicroserviceProject.Services.Business.Departments.AA.Services;
 using MicroserviceProject.Services.Business.Departments.AA.Util.Validation.Inventory.AssignInventoryToWorker;
 using MicroserviceProject.Services.Business.Departments.AA.Util.Validation.Inventory.CreateInventory;

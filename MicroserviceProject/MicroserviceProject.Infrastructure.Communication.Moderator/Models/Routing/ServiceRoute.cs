@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MicroserviceProject.Infrastructure.Communication.Moderator.Models
+namespace MicroserviceProject.Infrastructure.Communication.Moderator.Models.Routing
 {
     /// <summary>
     /// Çağrı modeli

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 
 using MicroserviceProject.Infrastructure.Caching.Redis;
-using MicroserviceProject.Infrastructure.Communication.Model.Basics;
+using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Basics;
 using MicroserviceProject.Infrastructure.Communication.Moderator;
 using MicroserviceProject.Infrastructure.Communication.Moderator.Providers;
 using MicroserviceProject.Services.Business.Departments.HR.Entities.Sql;

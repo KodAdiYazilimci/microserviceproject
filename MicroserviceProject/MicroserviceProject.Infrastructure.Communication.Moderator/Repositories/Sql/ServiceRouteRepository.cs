@@ -1,4 +1,4 @@
-﻿using MicroserviceProject.Infrastructure.Communication.Moderator.Models;
+﻿using MicroserviceProject.Infrastructure.Communication.Moderator.Models.Routing;
 
 using Microsoft.Extensions.Configuration;
 
