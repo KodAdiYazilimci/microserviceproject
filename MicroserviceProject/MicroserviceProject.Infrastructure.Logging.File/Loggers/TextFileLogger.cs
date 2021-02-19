@@ -3,6 +3,7 @@ using MicroserviceProject.Infrastructure.Logging.File.Configuration;
 using MicroserviceProject.Infrastructure.Logging.Model;
 
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MicroserviceProject.Infrastructure.Logging.File.Loggers
@@ -31,7 +32,7 @@ namespace MicroserviceProject.Infrastructure.Logging.File.Loggers
         /// Düz metin log yazar
         /// </summary>
         /// <param name="model">Yazılacak logun modeli</param>
-        public async Task LogAsync(TModel model)
+        public async Task LogAsync(TModel model, CancellationToken cancellationToken)
         {
             DirectoryInfo directoryInfo = new DirectoryInfo(_fileConfiguration.Path);
 
@@ -40,7 +41,11 @@ namespace MicroserviceProject.Infrastructure.Logging.File.Loggers
                 directoryInfo.Create();
             }
 
-            await System.IO.File.AppendAllTextAsync(_fileConfiguration.Path + "\\" + _fileConfiguration.FileName, model.ToString(), _fileConfiguration.Encoding);
+            await System.IO.File.AppendAllTextAsync(
+                path: _fileConfiguration.Path + "\\" + _fileConfiguration.FileName,
+                contents: model.ToString(),
+                encoding: _fileConfiguration.Encoding,
+                cancellationToken: cancellationToken);
         }
     }
 }

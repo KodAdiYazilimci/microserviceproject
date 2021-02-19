@@ -3,6 +3,7 @@ using MicroserviceProject.Infrastructure.Logging.Model;
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MicroserviceProject.Infrastructure.Logging.Managers
@@ -61,16 +62,18 @@ namespace MicroserviceProject.Infrastructure.Logging.Managers
         /// Log yazar
         /// </summary>
         /// <param name="model">Yazılacak logun modeli</param>
-        public void Log(TModel model)
+        public Task LogAsync(TModel model, CancellationToken cancellationToken)
         {
             Task[] tasks = new Task[_loggers.Count];
 
             for (int i = 0; i < _loggers.Count; i++)
             {
-                tasks[i] = _loggers[i].LogAsync(model);
+                tasks[i] = _loggers[i].LogAsync(model, cancellationToken);
             }
 
             Task.WaitAll(tasks);
+
+            return Task.CompletedTask;
         }
     }
 }

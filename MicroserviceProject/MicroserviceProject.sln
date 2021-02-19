@@ -17,8 +17,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrast
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication", "MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication\MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.csproj", "{B8817C26-8465-4910-A4F6-4B6277EC5DEC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services.Security", "Services.Security", "{63E37307-7818-4EB9-B941-E787E7FBBF8F}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure.Cryptography", "Infrastructure.Cryptography", "{6A1F6E82-33F9-4571-94FE-C332DBED3DF8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrastructure.Cryptography.RSA", "MicroserviceProject.Infrastructure.Cryptography.RSA\MicroserviceProject.Infrastructure.Cryptography.RSA.csproj", "{CC6C6796-50DB-46F3-A6BC-03669650FFBF}"
@@ -51,13 +49,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrast
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrastructure.Security.Model", "MicroserviceProject.Infrastructure.Security.Model\MicroserviceProject.Infrastructure.Security.Model.csproj", "{E16709AF-25BF-474B-8C64-55ECA0DB0F8B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrastructure.Logging.Model", "MicroserviceProject.Infrastructure.Logging.Model\MicroserviceProject.Infrastructure.Logging.Model.csproj", "{03418824-2ED2-4CF5-BCE8-7027A24869B9}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrastructure.Cryptography.Model.Rijndael", "MicroserviceProject.Infrastructure.Cryptography.Model.Rijndael\MicroserviceProject.Infrastructure.Cryptography.Model.Rijndael.csproj", "{D637F0D3-B619-4AFD-817F-DBF4DC85F9FC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrastructure.Communication.Model.Http", "MicroserviceProject.Infrastructure.Communication.Model.Http\MicroserviceProject.Infrastructure.Communication.Model.Http.csproj", "{96004AFA-4B52-48A0-9ABE-8FDE77C522C9}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrastructure.Persistence.Logging.Sql", "MicroserviceProject.Infrastructure.Persistence.Logging.Sql\MicroserviceProject.Infrastructure.Persistence.Logging.Sql.csproj", "{AE2CA920-EDAD-4E2F-BBA1-49F6ECDE23F6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrastructure.Persistence.ServiceRoutes.Sql", "MicroserviceProject.Infrastructure.Persistence.ServiceRoutes.Sql\MicroserviceProject.Infrastructure.Persistence.ServiceRoutes.Sql.csproj", "{D6A7E796-2E24-4917-997E-E3B77415B7B0}"
 EndProject
@@ -91,19 +85,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Service
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Services.Logging", "MicroserviceProject.Services.Logging\MicroserviceProject.Services.Logging.csproj", "{1FAAB051-AF14-454F-8C8D-4E0400702CDB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Services.Communication", "MicroserviceProject.Services.Communication\MicroserviceProject.Services.Communication.csproj", "{2E32EADC-647B-45B1-91C2-47033DEB79BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Services.Communication", "MicroserviceProject.Services.Communication\MicroserviceProject.Services.Communication.csproj", "{2E32EADC-647B-45B1-91C2-47033DEB79BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Services.UnitOfWork", "MicroserviceProject.Services.UnitOfWork\MicroserviceProject.Services.UnitOfWork.csproj", "{56F2E56F-B35A-419D-AEAC-66E301598438}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Services.UnitOfWork", "MicroserviceProject.Services.UnitOfWork\MicroserviceProject.Services.UnitOfWork.csproj", "{56F2E56F-B35A-419D-AEAC-66E301598438}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Services.Cache", "MicroserviceProject.Services.Cache\MicroserviceProject.Services.Cache.csproj", "{65C99AA5-416D-4C65-97B9-1B00BBD565C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Services.Cache", "MicroserviceProject.Services.Cache\MicroserviceProject.Services.Cache.csproj", "{65C99AA5-416D-4C65-97B9-1B00BBD565C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Services.Authentication", "MicroserviceProject.Services.Authentication\MicroserviceProject.Services.Authentication.csproj", "{2F5CD06F-4A5C-4B7F-AC00-6690A1CD76CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Services.Authentication", "MicroserviceProject.Services.Authentication\MicroserviceProject.Services.Authentication.csproj", "{2F5CD06F-4A5C-4B7F-AC00-6690A1CD76CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Services.Util", "MicroserviceProject.Services.Util\MicroserviceProject.Services.Util.csproj", "{5089FF92-6191-4129-A70E-9432A2C89BC6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Services.Util", "MicroserviceProject.Services.Util\MicroserviceProject.Services.Util.csproj", "{5089FF92-6191-4129-A70E-9432A2C89BC6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Services.Model", "MicroserviceProject.Services.Model\MicroserviceProject.Services.Model.csproj", "{964C3B50-E34B-4C5D-A715-A2806A9F24F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Services.Model", "MicroserviceProject.Services.Model\MicroserviceProject.Services.Model.csproj", "{964C3B50-E34B-4C5D-A715-A2806A9F24F1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Services.Infrastructure.Authorization", "MicroserviceProject.Services.Infrastructure.Authorization\MicroserviceProject.Services.Infrastructure.Authorization.csproj", "{6C91249C-C8C2-4392-8816-66704FAEA88E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Infrastructure.Logging.MongoDb", "MicroserviceProject.Infrastructure.Logging.MongoDb\MicroserviceProject.Infrastructure.Logging.MongoDb.csproj", "{178CEBE9-D9FE-4704-866A-0BBE72714782}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -163,10 +159,6 @@ Global
 		{E16709AF-25BF-474B-8C64-55ECA0DB0F8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E16709AF-25BF-474B-8C64-55ECA0DB0F8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E16709AF-25BF-474B-8C64-55ECA0DB0F8B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{03418824-2ED2-4CF5-BCE8-7027A24869B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{03418824-2ED2-4CF5-BCE8-7027A24869B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{03418824-2ED2-4CF5-BCE8-7027A24869B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{03418824-2ED2-4CF5-BCE8-7027A24869B9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D637F0D3-B619-4AFD-817F-DBF4DC85F9FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D637F0D3-B619-4AFD-817F-DBF4DC85F9FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D637F0D3-B619-4AFD-817F-DBF4DC85F9FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -175,10 +167,6 @@ Global
 		{96004AFA-4B52-48A0-9ABE-8FDE77C522C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96004AFA-4B52-48A0-9ABE-8FDE77C522C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96004AFA-4B52-48A0-9ABE-8FDE77C522C9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AE2CA920-EDAD-4E2F-BBA1-49F6ECDE23F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AE2CA920-EDAD-4E2F-BBA1-49F6ECDE23F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AE2CA920-EDAD-4E2F-BBA1-49F6ECDE23F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AE2CA920-EDAD-4E2F-BBA1-49F6ECDE23F6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D6A7E796-2E24-4917-997E-E3B77415B7B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D6A7E796-2E24-4917-997E-E3B77415B7B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6A7E796-2E24-4917-997E-E3B77415B7B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -255,6 +243,10 @@ Global
 		{6C91249C-C8C2-4392-8816-66704FAEA88E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C91249C-C8C2-4392-8816-66704FAEA88E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C91249C-C8C2-4392-8816-66704FAEA88E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{178CEBE9-D9FE-4704-866A-0BBE72714782}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{178CEBE9-D9FE-4704-866A-0BBE72714782}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{178CEBE9-D9FE-4704-866A-0BBE72714782}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{178CEBE9-D9FE-4704-866A-0BBE72714782}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -273,10 +265,8 @@ Global
 		{A97E0504-9A2C-4096-A88B-6C4E62948F5E} = {2FA72A9D-33B2-4392-8FE4-EE7FA6D9F147}
 		{724854B7-879E-4BB8-8E18-D6D8111A4C08} = {2FA72A9D-33B2-4392-8FE4-EE7FA6D9F147}
 		{E16709AF-25BF-474B-8C64-55ECA0DB0F8B} = {4B50141F-7DDA-4045-87E0-EFBF72CEFB63}
-		{03418824-2ED2-4CF5-BCE8-7027A24869B9} = {423CC89D-F00D-45D2-BE00-931786875AA6}
 		{D637F0D3-B619-4AFD-817F-DBF4DC85F9FC} = {6A1F6E82-33F9-4571-94FE-C332DBED3DF8}
 		{96004AFA-4B52-48A0-9ABE-8FDE77C522C9} = {2FA72A9D-33B2-4392-8FE4-EE7FA6D9F147}
-		{AE2CA920-EDAD-4E2F-BBA1-49F6ECDE23F6} = {A46D95B0-ECBB-47A0-BD3D-88E934F7E002}
 		{D6A7E796-2E24-4917-997E-E3B77415B7B0} = {A46D95B0-ECBB-47A0-BD3D-88E934F7E002}
 		{C1FDEAB3-B2A2-4D90-A0FF-B4B25C2C6728} = {B0F2E640-1B33-4428-B49F-183375231B02}
 		{D0369510-C292-4C8A-8446-B54D63601B74} = {4674D40A-BF17-40A6-AA4F-C0CCB6139806}
@@ -296,6 +286,7 @@ Global
 		{5089FF92-6191-4129-A70E-9432A2C89BC6} = {B8BC82E7-C1AE-457E-9B15-0F750DD6C897}
 		{964C3B50-E34B-4C5D-A715-A2806A9F24F1} = {B8BC82E7-C1AE-457E-9B15-0F750DD6C897}
 		{6C91249C-C8C2-4392-8816-66704FAEA88E} = {2669D375-E38F-4991-B50C-CAEFD1C57054}
+		{178CEBE9-D9FE-4704-866A-0BBE72714782} = {423CC89D-F00D-45D2-BE00-931786875AA6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C136217B-3CA6-4AEC-95E4-D62936481A67}

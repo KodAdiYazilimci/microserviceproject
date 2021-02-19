@@ -1,14 +1,16 @@
 ﻿using MicroserviceProject.Infrastructure.Logging.Abstraction;
 using MicroserviceProject.Infrastructure.Logging.File.Loggers;
 using MicroserviceProject.Infrastructure.Logging.Managers;
-using MicroserviceProject.Infrastructure.Logging.Model;
 using MicroserviceProject.Infrastructure.Logging.RabbitMq.Producers;
 using MicroserviceProject.Services.Logging.Configuration;
+using MicroserviceProject.Services.Logging.Models;
 
 using Microsoft.Extensions.Configuration;
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace MicroserviceProject.Services.Logging.Loggers
 {
@@ -79,9 +81,9 @@ namespace MicroserviceProject.Services.Logging.Loggers
         /// Log yazar
         /// </summary>
         /// <param name="model">Yazılacak request-response logun nesnesi</param>
-        public void Log(RequestResponseLogModel model)
+        public async Task LogAsync(RequestResponseLogModel model, CancellationToken cancellationToken)
         {
-            _logManager.Log(model);
+            await _logManager.LogAsync(model, cancellationToken);
         }
     }
 }

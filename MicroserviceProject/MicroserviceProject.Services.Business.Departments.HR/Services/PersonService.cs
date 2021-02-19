@@ -320,11 +320,13 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
 
             #region Muhasebe departmanının banka hesabı açması için rabbit e kayıt ekler
 
-            await _createBankAccountPublisher.PublishAsync(new BankAccountModel()
-            {
-                Worker = worker,
-                IBAN = worker.BankAccounts.FirstOrDefault().IBAN
-            });
+            await _createBankAccountPublisher.PublishAsync(
+                model: new BankAccountModel()
+                {
+                    Worker = worker,
+                    IBAN = worker.BankAccounts.FirstOrDefault().IBAN
+                },
+                cancellationToken: cancellationToken);
 
             #endregion
 
@@ -352,7 +354,9 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                 }
             }
 
-            await _AAassignInventoryToWorkerPublisher.PublishAsync(worker);
+            await _AAassignInventoryToWorkerPublisher.PublishAsync(
+                model: worker,
+                cancellationToken: cancellationToken);
 
             #endregion
 
@@ -380,7 +384,9 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                 }
             }
 
-            await _ITAssignInventoryToWorkerPublisher.PublishAsync(worker);
+            await _ITAssignInventoryToWorkerPublisher.PublishAsync(
+                model: worker,
+                cancellationToken: cancellationToken);
 
             #endregion
 

@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using RabbitMQ.Client;
 
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MicroserviceProject.Infrastructure.Logging.RabbitMq.Producers
@@ -36,9 +37,9 @@ namespace MicroserviceProject.Infrastructure.Logging.RabbitMq.Producers
         /// </summary>
         /// <param name="model">Üretilecek logun nesnesi</param>
         /// <returns></returns>
-        public Task LogAsync(TModel model)
+        public Task LogAsync(TModel model, CancellationToken cancellationToken)
         {
-            return base.PublishAsync(model);
+            return base.PublishAsync(model, cancellationToken);
         }
     }
 }

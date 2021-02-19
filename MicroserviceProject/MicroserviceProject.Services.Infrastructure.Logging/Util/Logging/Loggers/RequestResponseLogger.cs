@@ -1,12 +1,15 @@
 ﻿using MicroserviceProject.Infrastructure.Logging.Abstraction;
 using MicroserviceProject.Infrastructure.Logging.File.Loggers;
 using MicroserviceProject.Infrastructure.Logging.Managers;
-using MicroserviceProject.Infrastructure.Logging.Model;
+using MicroserviceProject.Infrastructure.Logging.MongoDb.Loggers;
 using MicroserviceProject.Services.Infrastructure.Logging.Configuration.Logging;
+using MicroserviceProject.Services.Logging.Models;
 
 using Microsoft.Extensions.Configuration;
 
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace MicroserviceProject.Services.Infrastructure.Logging.Util.Logging.Loggers
 {
@@ -34,16 +37,22 @@ namespace MicroserviceProject.Services.Infrastructure.Logging.Util.Logging.Logge
 
             loggers.Add(jsonFileLogger);
 
+            DefaultLogger<RequestResponseLogModel> defaultMongoLogger =
+                new DefaultLogger<RequestResponseLogModel>(
+                    new RequestResponseLogMongoConfiguration(configuration));
+
+            loggers.Add(defaultMongoLogger);
+
             _logManager = new LogManager<RequestResponseLogModel>(loggers);
         }
 
         /// <summary>
         /// Log yazar
         /// </summary>
-        /// <param name="requestResponseLog">Yazılacak request-response log modeli</param>
-        public void Log(RequestResponseLogModel requestResponseLog)
+        /// <param name="model">Yazılacak request-response log modeli</param>
+        public async Task LogAsync(RequestResponseLogModel model, CancellationToken cancellationToken)
         {
-            _logManager.Log(requestResponseLog);
+            await _logManager.LogAsync(model, cancellationToken);
         }
     }
 }

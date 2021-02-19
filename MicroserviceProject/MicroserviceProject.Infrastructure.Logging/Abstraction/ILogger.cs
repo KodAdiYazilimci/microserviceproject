@@ -1,5 +1,6 @@
 ﻿using MicroserviceProject.Infrastructure.Logging.Model;
 
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MicroserviceProject.Infrastructure.Logging.Abstraction
@@ -14,6 +15,7 @@ namespace MicroserviceProject.Infrastructure.Logging.Abstraction
         /// Log yazar
         /// </summary>
         /// <param name="model">Yazılacak logun modeli</param>
-        Task LogAsync(TModel model);
+        /// <param name="cancellationToken">İptal tokenı</param>
+        Task LogAsync(TModel model, CancellationToken cancellationToken);
     }
 }

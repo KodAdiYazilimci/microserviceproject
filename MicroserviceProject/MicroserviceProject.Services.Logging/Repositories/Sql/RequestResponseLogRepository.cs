@@ -1,5 +1,5 @@
 ﻿
-using MicroserviceProject.Infrastructure.Logging.Model;
+using MicroserviceProject.Services.Logging.Models;
 
 using Microsoft.Extensions.Configuration;
 
@@ -9,12 +9,12 @@ using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Persistence.Logging.Sql.Repositories
+namespace MicroserviceProject.Services.Logging.Repositories.Sql
 {
     /// <summary>
     /// Request-Response logları repository sınıfı
     /// </summary>
-    public class RequestResponseRepository
+    public class RequestResponseLogRepository
     {
         /// <summary>
         /// Veritabanı bağlantı cümlesini verecek configuration nesnesi
@@ -25,7 +25,7 @@ namespace Infrastructure.Persistence.Logging.Sql.Repositories
         /// Request-Response logları repository sınıfı
         /// </summary>
         /// <param name="configuration">Veritabanı bağlantı cümlesini verecek configuration nesnesi</param>
-        public RequestResponseRepository(IConfiguration configuration)
+        public RequestResponseLogRepository(IConfiguration configuration)
         {
             this._configuration = configuration;
         }

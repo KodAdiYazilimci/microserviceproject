@@ -11,8 +11,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MicroserviceProject.Infrastructure.Logging.File\MicroserviceProject.Infrastructure.Logging.File.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Infrastructure.Logging.MongoDb\MicroserviceProject.Infrastructure.Logging.MongoDb.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Infrastructure.Logging.RabbitMq\MicroserviceProject.Infrastructure.Logging.RabbitMq.csproj" />
-    <ProjectReference Include="..\MicroserviceProject.Infrastructure.Persistence.Logging.Sql\MicroserviceProject.Infrastructure.Persistence.Logging.Sql.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication\MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Services.Authentication\MicroserviceProject.Services.Authentication.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Services.Cache\MicroserviceProject.Services.Cache.csproj" />

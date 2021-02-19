@@ -3,7 +3,7 @@
 using MicroserviceProject.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Infrastructure.Communication.Model.Errors;
 using MicroserviceProject.Infrastructure.Communication.Model.Validations;
-using MicroserviceProject.Infrastructure.Logging.Model;
+using MicroserviceProject.Services.Logging.Models;
 
 using System.Collections.Generic;
 using System.Linq;

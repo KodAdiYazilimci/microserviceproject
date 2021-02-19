@@ -5,6 +5,7 @@ using MicroserviceProject.Services.Authentication.DI;
 using MicroserviceProject.Services.Cache.DI;
 using MicroserviceProject.Services.Communication.DI;
 using MicroserviceProject.Services.Infrastructure.Logging.Configuration.Services.Repositories;
+using MicroserviceProject.Services.Infrastructure.Logging.DI;
 using MicroserviceProject.Services.Logging.DI;
 using MicroserviceProject.Services.UnitOfWork.DI;
 using MicroserviceProject.Services.Util.DI;
@@ -40,7 +41,8 @@ namespace MicroserviceProject.Services.Infrastructure.Logging
             services.RegisterAuthentication();
             services.RegisterCaching();
             services.RegisterCredentialProvider();
-            services.RegisterLogger();
+            //services.RegisterLogger();
+            services.RegisterLoggers();
             services.RegisterQueues();
             services.RegisterRouteProvider();
             services.RegisterRepositories();

@@ -1,5 +1,5 @@
-﻿using MicroserviceProject.Infrastructure.Logging.Model;
-using MicroserviceProject.Services.Infrastructure.Logging.Util.Logging.Loggers;
+﻿using MicroserviceProject.Services.Infrastructure.Logging.Util.Logging.Loggers;
+using MicroserviceProject.Services.Logging.Models;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MicroserviceProject.Services.Infrastructure.Logging
@@ -71,39 +72,40 @@ namespace MicroserviceProject.Services.Infrastructure.Logging
 
             }
 
-            httpContext.Response.OnCompleted(() =>
+            httpContext.Response.OnCompleted(async () =>
             {
                 watch.Stop();
 
+                CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+
                 try
                 {
-                    requestResponseLogger.Log(new RequestResponseLogModel()
-                    {
-                        ApplicationName = "MicroserviceProject.Services.Infrastructure.Logging",
-                        Content = response,
-                        Date = DateTime.Now,
-                        Host = httpContext.Request.Host.ToString(),
-                        IpAddress = httpContext.Connection.RemoteIpAddress.ToString(),
-                        MachineName = Environment.MachineName,
-                        Method = httpContext.Request.Method,
-                        Protocol = httpContext.Request.Protocol,
-                        RequestContentLength = httpContext.Request.ContentLength,
-                        ResponseContentLength = httpContext.Response.ContentLength,
-                        ResponseContentType = httpContext.Response.ContentType,
-                        ResponseTime = watch.ElapsedMilliseconds,
-                        StatusCode = httpContext.Response.StatusCode,
-                        Url = httpContext.Request.Path.ToString()
-                    });
+                    await
+                    requestResponseLogger.LogAsync(
+                        model: new RequestResponseLogModel()
+                        {
+                            ApplicationName = "MicroserviceProject.Services.Infrastructure.Logging",
+                            Content = response,
+                            Date = DateTime.Now,
+                            Host = httpContext.Request.Host.ToString(),
+                            IpAddress = httpContext.Connection.RemoteIpAddress.ToString(),
+                            MachineName = Environment.MachineName,
+                            Method = httpContext.Request.Method,
+                            Protocol = httpContext.Request.Protocol,
+                            RequestContentLength = httpContext.Request.ContentLength,
+                            ResponseContentLength = httpContext.Response.ContentLength,
+                            ResponseContentType = httpContext.Response.ContentType,
+                            ResponseTime = watch.ElapsedMilliseconds,
+                            StatusCode = httpContext.Response.StatusCode,
+                            Url = httpContext.Request.Path.ToString()
+                        },
+                        cancellationToken: cancellationTokenSource.Token);
                 }
                 catch (Exception ex)
                 {
 
                 }
-
-                return Task.CompletedTask;
             });
-
-            //return _next(httpContext);
         }
     }
 

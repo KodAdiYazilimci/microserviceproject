@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using RabbitMQ.Client;
 
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MicroserviceProject.Infrastructure.Logging.RabbitMq.Producers
@@ -34,7 +35,7 @@ namespace MicroserviceProject.Infrastructure.Logging.RabbitMq.Producers
         /// </summary>
         /// <param name="model">Üretilecek data nesnesi</param>
         /// <returns></returns>
-        public virtual Task PublishAsync(TModel model)
+        public virtual Task PublishAsync(TModel model, CancellationToken cancellationToken)
         {
             var factory = new ConnectionFactory()
             {

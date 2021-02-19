@@ -1,8 +1,7 @@
-﻿using Infrastructure.Persistence.Logging.Sql.Repositories;
-
-using MicroserviceProject.Infrastructure.Logging.Model;
-using MicroserviceProject.Infrastructure.Logging.RabbitMq.Consumers;
+﻿using MicroserviceProject.Infrastructure.Logging.RabbitMq.Consumers;
 using MicroserviceProject.Services.Infrastructure.Logging.Configuration.Logging;
+using MicroserviceProject.Services.Logging.Models;
+using MicroserviceProject.Services.Logging.Repositories.Sql;
 
 using Microsoft.Extensions.Configuration;
 
@@ -21,7 +20,7 @@ namespace MicroserviceProject.Services.Infrastructure.Logging.Util.Logging.Consu
         /// </summary>
         private readonly DefaultLogConsumer<RequestResponseLogModel> _defaultLogProducer;
 
-        private readonly RequestResponseRepository _requestResponseRepository;
+        private readonly RequestResponseLogRepository _requestResponseRepository;
 
         /// <summary>
         /// Rabbit sunucusuna request-response log üretecek varsayılan sınıf
@@ -35,7 +34,7 @@ namespace MicroserviceProject.Services.Infrastructure.Logging.Util.Logging.Consu
 
             _defaultLogProducer.OnConsumed += _defaultLogProducer_OnConsumed;
 
-            _requestResponseRepository = new RequestResponseRepository(configuration);
+            _requestResponseRepository = new RequestResponseLogRepository(configuration);
         }
 
         public void StartToConsume()

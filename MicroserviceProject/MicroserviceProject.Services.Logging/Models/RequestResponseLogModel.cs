@@ -1,4 +1,6 @@
-﻿namespace MicroserviceProject.Infrastructure.Logging.Model
+﻿using MicroserviceProject.Infrastructure.Logging.Model;
+
+namespace MicroserviceProject.Services.Logging.Models
 {
     /// <summary>
     /// Request-response log modeli

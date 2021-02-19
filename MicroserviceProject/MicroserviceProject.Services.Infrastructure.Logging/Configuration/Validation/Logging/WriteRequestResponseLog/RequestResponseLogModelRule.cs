@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-using MicroserviceProject.Infrastructure.Logging.Model;
+using MicroserviceProject.Services.Logging.Models;
 
 namespace MicroserviceProject.Services.Infrastructure.Logging.Configuration.Validation.Logging.WriteRequestResponseLog
 {

@@ -1,10 +1,9 @@
 ﻿
-using Infrastructure.Persistence.Logging.Sql.Repositories;
-
 using MicroserviceProject.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Infrastructure.Communication.Model.Errors;
-using MicroserviceProject.Infrastructure.Logging.Model;
 using MicroserviceProject.Services.Infrastructure.Logging.Util.Validation.Logging.WriteRequestResponseLog;
+using MicroserviceProject.Services.Logging.Models;
+using MicroserviceProject.Services.Logging.Repositories.Sql;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,9 +18,9 @@ namespace MicroserviceProject.Services.Infrastructure.Logging.Controllers
     [Route("Logging")]
     public class LogController : Controller
     {
-        private readonly RequestResponseRepository _requestResponseRepository;
+        private readonly RequestResponseLogRepository _requestResponseRepository;
 
-        public LogController(RequestResponseRepository requestResponseRepository)
+        public LogController(RequestResponseLogRepository requestResponseRepository)
         {
             _requestResponseRepository = requestResponseRepository;
         }

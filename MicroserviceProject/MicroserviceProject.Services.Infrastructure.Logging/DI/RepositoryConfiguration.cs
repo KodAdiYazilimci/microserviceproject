@@ -1,4 +1,5 @@
-﻿using Infrastructure.Persistence.Logging.Sql.Repositories;
+﻿
+using MicroserviceProject.Services.Logging.Repositories.Sql;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,7 +17,7 @@ namespace MicroserviceProject.Services.Infrastructure.Logging.Configuration.Serv
         /// <returns></returns>
         public static IServiceCollection RegisterRepositories(this IServiceCollection services)
         {
-            services.AddSingleton<RequestResponseRepository>();
+            services.AddSingleton<RequestResponseLogRepository>();
 
             return services;
         }

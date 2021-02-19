@@ -1,6 +1,7 @@
 ﻿using MicroserviceProject.Infrastructure.Communication.Mq.Rabbit;
 using MicroserviceProject.Infrastructure.Logging.RabbitMq.Producers;
 
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MicroserviceProject.Services.Communication.Publishers
@@ -30,9 +31,9 @@ namespace MicroserviceProject.Services.Communication.Publishers
         /// </summary>
         /// <param name="model">Eklenecek kaydın nesnesi</param>
         /// <returns></returns>
-        public virtual Task PublishAsync(TModel model)
+        public virtual Task PublishAsync(TModel model, CancellationToken cancellationToken)
         {
-            return _publisher.PublishAsync(model);
+            return _publisher.PublishAsync(model, cancellationToken);
         }
     }
 }
