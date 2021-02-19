@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MicroserviceProject.Infrastructure.Communication.Http\MicroserviceProject.Infrastructure.Communication.Http.csproj" />
-    <ProjectReference Include="..\MicroserviceProject.Infrastructure.Communication.Model.Moderator\MicroserviceProject.Infrastructure.Communication.Model.Moderator.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Infrastructure.Communication.Model\MicroserviceProject.Infrastructure.Communication.Model.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Infrastructure.Security.Model\MicroserviceProject.Infrastructure.Security.Model.csproj" />
   </ItemGroup>

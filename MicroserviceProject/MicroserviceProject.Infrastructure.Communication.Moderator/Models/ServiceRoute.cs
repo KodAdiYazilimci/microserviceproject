@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MicroserviceProject.Infrastructure.Communication.Model.Moderator
+namespace MicroserviceProject.Infrastructure.Communication.Moderator.Models
 {
     /// <summary>
     /// Çağrı modeli

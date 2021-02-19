@@ -1,5 +1,4 @@
-﻿
-using MicroserviceProject.Infrastructure.Communication.Model.Moderator;
+﻿using MicroserviceProject.Infrastructure.Communication.Moderator.Models;
 
 using Microsoft.Extensions.Configuration;
 
