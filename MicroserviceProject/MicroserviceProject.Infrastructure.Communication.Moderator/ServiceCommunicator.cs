@@ -1,9 +1,8 @@
 ﻿
-using Infrastructure.Persistence.ServiceRoutes.Sql.Repositories;
-
 using MicroserviceProject.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Infrastructure.Communication.Model.Moderator;
 using MicroserviceProject.Infrastructure.Communication.Moderator.Providers;
+using MicroserviceProject.Infrastructure.Communication.Moderator.Repositories.Sql;
 using MicroserviceProject.Infrastructure.Security.Model;
 
 using Microsoft.Extensions.Caching.Memory;

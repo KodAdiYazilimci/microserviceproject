@@ -1,9 +1,8 @@
-﻿using Infrastructure.Persistence.ServiceRoutes.Sql.Repositories;
-
+﻿
 using MicroserviceProject.Infrastructure.Communication.Model.Basics;
-using MicroserviceProject.Infrastructure.Communication.Model.Moderator;
 using MicroserviceProject.Infrastructure.Communication.Moderator;
 using MicroserviceProject.Infrastructure.Communication.Moderator.Providers;
+using MicroserviceProject.Infrastructure.Communication.Moderator.Repositories.Sql;
 using MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.Persistence;
 using MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.Schemes;
 using MicroserviceProject.Infrastructure.Security.Model;
@@ -14,8 +13,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
-
-using Newtonsoft.Json;
 
 using System;
 using System.Collections.Generic;

@@ -11,7 +11,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Persistence.ServiceRoutes.Sql.Repositories
+namespace MicroserviceProject.Infrastructure.Communication.Moderator.Repositories.Sql
 {
     /// <summary>
     /// Servis rotaları repository sınıfı

@@ -1,4 +1,5 @@
-﻿using Infrastructure.Persistence.ServiceRoutes.Sql.Repositories;
+﻿
+using MicroserviceProject.Infrastructure.Communication.Moderator.Repositories.Sql;
 
 using Microsoft.Extensions.DependencyInjection;
 
