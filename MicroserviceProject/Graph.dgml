@@ -1,623 +1,153 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <DirectedGraph DataVirtualized="True" Layout="Sugiyama" ZoomLevel="-1" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
   <Nodes>
-    <Node Id="(@1)" Category="CodeSchema_Assembly" Bounds="1248.98324095354,1058.31902275825,345.526666666667,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(a70ca59e-7652-404a-b60f-253e4ef8d5b3.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Presentation.UI.WindowsForm.exe">
-      <Category Ref="FileSystem.Category.FileOfType.exe" />
-    </Node>
-    <Node Id="@11" Category="CodeSchema_Assembly" Bounds="1275.54657428687,1173.31882275825,318.963333333333,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(6ff6e9f6-0b0b-43a8-8767-4a6df86a7e83.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Infrastructure.Logging.File.dll">
-      <Category Ref="FileSystem.Category.FileOfType.dll" />
-    </Node>
-    <Node Id="@13" Category="CodeSchema_Assembly" Bounds="1388.5180650882,828.319222758251,343.403333333334,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(ba84773b-7932-4987-ae08-c0d33ec3339e.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Services.Infrastructure.Logging.dll">
-      <Category Ref="FileSystem.Category.FileOfType.dll" />
-    </Node>
-    <Node Id="@15" Category="CodeSchema_Assembly" Bounds="1105.82157428687,1228.31882275825,298.413333333333,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(fe4127d7-8c88-4a35-bf31-12145bc0cb99.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Infrastructure.Logging.dll">
-      <Category Ref="FileSystem.Category.FileOfType.dll" />
-    </Node>
-    <Node Id="@17" Category="CodeSchema_Assembly" Bounds="1083.87799879213,83.320622758251,405.276666666667,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(27e61f0f-5227-40ea-bea5-465feb81c398.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Services.Business.Departments.Accounting.dll">
-      <Category Ref="FileSystem.Category.FileOfType.dll" />
-    </Node>
-    <Node Id="@19" Category="CodeSchema_Assembly" Bounds="1242.14273225757,658.319522758251,237.84,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(cf140940-7ec5-45cd-a3f7-b34da3dd3307.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Services.DI.dll">
-      <Category Ref="FileSystem.Category.FileOfType.dll" />
-    </Node>
-    <Node Id="@21" Category="CodeSchema_Assembly" Bounds="1098.04271387904,433.319226758255,285.363333333333,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(8ac21323-9485-49f0-b1e5-2cc4bfa3d55f.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Services.Business.DI.dll">
-      <Category Ref="FileSystem.Category.FileOfType.dll" />
-    </Node>
-    <Node Id="@23" Category="CodeSchema_Assembly" Bounds="412.63147428687,1168.31892275825,408.786666666667,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(d637f0d3-b619-4afd-817f-dbf4dc85f9fc.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Infrastructure.Cryptography.Model.Rijndael.dll">
-      <Category Ref="FileSystem.Category.FileOfType.dll" />
-    </Node>
-    <Node Id="@25" Category="CodeSchema_Assembly" Bounds="430.959807620203,1113.31892275825,372.13,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(4fdd1fe0-a36f-4f98-b4bf-c7ec87ded880.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Infrastructure.Cryptography.Rijndael.dll">
-      <Category Ref="FileSystem.Category.FileOfType.dll" />
-    </Node>
-    <Node Id="@27" Category="CodeSchema_Assembly" Bounds="1087.49324095354,1283.31882275825,335.07,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(03418824-2ed2-4cf5-bce8-7027a24869b9.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Infrastructure.Logging.Model.dll">
-      <Category Ref="FileSystem.Category.FileOfType.dll" />
-    </Node>
-    <Node Id="@29" Category="CodeSchema_Assembly" Bounds="2060.33500762021,998.319426758255,375.556666666666,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(a97e0504-9a2c-4096-a88b-6c4e62948f5e.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Infrastructure.Communication.Model.dll">
-      <Category Ref="FileSystem.Category.FileOfType.dll" />
-    </Node>
-    <Node Id="@3" Category="CodeSchema_Assembly" Bounds="412.63147428687,1278.31892275825,372.036666666667,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(422b8170-f96c-4ddc-9b8e-60c237e802ff.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Infrastructure.Cryptography.SHA256.dll">
-      <Category Ref="FileSystem.Category.FileOfType.dll" />
-    </Node>
-    <Node Id="@31" Category="CodeSchema_Assembly" Bounds="908.2148031473,543.319226758255,307.813333333334,25" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" FilePath="$(888f7009-5ccf-4818-b9a9-9640cc4cf431.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Services.Business.Model.dll">
-      <Category Ref="FileSystem.Category.FileOfType.dll" />
-    </Node>
-    <Node Id="@33" Category="CodeSchema_Assembly" Bounds="316.841374286869,998.319376758257,333.43,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(e16709af-25bf-474b-8c64-55eca0db0f8b.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Infrastructure.Security.Model.dll">
-      <Category Ref="FileSystem.Category.FileOfType.dll" />
-    </Node>
-    <Node Id="@35" Category="CodeSchema_Assembly" Bounds="1094.78537082364,488.319226758255,291.88,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(59849b7a-5406-4b9d-8d0c-ba265072fa94.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Services.Business.Util.dll">
-      <Category Ref="FileSystem.Category.FileOfType.dll" />
-    </Node>
-    <Node Id="@37" Category="CodeSchema_Assembly" Bounds="770.446474286869,943.319222758277,378.733333333333,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(ae2ca920-edad-4e2f-bba1-49f6ecde23f6.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Infrastructure.Persistence.Logging.Sql.dll">
-      <Category Ref="FileSystem.Category.FileOfType.dll" />
-    </Node>
-    <Node Id="@39" Category="CodeSchema_Assembly" Bounds="770.446474286869,998.319322758277,408.536666666667,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(d6a7e796-2e24-4917-997e-e3b77415b7b0.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Infrastructure.Persistence.ServiceRoutes.Sql.dll">
-      <Category Ref="FileSystem.Category.FileOfType.dll" />
-    </Node>
-    <Node Id="@41" Category="CodeSchema_Assembly" Bounds="265.496374286869,943.319326758257,434.95,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(b8817c26-8465-4910-a4f6-4b6277ec5dec.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.dll">
-      <Category Ref="FileSystem.Category.FileOfType.dll" />
-    </Node>
-    <Node Id="@43" Category="CodeSchema_Assembly" Bounds="1242.14273225757,713.319522758251,299.076666666667,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(c035a103-3266-471e-8cb5-aec8ff14740f.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Services.Configuration.dll">
-      <Category Ref="FileSystem.Category.FileOfType.dll" />
-    </Node>
-    <Node Id="@45" Category="CodeSchema_Assembly" Bounds="1246.02823648063,543.319226758255,346.6,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(129c7b17-5f14-45bf-b4b9-26cdb52dfa04.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Services.Business.Configuration.dll">
-      <Category Ref="FileSystem.Category.FileOfType.dll" />
-    </Node>
-    <Node Id="@47" Category="CodeSchema_Assembly" Bounds="975.92463175487,828.319222758251,342.593333333333,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(c31d38dc-1e19-4d59-a59f-28745858befd.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Services.Security.Authorization.dll">
-      <Category Ref="FileSystem.Category.FileOfType.dll" />
-    </Node>
-    <Node Id="@49" Category="CodeSchema_Assembly" Bounds="2731.18167428687,1053.31942675825,401.863333333334,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(96004afa-4b52-48a0-9abe-8fde77c522c9.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Infrastructure.Communication.Model.Http.dll">
-      <Category Ref="FileSystem.Category.FileOfType.dll" />
-    </Node>
-    <Node Id="@5" Category="CodeSchema_Assembly" Bounds="1080.03602560097,198.31791772611,420.466666666666,145.0004" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" FilePath="$(4d1e460d-0616-472c-9c93-00ca16e543f5.OutputPath)" Group="Expanded" Label="MicroserviceProject.Services.MQ.AA.dll" UseManualLocation="True">
-      <Category Ref="FileSystem.Category.FileOfType.dll" />
-    </Node>
-    <Node Id="@51" Category="CodeSchema_Assembly" Bounds="1664.51000762021,998.319426758255,365.206666666667,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(f15a9aad-5cae-4c20-acf5-8ca76cf09082.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Infrastructure.Communication.Http.dll">
-      <Category Ref="FileSystem.Category.FileOfType.dll" />
-    </Node>
-    <Node Id="@53" Category="CodeSchema_Assembly" Bounds="891.418240953536,1173.31882275825,353.22,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(8de777e5-a0aa-4f59-a405-5f7a185a395b.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Infrastructure.Logging.RabbitMq.dll">
-      <Category Ref="FileSystem.Category.FileOfType.dll" />
-    </Node>
-    <Node Id="@55" Category="CodeSchema_Assembly" Bounds="1083.87799879213,28.320622758251,360.706666666667,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(c1fdeab3-b2a2-4d90-a0ff-b4b25c2c6728.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Services.Business.Departments.HR.dll">
-      <Category Ref="FileSystem.Category.FileOfType.dll" />
-    </Node>
-    <Node Id="@57" Category="CodeSchema_Assembly" Bounds="2466.68500762021,998.319426758255,434.856666666667,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(724854b7-879e-4bb8-8e18-d6d8111a4c08.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Infrastructure.Communication.Model.Moderator.dll">
-      <Category Ref="FileSystem.Category.FileOfType.dll" />
-    </Node>
-    <Node Id="@59" Category="CodeSchema_Assembly" Bounds="2733.01334095354,943.319426758255,398.200000000001,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(090c7f4e-470f-4e6c-a1e8-d7d4170eb602.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Infrastructure.Communication.Moderator.dll">
-      <Category Ref="FileSystem.Category.FileOfType.dll" />
-    </Node>
-    <Node Id="@61" Category="CodeSchema_Assembly" Bounds="1248.98324095354,943.319222758276,328.24,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(d0369510-c292-4c8a-8446-b54d63601b74.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Infrastructure.Caching.Redis.dll">
-      <Category Ref="FileSystem.Category.FileOfType.dll" />
-    </Node>
-    <Node Id="@63" Category="CodeSchema_Assembly" Bounds="1083.87799879213,-81.679377241749,354.49,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(ebca1d84-8375-4af7-b596-9074784cfb3e.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Services.Business.Departments.IT.dll">
-      <Category Ref="FileSystem.Category.FileOfType.dll" />
-    </Node>
-    <Node Id="@65" Category="CodeSchema_Assembly" Bounds="1664.51000762021,1108.31942675825,396.306666666666,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(c8f79ac6-a105-4d4e-bb17-01eb5a95d1b0.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Infrastructure.Communication.Mq.Rabbit.dll">
-      <Category Ref="FileSystem.Category.FileOfType.dll" />
-    </Node>
-    <Node Id="@66" Category="CodeSchema_Namespace" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="MicroserviceProject‎.Services‎.Business‎.Model‎.Department‎.HR" />
-    <Node Id="@68" Category="CodeSchema_Namespace" Bounds="1100.03602560097,238.31801772611,380.466666666667,85.0002" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" Group="Expanded" Label="MicroserviceProject‎.Services‎.MQ‎.AA‎.Util‎.Consumers‎.Inventory" />
-    <Node Id="@7" Category="CodeSchema_Assembly" Bounds="1083.87799879213,-26.679377241749,360.49,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(9d4a53d3-707f-4009-afee-0564ac5c8034.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Services.Business.Departments.AA.dll">
-      <Category Ref="FileSystem.Category.FileOfType.dll" />
-    </Node>
-    <Node Id="@70" Category="CodeSchema_Class" Bounds="1165.27602560097,278.31811772611,249.986666666667,25" CodeSchemaProperty_IsPublic="True" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="AssignInventoryToWorkerConsumer" />
-    <Node Id="@71" Category="CodeSchema_Class" CodeSchemaProperty_IsPublic="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="WorkerModel" UseManualLocation="True" />
-    <Node Id="@72" Category="CodeSchema_Method" CodeSchemaProperty_IsConstructor="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" DelayedCrossGroupLinksState="Fetched" Label="AssignInventoryToWorkerConsumer" UseManualLocation="True" />
-    <Node Id="@73" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" DelayedCrossGroupLinksState="Fetched" Label="_consumer_OnConsumed" UseManualLocation="True" />
-    <Node Id="@74" Category="CodeSchema_Field" CodeSchemaProperty_IsPrivate="True" DelayedCrossGroupLinksState="Fetched" Label="_consumer" UseManualLocation="True" />
-    <Node Id="@75" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" DelayedCrossGroupLinksState="Fetched" Label="StartToConsume" UseManualLocation="True" />
-    <Node Id="@9" Category="CodeSchema_Assembly" Bounds="412.63147428687,1223.31892275825,351.283333333333,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(cc6c6796-50db-46f3-a6bc-03669650ffbf.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Infrastructure.Cryptography.RSA.dll">
-      <Category Ref="FileSystem.Category.FileOfType.dll" />
-    </Node>
-    <Node Id="Infrastructure.Caching{4674D40A-BF17-40A6-AA4F-C0CCB6139806}" Category="CodeMap_SolutionFolder" Bounds="1228.98324095354,903.319226758255,368.24,85.0002" Group="Expanded" Label="Infrastructure.Caching" />
-    <Node Id="Infrastructure.Communication{2FA72A9D-33B2-4392-8FE4-EE7FA6D9F147}" Category="CodeMap_SolutionFolder" Bounds="1644.5100076202,903.319226758255,1508.535,250.0004" Group="Expanded" Label="Infrastructure.Communication" />
-    <Node Id="Infrastructure.Cryptography{6A1F6E82-33F9-4571-94FE-C332DBED3DF8}" Category="CodeMap_SolutionFolder" Bounds="392.63147428687,1073.31952675826,448.786666666667,250.0005" Group="Expanded" Label="Infrastructure.Cryptography" />
-    <Node Id="Infrastructure.Logging{423CC89D-F00D-45D2-BE00-931786875AA6}" Category="CodeMap_SolutionFolder" Bounds="871.418240953536,1133.31942675825,743.091666666667,195.0004" Group="Expanded" Label="Infrastructure.Logging" />
-    <Node Id="Infrastructure.Persistence{A46D95B0-ECBB-47A0-BD3D-88E934F7E002}" Category="CodeMap_SolutionFolder" Bounds="750.446474286869,903.319226758256,448.536666666667,140.0003" Group="Expanded" Label="Infrastructure.Persistence" />
-    <Node Id="Infrastructure.Security{4B50141F-7DDA-4045-87E0-EFBF72CEFB63}" Category="CodeMap_SolutionFolder" Bounds="245.496374286869,903.319226758256,474.95,140.00025" Group="Expanded" Label="Infrastructure.Security" />
-    <Node Id="Presentation{E02EC0E8-179F-4E07-A44C-F43CBE4B8D33}" Category="CodeMap_SolutionFolder" Bounds="1228.98324095354,1018.31942675825,385.526666666667,85.0002" Group="Expanded" Label="Presentation" />
-    <Node Id="Services.Business.Departments{B0F2E640-1B33-4428-B49F-183375231B02}" Category="CodeMap_SolutionFolder" Bounds="1063.87799879213,-121.680773241745,445.276666666667,250.0005" Group="Expanded" Label="Services.Business.Departments" />
-    <Node Id="Services.Business{9F4C005C-2FF8-4430-8D84-1A7721EEA920}" Category="CodeMap_SolutionFolder" Bounds="888.2148031473,393.319226758255,724.413433333333,195" Group="Expanded" Label="Services.Business" />
-    <Node Id="Services.Infrastructure{2669D375-E38F-4991-B50C-CAEFD1C57054}" Category="CodeMap_SolutionFolder" Bounds="1368.5180650882,788.319226758255,383.403333333334,85.0002" Group="Expanded" Label="Services.Infrastructure" />
-    <Node Id="Services.MQ{EE45587A-115E-45A0-B5DD-96769BDF8AF5}" Category="CodeMap_SolutionFolder" Bounds="1060.03602560097,158.31781772611,460.466666666666,205.0006" Group="Expanded" Label="Services.MQ" />
-    <Node Id="Services.Security{63E37307-7818-4EB9-B941-E787E7FBBF8F}" Category="CodeMap_SolutionFolder" Bounds="955.92463175487,788.319226758255,382.593333333333,85.0002" Group="Expanded" Label="Services.Security" />
-    <Node Id="Services{B8BC82E7-C1AE-457E-9B15-0F750DD6C897}" Category="CodeMap_SolutionFolder" Bounds="1222.14273225757,618.319226758255,339.076666666667,140.0003" Group="Expanded" Label="Services" />
+    <Node Id="(@1)" Category="CodeSchema_Assembly" Bounds="-80.6773816107133,1251.34149764689,345.526666666667,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="NotFetched" FilePath="$(a70ca59e-7652-404a-b60f-253e4ef8d5b3.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Presentation.UI.WindowsForm.exe" />
+    <Node Id="@11" Category="CodeSchema_Assembly" Bounds="977.937114200444,829.421690465178,318.963333333333,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="NotFetched" FilePath="$(6ff6e9f6-0b0b-43a8-8767-4a6df86a7e83.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Infrastructure.Logging.File.dll" />
+    <Node Id="@13" Category="CodeSchema_Assembly" Bounds="749.327861571073,-18.5289217181501,343.403333333334,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="NotFetched" FilePath="$(ba84773b-7932-4987-ae08-c0d33ec3339e.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Services.Infrastructure.Logging.dll" />
+    <Node Id="@15" Category="CodeSchema_Assembly" Bounds="804.663516685465,884.421690465178,298.413333333333,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="NotFetched" FilePath="$(fe4127d7-8c88-4a35-bf31-12145bc0cb99.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Infrastructure.Logging.dll" />
+    <Node Id="@17" Category="CodeSchema_Assembly" Bounds="597.889853715124,494.788472348905,269.81,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="NotFetched" FilePath="$(1faab051-af14-454f-8c8d-4e0400702cdb.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Services.Logging.dll" />
+    <Node Id="@19" Category="CodeSchema_Assembly" Bounds="194.154564620039,32.6932523435582,308.923333333334,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="NotFetched" FilePath="$(0283aa16-4558-4d94-bf56-eb013cd00edd.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Services.MQ.Accounting.dll" />
+    <Node Id="@21" Category="CodeSchema_Assembly" Bounds="1299.68485620236,182.926607117112,405.276666666667,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="NotFetched" FilePath="$(27e61f0f-5227-40ea-bea5-465feb81c398.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Services.Business.Departments.Accounting.dll" />
+    <Node Id="@23" Category="CodeSchema_Assembly" Bounds="597.889853715124,549.788575797092,288.95,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="NotFetched" FilePath="$(56f2e56f-b35a-419d-aeac-66e301598438.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Services.UnitOfWork.dll" />
+    <Node Id="@25" Category="CodeSchema_Assembly" Bounds="622.893187048457,384.788472348905,260.29,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="NotFetched" FilePath="$(964c3b50-e34b-4c5d-a715-a2806a9f24f1.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Services.Model.dll" />
+    <Node Id="@27" Category="CodeSchema_Assembly" Bounds="1689.06820816825,695.453341115111,333.43,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="NotFetched" FilePath="$(e16709af-25bf-474b-8c64-55eca0db0f8b.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Infrastructure.Security.Model.dll" />
+    <Node Id="@29" Category="CodeSchema_Assembly" Bounds="597.889853715124,439.788472348905,244.356666666667,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="NotFetched" FilePath="$(5089ff92-6191-4129-a70e-9432a2c89bc6.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Services.Util.dll" />
+    <Node Id="@3" Category="CodeSchema_Assembly" Bounds="194.154564620039,-22.3067476564418,264.136666666667,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="NotFetched" FilePath="$(4d1e460d-0616-472c-9c93-00ca16e543f5.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Services.MQ.AA.dll" />
+    <Node Id="@31" Category="CodeSchema_Assembly" Bounds="597.889853715124,329.788472348905,310.296666666667,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="NotFetched" FilePath="$(2e32eadc-647b-45b1-91c2-47033deb79bb.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Services.Communication.dll" />
+    <Node Id="@33" Category="CodeSchema_Assembly" Bounds="597.889853715124,604.788472348905,304.103333333333,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="NotFetched" FilePath="$(2f5cd06f-4a5c-4b7f-ac00-6690a1cd76ce.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Services.Authentication.dll" />
+    <Node Id="@35" Category="CodeSchema_Assembly" Bounds="1689.06820816825,750.454104563291,434.950000000001,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="NotFetched" FilePath="$(b8817c26-8465-4910-a4f6-4b6277ec5dec.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.dll" />
+    <Node Id="@37" Category="CodeSchema_Assembly" Bounds="749.327861571073,36.4710782818498,371.65,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="NotFetched" FilePath="$(6c91249c-c8c2-4392-8816-66704faea88e.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Services.Infrastructure.Authorization.dll" />
+    <Node Id="@39" Category="CodeSchema_Assembly" Bounds="737.940676363499,1284.42199046518,365.206666666667,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="NotFetched" FilePath="$(f15a9aad-5cae-4c20-acf5-8ca76cf09082.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Infrastructure.Communication.Http.dll" />
+    <Node Id="@41" Category="CodeSchema_Assembly" Bounds="787.594455594494,740.607813675705,353.22,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="NotFetched" FilePath="$(8de777e5-a0aa-4f59-a405-5f7a185a395b.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Infrastructure.Logging.RabbitMq.dll" />
+    <Node Id="@43" Category="CodeSchema_Assembly" Bounds="1299.68485620236,127.926607117112,360.706666666667,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="NotFetched" FilePath="$(c1fdeab3-b2a2-4d90-a0ff-b4b25c2c6728.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Services.Business.Departments.HR.dll" />
+    <Node Id="@45" Category="CodeSchema_Assembly" Bounds="721.444009696832,1229.42199046518,398.2,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="NotFetched" FilePath="$(090c7f4e-470f-4e6c-a1e8-d7d4170eb602.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Infrastructure.Communication.Moderator.dll" />
+    <Node Id="@47" Category="CodeSchema_Assembly" Bounds="89.1756185477854,500.239305228801,328.24,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="NotFetched" FilePath="$(d0369510-c292-4c8a-8446-b54d63601b74.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Infrastructure.Caching.Redis.dll" />
+    <Node Id="@49" Category="CodeSchema_Assembly" Bounds="194.154564620039,-77.3067476564418,258.136666666667,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="NotFetched" FilePath="$(36f13103-1448-4fcd-81da-33f900ebc3cf.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Services.MQ.IT.dll" />
+    <Node Id="@5" Category="CodeSchema_Assembly" Bounds="1299.68485620236,72.9266071171118,360.49,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="NotFetched" FilePath="$(9d4a53d3-707f-4009-afee-0564ac5c8034.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Services.Business.Departments.AA.dll" />
+    <Node Id="@51" Category="CodeSchema_Assembly" Bounds="1299.68485620236,17.9266071171119,354.49,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="NotFetched" FilePath="$(ebca1d84-8375-4af7-b596-9074784cfb3e.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Services.Business.Departments.IT.dll" />
+    <Node Id="@53" Category="CodeSchema_Assembly" Bounds="721.444009696832,1339.42199046518,396.306666666667,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="NotFetched" FilePath="$(c8f79ac6-a105-4d4e-bb17-01eb5a95d1b0.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Infrastructure.Communication.Mq.Rabbit.dll" />
+    <Node Id="@55" Category="CodeSchema_Assembly" Bounds="762.851897774954,-220.431151932543,327.393333333333,25.0000000000005" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="NotFetched" FilePath="$(ac1c23e9-364a-42f9-8308-9e2fb9b64c48.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Infrastructure.Cryptography.dll" />
+    <Node Id="@7" Category="CodeSchema_Assembly" Bounds="592.763680867111,829.421690465178,355.173333333333,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="NotFetched" FilePath="$(178cebe9-d9fe-4704-866a-0bbe72714782.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Infrastructure.Logging.MongoDb.dll" />
+    <Node Id="@9" Category="CodeSchema_Assembly" Bounds="872.24652038179,439.788472348905,258.38,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="NotFetched" FilePath="$(65c99aa5-416d-4c65-97b9-1b00bbd565c9.OutputPath)" Group="Collapsed" Label="MicroserviceProject.Services.Cache.dll" />
+    <Node Id="Infrastructure.Caching{4674D40A-BF17-40A6-AA4F-C0CCB6139806}" Category="CodeMap_SolutionFolder" Bounds="69.1756185477856,460.238427642937,368.24,85.0002000000001" Group="Expanded" Label="Infrastructure.Caching" UseManualLocation="True" />
+    <Node Id="Infrastructure.Communication{2FA72A9D-33B2-4392-8FE4-EE7FA6D9F147}" Category="CodeMap_SolutionFolder" Bounds="701.444009696832,1189.42199046518,438.2,195" Group="Expanded" Label="Infrastructure.Communication" />
+    <Node Id="Infrastructure.Cryptography{6A1F6E82-33F9-4571-94FE-C332DBED3DF8}" Category="CodeMap_SolutionFolder" Bounds="742.851897774954,-260.431251932543,367.393333333333,85.0001988361418" Group="Expanded" Label="Infrastructure.Cryptography" UseManualLocation="True" />
+    <Node Id="Infrastructure.Logging{423CC89D-F00D-45D2-BE00-931786875AA6}" Category="CodeMap_SolutionFolder" Bounds="572.763680867111,700.607813675705,744.136766666666,228.813876789472" Group="Expanded" Label="Infrastructure.Logging" />
+    <Node Id="Infrastructure.Security{4B50141F-7DDA-4045-87E0-EFBF72CEFB63}" Category="CodeMap_SolutionFolder" Bounds="1669.06820816825,655.453241115111,474.95,140.0003" Group="Expanded" Label="Infrastructure.Security" UseManualLocation="True" />
+    <Node Id="Presentation{E02EC0E8-179F-4E07-A44C-F43CBE4B8D33}" Category="CodeMap_SolutionFolder" Bounds="-100.677381610713,1211.34139764729,385.526666666667,85.0000000000005" Group="Expanded" Label="Presentation" UseManualLocation="True" />
+    <Node Id="Services.Business.Departments{B0F2E640-1B33-4428-B49F-183375231B02}" Category="CodeMap_SolutionFolder" Bounds="1279.68485620236,-22.0736428828881,445.276666666667,250" Group="Expanded" Label="Services.Business.Departments" UseManualLocation="True" />
+    <Node Id="Services.Infrastructure{2669D375-E38F-4991-B50C-CAEFD1C57054}" Category="CodeMap_SolutionFolder" Bounds="729.327861571074,-58.5298486147286,411.65,140" Group="Expanded" Label="Services.Infrastructure" UseManualLocation="True" />
+    <Node Id="Services.MQ{EE45587A-115E-45A0-B5DD-96769BDF8AF5}" Category="CodeMap_SolutionFolder" Bounds="174.154564620039,-117.307769347507,348.923333333333,195" Group="Expanded" Label="Services.MQ" UseManualLocation="True" />
+    <Node Id="Services{B8BC82E7-C1AE-457E-9B15-0F750DD6C897}" Category="CodeMap_SolutionFolder" Bounds="577.889853715124,289.78791142925,572.736666666666,360" Group="Expanded" Label="Services" UseManualLocation="True" />
   </Nodes>
   <Links>
-    <Link Source="@11" Target="@15" Category="CodeMap_ProjectReference" Bounds="1304.54449600209,1198.31882275825,89.5746540423559,27.3700331796088" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="2">
-      <Category Ref="Implements" />
-    </Link>
-    <Link Source="@11" Target="@27" Category="CodeMap_ExternalReference" Bounds="1325.38720703125,1198.31884765625,106.314697265625,83.20849609375" />
-    <Link Source="@13" Target="@11" Category="CodeMap_ProjectReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="2">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="Implements" />
-    </Link>
-    <Link Source="@13" Target="@15" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="5">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@13" Target="@27" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="44">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@13" Target="@29" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="62">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="CodeSchema_ReturnTypeLink" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@13" Target="@33" Category="CodeMap_ExternalReference" />
-    <Link Source="@13" Target="@37" Category="CodeMap_ProjectReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="10">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="CodeSchema_ReturnTypeLink" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@13" Target="@39" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="4">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="CodeSchema_ReturnTypeLink" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@13" Target="@41" Category="CodeMap_ProjectReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="1">
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@13" Target="@49" Category="CodeMap_ExternalReference" />
-    <Link Source="@13" Target="@51" Category="CodeMap_ExternalReference" />
-    <Link Source="@13" Target="@53" Category="CodeMap_ProjectReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="2">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@13" Target="@57" Category="CodeMap_ExternalReference" />
-    <Link Source="@13" Target="@59" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="3">
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@13" Target="@65" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="4">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="Implements" />
-    </Link>
-    <Link Source="@15" Target="@27" Category="CodeMap_ProjectReference" Bounds="1255.02824095354,1253.31882275825,2.27373675443232E-13,21" />
-    <Link Source="@17" Target="@11" Category="CodeMap_ExternalReference" />
-    <Link Source="@17" Target="@15" Category="CodeMap_ExternalReference" />
-    <Link Source="@17" Target="@19" Category="CodeMap_ProjectReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="3">
-      <Category Ref="CodeSchema_Calls" />
-    </Link>
-    <Link Source="@17" Target="@21" Category="CodeMap_ProjectReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="6">
-      <Category Ref="CodeSchema_Calls" />
-    </Link>
-    <Link Source="@17" Target="@27" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="15">
-      <Category Ref="CodeSchema_Calls" />
-    </Link>
-    <Link Source="@17" Target="@29" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="212">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="CodeSchema_ReturnTypeLink" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@17" Target="@31" Category="CodeMap_ExternalReference" />
-    <Link Source="@17" Target="@33" Category="CodeMap_ExternalReference" />
-    <Link Source="@17" Target="@35" Category="CodeMap_ProjectReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="42">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@17" Target="@39" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="4">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="CodeSchema_ReturnTypeLink" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@17" Target="@41" Category="CodeMap_ExternalReference" />
-    <Link Source="@17" Target="@43" Category="CodeMap_ExternalReference" />
-    <Link Source="@17" Target="@45" Category="CodeMap_ExternalReference" />
-    <Link Source="@17" Target="@49" Category="CodeMap_ExternalReference" />
-    <Link Source="@17" Target="@51" Category="CodeMap_ExternalReference" />
-    <Link Source="@17" Target="@53" Category="CodeMap_ExternalReference" />
-    <Link Source="@17" Target="@57" Category="CodeMap_ExternalReference" />
-    <Link Source="@17" Target="@59" Category="CodeMap_ExternalReference" />
-    <Link Source="@17" Target="@61" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="8">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@17" Target="@65" Category="CodeMap_ExternalReference" />
-    <Link Source="@17" Target="@71" Category="References" IsSourceVirtualized="True" Weight="4" />
-    <Link Source="@19" Target="@29" Category="CodeMap_ExternalReference" />
-    <Link Source="@19" Target="@33" Category="CodeMap_ExternalReference" />
-    <Link Source="@19" Target="@39" Category="CodeMap_ExternalReference" />
-    <Link Source="@19" Target="@49" Category="CodeMap_ExternalReference" />
-    <Link Source="@19" Target="@51" Category="CodeMap_ExternalReference" />
-    <Link Source="@19" Target="@57" Category="CodeMap_ExternalReference" />
-    <Link Source="@19" Target="@59" Category="CodeMap_ProjectReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="3">
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@21" Target="@11" Category="CodeMap_ExternalReference" />
-    <Link Source="@21" Target="@15" Category="CodeMap_ExternalReference" />
-    <Link Source="@21" Target="@27" Category="CodeMap_ExternalReference" />
-    <Link Source="@21" Target="@29" Category="CodeMap_ExternalReference" />
-    <Link Source="@21" Target="@31" Category="CodeMap_ExternalReference" Bounds="1068.25732421875,458.319213867188,112.190063476563,76.3566284179688" />
-    <Link Source="@21" Target="@33" Category="CodeMap_ExternalReference" />
-    <Link Source="@21" Target="@35" Category="CodeMap_ProjectReference" Bounds="1240.72460560888,458.319226758255,0.000378106119342192,21.0000000014588" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="4">
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@21" Target="@39" Category="CodeMap_ExternalReference" />
-    <Link Source="@21" Target="@41" Category="CodeMap_ProjectReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="1">
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@21" Target="@43" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="1">
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@21" Target="@45" Category="CodeMap_ExternalReference" Bounds="1301.00219726563,458.319213867188,112.1904296875,76.3565673828125" />
-    <Link Source="@21" Target="@49" Category="CodeMap_ExternalReference" />
-    <Link Source="@21" Target="@51" Category="CodeMap_ExternalReference" />
-    <Link Source="@21" Target="@53" Category="CodeMap_ExternalReference" />
-    <Link Source="@21" Target="@57" Category="CodeMap_ExternalReference" />
-    <Link Source="@21" Target="@59" Category="CodeMap_ExternalReference" />
-    <Link Source="@21" Target="@61" Category="CodeMap_ProjectReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="1">
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@21" Target="@65" Category="CodeMap_ExternalReference" />
-    <Link Source="@25" Target="@23" Category="CodeMap_ProjectReference" Bounds="617.024807620203,1138.31892275825,0,21" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="10">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="CodeSchema_ReturnTypeLink" />
-    </Link>
-    <Link Source="@31" Target="@66" Category="Contains" />
-    <Link Source="@35" Target="@11" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="1">
-      <Category Ref="CodeSchema_Calls" />
-    </Link>
-    <Link Source="@35" Target="@15" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="6">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@35" Target="@27" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="9">
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@35" Target="@31" Category="CodeMap_ProjectReference" />
-    <Link Source="@35" Target="@43" Category="CodeMap_ProjectReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="2">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@35" Target="@45" Category="CodeMap_ProjectReference" Bounds="1281.31693120023,513.319226758255,88.8183468900074,27.3512357205517" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="1">
-      <Category Ref="CodeSchema_Calls" />
-    </Link>
-    <Link Source="@35" Target="@53" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="1">
-      <Category Ref="CodeSchema_Calls" />
-    </Link>
-    <Link Source="@35" Target="@65" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="4">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@35" Target="@71" Category="References" IsSourceVirtualized="True" Weight="2" />
-    <Link Source="@37" Target="@27" Category="CodeMap_ProjectReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="17">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@39" Target="@57" Category="CodeMap_ProjectReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="33">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@41" Target="@29" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="11">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@41" Target="@33" Category="CodeMap_ExternalReference" Bounds="483.104328711456,968.319326758257,0.223369379569476,21.0005590509238" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="88">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="CodeSchema_ReturnTypeLink" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@41" Target="@39" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="2">
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@41" Target="@49" Category="CodeMap_ExternalReference" />
-    <Link Source="@41" Target="@51" Category="CodeMap_ExternalReference" />
-    <Link Source="@41" Target="@57" Category="CodeMap_ExternalReference" />
-    <Link Source="@41" Target="@59" Category="CodeMap_ProjectReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="6">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@43" Target="@65" Category="CodeMap_ProjectReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="2">
-      <Category Ref="Implements" />
-    </Link>
-    <Link Source="@45" Target="@11" Category="CodeMap_ProjectReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="1">
-      <Category Ref="Implements" />
-    </Link>
-    <Link Source="@45" Target="@15" Category="CodeMap_ExternalReference" />
-    <Link Source="@45" Target="@27" Category="CodeMap_ExternalReference" />
-    <Link Source="@45" Target="@53" Category="CodeMap_ProjectReference" />
-    <Link Source="@45" Target="@65" Category="CodeMap_ExternalReference" />
-    <Link Source="@47" Target="@11" Category="CodeMap_ProjectReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="2">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="Implements" />
-    </Link>
-    <Link Source="@47" Target="@15" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="5">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@47" Target="@23" Category="CodeMap_ExternalReference" />
-    <Link Source="@47" Target="@25" Category="CodeMap_ProjectReference" />
-    <Link Source="@47" Target="@27" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="23">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@47" Target="@29" Category="CodeMap_ProjectReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="107">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="CodeSchema_ReturnTypeLink" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@47" Target="@3" Category="CodeMap_ProjectReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="2">
-      <Category Ref="CodeSchema_Calls" />
-    </Link>
-    <Link Source="@47" Target="@33" Category="CodeMap_ProjectReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="173">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@47" Target="@53" Category="CodeMap_ProjectReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="1">
-      <Category Ref="CodeSchema_Calls" />
-    </Link>
-    <Link Source="@47" Target="@65" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="1">
-      <Category Ref="Implements" />
-    </Link>
-    <Link Source="@47" Target="@9" Category="CodeMap_ProjectReference" />
-    <Link Source="@5" Target="@19" Category="CodeMap_ProjectReference" />
-    <Link Source="@5" Target="@29" Category="CodeMap_ExternalReference" />
-    <Link Source="@5" Target="@31" Category="CodeMap_ProjectReference" Bounds="1077.75240260328,343.31831772611,154.479312768238,192.97442804416" />
-    <Link Source="@5" Target="@33" Category="CodeMap_ExternalReference" />
-    <Link Source="@5" Target="@39" Category="CodeMap_ExternalReference" />
-    <Link Source="@5" Target="@43" Category="CodeMap_ProjectReference" />
-    <Link Source="@5" Target="@49" Category="CodeMap_ExternalReference" />
-    <Link Source="@5" Target="@51" Category="CodeMap_ExternalReference" />
-    <Link Source="@5" Target="@57" Category="CodeMap_ExternalReference" />
-    <Link Source="@5" Target="@59" Category="CodeMap_ExternalReference" />
-    <Link Source="@5" Target="@65" Category="CodeMap_ExternalReference" />
-    <Link Source="@5" Target="@68" Category="Contains" />
-    <Link Source="@51" Target="@49" Category="CodeMap_ProjectReference" Bounds="2028.20788574219,1021.89874267578,694.314819335938,34.2140502929688" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="20">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@53" Target="@15" Category="CodeMap_ProjectReference" Bounds="1110.52824095354,1198.31882275825,93.3657104858589,27.460503084076" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="1">
-      <Category Ref="Implements" />
-    </Link>
-    <Link Source="@53" Target="@27" Category="CodeMap_ExternalReference" Bounds="1072.48168945313,1198.31884765625,112.187622070313,83.20849609375" />
-    <Link Source="@53" Target="@65" Category="CodeMap_ProjectReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="8">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="InheritsFrom" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@55" Target="@11" Category="CodeMap_ExternalReference" />
-    <Link Source="@55" Target="@15" Category="CodeMap_ExternalReference" />
-    <Link Source="@55" Target="@19" Category="CodeMap_ProjectReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="3">
-      <Category Ref="CodeSchema_Calls" />
-    </Link>
-    <Link Source="@55" Target="@21" Category="CodeMap_ProjectReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="6">
-      <Category Ref="CodeSchema_Calls" />
-    </Link>
-    <Link Source="@55" Target="@27" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="15">
-      <Category Ref="CodeSchema_Calls" />
-    </Link>
-    <Link Source="@55" Target="@29" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="291">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="CodeSchema_ReturnTypeLink" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@55" Target="@31" Category="CodeMap_ExternalReference" />
-    <Link Source="@55" Target="@33" Category="CodeMap_ExternalReference" />
-    <Link Source="@55" Target="@35" Category="CodeMap_ProjectReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="59">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@55" Target="@39" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="4">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="CodeSchema_ReturnTypeLink" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@55" Target="@41" Category="CodeMap_ExternalReference" />
-    <Link Source="@55" Target="@43" Category="CodeMap_ExternalReference" />
-    <Link Source="@55" Target="@45" Category="CodeMap_ExternalReference" />
-    <Link Source="@55" Target="@49" Category="CodeMap_ExternalReference" />
-    <Link Source="@55" Target="@51" Category="CodeMap_ExternalReference" />
-    <Link Source="@55" Target="@53" Category="CodeMap_ExternalReference" />
-    <Link Source="@55" Target="@57" Category="CodeMap_ExternalReference" />
-    <Link Source="@55" Target="@59" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="6">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@55" Target="@61" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="26">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@55" Target="@65" Category="CodeMap_ExternalReference" />
-    <Link Source="@55" Target="@71" Category="References" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="56">
-      <Category Ref="CodeSchema_Calls" />
-    </Link>
-    <Link Source="@59" Target="@29" Category="CodeMap_ProjectReference" Bounds="2412.5389312525,968.319426758255,364.119864246496,29.2786440549086" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="104">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@59" Target="@33" Category="CodeMap_ProjectReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="36">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@59" Target="@39" Category="CodeMap_ProjectReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="4">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@59" Target="@49" Category="CodeMap_ExternalReference" Bounds="2932.11334095354,968.319426758255,0,75.9999999999999" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="17">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@59" Target="@51" Category="CodeMap_ProjectReference" Bounds="1973.20703125,964.554809570313,759.96142578125,33.3687133789063" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="24">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@59" Target="@57" Category="CodeMap_ExternalReference" Bounds="2749.26349369327,968.319426758254,126.486210896629,28.0513774165913" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="55">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@63" Target="@11" Category="CodeMap_ExternalReference" />
-    <Link Source="@63" Target="@15" Category="CodeMap_ExternalReference" />
-    <Link Source="@63" Target="@19" Category="CodeMap_ProjectReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="3">
-      <Category Ref="CodeSchema_Calls" />
-    </Link>
-    <Link Source="@63" Target="@21" Category="CodeMap_ProjectReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="6">
-      <Category Ref="CodeSchema_Calls" />
-    </Link>
-    <Link Source="@63" Target="@27" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="15">
-      <Category Ref="CodeSchema_Calls" />
-    </Link>
-    <Link Source="@63" Target="@29" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="134">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="CodeSchema_ReturnTypeLink" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@63" Target="@31" Category="CodeMap_ExternalReference" />
-    <Link Source="@63" Target="@33" Category="CodeMap_ExternalReference" />
-    <Link Source="@63" Target="@35" Category="CodeMap_ProjectReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="30">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@63" Target="@39" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="4">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="CodeSchema_ReturnTypeLink" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@63" Target="@41" Category="CodeMap_ExternalReference" />
-    <Link Source="@63" Target="@43" Category="CodeMap_ExternalReference" />
-    <Link Source="@63" Target="@45" Category="CodeMap_ExternalReference" />
-    <Link Source="@63" Target="@49" Category="CodeMap_ExternalReference" />
-    <Link Source="@63" Target="@51" Category="CodeMap_ExternalReference" />
-    <Link Source="@63" Target="@53" Category="CodeMap_ExternalReference" />
-    <Link Source="@63" Target="@57" Category="CodeMap_ExternalReference" />
-    <Link Source="@63" Target="@59" Category="CodeMap_ExternalReference" />
-    <Link Source="@63" Target="@61" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="8">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@63" Target="@65" Category="CodeMap_ExternalReference" />
-    <Link Source="@63" Target="@71" Category="References" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="44">
-      <Category Ref="CodeSchema_Calls" />
-    </Link>
-    <Link Source="@66" Target="@71" Category="Contains" />
-    <Link Source="@68" Target="@70" Category="Contains" />
-    <Link Source="@7" Target="@11" Category="CodeMap_ExternalReference" />
-    <Link Source="@7" Target="@15" Category="CodeMap_ExternalReference" />
-    <Link Source="@7" Target="@19" Category="CodeMap_ProjectReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="3">
-      <Category Ref="CodeSchema_Calls" />
-    </Link>
-    <Link Source="@7" Target="@21" Category="CodeMap_ProjectReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="6">
-      <Category Ref="CodeSchema_Calls" />
-    </Link>
-    <Link Source="@7" Target="@27" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="15">
-      <Category Ref="CodeSchema_Calls" />
-    </Link>
-    <Link Source="@7" Target="@29" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="134">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="CodeSchema_ReturnTypeLink" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@7" Target="@31" Category="CodeMap_ProjectReference" />
-    <Link Source="@7" Target="@33" Category="CodeMap_ExternalReference" />
-    <Link Source="@7" Target="@35" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="30">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@7" Target="@39" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="4">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="CodeSchema_ReturnTypeLink" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@7" Target="@41" Category="CodeMap_ExternalReference" />
-    <Link Source="@7" Target="@43" Category="CodeMap_ExternalReference" />
-    <Link Source="@7" Target="@45" Category="CodeMap_ExternalReference" />
-    <Link Source="@7" Target="@49" Category="CodeMap_ExternalReference" />
-    <Link Source="@7" Target="@51" Category="CodeMap_ExternalReference" />
-    <Link Source="@7" Target="@53" Category="CodeMap_ExternalReference" />
-    <Link Source="@7" Target="@57" Category="CodeMap_ExternalReference" />
-    <Link Source="@7" Target="@59" Category="CodeMap_ExternalReference" />
-    <Link Source="@7" Target="@61" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="8">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="References" />
-    </Link>
-    <Link Source="@7" Target="@65" Category="CodeMap_ExternalReference" />
-    <Link Source="@7" Target="@71" Category="References" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="44">
-      <Category Ref="CodeSchema_Calls" />
-    </Link>
-    <Link Source="@70" Target="@72" Category="Contains" />
-    <Link Source="@70" Target="@73" Category="Contains" />
-    <Link Source="@70" Target="@74" Category="Contains" />
-    <Link Source="@70" Target="@75" Category="Contains" />
-    <Link Source="@72" Target="@65" Category="References" IsTargetVirtualized="True" Weight="4">
-      <Category Ref="CodeSchema_Calls" />
-    </Link>
-    <Link Source="@72" Target="@71" Category="References" Weight="3" />
-    <Link Source="@72" Target="@73" Category="CodeSchema_FunctionPointer" Weight="1" />
-    <Link Source="@72" Target="@74" Category="CodeSchema_FieldRead" Weight="2">
-      <Category Ref="CodeSchema_FieldWrite" />
-    </Link>
-    <Link Source="@73" Target="@71" Category="References" Weight="2" />
-    <Link Source="@74" Target="@65" Category="References" IsTargetVirtualized="True" Weight="1" />
-    <Link Source="@74" Target="@71" Category="References" Weight="1" />
-    <Link Source="@75" Target="@65" Category="CodeSchema_Calls" IsTargetVirtualized="True" Weight="1" />
-    <Link Source="@75" Target="@71" Category="References" Weight="1" />
-    <Link Source="@75" Target="@74" Category="CodeSchema_FieldRead" Weight="1" />
-    <Link Source="Infrastructure.Caching{4674D40A-BF17-40A6-AA4F-C0CCB6139806}" Target="@61" Category="Contains" FetchingParent="Infrastructure.Caching{4674D40A-BF17-40A6-AA4F-C0CCB6139806}" />
-    <Link Source="Infrastructure.Communication{2FA72A9D-33B2-4392-8FE4-EE7FA6D9F147}" Target="@29" Category="Contains" FetchingParent="Infrastructure.Communication{2FA72A9D-33B2-4392-8FE4-EE7FA6D9F147}" />
-    <Link Source="Infrastructure.Communication{2FA72A9D-33B2-4392-8FE4-EE7FA6D9F147}" Target="@49" Category="Contains" FetchingParent="Infrastructure.Communication{2FA72A9D-33B2-4392-8FE4-EE7FA6D9F147}" />
-    <Link Source="Infrastructure.Communication{2FA72A9D-33B2-4392-8FE4-EE7FA6D9F147}" Target="@51" Category="Contains" FetchingParent="Infrastructure.Communication{2FA72A9D-33B2-4392-8FE4-EE7FA6D9F147}" />
-    <Link Source="Infrastructure.Communication{2FA72A9D-33B2-4392-8FE4-EE7FA6D9F147}" Target="@57" Category="Contains" FetchingParent="Infrastructure.Communication{2FA72A9D-33B2-4392-8FE4-EE7FA6D9F147}" />
-    <Link Source="Infrastructure.Communication{2FA72A9D-33B2-4392-8FE4-EE7FA6D9F147}" Target="@59" Category="Contains" FetchingParent="Infrastructure.Communication{2FA72A9D-33B2-4392-8FE4-EE7FA6D9F147}" />
-    <Link Source="Infrastructure.Communication{2FA72A9D-33B2-4392-8FE4-EE7FA6D9F147}" Target="@65" Category="Contains" FetchingParent="Infrastructure.Communication{2FA72A9D-33B2-4392-8FE4-EE7FA6D9F147}" />
-    <Link Source="Infrastructure.Cryptography{6A1F6E82-33F9-4571-94FE-C332DBED3DF8}" Target="@23" Category="Contains" FetchingParent="Infrastructure.Cryptography{6A1F6E82-33F9-4571-94FE-C332DBED3DF8}" />
-    <Link Source="Infrastructure.Cryptography{6A1F6E82-33F9-4571-94FE-C332DBED3DF8}" Target="@25" Category="Contains" FetchingParent="Infrastructure.Cryptography{6A1F6E82-33F9-4571-94FE-C332DBED3DF8}" />
-    <Link Source="Infrastructure.Cryptography{6A1F6E82-33F9-4571-94FE-C332DBED3DF8}" Target="@3" Category="Contains" FetchingParent="Infrastructure.Cryptography{6A1F6E82-33F9-4571-94FE-C332DBED3DF8}" />
-    <Link Source="Infrastructure.Cryptography{6A1F6E82-33F9-4571-94FE-C332DBED3DF8}" Target="@9" Category="Contains" FetchingParent="Infrastructure.Cryptography{6A1F6E82-33F9-4571-94FE-C332DBED3DF8}" />
+    <Link Source="@11" Target="@15" Category="CodeMap_ProjectReference" Bounds="1004.20704466341,854.421690465178,91.4961458593864,27.4166519951511" />
+    <Link Source="@13" Target="@11" Category="CodeMap_ProjectReference" />
+    <Link Source="@13" Target="@17" Category="CodeMap_ProjectReference" />
+    <Link Source="@13" Target="@23" Category="CodeMap_ProjectReference" />
+    <Link Source="@13" Target="@29" Category="CodeMap_ProjectReference" />
+    <Link Source="@13" Target="@31" Category="CodeMap_ProjectReference" />
+    <Link Source="@13" Target="@33" Category="CodeMap_ProjectReference" />
+    <Link Source="@13" Target="@35" Category="CodeMap_ProjectReference" />
+    <Link Source="@13" Target="@41" Category="CodeMap_ProjectReference" />
+    <Link Source="@13" Target="@7" Category="CodeMap_ProjectReference" />
+    <Link Source="@13" Target="@9" Category="CodeMap_ProjectReference" />
+    <Link Source="@17" Target="@11" Category="CodeMap_ProjectReference" />
+    <Link Source="@17" Target="@41" Category="CodeMap_ProjectReference" />
+    <Link Source="@19" Target="@31" Category="CodeMap_ProjectReference" />
+    <Link Source="@19" Target="@33" Category="CodeMap_ProjectReference" />
+    <Link Source="@21" Target="@17" Category="CodeMap_ProjectReference" />
+    <Link Source="@21" Target="@23" Category="CodeMap_ProjectReference" />
+    <Link Source="@21" Target="@29" Category="CodeMap_ProjectReference" />
+    <Link Source="@21" Target="@31" Category="CodeMap_ProjectReference" />
+    <Link Source="@21" Target="@33" Category="CodeMap_ProjectReference" />
+    <Link Source="@21" Target="@9" Category="CodeMap_ProjectReference" />
+    <Link Source="@3" Target="@17" Category="CodeMap_ProjectReference" />
+    <Link Source="@3" Target="@23" Category="CodeMap_ProjectReference" />
+    <Link Source="@3" Target="@29" Category="CodeMap_ProjectReference" />
+    <Link Source="@3" Target="@31" Category="CodeMap_ProjectReference" />
+    <Link Source="@3" Target="@33" Category="CodeMap_ProjectReference" />
+    <Link Source="@3" Target="@9" Category="CodeMap_ProjectReference" />
+    <Link Source="@31" Target="@25" Category="CodeMap_ProjectReference" Bounds="753.038187048457,354.788238440868,0,21.000079655179" />
+    <Link Source="@31" Target="@45" Category="CodeMap_ProjectReference" />
+    <Link Source="@31" Target="@53" Category="CodeMap_ProjectReference" />
+    <Link Source="@33" Target="@27" Category="CodeMap_ProjectReference" />
+    <Link Source="@33" Target="@35" Category="CodeMap_ProjectReference" />
+    <Link Source="@35" Target="@45" Category="CodeMap_ProjectReference" />
+    <Link Source="@37" Target="@11" Category="CodeMap_ProjectReference" />
+    <Link Source="@37" Target="@17" Category="CodeMap_ProjectReference" />
+    <Link Source="@37" Target="@27" Category="CodeMap_ProjectReference" />
+    <Link Source="@37" Target="@29" Category="CodeMap_ProjectReference" />
+    <Link Source="@37" Target="@31" Category="CodeMap_ProjectReference" />
+    <Link Source="@37" Target="@41" Category="CodeMap_ProjectReference" />
+    <Link Source="@37" Target="@55" Category="CodeMap_ProjectReference" />
+    <Link Source="@37" Target="@9" Category="CodeMap_ProjectReference" />
+    <Link Source="@41" Target="@15" Category="CodeMap_ProjectReference" Bounds="955.413481202325,765.607813675705,7.89274116243257,109.837023686328" />
+    <Link Source="@41" Target="@53" Category="CodeMap_ProjectReference" />
+    <Link Source="@43" Target="@17" Category="CodeMap_ProjectReference" />
+    <Link Source="@43" Target="@23" Category="CodeMap_ProjectReference" />
+    <Link Source="@43" Target="@29" Category="CodeMap_ProjectReference" />
+    <Link Source="@43" Target="@31" Category="CodeMap_ProjectReference" />
+    <Link Source="@43" Target="@33" Category="CodeMap_ProjectReference" />
+    <Link Source="@43" Target="@9" Category="CodeMap_ProjectReference" />
+    <Link Source="@45" Target="@27" Category="CodeMap_ProjectReference" />
+    <Link Source="@45" Target="@39" Category="CodeMap_ProjectReference" Bounds="920.544009696832,1254.42199046518,0,21" />
+    <Link Source="@49" Target="@31" Category="CodeMap_ProjectReference" />
+    <Link Source="@49" Target="@33" Category="CodeMap_ProjectReference" />
+    <Link Source="@5" Target="@17" Category="CodeMap_ProjectReference" />
+    <Link Source="@5" Target="@23" Category="CodeMap_ProjectReference" />
+    <Link Source="@5" Target="@29" Category="CodeMap_ProjectReference" />
+    <Link Source="@5" Target="@31" Category="CodeMap_ProjectReference" />
+    <Link Source="@5" Target="@33" Category="CodeMap_ProjectReference" />
+    <Link Source="@5" Target="@9" Category="CodeMap_ProjectReference" />
+    <Link Source="@51" Target="@17" Category="CodeMap_ProjectReference" />
+    <Link Source="@51" Target="@23" Category="CodeMap_ProjectReference" />
+    <Link Source="@51" Target="@29" Category="CodeMap_ProjectReference" />
+    <Link Source="@51" Target="@31" Category="CodeMap_ProjectReference" />
+    <Link Source="@51" Target="@33" Category="CodeMap_ProjectReference" />
+    <Link Source="@51" Target="@9" Category="CodeMap_ProjectReference" />
+    <Link Source="@7" Target="@15" Category="CodeMap_ProjectReference" Bounds="812.059401128858,854.421690465178,91.480568990459,27.4162804910925" />
+    <Link Source="@9" Target="@47" Category="CodeMap_ProjectReference" />
+    <Link Source="Infrastructure.Caching{4674D40A-BF17-40A6-AA4F-C0CCB6139806}" Target="@47" Category="Contains" FetchingParent="Infrastructure.Caching{4674D40A-BF17-40A6-AA4F-C0CCB6139806}" />
+    <Link Source="Infrastructure.Communication{2FA72A9D-33B2-4392-8FE4-EE7FA6D9F147}" Target="@39" Category="Contains" FetchingParent="Infrastructure.Communication{2FA72A9D-33B2-4392-8FE4-EE7FA6D9F147}" />
+    <Link Source="Infrastructure.Communication{2FA72A9D-33B2-4392-8FE4-EE7FA6D9F147}" Target="@45" Category="Contains" FetchingParent="Infrastructure.Communication{2FA72A9D-33B2-4392-8FE4-EE7FA6D9F147}" />
+    <Link Source="Infrastructure.Communication{2FA72A9D-33B2-4392-8FE4-EE7FA6D9F147}" Target="@53" Category="Contains" FetchingParent="Infrastructure.Communication{2FA72A9D-33B2-4392-8FE4-EE7FA6D9F147}" />
+    <Link Source="Infrastructure.Cryptography{6A1F6E82-33F9-4571-94FE-C332DBED3DF8}" Target="@55" Category="Contains" FetchingParent="Infrastructure.Cryptography{6A1F6E82-33F9-4571-94FE-C332DBED3DF8}" />
     <Link Source="Infrastructure.Logging{423CC89D-F00D-45D2-BE00-931786875AA6}" Target="@11" Category="Contains" FetchingParent="Infrastructure.Logging{423CC89D-F00D-45D2-BE00-931786875AA6}" />
     <Link Source="Infrastructure.Logging{423CC89D-F00D-45D2-BE00-931786875AA6}" Target="@15" Category="Contains" FetchingParent="Infrastructure.Logging{423CC89D-F00D-45D2-BE00-931786875AA6}" />
-    <Link Source="Infrastructure.Logging{423CC89D-F00D-45D2-BE00-931786875AA6}" Target="@27" Category="Contains" FetchingParent="Infrastructure.Logging{423CC89D-F00D-45D2-BE00-931786875AA6}" />
-    <Link Source="Infrastructure.Logging{423CC89D-F00D-45D2-BE00-931786875AA6}" Target="@53" Category="Contains" FetchingParent="Infrastructure.Logging{423CC89D-F00D-45D2-BE00-931786875AA6}" />
-    <Link Source="Infrastructure.Persistence{A46D95B0-ECBB-47A0-BD3D-88E934F7E002}" Target="@37" Category="Contains" FetchingParent="Infrastructure.Persistence{A46D95B0-ECBB-47A0-BD3D-88E934F7E002}" />
-    <Link Source="Infrastructure.Persistence{A46D95B0-ECBB-47A0-BD3D-88E934F7E002}" Target="@39" Category="Contains" FetchingParent="Infrastructure.Persistence{A46D95B0-ECBB-47A0-BD3D-88E934F7E002}" />
-    <Link Source="Infrastructure.Security{4B50141F-7DDA-4045-87E0-EFBF72CEFB63}" Target="@33" Category="Contains" FetchingParent="Infrastructure.Security{4B50141F-7DDA-4045-87E0-EFBF72CEFB63}" />
-    <Link Source="Infrastructure.Security{4B50141F-7DDA-4045-87E0-EFBF72CEFB63}" Target="@41" Category="Contains" FetchingParent="Infrastructure.Security{4B50141F-7DDA-4045-87E0-EFBF72CEFB63}" />
+    <Link Source="Infrastructure.Logging{423CC89D-F00D-45D2-BE00-931786875AA6}" Target="@41" Category="Contains" FetchingParent="Infrastructure.Logging{423CC89D-F00D-45D2-BE00-931786875AA6}" />
+    <Link Source="Infrastructure.Logging{423CC89D-F00D-45D2-BE00-931786875AA6}" Target="@7" Category="Contains" FetchingParent="Infrastructure.Logging{423CC89D-F00D-45D2-BE00-931786875AA6}" />
+    <Link Source="Infrastructure.Security{4B50141F-7DDA-4045-87E0-EFBF72CEFB63}" Target="@27" Category="Contains" FetchingParent="Infrastructure.Security{4B50141F-7DDA-4045-87E0-EFBF72CEFB63}" />
+    <Link Source="Infrastructure.Security{4B50141F-7DDA-4045-87E0-EFBF72CEFB63}" Target="@35" Category="Contains" FetchingParent="Infrastructure.Security{4B50141F-7DDA-4045-87E0-EFBF72CEFB63}" />
     <Link Source="Presentation{E02EC0E8-179F-4E07-A44C-F43CBE4B8D33}" Target="(@1)" Category="Contains" FetchingParent="Presentation{E02EC0E8-179F-4E07-A44C-F43CBE4B8D33}" />
-    <Link Source="Services.Business.Departments{B0F2E640-1B33-4428-B49F-183375231B02}" Target="@17" Category="Contains" FetchingParent="Services.Business.Departments{B0F2E640-1B33-4428-B49F-183375231B02}" />
-    <Link Source="Services.Business.Departments{B0F2E640-1B33-4428-B49F-183375231B02}" Target="@55" Category="Contains" FetchingParent="Services.Business.Departments{B0F2E640-1B33-4428-B49F-183375231B02}" />
-    <Link Source="Services.Business.Departments{B0F2E640-1B33-4428-B49F-183375231B02}" Target="@63" Category="Contains" FetchingParent="Services.Business.Departments{B0F2E640-1B33-4428-B49F-183375231B02}" />
-    <Link Source="Services.Business.Departments{B0F2E640-1B33-4428-B49F-183375231B02}" Target="@7" Category="Contains" FetchingParent="Services.Business.Departments{B0F2E640-1B33-4428-B49F-183375231B02}" />
-    <Link Source="Services.Business{9F4C005C-2FF8-4430-8D84-1A7721EEA920}" Target="@21" Category="Contains" FetchingParent="Services.Business{9F4C005C-2FF8-4430-8D84-1A7721EEA920}" />
-    <Link Source="Services.Business{9F4C005C-2FF8-4430-8D84-1A7721EEA920}" Target="@31" Category="Contains" FetchingParent="Services.Business{9F4C005C-2FF8-4430-8D84-1A7721EEA920}" />
-    <Link Source="Services.Business{9F4C005C-2FF8-4430-8D84-1A7721EEA920}" Target="@35" Category="Contains" FetchingParent="Services.Business{9F4C005C-2FF8-4430-8D84-1A7721EEA920}" />
-    <Link Source="Services.Business{9F4C005C-2FF8-4430-8D84-1A7721EEA920}" Target="@45" Category="Contains" FetchingParent="Services.Business{9F4C005C-2FF8-4430-8D84-1A7721EEA920}" />
+    <Link Source="Services.Business.Departments{B0F2E640-1B33-4428-B49F-183375231B02}" Target="@21" Category="Contains" FetchingParent="Services.Business.Departments{B0F2E640-1B33-4428-B49F-183375231B02}" />
+    <Link Source="Services.Business.Departments{B0F2E640-1B33-4428-B49F-183375231B02}" Target="@43" Category="Contains" FetchingParent="Services.Business.Departments{B0F2E640-1B33-4428-B49F-183375231B02}" />
+    <Link Source="Services.Business.Departments{B0F2E640-1B33-4428-B49F-183375231B02}" Target="@5" Category="Contains" FetchingParent="Services.Business.Departments{B0F2E640-1B33-4428-B49F-183375231B02}" />
+    <Link Source="Services.Business.Departments{B0F2E640-1B33-4428-B49F-183375231B02}" Target="@51" Category="Contains" FetchingParent="Services.Business.Departments{B0F2E640-1B33-4428-B49F-183375231B02}" />
     <Link Source="Services.Infrastructure{2669D375-E38F-4991-B50C-CAEFD1C57054}" Target="@13" Category="Contains" FetchingParent="Services.Infrastructure{2669D375-E38F-4991-B50C-CAEFD1C57054}" />
-    <Link Source="Services.MQ{EE45587A-115E-45A0-B5DD-96769BDF8AF5}" Target="@5" Category="Contains" FetchingParent="Services.MQ{EE45587A-115E-45A0-B5DD-96769BDF8AF5}" />
-    <Link Source="Services.Security{63E37307-7818-4EB9-B941-E787E7FBBF8F}" Target="@47" Category="Contains" FetchingParent="Services.Security{63E37307-7818-4EB9-B941-E787E7FBBF8F}" />
-    <Link Source="Services{B8BC82E7-C1AE-457E-9B15-0F750DD6C897}" Target="@19" Category="Contains" FetchingParent="Services{B8BC82E7-C1AE-457E-9B15-0F750DD6C897}" />
-    <Link Source="Services{B8BC82E7-C1AE-457E-9B15-0F750DD6C897}" Target="@43" Category="Contains" FetchingParent="Services{B8BC82E7-C1AE-457E-9B15-0F750DD6C897}" />
+    <Link Source="Services.Infrastructure{2669D375-E38F-4991-B50C-CAEFD1C57054}" Target="@37" Category="Contains" FetchingParent="Services.Infrastructure{2669D375-E38F-4991-B50C-CAEFD1C57054}" />
+    <Link Source="Services.MQ{EE45587A-115E-45A0-B5DD-96769BDF8AF5}" Target="@19" Category="Contains" FetchingParent="Services.MQ{EE45587A-115E-45A0-B5DD-96769BDF8AF5}" />
+    <Link Source="Services.MQ{EE45587A-115E-45A0-B5DD-96769BDF8AF5}" Target="@3" Category="Contains" FetchingParent="Services.MQ{EE45587A-115E-45A0-B5DD-96769BDF8AF5}" />
+    <Link Source="Services.MQ{EE45587A-115E-45A0-B5DD-96769BDF8AF5}" Target="@49" Category="Contains" FetchingParent="Services.MQ{EE45587A-115E-45A0-B5DD-96769BDF8AF5}" />
+    <Link Source="Services{B8BC82E7-C1AE-457E-9B15-0F750DD6C897}" Target="@17" Category="Contains" FetchingParent="Services{B8BC82E7-C1AE-457E-9B15-0F750DD6C897}" />
+    <Link Source="Services{B8BC82E7-C1AE-457E-9B15-0F750DD6C897}" Target="@23" Category="Contains" FetchingParent="Services{B8BC82E7-C1AE-457E-9B15-0F750DD6C897}" />
+    <Link Source="Services{B8BC82E7-C1AE-457E-9B15-0F750DD6C897}" Target="@25" Category="Contains" FetchingParent="Services{B8BC82E7-C1AE-457E-9B15-0F750DD6C897}" />
+    <Link Source="Services{B8BC82E7-C1AE-457E-9B15-0F750DD6C897}" Target="@29" Category="Contains" FetchingParent="Services{B8BC82E7-C1AE-457E-9B15-0F750DD6C897}" />
+    <Link Source="Services{B8BC82E7-C1AE-457E-9B15-0F750DD6C897}" Target="@31" Category="Contains" FetchingParent="Services{B8BC82E7-C1AE-457E-9B15-0F750DD6C897}" />
+    <Link Source="Services{B8BC82E7-C1AE-457E-9B15-0F750DD6C897}" Target="@33" Category="Contains" FetchingParent="Services{B8BC82E7-C1AE-457E-9B15-0F750DD6C897}" />
+    <Link Source="Services{B8BC82E7-C1AE-457E-9B15-0F750DD6C897}" Target="@9" Category="Contains" FetchingParent="Services{B8BC82E7-C1AE-457E-9B15-0F750DD6C897}" />
   </Links>
   <Categories>
-    <Category Id="CodeMap_ExternalReference" Label="External Reference" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Referenced By" OutgoingActionLabel="References" />
     <Category Id="CodeMap_ProjectReference" Label="Project Reference" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Referenced By" OutgoingActionLabel="References" />
     <Category Id="CodeMap_SolutionFolder" Label="Solution Folder" CanBeDataDriven="True" IsProviderRoot="False" NavigationActionLabel="Solution Folder" />
     <Category Id="CodeSchema_Assembly" Label="Assembly" BasedOn="File" CanBeDataDriven="True" DefaultAction="Microsoft.Contains" Icon="CodeSchema_Assembly" NavigationActionLabel="Assemblies" />
-    <Category Id="CodeSchema_Calls" Label="Calls" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Called By" OutgoingActionLabel="Calls" />
-    <Category Id="CodeSchema_Class" Label="Class" BasedOn="CodeSchema_Type" CanBeDataDriven="True" DefaultAction="Node:Both:CodeSchema_Member" Icon="CodeSchema_Class" NavigationActionLabel="Classes" />
-    <Category Id="CodeSchema_Field" Label="Field" BasedOn="CodeSchema_Member" CanBeDataDriven="True" DefaultAction="Microsoft.Contains" Icon="CodeSchema_Field" NavigationActionLabel="Fields" />
-    <Category Id="CodeSchema_FieldRead" Label="Field Read" BasedOn="CodeSchema_FieldReference" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Read By" OutgoingActionLabel="Reads Fields" />
-    <Category Id="CodeSchema_FieldReference" Label="Field Reference" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Referenced By" OutgoingActionLabel="References Fields" />
-    <Category Id="CodeSchema_FieldWrite" Label="Field Write" BasedOn="CodeSchema_FieldReference" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Written By" OutgoingActionLabel="Writes Fields" />
-    <Category Id="CodeSchema_FunctionPointer" Label="Function Pointer" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Function Pointers" OutgoingActionLabel="Function Pointers" />
-    <Category Id="CodeSchema_Member" Label="Member" CanBeDataDriven="True" DefaultAction="Microsoft.Contains" Icon="CodeSchema_Field" NavigationActionLabel="Members" />
-    <Category Id="CodeSchema_Method" Label="Method" BasedOn="CodeSchema_Member" CanBeDataDriven="True" DefaultAction="Link:Forward:CodeSchema_Calls" Icon="CodeSchema_Method" NavigationActionLabel="Methods" />
-    <Category Id="CodeSchema_Namespace" Label="Namespace" CanBeDataDriven="True" DefaultAction="Node:Both:CodeSchema_Type" Icon="CodeSchema_Namespace" NavigationActionLabel="Namespaces" />
-    <Category Id="CodeSchema_ReturnTypeLink" Label="Return" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Return types" OutgoingActionLabel="Return types" />
-    <Category Id="CodeSchema_Type" Label="Type" CanBeDataDriven="True" DefaultAction="Node:Both:CodeSchema_Member" Icon="CodeSchema_Class" NavigationActionLabel="Types" />
     <Category Id="Contains" Label="Contains" Description="Whether the source of the link contains the target object" CanBeDataDriven="False" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Contained By" IsContainment="True" OutgoingActionLabel="Contains" />
     <Category Id="File" Label="File" CanBeDataDriven="True" DefaultAction="Microsoft.Contains" Icon="File" NavigationActionLabel="Files" />
-    <Category Id="FileSystem.Category.FileOfType.dll" BasedOn="CodeSchema_Assembly" CanBeDataDriven="True" IsProviderRoot="False" />
-    <Category Id="FileSystem.Category.FileOfType.exe" BasedOn="CodeSchema_Assembly" CanBeDataDriven="True" IsProviderRoot="False" />
-    <Category Id="Implements" Label="Implements" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Implemented by" OutgoingActionLabel="Implements" />
-    <Category Id="InheritsFrom" Label="Inherits From" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Inherited By" OutgoingActionLabel="Inherits From" />
-    <Category Id="References" Label="References" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Referenced By" OutgoingActionLabel="References" />
   </Categories>
   <Properties>
     <Property Id="Bounds" DataType="System.Windows.Rect" />
     <Property Id="CanBeDataDriven" Label="CanBeDataDriven" Description="CanBeDataDriven" DataType="System.Boolean" />
     <Property Id="CanLinkedNodesBeDataDriven" Label="CanLinkedNodesBeDataDriven" Description="CanLinkedNodesBeDataDriven" DataType="System.Boolean" />
-    <Property Id="CodeSchemaProperty_IsConstructor" Label="Is Constructor" Description="Flag to indicate the method is a constructor" DataType="System.Boolean" />
-    <Property Id="CodeSchemaProperty_IsPrivate" Label="Is Private" Description="Flag to indicate the scope is Private" DataType="System.Boolean" />
-    <Property Id="CodeSchemaProperty_IsPublic" Label="Is Public" Description="Flag to indicate the scope is Public" DataType="System.Boolean" />
-    <Property Id="CodeSchemaProperty_IsSpecialName" Label="Is Special Name" Description="Flag to indicate the method is treated in a special way by some compilers" DataType="System.Boolean" />
     <Property Id="DataVirtualized" Label="Data Virtualized" Description="If true, the graph can contain nodes and links that represent data for virtualized nodes/links (i.e. not actually created in the graph)." DataType="System.Boolean" />
     <Property Id="DefaultAction" Label="DefaultAction" Description="DefaultAction" DataType="System.String" />
     <Property Id="DelayedChildNodesState" Label="Delayed Child Nodes State" Description="Unspecified if the delayed child nodes state is not specified. NotFetched if the group contains child nodes that are not fetched into the graph yet. Fetched if the group has all its delayed child nodes already fetched." DataType="Microsoft.VisualStudio.GraphModel.DelayedDataState" />
@@ -632,8 +162,6 @@
     <Property Id="IsContainment" DataType="System.Boolean" />
     <Property Id="IsEnabled" DataType="System.Boolean" />
     <Property Id="IsProviderRoot" Label="IsProviderRoot" Description="IsProviderRoot" DataType="System.Boolean" />
-    <Property Id="IsSourceVirtualized" Label="Link Source Virtualized" Description="If true, the link source end contains data for virtualized nodes/links (i.e. not actually created in the graph)." DataType="System.Boolean" />
-    <Property Id="IsTargetVirtualized" Label="Link Target Virtualized" Description="If true, the link target end contains data for virtualized nodes/links (i.e. not actually created in the graph)." DataType="System.Boolean" />
     <Property Id="Label" Label="Label" Description="Displayable label of an Annotatable object" DataType="System.String" />
     <Property Id="Layout" DataType="System.String" />
     <Property Id="NavigationActionLabel" Label="NavigationActionLabel" Description="NavigationActionLabel" DataType="System.String" />
@@ -643,26 +171,20 @@
     <Property Id="Value" DataType="System.String" />
     <Property Id="ValueLabel" DataType="System.String" />
     <Property Id="Visibility" Label="Visibility" Description="Defines whether a node in the graph is visible or not" DataType="System.Windows.Visibility" />
-    <Property Id="Weight" Label="Weight" Description="Weight" DataType="System.Double" />
     <Property Id="ZoomLevel" DataType="System.String" />
   </Properties>
   <QualifiedNames>
     <Name Id="Assembly" Label="Assembly" ValueType="Uri" />
-    <Name Id="Member" Label="Member" ValueType="System.Object" />
-    <Name Id="Name" Label="Name" ValueType="System.String" />
-    <Name Id="Namespace" Label="Namespace" ValueType="System.String" />
-    <Name Id="OverloadingParameters" Label="Parameter" ValueType="Microsoft.VisualStudio.GraphModel.GraphNodeIdCollection" Formatter="NameValueNoEscape" />
-    <Name Id="Type" Label="Type" ValueType="System.Object" />
   </QualifiedNames>
   <IdentifierAliases>
     <Alias n="1" Uri="Assembly=$(a70ca59e-7652-404a-b60f-253e4ef8d5b3.OutputPathUri)" />
-    <Alias n="2" Uri="Assembly=$(422b8170-f96c-4ddc-9b8e-60c237e802ff.OutputPathUri)" />
+    <Alias n="2" Uri="Assembly=$(4d1e460d-0616-472c-9c93-00ca16e543f5.OutputPathUri)" />
     <Alias n="3" Id="(@2)" />
-    <Alias n="4" Uri="Assembly=$(4d1e460d-0616-472c-9c93-00ca16e543f5.OutputPathUri)" />
+    <Alias n="4" Uri="Assembly=$(9d4a53d3-707f-4009-afee-0564ac5c8034.OutputPathUri)" />
     <Alias n="5" Id="(@4)" />
-    <Alias n="6" Uri="Assembly=$(9d4a53d3-707f-4009-afee-0564ac5c8034.OutputPathUri)" />
+    <Alias n="6" Uri="Assembly=$(178cebe9-d9fe-4704-866a-0bbe72714782.OutputPathUri)" />
     <Alias n="7" Id="(@6)" />
-    <Alias n="8" Uri="Assembly=$(cc6c6796-50db-46f3-a6bc-03669650ffbf.OutputPathUri)" />
+    <Alias n="8" Uri="Assembly=$(65c99aa5-416d-4c65-97b9-1b00bbd565c9.OutputPathUri)" />
     <Alias n="9" Id="(@8)" />
     <Alias n="10" Uri="Assembly=$(6ff6e9f6-0b0b-43a8-8767-4a6df86a7e83.OutputPathUri)" />
     <Alias n="11" Id="(@10)" />
@@ -670,66 +192,46 @@
     <Alias n="13" Id="(@12)" />
     <Alias n="14" Uri="Assembly=$(fe4127d7-8c88-4a35-bf31-12145bc0cb99.OutputPathUri)" />
     <Alias n="15" Id="(@14)" />
-    <Alias n="16" Uri="Assembly=$(27e61f0f-5227-40ea-bea5-465feb81c398.OutputPathUri)" />
+    <Alias n="16" Uri="Assembly=$(1faab051-af14-454f-8c8d-4e0400702cdb.OutputPathUri)" />
     <Alias n="17" Id="(@16)" />
-    <Alias n="18" Uri="Assembly=$(cf140940-7ec5-45cd-a3f7-b34da3dd3307.OutputPathUri)" />
+    <Alias n="18" Uri="Assembly=$(0283aa16-4558-4d94-bf56-eb013cd00edd.OutputPathUri)" />
     <Alias n="19" Id="(@18)" />
-    <Alias n="20" Uri="Assembly=$(8ac21323-9485-49f0-b1e5-2cc4bfa3d55f.OutputPathUri)" />
+    <Alias n="20" Uri="Assembly=$(27e61f0f-5227-40ea-bea5-465feb81c398.OutputPathUri)" />
     <Alias n="21" Id="(@20)" />
-    <Alias n="22" Uri="Assembly=$(d637f0d3-b619-4afd-817f-dbf4dc85f9fc.OutputPathUri)" />
+    <Alias n="22" Uri="Assembly=$(56f2e56f-b35a-419d-aeac-66e301598438.OutputPathUri)" />
     <Alias n="23" Id="(@22)" />
-    <Alias n="24" Uri="Assembly=$(4fdd1fe0-a36f-4f98-b4bf-c7ec87ded880.OutputPathUri)" />
+    <Alias n="24" Uri="Assembly=$(964c3b50-e34b-4c5d-a715-a2806a9f24f1.OutputPathUri)" />
     <Alias n="25" Id="(@24)" />
-    <Alias n="26" Uri="Assembly=$(03418824-2ed2-4cf5-bce8-7027a24869b9.OutputPathUri)" />
+    <Alias n="26" Uri="Assembly=$(e16709af-25bf-474b-8c64-55eca0db0f8b.OutputPathUri)" />
     <Alias n="27" Id="(@26)" />
-    <Alias n="28" Uri="Assembly=$(a97e0504-9a2c-4096-a88b-6c4e62948f5e.OutputPathUri)" />
+    <Alias n="28" Uri="Assembly=$(5089ff92-6191-4129-a70e-9432a2c89bc6.OutputPathUri)" />
     <Alias n="29" Id="(@28)" />
-    <Alias n="30" Uri="Assembly=$(888f7009-5ccf-4818-b9a9-9640cc4cf431.OutputPathUri)" />
+    <Alias n="30" Uri="Assembly=$(2e32eadc-647b-45b1-91c2-47033deb79bb.OutputPathUri)" />
     <Alias n="31" Id="(@30)" />
-    <Alias n="32" Uri="Assembly=$(e16709af-25bf-474b-8c64-55eca0db0f8b.OutputPathUri)" />
+    <Alias n="32" Uri="Assembly=$(2f5cd06f-4a5c-4b7f-ac00-6690a1cd76ce.OutputPathUri)" />
     <Alias n="33" Id="(@32)" />
-    <Alias n="34" Uri="Assembly=$(59849b7a-5406-4b9d-8d0c-ba265072fa94.OutputPathUri)" />
+    <Alias n="34" Uri="Assembly=$(b8817c26-8465-4910-a4f6-4b6277ec5dec.OutputPathUri)" />
     <Alias n="35" Id="(@34)" />
-    <Alias n="36" Uri="Assembly=$(ae2ca920-edad-4e2f-bba1-49f6ecde23f6.OutputPathUri)" />
+    <Alias n="36" Uri="Assembly=$(6c91249c-c8c2-4392-8816-66704faea88e.OutputPathUri)" />
     <Alias n="37" Id="(@36)" />
-    <Alias n="38" Uri="Assembly=$(d6a7e796-2e24-4917-997e-e3b77415b7b0.OutputPathUri)" />
+    <Alias n="38" Uri="Assembly=$(f15a9aad-5cae-4c20-acf5-8ca76cf09082.OutputPathUri)" />
     <Alias n="39" Id="(@38)" />
-    <Alias n="40" Uri="Assembly=$(b8817c26-8465-4910-a4f6-4b6277ec5dec.OutputPathUri)" />
+    <Alias n="40" Uri="Assembly=$(8de777e5-a0aa-4f59-a405-5f7a185a395b.OutputPathUri)" />
     <Alias n="41" Id="(@40)" />
-    <Alias n="42" Uri="Assembly=$(c035a103-3266-471e-8cb5-aec8ff14740f.OutputPathUri)" />
+    <Alias n="42" Uri="Assembly=$(c1fdeab3-b2a2-4d90-a0ff-b4b25c2c6728.OutputPathUri)" />
     <Alias n="43" Id="(@42)" />
-    <Alias n="44" Uri="Assembly=$(129c7b17-5f14-45bf-b4b9-26cdb52dfa04.OutputPathUri)" />
+    <Alias n="44" Uri="Assembly=$(090c7f4e-470f-4e6c-a1e8-d7d4170eb602.OutputPathUri)" />
     <Alias n="45" Id="(@44)" />
-    <Alias n="46" Uri="Assembly=$(c31d38dc-1e19-4d59-a59f-28745858befd.OutputPathUri)" />
+    <Alias n="46" Uri="Assembly=$(d0369510-c292-4c8a-8446-b54d63601b74.OutputPathUri)" />
     <Alias n="47" Id="(@46)" />
-    <Alias n="48" Uri="Assembly=$(96004afa-4b52-48a0-9abe-8fde77c522c9.OutputPathUri)" />
+    <Alias n="48" Uri="Assembly=$(36f13103-1448-4fcd-81da-33f900ebc3cf.OutputPathUri)" />
     <Alias n="49" Id="(@48)" />
-    <Alias n="50" Uri="Assembly=$(f15a9aad-5cae-4c20-acf5-8ca76cf09082.OutputPathUri)" />
+    <Alias n="50" Uri="Assembly=$(ebca1d84-8375-4af7-b596-9074784cfb3e.OutputPathUri)" />
     <Alias n="51" Id="(@50)" />
-    <Alias n="52" Uri="Assembly=$(8de777e5-a0aa-4f59-a405-5f7a185a395b.OutputPathUri)" />
+    <Alias n="52" Uri="Assembly=$(c8f79ac6-a105-4d4e-bb17-01eb5a95d1b0.OutputPathUri)" />
     <Alias n="53" Id="(@52)" />
-    <Alias n="54" Uri="Assembly=$(c1fdeab3-b2a2-4d90-a0ff-b4b25c2c6728.OutputPathUri)" />
+    <Alias n="54" Uri="Assembly=$(ac1c23e9-364a-42f9-8308-9e2fb9b64c48.OutputPathUri)" />
     <Alias n="55" Id="(@54)" />
-    <Alias n="56" Uri="Assembly=$(724854b7-879e-4bb8-8e18-d6d8111a4c08.OutputPathUri)" />
-    <Alias n="57" Id="(@56)" />
-    <Alias n="58" Uri="Assembly=$(090c7f4e-470f-4e6c-a1e8-d7d4170eb602.OutputPathUri)" />
-    <Alias n="59" Id="(@58)" />
-    <Alias n="60" Uri="Assembly=$(d0369510-c292-4c8a-8446-b54d63601b74.OutputPathUri)" />
-    <Alias n="61" Id="(@60)" />
-    <Alias n="62" Uri="Assembly=$(ebca1d84-8375-4af7-b596-9074784cfb3e.OutputPathUri)" />
-    <Alias n="63" Id="(@62)" />
-    <Alias n="64" Uri="Assembly=$(c8f79ac6-a105-4d4e-bb17-01eb5a95d1b0.OutputPathUri)" />
-    <Alias n="65" Id="(@64)" />
-    <Alias n="66" Id="(@30 Namespace=MicroserviceProject.Services.Business.Model.Department.HR)" />
-    <Alias n="67" Id="Namespace=MicroserviceProject.Services.MQ.AA.Util.Consumers.Inventory" />
-    <Alias n="68" Id="(@4 @67)" />
-    <Alias n="69" Id="Type=AssignInventoryToWorkerConsumer" />
-    <Alias n="70" Id="(@4 @67 @69)" />
-    <Alias n="71" Id="(@30 Namespace=MicroserviceProject.Services.Business.Model.Department.HR Type=WorkerModel)" />
-    <Alias n="72" Id="(@4 @67 @69 Member=(Name=.ctor OverloadingParameters=[(@64 Namespace=MicroserviceProject.Infrastructure.Communication.Mq.Rabbit Type=IRabbitConfiguration)]))" />
-    <Alias n="73" Id="(@4 @67 @69 Member=(Name=_consumer_OnConsumed OverloadingParameters=[@71]))" />
-    <Alias n="74" Id="(@4 @67 @69 Member=_consumer)" />
-    <Alias n="75" Id="(@4 @67 @69 Member=StartToConsume)" />
   </IdentifierAliases>
   <Styles>
     <Style TargetType="Node" GroupLabel="Results" ValueLabel="True">
@@ -949,64 +451,54 @@
     </Style>
   </Styles>
   <Paths>
-    <Path Id="03418824-2ed2-4cf5-bce8-7027a24869b9.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Infrastructure.Logging.Model\bin\Debug\net5.0\MicroserviceProject.Infrastructure.Logging.Model.dll" />
-    <Path Id="03418824-2ed2-4cf5-bce8-7027a24869b9.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Infrastructure.Logging.Model/bin/Debug/net5.0/MicroserviceProject.Infrastructure.Logging.Model.dll" />
+    <Path Id="0283aa16-4558-4d94-bf56-eb013cd00edd.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Services.MQ.Accounting\bin\Debug\net5.0\MicroserviceProject.Services.MQ.Accounting.dll" />
+    <Path Id="0283aa16-4558-4d94-bf56-eb013cd00edd.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Services.MQ.Accounting/bin/Debug/net5.0/MicroserviceProject.Services.MQ.Accounting.dll" />
     <Path Id="090c7f4e-470f-4e6c-a1e8-d7d4170eb602.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Infrastructure.Communication.Moderator\bin\Debug\net5.0\MicroserviceProject.Infrastructure.Communication.Moderator.dll" />
     <Path Id="090c7f4e-470f-4e6c-a1e8-d7d4170eb602.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Infrastructure.Communication.Moderator/bin/Debug/net5.0/MicroserviceProject.Infrastructure.Communication.Moderator.dll" />
-    <Path Id="129c7b17-5f14-45bf-b4b9-26cdb52dfa04.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Services.Business.Configuration\bin\Debug\net5.0\MicroserviceProject.Services.Business.Configuration.dll" />
-    <Path Id="129c7b17-5f14-45bf-b4b9-26cdb52dfa04.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Services.Business.Configuration/bin/Debug/net5.0/MicroserviceProject.Services.Business.Configuration.dll" />
+    <Path Id="178cebe9-d9fe-4704-866a-0bbe72714782.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Infrastructure.Logging.MongoDb\bin\Debug\net5.0\MicroserviceProject.Infrastructure.Logging.MongoDb.dll" />
+    <Path Id="178cebe9-d9fe-4704-866a-0bbe72714782.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Infrastructure.Logging.MongoDb/bin/Debug/net5.0/MicroserviceProject.Infrastructure.Logging.MongoDb.dll" />
+    <Path Id="1faab051-af14-454f-8c8d-4e0400702cdb.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Services.Logging\bin\Debug\net5.0\MicroserviceProject.Services.Logging.dll" />
+    <Path Id="1faab051-af14-454f-8c8d-4e0400702cdb.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Services.Logging/bin/Debug/net5.0/MicroserviceProject.Services.Logging.dll" />
     <Path Id="27e61f0f-5227-40ea-bea5-465feb81c398.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Services.Business.Departments.Accounting\bin\Debug\net5.0\MicroserviceProject.Services.Business.Departments.Accounting.dll" />
     <Path Id="27e61f0f-5227-40ea-bea5-465feb81c398.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Services.Business.Departments.Accounting/bin/Debug/net5.0/MicroserviceProject.Services.Business.Departments.Accounting.dll" />
-    <Path Id="422b8170-f96c-4ddc-9b8e-60c237e802ff.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Infrastructure.Cryptography.SHA256\bin\Debug\net5.0\MicroserviceProject.Infrastructure.Cryptography.SHA256.dll" />
-    <Path Id="422b8170-f96c-4ddc-9b8e-60c237e802ff.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Infrastructure.Cryptography.SHA256/bin/Debug/net5.0/MicroserviceProject.Infrastructure.Cryptography.SHA256.dll" />
+    <Path Id="2e32eadc-647b-45b1-91c2-47033deb79bb.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Services.Communication\bin\Debug\net5.0\MicroserviceProject.Services.Communication.dll" />
+    <Path Id="2e32eadc-647b-45b1-91c2-47033deb79bb.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Services.Communication/bin/Debug/net5.0/MicroserviceProject.Services.Communication.dll" />
+    <Path Id="2f5cd06f-4a5c-4b7f-ac00-6690a1cd76ce.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Services.Authentication\bin\Debug\net5.0\MicroserviceProject.Services.Authentication.dll" />
+    <Path Id="2f5cd06f-4a5c-4b7f-ac00-6690a1cd76ce.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Services.Authentication/bin/Debug/net5.0/MicroserviceProject.Services.Authentication.dll" />
+    <Path Id="36f13103-1448-4fcd-81da-33f900ebc3cf.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Services.MQ.IT\bin\Debug\net5.0\MicroserviceProject.Services.MQ.IT.dll" />
+    <Path Id="36f13103-1448-4fcd-81da-33f900ebc3cf.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Services.MQ.IT/bin/Debug/net5.0/MicroserviceProject.Services.MQ.IT.dll" />
     <Path Id="4d1e460d-0616-472c-9c93-00ca16e543f5.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Services.MQ.AA\bin\Debug\net5.0\MicroserviceProject.Services.MQ.AA.dll" />
     <Path Id="4d1e460d-0616-472c-9c93-00ca16e543f5.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Services.MQ.AA/bin/Debug/net5.0/MicroserviceProject.Services.MQ.AA.dll" />
-    <Path Id="4fdd1fe0-a36f-4f98-b4bf-c7ec87ded880.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Infrastructure.Cryptography.Rijndael\bin\Debug\net5.0\MicroserviceProject.Infrastructure.Cryptography.Rijndael.dll" />
-    <Path Id="4fdd1fe0-a36f-4f98-b4bf-c7ec87ded880.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Infrastructure.Cryptography.Rijndael/bin/Debug/net5.0/MicroserviceProject.Infrastructure.Cryptography.Rijndael.dll" />
-    <Path Id="59849b7a-5406-4b9d-8d0c-ba265072fa94.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Services.Business.Util\bin\Debug\net5.0\MicroserviceProject.Services.Business.Util.dll" />
-    <Path Id="59849b7a-5406-4b9d-8d0c-ba265072fa94.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Services.Business.Util/bin/Debug/net5.0/MicroserviceProject.Services.Business.Util.dll" />
+    <Path Id="5089ff92-6191-4129-a70e-9432a2c89bc6.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Services.Util\bin\Debug\net5.0\MicroserviceProject.Services.Util.dll" />
+    <Path Id="5089ff92-6191-4129-a70e-9432a2c89bc6.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Services.Util/bin/Debug/net5.0/MicroserviceProject.Services.Util.dll" />
+    <Path Id="56f2e56f-b35a-419d-aeac-66e301598438.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Services.UnitOfWork\bin\Debug\net5.0\MicroserviceProject.Services.UnitOfWork.dll" />
+    <Path Id="56f2e56f-b35a-419d-aeac-66e301598438.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Services.UnitOfWork/bin/Debug/net5.0/MicroserviceProject.Services.UnitOfWork.dll" />
+    <Path Id="65c99aa5-416d-4c65-97b9-1b00bbd565c9.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Services.Cache\bin\Debug\netcoreapp3.1\MicroserviceProject.Services.Cache.dll" />
+    <Path Id="65c99aa5-416d-4c65-97b9-1b00bbd565c9.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Services.Cache/bin/Debug/netcoreapp3.1/MicroserviceProject.Services.Cache.dll" />
+    <Path Id="6c91249c-c8c2-4392-8816-66704faea88e.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Services.Infrastructure.Authorization\bin\Debug\net5.0\MicroserviceProject.Services.Infrastructure.Authorization.dll" />
+    <Path Id="6c91249c-c8c2-4392-8816-66704faea88e.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Services.Infrastructure.Authorization/bin/Debug/net5.0/MicroserviceProject.Services.Infrastructure.Authorization.dll" />
     <Path Id="6ff6e9f6-0b0b-43a8-8767-4a6df86a7e83.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Infrastructure.Logging.File\bin\Debug\net5.0\MicroserviceProject.Infrastructure.Logging.File.dll" />
     <Path Id="6ff6e9f6-0b0b-43a8-8767-4a6df86a7e83.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Infrastructure.Logging.File/bin/Debug/net5.0/MicroserviceProject.Infrastructure.Logging.File.dll" />
-    <Path Id="724854b7-879e-4bb8-8e18-d6d8111a4c08.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Infrastructure.Communication.Model.Moderator\bin\Debug\net5.0\MicroserviceProject.Infrastructure.Communication.Model.Moderator.dll" />
-    <Path Id="724854b7-879e-4bb8-8e18-d6d8111a4c08.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Infrastructure.Communication.Model.Moderator/bin/Debug/net5.0/MicroserviceProject.Infrastructure.Communication.Model.Moderator.dll" />
-    <Path Id="888f7009-5ccf-4818-b9a9-9640cc4cf431.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Services.Business.Model\bin\Debug\net5.0\MicroserviceProject.Services.Business.Model.dll" />
-    <Path Id="888f7009-5ccf-4818-b9a9-9640cc4cf431.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Services.Business.Model/bin/Debug/net5.0/MicroserviceProject.Services.Business.Model.dll" />
-    <Path Id="8ac21323-9485-49f0-b1e5-2cc4bfa3d55f.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Services.Business.DI\bin\Debug\net5.0\MicroserviceProject.Services.Business.DI.dll" />
-    <Path Id="8ac21323-9485-49f0-b1e5-2cc4bfa3d55f.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Services.Business.DI/bin/Debug/net5.0/MicroserviceProject.Services.Business.DI.dll" />
     <Path Id="8de777e5-a0aa-4f59-a405-5f7a185a395b.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Infrastructure.Logging.RabbitMq\bin\Debug\net5.0\MicroserviceProject.Infrastructure.Logging.RabbitMq.dll" />
     <Path Id="8de777e5-a0aa-4f59-a405-5f7a185a395b.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Infrastructure.Logging.RabbitMq/bin/Debug/net5.0/MicroserviceProject.Infrastructure.Logging.RabbitMq.dll" />
-    <Path Id="96004afa-4b52-48a0-9abe-8fde77c522c9.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Infrastructure.Communication.Model.Http\bin\Debug\netcoreapp3.1\MicroserviceProject.Infrastructure.Communication.Model.Http.dll" />
-    <Path Id="96004afa-4b52-48a0-9abe-8fde77c522c9.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Infrastructure.Communication.Model.Http/bin/Debug/netcoreapp3.1/MicroserviceProject.Infrastructure.Communication.Model.Http.dll" />
+    <Path Id="964c3b50-e34b-4c5d-a715-a2806a9f24f1.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Services.Model\bin\Debug\net5.0\MicroserviceProject.Services.Model.dll" />
+    <Path Id="964c3b50-e34b-4c5d-a715-a2806a9f24f1.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Services.Model/bin/Debug/net5.0/MicroserviceProject.Services.Model.dll" />
     <Path Id="9d4a53d3-707f-4009-afee-0564ac5c8034.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Services.Business.Departments.AA\bin\Debug\net5.0\MicroserviceProject.Services.Business.Departments.AA.dll" />
     <Path Id="9d4a53d3-707f-4009-afee-0564ac5c8034.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Services.Business.Departments.AA/bin/Debug/net5.0/MicroserviceProject.Services.Business.Departments.AA.dll" />
     <Path Id="a70ca59e-7652-404a-b60f-253e4ef8d5b3.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Presentation.UI.WindowsForm\bin\Debug\MicroserviceProject.Presentation.UI.WindowsForm.exe" />
     <Path Id="a70ca59e-7652-404a-b60f-253e4ef8d5b3.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Presentation.UI.WindowsForm/bin/Debug/MicroserviceProject.Presentation.UI.WindowsForm.exe" />
-    <Path Id="a97e0504-9a2c-4096-a88b-6c4e62948f5e.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Infrastructure.Communication.Model\bin\Debug\net5.0\MicroserviceProject.Infrastructure.Communication.Model.dll" />
-    <Path Id="a97e0504-9a2c-4096-a88b-6c4e62948f5e.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Infrastructure.Communication.Model/bin/Debug/net5.0/MicroserviceProject.Infrastructure.Communication.Model.dll" />
-    <Path Id="ae2ca920-edad-4e2f-bba1-49f6ecde23f6.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Infrastructure.Persistence.Logging.Sql\bin\Debug\net5.0\MicroserviceProject.Infrastructure.Persistence.Logging.Sql.dll" />
-    <Path Id="ae2ca920-edad-4e2f-bba1-49f6ecde23f6.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Infrastructure.Persistence.Logging.Sql/bin/Debug/net5.0/MicroserviceProject.Infrastructure.Persistence.Logging.Sql.dll" />
+    <Path Id="ac1c23e9-364a-42f9-8308-9e2fb9b64c48.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Infrastructure.Cryptography\bin\Debug\net5.0\MicroserviceProject.Infrastructure.Cryptography.dll" />
+    <Path Id="ac1c23e9-364a-42f9-8308-9e2fb9b64c48.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Infrastructure.Cryptography/bin/Debug/net5.0/MicroserviceProject.Infrastructure.Cryptography.dll" />
     <Path Id="b8817c26-8465-4910-a4f6-4b6277ec5dec.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication\bin\Debug\net5.0\MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.dll" />
     <Path Id="b8817c26-8465-4910-a4f6-4b6277ec5dec.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication/bin/Debug/net5.0/MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.dll" />
     <Path Id="ba84773b-7932-4987-ae08-c0d33ec3339e.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Services.Infrastructure.Logging\bin\Debug\net5.0\MicroserviceProject.Services.Infrastructure.Logging.dll" />
     <Path Id="ba84773b-7932-4987-ae08-c0d33ec3339e.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Services.Infrastructure.Logging/bin/Debug/net5.0/MicroserviceProject.Services.Infrastructure.Logging.dll" />
-    <Path Id="c035a103-3266-471e-8cb5-aec8ff14740f.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Services.Configuration\bin\Debug\netcoreapp3.1\MicroserviceProject.Services.Configuration.dll" />
-    <Path Id="c035a103-3266-471e-8cb5-aec8ff14740f.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Services.Configuration/bin/Debug/netcoreapp3.1/MicroserviceProject.Services.Configuration.dll" />
     <Path Id="c1fdeab3-b2a2-4d90-a0ff-b4b25c2c6728.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Services.Business.Departments.HR\bin\Debug\net5.0\MicroserviceProject.Services.Business.Departments.HR.dll" />
     <Path Id="c1fdeab3-b2a2-4d90-a0ff-b4b25c2c6728.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Services.Business.Departments.HR/bin/Debug/net5.0/MicroserviceProject.Services.Business.Departments.HR.dll" />
-    <Path Id="c31d38dc-1e19-4d59-a59f-28745858befd.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Services.Security.Authorization\bin\Debug\net5.0\MicroserviceProject.Services.Security.Authorization.dll" />
-    <Path Id="c31d38dc-1e19-4d59-a59f-28745858befd.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Services.Security.Authorization/bin/Debug/net5.0/MicroserviceProject.Services.Security.Authorization.dll" />
     <Path Id="c8f79ac6-a105-4d4e-bb17-01eb5a95d1b0.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Infrastructure.Communication.Mq.Rabbit\bin\Debug\netcoreapp3.1\MicroserviceProject.Infrastructure.Communication.Mq.Rabbit.dll" />
     <Path Id="c8f79ac6-a105-4d4e-bb17-01eb5a95d1b0.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Infrastructure.Communication.Mq.Rabbit/bin/Debug/netcoreapp3.1/MicroserviceProject.Infrastructure.Communication.Mq.Rabbit.dll" />
-    <Path Id="cc6c6796-50db-46f3-a6bc-03669650ffbf.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Infrastructure.Cryptography.RSA\bin\Debug\net5.0\MicroserviceProject.Infrastructure.Cryptography.RSA.dll" />
-    <Path Id="cc6c6796-50db-46f3-a6bc-03669650ffbf.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Infrastructure.Cryptography.RSA/bin/Debug/net5.0/MicroserviceProject.Infrastructure.Cryptography.RSA.dll" />
-    <Path Id="cf140940-7ec5-45cd-a3f7-b34da3dd3307.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Services.DI\bin\Debug\net5.0\MicroserviceProject.Services.DI.dll" />
-    <Path Id="cf140940-7ec5-45cd-a3f7-b34da3dd3307.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Services.DI/bin/Debug/net5.0/MicroserviceProject.Services.DI.dll" />
     <Path Id="d0369510-c292-4c8a-8446-b54d63601b74.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Infrastructure.Caching.Redis\bin\Debug\netcoreapp3.1\MicroserviceProject.Infrastructure.Caching.Redis.dll" />
     <Path Id="d0369510-c292-4c8a-8446-b54d63601b74.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Infrastructure.Caching.Redis/bin/Debug/netcoreapp3.1/MicroserviceProject.Infrastructure.Caching.Redis.dll" />
-    <Path Id="d637f0d3-b619-4afd-817f-dbf4dc85f9fc.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Infrastructure.Cryptography.Model.Rijndael\bin\Debug\net5.0\MicroserviceProject.Infrastructure.Cryptography.Model.Rijndael.dll" />
-    <Path Id="d637f0d3-b619-4afd-817f-dbf4dc85f9fc.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Infrastructure.Cryptography.Model.Rijndael/bin/Debug/net5.0/MicroserviceProject.Infrastructure.Cryptography.Model.Rijndael.dll" />
-    <Path Id="d6a7e796-2e24-4917-997e-e3b77415b7b0.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Infrastructure.Persistence.ServiceRoutes.Sql\bin\Debug\net5.0\MicroserviceProject.Infrastructure.Persistence.ServiceRoutes.Sql.dll" />
-    <Path Id="d6a7e796-2e24-4917-997e-e3b77415b7b0.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Infrastructure.Persistence.ServiceRoutes.Sql/bin/Debug/net5.0/MicroserviceProject.Infrastructure.Persistence.ServiceRoutes.Sql.dll" />
     <Path Id="e16709af-25bf-474b-8c64-55eca0db0f8b.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Infrastructure.Security.Model\bin\Debug\net5.0\MicroserviceProject.Infrastructure.Security.Model.dll" />
     <Path Id="e16709af-25bf-474b-8c64-55eca0db0f8b.OutputPathUri" Value="file:///D:/GitHub/microserviceproject/MicroserviceProject/MicroserviceProject.Infrastructure.Security.Model/bin/Debug/net5.0/MicroserviceProject.Infrastructure.Security.Model.dll" />
     <Path Id="ebca1d84-8375-4af7-b596-9074784cfb3e.OutputPath" Value="D:\GitHub\microserviceproject\MicroserviceProject\MicroserviceProject.Services.Business.Departments.BT\bin\Debug\net5.0\MicroserviceProject.Services.Business.Departments.IT.dll" />
