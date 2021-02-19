@@ -127,7 +127,10 @@ namespace MicroserviceProject.Infrastructure.Caching.Redis
         /// <param name="item">Eklenecek nesne</param>
         public void Set<T>(string key, T item)
         {
-            this._database.StringSet(key, JsonConvert.SerializeObject(item));
+            this._database.StringSet(
+                key: key,
+                value: JsonConvert.SerializeObject(item),
+                expiry: new TimeSpan(hours: 0, minutes: 15, seconds: 0));
         }
 
         /// <summary>
@@ -181,7 +184,7 @@ namespace MicroserviceProject.Infrastructure.Caching.Redis
             {
                 if (!disposed)
                 {
-                    
+
                 }
 
                 disposed = true;
