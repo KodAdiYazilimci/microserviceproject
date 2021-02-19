@@ -1,4 +1,4 @@
-﻿namespace MicroserviceProject.Infrastructure.Communication.Model.Http
+﻿namespace MicroserviceProject.Infrastructure.Communication.Http.Models
 {
     /// <summary>
     /// Http isteğin QueryString parametreleri

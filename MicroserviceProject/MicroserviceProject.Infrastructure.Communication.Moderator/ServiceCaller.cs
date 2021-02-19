@@ -1,7 +1,7 @@
-﻿using MicroserviceProject.Infrastructure.Communication.Http.Providers;
+﻿using MicroserviceProject.Infrastructure.Communication.Http.Models;
+using MicroserviceProject.Infrastructure.Communication.Http.Providers;
 using MicroserviceProject.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Infrastructure.Communication.Model.Errors;
-using MicroserviceProject.Infrastructure.Communication.Model.Http;
 using MicroserviceProject.Infrastructure.Communication.Model.Moderator;
 
 using Microsoft.Extensions.Caching.Memory;
