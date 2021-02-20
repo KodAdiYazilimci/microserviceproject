@@ -95,7 +95,7 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Repositories.Sql
                                                      (@HR_WORKERS_ID,
                                                       @AA_INVENTORIES_ID,
                                                       @FROM_DATE,
-                                                      @TO_DATE)
+                                                      @TO_DATE);
                                                      SELECT CAST(scope_identity() AS int)",
                                                      UnitOfWork.SqlConnection,
                                                      UnitOfWork.SqlTransaction);

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -125,6 +126,8 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Repositories.Sql
         {
             List<InventoryEntity> inventories = new List<InventoryEntity>();
 
+            string inQuery = inventoryIds.Any() ? string.Join(',', inventoryIds) : "0";
+
             SqlCommand sqlCommand = new SqlCommand(@"SELECT 
                                                      [ID],
                                                      [NAME]
@@ -132,11 +135,9 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Repositories.Sql
                                                      WHERE 
                                                      DELETE_DATE IS NULL
                                                      AND
-                                                     ID IN @IDS",
+                                                     ID IN ("+inQuery+")",
                                                      UnitOfWork.SqlConnection,
                                                      UnitOfWork.SqlTransaction);
-
-            sqlCommand.Parameters.AddWithValue("@IDS",((object)string.Join(',', inventoryIds)) ?? DBNull.Value);
 
             sqlCommand.Transaction = UnitOfWork.SqlTransaction;
 

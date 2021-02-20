@@ -207,10 +207,10 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Services
 
             foreach (var inventoryModel in worker.ITInventories)
             {
-                inventoryModel.Id = await _workerInventoryRepository.CreateAsync(new WorkerInventoryEntity
+                await _workerInventoryRepository.CreateAsync(new WorkerInventoryEntity
                 {
-                    FromDate = inventoryModel.FromDate,
-                    ToDate = inventoryModel.ToDate,
+                    FromDate = worker.FromDate,
+                    ToDate = worker.ToDate,
                     InventoryId = inventoryModel.Id,
                     WorkerId = worker.Id
                 }, cancellationToken);

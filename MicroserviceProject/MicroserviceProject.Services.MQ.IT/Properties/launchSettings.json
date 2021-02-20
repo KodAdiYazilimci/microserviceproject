@@ -7,7 +7,7 @@
       "sslPort": 0
     },
     "iisExpress": {
-      "applicationUrl": "http://localhost:61273",
+      "applicationUrl": "http://localhost/MicroserviceProject.Services.MQ.IT",
       "sslPort": 0
     }
   },
@@ -17,23 +17,20 @@
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "sqlDebugging": true,
+      "nativeDebugging": true
     },
     "MicroserviceProject.Services.MQ.IT": {
-      "commandName": "Project",
+      "commandName": "IIS",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
+      "sqlDebugging": true,
       "dotnetRunMessages": "true",
-      "applicationUrl": "http://localhost:5000"
-    },
-    "IIS": {
-      "commandName": "IIS",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "nativeDebugging": true
+      "nativeDebugging": true,
+      "applicationUrl": "http://localhost:5002"
     }
   }
 }
