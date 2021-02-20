@@ -44,24 +44,34 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             this.lstKisiler = new System.Windows.Forms.ListBox();
             this.btnKisileriGetir = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.btnITYeniBaslayanEnvanterOlustur = new System.Windows.Forms.Button();
+            this.lstITYeniBaslayanEnvanterleri = new System.Windows.Forms.ListBox();
+            this.btnITYeniBaslayanEnvanterGetir = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.btnEnvanterOlustur = new System.Windows.Forms.Button();
             this.lstEnvanterler = new System.Windows.Forms.ListBox();
             this.btnEnvanterleriGetir = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.btnIdariIslerEnventerOlustur = new System.Windows.Forms.Button();
             this.lstIdariIslerEnvanterler = new System.Windows.Forms.ListBox();
             this.btnIdariIslerEnvanterleriGetir = new System.Windows.Forms.Button();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.btnAAYeniBaslayanEnvanterOlustur = new System.Windows.Forms.Button();
+            this.lstAAYeniBaslayanEnvanterleri = new System.Windows.Forms.ListBox();
+            this.btnAAYeniBaslayanEnvanterleriGetir = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.groupBox5.SuspendLayout();
+            this.groupBox7.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -210,6 +220,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.groupBox6);
             this.tabPage2.Controls.Add(this.groupBox4);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
@@ -218,6 +229,46 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "IT";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.btnITYeniBaslayanEnvanterOlustur);
+            this.groupBox6.Controls.Add(this.lstITYeniBaslayanEnvanterleri);
+            this.groupBox6.Controls.Add(this.btnITYeniBaslayanEnvanterGetir);
+            this.groupBox6.Location = new System.Drawing.Point(244, 7);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(232, 386);
+            this.groupBox6.TabIndex = 2;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Yeni Başlayan Envanterleri";
+            // 
+            // btnITYeniBaslayanEnvanterOlustur
+            // 
+            this.btnITYeniBaslayanEnvanterOlustur.Location = new System.Drawing.Point(143, 19);
+            this.btnITYeniBaslayanEnvanterOlustur.Name = "btnITYeniBaslayanEnvanterOlustur";
+            this.btnITYeniBaslayanEnvanterOlustur.Size = new System.Drawing.Size(75, 23);
+            this.btnITYeniBaslayanEnvanterOlustur.TabIndex = 2;
+            this.btnITYeniBaslayanEnvanterOlustur.Text = "Env. Oluştur";
+            this.btnITYeniBaslayanEnvanterOlustur.UseVisualStyleBackColor = true;
+            this.btnITYeniBaslayanEnvanterOlustur.Click += new System.EventHandler(this.btnITYeniBaslayanEnvanterOlustur_Click);
+            // 
+            // lstITYeniBaslayanEnvanterleri
+            // 
+            this.lstITYeniBaslayanEnvanterleri.FormattingEnabled = true;
+            this.lstITYeniBaslayanEnvanterleri.Location = new System.Drawing.Point(7, 49);
+            this.lstITYeniBaslayanEnvanterleri.Name = "lstITYeniBaslayanEnvanterleri";
+            this.lstITYeniBaslayanEnvanterleri.Size = new System.Drawing.Size(216, 329);
+            this.lstITYeniBaslayanEnvanterleri.TabIndex = 1;
+            // 
+            // btnITYeniBaslayanEnvanterGetir
+            // 
+            this.btnITYeniBaslayanEnvanterGetir.Location = new System.Drawing.Point(6, 19);
+            this.btnITYeniBaslayanEnvanterGetir.Name = "btnITYeniBaslayanEnvanterGetir";
+            this.btnITYeniBaslayanEnvanterGetir.Size = new System.Drawing.Size(131, 23);
+            this.btnITYeniBaslayanEnvanterGetir.TabIndex = 0;
+            this.btnITYeniBaslayanEnvanterGetir.Text = "Envanterleri Getir";
+            this.btnITYeniBaslayanEnvanterGetir.UseVisualStyleBackColor = true;
+            this.btnITYeniBaslayanEnvanterGetir.Click += new System.EventHandler(this.btnYeniBaslayanEnvanterGetir_Click);
             // 
             // groupBox4
             // 
@@ -261,6 +312,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.groupBox7);
             this.tabPage3.Controls.Add(this.groupBox5);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
@@ -269,6 +321,18 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "İdari İşler";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.btnIdariIslerEnventerOlustur);
+            this.groupBox5.Controls.Add(this.lstIdariIslerEnvanterler);
+            this.groupBox5.Controls.Add(this.btnIdariIslerEnvanterleriGetir);
+            this.groupBox5.Location = new System.Drawing.Point(6, 7);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(232, 386);
+            this.groupBox5.TabIndex = 2;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Envanterler";
             // 
             // btnIdariIslerEnventerOlustur
             // 
@@ -298,17 +362,45 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             this.btnIdariIslerEnvanterleriGetir.UseVisualStyleBackColor = true;
             this.btnIdariIslerEnvanterleriGetir.Click += new System.EventHandler(this.btnIdariIslerEnvanterleriGetir_Click);
             // 
-            // groupBox5
+            // groupBox7
             // 
-            this.groupBox5.Controls.Add(this.btnIdariIslerEnventerOlustur);
-            this.groupBox5.Controls.Add(this.lstIdariIslerEnvanterler);
-            this.groupBox5.Controls.Add(this.btnIdariIslerEnvanterleriGetir);
-            this.groupBox5.Location = new System.Drawing.Point(6, 7);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(232, 386);
-            this.groupBox5.TabIndex = 2;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Envanterler";
+            this.groupBox7.Controls.Add(this.btnAAYeniBaslayanEnvanterOlustur);
+            this.groupBox7.Controls.Add(this.lstAAYeniBaslayanEnvanterleri);
+            this.groupBox7.Controls.Add(this.btnAAYeniBaslayanEnvanterleriGetir);
+            this.groupBox7.Location = new System.Drawing.Point(244, 6);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(232, 386);
+            this.groupBox7.TabIndex = 3;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Envanterler";
+            // 
+            // btnAAYeniBaslayanEnvanterOlustur
+            // 
+            this.btnAAYeniBaslayanEnvanterOlustur.Location = new System.Drawing.Point(143, 19);
+            this.btnAAYeniBaslayanEnvanterOlustur.Name = "btnAAYeniBaslayanEnvanterOlustur";
+            this.btnAAYeniBaslayanEnvanterOlustur.Size = new System.Drawing.Size(75, 23);
+            this.btnAAYeniBaslayanEnvanterOlustur.TabIndex = 2;
+            this.btnAAYeniBaslayanEnvanterOlustur.Text = "Env. Oluştur";
+            this.btnAAYeniBaslayanEnvanterOlustur.UseVisualStyleBackColor = true;
+            this.btnAAYeniBaslayanEnvanterOlustur.Click += new System.EventHandler(this.btnAAYeniBaslayanEnvanterOlustur_Click);
+            // 
+            // lstAAYeniBaslayanEnvanterleri
+            // 
+            this.lstAAYeniBaslayanEnvanterleri.FormattingEnabled = true;
+            this.lstAAYeniBaslayanEnvanterleri.Location = new System.Drawing.Point(7, 49);
+            this.lstAAYeniBaslayanEnvanterleri.Name = "lstAAYeniBaslayanEnvanterleri";
+            this.lstAAYeniBaslayanEnvanterleri.Size = new System.Drawing.Size(216, 329);
+            this.lstAAYeniBaslayanEnvanterleri.TabIndex = 1;
+            // 
+            // btnAAYeniBaslayanEnvanterleriGetir
+            // 
+            this.btnAAYeniBaslayanEnvanterleriGetir.Location = new System.Drawing.Point(6, 19);
+            this.btnAAYeniBaslayanEnvanterleriGetir.Name = "btnAAYeniBaslayanEnvanterleriGetir";
+            this.btnAAYeniBaslayanEnvanterleriGetir.Size = new System.Drawing.Size(131, 23);
+            this.btnAAYeniBaslayanEnvanterleriGetir.TabIndex = 0;
+            this.btnAAYeniBaslayanEnvanterleriGetir.Text = "Envanterleri Getir";
+            this.btnAAYeniBaslayanEnvanterleriGetir.UseVisualStyleBackColor = true;
+            this.btnAAYeniBaslayanEnvanterleriGetir.Click += new System.EventHandler(this.btnAAYeniBaslayanEnvanterleriGetir_Click);
             // 
             // Form1
             // 
@@ -325,9 +417,11 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             this.groupBox2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
+            this.groupBox6.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
+            this.groupBox7.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -358,6 +452,14 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
         private System.Windows.Forms.Button btnIdariIslerEnventerOlustur;
         private System.Windows.Forms.ListBox lstIdariIslerEnvanterler;
         private System.Windows.Forms.Button btnIdariIslerEnvanterleriGetir;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.Button btnITYeniBaslayanEnvanterOlustur;
+        private System.Windows.Forms.ListBox lstITYeniBaslayanEnvanterleri;
+        private System.Windows.Forms.Button btnITYeniBaslayanEnvanterGetir;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.Button btnAAYeniBaslayanEnvanterOlustur;
+        private System.Windows.Forms.ListBox lstAAYeniBaslayanEnvanterleri;
+        private System.Windows.Forms.Button btnAAYeniBaslayanEnvanterleriGetir;
     }
 }
 

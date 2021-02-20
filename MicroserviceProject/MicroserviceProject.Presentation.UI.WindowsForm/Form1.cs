@@ -334,5 +334,107 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
 
             createInventoryForm.ShowDialog();
         }
+
+        private void btnYeniBaslayanEnvanterGetir_Click(object sender, EventArgs e)
+        {
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+
+            lstITYeniBaslayanEnvanterleri.Items.Clear();
+
+            try
+            {
+                Task.Run(async delegate
+                {
+                    ServiceResult<List<InventoryModel>> inventoryServiceResult =
+                        await _serviceCommunicator.Call<List<InventoryModel>>(
+                            serviceName: _routeNameProvider.IT_GetInventoriesForNewWorker,
+                            postData: null,
+                            queryParameters: null,
+                            cancellationToken: cancellationTokenSource.Token);
+
+                    if (inventoryServiceResult.IsSuccess)
+                    {
+                        foreach (var inventory in inventoryServiceResult.Data)
+                        {
+                            lstITYeniBaslayanEnvanterleri.Items.Add(inventory);
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception(inventoryServiceResult.Error.Description);
+                    }
+                },
+                cancellationToken: cancellationTokenSource.Token).Wait();
+            }
+            catch (Exception ex)
+            {
+                cancellationTokenSource.Cancel();
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void btnITYeniBaslayanEnvanterOlustur_Click(object sender, EventArgs e)
+        {
+            Dialogs.IT.CreateInventoryForNewWorkerForm createInventoryForm =
+            new Dialogs.IT.CreateInventoryForNewWorkerForm(
+                _credentialProvider,
+                _memoryCache,
+                _routeNameProvider,
+                _serviceCommunicator,
+                _serviceRouteRepository);
+
+            createInventoryForm.ShowDialog();
+        }
+
+        private void btnAAYeniBaslayanEnvanterleriGetir_Click(object sender, EventArgs e)
+        {
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+
+            lstAAYeniBaslayanEnvanterleri.Items.Clear();
+
+            try
+            {
+                Task.Run(async delegate
+                {
+                    ServiceResult<List<InventoryModel>> inventoryServiceResult =
+                        await _serviceCommunicator.Call<List<InventoryModel>>(
+                            serviceName: _routeNameProvider.AA_GetInventoriesForNewWorker,
+                            postData: null,
+                            queryParameters: null,
+                            cancellationToken: cancellationTokenSource.Token);
+
+                    if (inventoryServiceResult.IsSuccess)
+                    {
+                        foreach (var inventory in inventoryServiceResult.Data)
+                        {
+                            lstAAYeniBaslayanEnvanterleri.Items.Add(inventory);
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception(inventoryServiceResult.Error.Description);
+                    }
+                },
+                cancellationToken: cancellationTokenSource.Token).Wait();
+            }
+            catch (Exception ex)
+            {
+                cancellationTokenSource.Cancel();
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void btnAAYeniBaslayanEnvanterOlustur_Click(object sender, EventArgs e)
+        {
+            Dialogs.AA.CreateInventoryForNewWorkerForm createInventoryForm =
+                new Dialogs.AA.CreateInventoryForNewWorkerForm(
+                    _credentialProvider,
+                    _memoryCache,
+                    _routeNameProvider,
+                    _serviceCommunicator,
+                    _serviceRouteRepository);
+
+            createInventoryForm.ShowDialog();
+        }
     }
 }

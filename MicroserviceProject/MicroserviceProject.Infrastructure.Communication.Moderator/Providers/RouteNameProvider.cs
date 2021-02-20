@@ -309,6 +309,23 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator.Providers
             }
         }
 
+
+        /// <summary>
+        /// Yeni çalışan için varsayılan IT envanteri ataması yapar
+        /// </summary>
+        public string IT_CreateDefaultInventoryForNewWorker
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("IT")
+                    .GetSection("CreateDefaultInventoryForNewWorker").Value;
+            }
+        }
+
         /// <summary>
         /// İdari işler envanterlerini verir
         /// </summary>

@@ -2,6 +2,7 @@
 using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Errors;
 using MicroserviceProject.Services.Business.Departments.AA.Services;
 using MicroserviceProject.Services.Business.Departments.AA.Util.Validation.Inventory.AssignInventoryToWorker;
+using MicroserviceProject.Services.Business.Departments.AA.Util.Validation.Inventory.CreateDefaultInventoryForNewWorker;
 using MicroserviceProject.Services.Business.Departments.AA.Util.Validation.Inventory.CreateInventory;
 using MicroserviceProject.Services.Model.Department.AA;
 using MicroserviceProject.Services.Model.Department.HR;
@@ -110,6 +111,41 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Controllers
                 {
                     IsSuccess = true,
                     Data = generatedWorker
+                };
+
+                return Ok(serviceResult);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ServiceResult()
+                {
+                    IsSuccess = false,
+                    Error = new Error() { Description = ex.ToString() }
+                });
+            }
+        }
+
+
+        [HttpPost]
+        [Route(nameof(CreateDefaultInventoryForNewWorker))]
+        public async Task<IActionResult> CreateDefaultInventoryForNewWorker([FromBody] InventoryModel inventory, CancellationToken cancellationToken)
+        {
+            try
+            {
+                ServiceResult validationResult =
+                    await CreateDefaultInventoryForNewWorkerValidator.ValidateAsync(inventory, cancellationToken);
+
+                if (!validationResult.IsSuccess)
+                {
+                    return BadRequest(validationResult);
+                }
+
+                InventoryModel generatedInventory = await _inventoryService.CreateDefaultInventoryForNewWorkerAsync(inventory, cancellationToken);
+
+                ServiceResult<InventoryModel> serviceResult = new ServiceResult<InventoryModel>()
+                {
+                    IsSuccess = true,
+                    Data = generatedInventory
                 };
 
                 return Ok(serviceResult);

@@ -114,6 +114,12 @@
     <Compile Include="Dialogs\AA\CreateInventoryForm.Designer.cs">
       <DependentUpon>CreateInventoryForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\AA\CreateInventoryForNewWorkerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\AA\CreateInventoryForNewWorkerForm.Designer.cs">
+      <DependentUpon>CreateInventoryForNewWorkerForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\HR\CreatePersonForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -125,6 +131,12 @@
     </Compile>
     <Compile Include="Dialogs\HR\CreateWorkerForm.Designer.cs">
       <DependentUpon>CreateWorkerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\IT\CreateInventoryForNewWorkerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\IT\CreateInventoryForNewWorkerForm.Designer.cs">
+      <DependentUpon>CreateInventoryForNewWorkerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\IT\CreateInventoryForm.cs">
       <SubType>Form</SubType>
@@ -163,11 +175,17 @@
     <EmbeddedResource Include="Dialogs\AA\CreateInventoryForm.resx">
       <DependentUpon>CreateInventoryForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\AA\CreateInventoryForNewWorkerForm.resx">
+      <DependentUpon>CreateInventoryForNewWorkerForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\HR\CreatePersonForm.resx">
       <DependentUpon>CreatePersonForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\HR\CreateWorkerForm.resx">
       <DependentUpon>CreateWorkerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\IT\CreateInventoryForNewWorkerForm.resx">
+      <DependentUpon>CreateInventoryForNewWorkerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\IT\CreateInventoryForm.resx">
       <DependentUpon>CreateInventoryForm.cs</DependentUpon>

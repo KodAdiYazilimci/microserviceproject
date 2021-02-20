@@ -126,5 +126,37 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Repositories.Sql
                 disposed = true;
             }
         }
+
+        /// <summary>
+        /// Bir envanterin yeni çalışanlar için varsayılan olup olmadığı bilgisini verir
+        /// </summary>
+        /// <param name="inventoryId">Denetlenecek envanterin Id değeri</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<bool> CheckExistAsync(int inventoryId, CancellationToken cancellationToken)
+        {
+            SqlCommand sqlCommand = new SqlCommand(@"SELECT
+                                                     ID
+                                                     FROM [dbo].[AA_INVENTORIES_DEFAULTS]
+                                                     WHERE DELETE_DATE IS NULL
+                                                     AND
+                                                     FOR_NEW_WORKER = 1
+                                                     AND
+                                                     AA_INVENTORIES_ID_INVENTORYID = @INVENTORY_ID",
+                                                     UnitOfWork.SqlConnection,
+                                                     UnitOfWork.SqlTransaction);
+
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+            sqlCommand.Parameters.AddWithValue("@INVENTORY_ID", ((object)inventoryId) ?? DBNull.Value);
+
+            SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationToken);
+
+            bool exists = sqlDataReader.HasRows;
+
+            await sqlDataReader.DisposeAsync();
+
+            return exists;
+        }
     }
 }

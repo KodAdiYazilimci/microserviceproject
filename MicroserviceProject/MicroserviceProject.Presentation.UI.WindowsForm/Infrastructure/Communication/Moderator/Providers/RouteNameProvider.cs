@@ -216,7 +216,6 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moder
             }
         }
 
-
         /// <summary>
         /// IT envanterlerini verir
         /// </summary>
@@ -227,6 +226,20 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moder
                 return
                     ConfigurationManager
                     .AppSettings["Services.Endpoints.IT.GetInventories"]
+                    .ToString();
+            }
+        }
+
+        /// <summary>
+        /// İşe yeni başlayan çalışanlar için IT envanterlerini verir
+        /// </summary>
+        public string IT_GetInventoriesForNewWorker
+        {
+            get
+            {
+                return
+                    ConfigurationManager
+                    .AppSettings["Services.Endpoints.IT.GetInventoriesForNewWorker"]
                     .ToString();
             }
         }
@@ -260,6 +273,20 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moder
         }
 
         /// <summary>
+        /// Yeni çalışan için varsayılan IT envanteri ataması yapar
+        /// </summary>
+        public string IT_CreateDefaultInventoryForNewWorker
+        {
+            get
+            {
+                return
+                    ConfigurationManager
+                    .AppSettings["Services.Endpoints.IT.CreateDefaultInventoryForNewWorker"]
+                    .ToString();
+            }
+        }
+
+        /// <summary>
         /// İdari işler envanterlerini verir
         /// </summary>
         public string AA_GetInventories
@@ -269,6 +296,20 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moder
                 return
                     ConfigurationManager
                     .AppSettings["Services.Endpoints.AA.GetInventories"]
+                    .ToString();
+            }
+        }
+
+        /// <summary>
+        /// İşe yeni başlayan çalışanlar için İdari işler envanterlerini verir
+        /// </summary>
+        public string AA_GetInventoriesForNewWorker
+        {
+            get
+            {
+                return
+                    ConfigurationManager
+                    .AppSettings["Services.Endpoints.AA.GetInventoriesForNewWorker"]
                     .ToString();
             }
         }
@@ -297,6 +338,20 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moder
                 return
                     ConfigurationManager
                     .AppSettings["Services.Endpoints.AA.AssignInventoryToWorker"]
+                    .ToString();
+            }
+        }
+
+        /// <summary>
+        /// Yeni çalışan için varsayılan idari işler envanteri ataması yapar
+        /// </summary>
+        public string AA_CreateDefaultInventoryForNewWorker
+        {
+            get
+            {
+                return
+                    ConfigurationManager
+                    .AppSettings["Services.Endpoints.AA.CreateDefaultInventoryForNewWorker"]
                     .ToString();
             }
         }

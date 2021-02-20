@@ -135,16 +135,50 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Services
                 cachedInventories.Add(inventory);
                 _cacheDataProvider.Set(CACHED_INVENTORIES_KEY, cachedInventories);
             }
-            else
-            {
-                List<InventoryModel> inventories = await GetInventoriesAsync(cancellationToken);
-
-                inventories.Add(inventory);
-
-                _cacheDataProvider.Set(CACHED_INVENTORIES_KEY, inventories);
-            }
 
             return createdInventoryId;
+        }
+
+        /// <summary>
+        /// Yeni çalışan için varsayılan envanter ataması yapar
+        /// </summary>
+        /// <param name="inventory">Atanacak envanter</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<InventoryModel> CreateDefaultInventoryForNewWorkerAsync(InventoryModel inventory, CancellationToken cancellationToken)
+        {
+            List<InventoryModel> existingInventories = await GetInventoriesAsync(cancellationToken);
+
+            if (!existingInventories.Any(x => x.Id == inventory.Id))
+            {
+                throw new Exception("Id ye ait envanter bulunamadı");
+            }
+
+            if (await _inventoryDefaultsRepository.CheckExistAsync(inventory.Id, cancellationToken))
+            {
+                throw new Exception("Bu envanter zaten atanmış");
+            }
+
+            await _inventoryDefaultsRepository.CreateAsync(
+                 inventoryDefault: new InventoryDefaultsEntity()
+                 {
+                     InventoryId = inventory.Id,
+                     ForNewWorker = true
+                 },
+                 cancellationToken: cancellationToken);
+
+            await _unitOfWork.SaveAsync(cancellationToken);
+
+            if (_cacheDataProvider.TryGetValue(CACHED_INVENTORIES_DEFAULTS_KEY, out List<InventoryModel> cachedInventories)
+                  &&
+                  cachedInventories != null && cachedInventories.Any())
+            {
+                cachedInventories.Add(existingInventories.FirstOrDefault(x => x.Id == inventory.Id));
+
+                _cacheDataProvider.Set(CACHED_INVENTORIES_DEFAULTS_KEY, cachedInventories);
+            }
+
+            return inventory;
         }
 
         /// <summary>
