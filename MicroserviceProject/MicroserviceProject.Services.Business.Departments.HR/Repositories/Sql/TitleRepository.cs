@@ -97,6 +97,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
         public void Dispose()
         {
             Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>

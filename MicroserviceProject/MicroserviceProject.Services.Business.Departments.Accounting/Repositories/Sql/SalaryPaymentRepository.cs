@@ -157,6 +157,7 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositor
         public void Dispose()
         {
             Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>

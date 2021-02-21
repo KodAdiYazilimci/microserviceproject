@@ -108,6 +108,7 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Repositories.Sql
         public void Dispose()
         {
             Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>

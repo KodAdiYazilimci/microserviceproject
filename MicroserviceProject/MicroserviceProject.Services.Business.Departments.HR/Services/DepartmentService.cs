@@ -131,6 +131,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
         public void Dispose()
         {
             Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>

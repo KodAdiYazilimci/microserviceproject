@@ -96,6 +96,7 @@ namespace MicroserviceProject.Services.UnitOfWork
         public void Dispose()
         {
             Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>

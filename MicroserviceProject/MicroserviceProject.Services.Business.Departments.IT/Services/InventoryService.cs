@@ -268,6 +268,7 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Services
         public void Dispose()
         {
             Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>

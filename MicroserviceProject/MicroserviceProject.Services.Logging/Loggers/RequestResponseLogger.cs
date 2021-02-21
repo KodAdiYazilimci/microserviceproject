@@ -58,6 +58,7 @@ namespace MicroserviceProject.Services.Logging.Loggers
         public void Dispose()
         {
             Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
