@@ -1,4 +1,5 @@
 ﻿using MicroserviceProject.Services.Business.Departments.AA.Entities.Sql;
+using MicroserviceProject.Services.Transaction;
 using MicroserviceProject.Services.UnitOfWork;
 
 using System;
@@ -14,7 +15,7 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Repositories.Sql
     /// <summary>
     /// Envanter tablosu için repository sınıfı
     /// </summary>
-    public class InventoryRepository : BaseRepository<InventoryEntity>, IDisposable
+    public class InventoryRepository : BaseRepository<InventoryEntity>, IRollbackableDataAsync<int>, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -164,6 +165,72 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Repositories.Sql
             }
 
             return inventories;
+        }
+
+        /// <summary>
+        /// Bir Id değerine sahip envanteri silindi olarak işaretler
+        /// </summary>
+        /// <param name="id">Silindi olarak işaretlenecek envanterin Id değeri</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<int> DeleteAsync(int id, CancellationToken cancellationToken)
+        {
+            SqlCommand sqlCommand = new SqlCommand(@"UPDATE [dbo].[AA_INVENTORIES]
+                                                     SET DELETE_DATE = GETDATE()
+                                                     WHERE ID = @ID",
+                                                     UnitOfWork.SqlConnection,
+                                                     UnitOfWork.SqlTransaction);
+
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+            sqlCommand.Parameters.AddWithValue("@ID", id);
+
+            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// Silindi olarak işaretlenmiş bir envanter kaydının işaretini kaldırır
+        /// </summary>
+        /// <param name="id">Silindi işareti kaldırılacak envanter kaydının Id değeri</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<int> UnDeleteAsync(int id, CancellationToken cancellationToken)
+        {
+            SqlCommand sqlCommand = new SqlCommand(@"UPDATE [dbo].[AA_INVENTORIES]
+                                                     SET DELETE_DATE = NULL
+                                                     WHERE ID = @ID",
+                                                              UnitOfWork.SqlConnection,
+                                                              UnitOfWork.SqlTransaction);
+
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+            sqlCommand.Parameters.AddWithValue("@ID", id);
+
+            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// Bir envanter kaydındaki bir kolon değerini değiştirir
+        /// </summary>
+        /// <param name="id">Değeri değiştirilecek envanterin Id değeri</param>
+        /// <param name="name">Değeri değiştirilecek kolonun adı</param>
+        /// <param name="value">Yeni değer</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<int> SetAsync(int id, string name, object value, CancellationToken cancellationToken)
+        {
+            SqlCommand sqlCommand = new SqlCommand($@"UPDATE [dbo].[AA_INVENTORIES]
+                                                      SET {name.ToUpper()} = @VALUE
+                                                      WHERE ID = @ID",
+                                                                  UnitOfWork.SqlConnection,
+                                                                  UnitOfWork.SqlTransaction);
+
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+            sqlCommand.Parameters.AddWithValue("@ID", id);
+            sqlCommand.Parameters.AddWithValue("@VALUE", value);
+
+            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
         }
     }
 }

@@ -18,6 +18,7 @@
     <ProjectReference Include="..\MicroserviceProject.Services.Cache\MicroserviceProject.Services.Cache.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Services.Communication\MicroserviceProject.Services.Communication.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Services.Logging\MicroserviceProject.Services.Logging.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Services.Transaction\MicroserviceProject.Services.Transaction.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Services.UnitOfWork\MicroserviceProject.Services.UnitOfWork.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Services.Util\MicroserviceProject.Services.Util.csproj" />
   </ItemGroup>
