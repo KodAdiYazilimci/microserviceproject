@@ -339,7 +339,7 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
         {
             RollbackEntity rollbackEntity = _mapper.Map<RollbackModel, RollbackEntity>(rollback);
 
-            List<RollbackItemEntity> rollbackItemEntities = _mapper.Map<List<RollbackItemModel>, List<RollbackItemEntity>>(rollback.RollbackItems.ToList());
+            List<RollbackItemEntity> rollbackItemEntities = _mapper.Map<List<RollbackItemModel>, List<RollbackItemEntity>>(rollback.RollbackItems);
 
             foreach (var rollbackItemEntity in rollbackItemEntities)
             {
@@ -361,7 +361,7 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
         {
             foreach (var rollbackItem in rollback.RollbackItems)
             {
-                if (rollbackItem.DataSet?.ToString() == "[dbo].[AA_INVENTORIES]")
+                if (rollbackItem.DataSet?.ToString() == InventoryRepository.TABLE_NAME)
                 {
                     if (rollbackItem.RollbackType == RollbackType.Delete)
                     {
