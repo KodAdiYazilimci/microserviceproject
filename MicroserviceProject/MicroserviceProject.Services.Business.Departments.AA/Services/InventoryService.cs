@@ -158,7 +158,7 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
                         new RollbackItemModel()
                         {
                             Identity = createdInventoryId,
-                            DataSet = "[dbo].[AA_INVENTORIES]",
+                            DataSet = InventoryRepository.TABLE_NAME,
                             RollbackType = RollbackType.Delete
                         }
                     }
