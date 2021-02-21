@@ -1,4 +1,5 @@
 ﻿using MicroserviceProject.Services.Business.Departments.AA.Entities.Sql;
+using MicroserviceProject.Services.Transaction;
 using MicroserviceProject.Services.UnitOfWork;
 
 using System;
@@ -14,12 +15,17 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Repositories.Sql
     /// <summary>
     /// İdari işler işlem tablosu için repository sınıfı
     /// </summary>
-    public class TransactionItemRepository : BaseRepository<RollbackItemEntity>, IDisposable
+    public class TransactionItemRepository : BaseRepository<RollbackItemEntity>, IRollbackableDataAsync<int>, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
         private bool disposed = false;
+
+        /// <summary>
+        /// Repositorynin ait olduğu tablonun adı
+        /// </summary>
+        public const string TABLE_NAME = "[dbo].[AA_TRANSACTIONS_ITEMS]";
 
         /// <summary>
         /// İdari işler işlem tablosu için repository sınıfı
@@ -38,23 +44,23 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Repositories.Sql
         /// <param name="cancellationToken">İptal tokenı</param>
         public override async Task<int> CreateAsync(RollbackItemEntity entity, CancellationToken cancellationToken)
         {
-            SqlCommand sqlCommand = new SqlCommand(@"INSERT INTO [dbo].[AA_TRANSACTIONS_ITEMS]
-                                                    ([ROLLBACK_TYPE],
-                                                     [NAME],
-                                                     [DATASET],
-                                                     [IDENTITY],
-                                                     [OLD_VALUE],
-                                                     [NEW_VALUE],
-                                                     [IS_ROLLED_BACK])
-                                                    VALUES(
-                                                     @ROLLBACK_TYPE,
-                                                     @NAME,
-                                                     @DATASET,
-                                                     @IDENTITY,
-                                                     @OLD_VALUE,
-                                                     @NEW_VALUE,
-                                                     @IS_ROLLED_BACK);
-                                                     SELECT CAST(scope_identity() AS int)",
+            SqlCommand sqlCommand = new SqlCommand($@"INSERT INTO {TABLE_NAME}
+                                                     ([ROLLBACK_TYPE],
+                                                      [NAME],
+                                                      [DATASET],
+                                                      [IDENTITY],
+                                                      [OLD_VALUE],
+                                                      [NEW_VALUE],
+                                                      [IS_ROLLED_BACK])
+                                                     VALUES(
+                                                      @ROLLBACK_TYPE,
+                                                      @NAME,
+                                                      @DATASET,
+                                                      @IDENTITY,
+                                                      @OLD_VALUE,
+                                                      @NEW_VALUE,
+                                                      @IS_ROLLED_BACK);
+                                                      SELECT CAST(scope_identity() AS int)",
                                               UnitOfWork.SqlConnection,
                                               UnitOfWork.SqlTransaction);
 
@@ -80,17 +86,17 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Repositories.Sql
         {
             List<RollbackItemEntity> entities = new List<RollbackItemEntity>();
 
-            SqlCommand sqlCommand = new SqlCommand(@"SELECT 
-                                                     [ID],
-                                                     [ROLLBACK_TYPE],
-                                                     [NAME],
-                                                     [DATASET],
-                                                     [IDENTITY],
-                                                     [OLD_VALUE],
-                                                     [NEW_VALUE],
-                                                     [IS_ROLLED_BACK]
-                                                     FROM [dbo].[AA_TRANSACTIONS_ITEMS]
-                                                     WHERE DELETE_DATE IS NULL",
+            SqlCommand sqlCommand = new SqlCommand($@"SELECT 
+                                                      [ID],
+                                                      [ROLLBACK_TYPE],
+                                                      [NAME],
+                                                      [DATASET],
+                                                      [IDENTITY],
+                                                      [OLD_VALUE],
+                                                      [NEW_VALUE],
+                                                      [IS_ROLLED_BACK]
+                                                      FROM {TABLE_NAME}
+                                                      WHERE DELETE_DATE IS NULL",
                                                      UnitOfWork.SqlConnection,
                                                      UnitOfWork.SqlTransaction);
 
@@ -144,6 +150,72 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Repositories.Sql
 
                 disposed = true;
             }
+        }
+
+        /// <summary>
+        /// Bir Id değerine sahip envanteri silindi olarak işaretler
+        /// </summary>
+        /// <param name="id">Silindi olarak işaretlenecek envanterin Id değeri</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<int> DeleteAsync(int id, CancellationToken cancellationToken)
+        {
+            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+                                                      SET DELETE_DATE = GETDATE()
+                                                      WHERE ID = @ID",
+                                                     UnitOfWork.SqlConnection,
+                                                     UnitOfWork.SqlTransaction);
+
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+            sqlCommand.Parameters.AddWithValue("@ID", id);
+
+            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// Silindi olarak işaretlenmiş bir envanter kaydının işaretini kaldırır
+        /// </summary>
+        /// <param name="id">Silindi işareti kaldırılacak envanter kaydının Id değeri</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<int> UnDeleteAsync(int id, CancellationToken cancellationToken)
+        {
+            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+                                                      SET DELETE_DATE = NULL
+                                                      WHERE ID = @ID",
+                                                              UnitOfWork.SqlConnection,
+                                                              UnitOfWork.SqlTransaction);
+
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+            sqlCommand.Parameters.AddWithValue("@ID", id);
+
+            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// Bir envanter kaydındaki bir kolon değerini değiştirir
+        /// </summary>
+        /// <param name="id">Değeri değiştirilecek envanterin Id değeri</param>
+        /// <param name="name">Değeri değiştirilecek kolonun adı</param>
+        /// <param name="value">Yeni değer</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<int> SetAsync(int id, string name, object value, CancellationToken cancellationToken)
+        {
+            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+                                                      SET {name.ToUpper()} = @VALUE
+                                                      WHERE ID = @ID",
+                                                                  UnitOfWork.SqlConnection,
+                                                                  UnitOfWork.SqlTransaction);
+
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+            sqlCommand.Parameters.AddWithValue("@ID", id);
+            sqlCommand.Parameters.AddWithValue("@VALUE", value);
+
+            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
         }
     }
 }

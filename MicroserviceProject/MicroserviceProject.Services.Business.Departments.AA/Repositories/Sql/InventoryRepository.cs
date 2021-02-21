@@ -25,7 +25,6 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Repositories.Sql
         /// <summary>
         /// Repositorynin ait olduğu tablonun adı
         /// </summary>
-
         public const string TABLE_NAME = "[dbo].[AA_INVENTORIES]";
 
         /// <summary>

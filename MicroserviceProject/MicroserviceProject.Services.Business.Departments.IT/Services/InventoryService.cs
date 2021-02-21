@@ -5,6 +5,9 @@ using MicroserviceProject.Services.Business.Departments.IT.Entities.Sql;
 using MicroserviceProject.Services.Business.Departments.IT.Repositories.Sql;
 using MicroserviceProject.Services.Model.Department.HR;
 using MicroserviceProject.Services.Model.Department.IT;
+using MicroserviceProject.Services.Transaction;
+using MicroserviceProject.Services.Transaction.Models;
+using MicroserviceProject.Services.Transaction.Types;
 using MicroserviceProject.Services.UnitOfWork;
 
 using System;
@@ -18,12 +21,17 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Services
     /// <summary>
     /// Envanter işlemleri iş mantığı sınıfı
     /// </summary>
-    public class InventoryService : IDisposable
+    public class InventoryService : BaseService, IRollbackableAsync<int>, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
         private bool disposed = false;
+
+        /// <summary>
+        /// İşlem sürecinde adı geçecek modül adı
+        /// </summary>
+        public const string MODULE_NAME = "MicroserviceProject.Services.Business.Departments.IT.Services.InventoryService";
 
         /// <summary>
         /// Önbelleğe alınan envanterlerin önbellekteki adı
@@ -44,6 +52,16 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Services
         /// Mapping işlemleri için mapper nesnesi
         /// </summary>
         private readonly IMapper _mapper;
+
+        /// <summary>
+        /// İşlem tablosu için repository sınıfı
+        /// </summary>
+        private readonly TransactionRepository _transactionRepository;
+
+        /// <summary>
+        /// İşlem öğesi tablosu için repository sınıfı
+        /// </summary>
+        private readonly TransactionItemRepository _transactionItemRepository;
 
         /// <summary>
         /// Envanter tablosu için repository sınıfı
@@ -78,6 +96,8 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Services
             IMapper mapper,
             IUnitOfWork unitOfWork,
             CacheDataProvider cacheDataProvider,
+            TransactionRepository transactionRepository,
+            TransactionItemRepository transactionItemRepository,
             InventoryRepository inventoryRepository,
             InventoryDefaultsRepository inventoryDefaultsRepository,
             WorkerInventoryRepository workerInventoryRepository)
@@ -85,6 +105,10 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Services
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _cacheDataProvider = cacheDataProvider;
+
+            _transactionRepository = transactionRepository;
+            _transactionItemRepository = transactionItemRepository;
+
             _inventoryRepository = inventoryRepository;
             _inventoryDefaultsRepository = inventoryDefaultsRepository;
             _workerInventoryRepository = workerInventoryRepository;
@@ -288,6 +312,94 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Services
 
                 disposed = true;
             }
+        }
+
+        /// <summary>
+        /// Bir işlemi geri almak için yedekleme noktası oluşturur
+        /// </summary>
+        /// <param name="rollback">İşlemin yedekleme noktası nesnesi</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
+        public async Task<int> CreateCheckpointAsync(RollbackModel rollback, CancellationToken cancellationToken)
+        {
+            RollbackEntity rollbackEntity = _mapper.Map<RollbackModel, RollbackEntity>(rollback);
+
+            List<RollbackItemEntity> rollbackItemEntities = _mapper.Map<List<RollbackItemModel>, List<RollbackItemEntity>>(rollback.RollbackItems);
+
+            foreach (var rollbackItemEntity in rollbackItemEntities)
+            {
+                rollbackItemEntity.TransactionIdentity = rollbackEntity.TransactionIdentity;
+
+                await _transactionItemRepository.CreateAsync(rollbackItemEntity, cancellationToken);
+            }
+
+            return await _transactionRepository.CreateAsync(rollbackEntity, cancellationToken);
+        }
+
+        /// <summary>
+        /// Bir işlemi geri alır
+        /// </summary>
+        /// <param name="rollback">Geri alınacak işlemin yedekleme noktası nesnesi</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
+        public async Task<int> RollbackTransactionAsync(RollbackModel rollback, CancellationToken cancellationToken)
+        {
+            foreach (var rollbackItem in rollback.RollbackItems)
+            {
+                switch (rollbackItem.DataSet?.ToString())
+                {
+                    case InventoryRepository.TABLE_NAME:
+                        if (rollbackItem.RollbackType == RollbackType.Delete)
+                        {
+                            await _inventoryRepository.DeleteAsync((int)rollbackItem.Identity, cancellationToken);
+                        }
+                        else if (rollbackItem.RollbackType == RollbackType.Insert)
+                        {
+                            await _inventoryRepository.UnDeleteAsync((int)rollbackItem.Identity, cancellationToken);
+                        }
+                        else if (rollbackItem.RollbackType == RollbackType.Update)
+                        {
+                            await _inventoryRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationToken);
+                        }
+                        break;
+                    case InventoryDefaultsRepository.TABLE_NAME:
+                        if (rollbackItem.RollbackType == RollbackType.Delete)
+                        {
+                            await _inventoryDefaultsRepository.DeleteAsync((int)rollbackItem.Identity, cancellationToken);
+                        }
+                        else if (rollbackItem.RollbackType == RollbackType.Insert)
+                        {
+                            await _inventoryDefaultsRepository.UnDeleteAsync((int)rollbackItem.Identity, cancellationToken);
+                        }
+                        else if (rollbackItem.RollbackType == RollbackType.Update)
+                        {
+                            await _inventoryDefaultsRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationToken);
+                        }
+                        break;
+                    case WorkerInventoryRepository.TABLE_NAME:
+                        if (rollbackItem.RollbackType == RollbackType.Delete)
+                        {
+                            await _workerInventoryRepository.DeleteAsync((int)rollbackItem.Identity, cancellationToken);
+                        }
+                        else if (rollbackItem.RollbackType == RollbackType.Insert)
+                        {
+                            await _inventoryDefaultsRepository.UnDeleteAsync((int)rollbackItem.Identity, cancellationToken);
+                        }
+                        else if (rollbackItem.RollbackType == RollbackType.Update)
+                        {
+                            await _inventoryDefaultsRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationToken);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            int rollbackResult = await _transactionRepository.SetRolledbackAsync(rollback.TransactionIdentity, cancellationToken);
+
+            await _unitOfWork.SaveAsync(cancellationToken);
+
+            return rollbackResult;
         }
     }
 }

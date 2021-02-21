@@ -21,6 +21,11 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Repositories.Sql
         private bool disposed = false;
 
         /// <summary>
+        /// Repositorynin ait olduğu tablonun adı
+        /// </summary>
+        public const string TABLE_NAME = "[dbo].[AA_TRANSACTIONS]";
+
+        /// <summary>
         /// İdari işler işlem öğeleri tablosu için repository sınıfı
         /// </summary>
         /// <param name="unitOfWork">Veritabanı işlemlerini kapsayan iş birimi nesnesi</param>
@@ -37,17 +42,17 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Repositories.Sql
         /// <param name="cancellationToken">İptal tokenı</param>
         public override async Task<int> CreateAsync(RollbackEntity entity, CancellationToken cancellationToken)
         {
-            SqlCommand sqlCommand = new SqlCommand(@"INSERT INTO [dbo].[AA_TRANSACTIONS]
-                                                     ([TRANSACTION_IDENTITY],
-                                                      [TRANSACTION_TYPE],
-                                                      [TRANSACTION_DATE],
-                                                      [IS_ROLLED_BACK])
-                                                     VALUES(
-                                                      @TRANSACTION_IDENTITY,
-                                                      @TRANSACTION_TYPE,
-                                                      @TRANSACTION_DATE,
-                                                      @IS_ROLLED_BACK);
-                                                     SELECT CAST(scope_identity() AS int)",
+            SqlCommand sqlCommand = new SqlCommand($@"INSERT INTO {TABLE_NAME}
+                                                      ([TRANSACTION_IDENTITY],
+                                                       [TRANSACTION_TYPE],
+                                                       [TRANSACTION_DATE],
+                                                       [IS_ROLLED_BACK])
+                                                      VALUES(
+                                                       @TRANSACTION_IDENTITY,
+                                                       @TRANSACTION_TYPE,
+                                                       @TRANSACTION_DATE,
+                                                       @IS_ROLLED_BACK);
+                                                      SELECT CAST(scope_identity() AS int)",
                                               UnitOfWork.SqlConnection,
                                               UnitOfWork.SqlTransaction);
 
@@ -70,14 +75,14 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Repositories.Sql
         {
             List<RollbackEntity> entities = new List<RollbackEntity>();
 
-            SqlCommand sqlCommand = new SqlCommand(@"SELECT 
-                                                     [ID],
-                                                     [TRANSACTION_IDENTITY],
-                                                     [TRANSACTION_TYPE],
-                                                     [TRANSACTION_DATE],
-                                                     [IS_ROLLED_BACK]
-                                                     FROM [dbo].[AA_TRANSACTIONS]
-                                                     WHERE DELETE_DATE IS NULL",
+            SqlCommand sqlCommand = new SqlCommand($@"SELECT 
+                                                      [ID],
+                                                      [TRANSACTION_IDENTITY],
+                                                      [TRANSACTION_TYPE],
+                                                      [TRANSACTION_DATE],
+                                                      [IS_ROLLED_BACK]
+                                                      FROM {TABLE_NAME}
+                                                      WHERE DELETE_DATE IS NULL",
                                                      UnitOfWork.SqlConnection,
                                                      UnitOfWork.SqlTransaction);
 
@@ -138,10 +143,10 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Repositories.Sql
         /// <returns></returns>
         public async Task<int> SetRolledbackAsync(string transactionIdentity, CancellationToken cancellationToken)
         {
-            SqlCommand sqlCommand = new SqlCommand(@"UPDATE [dbo].[AA_TRANSACTIONS]
-                                                     SET [IS_ROLLED_BACK] = 1
-                                                     WHERE
-                                                     [TRANSACTION_IDENTITY] = @TRANSACTION_IDENTITY",
+            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+                                                      SET [IS_ROLLED_BACK] = 1
+                                                      WHERE
+                                                      [TRANSACTION_IDENTITY] = @TRANSACTION_IDENTITY",
                                                UnitOfWork.SqlConnection,
                                                UnitOfWork.SqlTransaction);
 

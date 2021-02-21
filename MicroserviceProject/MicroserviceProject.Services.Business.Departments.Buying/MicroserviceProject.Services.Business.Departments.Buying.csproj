@@ -21,6 +21,7 @@
     <ProjectReference Include="..\MicroserviceProject.Services.Communication\MicroserviceProject.Services.Communication.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Services.Logging\MicroserviceProject.Services.Logging.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Services.Model\MicroserviceProject.Services.Model.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Services.Transaction\MicroserviceProject.Services.Transaction.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Services.UnitOfWork\MicroserviceProject.Services.UnitOfWork.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Services.Util\MicroserviceProject.Services.Util.csproj" />
   </ItemGroup>

@@ -355,5 +355,61 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moder
                     .ToString();
             }
         }
+
+        /// <summary>
+        /// İşlemi geri alır
+        /// </summary>
+        public string AA_RollbackTransaction
+        {
+            get
+            {
+                return
+                    ConfigurationManager
+                    .AppSettings["Services.Endpoints.AA.RollbackTransaction"]
+                    .ToString();
+            }
+        }
+
+        /// <summary>
+        /// İşlemi geri alır
+        /// </summary>
+        public string Accounting_RollbackTransaction
+        {
+            get
+            {
+                return
+                    ConfigurationManager
+                    .AppSettings["Services.Endpoints.Accounting.RollbackTransaction"]
+                    .ToString();
+            }
+        }
+
+        /// <summary>
+        /// İşlemi geri alır
+        /// </summary>
+        public string HR_RollbackTransaction
+        {
+            get
+            {
+                return
+                    ConfigurationManager
+                    .AppSettings["Services.Endpoints.HR.RollbackTransaction"]
+                    .ToString();
+            }
+        }
+
+        /// <summary>
+        /// İşlemi geri alır
+        /// </summary>
+        public string IT_RollbackTransaction
+        {
+            get
+            {
+                return
+                    ConfigurationManager
+                    .AppSettings["Services.Endpoints.IT.RollbackTransaction"]
+                    .ToString();
+            }
+        }
     }
 }

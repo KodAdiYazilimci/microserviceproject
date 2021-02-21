@@ -1,4 +1,5 @@
 ﻿using MicroserviceProject.Services.Business.Departments.HR.Entities.Sql;
+using MicroserviceProject.Services.Transaction;
 using MicroserviceProject.Services.UnitOfWork;
 using MicroserviceProject.Services.UnitOfWork;
 
@@ -14,12 +15,17 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
     /// <summary>
     /// Çalışan tablosu için repository sınıfı
     /// </summary>
-    public class WorkerRepository : BaseRepository<WorkerEntity>, IDisposable
+    public class WorkerRepository : BaseRepository<WorkerEntity>, IRollbackableDataAsync<int>, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
         private bool disposed = false;
+
+        /// <summary>
+        /// Repositorynin ait olduğu tablonun adı
+        /// </summary>
+        public const string TABLE_NAME = "[dbo].[HR_WORKERS]";
 
         /// <summary>
         /// Çalışan tablosu için repository sınıfı
@@ -39,15 +45,15 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
         {
             List<WorkerEntity> workers = new List<WorkerEntity>();
 
-            SqlCommand sqlCommand = new SqlCommand(@"SELECT 
-                                                     [ID],
-                                                     [FROM_DATE],
-                                                     [TO_DATE],
-                                                     [HR_DEPARTMENTS_ID],
-                                                     [HR_PEOPLE_ID],
-                                                     [HR_TITLES_ID]
-                                                     FROM [HR_WORKERS]
-                                                     WHERE DELETE_DATE IS NULL",
+            SqlCommand sqlCommand = new SqlCommand($@"SELECT 
+                                                      [ID],
+                                                      [FROM_DATE],
+                                                      [TO_DATE],
+                                                      [HR_DEPARTMENTS_ID],
+                                                      [HR_PEOPLE_ID],
+                                                      [HR_TITLES_ID]
+                                                      FROM {TABLE_NAME}
+                                                      WHERE DELETE_DATE IS NULL",
                                                      UnitOfWork.SqlConnection,
                                                      UnitOfWork.SqlTransaction);
 
@@ -89,14 +95,14 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
         /// <returns></returns>
         public override async Task<int> CreateAsync(WorkerEntity worker, CancellationToken cancellationToken)
         {
-            SqlCommand sqlCommand = new SqlCommand(@"INSERT INTO [HR_WORKERS]
-                                                    ([FROM_DATE],
-                                                    [TO_DATE],
-                                                    [HR_DEPARTMENTS_ID],
-                                                    [HR_PEOPLE_ID],
-                                                    [HR_TITLES_ID])
-                                                    VALUES
-                                                    (@FROM_DATE,
+            SqlCommand sqlCommand = new SqlCommand($@"INSERT INTO {TABLE_NAME}
+                                                     ([FROM_DATE],
+                                                     [TO_DATE],
+                                                     [HR_DEPARTMENTS_ID],
+                                                     [HR_PEOPLE_ID],
+                                                     [HR_TITLES_ID])
+                                                     VALUES
+                                                     (@FROM_DATE,
                                                      @TO_DATE,
                                                      @HR_DEPARTMENTS_ID,
                                                      @HR_PEOPLE_ID,
@@ -140,6 +146,72 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
 
                 disposed = true;
             }
+        }
+
+        /// <summary>
+        /// Bir Id değerine sahip envanteri silindi olarak işaretler
+        /// </summary>
+        /// <param name="id">Silindi olarak işaretlenecek envanterin Id değeri</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<int> DeleteAsync(int id, CancellationToken cancellationToken)
+        {
+            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+                                                      SET DELETE_DATE = GETDATE()
+                                                      WHERE ID = @ID",
+                                                     UnitOfWork.SqlConnection,
+                                                     UnitOfWork.SqlTransaction);
+
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+            sqlCommand.Parameters.AddWithValue("@ID", id);
+
+            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// Silindi olarak işaretlenmiş bir envanter kaydının işaretini kaldırır
+        /// </summary>
+        /// <param name="id">Silindi işareti kaldırılacak envanter kaydının Id değeri</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<int> UnDeleteAsync(int id, CancellationToken cancellationToken)
+        {
+            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+                                                      SET DELETE_DATE = NULL
+                                                      WHERE ID = @ID",
+                                                              UnitOfWork.SqlConnection,
+                                                              UnitOfWork.SqlTransaction);
+
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+            sqlCommand.Parameters.AddWithValue("@ID", id);
+
+            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// Bir envanter kaydındaki bir kolon değerini değiştirir
+        /// </summary>
+        /// <param name="id">Değeri değiştirilecek envanterin Id değeri</param>
+        /// <param name="name">Değeri değiştirilecek kolonun adı</param>
+        /// <param name="value">Yeni değer</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<int> SetAsync(int id, string name, object value, CancellationToken cancellationToken)
+        {
+            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+                                                      SET {name.ToUpper()} = @VALUE
+                                                      WHERE ID = @ID",
+                                                                  UnitOfWork.SqlConnection,
+                                                                  UnitOfWork.SqlTransaction);
+
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+            sqlCommand.Parameters.AddWithValue("@ID", id);
+            sqlCommand.Parameters.AddWithValue("@VALUE", value);
+
+            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
         }
     }
 }

@@ -22,6 +22,11 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Repositories.Sql
         private bool disposed = false;
 
         /// <summary>
+        /// Repositorynin ait olduğu tablonun adı
+        /// </summary>
+        public const string TABLE_NAME = "[dbo].[IT_INVENTORIES]";
+
+        /// <summary>
         /// Envanter tablosu için repository sınıfı
         /// </summary>
         /// <param name="unitOfWork">Veritabanı işlemlerini kapsayan iş birimi nesnesi</param>
@@ -39,12 +44,12 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Repositories.Sql
         {
             List<InventoryEntity> inventories = new List<InventoryEntity>();
 
-            SqlCommand sqlCommand = new SqlCommand(@"SELECT 
-                                                     [ID],
-                                                     [NAME],
-                                                     [CURRENT_STOCK_COUNT]
-                                                     FROM [dbo].[IT_INVENTORIES]
-                                                     WHERE DELETE_DATE IS NULL",
+            SqlCommand sqlCommand = new SqlCommand($@"SELECT 
+                                                      [ID],
+                                                      [NAME],
+                                                      [CURRENT_STOCK_COUNT]
+                                                      FROM {TABLE_NAME}
+                                                      WHERE DELETE_DATE IS NULL",
                                                      UnitOfWork.SqlConnection,
                                                      UnitOfWork.SqlTransaction);
 
@@ -78,13 +83,13 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Repositories.Sql
         /// <returns></returns>
         public override async Task<int> CreateAsync(InventoryEntity inventory, CancellationToken cancellationToken)
         {
-            SqlCommand sqlCommand = new SqlCommand(@"INSERT INTO [dbo].[IT_INVENTORIES]
-                                                     ([NAME],
-                                                     [CURRENT_STOCK_COUNT])
-                                                     VALUES
-                                                     (@NAME,
+            SqlCommand sqlCommand = new SqlCommand($@"INSERT INTO {TABLE_NAME}
+                                                      ([NAME],
+                                                      [CURRENT_STOCK_COUNT])
+                                                      VALUES
+                                                      (@NAME,
                                                       @CURRENT_STOCK_COUNT);
-                                                     SELECT CAST(scope_identity() AS int)",
+                                                      SELECT CAST(scope_identity() AS int)",
                                                      UnitOfWork.SqlConnection,
                                                      UnitOfWork.SqlTransaction);
 
@@ -134,15 +139,15 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Repositories.Sql
 
             string inQuery = inventoryIds.Any() ? string.Join(',', inventoryIds) : "0";
 
-            SqlCommand sqlCommand = new SqlCommand(@"SELECT 
-                                                     [ID],
-                                                     [NAME],
-                                                     [CURRENT_STOCK_COUNT]
-                                                     FROM [dbo].[IT_INVENTORIES]
-                                                     WHERE 
-                                                     DELETE_DATE IS NULL
-                                                     AND
-                                                     ID IN (" + inQuery + ")",
+            SqlCommand sqlCommand = new SqlCommand($@"SELECT 
+                                                      [ID],
+                                                      [NAME],
+                                                      [CURRENT_STOCK_COUNT]
+                                                      FROM {TABLE_NAME}
+                                                      WHERE 
+                                                      DELETE_DATE IS NULL
+                                                      AND
+                                                      ID IN ({inQuery})",
                                                      UnitOfWork.SqlConnection,
                                                      UnitOfWork.SqlTransaction);
 
@@ -165,6 +170,72 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Repositories.Sql
             }
 
             return inventories;
+        }
+
+        /// <summary>
+        /// Bir Id değerine sahip envanteri silindi olarak işaretler
+        /// </summary>
+        /// <param name="id">Silindi olarak işaretlenecek envanterin Id değeri</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<int> DeleteAsync(int id, CancellationToken cancellationToken)
+        {
+            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+                                                      SET DELETE_DATE = GETDATE()
+                                                      WHERE ID = @ID",
+                                                     UnitOfWork.SqlConnection,
+                                                     UnitOfWork.SqlTransaction);
+
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+            sqlCommand.Parameters.AddWithValue("@ID", id);
+
+            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// Silindi olarak işaretlenmiş bir envanter kaydının işaretini kaldırır
+        /// </summary>
+        /// <param name="id">Silindi işareti kaldırılacak envanter kaydının Id değeri</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<int> UnDeleteAsync(int id, CancellationToken cancellationToken)
+        {
+            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+                                                      SET DELETE_DATE = NULL
+                                                      WHERE ID = @ID",
+                                                              UnitOfWork.SqlConnection,
+                                                              UnitOfWork.SqlTransaction);
+
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+            sqlCommand.Parameters.AddWithValue("@ID", id);
+
+            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// Bir envanter kaydındaki bir kolon değerini değiştirir
+        /// </summary>
+        /// <param name="id">Değeri değiştirilecek envanterin Id değeri</param>
+        /// <param name="name">Değeri değiştirilecek kolonun adı</param>
+        /// <param name="value">Yeni değer</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<int> SetAsync(int id, string name, object value, CancellationToken cancellationToken)
+        {
+            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+                                                      SET {name.ToUpper()} = @VALUE
+                                                      WHERE ID = @ID",
+                                                                  UnitOfWork.SqlConnection,
+                                                                  UnitOfWork.SqlTransaction);
+
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+            sqlCommand.Parameters.AddWithValue("@ID", id);
+            sqlCommand.Parameters.AddWithValue("@VALUE", value);
+
+            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
         }
     }
 }

@@ -389,5 +389,69 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator.Providers
                     .GetSection("GetInventoriesForNewWorker").Value;
             }
         }
+
+        /// <summary>
+        /// İşlemi geri alır
+        /// </summary>
+        public string AA_RollbackTransaction
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("AA")
+                    .GetSection("RollbackTransaction").Value;
+            }
+        }
+
+        /// <summary>
+        /// İşlemi geri alır
+        /// </summary>
+        public string Accounting_RollbackTransaction
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("Accounting")
+                    .GetSection("RollbackTransaction").Value;
+            }
+        }
+
+        /// <summary>
+        /// İşlemi geri alır
+        /// </summary>
+        public string HR_RollbackTransaction
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("HR")
+                    .GetSection("RollbackTransaction").Value;
+            }
+        }
+
+        /// <summary>
+        /// İşlemi geri alır
+        /// </summary>
+        public string IT_RollbackTransaction
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("IT")
+                    .GetSection("RollbackTransaction").Value;
+            }
+        }
     }
 }
