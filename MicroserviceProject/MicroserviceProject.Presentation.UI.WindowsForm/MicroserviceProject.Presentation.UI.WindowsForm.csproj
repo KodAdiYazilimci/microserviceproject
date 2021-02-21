@@ -157,6 +157,7 @@
     <Compile Include="Infrastructure\Communication\Http\Providers\_BaseProvider.cs" />
     <Compile Include="Infrastructure\Communication\Model\Basics\ServiceResult.cs" />
     <Compile Include="Infrastructure\Communication\Model\Errors\Error.cs" />
+    <Compile Include="Infrastructure\Communication\Model\Transaction\Transaction.cs" />
     <Compile Include="Infrastructure\Communication\Model\Validations\Validation.cs" />
     <Compile Include="Infrastructure\Communication\Model\Validations\ValidationItem.cs" />
     <Compile Include="Infrastructure\Communication\Moderator\Model\RouteQuery.cs" />

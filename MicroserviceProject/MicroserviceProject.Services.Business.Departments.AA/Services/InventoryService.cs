@@ -21,12 +21,17 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
     /// <summary>
     /// Envanter işlemleri iş mantığı sınıfı
     /// </summary>
-    public class InventoryService : IRollbackableAsync<int>, IDisposable
+    public class InventoryService : BaseService, IRollbackableAsync<int>, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
         private bool disposed = false;
+
+        /// <summary>
+        /// İşlem sürecinde adı geçecek modül adı
+        /// </summary>
+        public const string MODULE_NAME = "MicroserviceProject.Services.Business.Departments.AA.Services.InventoryService";
 
         /// <summary>
         /// Önbelleğe alınan envanterlerin önbellekteki adı

@@ -31,6 +31,11 @@ namespace MicroserviceProject.Services.Transaction.Models
         public bool IsRolledback { get; set; }
 
         /// <summary>
+        /// İşlem kimliğinin gerçekleştiği modüller
+        /// </summary>
+        public List<string> Modules { get; set; }
+
+        /// <summary>
         /// İşleme ait öğeler
         /// </summary>
         public List<RollbackItemModel> RollbackItems { get; set; }

@@ -1,5 +1,6 @@
 ﻿using MicroserviceProject.Presentation.UI.Infrastructure.Communication.Model.Errors;
 using MicroserviceProject.Presentation.UI.Infrastructure.Communication.Model.Validations;
+using MicroserviceProject.Presentation.UI.WindowsForm.Infrastructure.Communication.Model;
 
 namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Model.Basics
 {
@@ -22,6 +23,11 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Model
         /// Yanıta konu olan doğrulama
         /// </summary>
         public Validation Validation { get; set; }
+
+        /// <summary>
+        /// Servis işlemleri boyunca geçerli olacak işlem kimliği
+        /// </summary>
+        public Transaction Transaction{ get; set; }
     }
 
     /// <summary>

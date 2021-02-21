@@ -42,7 +42,7 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Repositories.Sql
                                                       [TRANSACTION_TYPE],
                                                       [TRANSACTION_DATE],
                                                       [IS_ROLLED_BACK])
-                                                     VALUES
+                                                     VALUES(
                                                       @TRANSACTION_IDENTITY,
                                                       @TRANSACTION_TYPE,
                                                       @TRANSACTION_DATE,

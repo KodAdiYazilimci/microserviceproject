@@ -1,5 +1,6 @@
 ﻿using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Errors;
 using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Validations;
+using MicroserviceProject.Infrastructure.Communication.Moderator.Models;
 
 namespace MicroserviceProject.Infrastructure.Communication.Moderator.Model.Basics
 {
@@ -22,6 +23,11 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator.Model.Basic
         /// Yanıta konu olan doğrulama
         /// </summary>
         public Validation Validation { get; set; }
+
+        /// <summary>
+        /// Servis işlemleri boyunca geçerli olacak işlem kimliği
+        /// </summary>
+        public Transaction Transaction { get; set; }
     }
 
     /// <summary>

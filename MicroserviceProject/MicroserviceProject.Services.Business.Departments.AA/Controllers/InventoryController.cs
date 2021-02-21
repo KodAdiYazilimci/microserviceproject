@@ -57,9 +57,7 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Controllers
 
         [HttpPost]
         [Route(nameof(CreateInventory))]
-        public async Task<IActionResult> CreateInventory(
-            [FromBody] InventoryModel inventory,
-            CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateInventory([FromBody] InventoryModel inventory, CancellationToken cancellationToken)
         {
             try
             {
@@ -76,7 +74,15 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Controllers
                 ServiceResult<int> serviceResult = new ServiceResult<int>()
                 {
                     IsSuccess = true,
-                    Data = generatedId
+                    Data = generatedId,
+                    Transaction = new Infrastructure.Communication.Moderator.Models.Transaction()
+                    {
+                        TransactionIdentity = _inventoryService.TransactionIdentity,
+                        Modules = new List<string>()
+                        {
+                            InventoryService.MODULE_NAME
+                        }
+                    }
                 };
 
                 return Ok(serviceResult);
@@ -86,7 +92,15 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Controllers
                 return BadRequest(new ServiceResult()
                 {
                     IsSuccess = false,
-                    Error = new Error() { Description = ex.ToString() }
+                    Error = new Error() { Description = ex.ToString() },
+                    Transaction = new Infrastructure.Communication.Moderator.Models.Transaction()
+                    {
+                        TransactionIdentity = _inventoryService.TransactionIdentity,
+                        Modules = new List<string>()
+                        {
+                            InventoryService.MODULE_NAME
+                        }
+                    }
                 });
             }
         }
