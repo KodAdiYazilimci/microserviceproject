@@ -13,6 +13,11 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Entities.Sql
         public string Name { get; set; }
 
         /// <summary>
+        /// Şu an bulunduğu stok adedi
+        /// </summary>
+        public int CurrentStockCount { get; set; }
+
+        /// <summary>
         /// Envanteri kullanan çalışanlar
         /// </summary>
         public virtual ICollection<WorkerInventoryEntity> WorkerInventories { get; set; }

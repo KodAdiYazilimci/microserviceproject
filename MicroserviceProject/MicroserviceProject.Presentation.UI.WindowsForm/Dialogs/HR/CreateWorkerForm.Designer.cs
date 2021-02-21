@@ -187,6 +187,10 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.HR
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(390, 401);
+            this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(390, 401);
             this.Name = "CreateWorkerForm";
             this.Text = "Çalışan Oluştur";
             this.Load += new System.EventHandler(this.CreateWorkerForm_Load);

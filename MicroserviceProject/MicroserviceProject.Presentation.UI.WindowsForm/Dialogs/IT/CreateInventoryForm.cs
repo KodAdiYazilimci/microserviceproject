@@ -59,7 +59,8 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.IT
                                     serviceName: _routeNameProvider.IT_CreateInventory,
                                     postData: new InventoryModel()
                                     {
-                                        Name = txtIsim.Text
+                                        Name = txtIsim.Text,
+                                        CurrentStockCount = (int)numAdet.Value
                                     },
                                     queryParameters: null,
                                     cancellationToken: cancellationTokenSource.Token);

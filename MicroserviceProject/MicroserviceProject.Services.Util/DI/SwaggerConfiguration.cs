@@ -18,7 +18,7 @@ namespace MicroserviceProject.Services.Util.DI
             {
                 c.SwaggerDoc("CoreSwagger", new Microsoft.OpenApi.Models.OpenApiInfo
                 {
-                    Title = "MicroserviceProject.Services.Business.Departments.HR Swagger",
+                    Title = "MicroserviceProject.Services.Business.Departments Swagger",
                     Version = "1.0.0",
                     Description = "ApiGateway+UI",
                     Contact = new Microsoft.OpenApi.Models.OpenApiContact()

@@ -9,12 +9,13 @@ namespace MicroserviceProject.Presentation.UI.Business.Model.Department.AA
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public int CurrentStockCount { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime? ToDate { get; set; }
 
         public override string ToString()
         {
-            return this.Name;
+            return $"{this.Name} ({CurrentStockCount} Mevcut)";
         }
     }
 }

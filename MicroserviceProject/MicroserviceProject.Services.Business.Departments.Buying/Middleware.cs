@@ -84,7 +84,7 @@ namespace MicroserviceProject.Services.Business.Departments.Buying
                     requestResponseLogger.LogAsync(
                         model: new RequestResponseLogModel()
                         {
-                            ApplicationName = "MicroserviceProject.Services.Business.Departments.Accounting",
+                            ApplicationName = "MicroserviceProject.Services.Business.Departments.Buying",
                             Content = response,
                             Date = DateTime.Now,
                             Host = httpContext.Request.Host.ToString(),

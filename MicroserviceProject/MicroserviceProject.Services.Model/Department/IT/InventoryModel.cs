@@ -9,6 +9,7 @@ namespace MicroserviceProject.Services.Model.Department.IT
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public int CurrentStockCount { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime? ToDate { get; set; }
     }

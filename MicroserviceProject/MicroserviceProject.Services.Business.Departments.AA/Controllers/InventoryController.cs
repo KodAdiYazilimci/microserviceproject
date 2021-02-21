@@ -125,7 +125,6 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Controllers
             }
         }
 
-
         [HttpPost]
         [Route(nameof(CreateDefaultInventoryForNewWorker))]
         public async Task<IActionResult> CreateDefaultInventoryForNewWorker([FromBody] InventoryModel inventory, CancellationToken cancellationToken)

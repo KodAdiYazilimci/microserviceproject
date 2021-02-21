@@ -41,7 +41,8 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Repositories.Sql
 
             SqlCommand sqlCommand = new SqlCommand(@"SELECT 
                                                      [ID],
-                                                     [NAME]
+                                                     [NAME],
+                                                     [CURRENT_STOCK_COUNT]
                                                      FROM [dbo].[AA_INVENTORIES]
                                                      WHERE DELETE_DATE IS NULL",
                                                      UnitOfWork.SqlConnection,
@@ -59,6 +60,7 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Repositories.Sql
 
                     inventory.Id = sqlDataReader.GetInt32("ID");
                     inventory.Name = sqlDataReader.GetString("NAME");
+                    inventory.CurrentStockCount = sqlDataReader.GetInt32("CURRENT_STOCK_COUNT");
 
                     inventories.Add(inventory);
                 }
@@ -77,9 +79,11 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Repositories.Sql
         public override async Task<int> CreateAsync(InventoryEntity inventory, CancellationToken cancellationToken)
         {
             SqlCommand sqlCommand = new SqlCommand(@"INSERT INTO [dbo].[AA_INVENTORIES]
-                                                     ([NAME])
+                                                     ([NAME],
+                                                     [CURRENT_STOCK_COUNT])
                                                      VALUES
-                                                     (@NAME);
+                                                     (@NAME,
+                                                      @CURRENT_STOCK_COUNT);
                                                      SELECT CAST(scope_identity() AS int)",
                                                      UnitOfWork.SqlConnection,
                                                      UnitOfWork.SqlTransaction);
@@ -87,6 +91,7 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Repositories.Sql
             sqlCommand.Transaction = UnitOfWork.SqlTransaction;
 
             sqlCommand.Parameters.AddWithValue("@NAME", ((object)inventory.Name) ?? DBNull.Value);
+            sqlCommand.Parameters.AddWithValue("@CURRENT_STOCK_COUNT", ((object)inventory.CurrentStockCount) ?? DBNull.Value);
 
             return (int)await sqlCommand.ExecuteScalarAsync(cancellationToken);
         }
@@ -130,12 +135,13 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Repositories.Sql
 
             SqlCommand sqlCommand = new SqlCommand(@"SELECT 
                                                      [ID],
-                                                     [NAME]
+                                                     [NAME],
+                                                     [CURRENT_STOCK_COUNT]
                                                      FROM [dbo].[AA_INVENTORIES]
                                                      WHERE 
                                                      DELETE_DATE IS NULL
                                                      AND
-                                                     ID IN ("+inQuery+")",
+                                                     ID IN (" + inQuery + ")",
                                                      UnitOfWork.SqlConnection,
                                                      UnitOfWork.SqlTransaction);
 
@@ -151,6 +157,7 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Repositories.Sql
 
                     inventory.Id = sqlDataReader.GetInt32("ID");
                     inventory.Name = sqlDataReader.GetString("NAME");
+                    inventory.CurrentStockCount = sqlDataReader.GetInt32("CURRENT_STOCK_COUNT");
 
                     inventories.Add(inventory);
                 }

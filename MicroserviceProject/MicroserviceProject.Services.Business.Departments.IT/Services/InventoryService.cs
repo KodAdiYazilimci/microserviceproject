@@ -237,6 +237,13 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Services
                 {
                     throw new Exception($"{inventoryId} Id değerine sahip envanter bulunamadı");
                 }
+
+                InventoryEntity inventoryEntity = inventories.FirstOrDefault(x => x.Id == inventoryId);
+
+                if (inventoryEntity.CurrentStockCount <= 0)
+                {
+                    throw new Exception($"{inventoryEntity.Name} (Id:{inventoryEntity.Id}) için yetersiz stok");
+                }
             }
 
             foreach (var inventoryModel in worker.ITInventories)

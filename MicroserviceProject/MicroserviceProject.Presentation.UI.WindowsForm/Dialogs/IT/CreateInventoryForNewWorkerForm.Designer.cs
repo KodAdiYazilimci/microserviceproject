@@ -82,6 +82,10 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.IT
             this.Controls.Add(this.btnVazgec);
             this.Controls.Add(this.btnKaydet);
             this.Controls.Add(this.label1);
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(372, 162);
+            this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(372, 162);
             this.Name = "CreateInventoryForNewWorkerForm";
             this.Text = "CreateInventoryForm";
             this.Load += new System.EventHandler(this.CreateInventoryForNewWorkerForm_Load);
