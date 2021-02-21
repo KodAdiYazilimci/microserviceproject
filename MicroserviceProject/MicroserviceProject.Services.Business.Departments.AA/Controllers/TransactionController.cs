@@ -6,6 +6,7 @@ using MicroserviceProject.Services.Transaction.Models;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
 
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,11 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Controllers
         public TransactionController(InventoryService inventoryService)
         {
             _inventoryService = inventoryService;
+
+            if (Request.Headers.TryGetValue("TransactionIdentity", out StringValues value))
+            {
+                _inventoryService.TransactionIdentity = value;
+            }
         }
 
         [HttpPost]

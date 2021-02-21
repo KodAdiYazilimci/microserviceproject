@@ -366,24 +366,60 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
         {
             foreach (var rollbackItem in rollback.RollbackItems)
             {
-                if (rollbackItem.DataSet?.ToString() == InventoryRepository.TABLE_NAME)
+                switch (rollbackItem.DataSet?.ToString())
                 {
-                    if (rollbackItem.RollbackType == RollbackType.Delete)
-                    {
-                        await _inventoryRepository.DeleteAsync((int)rollbackItem.Identity, cancellationToken);
-                    }
-                    else if (rollbackItem.RollbackType == RollbackType.Insert)
-                    {
-                        await _inventoryRepository.UnDeleteAsync((int)rollbackItem.Identity, cancellationToken);
-                    }
-                    else if (rollbackItem.RollbackType == RollbackType.Update)
-                    {
-                        await _inventoryRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationToken);
-                    }
+                    case InventoryRepository.TABLE_NAME:
+                        if (rollbackItem.RollbackType == RollbackType.Delete)
+                        {
+                            await _inventoryRepository.DeleteAsync((int)rollbackItem.Identity, cancellationToken);
+                        }
+                        else if (rollbackItem.RollbackType == RollbackType.Insert)
+                        {
+                            await _inventoryRepository.UnDeleteAsync((int)rollbackItem.Identity, cancellationToken);
+                        }
+                        else if (rollbackItem.RollbackType == RollbackType.Update)
+                        {
+                            await _inventoryRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationToken);
+                        }
+                        break;
+                    case InventoryDefaultsRepository.TABLE_NAME:
+                        if (rollbackItem.RollbackType == RollbackType.Delete)
+                        {
+                            await _inventoryDefaultsRepository.DeleteAsync((int)rollbackItem.Identity, cancellationToken);
+                        }
+                        else if (rollbackItem.RollbackType == RollbackType.Insert)
+                        {
+                            await _inventoryDefaultsRepository.UnDeleteAsync((int)rollbackItem.Identity, cancellationToken);
+                        }
+                        else if (rollbackItem.RollbackType == RollbackType.Update)
+                        {
+                            await _inventoryDefaultsRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationToken);
+                        }
+                        break;
+                    case WorkerInventoryRepository.TABLE_NAME:
+                        if (rollbackItem.RollbackType == RollbackType.Delete)
+                        {
+                            await _workerInventoryRepository.DeleteAsync((int)rollbackItem.Identity, cancellationToken);
+                        }
+                        else if (rollbackItem.RollbackType == RollbackType.Insert)
+                        {
+                            await _inventoryDefaultsRepository.UnDeleteAsync((int)rollbackItem.Identity, cancellationToken);
+                        }
+                        else if (rollbackItem.RollbackType == RollbackType.Update)
+                        {
+                            await _inventoryDefaultsRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationToken);
+                        }
+                        break;
+                    default:
+                        break;
                 }
             }
 
-            return await _transactionRepository.SetRolledbackAsync(rollback.TransactionIdentity, cancellationToken);
+            int rollbackResult = await _transactionRepository.SetRolledbackAsync(rollback.TransactionIdentity, cancellationToken);
+
+            await _unitOfWork.SaveAsync(cancellationToken);
+
+            return rollbackResult;
         }
     }
 }

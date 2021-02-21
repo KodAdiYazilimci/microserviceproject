@@ -9,6 +9,7 @@ using MicroserviceProject.Services.Model.Department.HR;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
 
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,11 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Controllers
         public InventoryController(InventoryService inventoryService)
         {
             _inventoryService = inventoryService;
+
+            if (Request.Headers.TryGetValue("TransactionIdentity", out StringValues value))
+            {
+                _inventoryService.TransactionIdentity = value;
+            }
         }
 
         [HttpGet]
@@ -40,7 +46,15 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Controllers
                 ServiceResult<List<InventoryModel>> serviceResult = new ServiceResult<List<InventoryModel>>()
                 {
                     IsSuccess = true,
-                    Data = departments
+                    Data = departments,
+                    Transaction = new Infrastructure.Communication.Moderator.Models.Transaction()
+                    {
+                        TransactionIdentity = _inventoryService.TransactionIdentity,
+                        Modules = new List<string>()
+                        {
+                            InventoryService.MODULE_NAME
+                        }
+                    }
                 };
 
                 return Ok(serviceResult);
@@ -50,7 +64,15 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Controllers
                 return BadRequest(new ServiceResult()
                 {
                     IsSuccess = false,
-                    Error = new Error() { Description = ex.ToString() }
+                    Error = new Error() { Description = ex.ToString() },
+                    Transaction = new Infrastructure.Communication.Moderator.Models.Transaction()
+                    {
+                        TransactionIdentity = _inventoryService.TransactionIdentity,
+                        Modules = new List<string>()
+                        {
+                            InventoryService.MODULE_NAME
+                        }
+                    }
                 });
             }
         }
@@ -124,7 +146,15 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Controllers
                 ServiceResult<WorkerModel> serviceResult = new ServiceResult<WorkerModel>()
                 {
                     IsSuccess = true,
-                    Data = generatedWorker
+                    Data = generatedWorker,
+                    Transaction = new Infrastructure.Communication.Moderator.Models.Transaction()
+                    {
+                        TransactionIdentity = _inventoryService.TransactionIdentity,
+                        Modules = new List<string>()
+                        {
+                            InventoryService.MODULE_NAME
+                        }
+                    }
                 };
 
                 return Ok(serviceResult);
@@ -134,7 +164,15 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Controllers
                 return BadRequest(new ServiceResult()
                 {
                     IsSuccess = false,
-                    Error = new Error() { Description = ex.ToString() }
+                    Error = new Error() { Description = ex.ToString() },
+                    Transaction = new Infrastructure.Communication.Moderator.Models.Transaction()
+                    {
+                        TransactionIdentity = _inventoryService.TransactionIdentity,
+                        Modules = new List<string>()
+                        {
+                            InventoryService.MODULE_NAME
+                        }
+                    }
                 });
             }
         }
@@ -158,7 +196,15 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Controllers
                 ServiceResult<InventoryModel> serviceResult = new ServiceResult<InventoryModel>()
                 {
                     IsSuccess = true,
-                    Data = generatedInventory
+                    Data = generatedInventory,
+                    Transaction = new Infrastructure.Communication.Moderator.Models.Transaction()
+                    {
+                        TransactionIdentity = _inventoryService.TransactionIdentity,
+                        Modules = new List<string>()
+                        {
+                            InventoryService.MODULE_NAME
+                        }
+                    }
                 };
 
                 return Ok(serviceResult);
@@ -168,7 +214,15 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Controllers
                 return BadRequest(new ServiceResult()
                 {
                     IsSuccess = false,
-                    Error = new Error() { Description = ex.ToString() }
+                    Error = new Error() { Description = ex.ToString() },
+                    Transaction = new Infrastructure.Communication.Moderator.Models.Transaction()
+                    {
+                        TransactionIdentity = _inventoryService.TransactionIdentity,
+                        Modules = new List<string>()
+                        {
+                            InventoryService.MODULE_NAME
+                        }
+                    }
                 });
             }
         }
@@ -185,7 +239,15 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Controllers
                 ServiceResult<List<InventoryModel>> serviceResult = new ServiceResult<List<InventoryModel>>()
                 {
                     IsSuccess = true,
-                    Data = inventories
+                    Data = inventories,
+                    Transaction = new Infrastructure.Communication.Moderator.Models.Transaction()
+                    {
+                        TransactionIdentity = _inventoryService.TransactionIdentity,
+                        Modules = new List<string>()
+                        {
+                            InventoryService.MODULE_NAME
+                        }
+                    }
                 };
 
                 return Ok(serviceResult);
@@ -195,7 +257,15 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Controllers
                 return BadRequest(new ServiceResult()
                 {
                     IsSuccess = false,
-                    Error = new Error() { Description = ex.ToString() }
+                    Error = new Error() { Description = ex.ToString() },
+                    Transaction = new Infrastructure.Communication.Moderator.Models.Transaction()
+                    {
+                        TransactionIdentity = _inventoryService.TransactionIdentity,
+                        Modules = new List<string>()
+                        {
+                            InventoryService.MODULE_NAME
+                        }
+                    }
                 });
             }
         }
