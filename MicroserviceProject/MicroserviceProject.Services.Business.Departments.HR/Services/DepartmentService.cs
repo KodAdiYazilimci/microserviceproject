@@ -28,9 +28,9 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
         private bool disposed = false;
 
         /// <summary>
-        /// İşlem sürecinde adı geçecek modül adı
+        /// İçerisinde çalışılan servisin adı
         /// </summary>
-        public const string MODULE_NAME = "MicroserviceProject.Services.Business.Departments.HR.Services.DepartmentService";
+        public override string ServiceName => "MicroserviceProject.Services.Business.Departments.HR.Services.DepartmentService";
 
         /// <summary>
         /// Önbelleğe alınan departmanların önbellekteki adı

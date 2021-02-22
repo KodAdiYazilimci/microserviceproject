@@ -17,6 +17,7 @@
     <ProjectReference Include="..\MicroserviceProject.Services.Transaction\MicroserviceProject.Services.Transaction.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Services.UnitOfWork\MicroserviceProject.Services.UnitOfWork.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Services.Util\MicroserviceProject.Services.Util.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Services\MicroserviceProject.Services.csproj" />
   </ItemGroup>
 
 </Project>

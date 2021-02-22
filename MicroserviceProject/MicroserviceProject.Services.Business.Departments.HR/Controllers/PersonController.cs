@@ -1,6 +1,4 @@
-﻿using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Basics;
-using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Errors;
-using MicroserviceProject.Services.Business.Departments.HR.Services;
+﻿using MicroserviceProject.Services.Business.Departments.HR.Services;
 using MicroserviceProject.Services.Business.Departments.HR.Util.Validation.Person.CreatePerson;
 using MicroserviceProject.Services.Business.Departments.HR.Util.Validation.Person.CreateTitle;
 using MicroserviceProject.Services.Business.Departments.HR.Util.Validation.Person.CreateWorker;
@@ -9,7 +7,6 @@ using MicroserviceProject.Services.Model.Department.HR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,189 +28,72 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Controllers
         [Route(nameof(GetPeople))]
         public async Task<IActionResult> GetPeople(CancellationToken cancellationToken)
         {
-            try
+            return await ServiceExecuter.ExecuteServiceAsync<List<PersonModel>>(async () =>
             {
-                List<PersonModel> people =
-                    await _personService.GetPeopleAsync(cancellationToken);
-
-                ServiceResult<List<PersonModel>> serviceResult = new ServiceResult<List<PersonModel>>()
-                {
-                    IsSuccess = true,
-                    Data = people
-                };
-
-                return Ok(serviceResult);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new ServiceResult()
-                {
-                    IsSuccess = false,
-                    Error = new Error() { Description = ex.ToString() }
-                });
-            }
+                return await _personService.GetPeopleAsync(cancellationToken);
+            },
+            services: _personService);
         }
 
         [HttpPost]
         [Route(nameof(CreatePerson))]
-        public async Task<IActionResult> CreatePerson(
-            [FromBody] PersonModel person,
-            CancellationToken cancellationToken)
+        public async Task<IActionResult> CreatePerson([FromBody] PersonModel person, CancellationToken cancellationToken)
         {
-            try
+            return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
             {
-                ServiceResult validationResult =
-                    await CreatePersonValidator.ValidateAsync(person, cancellationToken);
+                await CreatePersonValidator.ValidateAsync(person, cancellationToken);
 
-                if (!validationResult.IsSuccess)
-                {
-                    return BadRequest(validationResult);
-                }
-
-                int generatedId = await _personService.CreatePersonAsync(person, cancellationToken);
-
-                ServiceResult<int> serviceResult = new ServiceResult<int>()
-                {
-                    IsSuccess = true,
-                    Data = generatedId
-                };
-
-                return Ok(serviceResult);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new ServiceResult()
-                {
-                    IsSuccess = false,
-                    Error = new Error() { Description = ex.ToString() }
-                });
-            }
+                return await _personService.CreatePersonAsync(person, cancellationToken);
+            },
+            services: _personService);
         }
 
         [HttpGet]
         [Route(nameof(GetTitles))]
         public async Task<IActionResult> GetTitles(CancellationToken cancellationToken)
         {
-            try
+            return await ServiceExecuter.ExecuteServiceAsync<List<TitleModel>>(async () =>
             {
-                List<TitleModel> titles =
-                    await _personService.GetTitlesAsync(cancellationToken);
-
-                ServiceResult<List<TitleModel>> serviceResult = new ServiceResult<List<TitleModel>>()
-                {
-                    IsSuccess = true,
-                    Data = titles
-                };
-
-                return Ok(serviceResult);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new ServiceResult()
-                {
-                    IsSuccess = false,
-                    Error = new Error() { Description = ex.ToString() }
-                });
-            }
+                return await _personService.GetTitlesAsync(cancellationToken);
+            },
+            services: _personService);
         }
 
         [HttpPost]
         [Route(nameof(CreateTitle))]
-        public async Task<IActionResult> CreateTitle(
-            [FromBody] TitleModel title,
-            CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateTitle([FromBody] TitleModel title, CancellationToken cancellationToken)
         {
-            try
+            return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
             {
-                ServiceResult validationResult =
-                    await CreateTitleValidator.ValidateAsync(title, cancellationToken);
+                await CreateTitleValidator.ValidateAsync(title, cancellationToken);
 
-                if (!validationResult.IsSuccess)
-                {
-                    return BadRequest(validationResult);
-                }
-
-                int generatedId = await _personService.CreateTitleAsync(title, cancellationToken);
-
-                ServiceResult<int> serviceResult = new ServiceResult<int>()
-                {
-                    IsSuccess = true,
-                    Data = generatedId
-                };
-
-                return Ok(serviceResult);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new ServiceResult()
-                {
-                    IsSuccess = false,
-                    Error = new Error() { Description = ex.ToString() }
-                });
-            }
+                return await _personService.CreateTitleAsync(title, cancellationToken);
+            },
+            services: _personService);
         }
 
         [HttpGet]
         [Route(nameof(GetWorkers))]
         public async Task<IActionResult> GetWorkers(CancellationToken cancellationToken)
         {
-            try
+            return await ServiceExecuter.ExecuteServiceAsync<List<WorkerModel>>(async () =>
             {
-                List<WorkerModel> workers =
-                    await _personService.GetWorkersAsync(cancellationToken);
-
-                ServiceResult<List<WorkerModel>> serviceResult = new ServiceResult<List<WorkerModel>>()
-                {
-                    IsSuccess = true,
-                    Data = workers
-                };
-
-                return Ok(serviceResult);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new ServiceResult()
-                {
-                    IsSuccess = false,
-                    Error = new Error() { Description = ex.ToString() }
-                });
-            }
+                return await _personService.GetWorkersAsync(cancellationToken);
+            },
+            services: _personService);
         }
 
         [HttpPost]
         [Route(nameof(CreateWorker))]
-        public async Task<IActionResult> CreateWorker(
-            [FromBody] WorkerModel worker,
-            CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateWorker([FromBody] WorkerModel worker, CancellationToken cancellationToken)
         {
-            try
+            return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
             {
-                ServiceResult validationResult =
-                    await CreateWorkerValidator.ValidateAsync(worker, cancellationToken);
+                await CreateWorkerValidator.ValidateAsync(worker, cancellationToken);
 
-                if (!validationResult.IsSuccess)
-                {
-                    return BadRequest(validationResult);
-                }
-
-                int generatedId = await _personService.CreateWorkerAsync(worker, cancellationToken);
-
-                ServiceResult<int> serviceResult = new ServiceResult<int>()
-                {
-                    IsSuccess = true,
-                    Data = generatedId
-                };
-
-                return Ok(serviceResult);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new ServiceResult()
-                {
-                    IsSuccess = false,
-                    Error = new Error() { Description = ex.ToString() }
-                });
-            }
+                return await _personService.CreateWorkerAsync(worker, cancellationToken);
+            },
+            services: _personService);
         }
     }
 }

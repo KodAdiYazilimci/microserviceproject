@@ -29,9 +29,9 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Services
         private bool disposed = false;
 
         /// <summary>
-        /// İşlem sürecinde adı geçecek modül adı
+        /// İçerisinde çalışılan servisin adı
         /// </summary>
-        public const string MODULE_NAME = "MicroserviceProject.Services.Business.Departments.IT.Services.InventoryService";
+        public override string ServiceName => "MicroserviceProject.Services.Business.Departments.IT.Services.InventoryService";
 
         /// <summary>
         /// Önbelleğe alınan envanterlerin önbellekteki adı

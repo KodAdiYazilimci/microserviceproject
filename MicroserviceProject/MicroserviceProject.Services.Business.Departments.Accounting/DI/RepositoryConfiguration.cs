@@ -22,6 +22,9 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.DI
             services.AddScoped<CurrencyRepository>();
             services.AddScoped<SalaryPaymentRepository>();
 
+            services.AddScoped<TransactionRepository>();
+            services.AddScoped<TransactionItemRepository>();
+
             return services;
         }
     }

@@ -1,13 +1,10 @@
-﻿using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Basics;
-using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Errors;
-using MicroserviceProject.Services.Business.Departments.Accounting.Services;
+﻿using MicroserviceProject.Services.Business.Departments.Accounting.Services;
 using MicroserviceProject.Services.Business.Departments.Accounting.Util.Validation.Department.CreateDepartment;
 using MicroserviceProject.Services.Model.Department.Accounting;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,183 +26,72 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Controlle
         [Route(nameof(GetBankAccountsOfWorker))]
         public async Task<IActionResult> GetBankAccountsOfWorker(int workerId, CancellationToken cancellationToken)
         {
-            try
+            return await ServiceExecuter.ExecuteServiceAsync<List<BankAccountModel>>(async () =>
             {
-                List<BankAccountModel> bankAccounts =
-                    await _bankService.GetBankAccounts(workerId, cancellationToken);
-
-                ServiceResult<List<BankAccountModel>> serviceResult = new ServiceResult<List<BankAccountModel>>()
-                {
-                    IsSuccess = true,
-                    Data = bankAccounts
-                };
-
-                return Ok(serviceResult);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new ServiceResult()
-                {
-                    IsSuccess = false,
-                    Error = new Error() { Description = ex.ToString() }
-                });
-            }
+                return await _bankService.GetBankAccounts(workerId, cancellationToken);
+            },
+            services: _bankService);
         }
 
         [HttpPost]
         [Route(nameof(CreateBankAccount))]
         public async Task<IActionResult> CreateBankAccount([FromBody] BankAccountModel bankAccount, CancellationToken cancellationToken)
         {
-            try
+            return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
             {
-                ServiceResult validationResult =
-                    await CreateBankAccountValidator.ValidateAsync(bankAccount, cancellationToken);
+                await CreateBankAccountValidator.ValidateAsync(bankAccount, cancellationToken);
 
-                if (!validationResult.IsSuccess)
-                {
-                    return BadRequest(validationResult);
-                }
-
-                int generatedId = await _bankService.CreateBankAccountAsync(bankAccount, cancellationToken);
-
-                ServiceResult<int> serviceResult = new ServiceResult<int>()
-                {
-                    IsSuccess = true,
-                    Data = generatedId
-                };
-
-                return Ok(serviceResult);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new ServiceResult()
-                {
-                    IsSuccess = false,
-                    Error = new Error() { Description = ex.ToString() }
-                });
-            }
+                return await _bankService.CreateBankAccountAsync(bankAccount, cancellationToken);
+            },
+            services: _bankService);
         }
 
         [HttpGet]
         [Route(nameof(GetCurrencies))]
         public async Task<IActionResult> GetCurrencies(CancellationToken cancellationToken)
         {
-            try
+            return await ServiceExecuter.ExecuteServiceAsync<List<CurrencyModel>>(async () =>
             {
-                List<CurrencyModel> currencies =
-                    await _bankService.GetCurrenciesAsync(cancellationToken);
-
-                ServiceResult<List<CurrencyModel>> serviceResult = new ServiceResult<List<CurrencyModel>>()
-                {
-                    IsSuccess = true,
-                    Data = currencies
-                };
-
-                return Ok(serviceResult);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new ServiceResult()
-                {
-                    IsSuccess = false,
-                    Error = new Error() { Description = ex.ToString() }
-                });
-            }
+                return await _bankService.GetCurrenciesAsync(cancellationToken);
+            },
+            services: _bankService);
         }
 
         [HttpPost]
         [Route(nameof(CreateCurrency))]
         public async Task<IActionResult> CreateCurrency([FromBody] CurrencyModel currency, CancellationToken cancellationToken)
         {
-            try
+            return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
             {
-                ServiceResult validationResult =
-                    await CreateCurrencyValidator.ValidateAsync(currency, cancellationToken);
+                await CreateCurrencyValidator.ValidateAsync(currency, cancellationToken);
 
-                if (!validationResult.IsSuccess)
-                {
-                    return BadRequest(validationResult);
-                }
-
-                int generatedId = await _bankService.CreateCurrencyAsync(currency, cancellationToken);
-
-                ServiceResult<int> serviceResult = new ServiceResult<int>()
-                {
-                    IsSuccess = true,
-                    Data = generatedId
-                };
-
-                return Ok(serviceResult);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new ServiceResult()
-                {
-                    IsSuccess = false,
-                    Error = new Error() { Description = ex.ToString() }
-                });
-            }
+                return await _bankService.CreateCurrencyAsync(currency, cancellationToken);
+            },
+            services: _bankService);
         }
 
         [HttpGet]
         [Route(nameof(GetSalaryPaymentsOfWorker))]
         public async Task<IActionResult> GetSalaryPaymentsOfWorker(int workerId, CancellationToken cancellationToken)
         {
-            try
+            return await ServiceExecuter.ExecuteServiceAsync<List<SalaryPaymentModel>>(async () =>
             {
-                List<SalaryPaymentModel> salaryPayments =
-                    await _bankService.GetSalaryPaymentsOfWorkerAsync(workerId, cancellationToken);
-
-                ServiceResult<List<SalaryPaymentModel>> serviceResult = new ServiceResult<List<SalaryPaymentModel>>()
-                {
-                    IsSuccess = true,
-                    Data = salaryPayments
-                };
-
-                return Ok(serviceResult);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new ServiceResult()
-                {
-                    IsSuccess = false,
-                    Error = new Error() { Description = ex.ToString() }
-                });
-            }
+                return await _bankService.GetSalaryPaymentsOfWorkerAsync(workerId, cancellationToken);
+            },
+            services: _bankService);
         }
 
         [HttpPost]
         [Route(nameof(CreateSalaryPayment))]
         public async Task<IActionResult> CreateSalaryPayment([FromBody] SalaryPaymentModel salaryPayment, CancellationToken cancellationToken)
         {
-            try
+            return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
             {
-                ServiceResult validationResult =
-                    await CreateSalaryPaymentValidator.ValidateAsync(salaryPayment, cancellationToken);
+                await CreateSalaryPaymentValidator.ValidateAsync(salaryPayment, cancellationToken);
 
-                if (!validationResult.IsSuccess)
-                {
-                    return BadRequest(validationResult);
-                }
-
-                int generatedId = await _bankService.CreateSalaryPaymentAsync(salaryPayment, cancellationToken);
-
-                ServiceResult<int> serviceResult = new ServiceResult<int>()
-                {
-                    IsSuccess = true,
-                    Data = generatedId
-                };
-
-                return Ok(serviceResult);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new ServiceResult()
-                {
-                    IsSuccess = false,
-                    Error = new Error() { Description = ex.ToString() }
-                });
-            }
+                return await _bankService.CreateSalaryPaymentAsync(salaryPayment, cancellationToken);
+            },
+            services: _bankService);
         }
     }
 }

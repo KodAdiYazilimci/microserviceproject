@@ -1,15 +1,14 @@
-﻿using MicroserviceProject.Services.Business.Departments.AA.Services;
-using MicroserviceProject.Services.Business.Departments.AA.Util.Validation.Transaction;
+﻿using MicroserviceProject.Services.Business.Departments.IT.Services;
+using MicroserviceProject.Services.Business.Departments.IT.Util.Validation.Transaction;
 using MicroserviceProject.Services.Transaction.Models;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Primitives;
 
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MicroserviceProject.Services.Business.Departments.AA.Controllers
+namespace MicroserviceProject.Services.Business.Departments.IT.Controllers
 {
     [Authorize]
     [Route("Transaction")]
@@ -20,11 +19,6 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Controllers
         public TransactionController(InventoryService inventoryService)
         {
             _inventoryService = inventoryService;
-
-            if (Request.Headers.TryGetValue("TransactionIdentity", out StringValues value))
-            {
-                _inventoryService.TransactionIdentity = value;
-            }
         }
 
         [HttpPost]
@@ -41,7 +35,6 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Controllers
                 {
                     rollbackResult = await _inventoryService.RollbackTransactionAsync(rollbackModel, cancellationToken);
                 }
-
 
                 return rollbackResult;
             },

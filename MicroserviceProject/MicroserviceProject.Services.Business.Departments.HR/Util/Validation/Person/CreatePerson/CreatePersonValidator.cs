@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using MicroserviceProject.Infrastructure.Communication.Moderator.Exceptions;
 
 namespace MicroserviceProject.Services.Business.Departments.HR.Util.Validation.Person.CreatePerson
 {
@@ -25,7 +26,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Util.Validation.P
         /// <param name="person">Doğrulanacak nesne</param>
         /// <param name="cancellationToken">İptal tokenı</param>
         /// <returns></returns>
-        public static async Task<ServiceResult> ValidateAsync(PersonModel person, CancellationToken cancellationToken)
+        public static async Task ValidateAsync(PersonModel person, CancellationToken cancellationToken)
         {
             CreatePersonRule validationRules = new CreatePersonRule();
 
@@ -56,10 +57,8 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Util.Validation.P
                             Message = x.ErrorMessage
                         }).ToList());
 
-                    return serviceResult;
+                    throw new ValidationException(serviceResult);
                 }
-
-                return new ServiceResult() { IsSuccess = true };
             }
             else
             {
@@ -77,7 +76,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Util.Validation.P
                     }
                 };
 
-                return serviceResult;
+                throw new ValidationException(serviceResult);
             }
         }
     }

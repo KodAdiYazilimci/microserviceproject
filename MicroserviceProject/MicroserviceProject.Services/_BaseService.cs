@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace MicroserviceProject.Services.Business.Departments.HR.Services
+namespace MicroserviceProject.Services
 {
     /// <summary>
     /// Servis sınıflarının temeli
@@ -32,5 +32,10 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                 transactionIdentity = value;
             }
         }
+
+        /// <summary>
+        /// İçerisinde çalışılan servisin adı
+        /// </summary>
+        public abstract string ServiceName { get; }
     }
 }

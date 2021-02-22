@@ -37,7 +37,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
         /// <summary>
         /// İşlem sürecinde adı geçecek modül adı
         /// </summary>
-        public const string MODULE_NAME = "MicroserviceProject.Services.Business.Departments.HR.Services.PersonService";
+        public override string ServiceName => "MicroserviceProject.Services.Business.Departments.HR.Services.PersonService";
 
         /// <summary>
         /// Önbelleğe alınan kişilerin önbellekteki adı

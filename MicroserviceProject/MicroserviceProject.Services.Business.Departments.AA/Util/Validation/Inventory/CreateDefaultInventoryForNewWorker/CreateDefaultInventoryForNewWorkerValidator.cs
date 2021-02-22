@@ -1,5 +1,6 @@
 ﻿using FluentValidation.Results;
 
+using MicroserviceProject.Infrastructure.Communication.Moderator.Exceptions;
 using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Basics;
 using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Errors;
 using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Validations;
@@ -24,7 +25,7 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Util.Validation.I
         /// <param name="inventory">Doğrulanacak nesne</param>
         /// <param name="cancellationToken">İptal tokenı</param>
         /// <returns></returns>
-        public static async Task<ServiceResult> ValidateAsync(InventoryModel inventory, CancellationToken cancellationToken)
+        public static async Task ValidateAsync(InventoryModel inventory, CancellationToken cancellationToken)
         {
             CreateDefaultInventoryForNewWorkerRule validationRules = new CreateDefaultInventoryForNewWorkerRule();
 
@@ -55,10 +56,8 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Util.Validation.I
                             Message = x.ErrorMessage
                         }).ToList());
 
-                    return serviceResult;
+                    throw new ValidationException(serviceResult);
                 }
-
-                return new ServiceResult() { IsSuccess = true };
             }
             else
             {
@@ -75,8 +74,7 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Util.Validation.I
                         ValidationItems = new List<ValidationItem>()
                     }
                 };
-
-                return serviceResult;
+                throw new ValidationException(serviceResult);
             }
         }
     }

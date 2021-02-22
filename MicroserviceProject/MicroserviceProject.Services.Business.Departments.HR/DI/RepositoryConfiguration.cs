@@ -23,6 +23,9 @@ namespace MicroserviceProject.Services.Business.Departments.HR.DI
             services.AddScoped<WorkerRepository>();
             services.AddScoped<WorkerRelationRepository>();
 
+            services.AddScoped<TransactionRepository>();
+            services.AddScoped<TransactionItemRepository>();
+
             return services;
         }
     }
