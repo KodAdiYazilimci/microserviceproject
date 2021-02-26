@@ -157,7 +157,7 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
                 {
                     TransactionType = TransactionType.Insert,
                     TransactionDate = DateTime.Now,
-                    TransactionIdentity = "", // TODO: Bu alan request headerdan alınacak, header da yoksa burada GUID olarak oluşturulacak
+                    TransactionIdentity = TransactionIdentity,
                     RollbackItems = new List<RollbackItemModel>
                     {
                         new RollbackItemModel()

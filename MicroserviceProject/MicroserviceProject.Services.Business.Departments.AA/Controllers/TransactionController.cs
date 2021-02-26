@@ -20,17 +20,17 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Controllers
         public TransactionController(InventoryService inventoryService)
         {
             _inventoryService = inventoryService;
-
-            if (Request.Headers.TryGetValue("TransactionIdentity", out StringValues value))
-            {
-                _inventoryService.TransactionIdentity = value;
-            }
         }
 
         [HttpPost]
         [Route(nameof(RollbackTransaction))]
         public async Task<IActionResult> RollbackTransaction([FromBody] RollbackModel rollbackModel, CancellationToken cancellationToken)
         {
+            if (Request.Headers.ContainsKey("TransactionIdentity"))
+            {
+                _inventoryService.TransactionIdentity = Request.Headers["TransactionIdentity"].ToString();
+            }
+
             return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
             {
                 await RollbackTransactionValidator.ValidateAsync(rollbackModel, cancellationToken);
@@ -41,7 +41,6 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Controllers
                 {
                     rollbackResult = await _inventoryService.RollbackTransactionAsync(rollbackModel, cancellationToken);
                 }
-
 
                 return rollbackResult;
             },

@@ -25,6 +25,11 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Controllers
         [Route(nameof(RollbackTransaction))]
         public async Task<IActionResult> RollbackTransaction([FromBody] RollbackModel rollbackModel, CancellationToken cancellationToken)
         {
+            if (Request.Headers.ContainsKey("TransactionIdentity"))
+            {
+                _inventoryService.TransactionIdentity = Request.Headers["TransactionIdentity"].ToString();
+            }
+
             return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
             {
                 await RollbackTransactionValidator.ValidateAsync(rollbackModel, cancellationToken);

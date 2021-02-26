@@ -27,6 +27,11 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Controllers
         [Route(nameof(GetInventoryRequests))]
         public async Task<IActionResult> GetInventoryRequests(CancellationToken cancellationToken)
         {
+            if (Request.Headers.ContainsKey("TransactionIdentity"))
+            {
+                _requestService.TransactionIdentity = Request.Headers["TransactionIdentity"].ToString();
+            }
+
             return await ServiceExecuter.ExecuteServiceAsync<List<InventoryRequestModel>>(async () =>
             {
                 return await _requestService.GetInventoryRequestsAsync(cancellationToken);
@@ -38,6 +43,11 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Controllers
         [Route(nameof(CreateInventoryRequest))]
         public async Task<IActionResult> CreateInventoryRequest([FromBody] InventoryRequestModel requestModel, CancellationToken cancellationToken)
         {
+            if (Request.Headers.ContainsKey("TransactionIdentity"))
+            {
+                _requestService.TransactionIdentity = Request.Headers["TransactionIdentity"].ToString();
+            }
+
             return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
             {
                 await CreateInventoryRequestValidator.ValidateAsync(requestModel, cancellationToken);
