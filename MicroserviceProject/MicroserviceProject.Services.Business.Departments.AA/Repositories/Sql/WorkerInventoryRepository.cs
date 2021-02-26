@@ -54,9 +54,10 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Repositories.Sql
                                                       FROM {TABLE_NAME}
                                                       WHERE DELETE_DATE IS NULL",
                                                      UnitOfWork.SqlConnection,
-                                                     UnitOfWork.SqlTransaction);
-
-            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+                                                     UnitOfWork.SqlTransaction)
+            {
+                Transaction = UnitOfWork.SqlTransaction
+            };
 
             SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationToken);
 
@@ -64,18 +65,19 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Repositories.Sql
             {
                 while (await sqlDataReader.ReadAsync(cancellationToken))
                 {
-                    WorkerInventoryEntity workerInventory = new WorkerInventoryEntity();
-
-                    workerInventory.Id = sqlDataReader.GetInt32("ID");
-                    workerInventory.WorkerId = sqlDataReader.GetInt32("HR_WORKERS_ID");
-                    workerInventory.InventoryId = sqlDataReader.GetInt32("AA_INVENTORIES_ID");
-                    workerInventory.FromDate = sqlDataReader.GetDateTime("FROM_DATE");
-                    workerInventory.ToDate =
+                    WorkerInventoryEntity workerInventory = new WorkerInventoryEntity
+                    {
+                        Id = sqlDataReader.GetInt32("ID"),
+                        WorkerId = sqlDataReader.GetInt32("HR_WORKERS_ID"),
+                        InventoryId = sqlDataReader.GetInt32("AA_INVENTORIES_ID"),
+                        FromDate = sqlDataReader.GetDateTime("FROM_DATE"),
+                        ToDate =
                         sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("TO_DATE"))
                         ?
                         null
                         :
-                        sqlDataReader.GetDateTime("TO_DATE");
+                        sqlDataReader.GetDateTime("TO_DATE")
+                    };
 
                     workerInventories.Add(workerInventory);
                 }
@@ -105,9 +107,10 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Repositories.Sql
                                                       @TO_DATE);
                                                       SELECT CAST(scope_identity() AS int)",
                                                      UnitOfWork.SqlConnection,
-                                                     UnitOfWork.SqlTransaction);
-
-            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+                                                     UnitOfWork.SqlTransaction)
+            {
+                Transaction = UnitOfWork.SqlTransaction
+            };
 
             sqlCommand.Parameters.AddWithValue("@HR_WORKERS_ID", ((object)workerInventory.WorkerId) ?? DBNull.Value);
             sqlCommand.Parameters.AddWithValue("@AA_INVENTORIES_ID", ((object)workerInventory.InventoryId) ?? DBNull.Value);
@@ -155,9 +158,10 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Repositories.Sql
                                                       SET DELETE_DATE = GETDATE()
                                                       WHERE ID = @ID",
                                                      UnitOfWork.SqlConnection,
-                                                     UnitOfWork.SqlTransaction);
-
-            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+                                                     UnitOfWork.SqlTransaction)
+            {
+                Transaction = UnitOfWork.SqlTransaction
+            };
 
             sqlCommand.Parameters.AddWithValue("@ID", id);
 
@@ -176,9 +180,10 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Repositories.Sql
                                                       SET DELETE_DATE = NULL
                                                       WHERE ID = @ID",
                                                               UnitOfWork.SqlConnection,
-                                                              UnitOfWork.SqlTransaction);
-
-            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+                                                              UnitOfWork.SqlTransaction)
+            {
+                Transaction = UnitOfWork.SqlTransaction
+            };
 
             sqlCommand.Parameters.AddWithValue("@ID", id);
 
@@ -199,9 +204,10 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Repositories.Sql
                                                       SET {name.ToUpper()} = @VALUE
                                                       WHERE ID = @ID",
                                                                   UnitOfWork.SqlConnection,
-                                                                  UnitOfWork.SqlTransaction);
-
-            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+                                                                  UnitOfWork.SqlTransaction)
+            {
+                Transaction = UnitOfWork.SqlTransaction
+            };
 
             sqlCommand.Parameters.AddWithValue("@ID", id);
             sqlCommand.Parameters.AddWithValue("@VALUE", value);

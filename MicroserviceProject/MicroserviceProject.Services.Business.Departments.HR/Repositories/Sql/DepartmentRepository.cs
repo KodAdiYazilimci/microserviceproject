@@ -1,7 +1,6 @@
 ﻿using MicroserviceProject.Services.Business.Departments.HR.Entities.Sql;
 using MicroserviceProject.Services.Transaction;
 using MicroserviceProject.Services.UnitOfWork;
-using MicroserviceProject.Services.UnitOfWork;
 
 using System;
 using System.Collections.Generic;
@@ -52,9 +51,10 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
                                                       FROM {TABLE_NAME}
                                                       WHERE DELETE_DATE IS NULL",
                                                      UnitOfWork.SqlConnection,
-                                                     UnitOfWork.SqlTransaction);
-
-            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+                                                     UnitOfWork.SqlTransaction)
+            {
+                Transaction = UnitOfWork.SqlTransaction
+            };
 
             SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationToken);
 
@@ -62,10 +62,11 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
             {
                 while (await sqlDataReader.ReadAsync(cancellationToken))
                 {
-                    DepartmentEntity department = new DepartmentEntity();
-
-                    department.Id = sqlDataReader.GetInt32("ID");
-                    department.Name = sqlDataReader.GetString("NAME");
+                    DepartmentEntity department = new DepartmentEntity
+                    {
+                        Id = sqlDataReader.GetInt32("ID"),
+                        Name = sqlDataReader.GetString("NAME")
+                    };
 
                     departments.Add(department);
                 }
@@ -89,9 +90,10 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
                                                       (@NAME);
                                                       SELECT CAST(scope_identity() AS int)",
                                                      UnitOfWork.SqlConnection,
-                                                     UnitOfWork.SqlTransaction);
-
-            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+                                                     UnitOfWork.SqlTransaction)
+            {
+                Transaction = UnitOfWork.SqlTransaction
+            };
 
             sqlCommand.Parameters.AddWithValue("@NAME", ((object)department.Name) ?? DBNull.Value);
 
@@ -136,9 +138,10 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
                                                       SET DELETE_DATE = GETDATE()
                                                       WHERE ID = @ID",
                                                      UnitOfWork.SqlConnection,
-                                                     UnitOfWork.SqlTransaction);
-
-            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+                                                     UnitOfWork.SqlTransaction)
+            {
+                Transaction = UnitOfWork.SqlTransaction
+            };
 
             sqlCommand.Parameters.AddWithValue("@ID", id);
 
@@ -157,9 +160,10 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
                                                       SET DELETE_DATE = NULL
                                                       WHERE ID = @ID",
                                                               UnitOfWork.SqlConnection,
-                                                              UnitOfWork.SqlTransaction);
-
-            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+                                                              UnitOfWork.SqlTransaction)
+            {
+                Transaction = UnitOfWork.SqlTransaction
+            };
 
             sqlCommand.Parameters.AddWithValue("@ID", id);
 
@@ -180,9 +184,10 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
                                                       SET {name.ToUpper()} = @VALUE
                                                       WHERE ID = @ID",
                                                                   UnitOfWork.SqlConnection,
-                                                                  UnitOfWork.SqlTransaction);
-
-            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+                                                                  UnitOfWork.SqlTransaction)
+            {
+                Transaction = UnitOfWork.SqlTransaction
+            };
 
             sqlCommand.Parameters.AddWithValue("@ID", id);
             sqlCommand.Parameters.AddWithValue("@VALUE", value);

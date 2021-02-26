@@ -44,19 +44,18 @@ namespace MicroserviceProject.Services.MQ.AA.Util.Consumers.Inventory
             _serviceCommunicator = serviceCommunicator;
 
             _consumer = new Consumer<WorkerModel>(rabbitConfiguration);
-            _consumer.OnConsumed += _consumer_OnConsumed;
+            _consumer.OnConsumed += Consumer_OnConsumed;
         }
 
-        private async Task _consumer_OnConsumed(WorkerModel data)
+        private async Task Consumer_OnConsumed(WorkerModel data)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            var serviceResult =
-                await _serviceCommunicator.Call<int>(
-                 serviceName: _routeNameProvider.AA_AssignInventoryToWorker,
-                 postData: data,
-                 queryParameters: null,
-                 cancellationToken: cancellationTokenSource.Token);
+            await _serviceCommunicator.Call<int>(
+             serviceName: _routeNameProvider.AA_AssignInventoryToWorker,
+             postData: data,
+             queryParameters: null,
+             cancellationToken: cancellationTokenSource.Token);
         }
 
         /// <summary>

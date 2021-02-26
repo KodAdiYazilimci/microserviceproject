@@ -62,9 +62,10 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Repositories.
                                                       @IS_ROLLED_BACK);
                                                       SELECT CAST(scope_identity() AS int)",
                                               UnitOfWork.SqlConnection,
-                                              UnitOfWork.SqlTransaction);
-
-            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+                                              UnitOfWork.SqlTransaction)
+            {
+                Transaction = UnitOfWork.SqlTransaction
+            };
 
             sqlCommand.Parameters.AddWithValue("@ROLLBACK_TYPE", ((object)entity.RollbackType) ?? DBNull.Value);
             sqlCommand.Parameters.AddWithValue("@NAME", ((object)entity.Name) ?? DBNull.Value);
@@ -98,9 +99,10 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Repositories.
                                                       FROM {TABLE_NAME}
                                                       WHERE DELETE_DATE IS NULL",
                                                      UnitOfWork.SqlConnection,
-                                                     UnitOfWork.SqlTransaction);
-
-            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+                                                     UnitOfWork.SqlTransaction)
+            {
+                Transaction = UnitOfWork.SqlTransaction
+            };
 
             SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationToken);
 
@@ -108,16 +110,17 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Repositories.
             {
                 while (await sqlDataReader.ReadAsync(cancellationToken))
                 {
-                    RollbackItemEntity inventory = new RollbackItemEntity();
-
-                    inventory.Id = sqlDataReader.GetInt32("ID");
-                    inventory.RollbackType = sqlDataReader.GetInt32("ROLLBACK_TYPE");
-                    inventory.Name = sqlDataReader.GetString("NAME");
-                    inventory.DataSet = sqlDataReader.GetString("DATASET");
-                    inventory.Identity = sqlDataReader.GetString("IDENTITY");
-                    inventory.OldValue = sqlDataReader.GetString("OLD_VALUE");
-                    inventory.NewValue = sqlDataReader.GetString("NEW_VALUE");
-                    inventory.IsRolledback = sqlDataReader.GetBoolean("IS_ROLLED_BACK");
+                    RollbackItemEntity inventory = new RollbackItemEntity
+                    {
+                        Id = sqlDataReader.GetInt32("ID"),
+                        RollbackType = sqlDataReader.GetInt32("ROLLBACK_TYPE"),
+                        Name = sqlDataReader.GetString("NAME"),
+                        DataSet = sqlDataReader.GetString("DATASET"),
+                        Identity = sqlDataReader.GetString("IDENTITY"),
+                        OldValue = sqlDataReader.GetString("OLD_VALUE"),
+                        NewValue = sqlDataReader.GetString("NEW_VALUE"),
+                        IsRolledback = sqlDataReader.GetBoolean("IS_ROLLED_BACK")
+                    };
 
                     entities.Add(inventory);
                 }
@@ -164,9 +167,10 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Repositories.
                                                       SET DELETE_DATE = GETDATE()
                                                       WHERE ID = @ID",
                                                      UnitOfWork.SqlConnection,
-                                                     UnitOfWork.SqlTransaction);
-
-            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+                                                     UnitOfWork.SqlTransaction)
+            {
+                Transaction = UnitOfWork.SqlTransaction
+            };
 
             sqlCommand.Parameters.AddWithValue("@ID", id);
 
@@ -185,9 +189,10 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Repositories.
                                                       SET DELETE_DATE = NULL
                                                       WHERE ID = @ID",
                                                               UnitOfWork.SqlConnection,
-                                                              UnitOfWork.SqlTransaction);
-
-            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+                                                              UnitOfWork.SqlTransaction)
+            {
+                Transaction = UnitOfWork.SqlTransaction
+            };
 
             sqlCommand.Parameters.AddWithValue("@ID", id);
 
@@ -208,9 +213,10 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Repositories.
                                                       SET {name.ToUpper()} = @VALUE
                                                       WHERE ID = @ID",
                                                                   UnitOfWork.SqlConnection,
-                                                                  UnitOfWork.SqlTransaction);
-
-            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+                                                                  UnitOfWork.SqlTransaction)
+            {
+                Transaction = UnitOfWork.SqlTransaction
+            };
 
             sqlCommand.Parameters.AddWithValue("@ID", id);
             sqlCommand.Parameters.AddWithValue("@VALUE", value);

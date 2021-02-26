@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.Schemes
+﻿namespace MicroserviceProject.Infrastructure.Security.Authentication.BasicToken.Schemes
 {
     /// <summary>
     /// Kimlik denetimi için şema sınıfı

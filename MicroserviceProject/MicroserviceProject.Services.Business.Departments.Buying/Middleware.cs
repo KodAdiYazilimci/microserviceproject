@@ -67,7 +67,7 @@ namespace MicroserviceProject.Services.Business.Departments.Buying
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -101,7 +101,7 @@ namespace MicroserviceProject.Services.Business.Departments.Buying
                         },
                         cancellationToken: cancellationTokenSource.Token);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
 
                 }

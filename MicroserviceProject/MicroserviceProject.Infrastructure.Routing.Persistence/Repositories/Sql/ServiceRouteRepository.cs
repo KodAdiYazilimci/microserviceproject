@@ -108,10 +108,12 @@ namespace MicroserviceProject.Infrastructure.Routing.Persistence.Repositories.Sq
                         {
                             cancellationToken.ThrowIfCancellationRequested();
 
-                            RouteQueryModel queryKey = new RouteQueryModel();
-                            queryKey.Id = Convert.ToInt32(sqlQueryReader["ID"]);
-                            queryKey.CallModelId = Convert.ToInt32(sqlQueryReader["SERVICE_ROUTE_ID"]);
-                            queryKey.Key = sqlQueryReader["KEY"].ToString();
+                            RouteQueryModel queryKey = new RouteQueryModel
+                            {
+                                Id = Convert.ToInt32(sqlQueryReader["ID"]),
+                                CallModelId = Convert.ToInt32(sqlQueryReader["SERVICE_ROUTE_ID"]),
+                                Key = sqlQueryReader["KEY"].ToString()
+                            };
 
                             route.QueryKeys.Add(queryKey);
                         }
@@ -143,12 +145,13 @@ namespace MicroserviceProject.Infrastructure.Routing.Persistence.Repositories.Sq
                     {
                         while (await sqlAlternativeRouteReader.ReadAsync(cancellationToken))
                         {
-                            ServiceRouteModel alternativeRoute = new ServiceRouteModel();
-
-                            alternativeRoute.Id = sqlAlternativeRouteReader.GetInt32("ALTERNATIVE_SERVICE_ROUTE_ID");
-                            alternativeRoute.ServiceName = sqlAlternativeRouteReader.GetString("NAME");
-                            alternativeRoute.CallType = sqlAlternativeRouteReader.GetString("CALLTYPE");
-                            alternativeRoute.Endpoint = sqlAlternativeRouteReader.GetString("ENDPOINT");
+                            ServiceRouteModel alternativeRoute = new ServiceRouteModel
+                            {
+                                Id = sqlAlternativeRouteReader.GetInt32("ALTERNATIVE_SERVICE_ROUTE_ID"),
+                                ServiceName = sqlAlternativeRouteReader.GetString("NAME"),
+                                CallType = sqlAlternativeRouteReader.GetString("CALLTYPE"),
+                                Endpoint = sqlAlternativeRouteReader.GetString("ENDPOINT")
+                            };
 
                             if (route.AlternativeRoutes == null)
                             {
@@ -185,10 +188,12 @@ namespace MicroserviceProject.Infrastructure.Routing.Persistence.Repositories.Sq
                                 {
                                     cancellationToken.ThrowIfCancellationRequested();
 
-                                    RouteQueryModel queryKey = new RouteQueryModel();
-                                    queryKey.Id = Convert.ToInt32(sqlAlternativeRouteQueryReader["ID"]);
-                                    queryKey.CallModelId = Convert.ToInt32(sqlAlternativeRouteQueryReader["SERVICE_ROUTE_ID"]);
-                                    queryKey.Key = sqlAlternativeRouteQueryReader["KEY"].ToString();
+                                    RouteQueryModel queryKey = new RouteQueryModel
+                                    {
+                                        Id = Convert.ToInt32(sqlAlternativeRouteQueryReader["ID"]),
+                                        CallModelId = Convert.ToInt32(sqlAlternativeRouteQueryReader["SERVICE_ROUTE_ID"]),
+                                        Key = sqlAlternativeRouteQueryReader["KEY"].ToString()
+                                    };
 
                                     alternativeRoute.QueryKeys.Add(queryKey);
                                 }

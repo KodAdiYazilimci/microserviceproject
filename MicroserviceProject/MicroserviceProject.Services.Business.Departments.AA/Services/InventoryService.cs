@@ -242,7 +242,7 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
             Task<List<InventoryEntity>> inventoriesTask = _inventoryRepository.GetListAsync(cancellationToken);
             Task<List<InventoryDefaultsEntity>> inventoryDefaultsTask = _inventoryDefaultsRepository.GetListAsync(cancellationToken);
 
-            Task.WaitAll(new Task[] { inventoriesTask, inventoryDefaultsTask });
+            Task.WaitAll(new Task[] { inventoriesTask, inventoryDefaultsTask }, cancellationToken);
 
             List<InventoryModel> inventories = (from inv in inventoriesTask.Result
                                                 join def in inventoryDefaultsTask.Result

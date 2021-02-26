@@ -68,7 +68,7 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -102,7 +102,7 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization
                         },
                         cancellationToken: cancellationTokenSource.Token);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
 
                 }

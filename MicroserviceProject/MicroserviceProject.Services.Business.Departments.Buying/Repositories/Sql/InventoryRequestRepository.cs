@@ -55,9 +55,10 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Repositories.
                                                       FROM {TABLE_NAME}
                                                       WHERE DELETE_DATE IS NULL",
                                                      UnitOfWork.SqlConnection,
-                                                     UnitOfWork.SqlTransaction);
-
-            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+                                                     UnitOfWork.SqlTransaction)
+            {
+                Transaction = UnitOfWork.SqlTransaction
+            };
 
             SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationToken);
 
@@ -65,14 +66,15 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Repositories.
             {
                 while (await sqlDataReader.ReadAsync(cancellationToken))
                 {
-                    InventoryRequestEntity inventoryRequest = new InventoryRequestEntity();
-
-                    inventoryRequest.Id = sqlDataReader.GetInt32("ID");
-                    inventoryRequest.InventoryId = sqlDataReader.GetInt32("INVENTORY_ID");
-                    inventoryRequest.DepartmentId = sqlDataReader.GetInt32("HR_DEPARTMENTS_ID");
-                    inventoryRequest.Amount = sqlDataReader.GetInt32("AMOUNT");
-                    inventoryRequest.Revoked = sqlDataReader.GetBoolean("REVOKED");
-                    inventoryRequest.Done = sqlDataReader.GetBoolean("DONE");
+                    InventoryRequestEntity inventoryRequest = new InventoryRequestEntity
+                    {
+                        Id = sqlDataReader.GetInt32("ID"),
+                        InventoryId = sqlDataReader.GetInt32("INVENTORY_ID"),
+                        DepartmentId = sqlDataReader.GetInt32("HR_DEPARTMENTS_ID"),
+                        Amount = sqlDataReader.GetInt32("AMOUNT"),
+                        Revoked = sqlDataReader.GetBoolean("REVOKED"),
+                        Done = sqlDataReader.GetBoolean("DONE")
+                    };
 
                     inventoryRequests.Add(inventoryRequest);
                 }
@@ -104,9 +106,10 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Repositories.
                                                       @DONE);
                                                       SELECT CAST(scope_identity() AS int)",
                                                      UnitOfWork.SqlConnection,
-                                                     UnitOfWork.SqlTransaction);
-
-            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+                                                     UnitOfWork.SqlTransaction)
+            {
+                Transaction = UnitOfWork.SqlTransaction
+            };
 
             sqlCommand.Parameters.AddWithValue("@INVENTORY_ID", ((object)inventoryRequest.InventoryId) ?? DBNull.Value);
             sqlCommand.Parameters.AddWithValue("@HR_DEPARTMENTS_ID", ((object)inventoryRequest.DepartmentId) ?? DBNull.Value);
@@ -168,9 +171,10 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Repositories.
                                                       AND
                                                       ID IN ({inQuery})",
                                                      UnitOfWork.SqlConnection,
-                                                     UnitOfWork.SqlTransaction);
-
-            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+                                                     UnitOfWork.SqlTransaction)
+            {
+                Transaction = UnitOfWork.SqlTransaction
+            };
 
             SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationToken);
 
@@ -178,14 +182,15 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Repositories.
             {
                 while (await sqlDataReader.ReadAsync(cancellationToken))
                 {
-                    InventoryRequestEntity inventoryRequest = new InventoryRequestEntity();
-
-                    inventoryRequest.Id = sqlDataReader.GetInt32("ID");
-                    inventoryRequest.InventoryId = sqlDataReader.GetInt32("INVENTORY_ID");
-                    inventoryRequest.DepartmentId = sqlDataReader.GetInt32("HR_DEPARTMENTS_ID");
-                    inventoryRequest.Amount = sqlDataReader.GetInt32("AMOUNT");
-                    inventoryRequest.Revoked = sqlDataReader.GetBoolean("REVOKED");
-                    inventoryRequest.Done = sqlDataReader.GetBoolean("DONE");
+                    InventoryRequestEntity inventoryRequest = new InventoryRequestEntity
+                    {
+                        Id = sqlDataReader.GetInt32("ID"),
+                        InventoryId = sqlDataReader.GetInt32("INVENTORY_ID"),
+                        DepartmentId = sqlDataReader.GetInt32("HR_DEPARTMENTS_ID"),
+                        Amount = sqlDataReader.GetInt32("AMOUNT"),
+                        Revoked = sqlDataReader.GetBoolean("REVOKED"),
+                        Done = sqlDataReader.GetBoolean("DONE")
+                    };
 
                     inventoryRequests.Add(inventoryRequest);
                 }
@@ -206,9 +211,10 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Repositories.
                                                       SET DELETE_DATE = GETDATE()
                                                       WHERE ID = @ID",
                                                      UnitOfWork.SqlConnection,
-                                                     UnitOfWork.SqlTransaction);
-
-            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+                                                     UnitOfWork.SqlTransaction)
+            {
+                Transaction = UnitOfWork.SqlTransaction
+            };
 
             sqlCommand.Parameters.AddWithValue("@ID", id);
 
@@ -227,9 +233,10 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Repositories.
                                                       SET DELETE_DATE = NULL
                                                       WHERE ID = @ID",
                                                               UnitOfWork.SqlConnection,
-                                                              UnitOfWork.SqlTransaction);
-
-            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+                                                              UnitOfWork.SqlTransaction)
+            {
+                Transaction = UnitOfWork.SqlTransaction
+            };
 
             sqlCommand.Parameters.AddWithValue("@ID", id);
 
@@ -250,9 +257,10 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Repositories.
                                                       SET {name.ToUpper()} = @VALUE
                                                       WHERE ID = @ID",
                                                                   UnitOfWork.SqlConnection,
-                                                                  UnitOfWork.SqlTransaction);
-
-            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+                                                                  UnitOfWork.SqlTransaction)
+            {
+                Transaction = UnitOfWork.SqlTransaction
+            };
 
             sqlCommand.Parameters.AddWithValue("@ID", id);
             sqlCommand.Parameters.AddWithValue("@VALUE", value);

@@ -15,8 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrast
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrastructure.Logging.File", "MicroserviceProject.Infrastructure.Logging.File\MicroserviceProject.Infrastructure.Logging.File.csproj", "{6FF6E9F6-0B0B-43A8-8767-4A6DF86A7E83}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication", "MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication\MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.csproj", "{B8817C26-8465-4910-A4F6-4B6277EC5DEC}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure.Cryptography", "Infrastructure.Cryptography", "{6A1F6E82-33F9-4571-94FE-C332DBED3DF8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrastructure.Communication.Http", "MicroserviceProject.Infrastructure.Communication.Http\MicroserviceProject.Infrastructure.Communication.Http.csproj", "{F15A9AAD-5CAE-4C20-ACF5-8CA76CF09082}"
@@ -109,6 +107,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Infrast
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Infrastructure.Security.Providers", "MicroserviceProject.Infrastructure.Security.Providers\MicroserviceProject.Infrastructure.Security.Providers.csproj", "{9C449C5E-D0D6-4B8F-BEEA-0DC47EFA2154}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrastructure.Security.Authentication.BasicToken", "MicroserviceProject.Infrastructure.Security.Authentication.BasicToken\MicroserviceProject.Infrastructure.Security.Authentication.BasicToken.csproj", "{3D4FCD80-3DB4-4274-A559-27853491FC93}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -123,10 +123,6 @@ Global
 		{6FF6E9F6-0B0B-43A8-8767-4A6DF86A7E83}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6FF6E9F6-0B0B-43A8-8767-4A6DF86A7E83}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6FF6E9F6-0B0B-43A8-8767-4A6DF86A7E83}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B8817C26-8465-4910-A4F6-4B6277EC5DEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B8817C26-8465-4910-A4F6-4B6277EC5DEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B8817C26-8465-4910-A4F6-4B6277EC5DEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B8817C26-8465-4910-A4F6-4B6277EC5DEC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F15A9AAD-5CAE-4C20-ACF5-8CA76CF09082}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F15A9AAD-5CAE-4C20-ACF5-8CA76CF09082}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F15A9AAD-5CAE-4C20-ACF5-8CA76CF09082}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -267,6 +263,10 @@ Global
 		{9C449C5E-D0D6-4B8F-BEEA-0DC47EFA2154}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C449C5E-D0D6-4B8F-BEEA-0DC47EFA2154}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C449C5E-D0D6-4B8F-BEEA-0DC47EFA2154}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D4FCD80-3DB4-4274-A559-27853491FC93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D4FCD80-3DB4-4274-A559-27853491FC93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D4FCD80-3DB4-4274-A559-27853491FC93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D4FCD80-3DB4-4274-A559-27853491FC93}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -274,7 +274,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{FE4127D7-8C88-4A35-BF31-12145BC0CB99} = {423CC89D-F00D-45D2-BE00-931786875AA6}
 		{6FF6E9F6-0B0B-43A8-8767-4A6DF86A7E83} = {423CC89D-F00D-45D2-BE00-931786875AA6}
-		{B8817C26-8465-4910-A4F6-4B6277EC5DEC} = {4B50141F-7DDA-4045-87E0-EFBF72CEFB63}
 		{F15A9AAD-5CAE-4C20-ACF5-8CA76CF09082} = {2FA72A9D-33B2-4392-8FE4-EE7FA6D9F147}
 		{BA84773B-7932-4987-AE08-C0D33EC3339E} = {2669D375-E38F-4991-B50C-CAEFD1C57054}
 		{8DE777E5-A0AA-4F59-A405-5F7A185A395B} = {423CC89D-F00D-45D2-BE00-931786875AA6}
@@ -310,6 +309,7 @@ Global
 		{9465086E-69E6-4A10-B4EC-5484D5E64BDB} = {82A61F67-0339-48C7-843D-D61FB3F15888}
 		{57DEEBDD-59C8-4B05-9FFF-2CEA7BC41764} = {82A61F67-0339-48C7-843D-D61FB3F15888}
 		{9C449C5E-D0D6-4B8F-BEEA-0DC47EFA2154} = {4B50141F-7DDA-4045-87E0-EFBF72CEFB63}
+		{3D4FCD80-3DB4-4274-A559-27853491FC93} = {4B50141F-7DDA-4045-87E0-EFBF72CEFB63}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C136217B-3CA6-4AEC-95E4-D62936481A67}

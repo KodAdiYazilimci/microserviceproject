@@ -59,7 +59,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             //     cancellationToken: cancellationTokenSource.Token);
         }
 
-        private void btnKisileriGetir_Click(object sender, EventArgs e)
+        private void BtnKisileriGetir_Click(object sender, EventArgs e)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
@@ -97,7 +97,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             }
         }
 
-        private void bnKisiOlustur_Click(object sender, EventArgs e)
+        private void BnKisiOlustur_Click(object sender, EventArgs e)
         {
             CreatePersonForm createPersonForm =
                 new CreatePersonForm(
@@ -110,7 +110,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             createPersonForm.ShowDialog();
         }
 
-        private void btnDepartmanlariGetir_Click(object sender, EventArgs e)
+        private void BtnDepartmanlariGetir_Click(object sender, EventArgs e)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
@@ -148,7 +148,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             }
         }
 
-        private void btnDepartmanOlustur_Click(object sender, EventArgs e)
+        private void BtnDepartmanOlustur_Click(object sender, EventArgs e)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
@@ -182,7 +182,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             }
         }
 
-        private void btnCalisanlariGetir_Click(object sender, EventArgs e)
+        private void BtnCalisanlariGetir_Click(object sender, EventArgs e)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
@@ -220,7 +220,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             }
         }
 
-        private void btnCalisanOlustur_Click(object sender, EventArgs e)
+        private void BtnCalisanOlustur_Click(object sender, EventArgs e)
         {
             CreateWorkerForm createWorkerForm =
                 new CreateWorkerForm(
@@ -233,7 +233,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             createWorkerForm.ShowDialog();
         }
 
-        private void btnEnvanterleriGetir_Click(object sender, EventArgs e)
+        private void BtnEnvanterleriGetir_Click(object sender, EventArgs e)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
@@ -271,7 +271,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             }
         }
 
-        private void btnEnvanterOlustur_Click(object sender, EventArgs e)
+        private void BtnEnvanterOlustur_Click(object sender, EventArgs e)
         {
             Dialogs.IT.CreateInventoryForm createInventoryForm =
                 new Dialogs.IT.CreateInventoryForm(
@@ -284,7 +284,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             createInventoryForm.ShowDialog();
         }
 
-        private void btnIdariIslerEnvanterleriGetir_Click(object sender, EventArgs e)
+        private void BtnIdariIslerEnvanterleriGetir_Click(object sender, EventArgs e)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
@@ -322,7 +322,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             }
         }
 
-        private void btnIdariIslerEnventerOlustur_Click(object sender, EventArgs e)
+        private void BtnIdariIslerEnventerOlustur_Click(object sender, EventArgs e)
         {
             Dialogs.AA.CreateInventoryForm createInventoryForm =
                 new Dialogs.AA.CreateInventoryForm(
@@ -335,7 +335,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             createInventoryForm.ShowDialog();
         }
 
-        private void btnYeniBaslayanEnvanterGetir_Click(object sender, EventArgs e)
+        private void BtnYeniBaslayanEnvanterGetir_Click(object sender, EventArgs e)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
@@ -373,7 +373,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             }
         }
 
-        private void btnITYeniBaslayanEnvanterOlustur_Click(object sender, EventArgs e)
+        private void BtnITYeniBaslayanEnvanterOlustur_Click(object sender, EventArgs e)
         {
             Dialogs.IT.CreateInventoryForNewWorkerForm createInventoryForm =
             new Dialogs.IT.CreateInventoryForNewWorkerForm(
@@ -386,7 +386,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             createInventoryForm.ShowDialog();
         }
 
-        private void btnAAYeniBaslayanEnvanterleriGetir_Click(object sender, EventArgs e)
+        private void BtnAAYeniBaslayanEnvanterleriGetir_Click(object sender, EventArgs e)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
@@ -424,7 +424,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             }
         }
 
-        private void btnAAYeniBaslayanEnvanterOlustur_Click(object sender, EventArgs e)
+        private void BtnAAYeniBaslayanEnvanterOlustur_Click(object sender, EventArgs e)
         {
             Dialogs.AA.CreateInventoryForNewWorkerForm createInventoryForm =
                 new Dialogs.AA.CreateInventoryForNewWorkerForm(

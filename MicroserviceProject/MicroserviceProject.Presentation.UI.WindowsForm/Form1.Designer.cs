@@ -118,7 +118,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             this.btnDepartmanOlustur.TabIndex = 5;
             this.btnDepartmanOlustur.Text = "Dpt Oluştur";
             this.btnDepartmanOlustur.UseVisualStyleBackColor = true;
-            this.btnDepartmanOlustur.Click += new System.EventHandler(this.btnDepartmanOlustur_Click);
+            this.btnDepartmanOlustur.Click += new System.EventHandler(this.BtnDepartmanOlustur_Click);
             // 
             // lstDepartmanlar
             // 
@@ -136,7 +136,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             this.btnDepartmanlariGetir.TabIndex = 3;
             this.btnDepartmanlariGetir.Text = "Departmanları Getir";
             this.btnDepartmanlariGetir.UseVisualStyleBackColor = true;
-            this.btnDepartmanlariGetir.Click += new System.EventHandler(this.btnDepartmanlariGetir_Click);
+            this.btnDepartmanlariGetir.Click += new System.EventHandler(this.BtnDepartmanlariGetir_Click);
             // 
             // groupBox2
             // 
@@ -158,7 +158,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             this.btnCalisanOlustur.TabIndex = 8;
             this.btnCalisanOlustur.Text = "Çalışan Oluştur";
             this.btnCalisanOlustur.UseVisualStyleBackColor = true;
-            this.btnCalisanOlustur.Click += new System.EventHandler(this.btnCalisanOlustur_Click);
+            this.btnCalisanOlustur.Click += new System.EventHandler(this.BtnCalisanOlustur_Click);
             // 
             // lstCalisanlar
             // 
@@ -176,7 +176,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             this.btnCalisanlariGetir.TabIndex = 6;
             this.btnCalisanlariGetir.Text = "Çalışanları Getir";
             this.btnCalisanlariGetir.UseVisualStyleBackColor = true;
-            this.btnCalisanlariGetir.Click += new System.EventHandler(this.btnCalisanlariGetir_Click);
+            this.btnCalisanlariGetir.Click += new System.EventHandler(this.BtnCalisanlariGetir_Click);
             // 
             // groupBox1
             // 
@@ -198,7 +198,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             this.bnKisiOlustur.TabIndex = 2;
             this.bnKisiOlustur.Text = "Kişi Oluştur";
             this.bnKisiOlustur.UseVisualStyleBackColor = true;
-            this.bnKisiOlustur.Click += new System.EventHandler(this.bnKisiOlustur_Click);
+            this.bnKisiOlustur.Click += new System.EventHandler(this.BnKisiOlustur_Click);
             // 
             // lstKisiler
             // 
@@ -216,7 +216,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             this.btnKisileriGetir.TabIndex = 0;
             this.btnKisileriGetir.Text = "Kişileri Getir";
             this.btnKisileriGetir.UseVisualStyleBackColor = true;
-            this.btnKisileriGetir.Click += new System.EventHandler(this.btnKisileriGetir_Click);
+            this.btnKisileriGetir.Click += new System.EventHandler(this.BtnKisileriGetir_Click);
             // 
             // tabPage2
             // 
@@ -250,7 +250,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             this.btnITYeniBaslayanEnvanterOlustur.TabIndex = 2;
             this.btnITYeniBaslayanEnvanterOlustur.Text = "Env. Oluştur";
             this.btnITYeniBaslayanEnvanterOlustur.UseVisualStyleBackColor = true;
-            this.btnITYeniBaslayanEnvanterOlustur.Click += new System.EventHandler(this.btnITYeniBaslayanEnvanterOlustur_Click);
+            this.btnITYeniBaslayanEnvanterOlustur.Click += new System.EventHandler(this.BtnITYeniBaslayanEnvanterOlustur_Click);
             // 
             // lstITYeniBaslayanEnvanterleri
             // 
@@ -268,7 +268,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             this.btnITYeniBaslayanEnvanterGetir.TabIndex = 0;
             this.btnITYeniBaslayanEnvanterGetir.Text = "Envanterleri Getir";
             this.btnITYeniBaslayanEnvanterGetir.UseVisualStyleBackColor = true;
-            this.btnITYeniBaslayanEnvanterGetir.Click += new System.EventHandler(this.btnYeniBaslayanEnvanterGetir_Click);
+            this.btnITYeniBaslayanEnvanterGetir.Click += new System.EventHandler(this.BtnYeniBaslayanEnvanterGetir_Click);
             // 
             // groupBox4
             // 
@@ -290,7 +290,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             this.btnEnvanterOlustur.TabIndex = 2;
             this.btnEnvanterOlustur.Text = "Env. Oluştur";
             this.btnEnvanterOlustur.UseVisualStyleBackColor = true;
-            this.btnEnvanterOlustur.Click += new System.EventHandler(this.btnEnvanterOlustur_Click);
+            this.btnEnvanterOlustur.Click += new System.EventHandler(this.BtnEnvanterOlustur_Click);
             // 
             // lstEnvanterler
             // 
@@ -308,7 +308,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             this.btnEnvanterleriGetir.TabIndex = 0;
             this.btnEnvanterleriGetir.Text = "Envanterleri Getir";
             this.btnEnvanterleriGetir.UseVisualStyleBackColor = true;
-            this.btnEnvanterleriGetir.Click += new System.EventHandler(this.btnEnvanterleriGetir_Click);
+            this.btnEnvanterleriGetir.Click += new System.EventHandler(this.BtnEnvanterleriGetir_Click);
             // 
             // tabPage3
             // 
@@ -342,7 +342,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             this.btnAAYeniBaslayanEnvanterOlustur.TabIndex = 2;
             this.btnAAYeniBaslayanEnvanterOlustur.Text = "Env. Oluştur";
             this.btnAAYeniBaslayanEnvanterOlustur.UseVisualStyleBackColor = true;
-            this.btnAAYeniBaslayanEnvanterOlustur.Click += new System.EventHandler(this.btnAAYeniBaslayanEnvanterOlustur_Click);
+            this.btnAAYeniBaslayanEnvanterOlustur.Click += new System.EventHandler(this.BtnAAYeniBaslayanEnvanterOlustur_Click);
             // 
             // lstAAYeniBaslayanEnvanterleri
             // 
@@ -360,7 +360,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             this.btnAAYeniBaslayanEnvanterleriGetir.TabIndex = 0;
             this.btnAAYeniBaslayanEnvanterleriGetir.Text = "Envanterleri Getir";
             this.btnAAYeniBaslayanEnvanterleriGetir.UseVisualStyleBackColor = true;
-            this.btnAAYeniBaslayanEnvanterleriGetir.Click += new System.EventHandler(this.btnAAYeniBaslayanEnvanterleriGetir_Click);
+            this.btnAAYeniBaslayanEnvanterleriGetir.Click += new System.EventHandler(this.BtnAAYeniBaslayanEnvanterleriGetir_Click);
             // 
             // groupBox5
             // 
@@ -382,7 +382,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             this.btnIdariIslerEnventerOlustur.TabIndex = 2;
             this.btnIdariIslerEnventerOlustur.Text = "Env. Oluştur";
             this.btnIdariIslerEnventerOlustur.UseVisualStyleBackColor = true;
-            this.btnIdariIslerEnventerOlustur.Click += new System.EventHandler(this.btnIdariIslerEnventerOlustur_Click);
+            this.btnIdariIslerEnventerOlustur.Click += new System.EventHandler(this.BtnIdariIslerEnventerOlustur_Click);
             // 
             // lstIdariIslerEnvanterler
             // 
@@ -400,7 +400,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             this.btnIdariIslerEnvanterleriGetir.TabIndex = 0;
             this.btnIdariIslerEnvanterleriGetir.Text = "Envanterleri Getir";
             this.btnIdariIslerEnvanterleriGetir.UseVisualStyleBackColor = true;
-            this.btnIdariIslerEnvanterleriGetir.Click += new System.EventHandler(this.btnIdariIslerEnvanterleriGetir_Click);
+            this.btnIdariIslerEnvanterleriGetir.Click += new System.EventHandler(this.BtnIdariIslerEnvanterleriGetir_Click);
             // 
             // Form1
             // 

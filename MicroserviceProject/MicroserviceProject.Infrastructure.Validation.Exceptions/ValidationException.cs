@@ -12,7 +12,7 @@ namespace MicroserviceProject.Infrastructure.Validation.Exceptions
         /// <summary>
         /// Doğrulama başarısız olması durumunda ortaya çıkacak model sonucu
         /// </summary>
-        private ValidationModel _validationResult;
+        private readonly ValidationModel _validationResult;
 
         /// <summary>
         /// Doğrulama başarısız olması durumunda ortaya çıkacak model sonucu

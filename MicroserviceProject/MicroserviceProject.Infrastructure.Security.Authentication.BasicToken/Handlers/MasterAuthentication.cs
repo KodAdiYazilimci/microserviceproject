@@ -1,14 +1,12 @@
 ﻿using MicroserviceProject.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Infrastructure.Communication.Moderator;
-using MicroserviceProject.Infrastructure.Routing.Persistence.Repositories.Sql;
 using MicroserviceProject.Infrastructure.Routing.Providers;
-using MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.Persistence;
-using MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.Schemes;
+using MicroserviceProject.Infrastructure.Security.Authentication.BasicToken.Persistence;
+using MicroserviceProject.Infrastructure.Security.Authentication.BasicToken.Schemes;
 using MicroserviceProject.Infrastructure.Security.Model;
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
@@ -21,7 +19,7 @@ using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.Handlers
+namespace MicroserviceProject.Infrastructure.Security.Authentication.BasicToken.Handlers
 {
     /// <summary>
     /// Kimlik doğrulama denetimi yapacak sınıf
@@ -32,14 +30,10 @@ namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.H
         /// Önbellekte tutulacak token bazlı kullanıcı oturumları için önbellek anahtarı
         /// </summary>
         private const string CACHEDTOKENBASEDSESSIONS = "CACHED_TOKENBASED_SESSIONS";
-        private const string TAKENTOKENFORTHISSERVICE = "TAKEN_TOKEN_FOR_THIS_SERVICE";
-        private const string CACHEDSERVICEROUTES = "CACHED_SERVICE_ROUTES";
 
-        private readonly IConfiguration _configuration;
         private readonly IMemoryCache _memoryCache;
         private readonly RouteNameProvider _routeNameProvider;
         private readonly ServiceCommunicator _serviceCommunicator;
-        private readonly ServiceRouteRepository _serviceRouteRepository;
 
         /// <summary>
         /// Kimlik doğrulama denetimi yapacak sınıf
@@ -55,15 +49,11 @@ namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.H
             ISystemClock systemClock,
             IMemoryCache memoryCache,
             RouteNameProvider routeNameProvider,
-            ServiceRouteRepository serviceRouteRepository,
-            ServiceCommunicator serviceCommunicator,
-            IConfiguration configuration
+            ServiceCommunicator serviceCommunicator
             ) : base(options, loggerFactory, urlEncoder, systemClock)
         {
-            _configuration = configuration;
             _memoryCache = memoryCache;
             _routeNameProvider = routeNameProvider;
-            _serviceRouteRepository = serviceRouteRepository;
             _serviceCommunicator = serviceCommunicator;
         }
 
@@ -131,7 +121,7 @@ namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.H
         {
             if (_memoryCache.TryGetValue(CACHEDTOKENBASEDSESSIONS, out List<User> cachedUsers) && cachedUsers != default(List<User>))
             {
-                cachedUsers.RemoveAll(x => x == null || x.Token == null || x.Token.ValidTo == null || x.Token.ValidTo < DateTime.Now);
+                cachedUsers.RemoveAll(x => x == null || x.Token == null || x.Token.ValidTo < DateTime.Now);
 
                 cachedUsers.Add(userModel);
 
@@ -157,7 +147,7 @@ namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.H
         {
             if (_memoryCache.TryGetValue(CACHEDTOKENBASEDSESSIONS, out List<User> cachedUsers) && cachedUsers != default(List<User>))
             {
-                if (cachedUsers.RemoveAll(x => x == null || x.Token == null || x.Token.ValidTo == null || x.Token.ValidTo < DateTime.Now) > 0)
+                if (cachedUsers.RemoveAll(x => x == null || x.Token == null || x.Token.ValidTo < DateTime.Now) > 0)
                 {
                     _memoryCache.Set(CACHEDTOKENBASEDSESSIONS, cachedUsers);
                 }

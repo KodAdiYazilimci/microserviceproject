@@ -112,8 +112,10 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                         {
                             if (serviceRoute.CallType.ToUpper() == "POST")
                             {
-                                HttpPostProvider httpPostProvider = new HttpPostProvider();
-                                httpPostProvider.Headers = new List<HttpHeader>();
+                                HttpPostProvider httpPostProvider = new HttpPostProvider
+                                {
+                                    Headers = new List<HttpHeader>()
+                                };
                                 httpPostProvider.Headers.Add(new HttpHeader("Authorization", _serviceToken));
 
                                 SetQueryParameters(queryParameters, serviceRoute, httpPostProvider);
@@ -128,8 +130,10 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                             }
                             else if (serviceRoute.CallType.ToUpper() == "GET")
                             {
-                                HttpGetProvider httpGetProvider = new HttpGetProvider();
-                                httpGetProvider.Headers = new List<HttpHeader>();
+                                HttpGetProvider httpGetProvider = new HttpGetProvider
+                                {
+                                    Headers = new List<HttpHeader>()
+                                };
                                 httpGetProvider.Headers.Add(new HttpHeader("Authorization", _serviceToken));
 
                                 SetQueryParameters(queryParameters, serviceRoute, httpGetProvider);
@@ -164,12 +168,10 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                     }
                     else if (wex.Response is HttpWebResponse && (wex.Response as HttpWebResponse).StatusCode == HttpStatusCode.BadRequest)
                     {
-                        using (StreamReader streamReader = new StreamReader(wex.Response.GetResponseStream()))
-                        {
-                            string response = await streamReader.ReadToEndAsync();
+                        using StreamReader streamReader = new StreamReader(wex.Response.GetResponseStream());
+                        string response = await streamReader.ReadToEndAsync();
 
-                            return JsonConvert.DeserializeObject<ServiceResultModel>(response);
-                        }
+                        return JsonConvert.DeserializeObject<ServiceResultModel>(response);
                     }
                     else if (wex.Response is HttpWebResponse)
                     {
@@ -259,8 +261,10 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                         {
                             if (serviceRoute.CallType.ToUpper() == "POST")
                             {
-                                HttpPostProvider httpPostProvider = new HttpPostProvider();
-                                httpPostProvider.Headers = new List<HttpHeader>();
+                                HttpPostProvider httpPostProvider = new HttpPostProvider
+                                {
+                                    Headers = new List<HttpHeader>()
+                                };
                                 httpPostProvider.Headers.Add(new HttpHeader("Authorization", _serviceToken));
 
                                 SetQueryParameters(queryParameters, serviceRoute, httpPostProvider);
@@ -275,8 +279,10 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                             }
                             else if (serviceRoute.CallType.ToUpper() == "GET")
                             {
-                                HttpGetProvider httpGetProvider = new HttpGetProvider();
-                                httpGetProvider.Headers = new List<HttpHeader>();
+                                HttpGetProvider httpGetProvider = new HttpGetProvider
+                                {
+                                    Headers = new List<HttpHeader>()
+                                };
                                 httpGetProvider.Headers.Add(new HttpHeader("Authorization", _serviceToken));
 
                                 SetQueryParameters(queryParameters, serviceRoute, httpGetProvider);

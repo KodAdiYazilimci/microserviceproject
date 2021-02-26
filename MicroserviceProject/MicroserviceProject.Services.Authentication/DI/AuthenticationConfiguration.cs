@@ -1,5 +1,5 @@
-﻿using MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.Handlers;
-using MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.Schemes;
+﻿using MicroserviceProject.Infrastructure.Security.Authentication.BasicToken.Handlers;
+using MicroserviceProject.Infrastructure.Security.Authentication.BasicToken.Schemes;
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.DependencyInjection;

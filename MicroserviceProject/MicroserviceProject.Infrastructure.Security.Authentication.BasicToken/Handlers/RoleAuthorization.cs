@@ -1,5 +1,5 @@
-﻿using MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.Requirements;
-using MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.Util;
+﻿using MicroserviceProject.Infrastructure.Security.Authentication.BasicToken.Requirements;
+using MicroserviceProject.Infrastructure.Security.Authentication.BasicToken.Util;
 using MicroserviceProject.Infrastructure.Security.Model;
 
 using Microsoft.AspNetCore.Authorization;
@@ -11,7 +11,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.Handlers
+namespace MicroserviceProject.Infrastructure.Security.Authentication.BasicToken.Handlers
 {
     /// <summary>
     /// Rol denetimi yapan sınıf

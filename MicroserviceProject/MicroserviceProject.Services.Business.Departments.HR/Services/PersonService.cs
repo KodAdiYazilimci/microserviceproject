@@ -343,7 +343,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
 
             Task<List<WorkerRelationEntity>> workerRelationTask = _workerRelationRepository.GetListAsync(cancellationToken);
 
-            Task.WaitAll(new Task[] { departmentTask, personTask, titleTask, workerTask, workerRelationTask });
+            Task.WaitAll(new Task[] { departmentTask, personTask, titleTask, workerTask, workerRelationTask }, cancellationToken);
 
             var workerModels = (from w in workerTask.Result
                                 join t in titleTask.Result

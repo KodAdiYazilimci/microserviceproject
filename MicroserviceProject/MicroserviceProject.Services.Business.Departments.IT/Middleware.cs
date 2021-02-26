@@ -67,7 +67,7 @@ namespace MicroserviceProject.Services.Business.Departments.IT
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -101,7 +101,7 @@ namespace MicroserviceProject.Services.Business.Departments.IT
                         },
                         cancellationToken: cancellationTokenSource.Token);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
 
                 }

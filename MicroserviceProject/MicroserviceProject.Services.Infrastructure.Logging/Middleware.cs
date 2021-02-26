@@ -67,7 +67,7 @@ namespace MicroserviceProject.Services.Infrastructure.Logging
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -101,7 +101,7 @@ namespace MicroserviceProject.Services.Infrastructure.Logging
                         },
                         cancellationToken: cancellationTokenSource.Token);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
 
                 }

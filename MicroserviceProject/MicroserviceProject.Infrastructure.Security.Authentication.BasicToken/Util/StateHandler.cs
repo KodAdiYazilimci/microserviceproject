@@ -1,11 +1,11 @@
-﻿using MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.Abstracts;
+﻿using MicroserviceProject.Infrastructure.Security.Authentication.BasicToken.Abstracts;
 
 using Microsoft.AspNetCore.Authorization;
 
 using System;
 using System.Linq;
 
-namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.Util
+namespace MicroserviceProject.Infrastructure.Security.Authentication.BasicToken.Util
 {
     /// <summary>
     /// Kimlik gereksinimlerinin karşılandığını denetleyen sınıf

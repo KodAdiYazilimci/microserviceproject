@@ -1,10 +1,11 @@
-﻿using MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.Abstracts;
+﻿
+using MicroserviceProject.Infrastructure.Security.Authentication.BasicToken.Abstracts;
 
 using Microsoft.AspNetCore.Authorization;
 
 using System;
 
-namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.Requirements
+namespace MicroserviceProject.Infrastructure.Security.Authentication.BasicToken.Requirements
 {
     /// <summary>
     /// Kimliğe ait rol gereksinimini tanımlayan sınıf

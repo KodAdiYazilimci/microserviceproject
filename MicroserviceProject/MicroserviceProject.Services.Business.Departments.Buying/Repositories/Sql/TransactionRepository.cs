@@ -54,9 +54,10 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Repositories.
                                                        @IS_ROLLED_BACK);
                                                       SELECT CAST(scope_identity() AS int)",
                                               UnitOfWork.SqlConnection,
-                                              UnitOfWork.SqlTransaction);
-
-            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+                                              UnitOfWork.SqlTransaction)
+            {
+                Transaction = UnitOfWork.SqlTransaction
+            };
 
             sqlCommand.Parameters.AddWithValue("@TRANSACTION_IDENTITY", ((object)entity.TransactionIdentity) ?? DBNull.Value);
             sqlCommand.Parameters.AddWithValue("@TRANSACTION_TYPE", ((object)entity.TransactionType) ?? DBNull.Value);
@@ -84,9 +85,10 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Repositories.
                                                       FROM {TABLE_NAME}
                                                       WHERE DELETE_DATE IS NULL",
                                                      UnitOfWork.SqlConnection,
-                                                     UnitOfWork.SqlTransaction);
-
-            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+                                                     UnitOfWork.SqlTransaction)
+            {
+                Transaction = UnitOfWork.SqlTransaction
+            };
 
             SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationToken);
 
@@ -94,13 +96,14 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Repositories.
             {
                 while (await sqlDataReader.ReadAsync(cancellationToken))
                 {
-                    RollbackEntity inventory = new RollbackEntity();
-
-                    inventory.Id = sqlDataReader.GetInt32("ID");
-                    inventory.TransactionIdentity = sqlDataReader.GetString("TRANSACTION_IDENTITY");
-                    inventory.TransactionType = sqlDataReader.GetInt32("TRANSACTION_TYPE");
-                    inventory.TransactionDate = sqlDataReader.GetDateTime("TRANSACTION_DATE");
-                    inventory.IsRolledback = sqlDataReader.GetBoolean("IS_ROLLED_BACK");
+                    RollbackEntity inventory = new RollbackEntity
+                    {
+                        Id = sqlDataReader.GetInt32("ID"),
+                        TransactionIdentity = sqlDataReader.GetString("TRANSACTION_IDENTITY"),
+                        TransactionType = sqlDataReader.GetInt32("TRANSACTION_TYPE"),
+                        TransactionDate = sqlDataReader.GetDateTime("TRANSACTION_DATE"),
+                        IsRolledback = sqlDataReader.GetBoolean("IS_ROLLED_BACK")
+                    };
 
                     entities.Add(inventory);
                 }
@@ -148,9 +151,10 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Repositories.
                                                       WHERE
                                                       [TRANSACTION_IDENTITY] = @TRANSACTION_IDENTITY",
                                                UnitOfWork.SqlConnection,
-                                               UnitOfWork.SqlTransaction);
-
-            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+                                               UnitOfWork.SqlTransaction)
+            {
+                Transaction = UnitOfWork.SqlTransaction
+            };
 
             sqlCommand.Parameters.AddWithValue("@TRANSACTION_IDENTITY", transactionIdentity);
 
