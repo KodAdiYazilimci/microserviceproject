@@ -86,7 +86,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.HR
 
                 Task.Run(async delegate
                 {
-                    ServiceResult<int> createWorkerServiceResult =
+                    ServiceResultModel<int> createWorkerServiceResult =
                         await _serviceCommunicator.Call<int>(
                             serviceName: _routeNameProvider.HR_CreateWorker,
                             postData: worker,
@@ -99,7 +99,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.HR
                     }
                     else
                     {
-                        throw new Exception(createWorkerServiceResult.Error.Description);
+                        throw new Exception(createWorkerServiceResult.ErrorModel.Description);
                     }
                 },
                 cancellationToken: cancellationTokenSource.Token).Wait();
@@ -131,7 +131,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.HR
             {
                 Task.Run(async delegate
                 {
-                    ServiceResult<List<PersonModel>> personServiceResult =
+                    ServiceResultModel<List<PersonModel>> personServiceResult =
                         await _serviceCommunicator.Call<List<PersonModel>>(
                             serviceName: _routeNameProvider.HR_GetPeople,
                             postData: null,
@@ -147,7 +147,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.HR
                     }
                     else
                     {
-                        throw new Exception(personServiceResult.Error.Description);
+                        throw new Exception(personServiceResult.ErrorModel.Description);
                     }
                 },
                 cancellationToken: cancellationTokenSource.Token).Wait();
@@ -174,7 +174,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.HR
             {
                 Task.Run(async delegate
                 {
-                    ServiceResult<List<TitleModel>> titleServiceResult =
+                    ServiceResultModel<List<TitleModel>> titleServiceResult =
                         await _serviceCommunicator.Call<List<TitleModel>>(
                             serviceName: _routeNameProvider.HR_GetTitles,
                             postData: null,
@@ -190,7 +190,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.HR
                     }
                     else
                     {
-                        throw new Exception(titleServiceResult.Error.Description);
+                        throw new Exception(titleServiceResult.ErrorModel.Description);
                     }
                 },
                 cancellationToken: cancellationTokenSource.Token).Wait();
@@ -217,7 +217,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.HR
             {
                 Task.Run(async delegate
                 {
-                    ServiceResult<List<DepartmentModel>> departmentServiceResult =
+                    ServiceResultModel<List<DepartmentModel>> departmentServiceResult =
                         await _serviceCommunicator.Call<List<DepartmentModel>>(
                             serviceName: _routeNameProvider.HR_GetDepartments,
                             postData: null,
@@ -233,7 +233,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.HR
                     }
                     else
                     {
-                        throw new Exception(departmentServiceResult.Error.Description);
+                        throw new Exception(departmentServiceResult.ErrorModel.Description);
                     }
                 },
                 cancellationToken: cancellationTokenSource.Token).Wait();
@@ -260,7 +260,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.HR
             {
                 Task.Run(async delegate
                 {
-                    ServiceResult<List<WorkerModel>> workersServiceResult =
+                    ServiceResultModel<List<WorkerModel>> workersServiceResult =
                         await _serviceCommunicator.Call<List<WorkerModel>>(
                             serviceName: _routeNameProvider.HR_GetWorkers,
                             postData: null,
@@ -276,7 +276,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.HR
                     }
                     else
                     {
-                        throw new Exception(workersServiceResult.Error.Description);
+                        throw new Exception(workersServiceResult.ErrorModel.Description);
                     }
                 },
                 cancellationToken: cancellationTokenSource.Token).Wait();

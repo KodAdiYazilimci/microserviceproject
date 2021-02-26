@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 
-namespace MicroserviceProject.Infrastructure.Communication.Moderator.Models
+namespace MicroserviceProject.Infrastructure.Communication.Model
 {
     /// <summary>
     /// İşlem süreci nesnesi
     /// </summary>
-    public class Transaction
+    public class TransactionModel
     {
         /// <summary>
         /// İşlem kimliğinin gerçekleştiği modüller

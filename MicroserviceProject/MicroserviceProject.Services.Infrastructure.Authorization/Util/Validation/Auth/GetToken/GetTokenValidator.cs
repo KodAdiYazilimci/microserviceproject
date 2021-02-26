@@ -1,9 +1,9 @@
 ﻿using FluentValidation.Results;
 
-using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Basics;
-using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Errors;
-using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Validations;
+using MicroserviceProject.Infrastructure.Communication.Model.Basics;
+using MicroserviceProject.Infrastructure.Communication.Model.Errors;
 using MicroserviceProject.Infrastructure.Security.Model;
+using MicroserviceProject.Infrastructure.Validation.Model;
 
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +23,7 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Util.Validat
         /// <param name="credential">Doğrulanacak nesne</param>
         /// <param name="cancellationToken">İptal tokenı</param>
         /// <returns></returns>
-        public static async Task<ServiceResult> ValidateAsync(Credential credential, CancellationToken cancellationToken)
+        public static async Task<ServiceResultModel> ValidateAsync(Credential credential, CancellationToken cancellationToken)
         {
             Configuration.Validation.Auth.GetToken.CredentialRule validationRules = new Configuration.Validation.Auth.GetToken.CredentialRule();
 
@@ -33,21 +33,21 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Util.Validat
 
                 if (!validationResult.IsValid)
                 {
-                    ServiceResult serviceResult = new ServiceResult()
+                    ServiceResultModel serviceResult = new ServiceResultModel()
                     {
                         IsSuccess = false,
-                        Error = new Error()
+                        ErrorModel = new ErrorModel()
                         {
                             Description = "Geçersiz parametre"
                         },
-                        Validation = new MicroserviceProject.Infrastructure.Communication.Moderator.Model.Validations.Validation()
+                        Validation = new ValidationModel()
                         {
                             IsValid = false,
-                            ValidationItems = new List<ValidationItem>()
+                            ValidationItems = new List<ValidationItemModel>()
                         }
                     };
                     serviceResult.Validation.ValidationItems.AddRange(
-                        validationResult.Errors.Select(x => new ValidationItem()
+                        validationResult.Errors.Select(x => new ValidationItemModel()
                         {
                             Key = x.PropertyName,
                             Value = x.AttemptedValue,
@@ -57,21 +57,21 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Util.Validat
                     return serviceResult;
                 }
 
-                return new ServiceResult() { IsSuccess = true };
+                return new ServiceResultModel() { IsSuccess = true };
             }
             else
             {
-                ServiceResult serviceResult = new ServiceResult()
+                ServiceResultModel serviceResult = new ServiceResultModel()
                 {
                     IsSuccess = false,
-                    Error = new Error()
+                    ErrorModel = new ErrorModel()
                     {
                         Description = "Geçersiz parametre"
                     },
-                    Validation = new MicroserviceProject.Infrastructure.Communication.Moderator.Model.Validations.Validation()
+                    Validation = new ValidationModel()
                     {
                         IsValid = false,
-                        ValidationItems = new List<ValidationItem>()
+                        ValidationItems = new List<ValidationItemModel>()
                     }
                 };
 

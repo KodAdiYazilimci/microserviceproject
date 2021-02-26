@@ -78,7 +78,7 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moder
         /// <param name="queryParameters">Gerektiğinde servise verilecek query string parametreleri</param>
         /// <param name="cancellationToken">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResult> Call(
+        public async Task<ServiceResultModel> Call(
           string serviceName,
           object postData,
           List<KeyValuePair<string, string>> queryParameters,
@@ -119,7 +119,7 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moder
                                 return
                                     await
                                     httpPostProvider
-                                    .PostAsync<ServiceResult, object>(
+                                    .PostAsync<ServiceResultModel, object>(
                                         url: callModel.Endpoint,
                                         postData: postData,
                                         cancellationToken: cancellationToken);
@@ -134,7 +134,7 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moder
                                 return
                                     await
                                     httpGetProvider
-                                    .GetAsync<ServiceResult>(
+                                    .GetAsync<ServiceResultModel>(
                                         url: callModel.ServiceName, cancellationToken);
                             }
                             else
@@ -157,14 +157,14 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moder
                 {
                     if (wex.Response is HttpWebResponse && (wex.Response as HttpWebResponse).StatusCode == HttpStatusCode.Unauthorized)
                     {
-                        return new ServiceResult() { IsSuccess = false, Error = new Error() { Code = "401", Description = wex.ToString() } };
+                        return new ServiceResultModel() { IsSuccess = false, ErrorModel = new ErrorModel() { Code = "401", Description = wex.ToString() } };
                     }
 
                     using (StreamReader streamReader = new StreamReader(wex.Response.GetResponseStream()))
                     {
                         string response = await streamReader.ReadToEndAsync();
 
-                        return JsonConvert.DeserializeObject<ServiceResult>(response);
+                        return JsonConvert.DeserializeObject<ServiceResultModel>(response);
                     }
                 }
 
@@ -185,7 +185,7 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moder
         /// <param name="queryParameters">Gerektiğinde servise verilecek query string parametreleri</param>
         /// <param name="cancellationToken">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResult<TResult>> Call<TResult>(
+        public async Task<ServiceResultModel<TResult>> Call<TResult>(
             string serviceName,
             object postData,
             List<KeyValuePair<string, string>> queryParameters,
@@ -227,7 +227,7 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moder
                                 return
                                     await
                                     httpPostProvider
-                                    .PostAsync<ServiceResult<TResult>, object>(
+                                    .PostAsync<ServiceResultModel<TResult>, object>(
                                         url: callModel.Endpoint,
                                         postData: postData,
                                         cancellationToken: cancellationToken);
@@ -243,7 +243,7 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moder
                                 return
                                     await
                                     httpGetProvider
-                                    .GetAsync<ServiceResult<TResult>>(
+                                    .GetAsync<ServiceResultModel<TResult>>(
                                         url: callModel.Endpoint, cancellationToken);
                             }
                             else
@@ -266,14 +266,14 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moder
                 {
                     if (wex.Response is HttpWebResponse && (wex.Response as HttpWebResponse).StatusCode == HttpStatusCode.Unauthorized)
                     {
-                        return new ServiceResult<TResult>() { IsSuccess = false, Error = new Error() { Code = "401", Description = wex.ToString() } };
+                        return new ServiceResultModel<TResult>() { IsSuccess = false, ErrorModel = new ErrorModel() { Code = "401", Description = wex.ToString() } };
                     }
 
                     using (StreamReader streamReader = new StreamReader(wex.Response.GetResponseStream()))
                     {
                         string response = await streamReader.ReadToEndAsync();
 
-                        return JsonConvert.DeserializeObject<ServiceResult<TResult>>(response);
+                        return JsonConvert.DeserializeObject<ServiceResultModel<TResult>>(response);
                     }
                 }
 

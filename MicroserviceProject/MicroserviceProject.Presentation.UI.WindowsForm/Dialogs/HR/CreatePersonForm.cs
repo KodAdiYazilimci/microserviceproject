@@ -60,7 +60,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.HR
             {
                 Task.Run(async delegate
                 {
-                    ServiceResult<int> createPersonServiceResult =
+                    ServiceResultModel<int> createPersonServiceResult =
                                 await _serviceCommunicator.Call<int>(
                                     serviceName: _routeNameProvider.HR_CreatePerson,
                                     postData: new PersonModel()
@@ -76,7 +76,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.HR
                         MessageBox.Show("Kişi oluşturuldu");
                     }
                     else
-                        throw new Exception(createPersonServiceResult.Error.Description);
+                        throw new Exception(createPersonServiceResult.ErrorModel.Description);
                 },
                 cancellationToken: cancellationTokenSource.Token).Wait();
             }

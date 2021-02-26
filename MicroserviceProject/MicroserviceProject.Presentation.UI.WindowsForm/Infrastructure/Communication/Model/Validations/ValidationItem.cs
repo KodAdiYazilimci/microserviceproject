@@ -3,7 +3,7 @@
     /// <summary>
     /// Doğrulamaya ait detay
     /// </summary>
-    public class ValidationItem
+    public class ValidationItemModel
     {
         /// <summary>
         /// Doğrulanmaya çalışılan anahtar

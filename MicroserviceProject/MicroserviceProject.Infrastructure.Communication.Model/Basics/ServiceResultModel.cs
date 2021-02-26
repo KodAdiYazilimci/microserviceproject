@@ -1,13 +1,12 @@
-﻿using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Errors;
-using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Validations;
-using MicroserviceProject.Infrastructure.Communication.Moderator.Models;
+﻿using MicroserviceProject.Infrastructure.Communication.Model.Errors;
+using MicroserviceProject.Infrastructure.Validation.Model;
 
-namespace MicroserviceProject.Infrastructure.Communication.Moderator.Model.Basics
+namespace MicroserviceProject.Infrastructure.Communication.Model.Basics
 {
     /// <summary>
     /// Bir servisten dönen yanıt
     /// </summary>
-    public class ServiceResult
+    public class ServiceResultModel
     {
         /// <summary>
         /// Yanıtın başarılı olma durumu
@@ -17,24 +16,24 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator.Model.Basic
         /// <summary>
         /// Yanıta konu olan hata
         /// </summary>
-        public Error Error { get; set; }
+        public ErrorModel ErrorModel { get; set; }
 
         /// <summary>
         /// Yanıta konu olan doğrulama
         /// </summary>
-        public Validation Validation { get; set; }
+        public ValidationModel Validation { get; set; }
 
         /// <summary>
         /// Servis işlemleri boyunca geçerli olacak işlem kimliği
         /// </summary>
-        public Transaction Transaction { get; set; }
+        public TransactionModel Transaction { get; set; }
     }
 
     /// <summary>
     /// Bir servisten dönen yanıt
     /// </summary>
     /// <typeparam name="TResult">Servisten dönecek datanın tipi</typeparam>
-    public class ServiceResult<TResult> : ServiceResult
+    public class ServiceResultModel<TResult> : ServiceResultModel
     {
         /// <summary>
         /// Yanıtın içerisindeki data

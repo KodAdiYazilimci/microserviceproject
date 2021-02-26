@@ -1,7 +1,7 @@
-﻿using MicroserviceProject.Infrastructure.Communication.Moderator;
-using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Basics;
-using MicroserviceProject.Infrastructure.Communication.Moderator.Providers;
-using MicroserviceProject.Infrastructure.Communication.Moderator.Repositories.Sql;
+﻿using MicroserviceProject.Infrastructure.Communication.Model.Basics;
+using MicroserviceProject.Infrastructure.Communication.Moderator;
+using MicroserviceProject.Infrastructure.Routing.Persistence.Repositories.Sql;
+using MicroserviceProject.Infrastructure.Routing.Providers;
 using MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.Persistence;
 using MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.Schemes;
 using MicroserviceProject.Infrastructure.Security.Model;
@@ -103,7 +103,7 @@ namespace MicroserviceProject.Infrastructure.Security.BasicTokenAuthentication.H
                     return user;
                 }              
 
-                ServiceResult<User> serviceResult =
+                ServiceResultModel<User> serviceResult =
                     await
                     _serviceCommunicator.Call<User>(
                         serviceName: _routeNameProvider.Auth_GetUser,

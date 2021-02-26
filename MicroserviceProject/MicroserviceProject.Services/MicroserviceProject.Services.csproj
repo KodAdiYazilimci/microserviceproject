@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MicroserviceProject.Infrastructure.Communication.Moderator\MicroserviceProject.Infrastructure.Communication.Moderator.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Infrastructure.Validation.Exceptions\MicroserviceProject.Infrastructure.Validation.Exceptions.csproj" />
   </ItemGroup>
 
 </Project>

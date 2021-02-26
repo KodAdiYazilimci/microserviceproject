@@ -3,7 +3,7 @@
     /// <summary>
     /// Servisten dönen hata
     /// </summary>
-    public class Error
+    public class ErrorModel
     {
         /// <summary>
         /// Hatanın kodu

@@ -1,5 +1,5 @@
-using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Basics;
-using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Errors;
+using MicroserviceProject.Infrastructure.Communication.Model.Basics;
+using MicroserviceProject.Infrastructure.Communication.Model.Errors;
 using MicroserviceProject.Services.Authentication;
 using MicroserviceProject.Services.Authentication.DI;
 using MicroserviceProject.Services.Business.Departments.Accounting.DI;
@@ -68,10 +68,10 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting
                     context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                     context.Response.ContentType = "application/json";
                     await
-                    context.Response.WriteAsync(JsonConvert.SerializeObject(new ServiceResult()
+                    context.Response.WriteAsync(JsonConvert.SerializeObject(new ServiceResultModel()
                     {
                         IsSuccess = false,
-                        Error = new Error()
+                        ErrorModel = new ErrorModel()
                         {
                             Description = context.Features.Get<IExceptionHandlerPathFeature>().Error.Message
                         }

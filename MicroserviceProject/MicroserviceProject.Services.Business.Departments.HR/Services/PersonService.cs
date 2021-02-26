@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 
 using MicroserviceProject.Infrastructure.Caching.Redis;
-using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Basics;
+using MicroserviceProject.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Infrastructure.Communication.Moderator;
-using MicroserviceProject.Infrastructure.Communication.Moderator.Providers;
+using MicroserviceProject.Infrastructure.Routing.Providers;
 using MicroserviceProject.Services.Business.Departments.HR.Entities.Sql;
 using MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql;
 using MicroserviceProject.Services.Communication.Publishers.AA;
@@ -11,6 +11,9 @@ using MicroserviceProject.Services.Communication.Publishers.Account;
 using MicroserviceProject.Services.Communication.Publishers.IT;
 using MicroserviceProject.Services.Model.Department.Accounting;
 using MicroserviceProject.Services.Model.Department.HR;
+using MicroserviceProject.Services.Transaction;
+using MicroserviceProject.Services.Transaction.Models;
+using MicroserviceProject.Services.Transaction.Types;
 using MicroserviceProject.Services.UnitOfWork;
 
 using System;
@@ -18,9 +21,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using MicroserviceProject.Services.Transaction.Models;
-using MicroserviceProject.Services.Transaction.Types;
-using MicroserviceProject.Services.Transaction;
 
 namespace MicroserviceProject.Services.Business.Departments.HR.Services
 {
@@ -309,7 +309,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
 
             foreach (var worker in workerModels)
             {
-                ServiceResult<List<BankAccountModel>> bankAccountsServiceResult =
+                ServiceResultModel<List<BankAccountModel>> bankAccountsServiceResult =
                  await _serviceCommunicator.Call<List<BankAccountModel>>(
                      serviceName: _routeNameProvider.Accounting_GetBankAccountsOfWorker,
                      postData: null,
@@ -322,7 +322,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                 }
                 else
                 {
-                    throw new Exception(bankAccountsServiceResult.Error.Description);
+                    throw new Exception(bankAccountsServiceResult.ErrorModel.Description);
                 }
             }
 
@@ -396,7 +396,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
 
             if (!worker.AAInventories.Any())
             {
-                ServiceResult<List<Model.Department.AA.InventoryModel>> defaultInventoriesServiceResult =
+                ServiceResultModel<List<Model.Department.AA.InventoryModel>> defaultInventoriesServiceResult =
                     await _serviceCommunicator.Call<List<Model.Department.AA.InventoryModel>>(
                         serviceName: _routeNameProvider.AA_GetInventoriesForNewWorker,
                         postData: null,
@@ -409,7 +409,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                 }
                 else
                 {
-                    throw new Exception(defaultInventoriesServiceResult.Error.Description);
+                    throw new Exception(defaultInventoriesServiceResult.ErrorModel.Description);
                 }
             }
 
@@ -426,7 +426,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
 
             if (!worker.ITInventories.Any())
             {
-                ServiceResult<List<Model.Department.IT.InventoryModel>> defaultInventoriesServiceResult =
+                ServiceResultModel<List<Model.Department.IT.InventoryModel>> defaultInventoriesServiceResult =
                     await _serviceCommunicator.Call<List<Model.Department.IT.InventoryModel>>(
                         serviceName: _routeNameProvider.IT_GetInventoriesForNewWorker,
                         postData: null,
@@ -439,7 +439,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                 }
                 else
                 {
-                    throw new Exception(defaultInventoriesServiceResult.Error.Description);
+                    throw new Exception(defaultInventoriesServiceResult.ErrorModel.Description);
                 }
             }
 

@@ -1,6 +1,6 @@
 ﻿
-using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Basics;
-using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Errors;
+using MicroserviceProject.Infrastructure.Communication.Model.Basics;
+using MicroserviceProject.Infrastructure.Communication.Model.Errors;
 using MicroserviceProject.Services.Infrastructure.Logging.Util.Validation.Logging.WriteRequestResponseLog;
 using MicroserviceProject.Services.Logging.Models;
 using MicroserviceProject.Services.Logging.Repositories.Sql;
@@ -31,7 +31,7 @@ namespace MicroserviceProject.Services.Infrastructure.Logging.Controllers
         {
             try
             {
-                ServiceResult validationResult = await WriteRequestResponseLogValidator.ValidateAsync(logModel, cancellationToken);
+                ServiceResultModel validationResult = await WriteRequestResponseLogValidator.ValidateAsync(logModel, cancellationToken);
 
                 if (!validationResult.IsSuccess)
                 {
@@ -40,14 +40,14 @@ namespace MicroserviceProject.Services.Infrastructure.Logging.Controllers
 
                 await _requestResponseRepository.InsertLogAsync(logModel, cancellationToken);
 
-                return Ok(new ServiceResult());
+                return Ok(new ServiceResultModel());
             }
             catch (Exception ex)
             {
-                return BadRequest(new ServiceResult()
+                return BadRequest(new ServiceResultModel()
                 {
                     IsSuccess = false,
-                    Error = new Error() { Description = ex.ToString() }
+                    ErrorModel = new ErrorModel() { Description = ex.ToString() }
                 });
             }
         }

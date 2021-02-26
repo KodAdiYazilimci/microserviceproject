@@ -1,4 +1,5 @@
-﻿using MicroserviceProject.Infrastructure.Communication.Moderator.Providers;
+﻿
+using MicroserviceProject.Infrastructure.Security.Providers;
 
 using Microsoft.Extensions.DependencyInjection;
 

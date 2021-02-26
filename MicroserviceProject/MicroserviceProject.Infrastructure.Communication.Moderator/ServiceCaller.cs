@@ -1,8 +1,8 @@
 ﻿using MicroserviceProject.Infrastructure.Communication.Http.Models;
 using MicroserviceProject.Infrastructure.Communication.Http.Providers;
-using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Basics;
-using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Errors;
-using MicroserviceProject.Infrastructure.Communication.Moderator.Models.Routing;
+using MicroserviceProject.Infrastructure.Communication.Model.Basics;
+using MicroserviceProject.Infrastructure.Communication.Model.Errors;
+using MicroserviceProject.Infrastructure.Routing.Model;
 
 using Microsoft.Extensions.Caching.Memory;
 
@@ -77,13 +77,13 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
         /// <param name="queryParameters">Gerektiğinde servise verilecek query string parametreleri</param>
         /// <param name="cancellationToken">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResult> Call(
+        public async Task<ServiceResultModel> Call(
           string serviceName,
           object postData,
           List<KeyValuePair<string, string>> queryParameters,
           CancellationToken cancellationToken)
         {
-            ServiceRoute serviceRoute = null;
+            ServiceRouteModel serviceRoute = null;
 
             try
             {
@@ -104,7 +104,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
 
                 if (!string.IsNullOrEmpty(serviceJson))
                 {
-                    serviceRoute = JsonConvert.DeserializeObject<ServiceRoute>(serviceJson);
+                    serviceRoute = JsonConvert.DeserializeObject<ServiceRouteModel>(serviceJson);
 
                     if (serviceRoute != null)
                     {
@@ -121,7 +121,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                                 return
                                     await
                                     httpPostProvider
-                                    .PostAsync<ServiceResult, object>(
+                                    .PostAsync<ServiceResultModel, object>(
                                         url: serviceRoute.Endpoint,
                                         postData: postData,
                                         cancellationToken: cancellationToken);
@@ -137,7 +137,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                                 return
                                     await
                                     httpGetProvider
-                                    .GetAsync<ServiceResult>(
+                                    .GetAsync<ServiceResultModel>(
                                         url: serviceRoute.Endpoint, cancellationToken);
                             }
                             else
@@ -160,7 +160,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                 {
                     if (wex.Response is HttpWebResponse && (wex.Response as HttpWebResponse).StatusCode == HttpStatusCode.Unauthorized)
                     {
-                        return new ServiceResult() { IsSuccess = false, Error = new Error() { Code = "401", Description = wex.ToString() } };
+                        return new ServiceResultModel() { IsSuccess = false, ErrorModel = new ErrorModel() { Code = "401", Description = wex.ToString() } };
                     }
                     else if (wex.Response is HttpWebResponse && (wex.Response as HttpWebResponse).StatusCode == HttpStatusCode.BadRequest)
                     {
@@ -168,7 +168,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                         {
                             string response = await streamReader.ReadToEndAsync();
 
-                            return JsonConvert.DeserializeObject<ServiceResult>(response);
+                            return JsonConvert.DeserializeObject<ServiceResultModel>(response);
                         }
                     }
                     else if (wex.Response is HttpWebResponse)
@@ -207,11 +207,11 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                     }
                 }
 
-                return new ServiceResult() { IsSuccess = false, Error = new Error() { Description = wex.ToString() } };
+                return new ServiceResultModel() { IsSuccess = false, ErrorModel = new ErrorModel() { Description = wex.ToString() } };
             }
             catch (Exception ex)
             {
-                return new ServiceResult() { IsSuccess = false, Error = new Error() { Description = ex.ToString() } };
+                return new ServiceResultModel() { IsSuccess = false, ErrorModel = new ErrorModel() { Description = ex.ToString() } };
             }
         }
 
@@ -224,13 +224,13 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
         /// <param name="queryParameters">Gerektiğinde servise verilecek query string parametreleri</param>
         /// <param name="cancellationToken">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResult<TResult>> Call<TResult>(
+        public async Task<ServiceResultModel<TResult>> Call<TResult>(
             string serviceName,
             object postData,
             List<KeyValuePair<string, string>> queryParameters,
             CancellationToken cancellationToken)
         {
-            ServiceRoute serviceRoute = null;
+            ServiceRouteModel serviceRoute = null;
 
             try
             {
@@ -251,7 +251,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
 
                 if (!string.IsNullOrEmpty(serviceJson))
                 {
-                    serviceRoute = JsonConvert.DeserializeObject<ServiceRoute>(serviceJson);
+                    serviceRoute = JsonConvert.DeserializeObject<ServiceRouteModel>(serviceJson);
 
                     if (serviceRoute != null)
                     {
@@ -268,7 +268,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                                 return
                                     await
                                     httpPostProvider
-                                    .PostAsync<ServiceResult<TResult>, object>(
+                                    .PostAsync<ServiceResultModel<TResult>, object>(
                                         url: serviceRoute.Endpoint,
                                         postData: postData,
                                         cancellationToken: cancellationToken);
@@ -284,7 +284,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                                 return
                                     await
                                     httpGetProvider
-                                    .GetAsync<ServiceResult<TResult>>(
+                                    .GetAsync<ServiceResultModel<TResult>>(
                                         url: serviceRoute.Endpoint, cancellationToken);
                             }
                             else
@@ -307,7 +307,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                 {
                     if (wex.Response is HttpWebResponse && (wex.Response as HttpWebResponse).StatusCode == HttpStatusCode.Unauthorized)
                     {
-                        return new ServiceResult<TResult>() { IsSuccess = false, Error = new Error() { Code = "401", Description = wex.ToString() } };
+                        return new ServiceResultModel<TResult>() { IsSuccess = false, ErrorModel = new ErrorModel() { Code = "401", Description = wex.ToString() } };
                     }
                     else if (wex.Response is HttpWebResponse && (wex.Response as HttpWebResponse).StatusCode == HttpStatusCode.BadRequest)
                     {
@@ -315,7 +315,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                         {
                             string response = await streamReader.ReadToEndAsync();
 
-                            return JsonConvert.DeserializeObject<ServiceResult<TResult>>(response);
+                            return JsonConvert.DeserializeObject<ServiceResultModel<TResult>>(response);
                         }
                     }
                     else if (wex.Response is HttpWebResponse)
@@ -354,11 +354,11 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                     }
                 }
 
-                return new ServiceResult<TResult>() { IsSuccess = false, Error = new Error() { Description = wex.ToString() } };
+                return new ServiceResultModel<TResult>() { IsSuccess = false, ErrorModel = new ErrorModel() { Description = wex.ToString() } };
             }
             catch (Exception ex)
             {
-                return new ServiceResult<TResult>() { IsSuccess = false, Error = new Error() { Description = ex.ToString() } };
+                return new ServiceResultModel<TResult>() { IsSuccess = false, ErrorModel = new ErrorModel() { Description = ex.ToString() } };
             }
         }
 
@@ -368,7 +368,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
         /// <param name="queryParameters">Eklenecek query string parametreleri</param>
         /// <param name="callModel">Servisin çağrı modeli</param>
         /// <param name="httpGetProvider">HttpGet sağlayıcısı</param>
-        private void SetQueryParameters(List<KeyValuePair<string, string>> queryParameters, ServiceRoute callModel, HttpGetProvider httpGetProvider)
+        private void SetQueryParameters(List<KeyValuePair<string, string>> queryParameters, ServiceRouteModel callModel, HttpGetProvider httpGetProvider)
         {
             if (callModel.QueryKeys != null && callModel.QueryKeys.Any())
             {
@@ -405,7 +405,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
         /// <param name="queryParameters">Eklenecek query string parametreleri</param>
         /// <param name="callModel">Servisin çağrı modeli</param>
         /// <param name="httpPostProvider">HttpPost sağlayıcısı</param>
-        private void SetQueryParameters(List<KeyValuePair<string, string>> queryParameters, ServiceRoute callModel, HttpPostProvider httpPostProvider)
+        private void SetQueryParameters(List<KeyValuePair<string, string>> queryParameters, ServiceRouteModel callModel, HttpPostProvider httpPostProvider)
         {
             if (callModel.QueryKeys != null && callModel.QueryKeys.Any())
             {

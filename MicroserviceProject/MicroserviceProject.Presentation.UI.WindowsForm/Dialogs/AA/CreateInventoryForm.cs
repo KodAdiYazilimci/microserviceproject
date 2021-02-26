@@ -54,7 +54,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.AA
             {
                 Task.Run(async delegate
                 {
-                    ServiceResult<int> createInventoryServiceResult =
+                    ServiceResultModel<int> createInventoryServiceResult =
                                 await _serviceCommunicator.Call<int>(
                                     serviceName: _routeNameProvider.AA_CreateInventory,
                                     postData: new InventoryModel()
@@ -71,7 +71,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.AA
                         MessageBox.Show("Envanter oluşturuldu");
                     }
                     else
-                        throw new Exception(createInventoryServiceResult.Error.Description);
+                        throw new Exception(createInventoryServiceResult.ErrorModel.Description);
                 },
                 cancellationToken: cancellationTokenSource.Token).Wait();
             }

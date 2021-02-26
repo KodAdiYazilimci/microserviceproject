@@ -1,9 +1,9 @@
-﻿namespace MicroserviceProject.Infrastructure.Communication.Moderator.Models.Routing
+﻿namespace MicroserviceProject.Infrastructure.Routing.Model
 {
     /// <summary>
     /// Çağırılacak servisin query string parametreleri
     /// </summary>
-    public class RouteQuery
+    public class RouteQueryModel
     {
         public int Id { get; set; }
         public int CallModelId { get; set; }

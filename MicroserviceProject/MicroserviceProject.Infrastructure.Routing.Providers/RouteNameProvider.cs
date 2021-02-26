@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace MicroserviceProject.Infrastructure.Communication.Moderator.Providers
+namespace MicroserviceProject.Infrastructure.Routing.Providers
 {
     /// <summary>
     /// Servis rotalarına ait endpoint isimlerini sağlayan sınıf

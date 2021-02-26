@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 
-namespace MicroserviceProject.Infrastructure.Communication.Moderator.Model.Validations
+namespace MicroserviceProject.Infrastructure.Validation.Model
 {
     /// <summary>
     /// Servisten dönen doğrulama
     /// </summary>
-    public class Validation
+    public class ValidationModel
     {
         /// <summary>
         /// Doğrulamanın geçerli olup olmadığı
@@ -15,6 +15,6 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator.Model.Valid
         /// <summary>
         /// Doğrulamaya ait detaylar
         /// </summary>
-        public List<ValidationItem> ValidationItems { get; set; }
+        public List<ValidationItemModel> ValidationItems { get; set; }
     }
 }

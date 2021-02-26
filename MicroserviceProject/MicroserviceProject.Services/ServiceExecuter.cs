@@ -1,6 +1,7 @@
-﻿using MicroserviceProject.Infrastructure.Communication.Moderator.Exceptions;
-using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Basics;
-using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Errors;
+﻿using MicroserviceProject.Infrastructure.Communication.Model;
+using MicroserviceProject.Infrastructure.Communication.Model.Basics;
+using MicroserviceProject.Infrastructure.Communication.Model.Errors;
+using MicroserviceProject.Infrastructure.Validation.Exceptions;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,10 +28,10 @@ namespace MicroserviceProject.Services
             {
                 func();
 
-                ServiceResult serviceResult = new ServiceResult()
+                ServiceResultModel serviceResult = new ServiceResultModel()
                 {
                     IsSuccess = true,
-                    Transaction = new Infrastructure.Communication.Moderator.Models.Transaction()
+                    Transaction = new Infrastructure.Communication.Model.TransactionModel()
                     {
                         TransactionIdentity =
                             services.Any(x => !string.IsNullOrEmpty(x.TransactionIdentity))
@@ -46,15 +47,21 @@ namespace MicroserviceProject.Services
             }
             catch (ValidationException vex)
             {
-                return new BadRequestObjectResult(vex.ValidationResult);
+                var serviceResult = new ServiceResultModel()
+                {
+                    IsSuccess = false,
+                    Validation = vex.ValidationResult
+                };
+
+                return new BadRequestObjectResult(serviceResult);
             }
             catch (Exception ex)
             {
-                return new BadRequestObjectResult(new ServiceResult()
+                return new BadRequestObjectResult(new ServiceResultModel()
                 {
                     IsSuccess = false,
-                    Error = new Error() { Description = ex.ToString() },
-                    Transaction = new Infrastructure.Communication.Moderator.Models.Transaction()
+                    ErrorModel = new ErrorModel() { Description = ex.ToString() },
+                    Transaction = new Infrastructure.Communication.Model.TransactionModel()
                     {
                         TransactionIdentity =
                             services.Any(x => !string.IsNullOrEmpty(x.TransactionIdentity))
@@ -81,11 +88,11 @@ namespace MicroserviceProject.Services
             {
                 TResult result = func();
 
-                ServiceResult<TResult> serviceResult = new ServiceResult<TResult>()
+                ServiceResultModel<TResult> serviceResult = new ServiceResultModel<TResult>()
                 {
                     IsSuccess = true,
                     Data = result,
-                    Transaction = new Infrastructure.Communication.Moderator.Models.Transaction()
+                    Transaction = new TransactionModel()
                     {
                         TransactionIdentity =
                             services.Any(x => !string.IsNullOrEmpty(x.TransactionIdentity))
@@ -101,15 +108,21 @@ namespace MicroserviceProject.Services
             }
             catch (ValidationException vex)
             {
-                return new BadRequestObjectResult(vex.ValidationResult);
+                var serviceResult = new ServiceResultModel()
+                {
+                    IsSuccess = false,
+                    Validation = vex.ValidationResult
+                };
+
+                return new BadRequestObjectResult(serviceResult);
             }
             catch (Exception ex)
             {
-                return new BadRequestObjectResult(new ServiceResult()
+                return new BadRequestObjectResult(new ServiceResultModel()
                 {
                     IsSuccess = false,
-                    Error = new Error() { Description = ex.ToString() },
-                    Transaction = new Infrastructure.Communication.Moderator.Models.Transaction()
+                    ErrorModel = new ErrorModel() { Description = ex.ToString() },
+                    Transaction = new TransactionModel()
                     {
                         TransactionIdentity =
                             services.Any(x => !string.IsNullOrEmpty(x.TransactionIdentity))
@@ -135,10 +148,10 @@ namespace MicroserviceProject.Services
             {
                 await func();
 
-                ServiceResult serviceResult = new ServiceResult()
+                ServiceResultModel serviceResult = new ServiceResultModel()
                 {
                     IsSuccess = true,
-                    Transaction = new Infrastructure.Communication.Moderator.Models.Transaction()
+                    Transaction = new TransactionModel()
                     {
                         TransactionIdentity =
                             services.Any(x => !string.IsNullOrEmpty(x.TransactionIdentity))
@@ -154,15 +167,21 @@ namespace MicroserviceProject.Services
             }
             catch (ValidationException vex)
             {
-                return new BadRequestObjectResult(vex.ValidationResult);
+                var serviceResult = new ServiceResultModel()
+                {
+                    IsSuccess = false,
+                    Validation = vex.ValidationResult
+                };
+
+                return new BadRequestObjectResult(serviceResult);
             }
             catch (Exception ex)
             {
-                return new BadRequestObjectResult(new ServiceResult()
+                return new BadRequestObjectResult(new ServiceResultModel()
                 {
                     IsSuccess = false,
-                    Error = new Error() { Description = ex.ToString() },
-                    Transaction = new Infrastructure.Communication.Moderator.Models.Transaction()
+                    ErrorModel = new ErrorModel() { Description = ex.ToString() },
+                    Transaction = new TransactionModel()
                     {
                         TransactionIdentity =
                             services.Any(x => !string.IsNullOrEmpty(x.TransactionIdentity))
@@ -189,11 +208,11 @@ namespace MicroserviceProject.Services
             {
                 TResult result = await func();
 
-                ServiceResult<TResult> serviceResult = new ServiceResult<TResult>()
+                ServiceResultModel<TResult> serviceResult = new ServiceResultModel<TResult>()
                 {
                     IsSuccess = true,
                     Data = result,
-                    Transaction = new Infrastructure.Communication.Moderator.Models.Transaction()
+                    Transaction = new TransactionModel()
                     {
                         TransactionIdentity =
                             services.Any(x => !string.IsNullOrEmpty(x.TransactionIdentity))
@@ -209,15 +228,21 @@ namespace MicroserviceProject.Services
             }
             catch (ValidationException vex)
             {
-                return new BadRequestObjectResult(vex.ValidationResult);
+                var serviceResult = new ServiceResultModel()
+                {
+                    IsSuccess = false,
+                    Validation = vex.ValidationResult
+                };
+
+                return new BadRequestObjectResult(serviceResult);
             }
             catch (Exception ex)
             {
-                return new BadRequestObjectResult(new ServiceResult()
+                return new BadRequestObjectResult(new ServiceResultModel()
                 {
                     IsSuccess = false,
-                    Error = new Error() { Description = ex.ToString() },
-                    Transaction = new Infrastructure.Communication.Moderator.Models.Transaction()
+                    ErrorModel = new ErrorModel() { Description = ex.ToString() },
+                    Transaction = new TransactionModel()
                     {
                         TransactionIdentity =
                             services.Any(x => !string.IsNullOrEmpty(x.TransactionIdentity))

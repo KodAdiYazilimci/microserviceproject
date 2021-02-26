@@ -1,9 +1,9 @@
-﻿namespace MicroserviceProject.Infrastructure.Communication.Moderator.Model.Errors
+﻿namespace MicroserviceProject.Infrastructure.Communication.Model.Errors
 {
     /// <summary>
     /// Servisten dönen hata
     /// </summary>
-    public class Error
+    public class ErrorModel
     {
         /// <summary>
         /// Hatanın kodu

@@ -1,6 +1,6 @@
 ﻿using MicroserviceProject.Infrastructure.Communication.Moderator;
-using MicroserviceProject.Infrastructure.Communication.Moderator.Providers;
 using MicroserviceProject.Infrastructure.Communication.Mq.Rabbit;
+using MicroserviceProject.Infrastructure.Routing.Providers;
 using MicroserviceProject.Services.Communication.Configuration.Rabbit.AA;
 using MicroserviceProject.Services.Model.Department.HR;
 

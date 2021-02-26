@@ -1,5 +1,5 @@
 ﻿
-using MicroserviceProject.Infrastructure.Communication.Moderator.Repositories.Sql;
+using MicroserviceProject.Infrastructure.Routing.Persistence.Repositories.Sql;
 
 using Microsoft.Extensions.DependencyInjection;
 

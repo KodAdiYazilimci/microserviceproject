@@ -55,7 +55,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.AA
             {
                 Task.Run(async delegate
                 {
-                    ServiceResult<InventoryModel> createInventoryServiceResult =
+                    ServiceResultModel<InventoryModel> createInventoryServiceResult =
                                 await _serviceCommunicator.Call<InventoryModel>(
                                     serviceName: _routeNameProvider.AA_CreateDefaultInventoryForNewWorker,
                                     postData: new InventoryModel()
@@ -71,7 +71,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.AA
                         MessageBox.Show("Envanter oluşturuldu");
                     }
                     else
-                        throw new Exception(createInventoryServiceResult.Error.Description);
+                        throw new Exception(createInventoryServiceResult.ErrorModel.Description);
                 },
                 cancellationToken: cancellationTokenSource.Token).Wait();
             }
@@ -103,7 +103,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.AA
             {
                 Task.Run(async delegate
                 {
-                    ServiceResult<List<InventoryModel>> inventoryServiceResult =
+                    ServiceResultModel<List<InventoryModel>> inventoryServiceResult =
                         await _serviceCommunicator.Call<List<InventoryModel>>(
                             serviceName: _routeNameProvider.AA_GetInventories,
                             postData: null,
@@ -119,7 +119,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.AA
                     }
                     else
                     {
-                        throw new Exception(inventoryServiceResult.Error.Description);
+                        throw new Exception(inventoryServiceResult.ErrorModel.Description);
                     }
                 },
                 cancellationToken: cancellationTokenSource.Token).Wait();

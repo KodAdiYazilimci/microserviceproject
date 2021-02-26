@@ -7,7 +7,7 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Model
     /// <summary>
     /// Bir servisten dönen yanıt
     /// </summary>
-    public class ServiceResult
+    public class ServiceResultModel
     {
         /// <summary>
         /// Yanıtın başarılı olma durumu
@@ -17,7 +17,7 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Model
         /// <summary>
         /// Yanıta konu olan hata
         /// </summary>
-        public Error Error { get; set; }
+        public ErrorModel ErrorModel { get; set; }
 
         /// <summary>
         /// Yanıta konu olan doğrulama
@@ -34,7 +34,7 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Model
     /// Bir servisten dönen yanıt
     /// </summary>
     /// <typeparam name="TResult">Servisten dönecek datanın tipi</typeparam>
-    public class ServiceResult<TResult> : ServiceResult
+    public class ServiceResultModel<TResult> : ServiceResultModel
     {
         /// <summary>
         /// Yanıtın içerisindeki data

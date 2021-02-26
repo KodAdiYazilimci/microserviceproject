@@ -1,12 +1,11 @@
-using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Basics;
-using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Errors;
+using MicroserviceProject.Infrastructure.Communication.Model.Basics;
+using MicroserviceProject.Infrastructure.Communication.Model.Errors;
 using MicroserviceProject.Services.Authentication;
 using MicroserviceProject.Services.Authentication.DI;
 using MicroserviceProject.Services.Cache.DI;
 using MicroserviceProject.Services.Communication.DI;
 using MicroserviceProject.Services.Infrastructure.Logging.Configuration.Services.Repositories;
 using MicroserviceProject.Services.Infrastructure.Logging.DI;
-using MicroserviceProject.Services.Logging.DI;
 using MicroserviceProject.Services.UnitOfWork.DI;
 using MicroserviceProject.Services.Util.DI;
 
@@ -67,10 +66,10 @@ namespace MicroserviceProject.Services.Infrastructure.Logging
                     context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                     context.Response.ContentType = "application/json";
                     await
-                    context.Response.WriteAsync(JsonConvert.SerializeObject(new ServiceResult()
+                    context.Response.WriteAsync(JsonConvert.SerializeObject(new ServiceResultModel()
                     {
                         IsSuccess = false,
-                        Error = new Error()
+                        ErrorModel = new ErrorModel()
                         {
                             Description = context.Features.Get<IExceptionHandlerPathFeature>().Error.Message
                         }

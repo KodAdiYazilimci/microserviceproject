@@ -15,6 +15,6 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Model
         /// <summary>
         /// Doğrulamaya ait detaylar
         /// </summary>
-        public List<ValidationItem> ValidationItems { get; set; }
+        public List<ValidationItemModel> ValidationItems { get; set; }
     }
 }

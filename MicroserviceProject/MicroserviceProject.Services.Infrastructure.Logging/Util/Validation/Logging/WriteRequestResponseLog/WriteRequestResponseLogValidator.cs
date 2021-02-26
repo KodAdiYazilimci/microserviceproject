@@ -1,8 +1,8 @@
 ﻿using FluentValidation.Results;
 
-using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Basics;
-using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Errors;
-using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Validations;
+using MicroserviceProject.Infrastructure.Communication.Model.Basics;
+using MicroserviceProject.Infrastructure.Communication.Model.Errors;
+using MicroserviceProject.Infrastructure.Validation.Model;
 using MicroserviceProject.Services.Logging.Models;
 
 using System.Collections.Generic;
@@ -23,7 +23,7 @@ namespace MicroserviceProject.Services.Infrastructure.Logging.Util.Validation.Lo
         /// <param name="credential">Doğrulanacak nesne</param>
         /// <param name="cancellationToken">İptal tokenı</param>
         /// <returns></returns>
-        public static async Task<ServiceResult> ValidateAsync(RequestResponseLogModel credential, CancellationToken cancellationToken)
+        public static async Task<ServiceResultModel> ValidateAsync(RequestResponseLogModel credential, CancellationToken cancellationToken)
         {
             Configuration.Validation.Logging.WriteRequestResponseLog.RequestResponseLogModelRule validationRules =
                 new Configuration.Validation.Logging.WriteRequestResponseLog.RequestResponseLogModelRule();
@@ -34,21 +34,21 @@ namespace MicroserviceProject.Services.Infrastructure.Logging.Util.Validation.Lo
 
                 if (!validationResult.IsValid)
                 {
-                    ServiceResult serviceResult = new ServiceResult()
+                    ServiceResultModel serviceResult = new ServiceResultModel()
                     {
                         IsSuccess = false,
-                        Error = new Error()
+                        ErrorModel = new ErrorModel()
                         {
                             Description = "Geçersiz parametre"
                         },
-                        Validation = new MicroserviceProject.Infrastructure.Communication.Moderator.Model.Validations.Validation()
+                        Validation = new ValidationModel()
                         {
                             IsValid = false,
-                            ValidationItems = new List<ValidationItem>()
+                            ValidationItems = new List<ValidationItemModel>()
                         }
                     };
                     serviceResult.Validation.ValidationItems.AddRange(
-                        validationResult.Errors.Select(x => new ValidationItem()
+                        validationResult.Errors.Select(x => new ValidationItemModel()
                         {
                             Key = x.PropertyName,
                             Value = x.AttemptedValue,
@@ -58,21 +58,21 @@ namespace MicroserviceProject.Services.Infrastructure.Logging.Util.Validation.Lo
                     return serviceResult;
                 }
 
-                return new ServiceResult() { IsSuccess = true };
+                return new ServiceResultModel() { IsSuccess = true };
             }
             else
             {
-                ServiceResult serviceResult = new ServiceResult()
+                ServiceResultModel serviceResult = new ServiceResultModel()
                 {
                     IsSuccess = false,
-                    Error = new Error()
+                    ErrorModel = new ErrorModel()
                     {
                         Description = "Geçersiz parametre"
                     },
-                    Validation = new MicroserviceProject.Infrastructure.Communication.Moderator.Model.Validations.Validation()
+                    Validation = new ValidationModel()
                     {
                         IsValid = false,
-                        ValidationItems = new List<ValidationItem>()
+                        ValidationItems = new List<ValidationItemModel>()
                     }
                 };
 

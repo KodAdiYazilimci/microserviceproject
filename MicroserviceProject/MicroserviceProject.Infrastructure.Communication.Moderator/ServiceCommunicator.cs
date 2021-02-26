@@ -1,8 +1,9 @@
-﻿using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Basics;
-using MicroserviceProject.Infrastructure.Communication.Moderator.Models.Routing;
-using MicroserviceProject.Infrastructure.Communication.Moderator.Providers;
-using MicroserviceProject.Infrastructure.Communication.Moderator.Repositories.Sql;
+﻿using MicroserviceProject.Infrastructure.Communication.Model.Basics;
+using MicroserviceProject.Infrastructure.Routing.Model;
+using MicroserviceProject.Infrastructure.Routing.Persistence.Repositories.Sql;
+using MicroserviceProject.Infrastructure.Routing.Providers;
 using MicroserviceProject.Infrastructure.Security.Model;
+using MicroserviceProject.Infrastructure.Security.Providers;
 
 using Microsoft.Extensions.Caching.Memory;
 
@@ -79,7 +80,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
         /// <param name="queryParameters">Çağrı yapılacak servis gönderilecek query string parametreler</param>
         /// <param name="cancellationToken">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResult<T>> Call<T>(
+        public async Task<ServiceResultModel<T>> Call<T>(
             string serviceName,
             object postData,
             List<KeyValuePair<string, string>> queryParameters,
@@ -96,7 +97,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                 {
                     return await GetServiceAsync(serviceName, cancellationToken);
                 };
-                ServiceResult<Token> tokenResult =
+                ServiceResultModel<Token> tokenResult =
                     await serviceTokenCaller.Call<Token>(
                         serviceName: _routeNameProvider.Auth_GetToken,
                         postData: new Credential()
@@ -124,7 +125,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                 return await GetServiceAsync(serviceName, cancellationToken);
             };
 
-            ServiceResult<T> result = await serviceCaller.Call<T>(
+            ServiceResultModel<T> result = await serviceCaller.Call<T>(
                 serviceName: serviceName,
                 postData: postData,
                 queryParameters: queryParameters,
@@ -141,7 +142,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
         /// <param name="queryParameters">Çağrı yapılacak servis gönderilecek query string parametreler</param>
         /// <param name="cancellationToken">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResult> Call(
+        public async Task<ServiceResultModel> Call(
             string serviceName,
             object postData,
             List<KeyValuePair<string, string>> queryParameters,
@@ -158,7 +159,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                 {
                     return await GetServiceAsync(serviceName, cancellationToken);
                 };
-                ServiceResult<Token> tokenResult =
+                ServiceResultModel<Token> tokenResult =
                     await serviceTokenCaller.Call<Token>(
                         serviceName: _routeNameProvider.Auth_GetToken,
                         postData: new Credential()
@@ -186,7 +187,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                 return await GetServiceAsync(serviceName, cancellationToken);
             };
 
-            ServiceResult result = await serviceCaller.Call(
+            ServiceResultModel result = await serviceCaller.Call(
                 serviceName: serviceName,
                 postData: postData,
                 queryParameters: queryParameters,
@@ -203,7 +204,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
         /// <returns></returns>
         private async Task<string> GetServiceAsync(string serviceName, CancellationToken cancellationToken)
         {
-            List<ServiceRoute> serviceRoutes = _memoryCache.Get<List<ServiceRoute>>(CACHEDSERVICEROUTES);
+            List<ServiceRouteModel> serviceRoutes = _memoryCache.Get<List<ServiceRouteModel>>(CACHEDSERVICEROUTES);
 
             if (serviceRoutes == null || !serviceRoutes.Any())
             {
@@ -214,7 +215,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
 
             serviceRoutes = await _serviceRouteRepository.GetServiceRoutesAsync(cancellationToken);
 
-            _memoryCache.Set<List<ServiceRoute>>(CACHEDSERVICEROUTES, serviceRoutes, DateTime.Now.AddMinutes(60));
+            _memoryCache.Set<List<ServiceRouteModel>>(CACHEDSERVICEROUTES, serviceRoutes, DateTime.Now.AddMinutes(60));
 
             return JsonConvert.SerializeObject(serviceRoutes.FirstOrDefault(x => x.ServiceName == serviceName));
         }

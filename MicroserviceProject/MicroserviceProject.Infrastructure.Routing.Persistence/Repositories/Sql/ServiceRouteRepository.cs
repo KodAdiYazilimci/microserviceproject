@@ -1,4 +1,4 @@
-﻿using MicroserviceProject.Infrastructure.Communication.Moderator.Models.Routing;
+﻿using MicroserviceProject.Infrastructure.Routing.Model;
 
 using Microsoft.Extensions.Configuration;
 
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MicroserviceProject.Infrastructure.Communication.Moderator.Repositories.Sql
+namespace MicroserviceProject.Infrastructure.Routing.Persistence.Repositories.Sql
 {
     /// <summary>
     /// Servis rotaları repository sınıfı
@@ -43,11 +43,11 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator.Repositorie
             }
         }
 
-        public async Task<List<ServiceRoute>> GetServiceRoutesAsync(CancellationToken cancellationToken)
+        public async Task<List<ServiceRouteModel>> GetServiceRoutesAsync(CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            List<ServiceRoute> routes = new List<ServiceRoute>();
+            List<ServiceRouteModel> routes = new List<ServiceRouteModel>();
 
             Exception exception = null;
 
@@ -74,7 +74,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator.Repositorie
                     {
                         cancellationToken.ThrowIfCancellationRequested();
 
-                        ServiceRoute route = new ServiceRoute
+                        ServiceRouteModel route = new ServiceRouteModel
                         {
                             Id = Convert.ToInt32(sqlRouteDataReader["ID"])
                         };
@@ -108,7 +108,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator.Repositorie
                         {
                             cancellationToken.ThrowIfCancellationRequested();
 
-                            RouteQuery queryKey = new RouteQuery();
+                            RouteQueryModel queryKey = new RouteQueryModel();
                             queryKey.Id = Convert.ToInt32(sqlQueryReader["ID"]);
                             queryKey.CallModelId = Convert.ToInt32(sqlQueryReader["SERVICE_ROUTE_ID"]);
                             queryKey.Key = sqlQueryReader["KEY"].ToString();
@@ -143,7 +143,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator.Repositorie
                     {
                         while (await sqlAlternativeRouteReader.ReadAsync(cancellationToken))
                         {
-                            ServiceRoute alternativeRoute = new ServiceRoute();
+                            ServiceRouteModel alternativeRoute = new ServiceRouteModel();
 
                             alternativeRoute.Id = sqlAlternativeRouteReader.GetInt32("ALTERNATIVE_SERVICE_ROUTE_ID");
                             alternativeRoute.ServiceName = sqlAlternativeRouteReader.GetString("NAME");
@@ -152,7 +152,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator.Repositorie
 
                             if (route.AlternativeRoutes == null)
                             {
-                                route.AlternativeRoutes = new List<ServiceRoute>();
+                                route.AlternativeRoutes = new List<ServiceRouteModel>();
                             }
 
                             route.AlternativeRoutes.Add(alternativeRoute);
@@ -167,7 +167,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator.Repositorie
                         foreach (var alternativeRoute in route.AlternativeRoutes)
                         {
                             if (alternativeRoute.QueryKeys == null)
-                                alternativeRoute.QueryKeys = new List<RouteQuery>();
+                                alternativeRoute.QueryKeys = new List<RouteQueryModel>();
 
                             SqlCommand sqlAlternativeRouteQueryCommand = new SqlCommand(@"SELECT Q.* FROM SERVICE_ROUTES_QUERYKEYS Q
                                                                   WHERE
@@ -185,7 +185,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator.Repositorie
                                 {
                                     cancellationToken.ThrowIfCancellationRequested();
 
-                                    RouteQuery queryKey = new RouteQuery();
+                                    RouteQueryModel queryKey = new RouteQueryModel();
                                     queryKey.Id = Convert.ToInt32(sqlAlternativeRouteQueryReader["ID"]);
                                     queryKey.CallModelId = Convert.ToInt32(sqlAlternativeRouteQueryReader["SERVICE_ROUTE_ID"]);
                                     queryKey.Key = sqlAlternativeRouteQueryReader["KEY"].ToString();

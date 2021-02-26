@@ -1,5 +1,5 @@
-﻿using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Basics;
-using MicroserviceProject.Infrastructure.Communication.Moderator.Model.Errors;
+﻿using MicroserviceProject.Infrastructure.Communication.Model.Basics;
+using MicroserviceProject.Infrastructure.Communication.Model.Errors;
 using MicroserviceProject.Infrastructure.Security.Model;
 using MicroserviceProject.Services.Infrastructure.Authorization.Business.Services;
 using MicroserviceProject.Services.Infrastructure.Authorization.Persistence.Sql.Exceptions;
@@ -42,7 +42,7 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Controllers
 
                 var token = await _sessionService.GetTokenAsync(credential, new CancellationTokenSource().Token);
 
-                return Ok(new ServiceResult<Token>()
+                return Ok(new ServiceResultModel<Token>()
                 {
                     IsSuccess = true,
                     Data = token
@@ -50,18 +50,18 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Controllers
             }
             catch (UserNotFoundException unf)
             {
-                return Unauthorized(new ServiceResult()
+                return Unauthorized(new ServiceResultModel()
                 {
                     IsSuccess = false,
-                    Error = new Error() { Description = unf.ToString() }
+                    ErrorModel = new ErrorModel() { Description = unf.ToString() }
                 });
             }
             catch (Exception ex)
             {
-                return BadRequest(new ServiceResult()
+                return BadRequest(new ServiceResultModel()
                 {
                     IsSuccess = false,
-                    Error = new Error() { Description = ex.ToString() }
+                    ErrorModel = new ErrorModel() { Description = ex.ToString() }
                 });
             }
         }
@@ -74,30 +74,30 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Controllers
             {
                 User user = await _userService.GetUserAsync(token, new CancellationTokenSource().Token);
 
-                return Ok(new ServiceResult<User>()
+                return Ok(new ServiceResultModel<User>()
                 {
                     Data = user
                 });
             }
             catch (UserNotFoundException unf)
             {
-                return Unauthorized(new ServiceResult()
+                return Unauthorized(new ServiceResultModel()
                 {
                     IsSuccess = false,
-                    Error = new Error() { Description = unf.ToString() }
+                    ErrorModel = new ErrorModel() { Description = unf.ToString() }
                 });
             }
             catch (SessionNotFoundException snf)
             {
-                return Unauthorized(new ServiceResult()
+                return Unauthorized(new ServiceResultModel()
                 {
                     IsSuccess = false,
-                    Error = new Error() { Description = snf.ToString() }
+                    ErrorModel = new ErrorModel() { Description = snf.ToString() }
                 });
             }
             catch (Exception ex)
             {
-                return BadRequest(new ServiceResult() { IsSuccess = false, Error = new Error() { Description = ex.ToString() } });
+                return BadRequest(new ServiceResultModel() { IsSuccess = false, ErrorModel = new ErrorModel() { Description = ex.ToString() } });
             }
         }
 
@@ -107,14 +107,14 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Controllers
         {
             try
             {
-                return Ok(new ServiceResult<bool>()
+                return Ok(new ServiceResultModel<bool>()
                 {
                     Data = await _userService.CheckUserAsync(email, new CancellationTokenSource().Token)
                 });
             }
             catch (Exception ex)
             {
-                return Unauthorized(new ServiceResult() { IsSuccess = false, Error = new Error() { Description = ex.ToString() } });
+                return Unauthorized(new ServiceResultModel() { IsSuccess = false, ErrorModel = new ErrorModel() { Description = ex.ToString() } });
             }
         }
 
@@ -126,18 +126,18 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Controllers
             {
                 await _userService.RegisterUserAsync(credential, new CancellationTokenSource().Token);
 
-                return Ok(new ServiceResult()
+                return Ok(new ServiceResultModel()
                 {
                     IsSuccess = true
                 });
             }
             catch (UserNotFoundException unf)
             {
-                return BadRequest(new ServiceResult() { IsSuccess = false, Error = new Error() { Description = unf.ToString() } });
+                return BadRequest(new ServiceResultModel() { IsSuccess = false, ErrorModel = new ErrorModel() { Description = unf.ToString() } });
             }
             catch (Exception ex)
             {
-                return BadRequest(new ServiceResult() { IsSuccess = false, Error = new Error() { Description = ex.ToString() } });
+                return BadRequest(new ServiceResultModel() { IsSuccess = false, ErrorModel = new ErrorModel() { Description = ex.ToString() } });
             }
         }
     }

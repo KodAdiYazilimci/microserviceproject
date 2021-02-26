@@ -1,9 +1,9 @@
-﻿namespace MicroserviceProject.Infrastructure.Communication.Moderator.Model.Validations
+﻿namespace MicroserviceProject.Infrastructure.Validation.Model
 {
     /// <summary>
     /// Doğrulamaya ait detay
     /// </summary>
-    public class ValidationItem
+    public class ValidationItemModel
     {
         /// <summary>
         /// Doğrulanmaya çalışılan anahtar

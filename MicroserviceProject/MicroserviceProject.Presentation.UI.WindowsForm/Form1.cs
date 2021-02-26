@@ -47,7 +47,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
         {
             //CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            //ServiceResult<Token> serviceTokenResult =
+            //ServiceResultModel<Token> serviceTokenResult =
             //    await _serviceCommunicator.Call<Token>(
             //     serviceName: _routeNameProvider.Auth_GetToken,
             //     postData: new Credential()
@@ -69,7 +69,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             {
                 Task.Run(async delegate
                 {
-                    ServiceResult<List<PersonModel>> personServiceResult =
+                    ServiceResultModel<List<PersonModel>> personServiceResult =
                         await _serviceCommunicator.Call<List<PersonModel>>(
                             serviceName: _routeNameProvider.HR_GetPeople,
                             postData: null,
@@ -85,7 +85,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
                     }
                     else
                     {
-                        throw new Exception(personServiceResult.Error.Description);
+                        throw new Exception(personServiceResult.ErrorModel.Description);
                     }
                 },
                 cancellationToken: cancellationTokenSource.Token).Wait();
@@ -120,7 +120,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             {
                 Task.Run(async delegate
                 {
-                    ServiceResult<List<DepartmentModel>> departmentServiceResult =
+                    ServiceResultModel<List<DepartmentModel>> departmentServiceResult =
                         await _serviceCommunicator.Call<List<DepartmentModel>>(
                             serviceName: _routeNameProvider.HR_GetDepartments,
                             postData: null,
@@ -136,7 +136,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
                     }
                     else
                     {
-                        throw new Exception(departmentServiceResult.Error.Description);
+                        throw new Exception(departmentServiceResult.ErrorModel.Description);
                     }
                 },
                 cancellationToken: cancellationTokenSource.Token).Wait();
@@ -156,7 +156,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             {
                 Task.Run(async delegate
                 {
-                    ServiceResult<int> createDepartmentServiceResult =
+                    ServiceResultModel<int> createDepartmentServiceResult =
                                 await _serviceCommunicator.Call<int>(
                                     serviceName: _routeNameProvider.HR_CreateDepartment,
                                     postData: new DepartmentModel()
@@ -171,7 +171,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
                         MessageBox.Show("Departman oluşturuldu");
                     }
                     else
-                        throw new Exception(createDepartmentServiceResult.Error.Description);
+                        throw new Exception(createDepartmentServiceResult.ErrorModel.Description);
                 },
                 cancellationToken: cancellationTokenSource.Token).Wait();
             }
@@ -192,7 +192,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             {
                 Task.Run(async delegate
                 {
-                    ServiceResult<List<WorkerModel>> workersServiceResult =
+                    ServiceResultModel<List<WorkerModel>> workersServiceResult =
                         await _serviceCommunicator.Call<List<WorkerModel>>(
                             serviceName: _routeNameProvider.HR_GetWorkers,
                             postData: null,
@@ -208,7 +208,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
                     }
                     else
                     {
-                        throw new Exception(workersServiceResult.Error.Description);
+                        throw new Exception(workersServiceResult.ErrorModel.Description);
                     }
                 },
                 cancellationToken: cancellationTokenSource.Token).Wait();
@@ -243,7 +243,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             {
                 Task.Run(async delegate
                 {
-                    ServiceResult<List<InventoryModel>> inventoryServiceResult =
+                    ServiceResultModel<List<InventoryModel>> inventoryServiceResult =
                         await _serviceCommunicator.Call<List<InventoryModel>>(
                             serviceName: _routeNameProvider.IT_GetInventories,
                             postData: null,
@@ -259,7 +259,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
                     }
                     else
                     {
-                        throw new Exception(inventoryServiceResult.Error.Description);
+                        throw new Exception(inventoryServiceResult.ErrorModel.Description);
                     }
                 },
                 cancellationToken: cancellationTokenSource.Token).Wait();
@@ -294,7 +294,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             {
                 Task.Run(async delegate
                 {
-                    ServiceResult<List<InventoryModel>> inventoryServiceResult =
+                    ServiceResultModel<List<InventoryModel>> inventoryServiceResult =
                         await _serviceCommunicator.Call<List<InventoryModel>>(
                             serviceName: _routeNameProvider.AA_GetInventories,
                             postData: null,
@@ -310,7 +310,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
                     }
                     else
                     {
-                        throw new Exception(inventoryServiceResult.Error.Description);
+                        throw new Exception(inventoryServiceResult.ErrorModel.Description);
                     }
                 },
                 cancellationToken: cancellationTokenSource.Token).Wait();
@@ -345,7 +345,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             {
                 Task.Run(async delegate
                 {
-                    ServiceResult<List<InventoryModel>> inventoryServiceResult =
+                    ServiceResultModel<List<InventoryModel>> inventoryServiceResult =
                         await _serviceCommunicator.Call<List<InventoryModel>>(
                             serviceName: _routeNameProvider.IT_GetInventoriesForNewWorker,
                             postData: null,
@@ -361,7 +361,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
                     }
                     else
                     {
-                        throw new Exception(inventoryServiceResult.Error.Description);
+                        throw new Exception(inventoryServiceResult.ErrorModel.Description);
                     }
                 },
                 cancellationToken: cancellationTokenSource.Token).Wait();
@@ -396,7 +396,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             {
                 Task.Run(async delegate
                 {
-                    ServiceResult<List<InventoryModel>> inventoryServiceResult =
+                    ServiceResultModel<List<InventoryModel>> inventoryServiceResult =
                         await _serviceCommunicator.Call<List<InventoryModel>>(
                             serviceName: _routeNameProvider.AA_GetInventoriesForNewWorker,
                             postData: null,
@@ -412,7 +412,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
                     }
                     else
                     {
-                        throw new Exception(inventoryServiceResult.Error.Description);
+                        throw new Exception(inventoryServiceResult.ErrorModel.Description);
                     }
                 },
                 cancellationToken: cancellationTokenSource.Token).Wait();

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace MicroserviceProject.Infrastructure.Communication.Moderator.Providers
+namespace MicroserviceProject.Infrastructure.Security.Providers
 {
     /// <summary>
     /// Servis iletişimindeki yetki denetimi için kullanıcı bilgilerini sağlayan sınıf

@@ -1,4 +1,4 @@
-﻿using MicroserviceProject.Infrastructure.Communication.Moderator.Providers;
+﻿using MicroserviceProject.Infrastructure.Routing.Providers;
 
 using Microsoft.Extensions.DependencyInjection;
 

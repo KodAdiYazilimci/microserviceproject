@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 
-namespace MicroserviceProject.Infrastructure.Communication.Moderator.Models.Routing
+namespace MicroserviceProject.Infrastructure.Routing.Model
 {
     /// <summary>
     /// Çağrı modeli
     /// </summary>
-    public class ServiceRoute
+    public class ServiceRouteModel
     {
         public int Id { get; set; }
         /// <summary>
@@ -26,11 +26,11 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator.Models.Rout
         /// <summary>
         /// Bu servis endpoint ile başarısız iletişim kurulması halinde denenecek diğer endpointler
         /// </summary>
-        public List<ServiceRoute> AlternativeRoutes { get; set; }
+        public List<ServiceRouteModel> AlternativeRoutes { get; set; }
 
         /// <summary>
         /// Çağırılacak servisin query string parametreleri
         /// </summary>        
-        public virtual ICollection<RouteQuery> QueryKeys { get; set; } = new List<RouteQuery>();
+        public virtual ICollection<RouteQueryModel> QueryKeys { get; set; } = new List<RouteQueryModel>();
     }
 }

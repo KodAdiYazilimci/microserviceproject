@@ -80,7 +80,7 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moder
         /// <param name="queryParameters">Çağrı yapılacak servis gönderilecek query string parametreler</param>
         /// <param name="cancellationToken">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResult<T>> Call<T>(
+        public async Task<ServiceResultModel<T>> Call<T>(
             string serviceName,
             object postData,
             List<KeyValuePair<string, string>> queryParameters,
@@ -97,7 +97,7 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moder
                 {
                     return await GetServiceAsync(serviceName_, cancellationToken);
                 };
-                ServiceResult<Token> tokenResult =
+                ServiceResultModel<Token> tokenResult =
                     await serviceTokenCaller.Call<Token>(
                         serviceName: _routeNameProvider.Auth_GetToken,
                         postData: new Credential()
@@ -125,7 +125,7 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moder
                 return await GetServiceAsync(serviceName_, cancellationToken);
             };
 
-            ServiceResult<T> result = await serviceCaller.Call<T>(
+            ServiceResultModel<T> result = await serviceCaller.Call<T>(
                 serviceName: serviceName,
                 postData: postData,
                 queryParameters: queryParameters,
@@ -142,7 +142,7 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moder
         /// <param name="queryParameters">Çağrı yapılacak servis gönderilecek query string parametreler</param>
         /// <param name="cancellationToken">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResult> Call(
+        public async Task<ServiceResultModel> Call(
             string serviceName,
             object postData,
             List<KeyValuePair<string, string>> queryParameters,
@@ -159,7 +159,7 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moder
                 {
                     return await GetServiceAsync(serviceName_, cancellationToken);
                 };
-                ServiceResult<Token> tokenResult =
+                ServiceResultModel<Token> tokenResult =
                     await serviceTokenCaller.Call<Token>(
                         serviceName: _routeNameProvider.Auth_GetToken,
                         postData: new Credential()
@@ -187,7 +187,7 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moder
                 return await GetServiceAsync(serviceName_, cancellationToken);
             };
 
-            ServiceResult result = await serviceCaller.Call(
+            ServiceResultModel result = await serviceCaller.Call(
                 serviceName: serviceName,
                 postData: postData,
                 queryParameters: queryParameters,
