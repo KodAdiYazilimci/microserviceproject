@@ -160,56 +160,39 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
             }
             catch (WebException wex)
             {
-                if (wex.Status == WebExceptionStatus.ProtocolError && wex.Response != null)
+                if (wex.Response != null)
                 {
                     if (wex.Response is HttpWebResponse && (wex.Response as HttpWebResponse).StatusCode == HttpStatusCode.Unauthorized)
                     {
-                        return new ServiceResultModel() { IsSuccess = false, ErrorModel = new ErrorModel() { Code = "401", Description = wex.ToString() } };
+                        return new ServiceResultModel() { IsSuccess = false, ErrorModel = new ErrorModel() { Code = "401", Description = wex.Message } };
                     }
                     else if (wex.Response is HttpWebResponse && (wex.Response as HttpWebResponse).StatusCode == HttpStatusCode.BadRequest)
                     {
-                        using StreamReader streamReader = new StreamReader(wex.Response.GetResponseStream());
-                        string response = await streamReader.ReadToEndAsync();
-
-                        return JsonConvert.DeserializeObject<ServiceResultModel>(response);
-                    }
-                    else if (wex.Response is HttpWebResponse)
-                    {
-                        if (serviceRoute != null && serviceRoute.AlternativeRoutes != null && serviceRoute.AlternativeRoutes.Any())
+                        using (StreamReader streamReader = new StreamReader(wex.Response.GetResponseStream()))
                         {
-                            foreach (var route in serviceRoute.AlternativeRoutes)
-                            {
-                                var alternativeCallResult = await Call(
-                                    serviceName: route.ServiceName,
-                                    postData: postData,
-                                    queryParameters: queryParameters,
-                                    cancellationToken: cancellationToken);
+                            string response = await streamReader.ReadToEndAsync();
 
-                                if (alternativeCallResult.IsSuccess)
-                                    return alternativeCallResult;
-                            }
+                            return JsonConvert.DeserializeObject<ServiceResultModel>(response);
                         }
                     }
                 }
-                else if (wex.Status == WebExceptionStatus.UnknownError)
+
+                if (serviceRoute != null && serviceRoute.AlternativeRoutes != null && serviceRoute.AlternativeRoutes.Any())
                 {
-                    if (serviceRoute != null && serviceRoute.AlternativeRoutes != null && serviceRoute.AlternativeRoutes.Any())
+                    foreach (var route in serviceRoute.AlternativeRoutes)
                     {
-                        foreach (var route in serviceRoute.AlternativeRoutes)
-                        {
-                            var alternativeCallResult = await Call(
-                                serviceName: route.ServiceName,
-                                postData: postData,
-                                queryParameters: queryParameters,
-                                cancellationToken: cancellationToken);
+                        var alternativeCallResult = await Call(
+                            serviceName: route.ServiceName,
+                            postData: postData,
+                            queryParameters: queryParameters,
+                            cancellationToken: cancellationToken);
 
-                            if (alternativeCallResult.IsSuccess)
-                                return alternativeCallResult;
-                        }
+                        if (alternativeCallResult.IsSuccess)
+                            return alternativeCallResult;
                     }
                 }
 
-                return new ServiceResultModel() { IsSuccess = false, ErrorModel = new ErrorModel() { Description = wex.ToString() } };
+                return new ServiceResultModel() { IsSuccess = false, ErrorModel = new ErrorModel() { Description = wex.Message } };
             }
             catch (Exception ex)
             {
@@ -309,11 +292,11 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
             }
             catch (WebException wex)
             {
-                if (wex.Status == WebExceptionStatus.ProtocolError && wex.Response != null)
+                if (wex.Response != null)
                 {
                     if (wex.Response is HttpWebResponse && (wex.Response as HttpWebResponse).StatusCode == HttpStatusCode.Unauthorized)
                     {
-                        return new ServiceResultModel<TResult>() { IsSuccess = false, ErrorModel = new ErrorModel() { Code = "401", Description = wex.ToString() } };
+                        return new ServiceResultModel<TResult>() { IsSuccess = false, ErrorModel = new ErrorModel() { Code = "401", Description = wex.Message } };
                     }
                     else if (wex.Response is HttpWebResponse && (wex.Response as HttpWebResponse).StatusCode == HttpStatusCode.BadRequest)
                     {
@@ -324,47 +307,28 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                             return JsonConvert.DeserializeObject<ServiceResultModel<TResult>>(response);
                         }
                     }
-                    else if (wex.Response is HttpWebResponse)
-                    {
-                        if (serviceRoute != null && serviceRoute.AlternativeRoutes != null && serviceRoute.AlternativeRoutes.Any())
-                        {
-                            foreach (var route in serviceRoute.AlternativeRoutes)
-                            {
-                                var alternativeCallResult = await Call<TResult>(
-                                    serviceName: route.ServiceName,
-                                    postData: postData,
-                                    queryParameters: queryParameters,
-                                    cancellationToken: cancellationToken);
-
-                                if (alternativeCallResult.IsSuccess)
-                                    return alternativeCallResult;
-                            }
-                        }
-                    }
                 }
-                else if (wex.Status == WebExceptionStatus.UnknownError)
+
+                if (serviceRoute != null && serviceRoute.AlternativeRoutes != null && serviceRoute.AlternativeRoutes.Any())
                 {
-                    if (serviceRoute != null && serviceRoute.AlternativeRoutes != null && serviceRoute.AlternativeRoutes.Any())
+                    foreach (var route in serviceRoute.AlternativeRoutes)
                     {
-                        foreach (var route in serviceRoute.AlternativeRoutes)
-                        {
-                            var alternativeCallResult = await Call<TResult>(
-                                serviceName: route.ServiceName,
-                                postData: postData,
-                                queryParameters: queryParameters,
-                                cancellationToken: cancellationToken);
+                        var alternativeCallResult = await Call<TResult>(
+                            serviceName: route.ServiceName,
+                            postData: postData,
+                            queryParameters: queryParameters,
+                            cancellationToken: cancellationToken);
 
-                            if (alternativeCallResult.IsSuccess)
-                                return alternativeCallResult;
-                        }
+                        if (alternativeCallResult.IsSuccess)
+                            return alternativeCallResult;
                     }
                 }
 
-                return new ServiceResultModel<TResult>() { IsSuccess = false, ErrorModel = new ErrorModel() { Description = wex.ToString() } };
+                return new ServiceResultModel<TResult>() { IsSuccess = false, ErrorModel = new ErrorModel() { Description = wex.Message } };
             }
             catch (Exception ex)
             {
-                return new ServiceResultModel<TResult>() { IsSuccess = false, ErrorModel = new ErrorModel() { Description = ex.ToString() } };
+                return new ServiceResultModel<TResult>() { IsSuccess = false, ErrorModel = new ErrorModel() { Description = ex.Message } };
             }
         }
 

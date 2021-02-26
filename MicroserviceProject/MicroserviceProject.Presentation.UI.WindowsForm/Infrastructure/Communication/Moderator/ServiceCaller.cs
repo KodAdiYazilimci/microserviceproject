@@ -161,7 +161,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Infrastructure.Communi
             }
             catch (WebException wex)
             {
-                if (wex.Status == WebExceptionStatus.ProtocolError && wex.Response != null)
+                if (wex.Response != null)
                 {
                     if (wex.Response is HttpWebResponse && (wex.Response as HttpWebResponse).StatusCode == HttpStatusCode.Unauthorized)
                     {
@@ -176,39 +176,20 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Infrastructure.Communi
                             return JsonConvert.DeserializeObject<ServiceResultModel>(response);
                         }
                     }
-                    else if (wex.Response is HttpWebResponse)
-                    {
-                        if (serviceRoute != null && serviceRoute.AlternativeRoutes != null && serviceRoute.AlternativeRoutes.Any())
-                        {
-                            foreach (var route in serviceRoute.AlternativeRoutes)
-                            {
-                                var alternativeCallResult = await Call(
-                                    serviceName: route.ServiceName,
-                                    postData: postData,
-                                    queryParameters: queryParameters,
-                                    cancellationToken: cancellationToken);
-
-                                if (alternativeCallResult.IsSuccess)
-                                    return alternativeCallResult;
-                            }
-                        }
-                    }
                 }
-                else if (wex.Status == WebExceptionStatus.UnknownError || wex.Status == WebExceptionStatus.ConnectFailure)
-                {
-                    if (serviceRoute != null && serviceRoute.AlternativeRoutes != null && serviceRoute.AlternativeRoutes.Any())
-                    {
-                        foreach (var route in serviceRoute.AlternativeRoutes)
-                        {
-                            var alternativeCallResult = await Call(
-                                serviceName: route.ServiceName,
-                                postData: postData,
-                                queryParameters: queryParameters,
-                                cancellationToken: cancellationToken);
 
-                            if (alternativeCallResult.IsSuccess)
-                                return alternativeCallResult;
-                        }
+                if (serviceRoute != null && serviceRoute.AlternativeRoutes != null && serviceRoute.AlternativeRoutes.Any())
+                {
+                    foreach (var route in serviceRoute.AlternativeRoutes)
+                    {
+                        var alternativeCallResult = await Call(
+                            serviceName: route.ServiceName,
+                            postData: postData,
+                            queryParameters: queryParameters,
+                            cancellationToken: cancellationToken);
+
+                        if (alternativeCallResult.IsSuccess)
+                            return alternativeCallResult;
                     }
                 }
 
@@ -312,7 +293,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Infrastructure.Communi
             }
             catch (WebException wex)
             {
-                if (wex.Status == WebExceptionStatus.ProtocolError && wex.Response != null)
+                if (wex.Response != null)
                 {
                     if (wex.Response is HttpWebResponse && (wex.Response as HttpWebResponse).StatusCode == HttpStatusCode.Unauthorized)
                     {
@@ -327,39 +308,20 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Infrastructure.Communi
                             return JsonConvert.DeserializeObject<ServiceResultModel<TResult>>(response);
                         }
                     }
-                    else if (wex.Response is HttpWebResponse)
-                    {
-                        if (serviceRoute != null && serviceRoute.AlternativeRoutes != null && serviceRoute.AlternativeRoutes.Any())
-                        {
-                            foreach (var route in serviceRoute.AlternativeRoutes)
-                            {
-                                var alternativeCallResult = await Call<TResult>(
-                                    serviceName: route.ServiceName,
-                                    postData: postData,
-                                    queryParameters: queryParameters,
-                                    cancellationToken: cancellationToken);
-
-                                if (alternativeCallResult.IsSuccess)
-                                    return alternativeCallResult;
-                            }
-                        }
-                    }
                 }
-                else if (wex.Status == WebExceptionStatus.UnknownError || wex.Status == WebExceptionStatus.ConnectFailure)
-                {
-                    if (serviceRoute != null && serviceRoute.AlternativeRoutes != null && serviceRoute.AlternativeRoutes.Any())
-                    {
-                        foreach (var route in serviceRoute.AlternativeRoutes)
-                        {
-                            var alternativeCallResult = await Call<TResult>(
-                                serviceName: route.ServiceName,
-                                postData: postData,
-                                queryParameters: queryParameters,
-                                cancellationToken: cancellationToken);
 
-                            if (alternativeCallResult.IsSuccess)
-                                return alternativeCallResult;
-                        }
+                if (serviceRoute != null && serviceRoute.AlternativeRoutes != null && serviceRoute.AlternativeRoutes.Any())
+                {
+                    foreach (var route in serviceRoute.AlternativeRoutes)
+                    {
+                        var alternativeCallResult = await Call<TResult>(
+                            serviceName: route.ServiceName,
+                            postData: postData,
+                            queryParameters: queryParameters,
+                            cancellationToken: cancellationToken);
+
+                        if (alternativeCallResult.IsSuccess)
+                            return alternativeCallResult;
                     }
                 }
 
