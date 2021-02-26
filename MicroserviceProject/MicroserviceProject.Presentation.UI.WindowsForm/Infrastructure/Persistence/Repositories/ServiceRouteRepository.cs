@@ -30,11 +30,11 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Persistence.Reposit
             this.connectionString = connectionString;
         }
 
-        public async Task<List<ServiceRoute>> GetServiceRoutesAsync(CancellationToken cancellationToken)
+        public async Task<List<ServiceRouteModel>> GetServiceRoutesAsync(CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            List<ServiceRoute> routes = new List<ServiceRoute>();
+            List<ServiceRouteModel> routes = new List<ServiceRouteModel>();
 
             Exception exception = null;
 
@@ -61,7 +61,7 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Persistence.Reposit
                     {
                         cancellationToken.ThrowIfCancellationRequested();
 
-                        ServiceRoute route = new ServiceRoute
+                        ServiceRouteModel route = new ServiceRouteModel
                         {
                             Id = Convert.ToInt32(sqlRouteDataReader["ID"])
                         };
@@ -126,7 +126,7 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Persistence.Reposit
                     {
                         while (await sqlAlternativeRouteReader.ReadAsync(cancellationToken))
                         {
-                            ServiceRoute alternativeRoute = new ServiceRoute();
+                            ServiceRouteModel alternativeRoute = new ServiceRouteModel();
 
                             alternativeRoute.Id = Convert.ToInt32(sqlAlternativeRouteReader["ALTERNATIVE_SERVICE_ROUTE_ID"]);
                             alternativeRoute.ServiceName = sqlAlternativeRouteReader["NAME"].ToString();
@@ -136,7 +136,7 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Persistence.Reposit
 
                             if (route.AlternativeRoutes == null)
                             {
-                                route.AlternativeRoutes = new List<ServiceRoute>();
+                                route.AlternativeRoutes = new List<ServiceRouteModel>();
                             }
 
                             route.AlternativeRoutes.Add(alternativeRoute);

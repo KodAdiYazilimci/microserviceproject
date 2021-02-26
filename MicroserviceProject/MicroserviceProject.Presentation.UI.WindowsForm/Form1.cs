@@ -1,10 +1,12 @@
-﻿using MicroserviceProject.Presentation.UI.Business.Model.Department.HR;
+﻿using MicroserviceProject.Presentation.UI.Business.Model.Department.Buying;
+using MicroserviceProject.Presentation.UI.Business.Model.Department.HR;
 using MicroserviceProject.Presentation.UI.Business.Model.Department.IT;
 using MicroserviceProject.Presentation.UI.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moderator;
 using MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moderator.Providers;
 using MicroserviceProject.Presentation.UI.Infrastructure.Persistence.Repositories;
 using MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.HR;
+using MicroserviceProject.Presentation.UI.WindowsForm.Infrastructure.Communication.Moderator;
 
 using Microsoft.Extensions.Caching.Memory;
 
@@ -428,6 +430,57 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
         {
             Dialogs.AA.CreateInventoryForNewWorkerForm createInventoryForm =
                 new Dialogs.AA.CreateInventoryForNewWorkerForm(
+                    _credentialProvider,
+                    _memoryCache,
+                    _routeNameProvider,
+                    _serviceCommunicator,
+                    _serviceRouteRepository);
+
+            createInventoryForm.ShowDialog();
+        }
+
+        private void btnSatinAlimGetir_Click(object sender, EventArgs e)
+        {
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+
+            lstSatinAlimlar.Items.Clear();
+
+            try
+            {
+                Task.Run(async delegate
+                {
+                    ServiceResultModel<List<InventoryRequestModel>> inventoryRequestServiceResult =
+                        await _serviceCommunicator.Call<List<InventoryRequestModel>>(
+                            serviceName: _routeNameProvider.Buying_GetInventoryRequests,
+                            postData: null,
+                            queryParameters: null,
+                            cancellationToken: cancellationTokenSource.Token);
+
+                    if (inventoryRequestServiceResult.IsSuccess)
+                    {
+                        foreach (var inventoryRequest in inventoryRequestServiceResult.Data)
+                        {
+                            lstSatinAlimlar.Items.Add(inventoryRequest);
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception(inventoryRequestServiceResult.ErrorModel.Description);
+                    }
+                },
+                cancellationToken: cancellationTokenSource.Token).Wait();
+            }
+            catch (Exception ex)
+            {
+                cancellationTokenSource.Cancel();
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void btnYeniSatinalma_Click(object sender, EventArgs e)
+        {
+            Dialogs.Buying.CreateInventoryRequestForm createInventoryForm =
+                new Dialogs.Buying.CreateInventoryRequestForm(
                     _credentialProvider,
                     _memoryCache,
                     _routeNameProvider,

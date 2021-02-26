@@ -15,7 +15,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moderator
+namespace MicroserviceProject.Presentation.UI.WindowsForm.Infrastructure.Communication.Moderator
 {
     /// <summary>
     /// Yetki denetimi destekli servis iletişim sağlayıcı sınıf
@@ -93,9 +93,9 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moder
                 takenTokenForThisService.ValidTo <= DateTime.Now)
             {
                 ServiceCaller serviceTokenCaller = new ServiceCaller(_memoryCache, "");
-                serviceTokenCaller.OnNoServiceFoundInCacheAsync += async (serviceName_) =>
+                serviceTokenCaller.OnNoServiceFoundInCacheAsync += async (_serviceName) =>
                 {
-                    return await GetServiceAsync(serviceName_, cancellationToken);
+                    return await GetServiceAsync(_serviceName, cancellationToken);
                 };
                 ServiceResultModel<Token> tokenResult =
                     await serviceTokenCaller.Call<Token>(
@@ -120,9 +120,9 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moder
             }
 
             ServiceCaller serviceCaller = new ServiceCaller(_memoryCache, takenTokenForThisService.TokenKey);
-            serviceCaller.OnNoServiceFoundInCacheAsync += async (serviceName_) =>
+            serviceCaller.OnNoServiceFoundInCacheAsync += async (_serviceName) =>
             {
-                return await GetServiceAsync(serviceName_, cancellationToken);
+                return await GetServiceAsync(_serviceName, cancellationToken);
             };
 
             ServiceResultModel<T> result = await serviceCaller.Call<T>(
@@ -155,9 +155,9 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moder
                 takenTokenForThisService.ValidTo <= DateTime.Now)
             {
                 ServiceCaller serviceTokenCaller = new ServiceCaller(_memoryCache, "");
-                serviceTokenCaller.OnNoServiceFoundInCacheAsync += async (serviceName_) =>
+                serviceTokenCaller.OnNoServiceFoundInCacheAsync += async (_serviceName) =>
                 {
-                    return await GetServiceAsync(serviceName_, cancellationToken);
+                    return await GetServiceAsync(_serviceName, cancellationToken);
                 };
                 ServiceResultModel<Token> tokenResult =
                     await serviceTokenCaller.Call<Token>(
@@ -182,9 +182,9 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moder
             }
 
             ServiceCaller serviceCaller = new ServiceCaller(_memoryCache, takenTokenForThisService.TokenKey);
-            serviceCaller.OnNoServiceFoundInCacheAsync += async (serviceName_) =>
+            serviceCaller.OnNoServiceFoundInCacheAsync += async (_serviceName) =>
             {
-                return await GetServiceAsync(serviceName_, cancellationToken);
+                return await GetServiceAsync(_serviceName, cancellationToken);
             };
 
             ServiceResultModel result = await serviceCaller.Call(
@@ -204,7 +204,7 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moder
         /// <returns></returns>
         private async Task<string> GetServiceAsync(string serviceName, CancellationToken cancellationToken)
         {
-            List<ServiceRoute> serviceRoutes = _memoryCache.Get<List<ServiceRoute>>(CACHEDSERVICEROUTES);
+            List<ServiceRouteModel> serviceRoutes = _memoryCache.Get<List<ServiceRouteModel>>(CACHEDSERVICEROUTES);
 
             if (serviceRoutes == null || !serviceRoutes.Any())
             {
@@ -215,7 +215,7 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moder
 
             serviceRoutes = await _serviceRouteRepository.GetServiceRoutesAsync(cancellationToken);
 
-            _memoryCache.Set<List<ServiceRoute>>(CACHEDSERVICEROUTES, serviceRoutes, DateTime.Now.AddMinutes(60));
+            _memoryCache.Set<List<ServiceRouteModel>>(CACHEDSERVICEROUTES, serviceRoutes, DateTime.Now.AddMinutes(60));
 
             return JsonConvert.SerializeObject(serviceRoutes.FirstOrDefault(x => x.ServiceName == serviceName));
         }

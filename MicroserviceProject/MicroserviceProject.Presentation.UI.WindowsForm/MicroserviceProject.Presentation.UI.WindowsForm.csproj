@@ -99,6 +99,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business.Model\Constants\Departments.cs" />
     <Compile Include="Business.Model\Department\AA\InventoryModel.cs" />
     <Compile Include="Business.Model\Department\Accounting\BankAccountModel.cs" />
     <Compile Include="Business.Model\Department\Accounting\CurrencyModel.cs" />
@@ -120,6 +121,12 @@
     </Compile>
     <Compile Include="Dialogs\AA\CreateInventoryForNewWorkerForm.Designer.cs">
       <DependentUpon>CreateInventoryForNewWorkerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\Buying\CreateInventoryRequestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\Buying\CreateInventoryRequestForm.Designer.cs">
+      <DependentUpon>CreateInventoryRequestForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\HR\CreatePersonForm.cs">
       <SubType>Form</SubType>
@@ -162,7 +169,7 @@
     <Compile Include="Infrastructure\Communication\Model\Validations\Validation.cs" />
     <Compile Include="Infrastructure\Communication\Model\Validations\ValidationItem.cs" />
     <Compile Include="Infrastructure\Communication\Moderator\Model\RouteQuery.cs" />
-    <Compile Include="Infrastructure\Communication\Moderator\Model\ServiceRoute.cs" />
+    <Compile Include="Infrastructure\Communication\Moderator\Model\ServiceRouteModel.cs" />
     <Compile Include="Infrastructure\Communication\Moderator\Providers\CredentialProvider.cs" />
     <Compile Include="Infrastructure\Communication\Moderator\Providers\RouteNameProvider.cs" />
     <Compile Include="Infrastructure\Communication\Moderator\ServiceCaller.cs" />
@@ -179,6 +186,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\AA\CreateInventoryForNewWorkerForm.resx">
       <DependentUpon>CreateInventoryForNewWorkerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\Buying\CreateInventoryRequestForm.resx">
+      <DependentUpon>CreateInventoryRequestForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\HR\CreatePersonForm.resx">
       <DependentUpon>CreatePersonForm.cs</DependentUpon>

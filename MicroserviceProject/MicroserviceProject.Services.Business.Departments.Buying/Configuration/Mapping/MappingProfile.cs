@@ -2,6 +2,7 @@
 
 using MicroserviceProject.Services.Business.Departments.Buying.Entities.Sql;
 using MicroserviceProject.Services.Model.Department.Buying;
+using MicroserviceProject.Services.Transaction.Models;
 
 namespace MicroserviceProject.Services.Business.Departments.Buying.Configuration.Mapping
 {
@@ -19,9 +20,15 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Configuration
 
             CreateMap<InventoryRequestModel, InventoryRequestEntity>();
 
+            CreateMap<RollbackModel, RollbackEntity>();
+            CreateMap<RollbackItemModel, RollbackItemEntity>();
+
             // Entity => Model
 
             CreateMap<InventoryRequestEntity, InventoryRequestModel>();
+            
+            CreateMap<RollbackEntity, RollbackModel>();
+            CreateMap<RollbackItemEntity, RollbackItemModel>();
         }
     }
 }

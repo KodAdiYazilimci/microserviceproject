@@ -61,6 +61,11 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             this.btnIdariIslerEnventerOlustur = new System.Windows.Forms.Button();
             this.lstIdariIslerEnvanterler = new System.Windows.Forms.ListBox();
             this.btnIdariIslerEnvanterleriGetir = new System.Windows.Forms.Button();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.lstSatinAlimlar = new System.Windows.Forms.ListBox();
+            this.btnSatinAlimGetir = new System.Windows.Forms.Button();
+            this.btnYeniSatinalma = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -72,6 +77,8 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             this.tabPage3.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.groupBox5.SuspendLayout();
+            this.tabPage4.SuspendLayout();
+            this.groupBox8.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -79,6 +86,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Location = new System.Drawing.Point(13, 13);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -402,6 +410,57 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             this.btnIdariIslerEnvanterleriGetir.UseVisualStyleBackColor = true;
             this.btnIdariIslerEnvanterleriGetir.Click += new System.EventHandler(this.BtnIdariIslerEnvanterleriGetir_Click);
             // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.groupBox8);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(767, 399);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Satın Alma";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.btnYeniSatinalma);
+            this.groupBox8.Controls.Add(this.btnSatinAlimGetir);
+            this.groupBox8.Controls.Add(this.lstSatinAlimlar);
+            this.groupBox8.Location = new System.Drawing.Point(7, 7);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(228, 376);
+            this.groupBox8.TabIndex = 0;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "Satınalımlar";
+            // 
+            // lstSatinAlimlar
+            // 
+            this.lstSatinAlimlar.FormattingEnabled = true;
+            this.lstSatinAlimlar.Location = new System.Drawing.Point(7, 46);
+            this.lstSatinAlimlar.Name = "lstSatinAlimlar";
+            this.lstSatinAlimlar.Size = new System.Drawing.Size(215, 316);
+            this.lstSatinAlimlar.TabIndex = 0;
+            // 
+            // btnSatinAlimGetir
+            // 
+            this.btnSatinAlimGetir.Location = new System.Drawing.Point(7, 20);
+            this.btnSatinAlimGetir.Name = "btnSatinAlimGetir";
+            this.btnSatinAlimGetir.Size = new System.Drawing.Size(98, 23);
+            this.btnSatinAlimGetir.TabIndex = 1;
+            this.btnSatinAlimGetir.Text = "Listele";
+            this.btnSatinAlimGetir.UseVisualStyleBackColor = true;
+            this.btnSatinAlimGetir.Click += new System.EventHandler(this.btnSatinAlimGetir_Click);
+            // 
+            // btnYeniSatinalma
+            // 
+            this.btnYeniSatinalma.Location = new System.Drawing.Point(111, 20);
+            this.btnYeniSatinalma.Name = "btnYeniSatinalma";
+            this.btnYeniSatinalma.Size = new System.Drawing.Size(111, 23);
+            this.btnYeniSatinalma.TabIndex = 2;
+            this.btnYeniSatinalma.Text = "Yeni Satınalma";
+            this.btnYeniSatinalma.UseVisualStyleBackColor = true;
+            this.btnYeniSatinalma.Click += new System.EventHandler(this.btnYeniSatinalma_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -426,6 +485,8 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             this.tabPage3.ResumeLayout(false);
             this.groupBox7.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
+            this.tabPage4.ResumeLayout(false);
+            this.groupBox8.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -464,6 +525,11 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
         private System.Windows.Forms.Button btnAAYeniBaslayanEnvanterOlustur;
         private System.Windows.Forms.ListBox lstAAYeniBaslayanEnvanterleri;
         private System.Windows.Forms.Button btnAAYeniBaslayanEnvanterleriGetir;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.ListBox lstSatinAlimlar;
+        private System.Windows.Forms.Button btnYeniSatinalma;
+        private System.Windows.Forms.Button btnSatinAlimGetir;
     }
 }
 

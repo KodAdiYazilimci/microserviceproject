@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 
 using MicroserviceProject.Infrastructure.Caching.Redis;
+using MicroserviceProject.Infrastructure.Communication.Model.Basics;
+using MicroserviceProject.Infrastructure.Communication.Moderator;
+using MicroserviceProject.Infrastructure.Routing.Providers;
 using MicroserviceProject.Services.Business.Departments.Buying.Entities.Sql;
 using MicroserviceProject.Services.Business.Departments.Buying.Repositories.Sql;
 using MicroserviceProject.Services.Model.Department.Buying;
@@ -68,10 +71,22 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Services
         private readonly IUnitOfWork _unitOfWork;
 
         /// <summary>
+        /// Servislerin rota isimlerini sağlayan sınıf
+        /// </summary>
+        private readonly RouteNameProvider _routeNameProvider;
+
+        /// <summary>
+        /// Diğer servislerle iletişim kuracak ara bulucu
+        /// </summary>
+        private readonly ServiceCommunicator _serviceCommunicator;
+
+        /// <summary>
         /// Talep işlemleri iş mantığı sınıfı
         /// </summary>
         /// <param name="mapper">Mapping işlemleri için mapper nesnesi</param>
         /// <param name="unitOfWork">Veritabanı iş birimi nesnesi</param>
+        /// <param name="routeNameProvider">Servislerin rota isimlerini sağlayan sınıf</param>
+        /// <param name="serviceCommunicator">Diğer servislerle iletişim kuracak ara bulucu</param>
         /// <param name="cacheDataProvider">Rediste tutulan önbellek yönetimini sağlayan sınıf</param>
         /// <param name="transactionRepository">İşlem tablosu için repository sınıfı</param>
         /// <param name="transactionItemRepository">İşlem öğesi tablosu için repository sınıfı</param>
@@ -79,6 +94,8 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Services
         public RequestService(
             IMapper mapper,
             IUnitOfWork unitOfWork,
+            RouteNameProvider routeNameProvider,
+            ServiceCommunicator serviceCommunicator,
             CacheDataProvider cacheDataProvider,
             TransactionRepository transactionRepository,
             TransactionItemRepository transactionItemRepository,
@@ -87,6 +104,8 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Services
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _cacheDataProvider = cacheDataProvider;
+            _routeNameProvider = routeNameProvider;
+            _serviceCommunicator = serviceCommunicator;
 
             _transactionRepository = transactionRepository;
             _transactionItemRepository = transactionItemRepository;
@@ -113,9 +132,83 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Services
             List<InventoryRequestModel> mappedInventoryRequests =
                 _mapper.Map<List<InventoryRequestEntity>, List<InventoryRequestModel>>(inventoryRequests);
 
+            List<Model.Department.AA.InventoryModel> aaInventories = new List<Model.Department.AA.InventoryModel>();
+
+            if (mappedInventoryRequests.Any(x => x.DepartmentId == (int)Model.Constants.Departments.AdministrativeAffairs))
+            {
+                aaInventories = await GetAAInventoriesAsync(cancellationToken);
+            }
+
+            List<Model.Department.IT.InventoryModel> itInventories = new List<Model.Department.IT.InventoryModel>();
+
+            if (mappedInventoryRequests.Any(x => x.DepartmentId == (int)Model.Constants.Departments.AdministrativeAffairs))
+            {
+                itInventories = await GetITInventoriesAsync(cancellationToken);
+            }
+
+            foreach (var requestModel in mappedInventoryRequests)
+            {
+                if (requestModel.DepartmentId == (int)Model.Constants.Departments.AdministrativeAffairs)
+                {
+                    requestModel.AAInventory = aaInventories.FirstOrDefault(x => x.Id == requestModel.InventoryId);
+                }
+                else if (requestModel.DepartmentId == (int)Model.Constants.Departments.InformationTechnologies)
+                {
+                    requestModel.ITInventory = itInventories.FirstOrDefault(x => x.Id == requestModel.InventoryId);
+                }
+                else
+                    throw new Exception("Tanımlanmamış departman Id si");
+            }
+
             _cacheDataProvider.Set(CACHED_REQUESTS_KEY, mappedInventoryRequests);
 
             return mappedInventoryRequests;
+        }
+
+        /// <summary>
+        /// İdari işler departmanına ait envanterlerin listesini verir
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        private async Task<List<Model.Department.AA.InventoryModel>> GetAAInventoriesAsync(CancellationToken cancellationToken)
+        {
+            ServiceResultModel<List<Model.Department.AA.InventoryModel>> serviceResult =
+                    await
+                    _serviceCommunicator.Call<List<Model.Department.AA.InventoryModel>>(
+                            serviceName: _routeNameProvider.AA_GetInventories,
+                            postData: null,
+                            queryParameters: null,
+                            cancellationToken: cancellationToken);
+
+            if (!serviceResult.IsSuccess)
+            {
+                throw new Exception(serviceResult.ErrorModel.Description);
+            }
+
+            return serviceResult.Data;
+        }
+
+        /// <summary>
+        /// IT departmanına ait envanterlerin listesini verir
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        private async Task<List<Model.Department.IT.InventoryModel>> GetITInventoriesAsync(CancellationToken cancellationToken)
+        {
+            ServiceResultModel<List<Model.Department.IT.InventoryModel>> serviceResult =
+                    await
+                    _serviceCommunicator.Call<List<Model.Department.IT.InventoryModel>>(
+                            serviceName: _routeNameProvider.IT_GetInventories,
+                            postData: null,
+                            queryParameters: null,
+                            cancellationToken: cancellationToken);
+
+            if (!serviceResult.IsSuccess)
+            {
+                throw new Exception(serviceResult.ErrorModel.Description);
+            }
+
+            return serviceResult.Data;
         }
 
         /// <summary>
@@ -127,6 +220,27 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Services
         public async Task<int> CreateInventoryRequestAsync(InventoryRequestModel inventoryRequest, CancellationToken cancellationToken)
         {
             InventoryRequestEntity mappedInventoryRequest = _mapper.Map<InventoryRequestModel, InventoryRequestEntity>(inventoryRequest);
+
+            if (mappedInventoryRequest.DepartmentId == (int)Model.Constants.Departments.AdministrativeAffairs)
+            {
+                List<Model.Department.AA.InventoryModel> aaInventories = await GetAAInventoriesAsync(cancellationToken);
+
+                if (!aaInventories.Any(x => x.Id == mappedInventoryRequest.InventoryId))
+                {
+                    throw new Exception("Envanter Id si bulunamadı");
+                }
+            }
+            else if (mappedInventoryRequest.DepartmentId == (int)Model.Constants.Departments.AdministrativeAffairs)
+            {
+                List<Model.Department.IT.InventoryModel> itInventories = await GetITInventoriesAsync(cancellationToken);
+
+                if (!itInventories.Any(x => x.Id == mappedInventoryRequest.InventoryId))
+                {
+                    throw new Exception("Envanter Id si bulunamadı");
+                }
+            }
+            else
+                throw new Exception("Tanımlanmamış departman Id si");
 
             int createdInventoryRequestId = await _inventoryRequestRepository.CreateAsync(mappedInventoryRequest, cancellationToken);
 
@@ -152,7 +266,9 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Services
 
             inventoryRequest.Id = createdInventoryRequestId;
 
-            if (_cacheDataProvider.TryGetValue(CACHED_REQUESTS_KEY, out List<InventoryRequestModel> cachedInventoryRequests))
+            if (_cacheDataProvider.TryGetValue(CACHED_REQUESTS_KEY, out List<InventoryRequestModel> cachedInventoryRequests)
+                &&
+                cachedInventoryRequests != null)
             {
                 cachedInventoryRequests.Add(inventoryRequest);
                 _cacheDataProvider.Set(CACHED_REQUESTS_KEY, cachedInventoryRequests);

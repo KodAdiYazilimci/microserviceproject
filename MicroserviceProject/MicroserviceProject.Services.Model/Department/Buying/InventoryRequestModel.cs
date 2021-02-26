@@ -8,5 +8,8 @@
         public int Amount { get; set; }
         public bool Revoked { get; set; }
         public bool Done { get; set; }
+
+        public AA.InventoryModel AAInventory { get; set; }
+        public IT.InventoryModel ITInventory { get; set; }
     }
 }

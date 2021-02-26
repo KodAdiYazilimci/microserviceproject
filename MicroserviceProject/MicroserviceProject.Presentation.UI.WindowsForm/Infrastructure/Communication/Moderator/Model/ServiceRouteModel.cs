@@ -5,7 +5,7 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moder
     /// <summary>
     /// Çağrı modeli
     /// </summary>
-    public class ServiceRoute
+    public class ServiceRouteModel
     {
         public int Id { get; set; }
         /// <summary>
@@ -26,7 +26,7 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moder
         /// <summary>
         /// Bu servis endpoint ile başarısız iletişim kurulması halinde denenecek diğer endpointler
         /// </summary>
-        public List<ServiceRoute> AlternativeRoutes { get; set; }
+        public List<ServiceRouteModel> AlternativeRoutes { get; set; }
 
         /// <summary>
         /// Çağırılacak servisin query string parametreleri

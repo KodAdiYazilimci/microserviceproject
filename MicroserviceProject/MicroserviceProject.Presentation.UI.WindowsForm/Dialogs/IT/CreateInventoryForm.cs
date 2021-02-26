@@ -3,6 +3,7 @@ using MicroserviceProject.Presentation.UI.Infrastructure.Communication.Model.Bas
 using MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moderator;
 using MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moderator.Providers;
 using MicroserviceProject.Presentation.UI.Infrastructure.Persistence.Repositories;
+using MicroserviceProject.Presentation.UI.WindowsForm.Infrastructure.Communication.Moderator;
 
 using Microsoft.Extensions.Caching.Memory;
 
