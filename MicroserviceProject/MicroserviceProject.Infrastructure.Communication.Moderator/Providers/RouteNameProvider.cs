@@ -453,5 +453,53 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator.Providers
                     .GetSection("RollbackTransaction").Value;
             }
         }
+
+        /// <summary>
+        /// Satınalma departmanındaki envanter taleplerini getirir
+        /// </summary>
+        public string Buying_GetInventoryRequests
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("Buying")
+                    .GetSection("GetInventoryRequests").Value;
+            }
+        }
+
+        /// <summary>
+        /// Satınalma departmanına envanter talebi oluşturur
+        /// </summary>
+        public string Buying_CreateInventoryRequest
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("Buying")
+                    .GetSection("CreateInventoryRequest").Value;
+            }
+        }
+
+        /// <summary>
+        /// İşlemi geri alır
+        /// </summary>
+        public string Buying_RollbackTransaction
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("Buying")
+                    .GetSection("RollbackTransaction").Value;
+            }
+        }
     }
 }

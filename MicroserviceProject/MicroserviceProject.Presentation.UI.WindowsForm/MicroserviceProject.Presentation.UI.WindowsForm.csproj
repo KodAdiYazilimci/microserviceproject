@@ -103,6 +103,7 @@
     <Compile Include="Business.Model\Department\Accounting\BankAccountModel.cs" />
     <Compile Include="Business.Model\Department\Accounting\CurrencyModel.cs" />
     <Compile Include="Business.Model\Department\Accounting\SalaryPaymentModel.cs" />
+    <Compile Include="Business.Model\Department\Buying\InventoryRequestModel.cs" />
     <Compile Include="Business.Model\Department\HR\DepartmentModel.cs" />
     <Compile Include="Business.Model\Department\HR\PersonModel.cs" />
     <Compile Include="Business.Model\Department\HR\TitleModel.cs" />

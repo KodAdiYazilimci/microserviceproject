@@ -5,14 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Configuration\Mapping\" />
-    <Folder Include="Configuration\Validation\" />
-    <Folder Include="Controllers\" />
-    <Folder Include="DI\" />
-    <Folder Include="Entities\" />
-    <Folder Include="Services\" />
-    <Folder Include="Repositories\Sql\" />
-    <Folder Include="Util\Validation\" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="FluentValidation" Version="9.5.0" />
   </ItemGroup>
 
   <ItemGroup>

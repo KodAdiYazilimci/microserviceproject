@@ -411,5 +411,47 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moder
                     .ToString();
             }
         }
+
+        /// <summary>
+        /// Satınalma departmanındaki envanter taleplerini getirir
+        /// </summary>
+        public string Buying_GetInventoryRequests
+        {
+            get
+            {
+                return
+                    ConfigurationManager
+                    .AppSettings["Services.Endpoints.Buying.GetInventoryRequests"]
+                    .ToString();
+            }
+        }
+
+        /// <summary>
+        /// Satınalma departmanına envanter talebi oluşturur
+        /// </summary>
+        public string Buying_CreateInventoryRequest
+        {
+            get
+            {
+                return
+                    ConfigurationManager
+                    .AppSettings["Services.Endpoints.Buying.CreateInventoryRequest"]
+                    .ToString();
+            }
+        }
+
+        /// <summary>
+        /// İşlemi geri alır
+        /// </summary>
+        public string Buying_RollbackTransaction
+        {
+            get
+            {
+                return
+                    ConfigurationManager
+                    .AppSettings["Services.Endpoints.Buying.RollbackTransaction"]
+                    .ToString();
+            }
+        }
     }
 }
