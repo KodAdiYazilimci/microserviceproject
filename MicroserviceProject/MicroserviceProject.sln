@@ -91,23 +91,25 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Service
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure.Validation", "Infrastructure.Validation", "{FA9B355B-104E-4BF4-8FCC-0D651F86B05E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Infrastructure.Communication.Model", "MicroserviceProject.Infrastructure.Communication.Model\MicroserviceProject.Infrastructure.Communication.Model.csproj", "{0E145114-A947-4617-B0E3-B112DFA0EE62}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrastructure.Communication.Model", "MicroserviceProject.Infrastructure.Communication.Model\MicroserviceProject.Infrastructure.Communication.Model.csproj", "{0E145114-A947-4617-B0E3-B112DFA0EE62}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrastructure.Validation.Exceptions", "MicroserviceProject.Infrastructure.Validation.Exceptions\MicroserviceProject.Infrastructure.Validation.Exceptions.csproj", "{B6393677-907E-4450-B41A-E62271F435E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Infrastructure.Validation.Model", "MicroserviceProject.Infrastructure.Validation.Model\MicroserviceProject.Infrastructure.Validation.Model.csproj", "{1025A3B5-0F31-40D8-BB09-3F40A5C6B0CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrastructure.Validation.Model", "MicroserviceProject.Infrastructure.Validation.Model\MicroserviceProject.Infrastructure.Validation.Model.csproj", "{1025A3B5-0F31-40D8-BB09-3F40A5C6B0CF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure.Routing", "Infrastructure.Routing", "{82A61F67-0339-48C7-843D-D61FB3F15888}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Infrastructure.Routing.Model", "MicroserviceProject.Infrastructure.Routing.Model\MicroserviceProject.Infrastructure.Routing.Model.csproj", "{1948B818-B57D-48CE-AD53-5BAD54997CFE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrastructure.Routing.Model", "MicroserviceProject.Infrastructure.Routing.Model\MicroserviceProject.Infrastructure.Routing.Model.csproj", "{1948B818-B57D-48CE-AD53-5BAD54997CFE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Infrastructure.Routing.Persistence", "MicroserviceProject.Infrastructure.Routing.Persistence\MicroserviceProject.Infrastructure.Routing.Persistence.csproj", "{9465086E-69E6-4A10-B4EC-5484D5E64BDB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrastructure.Routing.Persistence", "MicroserviceProject.Infrastructure.Routing.Persistence\MicroserviceProject.Infrastructure.Routing.Persistence.csproj", "{9465086E-69E6-4A10-B4EC-5484D5E64BDB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Infrastructure.Routing.Providers", "MicroserviceProject.Infrastructure.Routing.Providers\MicroserviceProject.Infrastructure.Routing.Providers.csproj", "{57DEEBDD-59C8-4B05-9FFF-2CEA7BC41764}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrastructure.Routing.Providers", "MicroserviceProject.Infrastructure.Routing.Providers\MicroserviceProject.Infrastructure.Routing.Providers.csproj", "{57DEEBDD-59C8-4B05-9FFF-2CEA7BC41764}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Infrastructure.Security.Providers", "MicroserviceProject.Infrastructure.Security.Providers\MicroserviceProject.Infrastructure.Security.Providers.csproj", "{9C449C5E-D0D6-4B8F-BEEA-0DC47EFA2154}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrastructure.Security.Providers", "MicroserviceProject.Infrastructure.Security.Providers\MicroserviceProject.Infrastructure.Security.Providers.csproj", "{9C449C5E-D0D6-4B8F-BEEA-0DC47EFA2154}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrastructure.Security.Authentication.BasicToken", "MicroserviceProject.Infrastructure.Security.Authentication.BasicToken\MicroserviceProject.Infrastructure.Security.Authentication.BasicToken.csproj", "{3D4FCD80-3DB4-4274-A559-27853491FC93}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Services.MQ.Buying", "MicroserviceProject.Services.MQ.Buying\MicroserviceProject.Services.MQ.Buying.csproj", "{713FF52E-46C9-415C-9F31-4EE0B49C8D10}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -267,6 +269,10 @@ Global
 		{3D4FCD80-3DB4-4274-A559-27853491FC93}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D4FCD80-3DB4-4274-A559-27853491FC93}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D4FCD80-3DB4-4274-A559-27853491FC93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{713FF52E-46C9-415C-9F31-4EE0B49C8D10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{713FF52E-46C9-415C-9F31-4EE0B49C8D10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{713FF52E-46C9-415C-9F31-4EE0B49C8D10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{713FF52E-46C9-415C-9F31-4EE0B49C8D10}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -310,6 +316,7 @@ Global
 		{57DEEBDD-59C8-4B05-9FFF-2CEA7BC41764} = {82A61F67-0339-48C7-843D-D61FB3F15888}
 		{9C449C5E-D0D6-4B8F-BEEA-0DC47EFA2154} = {4B50141F-7DDA-4045-87E0-EFBF72CEFB63}
 		{3D4FCD80-3DB4-4274-A559-27853491FC93} = {4B50141F-7DDA-4045-87E0-EFBF72CEFB63}
+		{713FF52E-46C9-415C-9F31-4EE0B49C8D10} = {EE45587A-115E-45A0-B5DD-96769BDF8AF5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C136217B-3CA6-4AEC-95E4-D62936481A67}
