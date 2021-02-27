@@ -3,6 +3,8 @@
 using MicroserviceProject.Infrastructure.Caching.Redis;
 using MicroserviceProject.Services.Business.Departments.IT.Entities.Sql;
 using MicroserviceProject.Services.Business.Departments.IT.Repositories.Sql;
+using MicroserviceProject.Services.Communication.Publishers.Buying;
+using MicroserviceProject.Services.Model.Department.Buying;
 using MicroserviceProject.Services.Model.Department.HR;
 using MicroserviceProject.Services.Model.Department.IT;
 using MicroserviceProject.Services.Transaction;
@@ -79,6 +81,16 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Services
         private readonly WorkerInventoryRepository _workerInventoryRepository;
 
         /// <summary>
+        /// Çalışanlara verilecek stoğu olmayan envanterler tablosu nesnesi
+        /// </summary>
+        private readonly PendingWorkerInventoryRepository _pendingWorkerInventoryRepository;
+
+        /// <summary>
+        /// Satınalma departmanına tükenen envanter için alım talebi kuyruğuna kayıt ekleyecek nesne
+        /// </summary>
+        private readonly CreateInventoryRequestPublisher _createInventoryRequestPublisher;
+
+        /// <summary>
         /// Veritabanı iş birimi nesnesi
         /// </summary>
         private readonly IUnitOfWork _unitOfWork;
@@ -89,22 +101,28 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Services
         /// <param name="mapper">Mapping işlemleri için mapper nesnesi</param>
         /// <param name="unitOfWork">Veritabanı iş birimi nesnesi</param>
         /// <param name="cacheDataProvider">Rediste tutulan önbellek yönetimini sağlayan sınıf</param>
+        /// <param name="createInventoryRequestPublisher">Satınalma departmanına tükenen envanter için alım talebi kuyruğuna kayıt ekleyecek nesne</param>
         /// <param name="inventoryRepository">Envanter tablosu için repository sınıfı</param>
         /// <param name="inventoryDefaultsRepository">Varsayılan envanterler tablosu için repository sınıfı</param>
         /// <param name="workerInventoryRepository">Çalışan envanterleri tablosu için repository sınıfı</param>
+        /// <param name="pendingWorkerInventoryRepository">Çalışanlara verilecek stoğu olmayan envanterler tablosu nesnesi</param>
         public InventoryService(
             IMapper mapper,
             IUnitOfWork unitOfWork,
             CacheDataProvider cacheDataProvider,
+            CreateInventoryRequestPublisher createInventoryRequestPublisher,
             TransactionRepository transactionRepository,
             TransactionItemRepository transactionItemRepository,
             InventoryRepository inventoryRepository,
             InventoryDefaultsRepository inventoryDefaultsRepository,
-            WorkerInventoryRepository workerInventoryRepository)
+            WorkerInventoryRepository workerInventoryRepository,
+            PendingWorkerInventoryRepository pendingWorkerInventoryRepository)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _cacheDataProvider = cacheDataProvider;
+
+            _createInventoryRequestPublisher = createInventoryRequestPublisher;
 
             _transactionRepository = transactionRepository;
             _transactionItemRepository = transactionItemRepository;
@@ -112,6 +130,7 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Services
             _inventoryRepository = inventoryRepository;
             _inventoryDefaultsRepository = inventoryDefaultsRepository;
             _workerInventoryRepository = workerInventoryRepository;
+            _pendingWorkerInventoryRepository = pendingWorkerInventoryRepository;
         }
 
         /// <summary>
@@ -266,19 +285,44 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Services
 
                 if (inventoryEntity.CurrentStockCount <= 0)
                 {
-                    throw new Exception($"{inventoryEntity.Name} (Id:{inventoryEntity.Id}) için yetersiz stok");
+                    await _createInventoryRequestPublisher.PublishAsync(new InventoryRequestModel()
+                    {
+                        Amount = 3,
+                        DepartmentId = (int)Model.Constants.Departments.InformationTechnologies,
+                        InventoryId = inventoryId
+                    }, cancellationToken);
+
+                    worker.ITInventories.FirstOrDefault(x => x.Id == inventoryId).CurrentStockCount = 0;
                 }
             }
 
             foreach (var inventoryModel in worker.ITInventories)
             {
-                await _workerInventoryRepository.CreateAsync(new WorkerInventoryEntity
+                if (inventoryModel.CurrentStockCount > 0)
                 {
-                    FromDate = worker.FromDate,
-                    ToDate = worker.ToDate,
-                    InventoryId = inventoryModel.Id,
-                    WorkerId = worker.Id
-                }, cancellationToken);
+                    // TODO: Transaction tablosuna kayıt eklenecek
+
+                    await _workerInventoryRepository.CreateAsync(new WorkerInventoryEntity
+                    {
+                        FromDate = worker.FromDate,
+                        ToDate = worker.ToDate,
+                        InventoryId = inventoryModel.Id,
+                        WorkerId = worker.Id
+                    }, cancellationToken);
+                }
+                else
+                {
+                    // TODO: Transaction tablosuna kayıt eklenecek
+
+                    await _pendingWorkerInventoryRepository.CreateAsync(new PendingWorkerInventoryEntity()
+                    {
+                        FromDate = worker.FromDate,
+                        InventoryId = inventoryModel.Id,
+                        StockCount = 1,
+                        ToDate = worker.ToDate,
+                        WorkerId = worker.Id
+                    }, cancellationToken);
+                }
             }
 
             await _unitOfWork.SaveAsync(cancellationToken);

@@ -20,6 +20,7 @@ namespace MicroserviceProject.Services.Business.Departments.AA.DI
         {
             services.AddScoped<InventoryRepository>();
             services.AddScoped<InventoryDefaultsRepository>();
+            services.AddScoped<PendingWorkerInventoryRepository>();
             services.AddScoped<WorkerInventoryRepository>();
             services.AddScoped<TransactionRepository>();
             services.AddScoped<TransactionItemRepository>();

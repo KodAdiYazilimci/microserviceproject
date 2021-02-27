@@ -76,6 +76,11 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
         private readonly InventoryDefaultsRepository _inventoryDefaultsRepository;
 
         /// <summary>
+        /// Çalışanlara verilecek stoğu olmayan envanterler tablosu nesnesi
+        /// </summary>
+        private readonly PendingWorkerInventoryRepository _pendingWorkerInventoryRepository;
+
+        /// <summary>
         /// Çalışan envanterleri tablosu için repository sınıfı
         /// </summary>
         private readonly WorkerInventoryRepository _workerInventoryRepository;
@@ -100,6 +105,7 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
         /// <param name="transactionRepository">İşlem tablosu için repository sınıfı</param>
         /// <param name="transactionItemRepository">İşlem öğesi tablosu için repository sınıfı</param>
         /// <param name="inventoryRepository">Envanter tablosu için repository sınıfı</param>
+        /// <param name="pendingWorkerInventoryRepository">Çalışanlara verilecek stoğu olmayan envanterler tablosu nesnesi</param>
         /// <param name="inventoryDefaultsRepository">Varsayılan envanterler tablosu için repository sınıfı</param>
         /// <param name="workerInventoryRepository">Çalışan envanterleri tablosu için repository sınıfı</param>
         public InventoryService(
@@ -110,6 +116,7 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
             TransactionRepository transactionRepository,
             TransactionItemRepository transactionItemRepository,
             InventoryRepository inventoryRepository,
+            PendingWorkerInventoryRepository pendingWorkerInventoryRepository,
             InventoryDefaultsRepository inventoryDefaultsRepository,
             WorkerInventoryRepository workerInventoryRepository)
         {
@@ -123,6 +130,7 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
 
             _inventoryRepository = inventoryRepository;
             _inventoryDefaultsRepository = inventoryDefaultsRepository;
+            _pendingWorkerInventoryRepository = pendingWorkerInventoryRepository;
             _workerInventoryRepository = workerInventoryRepository;
         }
 
@@ -296,8 +304,6 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
 
                 if (inventoryEntity.CurrentStockCount <= 0)
                 {
-                    //throw new Exception($"{inventoryEntity.Name} (Id:{inventoryEntity.Id}) için yetersiz stok");
-
                     await _createInventoryRequestPublisher.PublishAsync(new InventoryRequestModel()
                     {
                         Amount = 3,
@@ -313,11 +319,26 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
             {
                 if (inventoryModel.CurrentStockCount > 0)
                 {
+                    // TODO: Transaction tablosuna kayıt eklenecek
+
                     await _workerInventoryRepository.CreateAsync(new WorkerInventoryEntity
                     {
                         FromDate = worker.FromDate,
                         ToDate = worker.ToDate,
                         InventoryId = inventoryModel.Id,
+                        WorkerId = worker.Id
+                    }, cancellationToken);
+                }
+                else
+                {
+                    // TODO: Transaction tablosuna kayıt eklenecek
+
+                    await _pendingWorkerInventoryRepository.CreateAsync(new PendingWorkerInventoryEntity()
+                    {
+                        FromDate = worker.FromDate,
+                        InventoryId = inventoryModel.Id,
+                        StockCount = 1,
+                        ToDate = worker.ToDate,
                         WorkerId = worker.Id
                     }, cancellationToken);
                 }
