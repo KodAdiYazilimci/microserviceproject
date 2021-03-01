@@ -230,7 +230,7 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Services
                     throw new Exception("Envanter Id si bulunamadı");
                 }
             }
-            else if (mappedInventoryRequest.DepartmentId == (int)Model.Constants.Departments.AdministrativeAffairs)
+            else if (mappedInventoryRequest.DepartmentId == (int)Model.Constants.Departments.InformationTechnologies)
             {
                 List<Model.Department.IT.InventoryModel> itInventories = await GetITInventoriesAsync(cancellationToken);
 

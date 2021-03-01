@@ -313,6 +313,12 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
 
                     worker.AAInventories.FirstOrDefault(x => x.Id == inventoryId).CurrentStockCount = 0;
                 }
+                else
+                {
+                    await _inventoryRepository.DescendStockCountAsync(inventoryId, 1, cancellationToken);
+
+                    _cacheDataProvider.RemoveObject(CACHED_INVENTORIES_KEY);
+                }
             }
 
             foreach (var inventoryModel in worker.AAInventories)
@@ -345,6 +351,7 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
             }
 
             await _unitOfWork.SaveAsync(cancellationToken);
+
 
             return worker;
         }

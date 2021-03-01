@@ -7,14 +7,15 @@
       "sslPort": 0
     },
     "iisExpress": {
-      "applicationUrl": "http://localhost:15550",
+      "applicationUrl": "http://localhost/MicroserviceProject.Services.MQ.Buying",
       "sslPort": 0
     }
   },
   "profiles": {
     "IIS Express": {
-      "commandName": "IIS",
+      "commandName": "IISExpress",
       "launchBrowser": true,
+      "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
