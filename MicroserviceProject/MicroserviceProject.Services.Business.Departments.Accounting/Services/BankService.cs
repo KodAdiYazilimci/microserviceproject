@@ -137,6 +137,24 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Services
 
             int createdBankAccountId = await _bankAccountRepository.CreateAsync(mappedBankAccount, cancellationToken);
 
+            await CreateCheckpointAsync(
+                rollback: new RollbackModel()
+                {
+                    TransactionIdentity = TransactionIdentity,
+                    TransactionDate = DateTime.Now,
+                    TransactionType = TransactionType.Insert,
+                    RollbackItems = new List<RollbackItemModel>
+                    {
+                         new RollbackItemModel
+                         {
+                             Identity = createdBankAccountId,
+                             DataSet = BankAccountRepository.TABLE_NAME,
+                             RollbackType = RollbackType.Delete
+                         }
+                    }
+                },
+                cancellationToken: cancellationToken);
+
             await _unitOfWork.SaveAsync(cancellationToken);
 
             return createdBankAccountId;
@@ -178,22 +196,33 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Services
 
             int createdCurrencyId = await _currencyRepository.CreateAsync(mappedCurrency, cancellationToken);
 
+            await CreateCheckpointAsync(
+                rollback: new RollbackModel()
+                {
+                    TransactionDate = DateTime.Now,
+                    TransactionIdentity = TransactionIdentity,
+                    TransactionType = TransactionType.Insert,
+                    RollbackItems = new List<RollbackItemModel>
+                    {
+                        new RollbackItemModel
+                        {
+                             Identity = createdCurrencyId,
+                             DataSet = CurrencyRepository.TABLE_NAME,
+                             RollbackType = RollbackType.Delete
+                        }
+                    }
+                },
+                cancellationToken: cancellationToken);
+
             await _unitOfWork.SaveAsync(cancellationToken);
 
             currency.Id = createdCurrencyId;
 
-            if (_cacheDataProvider.TryGetValue(CACHED_CURRENCIES_KEY, out List<CurrencyModel> cachedCurrencies))
+            if (_cacheDataProvider.TryGetValue(CACHED_CURRENCIES_KEY, out List<CurrencyModel> cachedCurrencies) && cachedCurrencies != null)
             {
                 cachedCurrencies.Add(currency);
+
                 _cacheDataProvider.Set(CACHED_CURRENCIES_KEY, cachedCurrencies);
-            }
-            else
-            {
-                List<CurrencyModel> currencies = await GetCurrenciesAsync(cancellationToken);
-
-                currencies.Add(currency);
-
-                _cacheDataProvider.Set(CACHED_CURRENCIES_KEY, currencies);
             }
 
             return createdCurrencyId;
@@ -228,6 +257,24 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Services
 
             int createdSalaryPaymentId = await _salaryPaymentRepository.CreateAsync(mappedBankAccount, cancellationToken);
 
+            await CreateCheckpointAsync(
+                rollback: new RollbackModel()
+                {
+                    TransactionDate = DateTime.Now,
+                    TransactionIdentity = TransactionIdentity,
+                    TransactionType = TransactionType.Insert,
+                    RollbackItems = new List<RollbackItemModel>
+                    {
+                        new RollbackItemModel
+                        {
+                            Identity = createdSalaryPaymentId,
+                            DataSet = SalaryPaymentRepository.TABLE_NAME,
+                            RollbackType = RollbackType.Delete
+                        }
+                    }
+                },
+                cancellationToken: cancellationToken);
+
             await _unitOfWork.SaveAsync(cancellationToken);
 
             return createdSalaryPaymentId;
@@ -253,6 +300,11 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Services
                 if (!disposed)
                 {
                     _cacheDataProvider.Dispose();
+                    _bankAccountRepository.Dispose();
+                    _currencyRepository.Dispose();
+                    _salaryPaymentRepository.Dispose();
+                    _transactionItemRepository.Dispose();
+                    _transactionRepository.Dispose();
                     _unitOfWork.Dispose();
                 }
 
@@ -307,6 +359,8 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Services
                         {
                             await _bankAccountRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationToken);
                         }
+                        else
+                            throw new Exception("Tanımlanmamış geri alma biçimi");
                         break;
                     case CurrencyRepository.TABLE_NAME:
                         if (rollbackItem.RollbackType == RollbackType.Delete)
@@ -321,6 +375,8 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Services
                         {
                             await _currencyRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationToken);
                         }
+                        else
+                            throw new Exception("Tanımlanmamış geri alma biçimi");
                         break;
                     case SalaryPaymentRepository.TABLE_NAME:
                         if (rollbackItem.RollbackType == RollbackType.Delete)
@@ -335,6 +391,8 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Services
                         {
                             await _salaryPaymentRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationToken);
                         }
+                        else
+                            throw new Exception("Tanımlanmamış geri alma biçimi");
                         break;
                     default:
                         break;

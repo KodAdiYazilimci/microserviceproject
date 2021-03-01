@@ -261,5 +261,29 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Repositories.Sql
 
             return await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
         }
+
+        /// <summary>
+        /// Envanterin stok adedini artırır
+        /// </summary>
+        /// <param name="inventoryId">Envanterin Id değeri</param>
+        /// <param name="count">Artırılacak stok miktarı</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<int> IncreaseStockCountAsync(int inventoryId, int count, CancellationToken cancellationToken)
+        {
+            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+                                                      SET CURRENT_STOCK_COUNT += @VALUE
+                                                      WHERE ID = @ID",
+                                                             UnitOfWork.SqlConnection,
+                                                             UnitOfWork.SqlTransaction)
+            {
+                Transaction = UnitOfWork.SqlTransaction
+            };
+
+            sqlCommand.Parameters.AddWithValue("@ID", inventoryId);
+            sqlCommand.Parameters.AddWithValue("@VALUE", count);
+
+            return await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
+        }
     }
 }

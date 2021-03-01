@@ -128,22 +128,33 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
 
             int createdDepartmentId = await _departmentRepository.CreateAsync(mappedDepartment, cancellationToken);
 
+            await CreateCheckpointAsync(
+                rollback: new RollbackModel()
+                {
+                    TransactionIdentity = TransactionIdentity,
+                    TransactionDate = DateTime.Now,
+                    TransactionType = TransactionType.Insert,
+                    RollbackItems = new List<RollbackItemModel>
+                    {
+                        new RollbackItemModel
+                        {
+                            Identity = createdDepartmentId,
+                            DataSet = DepartmentRepository.TABLE_NAME,
+                            RollbackType= RollbackType.Delete
+                        }
+                    }
+                },
+                cancellationToken: cancellationToken);
+
             await _unitOfWork.SaveAsync(cancellationToken);
 
             department.Id = createdDepartmentId;
 
-            if (_cacheDataProvider.TryGetValue(CACHED_DEPARTMENTS_KEY, out List<DepartmentModel> cachedDepartments))
+            if (_cacheDataProvider.TryGetValue(CACHED_DEPARTMENTS_KEY, out List<DepartmentModel> cachedDepartments) && cachedDepartments != null)
             {
                 cachedDepartments.Add(department);
+
                 _cacheDataProvider.Set(CACHED_DEPARTMENTS_KEY, cachedDepartments);
-            }
-            else
-            {
-                List<DepartmentModel> departments = await GetDepartmentsAsync(cancellationToken);
-
-                departments.Add(department);
-
-                _cacheDataProvider.Set(CACHED_DEPARTMENTS_KEY, departments);
             }
 
             return createdDepartmentId;
@@ -170,6 +181,8 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                 {
                     _cacheDataProvider.Dispose();
                     _departmentRepository.Dispose();
+                    _transactionItemRepository.Dispose();
+                    _transactionRepository.Dispose();
                     _unitOfWork.Dispose();
                 }
 
@@ -224,7 +237,9 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                         {
                             await _departmentRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationToken);
                         }
-                        break;                  
+                        else
+                            throw new Exception("Tanımlanmamış geri alma biçimi");
+                        break;
                     default:
                         break;
                 }

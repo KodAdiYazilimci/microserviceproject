@@ -213,22 +213,33 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
 
             int createdPersonId = await _personRepository.CreateAsync(mappedPerson, cancellationToken);
 
+            await CreateCheckpointAsync(
+                rollback: new RollbackModel()
+                {
+                    TransactionDate = DateTime.Now,
+                    TransactionIdentity = TransactionIdentity,
+                    TransactionType = TransactionType.Insert,
+                    RollbackItems = new List<RollbackItemModel>
+                    {
+                        new RollbackItemModel
+                        {
+                            Identity = createdPersonId,
+                            DataSet = PersonRepository.TABLE_NAME,
+                            RollbackType = RollbackType.Delete
+                        }
+                    }
+                },
+                cancellationToken: cancellationToken);
+
             await _unitOfWork.SaveAsync(cancellationToken);
 
             person.Id = createdPersonId;
 
-            if (_cacheDataProvider.TryGetValue(CACHED_PEOPLE_KEY, out List<PersonModel> cachedPeople))
+            if (_cacheDataProvider.TryGetValue(CACHED_PEOPLE_KEY, out List<PersonModel> cachedPeople) && cachedPeople != null)
             {
                 cachedPeople.Add(person);
+
                 _cacheDataProvider.Set(CACHED_PEOPLE_KEY, cachedPeople);
-            }
-            else
-            {
-                List<PersonModel> people = await GetPeopleAsync(cancellationToken);
-
-                people.Add(person);
-
-                _cacheDataProvider.Set(CACHED_PEOPLE_KEY, people);
             }
 
             return createdPersonId;
@@ -270,22 +281,33 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
 
             int createdTitleId = await _titleRepository.CreateAsync(mappedTitles, cancellationToken);
 
+            await CreateCheckpointAsync(
+                rollback: new RollbackModel()
+                {
+                    TransactionIdentity = TransactionIdentity,
+                    TransactionDate = DateTime.Now,
+                    TransactionType = TransactionType.Insert,
+                    RollbackItems = new List<RollbackItemModel>
+                    {
+                        new RollbackItemModel
+                        {
+                            Identity = createdTitleId,
+                            DataSet = TitleRepository.TABLE_NAME,
+                            RollbackType = RollbackType.Delete
+                        }
+                    }
+                },
+                cancellationToken: cancellationToken);
+
             await _unitOfWork.SaveAsync(cancellationToken);
 
             title.Id = createdTitleId;
 
-            if (_cacheDataProvider.TryGetValue(CACHED_TITLES_KEY, out List<TitleModel> cachedTitles))
+            if (_cacheDataProvider.TryGetValue(CACHED_TITLES_KEY, out List<TitleModel> cachedTitles) && cachedTitles != null)
             {
                 cachedTitles.Add(title);
+
                 _cacheDataProvider.Set(CACHED_TITLES_KEY, cachedTitles);
-            }
-            else
-            {
-                List<TitleModel> titles = await GetTitlesAsync(cancellationToken);
-
-                titles.Add(title);
-
-                _cacheDataProvider.Set(CACHED_TITLES_KEY, titles);
             }
 
             return createdTitleId;
@@ -451,18 +473,11 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
 
             await _unitOfWork.SaveAsync(cancellationToken);
 
-            if (_cacheDataProvider.TryGetValue(CACHED_WORKERS_KEY, out List<WorkerModel> cachedWorkers))
+            if (_cacheDataProvider.TryGetValue(CACHED_WORKERS_KEY, out List<WorkerModel> cachedWorkers) && cachedWorkers != null)
             {
                 cachedWorkers.Add(worker);
+
                 _cacheDataProvider.Set(CACHED_WORKERS_KEY, cachedWorkers);
-            }
-            else
-            {
-                List<WorkerModel> workers = await GetWorkersAsync(cancellationToken);
-
-                workers.Add(worker);
-
-                _cacheDataProvider.Set(CACHED_WORKERS_KEY, workers);
             }
 
             return worker.Id;
@@ -489,6 +504,12 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                 {
                     _cacheDataProvider.Dispose();
                     _personRepository.Dispose();
+                    _departmentRepository.Dispose();
+                    _titleRepository.Dispose();
+                    _transactionItemRepository.Dispose();
+                    _transactionRepository.Dispose();
+                    _workerRelationRepository.Dispose();
+                    _workerRepository.Dispose();
                     _unitOfWork.Dispose();
                 }
 
@@ -543,6 +564,8 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                         {
                             await _departmentRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationToken);
                         }
+                        else
+                            throw new Exception("Tanımlanmamış geri alma biçimi");
                         break;
                     case PersonRepository.TABLE_NAME:
                         if (rollbackItem.RollbackType == RollbackType.Delete)
@@ -557,6 +580,8 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                         {
                             await _personRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationToken);
                         }
+                        else
+                            throw new Exception("Tanımlanmamış geri alma biçimi");
                         break;
                     case TitleRepository.TABLE_NAME:
                         if (rollbackItem.RollbackType == RollbackType.Delete)
@@ -571,6 +596,8 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                         {
                             await _titleRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationToken);
                         }
+                        else
+                            throw new Exception("Tanımlanmamış geri alma biçimi");
                         break;
                     case WorkerRelationRepository.TABLE_NAME:
                         if (rollbackItem.RollbackType == RollbackType.Delete)
@@ -585,6 +612,8 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                         {
                             await _workerRelationRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationToken);
                         }
+                        else
+                            throw new Exception("Tanımlanmamış geri alma biçimi");
                         break;
                     case WorkerRepository.TABLE_NAME:
                         if (rollbackItem.RollbackType == RollbackType.Delete)
@@ -599,6 +628,8 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                         {
                             await _workerRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationToken);
                         }
+                        else
+                            throw new Exception("Tanımlanmamış geri alma biçimi");
                         break;
                     default:
                         break;

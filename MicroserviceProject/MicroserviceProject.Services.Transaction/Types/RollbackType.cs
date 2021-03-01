@@ -18,6 +18,16 @@
         /// <summary>
         /// Veri setindeki değer silinerek işlem geri alınır
         /// </summary>
-        Delete = 3
+        Delete = 3,
+
+        /// <summary>
+        /// Veri setindeki değeri artırır
+        /// </summary>
+        IncreaseValue = 4,
+
+        /// <summary>
+        /// Veri setindeki değeri azaltır
+        /// </summary>
+        DecreaseValue = 5
     }
 }

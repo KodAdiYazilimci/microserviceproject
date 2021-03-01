@@ -38,6 +38,11 @@ namespace MicroserviceProject.Services.Transaction.Models
         public object NewValue { get; set; }
 
         /// <summary>
+        /// Öğenin önceki değeriyle farkı
+        /// </summary>
+        public object Difference { get; set; }
+
+        /// <summary>
         /// İşlem öğesinin geri alınıp alınmadığı bilgisi
         /// </summary>
         public bool IsRolledback { get; set; }

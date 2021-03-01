@@ -192,9 +192,10 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
 
             inventory.Id = createdInventoryId;
 
-            if (_cacheDataProvider.TryGetValue(CACHED_INVENTORIES_KEY, out List<InventoryModel> cachedInventories))
+            if (_cacheDataProvider.TryGetValue(CACHED_INVENTORIES_KEY, out List<InventoryModel> cachedInventories) && cachedInventories != null)
             {
                 cachedInventories.Add(inventory);
+
                 _cacheDataProvider.Set(CACHED_INVENTORIES_KEY, cachedInventories);
             }
 
@@ -221,7 +222,7 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
                 throw new Exception("Bu envanter zaten atanmış");
             }
 
-            await _inventoryDefaultsRepository.CreateAsync(
+            int createdInventoryDefault = await _inventoryDefaultsRepository.CreateAsync(
                  inventoryDefault: new InventoryDefaultsEntity()
                  {
                      InventoryId = inventory.Id,
@@ -229,11 +230,29 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
                  },
                  cancellationToken: cancellationToken);
 
+            await CreateCheckpointAsync(
+                rollback: new RollbackModel()
+                {
+                    TransactionDate = DateTime.Now,
+                    TransactionIdentity = TransactionIdentity,
+                    TransactionType = TransactionType.Insert,
+                    RollbackItems = new List<RollbackItemModel>
+                    {
+                        new RollbackItemModel()
+                        {
+                            Identity = createdInventoryDefault,
+                            DataSet = InventoryDefaultsRepository.TABLE_NAME,
+                            RollbackType = RollbackType.Delete
+                        }
+                    }
+                },
+                cancellationToken: cancellationToken);
+
             await _unitOfWork.SaveAsync(cancellationToken);
 
             if (_cacheDataProvider.TryGetValue(CACHED_INVENTORIES_DEFAULTS_KEY, out List<InventoryModel> cachedInventories)
                 &&
-                cachedInventories != null && cachedInventories.Any())
+                cachedInventories != null)
             {
                 cachedInventories.Add(existingInventories.FirstOrDefault(x => x.Id == inventory.Id));
 
@@ -317,6 +336,26 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
                 {
                     await _inventoryRepository.DescendStockCountAsync(inventoryId, 1, cancellationToken);
 
+                    await CreateCheckpointAsync(
+                        rollback: new RollbackModel()
+                        {
+                            TransactionDate = DateTime.Now,
+                            TransactionIdentity = TransactionIdentity,
+                            TransactionType = TransactionType.Update,
+                            RollbackItems = new List<RollbackItemModel>
+                            {
+                                new RollbackItemModel
+                                {
+                                    Identity = inventoryId,
+                                    Name = nameof(InventoryEntity.CurrentStockCount),
+                                    DataSet = InventoryRepository.TABLE_NAME,
+                                    RollbackType =  RollbackType.IncreaseValue,
+                                    Difference = 1
+                                }
+                            }
+                        },
+                        cancellationToken: cancellationToken);
+
                     _cacheDataProvider.RemoveObject(CACHED_INVENTORIES_KEY);
                 }
             }
@@ -325,21 +364,35 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
             {
                 if (inventoryModel.CurrentStockCount > 0)
                 {
-                    // TODO: Transaction tablosuna kayıt eklenecek
-
-                    await _workerInventoryRepository.CreateAsync(new WorkerInventoryEntity
+                    int createdWorkerInventoryId = await _workerInventoryRepository.CreateAsync(new WorkerInventoryEntity
                     {
                         FromDate = worker.FromDate,
                         ToDate = worker.ToDate,
                         InventoryId = inventoryModel.Id,
                         WorkerId = worker.Id
                     }, cancellationToken);
+
+                    await CreateCheckpointAsync(
+                        rollback: new RollbackModel()
+                        {
+                            TransactionIdentity = TransactionIdentity,
+                            TransactionDate = DateTime.Now,
+                            TransactionType = TransactionType.Insert,
+                            RollbackItems = new List<RollbackItemModel>
+                            {
+                                new RollbackItemModel
+                                {
+                                    Identity = createdWorkerInventoryId,
+                                    DataSet = WorkerInventoryRepository.TABLE_NAME,
+                                    RollbackType = RollbackType.Delete
+                                }
+                            }
+                        },
+                        cancellationToken: cancellationToken);
                 }
                 else
                 {
-                    // TODO: Transaction tablosuna kayıt eklenecek
-
-                    await _pendingWorkerInventoryRepository.CreateAsync(new PendingWorkerInventoryEntity()
+                    int createdPendingWorkerInventoryId = await _pendingWorkerInventoryRepository.CreateAsync(new PendingWorkerInventoryEntity()
                     {
                         FromDate = worker.FromDate,
                         InventoryId = inventoryModel.Id,
@@ -347,11 +400,28 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
                         ToDate = worker.ToDate,
                         WorkerId = worker.Id
                     }, cancellationToken);
+
+                    await CreateCheckpointAsync(
+                        rollback: new RollbackModel()
+                        {
+                            TransactionIdentity = TransactionIdentity,
+                            TransactionDate = DateTime.Now,
+                            TransactionType = TransactionType.Insert,
+                            RollbackItems = new List<RollbackItemModel>
+                            {
+                                new RollbackItemModel
+                                {
+                                    Identity = createdPendingWorkerInventoryId,
+                                    DataSet = PendingWorkerInventoryRepository.TABLE_NAME,
+                                    RollbackType = RollbackType.Delete
+                                }
+                            }
+                        },
+                        cancellationToken: cancellationToken);
                 }
             }
 
             await _unitOfWork.SaveAsync(cancellationToken);
-
 
             return worker;
         }
@@ -377,6 +447,11 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
                 {
                     _cacheDataProvider.Dispose();
                     _inventoryRepository.Dispose();
+                    _inventoryDefaultsRepository.Dispose();
+                    _pendingWorkerInventoryRepository.Dispose();
+                    _transactionItemRepository.Dispose();
+                    _transactionRepository.Dispose();
+                    _workerInventoryRepository.Dispose();
                     _unitOfWork.Dispose();
                 }
 
@@ -431,6 +506,16 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
                         {
                             await _inventoryRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationToken);
                         }
+                        else if (rollbackItem.RollbackType == RollbackType.IncreaseValue)
+                        {
+                            await _inventoryRepository.IncreaseStockCountAsync((int)rollbackItem.Identity, (int)rollbackItem.Difference, cancellationToken);
+                        }
+                        else if (rollbackItem.RollbackType == RollbackType.DecreaseValue)
+                        {
+                            await _inventoryRepository.DescendStockCountAsync((int)rollbackItem.Identity, (int)rollbackItem.Difference, cancellationToken);
+                        }
+                        else
+                            throw new Exception("Tanımlanmamış geri alma biçimi");
                         break;
                     case InventoryDefaultsRepository.TABLE_NAME:
                         if (rollbackItem.RollbackType == RollbackType.Delete)
@@ -445,6 +530,8 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
                         {
                             await _inventoryDefaultsRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationToken);
                         }
+                        else
+                            throw new Exception("Tanımlanmamış geri alma biçimi");
                         break;
                     case WorkerInventoryRepository.TABLE_NAME:
                         if (rollbackItem.RollbackType == RollbackType.Delete)
@@ -459,6 +546,8 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
                         {
                             await _inventoryDefaultsRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationToken);
                         }
+                        else
+                            throw new Exception("Tanımlanmamış geri alma biçimi");
                         break;
                     default:
                         break;

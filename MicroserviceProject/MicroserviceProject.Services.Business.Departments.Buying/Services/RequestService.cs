@@ -271,6 +271,7 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Services
                 cachedInventoryRequests != null)
             {
                 cachedInventoryRequests.Add(inventoryRequest);
+
                 _cacheDataProvider.Set(CACHED_REQUESTS_KEY, cachedInventoryRequests);
             }
 
@@ -298,6 +299,8 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Services
                 {
                     _cacheDataProvider.Dispose();
                     _inventoryRequestRepository.Dispose();
+                    _transactionItemRepository.Dispose();
+                    _transactionRepository.Dispose();
                     _unitOfWork.Dispose();
                 }
 
@@ -352,6 +355,8 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Services
                         {
                             await _inventoryRequestRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationToken);
                         }
+                        else
+                            throw new Exception("Tanımlanmamış geri alma biçimi");
                         break;
                     default:
                         break;
