@@ -51,11 +51,11 @@ namespace MicroserviceProject.Services.MQ.Buying.Util.Consumers.Inventory
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            await _serviceCommunicator.Call<int>(
-             serviceName: _routeNameProvider.Buying_CreateInventoryRequest,
-             postData: data,
-             queryParameters: null,
-             cancellationToken: cancellationTokenSource.Token);
+            _ = await _serviceCommunicator.Call<int>(
+                serviceName: _routeNameProvider.Buying_CreateInventoryRequest,
+                postData: data,
+                queryParameters: null,
+                cancellationToken: cancellationTokenSource.Token);
         }
 
         /// <summary>
