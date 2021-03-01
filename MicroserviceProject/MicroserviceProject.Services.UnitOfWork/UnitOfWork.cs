@@ -109,14 +109,23 @@ namespace MicroserviceProject.Services.UnitOfWork
             {
                 if (!disposed)
                 {
-                    if (SqlConnection.State != ConnectionState.Closed)
+                    if (sqlConnection != null)
                     {
-                        SqlConnection.Close();
+                        if (sqlConnection.State != ConnectionState.Closed)
+                        {
+                            sqlConnection.Close();
+                        }
                     }
 
-                    SqlTransaction.Dispose();
+                    if (sqlTransaction != null)
+                    {
+                        sqlTransaction.Dispose();
+                    }
 
-                    SqlConnection.Dispose();
+                    if (sqlConnection != null)
+                    {
+                        sqlConnection.Dispose();
+                    }
                 }
 
                 disposed = true;

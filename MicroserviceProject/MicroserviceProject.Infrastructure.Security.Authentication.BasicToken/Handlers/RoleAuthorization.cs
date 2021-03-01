@@ -16,8 +16,13 @@ namespace MicroserviceProject.Infrastructure.Security.Authentication.BasicToken.
     /// <summary>
     /// Rol denetimi yapan sınıf
     /// </summary>
-    public class RoleAuthorizationHandler : AuthorizationHandler<RolesRequirement>
+    public class RoleAuthorizationHandler : AuthorizationHandler<RolesRequirement>, IDisposable
     {
+        /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
         /// <summary>
         /// Rol denetimi yapar
         /// </summary>
@@ -89,6 +94,32 @@ namespace MicroserviceProject.Infrastructure.Security.Authentication.BasicToken.
             }
 
             return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
+        public void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (!disposed)
+                {
+
+                }
+
+                disposed = true;
+            }
         }
     }
 }

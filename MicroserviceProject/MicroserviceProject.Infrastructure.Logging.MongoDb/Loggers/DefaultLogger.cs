@@ -76,7 +76,8 @@ namespace MicroserviceProject.Infrastructure.Logging.MongoDb.Loggers
             {
                 if (!disposed)
                 {
-
+                    if (_mongoDbConfiguration != null)
+                        _mongoDbConfiguration.Dispose();
                 }
 
                 disposed = true;

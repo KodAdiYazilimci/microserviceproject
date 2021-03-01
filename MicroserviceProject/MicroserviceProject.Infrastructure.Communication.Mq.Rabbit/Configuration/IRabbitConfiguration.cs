@@ -1,9 +1,11 @@
-﻿namespace MicroserviceProject.Infrastructure.Communication.Mq.Rabbit
+﻿using System;
+
+namespace MicroserviceProject.Infrastructure.Communication.Mq.Rabbit
 {
     /// <summary>
     /// Rabbit sunucusunun yapılandırma ayarları
     /// </summary>
-    public interface IRabbitConfiguration
+    public interface IRabbitConfiguration : IDisposable
     {
         /// <summary>
         /// Rabbit sunucusunun adı

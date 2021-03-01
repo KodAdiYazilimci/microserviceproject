@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using System;
+using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -7,7 +8,7 @@ namespace MicroserviceProject.Services.UnitOfWork
     /// <summary>
     /// Ms SQL veritabanı işlemleri transaction için iş birimi arayüzü
     /// </summary>
-    public interface IUnitOfWork
+    public interface IUnitOfWork : IDisposable
     {
         /// <summary>
         /// Sql bütünlük yönetiminden sorumlu transaction nesnesi

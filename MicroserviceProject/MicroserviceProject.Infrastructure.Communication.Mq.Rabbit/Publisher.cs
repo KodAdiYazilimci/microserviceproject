@@ -86,7 +86,8 @@ namespace MicroserviceProject.Infrastructure.Logging.RabbitMq.Producers
             {
                 if (!disposed)
                 {
-
+                    if (_rabbitConfiguration != null)
+                        _rabbitConfiguration.Dispose();
                 }
 
                 disposed = true;

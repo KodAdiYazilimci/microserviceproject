@@ -1,11 +1,12 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace MicroserviceProject.Infrastructure.Logging.File.Configuration
 {
     /// <summary>
     /// Dosyaya yazılacak logların yapılandırma arayüzü
     /// </summary>
-    public interface IFileConfiguration
+    public interface IFileConfiguration : IDisposable
     {
         /// <summary>
         /// Yazılacak log dosyasının konumu

@@ -71,7 +71,8 @@ namespace MicroserviceProject.Services.Logging.Loggers
             {
                 if (!disposed)
                 {
-                    _logManager.Dispose();
+                    if (_logManager != null)
+                        _logManager.Dispose();
                 }
 
                 disposed = true;
