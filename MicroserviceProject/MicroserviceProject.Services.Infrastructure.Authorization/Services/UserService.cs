@@ -3,13 +3,19 @@ using MicroserviceProject.Infrastructure.Security.Model;
 using MicroserviceProject.Services.Infrastructure.Authorization.Persistence.Sql.Exceptions;
 using MicroserviceProject.Services.Infrastructure.Authorization.Persistence.Sql.Repositories;
 
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace MicroserviceProject.Services.Infrastructure.Authorization.Business.Services
 {
-    public class UserService
+    public class UserService : IDisposable
     {
+        /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
         private readonly SessionRepository _sessionRepository;
         private readonly UserRepository _userRepository;
 
@@ -94,6 +100,33 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Business.Ser
             string passwordHash = SHA256Cryptography.Crypt(credential.Password);
 
             await _userRepository.RegisterAsync(credential.Email, passwordHash, cancellationToken);
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
+        public void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (!disposed)
+                {
+                    _sessionRepository.Dispose();
+                    _userRepository.Dispose();
+                }
+
+                disposed = true;
+            }
         }
     }
 }

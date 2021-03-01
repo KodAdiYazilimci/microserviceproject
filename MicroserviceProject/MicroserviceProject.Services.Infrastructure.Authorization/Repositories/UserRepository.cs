@@ -15,8 +15,13 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Persistence.
     /// <summary>
     /// Kullanıcı repository sınıfı
     /// </summary>
-    public class UserRepository : BaseRepository
+    public class UserRepository : BaseRepository, IDisposable
     {
+        /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
         /// <summary>
         /// Kullanıcı repository sınıfı
         /// </summary>
@@ -340,6 +345,25 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Persistence.
             }
 
             return isExists;
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
+        public override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (!disposed)
+                {
+
+                }
+
+                disposed = true;
+
+                Dispose();
+            }
         }
     }
 }

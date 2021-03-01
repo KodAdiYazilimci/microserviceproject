@@ -2,6 +2,7 @@
 
 using Microsoft.Extensions.Configuration;
 
+using System;
 using System.Text;
 
 namespace MicroserviceProject.Services.Logging.Configuration
@@ -9,8 +10,13 @@ namespace MicroserviceProject.Services.Logging.Configuration
     /// <summary>
     /// Request-response logları için dosya yapılandırma ayarları
     /// </summary>
-    public class RequestResponseLogFileConfiguration : IFileConfiguration
+    public class RequestResponseLogFileConfiguration : IFileConfiguration, IDisposable
     {
+        /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
         /// <summary>
         /// Request-response logları için rabbit sunucusunun yapılandırma ayarları
         /// </summary>
@@ -55,5 +61,33 @@ namespace MicroserviceProject.Services.Logging.Configuration
         /// Yazılacak log dosyasının kodlaması
         /// </summary>
         public Encoding Encoding { get; set; }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
+        public void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (!disposed)
+                {
+                    Path = string.Empty;
+                    FileName = string.Empty;
+                    Encoding = null;
+                }
+
+                disposed = true;
+            }
+        }
     }
 }

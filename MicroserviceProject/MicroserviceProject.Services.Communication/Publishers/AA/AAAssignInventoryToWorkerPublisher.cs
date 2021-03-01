@@ -1,13 +1,19 @@
 ﻿using MicroserviceProject.Services.Model.Department.HR;
 using MicroserviceProject.Services.Communication.Configuration.Rabbit.AA;
+using System;
 
 namespace MicroserviceProject.Services.Communication.Publishers.AA
 {
     /// <summary>
     /// Çalışana envanter ekleyecek rabbit kuyruğuna yeni bir kayıt ekler
     /// </summary>
-    public class AAAssignInventoryToWorkerPublisher : BasePublisher<WorkerModel>
+    public class AAAssignInventoryToWorkerPublisher : BasePublisher<WorkerModel>, IDisposable
     {
+        /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
         /// <summary>
         /// Çalışana envanter ekleyecek rabbit kuyruğuna yeni bir kayıt ekler
         /// </summary>
@@ -17,6 +23,25 @@ namespace MicroserviceProject.Services.Communication.Publishers.AA
             : base(rabbitConfiguration)
         {
 
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
+        public override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (!disposed)
+                {
+
+                }
+
+                disposed = true;
+
+                Dispose();
+            }
         }
     }
 }

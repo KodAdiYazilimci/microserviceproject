@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 
 using RabbitMQ.Client;
 
+using System;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,12 +17,12 @@ namespace MicroserviceProject.Infrastructure.Logging.RabbitMq.Producers
     /// Rabbit sunucusuna log üretecek varsayılan sınıf
     /// </summary>
     /// <typeparam name="TModel">Log modelinin tipi</typeparam>
-    public class DefaultLogProducer<TModel> : Publisher<TModel>, ILogger<TModel> where TModel : BaseLogModel, new()
+    public class DefaultLogProducer<TModel> : Publisher<TModel>, ILogger<TModel>, IDisposable where TModel : BaseLogModel, new()
     {
         /// <summary>
-        /// Log modelini üretmek için rabbit sunucusunun yapılandırma ayarları
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
-        private readonly IRabbitConfiguration _rabbitConfiguration;
+        private bool disposed = false;
 
         /// <summary>
         /// Rabbit sunucusuna log üretecek varsayılan sınıf
@@ -29,7 +30,7 @@ namespace MicroserviceProject.Infrastructure.Logging.RabbitMq.Producers
         /// <param name="rabbitConfiguration">Log modelini üretmek için rabbit sunucusunun yapılandırma ayarları</param>
         public DefaultLogProducer(IRabbitConfiguration rabbitConfiguration) : base(rabbitConfiguration)
         {
-            _rabbitConfiguration = rabbitConfiguration;
+
         }
 
         /// <summary>
@@ -40,6 +41,25 @@ namespace MicroserviceProject.Infrastructure.Logging.RabbitMq.Producers
         public Task LogAsync(TModel model, CancellationToken cancellationToken)
         {
             return base.PublishAsync(model, cancellationToken);
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
+        public override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (!disposed)
+                {
+
+                }
+
+                disposed = true;
+
+                Dispose();
+            }
         }
     }
 }

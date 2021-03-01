@@ -11,8 +11,13 @@ namespace MicroserviceProject.Infrastructure.Communication.Http.Providers
     /// <summary>
     /// Http get isteği sağlayıcısı
     /// </summary>
-    public class HttpGetProvider : BaseProvider
+    public class HttpGetProvider : BaseProvider, IDisposable
     {
+        /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
         /// <summary>
         /// Http get isteği gönderir
         /// </summary>
@@ -40,6 +45,35 @@ namespace MicroserviceProject.Infrastructure.Communication.Http.Providers
 
                 return JsonConvert.DeserializeObject<TResult>(response);
             }
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
+        public override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (!disposed)
+                {
+                    if (Headers != null)
+                    {
+                        Headers.Clear();
+                        Headers = null;
+                    }
+
+                    if (Queries != null)
+                    {
+                        Queries.Clear();
+                        Queries = null;
+                    }
+                }
+
+                disposed = true;
+            }
+
+            base.Dispose();
         }
     }
 }

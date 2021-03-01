@@ -13,8 +13,13 @@ namespace MicroserviceProject.Infrastructure.Communication.Http.Providers
     /// <summary>
     /// Http post isteği sağlayıcısı
     /// </summary>
-    public class HttpPostProvider : BaseProvider
+    public class HttpPostProvider : BaseProvider, IDisposable
     {
+        /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
         /// <summary>
         /// Http post isteği gönderir
         /// </summary>
@@ -50,6 +55,33 @@ namespace MicroserviceProject.Infrastructure.Communication.Http.Providers
                 string response = await streamReader.ReadToEndAsync();
 
                 return JsonConvert.DeserializeObject<TResult>(response);
+            }
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
+        public override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (!disposed)
+                {
+                    if (Headers != null)
+                    {
+                        Headers.Clear();
+                        Headers = null;
+                    }
+
+                    if (Queries != null)
+                    {
+                        Queries.Clear();
+                        Queries = null;
+                    }
+                }
+
+                disposed = true;
             }
         }
     }

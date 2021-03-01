@@ -5,6 +5,7 @@ using MicroserviceProject.Services.Logging.Repositories.Sql;
 
 using Microsoft.Extensions.Configuration;
 
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,8 +14,13 @@ namespace MicroserviceProject.Services.Infrastructure.Logging.Util.Logging.Consu
     /// <summary>
     /// Rabbit sunucusundaki request-response loglarını tüketecek varsayılan sınıf
     /// </summary>
-    public class RequestResponseLogConsumer
+    public class RequestResponseLogConsumer : IDisposable
     {
+        /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
         /// <summary>
         /// Request-response logları çekebilmek için rabbit sunucusunun yapılandırma ayarları
         /// </summary>
@@ -54,6 +60,33 @@ namespace MicroserviceProject.Services.Infrastructure.Logging.Util.Logging.Consu
                 CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
                 await _requestResponseRepository.InsertLogAsync(requestResponseLog, cancellationTokenSource.Token);
+            }
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
+        public void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (!disposed)
+                {
+                    _defaultLogProducer.Dispose();
+                    _requestResponseRepository.Dispose();
+                }
+
+                disposed = true;
             }
         }
     }

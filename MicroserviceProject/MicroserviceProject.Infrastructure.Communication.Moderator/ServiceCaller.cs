@@ -21,8 +21,13 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
     /// <summary>
     /// Bir servisle çağrı kurmayı sağlayan moderatör sınıf
     /// </summary>
-    public class ServiceCaller
+    public class ServiceCaller : IDisposable
     {
+        /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
         /// <summary>
         /// Servis bilgisinin önbellekte tutulacak isminin ön eki
         /// </summary>
@@ -403,6 +408,36 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                         throw new Exception($"Servisin gerektirdiği {key} parametresi eksik");
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
+        public void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (!disposed)
+                {
+                    if (_memoryCache != null)
+                        _memoryCache.Dispose();
+
+                    if (OnNoServiceFoundInCacheAsync != null)
+                        OnNoServiceFoundInCacheAsync = null;
+                }
+
+                disposed = true;
             }
         }
     }

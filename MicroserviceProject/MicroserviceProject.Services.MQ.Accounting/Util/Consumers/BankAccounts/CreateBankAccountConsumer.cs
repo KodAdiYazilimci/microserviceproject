@@ -4,6 +4,7 @@ using MicroserviceProject.Infrastructure.Routing.Providers;
 using MicroserviceProject.Services.Communication.Configuration.Rabbit.Accounting;
 using MicroserviceProject.Services.Model.Department.HR;
 
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,8 +13,13 @@ namespace MicroserviceProject.Services.MQ.Accounting.Util.Consumers.Inventory
     /// <summary>
     /// Çalışana maaş hesabı açacak kayıtları tüketen sınıf
     /// </summary>
-    public class CreateBankAccountConsumer
+    public class CreateBankAccountConsumer : IDisposable
     {
+        /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
         /// <summary>
         /// Rabbit kuyruğuyla iletişim kuracak tüketici sınıf
         /// </summary>
@@ -64,6 +70,34 @@ namespace MicroserviceProject.Services.MQ.Accounting.Util.Consumers.Inventory
         public void StartToConsume()
         {
             _consumer.StartToConsume();
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
+        public void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (!disposed)
+                {
+                    _consumer.Dispose();
+                    _routeNameProvider.Dispose();
+                    _serviceCommunicator.Dispose();
+                }
+
+                disposed = true;
+            }
         }
     }
 }

@@ -14,8 +14,13 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Persistence.
     /// <summary>
     /// Oturum repository sınıfı
     /// </summary>
-    public class SessionRepository : BaseRepository
+    public class SessionRepository : BaseRepository, IDisposable
     {
+        /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
         /// <summary>
         /// Oturum repository sınıfı
         /// </summary>
@@ -184,6 +189,26 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Persistence.
             }
 
             return session;
+        }
+
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
+        public override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (!disposed)
+                {
+
+                }
+
+                disposed = true;
+
+                Dispose();
+            }
         }
     }
 }

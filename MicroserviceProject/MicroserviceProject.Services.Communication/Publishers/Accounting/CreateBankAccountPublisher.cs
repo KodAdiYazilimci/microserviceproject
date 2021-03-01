@@ -1,13 +1,19 @@
 ﻿using MicroserviceProject.Services.Model.Department.Accounting;
 using MicroserviceProject.Services.Communication.Configuration.Rabbit.Accounting;
+using System;
 
 namespace MicroserviceProject.Services.Communication.Publishers.Account
 {
     /// <summary>
     /// Çalışana maaş hesabı açan rabbit kuyruğuna yeni bir kayıt ekler
     /// </summary>
-    public class CreateBankAccountPublisher : BasePublisher<BankAccountModel>
+    public class CreateBankAccountPublisher : BasePublisher<BankAccountModel>, IDisposable
     {
+        /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
         /// <summary>
         /// Çalışana maaş hesabı açan rabbit kuyruğuna yeni bir kayıt ekler
         /// </summary>
@@ -17,6 +23,25 @@ namespace MicroserviceProject.Services.Communication.Publishers.Account
             : base(rabbitConfiguration)
         {
 
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
+        public override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (!disposed)
+                {
+
+                }
+
+                disposed = true;
+
+                Dispose();
+            }
         }
     }
 }

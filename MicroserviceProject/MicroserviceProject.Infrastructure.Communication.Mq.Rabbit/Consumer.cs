@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
+using System;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,8 +14,13 @@ namespace MicroserviceProject.Infrastructure.Communication.Mq.Rabbit
     /// Rabbit sunucusundaki dataları tüketecek varsayılan sınıf
     /// </summary>
     /// <typeparam name="TModel">Data modelinin tipi</typeparam>
-    public class Consumer<TModel>
+    public class Consumer<TModel> : IDisposable
     {
+        /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
         /// <summary>
         /// Data tüketildiğinde ateşlenecek olayı handler ı
         /// </summary>
@@ -76,6 +82,33 @@ namespace MicroserviceProject.Infrastructure.Communication.Mq.Rabbit
             };
 
             channel.BasicConsume(_rabbitConfiguration.QueueName, autoAck: true, consumer);
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
+        public virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (!disposed)
+                {
+                    if (OnConsumed != null)
+                        OnConsumed = null;
+                }
+
+                disposed = true;
+            }
         }
     }
 }

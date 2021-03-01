@@ -14,8 +14,13 @@ namespace MicroserviceProject.Services.Logging.Repositories.Sql
     /// <summary>
     /// Request-Response logları repository sınıfı
     /// </summary>
-    public class RequestResponseLogRepository
+    public class RequestResponseLogRepository : IDisposable
     {
+        /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
         /// <summary>
         /// Veritabanı bağlantı cümlesini verecek configuration nesnesi
         /// </summary>
@@ -127,7 +132,6 @@ namespace MicroserviceProject.Services.Logging.Repositories.Sql
             return result;
         }
 
-
         /// <summary>
         /// Request-response loglarının yazılacağı veritabanı bağlantı cümlesini verir
         /// </summary>
@@ -145,6 +149,32 @@ namespace MicroserviceProject.Services.Logging.Repositories.Sql
                     .GetSection("DataSource").Value;
 
                 return connectionString;
+            }
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
+        public void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (!disposed)
+                {
+
+                }
+
+                disposed = true;
             }
         }
     }

@@ -1,12 +1,19 @@
 ﻿using Microsoft.Extensions.Configuration;
 
+using System;
+
 namespace MicroserviceProject.Infrastructure.Routing.Providers
 {
     /// <summary>
     /// Servis rotalarına ait endpoint isimlerini sağlayan sınıf
     /// </summary>
-    public class RouteNameProvider
+    public class RouteNameProvider : IDisposable
     {
+        /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
         /// <summary>
         /// Endpoint isimlerini getiren configuration
         /// </summary>
@@ -309,7 +316,6 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
             }
         }
 
-
         /// <summary>
         /// Yeni çalışan için varsayılan IT envanteri ataması yapar
         /// </summary>
@@ -499,6 +505,32 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
                     .GetSection("Endpoints")
                     .GetSection("Buying")
                     .GetSection("RollbackTransaction").Value;
+            }
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
+        public void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (!disposed)
+                {
+
+                }
+
+                disposed = true;
             }
         }
     }

@@ -4,6 +4,7 @@ using MicroserviceProject.Infrastructure.Logging.MongoDb.Configuration;
 
 using MongoDB.Driver;
 
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,8 +14,13 @@ namespace MicroserviceProject.Infrastructure.Logging.MongoDb.Loggers
     /// Herhangi bir TModel tipindeki logları MongoDB veritabanına yazan sınıf
     /// </summary>
     /// <typeparam name="TModel"></typeparam>
-    public class DefaultLogger<TModel> : ILogger<TModel> where TModel : BaseLogModel, new()
+    public class DefaultLogger<TModel> : ILogger<TModel>, IDisposable where TModel : BaseLogModel, new()
     {
+        /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
         /// <summary>
         /// Logların yazılacağı MongoDB veritabanına ait yapılandırma
         /// </summary>
@@ -49,6 +55,32 @@ namespace MicroserviceProject.Infrastructure.Logging.MongoDb.Loggers
                     BypassDocumentValidation = false
                 },
                 cancellationToken: cancellationToken);
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
+        public void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (!disposed)
+                {
+
+                }
+
+                disposed = true;
+            }
         }
     }
 }

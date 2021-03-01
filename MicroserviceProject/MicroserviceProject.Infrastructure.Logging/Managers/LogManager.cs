@@ -52,7 +52,10 @@ namespace MicroserviceProject.Infrastructure.Logging.Managers
             {
                 if (!disposed)
                 {
-                    _loggers.Clear();
+                    if (_loggers != null)
+                    {
+                        _loggers.Clear();
+                    }
                 }
 
                 disposed = true;

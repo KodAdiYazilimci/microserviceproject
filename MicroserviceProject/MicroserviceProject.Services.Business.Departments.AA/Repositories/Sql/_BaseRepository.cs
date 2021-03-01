@@ -1,6 +1,7 @@
 ﻿using MicroserviceProject.Services.Business.Departments.AA.Entities.Sql;
 using MicroserviceProject.Services.UnitOfWork;
 
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,8 +11,13 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Repositories.Sql
     /// <summary>
     /// Repository sınıfları için temel sınıf
     /// </summary>
-    public abstract class BaseRepository<TEntity> where TEntity : BaseEntity, new()
+    public abstract class BaseRepository<TEntity> : IDisposable where TEntity : BaseEntity, new()
     {
+        /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
         /// <summary>
         /// Veritabanı işlemlerini kapsayan iş birimi nesnesi
         /// </summary>
@@ -28,5 +34,34 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Repositories.Sql
 
         public abstract Task<int> CreateAsync(TEntity entity, CancellationToken cancellationToken);
         public abstract Task<List<TEntity>> GetListAsync(CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
+        public virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (!disposed)
+                {
+                    if (UnitOfWork != null)
+                    {
+                        UnitOfWork.Dispose();
+                    }
+                }
+
+                disposed = true;
+            }
+        }
     }
 }

@@ -2,6 +2,7 @@
 using MicroserviceProject.Infrastructure.Logging.File.Configuration;
 using MicroserviceProject.Infrastructure.Logging.Model;
 
+using System;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -13,8 +14,13 @@ namespace MicroserviceProject.Infrastructure.Logging.File.Loggers
     /// Json formatta log yazma sınıfı
     /// </summary>
     /// <typeparam name="TModel">Yazılacak logun tipi</typeparam>
-    public class JsonFileLogger<TModel> : ILogger<TModel> where TModel : BaseLogModel, new()
+    public class JsonFileLogger<TModel> : ILogger<TModel>, IDisposable where TModel : BaseLogModel, new()
     {
+        /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
         /// <summary>
         /// Yazılacak log dosyasının yapılandırması
         /// </summary>
@@ -54,6 +60,32 @@ namespace MicroserviceProject.Infrastructure.Logging.File.Loggers
                 contents: sbJsonText.ToString(),
                 encoding: _fileConfiguration.Encoding,
                 cancellationToken: cancellationToken);
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
+        public void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (!disposed)
+                {
+
+                }
+
+                disposed = true;
+            }
         }
     }
 }

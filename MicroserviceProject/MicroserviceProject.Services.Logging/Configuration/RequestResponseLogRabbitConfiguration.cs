@@ -2,13 +2,20 @@
 
 using Microsoft.Extensions.Configuration;
 
+using System;
+
 namespace MicroserviceProject.Services.Logging.Configuration
 {
     /// <summary>
     /// Request-response logları için rabbit sunucusunun yapılandırma ayarları
     /// </summary>
-    public class RequestResponseLogRabbitConfiguration : IRabbitConfiguration
+    public class RequestResponseLogRabbitConfiguration : IRabbitConfiguration, IDisposable
     {
+        /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
         /// <summary>
         /// Request-response log ayarlarının çekileceği configuration
         /// </summary>
@@ -78,5 +85,34 @@ namespace MicroserviceProject.Services.Logging.Configuration
         /// Rabbit sunucusunun kuyruk adı
         /// </summary>
         public string QueueName { get; set; }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
+        public void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (!disposed)
+                {
+                    Host = string.Empty;
+                    UserName = string.Empty;
+                    Password = string.Empty;
+                    QueueName = string.Empty;
+                }
+
+                disposed = true;
+            }
+        }
     }
 }

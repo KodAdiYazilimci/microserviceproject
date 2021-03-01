@@ -15,8 +15,13 @@ namespace MicroserviceProject.Infrastructure.Routing.Persistence.Repositories.Sq
     /// <summary>
     /// Servis rotaları repository sınıfı
     /// </summary>
-    public class ServiceRouteRepository
+    public class ServiceRouteRepository : IDisposable
     {
+        /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
         /// <summary>
         /// Veritabanı bağlantı cümlesini sağlayacak connection nesnesi
         /// </summary>
@@ -165,7 +170,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Persistence.Repositories.Sq
 
                 foreach (var route in routes)
                 {
-                    if (route.AlternativeRoutes!=null && route.AlternativeRoutes.Any())
+                    if (route.AlternativeRoutes != null && route.AlternativeRoutes.Any())
                     {
                         foreach (var alternativeRoute in route.AlternativeRoutes)
                         {
@@ -220,6 +225,32 @@ namespace MicroserviceProject.Infrastructure.Routing.Persistence.Repositories.Sq
             }
 
             return routes;
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
+        public void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (!disposed)
+                {
+
+                }
+
+                disposed = true;
+            }
         }
     }
 }

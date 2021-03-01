@@ -9,8 +9,13 @@ using System.Threading.Tasks;
 
 namespace MicroserviceProject.Services.Infrastructure.Authorization.Business.Services
 {
-    public class SessionService
+    public class SessionService : IDisposable
     {
+        /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
         private readonly SessionRepository _sessionRepository;
         private readonly UserRepository _userRepository;
 
@@ -65,6 +70,33 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Business.Ser
             else
             {
                 throw new UserNotFoundException("Kullanıcı adı veya şifre yanlış!");
+            }
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
+        public void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (!disposed)
+                {
+                    _sessionRepository.Dispose();
+                    _userRepository.Dispose();
+                }
+
+                disposed = true;
             }
         }
     }

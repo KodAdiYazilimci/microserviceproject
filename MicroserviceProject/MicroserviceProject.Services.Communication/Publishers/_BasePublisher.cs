@@ -1,6 +1,7 @@
 ﻿using MicroserviceProject.Infrastructure.Communication.Mq.Rabbit;
 using MicroserviceProject.Infrastructure.Logging.RabbitMq.Producers;
 
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,8 +11,13 @@ namespace MicroserviceProject.Services.Communication.Publishers
     /// Rabbit kuyruğuna kayıt ekleyecek sınıfların temel sınıfı
     /// </summary>
     /// <typeparam name="TModel">Kuyruğa eklenecek kaydın tipi</typeparam>
-    public abstract class BasePublisher<TModel>
+    public abstract class BasePublisher<TModel> : IDisposable
     {
+        /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
         /// <summary>
         /// Data üretici sınıfın nesnesi
         /// </summary>
@@ -34,6 +40,36 @@ namespace MicroserviceProject.Services.Communication.Publishers
         public virtual Task PublishAsync(TModel model, CancellationToken cancellationToken)
         {
             return _publisher.PublishAsync(model, cancellationToken);
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
+        public virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (!disposed)
+                {
+                    if (_publisher != null)
+                    {
+                        _publisher.Dispose();
+                        _publisher = null;
+                    }
+                }
+
+                disposed = true;
+            }
         }
     }
 }

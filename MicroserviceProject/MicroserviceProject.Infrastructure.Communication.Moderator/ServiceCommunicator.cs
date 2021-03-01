@@ -20,8 +20,13 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
     /// <summary>
     /// Yetki denetimi destekli servis iletişim sağlayıcı sınıf
     /// </summary>
-    public class ServiceCommunicator
+    public class ServiceCommunicator : IDisposable
     {
+        /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
         /// <summary>
         /// Çağrıda kullanılacak yetki tokenının önbellekteki adı
         /// </summary>
@@ -218,6 +223,42 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
             _memoryCache.Set<List<ServiceRouteModel>>(CACHEDSERVICEROUTES, serviceRoutes, DateTime.Now.AddMinutes(60));
 
             return JsonConvert.SerializeObject(serviceRoutes.FirstOrDefault(x => x.ServiceName == serviceName));
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
+        public void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (!disposed)
+                {
+                    if (_credentialProvider != null)
+                        _credentialProvider.Dispose();
+
+                    if (_memoryCache != null)
+                        _memoryCache.Dispose();
+
+                    if (_routeNameProvider != null)
+                        _routeNameProvider.Dispose();
+
+                    if (_serviceRouteRepository != null)
+                        _serviceRouteRepository.Dispose();
+                }
+
+                disposed = true;
+            }
         }
     }
 }

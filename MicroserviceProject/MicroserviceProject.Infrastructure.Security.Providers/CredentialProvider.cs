@@ -1,12 +1,19 @@
 ﻿using Microsoft.Extensions.Configuration;
 
+using System;
+
 namespace MicroserviceProject.Infrastructure.Security.Providers
 {
     /// <summary>
     /// Servis iletişimindeki yetki denetimi için kullanıcı bilgilerini sağlayan sınıf
     /// </summary>
-    public class CredentialProvider
+    public class CredentialProvider : IDisposable
     {
+        /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
         /// <summary>
         /// Kullanıcı bilgilerini getiren configuration
         /// </summary>
@@ -50,6 +57,32 @@ namespace MicroserviceProject.Infrastructure.Security.Providers
                     .GetSection("Authorization")
                     .GetSection("Credential")
                     .GetSection("password").Value;
+            }
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
+        public void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (!disposed)
+                {
+
+                }
+
+                disposed = true;
             }
         }
     }

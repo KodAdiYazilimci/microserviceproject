@@ -6,8 +6,13 @@ namespace MicroserviceProject.Services
     /// <summary>
     /// Servis sınıflarının temeli
     /// </summary>
-    public abstract class BaseService
+    public abstract class BaseService : IDisposable
     {
+        /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
         /// <summary>
         /// İşlem kimliği
         /// </summary>
@@ -37,5 +42,31 @@ namespace MicroserviceProject.Services
         /// İçerisinde çalışılan servisin adı
         /// </summary>
         public abstract string ServiceName { get; }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
+        public virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (!disposed)
+                {
+                    TransactionIdentity = string.Empty;
+                }
+
+                disposed = true;
+            }
+        }
     }
 }

@@ -11,8 +11,13 @@ namespace MicroserviceProject.Infrastructure.Communication.Http.Providers
     /// <summary>
     /// Http istekleri için ortak sağlayıcı
     /// </summary>
-    public abstract class BaseProvider
+    public abstract class BaseProvider : IDisposable
     {
+        /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
         /// <summary>
         /// Http isteği esnasında kullanılacak headerlar
         /// </summary>
@@ -67,6 +72,42 @@ namespace MicroserviceProject.Infrastructure.Communication.Http.Providers
                 {
                     webRequest.Headers.Add(header.Key, header.Value);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
+        public virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (!disposed)
+                {
+                    if (Headers != null)
+                    {
+                        Headers.Clear();
+                        Headers = null;
+                    }
+
+                    if (Queries != null)
+                    {
+                        Queries.Clear();
+                        Queries = null;
+                    }
+                }
+
+                disposed = true;
             }
         }
     }

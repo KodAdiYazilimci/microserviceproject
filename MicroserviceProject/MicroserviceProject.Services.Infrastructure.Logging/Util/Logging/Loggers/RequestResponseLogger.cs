@@ -7,6 +7,7 @@ using MicroserviceProject.Services.Logging.Models;
 
 using Microsoft.Extensions.Configuration;
 
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,8 +17,13 @@ namespace MicroserviceProject.Services.Infrastructure.Logging.Util.Logging.Logge
     /// <summary>
     /// Request-Response loglarını yazan sınıf
     /// </summary>
-    public class RequestResponseLogger
+    public class RequestResponseLogger : IDisposable
     {
+        /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
         /// <summary>
         /// Log yazma yönetimini gerçekleştiren sınıf
         /// </summary>
@@ -53,6 +59,32 @@ namespace MicroserviceProject.Services.Infrastructure.Logging.Util.Logging.Logge
         public async Task LogAsync(RequestResponseLogModel model, CancellationToken cancellationToken)
         {
             await _logManager.LogAsync(model, cancellationToken);
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
+        public void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (!disposed)
+                {
+                    _logManager.Dispose();
+                }
+
+                disposed = true;
+            }
         }
     }
 }

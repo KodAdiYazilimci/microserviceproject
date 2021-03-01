@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 
 using RabbitMQ.Client;
 
+using System;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,8 +15,13 @@ namespace MicroserviceProject.Infrastructure.Logging.RabbitMq.Producers
     /// Rabbit sunucusuna data üretecek sınıf
     /// </summary>
     /// <typeparam name="TModel">Data modelinin tipi</typeparam>
-    public class Publisher<TModel>
+    public class Publisher<TModel> : IDisposable
     {
+        /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
         /// <summary>
         /// Data modelini üretmek için rabbit sunucusunun yapılandırma ayarları
         /// </summary>
@@ -59,6 +65,32 @@ namespace MicroserviceProject.Infrastructure.Logging.RabbitMq.Producers
             }
 
             return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
+        public virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (!disposed)
+                {
+
+                }
+
+                disposed = true;
+            }
         }
     }
 }

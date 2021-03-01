@@ -123,17 +123,8 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Repositories.
         /// <summary>
         /// Kaynakları serbest bırakır
         /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// Kaynakları serbest bırakır
-        /// </summary>
         /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
-        public void Dispose(bool disposing)
+        public override void Dispose(bool disposing)
         {
             if (disposing)
             {
@@ -143,6 +134,8 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Repositories.
                 }
 
                 disposed = true;
+
+                Dispose();
             }
         }
 
