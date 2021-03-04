@@ -453,5 +453,47 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moder
                     .ToString();
             }
         }
+
+        /// <summary>
+        /// Finans departmanındaki karar verilen masrafları verir
+        /// </summary>
+        public string Finance_GetDecidedCosts
+        {
+            get
+            {
+                return
+                    ConfigurationManager
+                    .AppSettings["Services.Endpoints.Finance.GetDecidedCosts"]
+                    .ToString();
+            }
+        }
+
+        /// <summary>
+        /// Finans departmanı için masraf kararı oluşturur
+        /// </summary>
+        public string Finance_CreateCost
+        {
+            get
+            {
+                return
+                    ConfigurationManager
+                    .AppSettings["Services.Endpoints.Finance.CreateCost"]
+                    .ToString();
+            }
+        }
+
+        /// <summary>
+        /// Finans departmanındaki masrafa onay veya red verir
+        /// </summary>
+        public string Finance_DecideCost
+        {
+            get
+            {
+                return
+                    ConfigurationManager
+                    .AppSettings["Services.Endpoints.Finance.DecideCost"]
+                    .ToString();
+            }
+        }
     }
 }

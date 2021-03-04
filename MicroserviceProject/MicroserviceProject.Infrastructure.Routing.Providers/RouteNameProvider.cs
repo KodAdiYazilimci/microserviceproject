@@ -509,6 +509,54 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
         }
 
         /// <summary>
+        /// Finans departmanındaki karar verilen masrafları verir
+        /// </summary>
+        public string Finance_GetDecidedCosts
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("Finance")
+                    .GetSection("GetDecidedCosts").Value;
+            }
+        }
+
+        /// <summary>
+        /// Finans departmanı için masraf kararı oluşturur
+        /// </summary>
+        public string Finance_CreateCost
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("Finance")
+                    .GetSection("CreateCost").Value;
+            }
+        }
+
+        /// <summary>
+        /// Finans departmanındaki masrafa onay veya red verir
+        /// </summary>
+        public string Finance_DecideCost
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("Finance")
+                    .GetSection("DecideCost").Value;
+            }
+        }
+
+        /// <summary>
         /// Kaynakları serbest bırakır
         /// </summary>
         public void Dispose()
