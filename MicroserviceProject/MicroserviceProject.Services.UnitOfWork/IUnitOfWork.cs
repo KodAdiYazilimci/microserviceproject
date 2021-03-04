@@ -26,6 +26,5 @@ namespace MicroserviceProject.Services.UnitOfWork
         /// <param name="cancellationToken">İptal tokenı</param>
         /// <returns></returns>
         Task SaveAsync(CancellationToken cancellationToken);
-        void Dispose();
     }
 }
