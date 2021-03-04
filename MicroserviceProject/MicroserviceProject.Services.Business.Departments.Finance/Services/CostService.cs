@@ -185,6 +185,100 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Services
         }
 
         /// <summary>
+        /// Bir masrafı onaylar
+        /// </summary>
+        /// <param name="costId">Onaylanacak masrafın Id değeri</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<int> ApproveCostAsync(int costId, CancellationToken cancellationToken)
+        {
+            int result = await _decidedCostRepository.ApproveAsync(costId, cancellationToken);
+
+            await CreateCheckpointAsync(
+                rollback: new RollbackModel()
+                {
+                    TransactionType = TransactionType.Update,
+                    TransactionDate = DateTime.Now,
+                    TransactionIdentity = TransactionIdentity,
+                    RollbackItems = new List<RollbackItemModel>
+                    {
+                        new RollbackItemModel()
+                        {
+                            Identity = costId,
+                            DataSet = DecidedCostRepository.TABLE_NAME,
+                            RollbackType = RollbackType.Update,
+                            Name = nameof(DecidedCostEntity.Approved),
+                            OldValue = false,
+                            NewValue = true
+                        },
+                        new RollbackItemModel()
+                        {
+                            Identity = costId,
+                            DataSet = DecidedCostRepository.TABLE_NAME,
+                            RollbackType = RollbackType.Update,
+                            Name = nameof(DecidedCostEntity.Done),
+                            OldValue = false,
+                            NewValue = true
+                        }
+                    }
+                },
+                cancellationToken: cancellationToken);
+
+            await _unitOfWork.SaveAsync(cancellationToken);
+
+            _cacheDataProvider.RemoveObject(CACHED_DECIDED_COSTS_KEY);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Bir masrafı reddeder
+        /// </summary>
+        /// <param name="costId">Reddedilecek masrafın Id değeri</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<int> RejectCostAsync(int costId, CancellationToken cancellationToken)
+        {
+            int result = await _decidedCostRepository.RejectAsync(costId, cancellationToken);
+
+            await CreateCheckpointAsync(
+                rollback: new RollbackModel()
+                {
+                    TransactionType = TransactionType.Update,
+                    TransactionDate = DateTime.Now,
+                    TransactionIdentity = TransactionIdentity,
+                    RollbackItems = new List<RollbackItemModel>
+                    {
+                        new RollbackItemModel()
+                        {
+                            Identity = costId,
+                            DataSet = DecidedCostRepository.TABLE_NAME,
+                            RollbackType = RollbackType.Update,
+                            Name = nameof(DecidedCostEntity.Approved),
+                            OldValue = false,
+                            NewValue = false
+                        },
+                        new RollbackItemModel()
+                        {
+                            Identity = costId,
+                            DataSet = DecidedCostRepository.TABLE_NAME,
+                            RollbackType = RollbackType.Update,
+                            Name = nameof(DecidedCostEntity.Done),
+                            OldValue = false,
+                            NewValue = true
+                        }
+                    }
+                },
+                cancellationToken: cancellationToken);
+
+            await _unitOfWork.SaveAsync(cancellationToken);
+
+            _cacheDataProvider.RemoveObject(CACHED_DECIDED_COSTS_KEY);
+
+            return result;
+        }
+
+        /// <summary>
         /// Kaynakları serbest bırakır
         /// </summary>
         /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>

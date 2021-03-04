@@ -194,6 +194,7 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Repositories
             return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
         }
 
+
         /// <summary>
         /// Bir envanter talebi kaydındaki bir kolon değerini değiştirir
         /// </summary>
@@ -215,6 +216,50 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Repositories
 
             sqlCommand.Parameters.AddWithValue("@ID", id);
             sqlCommand.Parameters.AddWithValue("@VALUE", value);
+
+            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// Masrafı reddeder
+        /// </summary>
+        /// <param name="costId">Reddedilecek masrafın Id değeri</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<int> ApproveAsync(int costId, CancellationToken cancellationToken)
+        {
+            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+                                                      SET APPROVED = 1, DONE = 1
+                                                      WHERE ID = @ID",
+                                                        UnitOfWork.SqlConnection,
+                                                        UnitOfWork.SqlTransaction)
+            {
+                Transaction = UnitOfWork.SqlTransaction
+            };
+
+            sqlCommand.Parameters.AddWithValue("@ID", costId);
+
+            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// Masrafı onaylar
+        /// </summary>
+        /// <param name="costId">Onaylanacak masrafın Id değeri</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<int> RejectAsync(int costId, CancellationToken cancellationToken)
+        {
+            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+                                                      SET APPROVED = 0, DONE = 1
+                                                      WHERE ID = @ID",
+                                                        UnitOfWork.SqlConnection,
+                                                        UnitOfWork.SqlTransaction)
+            {
+                Transaction = UnitOfWork.SqlTransaction
+            };
+
+            sqlCommand.Parameters.AddWithValue("@ID", costId);
 
             return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
         }

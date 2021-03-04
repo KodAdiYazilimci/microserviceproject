@@ -1,5 +1,6 @@
 ﻿using MicroserviceProject.Services.Business.Departments.Finance.Services;
 using MicroserviceProject.Services.Business.Departments.Finance.Util.Validation.Cost.CreateCost;
+using MicroserviceProject.Services.Business.Departments.Finance.Util.Validation.Cost.DecideCost;
 using MicroserviceProject.Services.Model.Department.Finance;
 
 using Microsoft.AspNetCore.Authorization;
@@ -52,6 +53,27 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Controllers
                 await CreateCostValidator.ValidateAsync(cost, cancellationToken);
 
                 return await _costService.CreateDecidedCostAsync(cost, cancellationToken);
+            },
+            services: _costService);
+        }
+
+        [HttpPost]
+        [Route(nameof(DecideCost))]
+        public async Task<IActionResult> DecideCost([FromBody] DecidedCostModel cost, CancellationToken cancellationToken)
+        {
+            if (Request.Headers.ContainsKey("TransactionIdentity"))
+            {
+                _costService.TransactionIdentity = Request.Headers["TransactionIdentity"].ToString();
+            }
+
+            return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
+            {
+                await DecideCostValidator.ValidateAsync(cost, cancellationToken);
+
+                if (cost.Approved)
+                    return await _costService.ApproveCostAsync(cost.Id, cancellationToken);
+                else
+                    return await _costService.RejectCostAsync(cost.Id, cancellationToken);
             },
             services: _costService);
         }
