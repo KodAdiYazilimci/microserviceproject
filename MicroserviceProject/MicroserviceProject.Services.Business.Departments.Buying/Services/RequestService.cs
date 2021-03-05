@@ -289,10 +289,72 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Services
         {
             if (decidedCost.Approved)
             {
+                await
+                    CreateCheckpointAsync(
+                        rollback: new RollbackModel()
+                        {
+                            TransactionDate = DateTime.Now,
+                            TransactionIdentity = TransactionIdentity,
+                            TransactionType = TransactionType.Update,
+                            RollbackItems = new List<RollbackItemModel>
+                            {
+                                new RollbackItemModel
+                                {
+                                    Identity = decidedCost.InventoryRequestId,
+                                    DataSet = InventoryRequestRepository.TABLE_NAME,
+                                    Name = nameof(InventoryRequestEntity.Revoked),
+                                    NewValue = true,
+                                    OldValue = false,
+                                    RollbackType = RollbackType.Update
+                                },
+                                new RollbackItemModel
+                                {
+                                    Identity = decidedCost.InventoryRequestId,
+                                    DataSet = InventoryRequestRepository.TABLE_NAME,
+                                    Name = nameof(InventoryRequestEntity.Done),
+                                    NewValue = true,
+                                    OldValue = false,
+                                    RollbackType = RollbackType.Update
+                                }
+                            }
+                        },
+                        cancellationToken: cancellationToken);
+
                 return await _inventoryRequestRepository.RevokeAsync(decidedCost.InventoryRequestId, cancellationToken);
             }
             else
             {
+                await
+                    CreateCheckpointAsync(
+                        rollback: new RollbackModel()
+                        {
+                            TransactionDate = DateTime.Now,
+                            TransactionIdentity = TransactionIdentity,
+                            TransactionType = TransactionType.Update,
+                            RollbackItems = new List<RollbackItemModel>
+                            {
+                                new RollbackItemModel
+                                {
+                                    Identity = decidedCost.InventoryRequestId,
+                                    DataSet = InventoryRequestRepository.TABLE_NAME,
+                                    Name = nameof(InventoryRequestEntity.Revoked),
+                                    NewValue = false,
+                                    OldValue = false,
+                                    RollbackType = RollbackType.Update
+                                },
+                                new RollbackItemModel
+                                {
+                                    Identity = decidedCost.InventoryRequestId,
+                                    DataSet = InventoryRequestRepository.TABLE_NAME,
+                                    Name = nameof(InventoryRequestEntity.Done),
+                                    NewValue = true,
+                                    OldValue = false,
+                                    RollbackType = RollbackType.Update
+                                }
+                            }
+                        },
+                        cancellationToken: cancellationToken);
+
                 return await _inventoryRequestRepository.UnRevokeAsync(decidedCost.InventoryRequestId, cancellationToken);
             }
         }
