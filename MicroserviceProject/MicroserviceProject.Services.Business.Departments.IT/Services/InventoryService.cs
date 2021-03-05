@@ -134,6 +134,48 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Services
         }
 
         /// <summary>
+        /// Satın alınmayı bekleyen envanterle ilgili çalışana envanter ataması yapar veya alımı erteler
+        /// </summary>
+        /// <param name="inventoryRequest">Envanter talebi nesnesi</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task InformInventoryRequestAsync(InventoryRequestModel inventoryRequest, CancellationToken cancellationToken)
+        {
+            if (inventoryRequest.Revoked)
+                await _inventoryRepository.IncreaseStockCountAsync(inventoryRequest.InventoryId, inventoryRequest.Amount, cancellationToken);
+
+            List<PendingWorkerInventoryEntity> pendingInventories = await _pendingWorkerInventoryRepository.GetListAsync(cancellationToken);
+
+            foreach (var pendingWorkerInventory in pendingInventories.Where(x => x.InventoryId == inventoryRequest.InventoryId).ToList())
+            {
+                if (inventoryRequest.Revoked && inventoryRequest.Amount > 0)
+                {
+                    await _workerInventoryRepository.CreateAsync(
+                        workerInventory: new WorkerInventoryEntity
+                        {
+                            FromDate = pendingWorkerInventory.FromDate,
+                            ToDate = pendingWorkerInventory.ToDate,
+                            WorkerId = pendingWorkerInventory.WorkerId,
+                            InventoryId = pendingWorkerInventory.InventoryId
+                        },
+                        cancellationToken: cancellationToken);
+
+                    await _inventoryRepository.DescendStockCountAsync(inventoryRequest.InventoryId, 1, cancellationToken);
+
+                    await _pendingWorkerInventoryRepository.SetCompleteAsync(pendingWorkerInventory.WorkerId, pendingWorkerInventory.InventoryId, cancellationToken);
+
+                    inventoryRequest.Amount -= 1;
+                }
+                else if (!inventoryRequest.Revoked)
+                {
+                    await _pendingWorkerInventoryRepository.DelayAsync(pendingWorkerInventory.WorkerId, pendingWorkerInventory.InventoryId, DateTime.Now.AddDays(7), cancellationToken);
+                }
+            }
+
+            await _unitOfWork.SaveAsync(cancellationToken);
+        }
+
+        /// <summary>
         /// Envanterlerin listesini verir
         /// </summary>
         /// <param name="cancellationToken">İptal tokenı</param>

@@ -6,6 +6,7 @@ using MicroserviceProject.Infrastructure.Communication.Moderator;
 using MicroserviceProject.Infrastructure.Routing.Providers;
 using MicroserviceProject.Services.Business.Departments.Buying.Entities.Sql;
 using MicroserviceProject.Services.Business.Departments.Buying.Repositories.Sql;
+using MicroserviceProject.Services.Communication.Publishers.IT;
 using MicroserviceProject.Services.Model.Department.Buying;
 using MicroserviceProject.Services.Model.Department.Finance;
 using MicroserviceProject.Services.Transaction;
@@ -82,6 +83,16 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Services
         private readonly ServiceCommunicator _serviceCommunicator;
 
         /// <summary>
+        /// İdari işler departmanına satın alımla ilgili olumlu veya olumsuz dönüş verisini rabbit kuyruğuna ekleyecek nesne
+        /// </summary>
+        private readonly AAInformInventoryRequestPublisher _AAInformInventoryRequestPublisher;
+
+        /// <summary>
+        /// Bilgi teknolojileri departmanına satın alımla ilgili olumlu veya olumsuz dönüş verisini rabbit kuyruğuna ekleyecek nesne
+        /// </summary>
+        private readonly ITInformInventoryRequestPublisher _ITInformInventoryRequestPublisher;
+
+        /// <summary>
         /// Talep işlemleri iş mantığı sınıfı
         /// </summary>
         /// <param name="mapper">Mapping işlemleri için mapper nesnesi</param>
@@ -92,6 +103,10 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Services
         /// <param name="transactionRepository">İşlem tablosu için repository sınıfı</param>
         /// <param name="transactionItemRepository">İşlem öğesi tablosu için repository sınıfı</param>
         /// <param name="inventoryRequestRepository">Envanter talepleri tablosu için repository sınıfı</param>
+        /// <param name="aaInformInventoryRequestPublisher">İdari işler departmanına satın alımla ilgili olumlu veya olumsuz 
+        /// dönüş verisini rabbit kuyruğuna ekleyecek nesne</param>
+        /// <param name="itInformInventoryRequestPublisher">Bilgi teknolojileri departmanına satın alımla ilgili olumlu veya 
+        /// olumsuz dönüş verisini rabbit kuyruğuna ekleyecek nesne</param>
         public RequestService(
             IMapper mapper,
             IUnitOfWork unitOfWork,
@@ -100,7 +115,9 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Services
             CacheDataProvider cacheDataProvider,
             TransactionRepository transactionRepository,
             TransactionItemRepository transactionItemRepository,
-            InventoryRequestRepository inventoryRequestRepository)
+            InventoryRequestRepository inventoryRequestRepository,
+            AAInformInventoryRequestPublisher aaInformInventoryRequestPublisher,
+            ITInformInventoryRequestPublisher itInformInventoryRequestPublisher)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
@@ -112,6 +129,9 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Services
             _transactionItemRepository = transactionItemRepository;
 
             _inventoryRequestRepository = inventoryRequestRepository;
+
+            _AAInformInventoryRequestPublisher = aaInformInventoryRequestPublisher;
+            _ITInformInventoryRequestPublisher = itInformInventoryRequestPublisher;
         }
 
         /// <summary>
@@ -287,6 +307,8 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Services
         /// <returns></returns>
         public async Task<int> ValidateCostInventoryAsync(DecidedCostModel decidedCost, CancellationToken cancellationToken)
         {
+            int result;
+
             if (decidedCost.Approved)
             {
                 await
@@ -320,7 +342,7 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Services
                         },
                         cancellationToken: cancellationToken);
 
-                return await _inventoryRequestRepository.RevokeAsync(decidedCost.InventoryRequestId, cancellationToken);
+                result = await _inventoryRequestRepository.RevokeAsync(decidedCost.InventoryRequestId, cancellationToken);
             }
             else
             {
@@ -355,8 +377,44 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Services
                         },
                         cancellationToken: cancellationToken);
 
-                return await _inventoryRequestRepository.UnRevokeAsync(decidedCost.InventoryRequestId, cancellationToken);
+                result = await _inventoryRequestRepository.UnRevokeAsync(decidedCost.InventoryRequestId, cancellationToken);
             }
+
+            InventoryRequestEntity inventoryRequestEntity = await _inventoryRequestRepository.GetAsync(decidedCost.InventoryRequestId, cancellationToken);
+
+            if (inventoryRequestEntity == null)
+            {
+                throw new Exception("Envanter talebi bulunamadı");
+            }
+
+            if (decidedCost.InventoryRequest.DepartmentId == (int)Model.Constants.Departments.AdministrativeAffairs)
+            {
+                await _AAInformInventoryRequestPublisher.PublishAsync(
+                    model: new InventoryRequestModel
+                    {
+                        InventoryId = inventoryRequestEntity.InventoryId,
+                        Amount = inventoryRequestEntity.Amount,
+                        Revoked = decidedCost.Approved,
+                        Done = true
+                    },
+                    cancellationToken: cancellationToken);
+            }
+            else if (decidedCost.InventoryRequest.DepartmentId == (int)Model.Constants.Departments.InformationTechnologies)
+            {
+                await _ITInformInventoryRequestPublisher.PublishAsync(
+                    model: new InventoryRequestModel
+                    {
+                        InventoryId = inventoryRequestEntity.InventoryId,
+                        Amount = inventoryRequestEntity.Amount,
+                        Revoked = decidedCost.Approved,
+                        Done = true
+                    },
+                    cancellationToken: cancellationToken);
+            }
+
+            await _unitOfWork.SaveAsync(cancellationToken);
+
+            return result;
         }
 
         /// <summary>
@@ -374,6 +432,8 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Services
                     _transactionItemRepository.Dispose();
                     _transactionRepository.Dispose();
                     _unitOfWork.Dispose();
+                    _AAInformInventoryRequestPublisher.Dispose();
+                    _ITInformInventoryRequestPublisher.Dispose();
                 }
 
                 disposed = true;

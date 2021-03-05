@@ -135,6 +135,106 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
         }
 
         /// <summary>
+        /// Satın alınmayı bekleyen envanterle ilgili çalışana envanter ataması yapar veya alımı erteler
+        /// </summary>
+        /// <param name="inventoryRequest">Envanter talebi nesnesi</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task InformInventoryRequestAsync(InventoryRequestModel inventoryRequest, CancellationToken cancellationToken)
+        {
+            if (inventoryRequest.Revoked)
+                await _inventoryRepository.IncreaseStockCountAsync(inventoryRequest.InventoryId, inventoryRequest.Amount, cancellationToken);
+
+            await CreateCheckpointAsync(
+                rollback: new RollbackModel()
+                {
+                    TransactionDate = DateTime.Now,
+                    TransactionIdentity = TransactionIdentity,
+                    TransactionType = TransactionType.Update,
+                    RollbackItems = new List<RollbackItemModel>
+                    {
+                        new RollbackItemModel
+                        {
+                            DataSet = InventoryRepository.TABLE_NAME,
+                            Identity =inventoryRequest.InventoryId,
+                            Name = nameof(InventoryEntity.CurrentStockCount),
+                            Difference = inventoryRequest.Amount,
+                            RollbackType= RollbackType.DecreaseValue
+                        }
+                    }
+                },
+                cancellationToken: cancellationToken);
+
+            List<PendingWorkerInventoryEntity> pendingInventories = await _pendingWorkerInventoryRepository.GetListAsync(cancellationToken);
+
+            foreach (var pendingWorkerInventory in pendingInventories.Where(x => x.InventoryId == inventoryRequest.InventoryId).ToList())
+            {
+                if (inventoryRequest.Revoked && inventoryRequest.Amount > 0)
+                {
+                    int createdWorkerInventoryId = await _workerInventoryRepository.CreateAsync(
+                        workerInventory: new WorkerInventoryEntity
+                        {
+                            FromDate = pendingWorkerInventory.FromDate,
+                            ToDate = pendingWorkerInventory.ToDate,
+                            WorkerId = pendingWorkerInventory.WorkerId,
+                            InventoryId = pendingWorkerInventory.InventoryId
+                        },
+                        cancellationToken: cancellationToken);
+
+                    await CreateCheckpointAsync(
+                        rollback: new RollbackModel()
+                        {
+                            TransactionDate = DateTime.Now,
+                            TransactionIdentity = TransactionIdentity,
+                            TransactionType = TransactionType.Insert,
+                            RollbackItems = new List<RollbackItemModel>
+                            {
+                                new RollbackItemModel
+                                {
+                                    DataSet = WorkerInventoryRepository.TABLE_NAME,
+                                    Identity = createdWorkerInventoryId,
+                                    RollbackType= RollbackType.Delete
+                                }
+                            }
+                        },
+                        cancellationToken: cancellationToken);
+
+                    await _inventoryRepository.DescendStockCountAsync(inventoryRequest.InventoryId, 1, cancellationToken);
+
+                    await CreateCheckpointAsync(
+                        rollback: new RollbackModel()
+                        {
+                            TransactionDate = DateTime.Now,
+                            TransactionIdentity = TransactionIdentity,
+                            TransactionType = TransactionType.Update,
+                            RollbackItems = new List<RollbackItemModel>
+                            {
+                                new RollbackItemModel
+                                {
+                                    DataSet = InventoryRepository.TABLE_NAME,
+                                    Identity = createdWorkerInventoryId,
+                                    Name = nameof(InventoryEntity.CurrentStockCount),
+                                    Difference = 1,
+                                    RollbackType= RollbackType.IncreaseValue
+                                }
+                            }
+                        },
+                        cancellationToken: cancellationToken);
+
+                    await _pendingWorkerInventoryRepository.SetCompleteAsync(pendingWorkerInventory.WorkerId, pendingWorkerInventory.InventoryId, cancellationToken);
+
+                    inventoryRequest.Amount -= 1;
+                }
+                else if (!inventoryRequest.Revoked)
+                {
+                    await _pendingWorkerInventoryRepository.DelayAsync(pendingWorkerInventory.WorkerId, pendingWorkerInventory.InventoryId, DateTime.Now.AddDays(7), cancellationToken);
+                }
+            }
+
+            await _unitOfWork.SaveAsync(cancellationToken);
+        }
+
+        /// <summary>
         /// Envanterlerin listesini verir
         /// </summary>
         /// <param name="cancellationToken">İptal tokenı</param>
@@ -362,7 +462,7 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
 
             foreach (var inventoryModel in worker.AAInventories)
             {
-                if (inventoryModel.CurrentStockCount > 0)
+                if (inventories.FirstOrDefault(x => x.Id == inventoryModel.Id).CurrentStockCount > 0)
                 {
                     int createdWorkerInventoryId = await _workerInventoryRepository.CreateAsync(new WorkerInventoryEntity
                     {
@@ -389,6 +489,8 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
                             }
                         },
                         cancellationToken: cancellationToken);
+
+                    inventories.FirstOrDefault(x => x.Id == inventoryModel.Id).CurrentStockCount -= 1;
                 }
                 else
                 {

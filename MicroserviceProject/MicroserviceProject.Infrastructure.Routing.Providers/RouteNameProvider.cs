@@ -397,6 +397,38 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
         }
 
         /// <summary>
+        /// İdari işlerin bekleyen satın alımları için bilgilendirme yapar
+        /// </summary>
+        public string AA_InformInventoryRequest
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("AA")
+                    .GetSection("InformInventoryRequest").Value;
+            }
+        }
+
+        /// <summary>
+        /// Bilgi teknolojileri departmanının bekleyen satın alımları için bilgilendirme yapar
+        /// </summary>
+        public string IT_InformInventoryRequest
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("IT")
+                    .GetSection("InformInventoryRequest").Value;
+            }
+        }
+
+        /// <summary>
         /// İşlemi geri alır
         /// </summary>
         public string AA_RollbackTransaction

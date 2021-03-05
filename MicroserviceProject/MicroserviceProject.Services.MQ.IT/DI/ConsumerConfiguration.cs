@@ -19,8 +19,10 @@ namespace MicroserviceProject.Services.MQ.IT.DI
         public static IServiceCollection RegisterConsumers(this IServiceCollection services)
         {
             services.AddSingleton<ITAssignInventoryToWorkerRabbitConfiguration>();
-            services.AddSingleton<AssignInventoryToWorkerConsumer>();
+            services.AddSingleton<ITInformInventoryRequestRabbitConfiguration>();
 
+            services.AddSingleton<AssignInventoryToWorkerConsumer>();
+            services.AddSingleton<InformInventoryRequestConsumer>();
 
             return services;
         }

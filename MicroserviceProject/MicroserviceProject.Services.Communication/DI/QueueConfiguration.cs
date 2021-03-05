@@ -27,11 +27,17 @@ namespace MicroserviceProject.Services.Communication.DI
             services.AddSingleton<ITAssignInventoryToWorkerRabbitConfiguration>();
             services.AddSingleton<CreateBankAccountRabbitConfiguration>();
             services.AddSingleton<CreateInventoryRequestRabbitConfiguration>();
+            services.AddSingleton<AAInformInventoryRequestRabbitConfiguration>();
+            services.AddSingleton<ITInformInventoryRequestRabbitConfiguration>();
+            services.AddSingleton<NotifyCostApprovementRabbitConfiguration>();
 
             services.AddSingleton<AAAssignInventoryToWorkerPublisher>();
             services.AddSingleton<ITAssignInventoryToWorkerPublisher>();
             services.AddSingleton<CreateBankAccountPublisher>();
             services.AddSingleton<CreateInventoryRequestPublisher>();
+            services.AddSingleton<AAInformInventoryRequestPublisher>();
+            services.AddSingleton<ITInformInventoryRequestPublisher>();
+            services.AddSingleton<NotifyCostApprovementPublisher>();
 
             return services;
         }

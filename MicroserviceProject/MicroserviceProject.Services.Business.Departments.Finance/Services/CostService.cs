@@ -6,6 +6,7 @@ using MicroserviceProject.Infrastructure.Communication.Moderator;
 using MicroserviceProject.Infrastructure.Routing.Providers;
 using MicroserviceProject.Services.Business.Departments.Finance.Entities.Sql;
 using MicroserviceProject.Services.Business.Departments.Finance.Repositories.Sql;
+using MicroserviceProject.Services.Communication.Publishers.Buying;
 using MicroserviceProject.Services.Model.Department.Buying;
 using MicroserviceProject.Services.Model.Department.Finance;
 using MicroserviceProject.Services.Transaction;
@@ -82,6 +83,11 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Services
         private readonly ServiceCommunicator _serviceCommunicator;
 
         /// <summary>
+        /// Satın alınması istenilen envanterlere ait kararları rabbit kuyruğuna ekleyen nesne
+        /// </summary>
+        private readonly NotifyCostApprovementPublisher _notifyCostApprovementPublisher;
+
+        /// <summary>
         /// Karar verilen masraflar iş mantığı sınıfı
         /// </summary>
         /// <param name="mapper">Mapping işlemleri için mapper nesnesi</param>
@@ -92,6 +98,8 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Services
         /// <param name="transactionRepository">İşlem tablosu için repository sınıfı</param>
         /// <param name="transactionItemRepository">İşlem öğesi tablosu için repository sınıfı</param>
         /// <param name="decidedCostRepository">Karar verilen masraflar tablosu için repository sınıfı</param>
+        /// <param name="notifyCostApprovementPublisher">Satın alınması istenilen envanterlere ait kararları 
+        /// rabbit kuyruğuna ekleyen nesne</param>
         public CostService(
             IMapper mapper,
             IUnitOfWork unitOfWork,
@@ -100,7 +108,8 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Services
             CacheDataProvider cacheDataProvider,
             TransactionRepository transactionRepository,
             TransactionItemRepository transactionItemRepository,
-            DecidedCostRepository decidedCostRepository)
+            DecidedCostRepository decidedCostRepository,
+            NotifyCostApprovementPublisher notifyCostApprovementPublisher)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
@@ -112,6 +121,7 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Services
             _transactionItemRepository = transactionItemRepository;
 
             _decidedCostRepository = decidedCostRepository;
+            _notifyCostApprovementPublisher = notifyCostApprovementPublisher;
         }
 
         /// <summary>
@@ -194,6 +204,13 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Services
         {
             int result = await _decidedCostRepository.ApproveAsync(costId, cancellationToken);
 
+            DecidedCostEntity decidedCostEntity = await _decidedCostRepository.GetAsync(costId, cancellationToken);
+
+            if (decidedCostEntity == null)
+            {
+                throw new Exception("Masraf bilgisi bulunamadı");
+            }
+
             await CreateCheckpointAsync(
                 rollback: new RollbackModel()
                 {
@@ -224,6 +241,15 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Services
                 },
                 cancellationToken: cancellationToken);
 
+            await _notifyCostApprovementPublisher.PublishAsync(
+                model: new DecidedCostModel
+                {
+                    Approved = true,
+                    InventoryRequestId = decidedCostEntity.InventoryRequestId,
+                    Done = true
+                },
+                cancellationToken: cancellationToken);
+
             await _unitOfWork.SaveAsync(cancellationToken);
 
             _cacheDataProvider.RemoveObject(CACHED_DECIDED_COSTS_KEY);
@@ -240,6 +266,13 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Services
         public async Task<int> RejectCostAsync(int costId, CancellationToken cancellationToken)
         {
             int result = await _decidedCostRepository.RejectAsync(costId, cancellationToken);
+
+            DecidedCostEntity decidedCostEntity = await _decidedCostRepository.GetAsync(costId, cancellationToken);
+
+            if (decidedCostEntity == null)
+            {
+                throw new Exception("Masraf bilgisi bulunamadı");
+            }
 
             await CreateCheckpointAsync(
                 rollback: new RollbackModel()
@@ -268,6 +301,15 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Services
                             NewValue = true
                         }
                     }
+                },
+                cancellationToken: cancellationToken);
+
+            await _notifyCostApprovementPublisher.PublishAsync(
+                model: new DecidedCostModel
+                {
+                    Approved = false,
+                    InventoryRequestId = decidedCostEntity.InventoryRequestId,
+                    Done = true
                 },
                 cancellationToken: cancellationToken);
 

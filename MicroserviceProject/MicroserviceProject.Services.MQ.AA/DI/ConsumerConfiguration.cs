@@ -1,5 +1,6 @@
 ﻿using MicroserviceProject.Services.Communication.Configuration.Rabbit.AA;
 using MicroserviceProject.Services.MQ.AA.Util.Consumers.Inventory;
+using MicroserviceProject.Services.MQ.AA.Util.Consumers.Request;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -18,8 +19,10 @@ namespace MicroserviceProject.Services.MQ.AA.DI
         public static IServiceCollection RegisterConsumers(this IServiceCollection services)
         {
             services.AddSingleton<AAAssignInventoryToWorkerRabbitConfiguration>();
-            services.AddSingleton<AssignInventoryToWorkerConsumer>();
+            services.AddSingleton<AAInformInventoryRequestRabbitConfiguration>();
 
+            services.AddSingleton<AssignInventoryToWorkerConsumer>();
+            services.AddSingleton<InformInventoryRequestConsumer>();
 
             return services;
         }

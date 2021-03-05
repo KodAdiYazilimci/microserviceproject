@@ -2,6 +2,8 @@
 using MicroserviceProject.Services.Business.Departments.IT.Util.Validation.Inventory.AssignInventoryToWorker;
 using MicroserviceProject.Services.Business.Departments.IT.Util.Validation.Inventory.CreateDefaultInventoryForNewWorker;
 using MicroserviceProject.Services.Business.Departments.IT.Util.Validation.Inventory.CreateInventory;
+using MicroserviceProject.Services.Business.Departments.IT.Util.Validation.Inventory.InformInventoryRequest;
+using MicroserviceProject.Services.Model.Department.Buying;
 using MicroserviceProject.Services.Model.Department.HR;
 using MicroserviceProject.Services.Model.Department.IT;
 
@@ -107,6 +109,24 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Controllers
             return ServiceExecuter.ExecuteService<List<InventoryModel>>(() =>
             {
                 return _inventoryService.GetInventoriesForNewWorker(cancellationToken);
+            },
+            services: _inventoryService);
+        }
+
+        [HttpPost]
+        [Route(nameof(InformInventoryRequest))]
+        public async Task<IActionResult> InformInventoryRequest([FromBody] InventoryRequestModel inventoryRequest, CancellationToken cancellationToken)
+        {
+            if (Request.Headers.ContainsKey("TransactionIdentity"))
+            {
+                _inventoryService.TransactionIdentity = Request.Headers["TransactionIdentity"].ToString();
+            }
+
+            return await ServiceExecuter.ExecuteServiceAsync(async () =>
+            {
+                await InformInventoryRequestValidator.ValidateAsync(inventoryRequest, cancellationToken);
+
+                await _inventoryService.InformInventoryRequestAsync(inventoryRequest, cancellationToken);
             },
             services: _inventoryService);
         }

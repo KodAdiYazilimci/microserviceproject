@@ -16,6 +16,11 @@ namespace MicroserviceProject.Services.MQ.IT
 
             assignInventoryToWorkerConsumer.StartToConsume();
 
+            InformInventoryRequestConsumer informInventoryRequestConsumer =
+                (InformInventoryRequestConsumer)host.Services.GetService(typeof(InformInventoryRequestConsumer));
+
+            informInventoryRequestConsumer.StartToConsume();
+
             host.Run();
         }
 

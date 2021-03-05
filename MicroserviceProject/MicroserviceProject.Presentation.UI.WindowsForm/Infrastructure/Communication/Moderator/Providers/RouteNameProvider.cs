@@ -509,5 +509,33 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moder
                     .ToString();
             }
         }
+
+        /// <summary>
+        /// İdari işlerin bekleyen satın alımları için bilgilendirme yapar
+        /// </summary>
+        public string AA_InformInventoryRequest
+        {
+            get
+            {
+                return
+                    ConfigurationManager
+                    .AppSettings["Services.Endpoints.AA.InformInventoryRequest"]
+                    .ToString();
+            }
+        }
+
+        /// <summary>
+        /// Bilgi teknolojileri departmanının bekleyen satın alımları için bilgilendirme yapar
+        /// </summary>
+        public string IT_InformInventoryRequest
+        {
+            get
+            {
+                return
+                    ConfigurationManager
+                    .AppSettings["Services.Endpoints.IT.InformInventoryRequest"]
+                    .ToString();
+            }
+        }
     }
 }

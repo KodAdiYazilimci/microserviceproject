@@ -171,6 +171,66 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Repositories.Sql
         }
 
         /// <summary>
+        /// Bekleyen çalışan envanterini ileriki tarihe erteler
+        /// </summary>
+        /// <param name="workerId">Çalışanın Id değeri</param>
+        /// <param name="inventoryId">Envanterin Id değeri</param>
+        /// <param name="toDate">Ertelenecek tarih</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<int> DelayAsync(int workerId, int inventoryId, DateTime toDate, CancellationToken cancellationToken)
+        {
+            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+                                                      SET IS_COMPLETE = 0, NEXT_REQUEST_DATE = @NEXT_DATE
+                                                      WHERE 
+                                                      HR_WORKERS_ID = @WORKER_ID
+                                                      AND
+                                                      AA_INVENTORIES_ID = @INVENTORY_ID
+                                                      AND
+                                                      IS_COMPLETE = 0",
+                                                              UnitOfWork.SqlConnection,
+                                                              UnitOfWork.SqlTransaction)
+            {
+                Transaction = UnitOfWork.SqlTransaction
+            };
+
+            sqlCommand.Parameters.AddWithValue("@WORKER_ID", workerId);
+            sqlCommand.Parameters.AddWithValue("@INVENTORY_ID", inventoryId);
+            sqlCommand.Parameters.AddWithValue("@NEXT_DATE", toDate);
+
+            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// Bekleyen çalışan envanterini tamamlandı olarak işaretler
+        /// </summary>
+        /// <param name="workerId">Çalışanın Id değeri</param>
+        /// <param name="inventoryId">Envanterin Id değeri</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<int> SetCompleteAsync(int workerId, int inventoryId, CancellationToken cancellationToken)
+        {
+            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+                                                      SET IS_COMPLETE = 1, NEXT_REQUEST_DATE = NULL
+                                                      WHERE 
+                                                      HR_WORKERS_ID = @WORKER_ID
+                                                      AND
+                                                      AA_INVENTORIES_ID = @INVENTORY_ID
+                                                      AND
+                                                      IS_COMPLETE = 0",
+                                                              UnitOfWork.SqlConnection,
+                                                              UnitOfWork.SqlTransaction)
+            {
+                Transaction = UnitOfWork.SqlTransaction
+            };
+
+            sqlCommand.Parameters.AddWithValue("@WORKER_ID", workerId);
+            sqlCommand.Parameters.AddWithValue("@INVENTORY_ID", inventoryId);
+
+            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
+        }
+
+        /// <summary>
         /// Silindi olarak işaretlenmiş bir envanter kaydının işaretini kaldırır
         /// </summary>
         /// <param name="id">Silindi işareti kaldırılacak envanter kaydının Id değeri</param>

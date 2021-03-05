@@ -304,5 +304,57 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Repositories.
 
             return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
         }
+
+        /// <summary>
+        /// Envanter talebinin getirir
+        /// </summary>
+        /// <param name="inventoryRequestId">Getirilecek envanter talebinin Id değeri</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<InventoryRequestEntity> GetAsync(int inventoryRequestId, CancellationToken cancellationToken)
+        {
+            InventoryRequestEntity inventoryRequestEntity = null;
+
+            SqlCommand sqlCommand = new SqlCommand($@"SELECT 
+                                                      TOP 1
+                                                      [ID],
+                                                      [INVENTORY_ID],
+                                                      [HR_DEPARTMENTS_ID],
+                                                      [AMOUNT],
+                                                      [REVOKED],
+                                                      [DONE]
+                                                      FROM {TABLE_NAME}
+                                                      WHERE 
+                                                      ID = @ID
+                                                      AND
+                                                      DELETE_DATE IS NULL",
+                                                     UnitOfWork.SqlConnection,
+                                                     UnitOfWork.SqlTransaction)
+            {
+                Transaction = UnitOfWork.SqlTransaction
+            };
+
+            sqlCommand.Parameters.AddWithValue("@ID", ((object)inventoryRequestId) ?? DBNull.Value);
+
+            SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationToken);
+
+            if (sqlDataReader.HasRows)
+            {
+                while (await sqlDataReader.ReadAsync(cancellationToken))
+                {
+                    inventoryRequestEntity = new InventoryRequestEntity
+                    {
+                        Id = sqlDataReader.GetInt32("ID"),
+                        InventoryId = sqlDataReader.GetInt32("INVENTORY_ID"),
+                        DepartmentId = sqlDataReader.GetInt32("HR_DEPARTMENTS_ID"),
+                        Amount = sqlDataReader.GetInt32("AMOUNT"),
+                        Revoked = sqlDataReader.GetBoolean("REVOKED"),
+                        Done = sqlDataReader.GetBoolean("DONE")
+                    };
+                }
+            }
+
+            return inventoryRequestEntity;
+        }
     }
 }

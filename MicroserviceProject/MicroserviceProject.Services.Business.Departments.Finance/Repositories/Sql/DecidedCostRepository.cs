@@ -194,6 +194,54 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Repositories
             return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
         }
 
+        /// <summary>
+        /// Masraf onayı bilgisini getirir
+        /// </summary>
+        /// <param name="costId">Getirilecek masrafın Id değeri</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<DecidedCostEntity> GetAsync(int costId, CancellationToken cancellationToken)
+        {
+            DecidedCostEntity decidedCostEntity = null;
+
+            SqlCommand sqlCommand = new SqlCommand($@"SELECT
+                                                      TOP 1
+                                                      [ID],
+                                                      [BUYING_INVENTORY_REQUESTS_ID],
+                                                      [APPROVED],
+                                                      [DONE]
+                                                      FROM {TABLE_NAME}
+                                                      WHERE 
+                                                      ID = @ID
+                                                      AND
+                                                      DELETE_DATE IS NULL",
+                                                     UnitOfWork.SqlConnection,
+                                                     UnitOfWork.SqlTransaction)
+            {
+                Transaction = UnitOfWork.SqlTransaction
+            };
+
+            sqlCommand.Parameters.AddWithValue("@ID", ((object)costId) ?? DBNull.Value);
+
+            SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationToken);
+
+            if (sqlDataReader.HasRows)
+            {
+                while (await sqlDataReader.ReadAsync(cancellationToken))
+                {
+                    decidedCostEntity = new DecidedCostEntity
+                    {
+                        Id = sqlDataReader.GetInt32("ID"),
+                        InventoryRequestId = sqlDataReader.GetInt32("BUYING_INVENTORY_REQUESTS_ID"),
+                        Approved = sqlDataReader.GetBoolean("APPROVED"),
+                        Done = sqlDataReader.GetBoolean("DONE")
+                    };
+                }
+            }
+
+            return decidedCostEntity;
+        }
+
 
         /// <summary>
         /// Bir envanter talebi kaydındaki bir kolon değerini değiştirir
