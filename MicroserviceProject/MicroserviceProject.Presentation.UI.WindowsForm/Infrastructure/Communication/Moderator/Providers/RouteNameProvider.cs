@@ -495,5 +495,19 @@ namespace MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moder
                     .ToString();
             }
         }
+
+        /// <summary>
+        /// Satın alınması planlanan envantere ait masrafın sonuçlandırılmasını sağlar
+        /// </summary>
+        public string Buying_ValidateCostInventory
+        {
+            get
+            {
+                return
+                    ConfigurationManager
+                    .AppSettings["Services.Endpoints.Buying.ValidateCostInventory"]
+                    .ToString();
+            }
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿using MicroserviceProject.Presentation.UI.Business.Model.Department.IT;
+﻿using MicroserviceProject.Presentation.UI.WindowsForm.Business.Model.Department.IT;
 using MicroserviceProject.Presentation.UI.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moderator;
 using MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moderator.Providers;

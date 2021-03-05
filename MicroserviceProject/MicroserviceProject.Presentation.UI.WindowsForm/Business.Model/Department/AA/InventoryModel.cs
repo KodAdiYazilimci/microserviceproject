@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MicroserviceProject.Presentation.UI.Business.Model.Department.AA
+namespace MicroserviceProject.Presentation.UI.WindowsForm.Business.Model.Department.AA
 {
     /// <summary>
     /// İdari işler envanterleri

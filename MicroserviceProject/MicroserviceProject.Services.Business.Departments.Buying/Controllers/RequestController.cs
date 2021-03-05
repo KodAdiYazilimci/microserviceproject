@@ -1,7 +1,9 @@
 ﻿
 using MicroserviceProject.Services.Business.Departments.Buying.Services;
 using MicroserviceProject.Services.Business.Departments.Buying.Util.Validation.Request.CreateInventoryRequest;
+using MicroserviceProject.Services.Business.Departments.Buying.Util.Validation.Request.ValidateCostInventory;
 using MicroserviceProject.Services.Model.Department.Buying;
+using MicroserviceProject.Services.Model.Department.Finance;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -53,6 +55,24 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Controllers
                 await CreateInventoryRequestValidator.ValidateAsync(requestModel, cancellationToken);
 
                 return await _requestService.CreateInventoryRequestAsync(requestModel, cancellationToken);
+            },
+            services: _requestService);
+        }
+
+        [HttpPost]
+        [Route(nameof(ValidateCostInventory))]
+        public async Task<IActionResult> ValidateCostInventory([FromBody] DecidedCostModel decidedCost, CancellationToken cancellationToken)
+        {
+            if (Request.Headers.ContainsKey("TransactionIdentity"))
+            {
+                _requestService.TransactionIdentity = Request.Headers["TransactionIdentity"].ToString();
+            }
+
+            return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
+            {
+                await ValidateCostInventoryValidator.ValidateAsync(decidedCost, cancellationToken);
+
+                return await _requestService.ValidateCostInventoryAsync(decidedCost, cancellationToken);
             },
             services: _requestService);
         }

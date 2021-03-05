@@ -7,6 +7,7 @@ using MicroserviceProject.Infrastructure.Routing.Providers;
 using MicroserviceProject.Services.Business.Departments.Buying.Entities.Sql;
 using MicroserviceProject.Services.Business.Departments.Buying.Repositories.Sql;
 using MicroserviceProject.Services.Model.Department.Buying;
+using MicroserviceProject.Services.Model.Department.Finance;
 using MicroserviceProject.Services.Transaction;
 using MicroserviceProject.Services.Transaction.Models;
 using MicroserviceProject.Services.Transaction.Types;
@@ -276,6 +277,24 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Services
             }
 
             return createdInventoryRequestId;
+        }
+
+        /// <summary>
+        /// Satın alınması planlanan envantere ait masrafın durumununu sonuçlandırır
+        /// </summary>
+        /// <param name="decidedCost">Satın alım kararına ait modelin nesnesi</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<int> ValidateCostInventoryAsync(DecidedCostModel decidedCost, CancellationToken cancellationToken)
+        {
+            if (decidedCost.Approved)
+            {
+                return await _inventoryRequestRepository.RevokeAsync(decidedCost.InventoryRequestId, cancellationToken);
+            }
+            else
+            {
+                return await _inventoryRequestRepository.UnRevokeAsync(decidedCost.InventoryRequestId, cancellationToken);
+            }
         }
 
         /// <summary>

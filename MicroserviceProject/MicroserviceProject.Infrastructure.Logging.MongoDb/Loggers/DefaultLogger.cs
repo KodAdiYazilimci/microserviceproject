@@ -24,7 +24,7 @@ namespace MicroserviceProject.Infrastructure.Logging.MongoDb.Loggers
         /// <summary>
         /// Logların yazılacağı MongoDB veritabanına ait yapılandırma
         /// </summary>
-        private readonly IMongoDbConfiguration _mongoDbConfiguration;
+        private IMongoDbConfiguration _mongoDbConfiguration;
 
         /// <summary>
         /// Herhangi bir TModel tipindeki logları MongoDB veritabanına yazan sınıf
@@ -76,8 +76,7 @@ namespace MicroserviceProject.Infrastructure.Logging.MongoDb.Loggers
             {
                 if (!disposed)
                 {
-                    if (_mongoDbConfiguration != null)
-                        _mongoDbConfiguration.Dispose();
+                    _mongoDbConfiguration = null;
                 }
 
                 disposed = true;

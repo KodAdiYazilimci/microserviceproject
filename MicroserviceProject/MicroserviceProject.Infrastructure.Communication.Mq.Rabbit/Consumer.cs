@@ -36,7 +36,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Mq.Rabbit
         /// <summary>
         /// Data modelini tüketmek için rabbit sunucusunun yapılandırma ayarları
         /// </summary>
-        private readonly IRabbitConfiguration _rabbitConfiguration;
+        private IRabbitConfiguration _rabbitConfiguration;
 
         /// <summary>
         /// Rabbit sunucusundaki dataları tüketecek varsayılan sınıf
@@ -103,11 +103,8 @@ namespace MicroserviceProject.Infrastructure.Communication.Mq.Rabbit
             {
                 if (!disposed)
                 {
-                    if (_rabbitConfiguration != null)
-                        _rabbitConfiguration.Dispose();
-
-                    if (OnConsumed != null)
-                        OnConsumed = null;
+                    _rabbitConfiguration = null;
+                    OnConsumed = null;
                 }
 
                 disposed = true;

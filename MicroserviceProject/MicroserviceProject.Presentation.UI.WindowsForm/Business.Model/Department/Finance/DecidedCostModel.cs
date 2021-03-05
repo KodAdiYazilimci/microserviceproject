@@ -1,4 +1,4 @@
-﻿using MicroserviceProject.Presentation.UI.Business.Model.Department.Buying;
+﻿using MicroserviceProject.Presentation.UI.WindowsForm.Business.Model.Department.Buying;
 
 namespace MicroserviceProject.Presentation.UI.WindowsForm.Business.Model.Department.Finance
 {

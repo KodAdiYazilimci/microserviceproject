@@ -1,4 +1,6 @@
-using MicroserviceProject.Services.MQ.Buying.Util.Consumers.Inventory;
+
+using MicroserviceProject.Services.MQ.Buying.Util.Consumers.Cost;
+using MicroserviceProject.Services.MQ.Buying.Util.Consumers.Request;
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
@@ -15,6 +17,11 @@ namespace MicroserviceProject.Services.MQ.Buying
                     (CreateInventoryRequestConsumer)host.Services.GetService(typeof(CreateInventoryRequestConsumer));
 
             createInventoryRequestConsumer.StartToConsume();
+
+            NotifyCostApprovementConsumer notifyCostApprovementConsumer =
+                (NotifyCostApprovementConsumer)host.Services.GetService(typeof(NotifyCostApprovementConsumer));
+
+            notifyCostApprovementConsumer.StartToConsume();
 
             host.Run();
         }

@@ -1,10 +1,10 @@
 ﻿
-using MicroserviceProject.Presentation.UI.Business.Model.Department.Accounting;
+using MicroserviceProject.Presentation.UI.WindowsForm.Business.Model.Department.Accounting;
 
 using System;
 using System.Collections.Generic;
 
-namespace MicroserviceProject.Presentation.UI.Business.Model.Department.HR
+namespace MicroserviceProject.Presentation.UI.WindowsForm.Business.Model.Department.HR
 {
     /// <summary>
     /// Çalışanlar

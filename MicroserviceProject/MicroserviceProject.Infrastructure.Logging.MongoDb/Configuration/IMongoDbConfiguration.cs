@@ -5,7 +5,7 @@ namespace MicroserviceProject.Infrastructure.Logging.MongoDb.Configuration
     /// <summary>
     /// MongoDB ye yazılacak logların yapılandırma arayüzü
     /// </summary>
-    public interface IMongoDbConfiguration : IDisposable
+    public interface IMongoDbConfiguration
     {
         /// <summary>
         /// MongoDB bağlantı cümlesi

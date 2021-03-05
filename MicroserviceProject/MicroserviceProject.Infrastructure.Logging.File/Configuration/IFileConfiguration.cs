@@ -6,7 +6,7 @@ namespace MicroserviceProject.Infrastructure.Logging.File.Configuration
     /// <summary>
     /// Dosyaya yazılacak logların yapılandırma arayüzü
     /// </summary>
-    public interface IFileConfiguration : IDisposable
+    public interface IFileConfiguration
     {
         /// <summary>
         /// Yazılacak log dosyasının konumu

@@ -1,4 +1,4 @@
-﻿namespace MicroserviceProject.Presentation.UI.Business.Model.Department.Accounting
+﻿namespace MicroserviceProject.Presentation.UI.WindowsForm.Business.Model.Department.Accounting
 {
     /// <summary>
     /// Para birimi

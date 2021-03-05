@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MicroserviceProject.Presentation.UI.Business.Model.Department.IT
+namespace MicroserviceProject.Presentation.UI.WindowsForm.Business.Model.Department.IT
 {
     /// <summary>
     /// IT envanterleri

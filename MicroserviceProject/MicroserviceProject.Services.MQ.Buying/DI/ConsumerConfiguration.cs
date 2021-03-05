@@ -1,6 +1,7 @@
 ﻿
 using MicroserviceProject.Services.Communication.Configuration.Rabbit.Buying;
-using MicroserviceProject.Services.MQ.Buying.Util.Consumers.Inventory;
+using MicroserviceProject.Services.MQ.Buying.Util.Consumers.Cost;
+using MicroserviceProject.Services.MQ.Buying.Util.Consumers.Request;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -19,8 +20,10 @@ namespace MicroserviceProject.Services.MQ.Buying.DI
         public static IServiceCollection RegisterConsumers(this IServiceCollection services)
         {
             services.AddSingleton<CreateInventoryRequestRabbitConfiguration>();
-            services.AddSingleton<CreateInventoryRequestConsumer>();
+            services.AddSingleton<NotifyCostApprovementRabbitConfiguration>();
 
+            services.AddSingleton<CreateInventoryRequestConsumer>();
+            services.AddSingleton<NotifyCostApprovementConsumer>();
 
             return services;
         }

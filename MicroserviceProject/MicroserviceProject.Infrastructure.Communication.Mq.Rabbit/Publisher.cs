@@ -25,7 +25,7 @@ namespace MicroserviceProject.Infrastructure.Logging.RabbitMq.Producers
         /// <summary>
         /// Data modelini üretmek için rabbit sunucusunun yapılandırma ayarları
         /// </summary>
-        private readonly IRabbitConfiguration _rabbitConfiguration;
+        private IRabbitConfiguration _rabbitConfiguration;
 
         /// <summary>
         /// Rabbit sunucusuna data üretecek varsayılan sınıf
@@ -86,8 +86,7 @@ namespace MicroserviceProject.Infrastructure.Logging.RabbitMq.Producers
             {
                 if (!disposed)
                 {
-                    if (_rabbitConfiguration != null)
-                        _rabbitConfiguration.Dispose();
+                    _rabbitConfiguration = null;
                 }
 
                 disposed = true;

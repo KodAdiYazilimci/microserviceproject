@@ -1,10 +1,9 @@
 ﻿using MicroserviceProject.Presentation.UI.Business.Model.Constants;
-using MicroserviceProject.Presentation.UI.Business.Model.Department.Buying;
-using MicroserviceProject.Presentation.UI.Business.Model.Department.HR;
 using MicroserviceProject.Presentation.UI.Infrastructure.Communication.Model.Basics;
-using MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moderator;
 using MicroserviceProject.Presentation.UI.Infrastructure.Communication.Moderator.Providers;
 using MicroserviceProject.Presentation.UI.Infrastructure.Persistence.Repositories;
+using MicroserviceProject.Presentation.UI.WindowsForm.Business.Model.Department.Buying;
+using MicroserviceProject.Presentation.UI.WindowsForm.Business.Model.Department.HR;
 using MicroserviceProject.Presentation.UI.WindowsForm.Infrastructure.Communication.Moderator;
 
 using Microsoft.Extensions.Caching.Memory;

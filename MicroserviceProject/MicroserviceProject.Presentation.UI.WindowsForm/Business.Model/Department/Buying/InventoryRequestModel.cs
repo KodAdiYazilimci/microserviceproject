@@ -1,4 +1,4 @@
-﻿namespace MicroserviceProject.Presentation.UI.Business.Model.Department.Buying
+﻿namespace MicroserviceProject.Presentation.UI.WindowsForm.Business.Model.Department.Buying
 {
     public class InventoryRequestModel
     {

@@ -23,7 +23,7 @@ namespace MicroserviceProject.Infrastructure.Logging.File.Loggers
         /// <summary>
         /// Yazılacak log dosyasının yapılandırması
         /// </summary>
-        private readonly IFileConfiguration _fileConfiguration;
+        private IFileConfiguration _fileConfiguration;
 
         /// <summary>
         /// Düz metin formatta log yazan sınıf
@@ -73,8 +73,7 @@ namespace MicroserviceProject.Infrastructure.Logging.File.Loggers
             {
                 if (!disposed)
                 {
-                    if (_fileConfiguration != null)
-                        _fileConfiguration.Dispose();
+                    _fileConfiguration = null;
                 }
 
                 disposed = true;

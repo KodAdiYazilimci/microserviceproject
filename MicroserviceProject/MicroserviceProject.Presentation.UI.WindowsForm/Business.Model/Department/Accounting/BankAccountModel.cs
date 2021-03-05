@@ -1,6 +1,6 @@
-﻿using MicroserviceProject.Presentation.UI.Business.Model.Department.HR;
+﻿using MicroserviceProject.Presentation.UI.WindowsForm.Business.Model.Department.HR;
 
-namespace MicroserviceProject.Presentation.UI.Business.Model.Department.Accounting
+namespace MicroserviceProject.Presentation.UI.WindowsForm.Business.Model.Department.Accounting
 {
     /// <summary>
     /// Banka hesapları

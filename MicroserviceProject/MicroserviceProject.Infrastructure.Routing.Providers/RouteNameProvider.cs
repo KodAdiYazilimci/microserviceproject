@@ -509,6 +509,22 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
         }
 
         /// <summary>
+        /// Satın alınması planlanan envantere ait masrafın sonuçlandırılmasını sağlar
+        /// </summary>
+        public string Buying_ValidateCostInventory
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("Buying")
+                    .GetSection("ValidateCostInventory").Value;
+            }
+        }
+
+        /// <summary>
         /// Finans departmanındaki karar verilen masrafları verir
         /// </summary>
         public string Finance_GetDecidedCosts

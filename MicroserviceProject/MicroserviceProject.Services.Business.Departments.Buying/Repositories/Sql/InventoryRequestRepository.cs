@@ -193,6 +193,50 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Repositories.
         }
 
         /// <summary>
+        /// Envanter talebine ait satın alınma durumunu olumlu olarak tanımlar
+        /// </summary>
+        /// <param name="inventoryRequestId">Envanter talebinin Id değeri</param>
+        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<int> RevokeAsync(int inventoryRequestId, CancellationToken cancellationToken)
+        {
+            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+                                                      SET REVOKED = 1, DONE = 1
+                                                      WHERE ID = @ID",
+                                                        UnitOfWork.SqlConnection,
+                                                        UnitOfWork.SqlTransaction)
+            {
+                Transaction = UnitOfWork.SqlTransaction
+            };
+
+            sqlCommand.Parameters.AddWithValue("@ID", inventoryRequestId);
+
+            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// Envanter talebine ait satın alınma durumunu olumsuz olarak tanımlar
+        /// </summary>
+        /// <param name="inventoryRequestId"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<int> UnRevokeAsync(int inventoryRequestId, CancellationToken cancellationToken)
+        {
+            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+                                                      SET REVOKED = 0, DONE = 1
+                                                      WHERE ID = @ID",
+                                               UnitOfWork.SqlConnection,
+                                               UnitOfWork.SqlTransaction)
+            {
+                Transaction = UnitOfWork.SqlTransaction
+            };
+
+            sqlCommand.Parameters.AddWithValue("@ID", inventoryRequestId);
+
+            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
+        }
+
+        /// <summary>
         /// Bir Id değerine sahip envanter talebini silindi olarak işaretler
         /// </summary>
         /// <param name="id">Silindi olarak işaretlenecek envanter talebinin Id değeri</param>
