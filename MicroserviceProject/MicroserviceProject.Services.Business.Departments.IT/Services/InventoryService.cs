@@ -487,12 +487,10 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Services
                     _transactionItemRepository.Dispose();
                     _transactionRepository.Dispose();
                     _workerInventoryRepository.Dispose();
-                    _unitOfWork.Dispose();
-                }
-
-                disposed = true;
-
-                Dispose();
+                    _unitOfWork.Dispose();  
+                    
+                    disposed = true;
+                }         
             }
         }
 

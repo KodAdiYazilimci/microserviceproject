@@ -43,12 +43,8 @@ namespace MicroserviceProject.Services.Communication.Configuration.Rabbit.IT
             {
                 if (!disposed)
                 {
-
+                    disposed = true;
                 }
-
-                disposed = true;
-
-                Dispose();
             }
         }
     }

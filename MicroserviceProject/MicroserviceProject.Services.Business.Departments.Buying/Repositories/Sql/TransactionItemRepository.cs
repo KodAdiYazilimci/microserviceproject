@@ -140,11 +140,9 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Repositories.
                 if (!disposed)
                 {
                     UnitOfWork.Dispose();
+
+                    disposed = true;
                 }
-
-                disposed = true;
-
-                Dispose();
             }
         }
 

@@ -433,12 +433,10 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Services
                     _transactionRepository.Dispose();
                     _unitOfWork.Dispose();
                     _AAInformInventoryRequestPublisher.Dispose();
-                    _ITInformInventoryRequestPublisher.Dispose();
+                    _ITInformInventoryRequestPublisher.Dispose(); 
+
+                    disposed = true;
                 }
-
-                disposed = true;
-
-                Dispose();
             }
         }
 
