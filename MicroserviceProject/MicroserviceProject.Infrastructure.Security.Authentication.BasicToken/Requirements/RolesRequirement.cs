@@ -10,13 +10,8 @@ namespace MicroserviceProject.Infrastructure.Security.Authentication.BasicToken.
     /// <summary>
     /// Kimliğe ait rol gereksinimini tanımlayan sınıf
     /// </summary>
-    public class RolesRequirement : IAuthorizationRequirement, IIdentifiable, IDisposable
+    public class RolesRequirement : IAuthorizationRequirement, IIdentifiable
     {
-        /// <summary>
-        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
-        /// </summary>
-        private bool disposed = false;
-
         /// <summary>
         /// Kimliğe ait rol gereksinimini tanımlayan sınıf
         /// </summary>
@@ -37,31 +32,5 @@ namespace MicroserviceProject.Infrastructure.Security.Authentication.BasicToken.
         /// Kimlik tanımayıcı
         /// </summary>
         public Guid Identifier { get; set; }
-
-        /// <summary>
-        /// Kaynakları serbest bırakır
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// Kaynakları serbest bırakır
-        /// </summary>
-        /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
-        public void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (!disposed)
-                {
-
-                }
-
-                disposed = true;
-            }
-        }
     }
 }

@@ -103,8 +103,8 @@ namespace MicroserviceProject.Infrastructure.Communication.Mq.Rabbit
             {
                 if (!disposed)
                 {
-                    _rabbitConfiguration = null;
-                    OnConsumed = null;
+                    if (OnConsumed != null)
+                        OnConsumed = null;
                 }
 
                 disposed = true;

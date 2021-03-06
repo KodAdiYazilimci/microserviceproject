@@ -24,13 +24,8 @@ namespace MicroserviceProject.Infrastructure.Security.Authentication.BasicToken.
     /// <summary>
     /// Kimlik doğrulama denetimi yapacak sınıf
     /// </summary>
-    public class MasterAuthentication : AuthenticationHandler<AuthenticationSchemeOptions>, IDisposable
+    public class MasterAuthentication : AuthenticationHandler<AuthenticationSchemeOptions>
     {
-        /// <summary>
-        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
-        /// </summary>
-        private bool disposed = false;
-
         /// <summary>
         /// Önbellekte tutulacak token bazlı kullanıcı oturumları için önbellek anahtarı
         /// </summary>
@@ -96,7 +91,7 @@ namespace MicroserviceProject.Infrastructure.Security.Authentication.BasicToken.
                 if (user != null)
                 {
                     return user;
-                }
+                }              
 
                 ServiceResultModel<User> serviceResult =
                     await
@@ -161,39 +156,6 @@ namespace MicroserviceProject.Infrastructure.Security.Authentication.BasicToken.
             }
 
             return null;
-        }
-
-        /// <summary>
-        /// Kaynakları serbest bırakır
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// Kaynakları serbest bırakır
-        /// </summary>
-        /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
-        public void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (!disposed)
-                {
-                    if (_memoryCache != null)
-                        _memoryCache.Dispose();
-
-                    if (_routeNameProvider != null)
-                        _routeNameProvider.Dispose();
-
-                    if (_serviceCommunicator != null)
-                        _serviceCommunicator.Dispose();
-                }
-
-                disposed = true;
-            }
         }
     }
 }
