@@ -16,7 +16,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Http.Providers
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
-        protected bool Disposed = false;
+        private bool disposed = false;
 
         /// <summary>
         /// Http isteği esnasında kullanılacak headerlar
@@ -92,7 +92,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Http.Providers
         {
             if (disposing)
             {
-                if (!Disposed)
+                if (!disposed)
                 {
                     if (Headers != null)
                     {
@@ -107,7 +107,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Http.Providers
                     }
                 }
 
-                Disposed = true;
+                disposed = true;
             }
         }
     }

@@ -22,7 +22,7 @@ namespace MicroserviceProject.Services.Logging.Loggers
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
-        protected bool Disposed = false;
+        private bool disposed = false;
 
         /// <summary>
         /// Log yazma işlemlerini yürütecek yönetici
@@ -69,13 +69,13 @@ namespace MicroserviceProject.Services.Logging.Loggers
         {
             if (disposing)
             {
-                if (!Disposed)
+                if (!disposed)
                 {
                     if (_logManager != null)
                         _logManager.Dispose();
                 }
 
-                Disposed = true;
+                disposed = true;
             }
         }
 

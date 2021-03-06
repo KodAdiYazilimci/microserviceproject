@@ -25,7 +25,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
-        protected bool Disposed = false;
+        private bool disposed = false;
 
         /// <summary>
         /// Çağrıda kullanılacak yetki tokenının önbellekteki adı
@@ -242,7 +242,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
         {
             if (disposing)
             {
-                if (!Disposed)
+                if (!disposed)
                 {
                     if (_credentialProvider != null)
                         _credentialProvider.Dispose();
@@ -254,7 +254,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                         _serviceRouteRepository.Dispose();
                 }
 
-                Disposed = true;
+                disposed = true;
             }
         }
     }

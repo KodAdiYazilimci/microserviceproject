@@ -16,7 +16,7 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Repositories.
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
-        protected bool Disposed = false;
+        private bool disposed = false;
 
         /// <summary>
         /// Veritabanı işlemlerini kapsayan iş birimi nesnesi
@@ -52,12 +52,12 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Repositories.
         {
             if (disposing)
             {
-                if (!Disposed)
+                if (!disposed)
                 {
                     UnitOfWork.Dispose();
                 }
 
-                Disposed = true;
+                disposed = true;
             }
         }
     }

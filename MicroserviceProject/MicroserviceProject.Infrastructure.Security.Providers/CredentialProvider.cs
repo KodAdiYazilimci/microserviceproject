@@ -12,7 +12,7 @@ namespace MicroserviceProject.Infrastructure.Security.Providers
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
-        protected bool Disposed = false;
+        private bool disposed = false;
 
         /// <summary>
         /// Kullanıcı bilgilerini getiren configuration
@@ -77,12 +77,12 @@ namespace MicroserviceProject.Infrastructure.Security.Providers
         {
             if (disposing)
             {
-                if (!Disposed)
+                if (!disposed)
                 {
 
                 }
 
-                Disposed = true;
+                disposed = true;
             }
         }
     }

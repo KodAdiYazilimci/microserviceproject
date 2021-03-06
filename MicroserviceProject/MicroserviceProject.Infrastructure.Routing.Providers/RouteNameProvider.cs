@@ -12,7 +12,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
-        protected bool Disposed = false;
+        private bool disposed = false;
 
         /// <summary>
         /// Endpoint isimlerini getiren configuration
@@ -621,12 +621,12 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
         {
             if (disposing)
             {
-                if (!Disposed)
+                if (!disposed)
                 {
 
                 }
 
-                Disposed = true;
+                disposed = true;
             }
         }
     }

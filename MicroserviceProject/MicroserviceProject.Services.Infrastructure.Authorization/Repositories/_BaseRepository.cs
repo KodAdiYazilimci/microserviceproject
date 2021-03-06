@@ -12,7 +12,7 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Persistence.
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
-        protected bool Disposed = false;
+        private bool disposed = false;
 
         /// <summary>
         /// Veritabanı bağlantı cümlesini getirecek configuration nesnesi
@@ -62,12 +62,12 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Persistence.
         {
             if (disposing)
             {
-                if (!Disposed)
+                if (!disposed)
                 {
 
                 }
 
-                Disposed = true;
+                disposed = true;
             }
         }
     }

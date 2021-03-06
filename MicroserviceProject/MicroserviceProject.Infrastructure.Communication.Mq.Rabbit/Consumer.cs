@@ -19,7 +19,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Mq.Rabbit
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
-        protected bool Disposed = false;
+        private bool disposed = false;
 
         /// <summary>
         /// Data tüketildiğinde ateşlenecek olayı handler ı
@@ -101,13 +101,13 @@ namespace MicroserviceProject.Infrastructure.Communication.Mq.Rabbit
         {
             if (disposing)
             {
-                if (!Disposed)
+                if (!disposed)
                 {
                     _rabbitConfiguration = null;
                     OnConsumed = null;
                 }
 
-                Disposed = true;
+                disposed = true;
             }
         }
     }

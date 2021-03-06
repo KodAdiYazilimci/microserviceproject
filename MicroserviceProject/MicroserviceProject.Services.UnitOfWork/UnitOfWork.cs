@@ -16,7 +16,7 @@ namespace MicroserviceProject.Services.UnitOfWork
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
-        protected bool Disposed = false;
+        private bool disposed = false;
 
         /// <summary>
         /// Repository yapılandırmaları için configuration nesnesi
@@ -107,7 +107,7 @@ namespace MicroserviceProject.Services.UnitOfWork
         {
             if (disposing)
             {
-                if (!Disposed)
+                if (!disposed)
                 {
                     if (sqlConnection != null)
                     {
@@ -128,7 +128,7 @@ namespace MicroserviceProject.Services.UnitOfWork
                     }
                 }
 
-                Disposed = true;
+                disposed = true;
             }
         }
 

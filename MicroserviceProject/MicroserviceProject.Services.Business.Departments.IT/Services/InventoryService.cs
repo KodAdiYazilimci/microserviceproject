@@ -26,6 +26,11 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Services
     public class InventoryService : BaseService, IRollbackableAsync<int>, IDisposable
     {
         /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
+        /// <summary>
         /// İçerisinde çalışılan servisin adı
         /// </summary>
         public override string ServiceName => "MicroserviceProject.Services.Business.Departments.IT.Services.InventoryService";
@@ -473,7 +478,7 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Services
         {
             if (disposing)
             {
-                if (!Disposed)
+                if (!disposed)
                 {
                     _cacheDataProvider.Dispose();
                     _inventoryRepository.Dispose();
@@ -484,7 +489,7 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Services
                     _workerInventoryRepository.Dispose();
                     _unitOfWork.Dispose();  
                     
-                    Disposed = true;
+                    disposed = true;
                 }         
             }
         }

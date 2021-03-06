@@ -17,6 +17,11 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositor
     public class CurrencyRepository : BaseRepository<CurrencyEntity>, IRollbackableDataAsync<int>, IDisposable
     {
         /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
+        /// <summary>
         /// Repositorynin ait olduğu tablonun adı
         /// </summary>
 
@@ -106,11 +111,11 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositor
         {
             if (disposing)
             {
-                if (!Disposed)
+                if (!disposed)
                 {
                     UnitOfWork.Dispose();
 
-                    Disposed = true;
+                    disposed = true;
                 }
             }
         }

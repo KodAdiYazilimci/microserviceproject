@@ -20,7 +20,7 @@ namespace MicroserviceProject.Infrastructure.Logging.RabbitMq.Producers
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
-        protected bool Disposed = false;
+        private bool disposed = false;
 
         /// <summary>
         /// Data modelini üretmek için rabbit sunucusunun yapılandırma ayarları
@@ -84,12 +84,12 @@ namespace MicroserviceProject.Infrastructure.Logging.RabbitMq.Producers
         {
             if (disposing)
             {
-                if (!Disposed)
+                if (!disposed)
                 {
                     _rabbitConfiguration = null;
                 }
 
-                Disposed = true;
+                disposed = true;
             }
         }
     }

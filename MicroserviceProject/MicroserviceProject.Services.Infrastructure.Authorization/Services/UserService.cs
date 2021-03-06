@@ -14,7 +14,7 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Business.Ser
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
-        protected bool Disposed = false;
+        private bool disposed = false;
 
         private readonly SessionRepository _sessionRepository;
         private readonly UserRepository _userRepository;
@@ -119,13 +119,13 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Business.Ser
         {
             if (disposing)
             {
-                if (!Disposed)
+                if (!disposed)
                 {
                     _sessionRepository.Dispose();
                     _userRepository.Dispose();
                 }
 
-                Disposed = true;
+                disposed = true;
             }
         }
     }

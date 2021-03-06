@@ -17,6 +17,11 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Repositories.Sql
     public class PendingWorkerInventoryRepository : BaseRepository<PendingWorkerInventoryEntity>, IRollbackableDataAsync<int>, IDisposable
     {
         /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
+        /// <summary>
         /// Repositorynin ait olduğu tablonun adı
         /// </summary>
 
@@ -132,11 +137,11 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Repositories.Sql
         {
             if (disposing)
             {
-                if (!Disposed)
+                if (!disposed)
                 {
                     UnitOfWork.Dispose();
 
-                    Disposed = true;
+                    disposed = true;
                 }
             }
         }

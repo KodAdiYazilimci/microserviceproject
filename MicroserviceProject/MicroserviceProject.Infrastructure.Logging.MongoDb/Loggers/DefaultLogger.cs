@@ -19,7 +19,7 @@ namespace MicroserviceProject.Infrastructure.Logging.MongoDb.Loggers
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
-        protected bool Disposed = false;
+        private bool disposed = false;
 
         /// <summary>
         /// Logların yazılacağı MongoDB veritabanına ait yapılandırma
@@ -74,12 +74,12 @@ namespace MicroserviceProject.Infrastructure.Logging.MongoDb.Loggers
         {
             if (disposing)
             {
-                if (!Disposed)
+                if (!disposed)
                 {
                     _mongoDbConfiguration = null;
                 }
 
-                Disposed = true;
+                disposed = true;
             }
         }
     }

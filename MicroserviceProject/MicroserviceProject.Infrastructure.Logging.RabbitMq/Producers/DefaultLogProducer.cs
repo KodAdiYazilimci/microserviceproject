@@ -20,6 +20,11 @@ namespace MicroserviceProject.Infrastructure.Logging.RabbitMq.Producers
     public class DefaultLogProducer<TModel> : Publisher<TModel>, ILogger<TModel>, IDisposable where TModel : BaseLogModel, new()
     {
         /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
+        /// <summary>
         /// Rabbit sunucusuna log üretecek varsayılan sınıf
         /// </summary>
         /// <param name="rabbitConfiguration">Log modelini üretmek için rabbit sunucusunun yapılandırma ayarları</param>
@@ -46,9 +51,9 @@ namespace MicroserviceProject.Infrastructure.Logging.RabbitMq.Producers
         {
             if (disposing)
             {
-                if (!Disposed)
+                if (!disposed)
                 {
-                    Disposed = true;
+                    disposed = true;
                 }
             }
         }

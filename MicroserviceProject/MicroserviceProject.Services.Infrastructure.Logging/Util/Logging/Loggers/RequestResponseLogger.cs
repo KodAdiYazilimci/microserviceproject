@@ -22,7 +22,7 @@ namespace MicroserviceProject.Services.Infrastructure.Logging.Util.Logging.Logge
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
-        protected bool Disposed = false;
+        private bool disposed = false;
 
         /// <summary>
         /// Log yazma yönetimini gerçekleştiren sınıf
@@ -78,12 +78,12 @@ namespace MicroserviceProject.Services.Infrastructure.Logging.Util.Logging.Logge
         {
             if (disposing)
             {
-                if (!Disposed)
+                if (!disposed)
                 {
                     _logManager.Dispose();
                 }
 
-                Disposed = true;
+                disposed = true;
             }
         }
     }

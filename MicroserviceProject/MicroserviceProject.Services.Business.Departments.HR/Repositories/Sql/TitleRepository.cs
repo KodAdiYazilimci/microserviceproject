@@ -17,6 +17,11 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
     public class TitleRepository : BaseRepository<TitleEntity>, IRollbackableDataAsync<int>, IDisposable
     {
         /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
+        /// <summary>
         /// Repositorynin ait olduğu tablonun adı
         /// </summary>
         public const string TABLE_NAME = "[dbo].[HR_TITLES]";
@@ -100,11 +105,11 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
         {
             if (disposing)
             {
-                if (!Disposed)
+                if (!disposed)
                 {
                     UnitOfWork.Dispose();
 
-                    Disposed = true;
+                    disposed = true;
                 }
             }
         }

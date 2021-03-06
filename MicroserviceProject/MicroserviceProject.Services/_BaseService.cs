@@ -11,7 +11,7 @@ namespace MicroserviceProject.Services
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
-        protected bool Disposed = false;
+        private bool disposed = false;
 
         /// <summary>
         /// İşlem kimliği
@@ -60,12 +60,12 @@ namespace MicroserviceProject.Services
         {
             if (disposing)
             {
-                if (!Disposed)
+                if (!disposed)
                 {
                     TransactionIdentity = string.Empty;
                 }
 
-                Disposed = true;
+                disposed = true;
             }
         }
     }

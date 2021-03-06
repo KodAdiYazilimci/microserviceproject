@@ -17,6 +17,11 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositor
     public class SalaryPaymentRepository : BaseRepository<SalaryPaymentEntity>, IRollbackableDataAsync<int>, IDisposable
     {
         /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
+        /// <summary>
         /// Repositorynin ait olduğu tablonun adı
         /// </summary>
         public const string TABLE_NAME = "[dbo].[ACCOUNTING_SALARY_PAYMENTS]";
@@ -158,11 +163,11 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositor
         {
             if (disposing)
             {
-                if (!Disposed)
+                if (!disposed)
                 {
                     UnitOfWork.Dispose();
 
-                    Disposed = true;
+                    disposed = true;
                 }
             }
         }

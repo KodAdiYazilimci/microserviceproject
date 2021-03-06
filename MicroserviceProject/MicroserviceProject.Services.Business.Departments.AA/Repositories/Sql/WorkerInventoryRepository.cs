@@ -17,6 +17,11 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Repositories.Sql
     public class WorkerInventoryRepository : BaseRepository<WorkerInventoryEntity>, IRollbackableDataAsync<int>, IDisposable
     {
         /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
+        /// <summary>
         /// Repositorynin ait olduğu tablonun adı
         /// </summary>
 
@@ -119,15 +124,15 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Repositories.Sql
         /// Kaynakları serbest bırakır
         /// </summary>
         /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
-        public override void Dispose(bool disposing)
+        public virtual void Dispose(bool disposing)
         {
             if (disposing)
             {
-                if (!Disposed)
+                if (!disposed)
                 {
                     UnitOfWork.Dispose();
 
-                    Disposed = true;
+                    disposed = true;
                 }
             }
         }

@@ -20,7 +20,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Persistence.Repositories.Sq
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
-        protected bool Disposed = false;
+        private bool disposed = false;
 
         /// <summary>
         /// Veritabanı bağlantı cümlesini sağlayacak connection nesnesi
@@ -244,12 +244,12 @@ namespace MicroserviceProject.Infrastructure.Routing.Persistence.Repositories.Sq
         {
             if (disposing)
             {
-                if (!Disposed)
+                if (!disposed)
                 {
 
                 }
 
-                Disposed = true;
+                disposed = true;
             }
         }
     }

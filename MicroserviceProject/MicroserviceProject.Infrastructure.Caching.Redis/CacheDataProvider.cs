@@ -18,7 +18,7 @@ namespace MicroserviceProject.Infrastructure.Caching.Redis
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
-        protected bool Disposed = false;
+        private bool disposed = false;
 
         /// <summary>
         /// Yapılandırma ayarları için configuration nesnesi
@@ -183,12 +183,12 @@ namespace MicroserviceProject.Infrastructure.Caching.Redis
         {
             if (disposing)
             {
-                if (!Disposed)
+                if (!disposed)
                 {
 
                 }
 
-                Disposed = true;
+                disposed = true;
             }
         }
     }

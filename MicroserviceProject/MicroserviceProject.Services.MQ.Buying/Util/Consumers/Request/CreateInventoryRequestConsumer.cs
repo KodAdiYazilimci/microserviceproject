@@ -18,7 +18,7 @@ namespace MicroserviceProject.Services.MQ.Buying.Util.Consumers.Request
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
-        protected bool Disposed = false;
+        private bool disposed = false;
 
         /// <summary>
         /// Rabbit kuyruğuyla iletişim kuracak tüketici sınıf
@@ -89,14 +89,14 @@ namespace MicroserviceProject.Services.MQ.Buying.Util.Consumers.Request
         {
             if (disposing)
             {
-                if (!Disposed)
+                if (!disposed)
                 {
                     _consumer.Dispose();
                     _routeNameProvider.Dispose();
                     _serviceCommunicator.Dispose();
                 }
 
-                Disposed = true;
+                disposed = true;
             }
         }
     }

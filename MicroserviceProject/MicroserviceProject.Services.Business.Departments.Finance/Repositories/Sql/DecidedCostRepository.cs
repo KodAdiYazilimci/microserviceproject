@@ -17,6 +17,11 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Repositories
     public class DecidedCostRepository : BaseRepository<DecidedCostEntity>, IRollbackableDataAsync<int>, IDisposable
     {
         /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
+        /// <summary>
         /// Repositorynin ait olduğu tablonun adı
         /// </summary>
         public const string TABLE_NAME = "[dbo].[FINANCE_DECIDED_COSTS]";
@@ -111,11 +116,11 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Repositories
         {
             if (disposing)
             {
-                if (!Disposed)
+                if (!disposed)
                 {
                     UnitOfWork.Dispose();
 
-                    Disposed = true;
+                    disposed = true;
                 }
             }
         }

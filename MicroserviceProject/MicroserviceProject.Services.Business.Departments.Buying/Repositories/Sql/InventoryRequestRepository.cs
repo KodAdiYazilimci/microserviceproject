@@ -18,6 +18,11 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Repositories.
     public class InventoryRequestRepository : BaseRepository<InventoryRequestEntity>, IRollbackableDataAsync<int>, IDisposable
     {
         /// <summary>
+        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
+        /// </summary>
+        private bool disposed = false;
+
+        /// <summary>
         /// Repositorynin ait olduğu tablonun adı
         /// </summary>
         public const string TABLE_NAME = "[dbo].[BUYING_INVENTORY_REQUESTS]";
@@ -123,11 +128,11 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Repositories.
         {
             if (disposing)
             {
-                if (!Disposed)
+                if (!disposed)
                 {
                     UnitOfWork.Dispose();
 
-                    Disposed = true;
+                    disposed = true;
                 }
             }
         }
