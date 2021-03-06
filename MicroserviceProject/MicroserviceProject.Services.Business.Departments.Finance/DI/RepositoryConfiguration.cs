@@ -18,6 +18,8 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.DI
         /// <returns></returns>
         public static IServiceCollection RegisterRepositories(this IServiceCollection services)
         {
+            services.AddScoped<DecidedCostRepository>();
+
             services.AddScoped<TransactionRepository>();
             services.AddScoped<TransactionItemRepository>();
 
