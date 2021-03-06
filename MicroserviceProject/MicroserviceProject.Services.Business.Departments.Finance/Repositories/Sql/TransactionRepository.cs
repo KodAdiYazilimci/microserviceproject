@@ -16,11 +16,6 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Repositories
     public class TransactionRepository : BaseRepository<RollbackEntity>, IDisposable
     {
         /// <summary>
-        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
-        /// </summary>
-        private bool disposed = false;
-
-        /// <summary>
         /// Repositorynin ait olduğu tablonun adı
         /// </summary>
         public const string TABLE_NAME = "[dbo].[BUYING_TRANSACTIONS]";
@@ -120,11 +115,11 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Repositories
         {
             if (disposing)
             {
-                if (!disposed)
+                if (!Disposed)
                 {
                     UnitOfWork.Dispose();
 
-                    disposed = true;
+                    Disposed = true;
                 }
             }
         }

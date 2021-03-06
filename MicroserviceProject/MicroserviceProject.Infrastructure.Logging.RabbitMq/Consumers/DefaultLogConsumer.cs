@@ -19,11 +19,6 @@ namespace MicroserviceProject.Infrastructure.Logging.RabbitMq.Consumers
     public class DefaultLogConsumer<TModel> : Consumer<TModel>, IDisposable where TModel : BaseLogModel, new()
     {
         /// <summary>
-        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
-        /// </summary>
-        private bool disposed = false;
-
-        /// <summary>
         /// Rabbit sunucusundaki logları tüketecek varsayılan sınıf
         /// </summary>
         /// <param name="rabbitConfiguration">Log modelini tüketmek için rabbit sunucusunun yapılandırma ayarları</param>
@@ -39,9 +34,9 @@ namespace MicroserviceProject.Infrastructure.Logging.RabbitMq.Consumers
         {
             if (disposing)
             {
-                if (!disposed)
+                if (!Disposed)
                 {
-                    disposed = true;
+                    Disposed = true;
                 }
             }
         }

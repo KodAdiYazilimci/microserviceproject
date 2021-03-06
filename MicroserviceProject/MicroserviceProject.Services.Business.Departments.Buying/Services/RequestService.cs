@@ -28,11 +28,6 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Services
     public class RequestService : BaseService, IRollbackableAsync<int>, IDisposable
     {
         /// <summary>
-        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
-        /// </summary>
-        private bool disposed = false;
-
-        /// <summary>
         /// İçerisinde çalışılan servisin adı
         /// </summary>
         public override string ServiceName => "MicroserviceProject.Services.Business.Departments.Buying.Services.RequestService";
@@ -425,7 +420,7 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Services
         {
             if (disposing)
             {
-                if (!disposed)
+                if (!Disposed)
                 {
                     _cacheDataProvider.Dispose();
                     _inventoryRequestRepository.Dispose();
@@ -435,7 +430,7 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Services
                     _AAInformInventoryRequestPublisher.Dispose();
                     _ITInformInventoryRequestPublisher.Dispose(); 
 
-                    disposed = true;
+                    Disposed = true;
                 }
             }
         }

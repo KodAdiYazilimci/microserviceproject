@@ -14,7 +14,7 @@ namespace MicroserviceProject.Services.Logging.Configuration
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
-        private bool disposed = false;
+        protected bool Disposed = false;
 
         /// <summary>
         /// Request-response log ayarlarının çekileceği configuration
@@ -103,7 +103,7 @@ namespace MicroserviceProject.Services.Logging.Configuration
         {
             if (disposing)
             {
-                if (!disposed)
+                if (!Disposed)
                 {
                     Host = string.Empty;
                     UserName = string.Empty;
@@ -111,7 +111,7 @@ namespace MicroserviceProject.Services.Logging.Configuration
                     QueueName = string.Empty;
                 }
 
-                disposed = true;
+                Disposed = true;
             }
         }
     }

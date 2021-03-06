@@ -15,7 +15,7 @@ namespace MicroserviceProject.Services.Logging.Configuration
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
-        private bool disposed = false;
+        protected bool Disposed = false;
 
         /// <summary>
         /// Request-response logları için rabbit sunucusunun yapılandırma ayarları
@@ -79,14 +79,14 @@ namespace MicroserviceProject.Services.Logging.Configuration
         {
             if (disposing)
             {
-                if (!disposed)
+                if (!Disposed)
                 {
                     Path = string.Empty;
                     FileName = string.Empty;
                     Encoding = null;
                 }
 
-                disposed = true;
+                Disposed = true;
             }
         }
     }

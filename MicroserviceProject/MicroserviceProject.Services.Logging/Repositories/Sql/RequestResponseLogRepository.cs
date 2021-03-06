@@ -19,7 +19,7 @@ namespace MicroserviceProject.Services.Logging.Repositories.Sql
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
-        private bool disposed = false;
+        protected bool Disposed = false;
 
         /// <summary>
         /// Veritabanı bağlantı cümlesini verecek configuration nesnesi
@@ -169,12 +169,12 @@ namespace MicroserviceProject.Services.Logging.Repositories.Sql
         {
             if (disposing)
             {
-                if (!disposed)
+                if (!Disposed)
                 {
 
                 }
 
-                disposed = true;
+                Disposed = true;
             }
         }
     }

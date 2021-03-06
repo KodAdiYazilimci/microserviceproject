@@ -16,7 +16,7 @@ namespace MicroserviceProject.Services.Communication.Publishers
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
-        private bool disposed = false;
+        protected bool Disposed = false;
 
         /// <summary>
         /// Data üretici sınıfın nesnesi
@@ -59,7 +59,7 @@ namespace MicroserviceProject.Services.Communication.Publishers
         {
             if (disposing)
             {
-                if (!disposed)
+                if (!Disposed)
                 {
                     if (_publisher != null)
                     {
@@ -68,7 +68,7 @@ namespace MicroserviceProject.Services.Communication.Publishers
                     }
                 }
 
-                disposed = true;
+                Disposed = true;
             }
         }
     }

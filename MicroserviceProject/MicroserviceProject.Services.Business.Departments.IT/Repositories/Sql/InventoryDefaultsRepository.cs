@@ -16,11 +16,6 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Repositories.Sql
     public class InventoryDefaultsRepository : BaseRepository<InventoryDefaultsEntity>, IDisposable
     {
         /// <summary>
-        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
-        /// </summary>
-        private bool disposed = false;
-
-        /// <summary>
         /// Repositorynin ait olduğu tablonun adı
         /// </summary>
         public const string TABLE_NAME = "[dbo].[IT_INVENTORIES_DEFAULTS]";
@@ -115,11 +110,11 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Repositories.Sql
         {
             if (disposing)
             {
-                if (!disposed)
+                if (!Disposed)
                 {
                     UnitOfWork.Dispose();
 
-                    disposed = true;
+                    Disposed = true;
                 }
             }
         }

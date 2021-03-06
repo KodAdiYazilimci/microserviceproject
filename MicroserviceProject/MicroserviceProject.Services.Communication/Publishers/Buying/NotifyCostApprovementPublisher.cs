@@ -11,11 +11,6 @@ namespace MicroserviceProject.Services.Communication.Publishers.Buying
     public class NotifyCostApprovementPublisher : BasePublisher<DecidedCostModel>, IDisposable
     {
         /// <summary>
-        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
-        /// </summary>
-        private bool disposed = false;
-
-        /// <summary>
         /// Satın alınması istenilen envanterlere ait kararları rabbit kuyruğuna ekler
         /// </summary>
         /// <param name="rabbitConfiguration">Kuyruk ayarlarını verece configuration nesnesi</param>
@@ -34,9 +29,9 @@ namespace MicroserviceProject.Services.Communication.Publishers.Buying
         {
             if (disposing)
             {
-                if (!disposed)
+                if (!Disposed)
                 {
-                    disposed = true;
+                    Disposed = true;
                 }
             }
         }

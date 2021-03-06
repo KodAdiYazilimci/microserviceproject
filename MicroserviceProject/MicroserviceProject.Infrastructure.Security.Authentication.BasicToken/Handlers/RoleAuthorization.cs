@@ -21,7 +21,7 @@ namespace MicroserviceProject.Infrastructure.Security.Authentication.BasicToken.
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
-        private bool disposed = false;
+        protected bool Disposed = false;
 
         /// <summary>
         /// Rol denetimi yapar
@@ -113,12 +113,12 @@ namespace MicroserviceProject.Infrastructure.Security.Authentication.BasicToken.
         {
             if (disposing)
             {
-                if (!disposed)
+                if (!Disposed)
                 {
 
                 }
 
-                disposed = true;
+                Disposed = true;
             }
         }
     }

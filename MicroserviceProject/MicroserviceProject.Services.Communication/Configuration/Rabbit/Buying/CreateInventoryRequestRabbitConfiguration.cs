@@ -11,11 +11,6 @@ namespace MicroserviceProject.Services.Communication.Configuration.Rabbit.Buying
     public class CreateInventoryRequestRabbitConfiguration : BaseConfiguration, IDisposable
     {
         /// <summary>
-        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
-        /// </summary>
-        private bool disposed = false;
-
-        /// <summary>
         /// Satınalma departmanına alınması istenilen envanter talepleri için yapılandırma sınıfı
         /// <paramref name="configuration">Ayarların okunacağı configuration nesnesi</paramref>
         /// </summary>
@@ -41,9 +36,9 @@ namespace MicroserviceProject.Services.Communication.Configuration.Rabbit.Buying
         {
             if (disposing)
             {
-                if (!disposed)
+                if (!Disposed)
                 {
-                    disposed = true;
+                    Disposed = true;
                 }
             }
         }

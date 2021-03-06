@@ -18,11 +18,6 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Persistence.
     public class UserRepository : BaseRepository, IDisposable
     {
         /// <summary>
-        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
-        /// </summary>
-        private bool disposed = false;
-
-        /// <summary>
         /// Kullanıcı repository sınıfı
         /// </summary>
         /// <param name="connectionString">Veritabanı bağlantı cümlesini getirecek configuration nesnesi</param>
@@ -355,9 +350,9 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Persistence.
         {
             if (disposing)
             {
-                if (!disposed)
+                if (!Disposed)
                 {
-                    disposed = true;
+                    Disposed = true;
                 }
             }
         }

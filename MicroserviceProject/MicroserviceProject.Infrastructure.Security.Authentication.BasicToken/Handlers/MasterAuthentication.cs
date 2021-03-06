@@ -29,7 +29,7 @@ namespace MicroserviceProject.Infrastructure.Security.Authentication.BasicToken.
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
-        private bool disposed = false;
+        protected bool Disposed = false;
 
         /// <summary>
         /// Önbellekte tutulacak token bazlı kullanıcı oturumları için önbellek anahtarı
@@ -180,7 +180,7 @@ namespace MicroserviceProject.Infrastructure.Security.Authentication.BasicToken.
         {
             if (disposing)
             {
-                if (!disposed)
+                if (!Disposed)
                 {
                     if (_memoryCache != null)
                         _memoryCache.Dispose();
@@ -192,7 +192,7 @@ namespace MicroserviceProject.Infrastructure.Security.Authentication.BasicToken.
                         _serviceCommunicator.Dispose();
                 }
 
-                disposed = true;
+                Disposed = true;
             }
         }
     }

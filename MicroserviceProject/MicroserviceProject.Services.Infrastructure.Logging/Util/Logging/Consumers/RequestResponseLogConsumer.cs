@@ -19,7 +19,7 @@ namespace MicroserviceProject.Services.Infrastructure.Logging.Util.Logging.Consu
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
-        private bool disposed = false;
+        protected bool Disposed = false;
 
         /// <summary>
         /// Request-response logları çekebilmek için rabbit sunucusunun yapılandırma ayarları
@@ -80,13 +80,13 @@ namespace MicroserviceProject.Services.Infrastructure.Logging.Util.Logging.Consu
         {
             if (disposing)
             {
-                if (!disposed)
+                if (!Disposed)
                 {
                     _defaultLogProducer.Dispose();
                     _requestResponseRepository.Dispose();
                 }
 
-                disposed = true;
+                Disposed = true;
             }
         }
     }

@@ -18,7 +18,7 @@ namespace MicroserviceProject.Infrastructure.Logging.File.Loggers
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
-        private bool disposed = false;
+        protected bool Disposed = false;
 
         /// <summary>
         /// Yazılacak log dosyasının yapılandırması
@@ -71,12 +71,12 @@ namespace MicroserviceProject.Infrastructure.Logging.File.Loggers
         {
             if (disposing)
             {
-                if (!disposed)
+                if (!Disposed)
                 {
                     _fileConfiguration = null;
                 }
 
-                disposed = true;
+                Disposed = true;
             }
         }
     }

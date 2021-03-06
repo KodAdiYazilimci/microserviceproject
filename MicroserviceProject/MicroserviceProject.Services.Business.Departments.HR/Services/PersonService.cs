@@ -30,11 +30,6 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
     public class PersonService : BaseService, IRollbackableAsync<int>, IDisposable
     {
         /// <summary>
-        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
-        /// </summary>
-        private bool disposed = false;
-
-        /// <summary>
         /// İşlem sürecinde adı geçecek modül adı
         /// </summary>
         public override string ServiceName => "MicroserviceProject.Services.Business.Departments.HR.Services.PersonService";
@@ -491,7 +486,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
         {
             if (disposing)
             {
-                if (!disposed)
+                if (!Disposed)
                 {
                     _cacheDataProvider.Dispose();
                     _personRepository.Dispose();
@@ -503,7 +498,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                     _workerRepository.Dispose();
                     _unitOfWork.Dispose();
 
-                    disposed = true;
+                    Disposed = true;
                 }
             }
         }

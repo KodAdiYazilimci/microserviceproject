@@ -10,11 +10,6 @@ namespace MicroserviceProject.Services.Communication.Publishers.Account
     public class CreateBankAccountPublisher : BasePublisher<BankAccountModel>, IDisposable
     {
         /// <summary>
-        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
-        /// </summary>
-        private bool disposed = false;
-
-        /// <summary>
         /// Çalışana maaş hesabı açan rabbit kuyruğuna yeni bir kayıt ekler
         /// </summary>
         /// <param name="rabbitConfiguration">Kuyruk ayarlarını verece configuration nesnesi</param>
@@ -33,9 +28,9 @@ namespace MicroserviceProject.Services.Communication.Publishers.Account
         {
             if (disposing)
             {
-                if (!disposed)
+                if (!Disposed)
                 {
-                    disposed = true;
+                    Disposed = true;
                 }
             }
         }

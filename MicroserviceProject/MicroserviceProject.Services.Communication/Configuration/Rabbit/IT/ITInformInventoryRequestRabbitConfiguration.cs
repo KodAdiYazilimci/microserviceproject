@@ -11,11 +11,6 @@ namespace MicroserviceProject.Services.Communication.Configuration.Rabbit.IT
     public class ITInformInventoryRequestRabbitConfiguration : BaseConfiguration, IDisposable
     {
         /// <summary>
-        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
-        /// </summary>
-        private bool disposed = false;
-
-        /// <summary>
         /// Envanter talebiyle ilgili satınalma sonucunu rabbit kuyruğundan almak için yapılandırma sınıfı
         /// <paramref name="configuration">Ayarların okunacağı configuration nesnesi</paramref>
         /// </summary>
@@ -41,9 +36,9 @@ namespace MicroserviceProject.Services.Communication.Configuration.Rabbit.IT
         {
             if (disposing)
             {
-                if (!disposed)
+                if (!Disposed)
                 {
-                    disposed = true;
+                    Disposed = true;
                 }
             }
         }

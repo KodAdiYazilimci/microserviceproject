@@ -28,11 +28,6 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Services
     public class CostService : BaseService, IRollbackableAsync<int>, IDisposable
     {
         /// <summary>
-        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
-        /// </summary>
-        private bool disposed = false;
-
-        /// <summary>
         /// İçerisinde çalışılan servisin adı
         /// </summary>
         public override string ServiceName => "MicroserviceProject.Services.Business.Departments.Finance.Services.CostService";
@@ -328,7 +323,7 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Services
         {
             if (disposing)
             {
-                if (!disposed)
+                if (!Disposed)
                 {
                     _cacheDataProvider.Dispose();
                     _decidedCostRepository.Dispose();
@@ -336,7 +331,7 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Services
                     _transactionRepository.Dispose();
                     _unitOfWork.Dispose();
 
-                    disposed = true;
+                    Disposed = true;
                 }
             }
         }

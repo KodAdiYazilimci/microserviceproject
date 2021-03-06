@@ -23,11 +23,6 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Services
     public class BankService : BaseService, IRollbackableAsync<int>, IDisposable
     {
         /// <summary>
-        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
-        /// </summary>
-        private bool disposed = false;
-
-        /// <summary>
         /// İçerisinde çalışılan servisin adı
         /// </summary>
         public override string ServiceName => "MicroserviceProject.Services.Business.Departments.Accounting.Services.BankService";
@@ -288,7 +283,7 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Services
         {
             if (disposing)
             {
-                if (!disposed)
+                if (!Disposed)
                 {
                     _cacheDataProvider.Dispose();
                     _bankAccountRepository.Dispose();
@@ -298,7 +293,7 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Services
                     _transactionRepository.Dispose();
                     _unitOfWork.Dispose();
 
-                    disposed = true;
+                    Disposed = true;
                 }
             }
         }

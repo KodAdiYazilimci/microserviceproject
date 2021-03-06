@@ -26,7 +26,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
-        private bool disposed = false;
+        protected bool Disposed = false;
 
         /// <summary>
         /// Servis bilgisinin önbellekte tutulacak isminin ön eki
@@ -428,7 +428,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
         {
             if (disposing)
             {
-                if (!disposed)
+                if (!Disposed)
                 {
                     if (_memoryCache != null)
                         _memoryCache.Dispose();
@@ -437,7 +437,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                         OnNoServiceFoundInCacheAsync = null;
                 }
 
-                disposed = true;
+                Disposed = true;
             }
         }
     }

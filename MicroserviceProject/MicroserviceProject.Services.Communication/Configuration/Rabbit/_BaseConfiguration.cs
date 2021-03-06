@@ -14,7 +14,7 @@ namespace MicroserviceProject.Services.Communication.Configuration.Rabbit
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
-        private bool disposed = false;
+        protected bool Disposed = false;
 
         /// <summary>
         /// Rabbit kuyrukları için temel yapılandırma sınıfı
@@ -79,7 +79,7 @@ namespace MicroserviceProject.Services.Communication.Configuration.Rabbit
         {
             if (disposing)
             {
-                if (!disposed)
+                if (!Disposed)
                 {
                     Host = string.Empty;
                     UserName = string.Empty;
@@ -87,7 +87,7 @@ namespace MicroserviceProject.Services.Communication.Configuration.Rabbit
                     QueueName = string.Empty;
                 }
 
-                disposed = true;
+                Disposed = true;
             }
         }
     }

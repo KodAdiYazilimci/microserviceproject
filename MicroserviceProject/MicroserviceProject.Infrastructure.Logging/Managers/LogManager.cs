@@ -17,7 +17,7 @@ namespace MicroserviceProject.Infrastructure.Logging.Managers
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
-        private bool disposed = false;
+        protected bool Disposed = false;
 
         /// <summary>
         /// Log yazacak logger sınıfları
@@ -48,9 +48,9 @@ namespace MicroserviceProject.Infrastructure.Logging.Managers
         /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
         public void Dispose(bool disposing)
         {
-            if (disposed)
+            if (Disposed)
             {
-                if (!disposed)
+                if (!Disposed)
                 {
                     if (_loggers != null)
                     {
@@ -58,7 +58,7 @@ namespace MicroserviceProject.Infrastructure.Logging.Managers
                     }
                 }
 
-                disposed = true;
+                Disposed = true;
             }
         }
 

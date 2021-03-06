@@ -14,11 +14,6 @@ namespace MicroserviceProject.Infrastructure.Communication.Http.Providers
     public class HttpGetProvider : BaseProvider, IDisposable
     {
         /// <summary>
-        /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
-        /// </summary>
-        private bool disposed = false;
-
-        /// <summary>
         /// Http get isteği gönderir
         /// </summary>
         /// <typeparam name="TResult">Http isteğinden dönecek yanıtın tipi</typeparam>
@@ -55,7 +50,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Http.Providers
         {
             if (disposing)
             {
-                if (!disposed)
+                if (!Disposed)
                 {
                     if (Headers != null)
                     {
@@ -70,7 +65,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Http.Providers
                     }
                 }
 
-                disposed = true;
+                Disposed = true;
             }
 
             base.Dispose();
