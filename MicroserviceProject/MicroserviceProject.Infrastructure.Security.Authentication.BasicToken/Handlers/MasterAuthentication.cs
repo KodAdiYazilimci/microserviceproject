@@ -182,9 +182,6 @@ namespace MicroserviceProject.Infrastructure.Security.Authentication.BasicToken.
             {
                 if (!Disposed)
                 {
-                    if (_memoryCache != null)
-                        _memoryCache.Dispose();
-
                     if (_routeNameProvider != null)
                         _routeNameProvider.Dispose();
 

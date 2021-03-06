@@ -430,9 +430,6 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
             {
                 if (!Disposed)
                 {
-                    if (_memoryCache != null)
-                        _memoryCache.Dispose();
-
                     if (OnNoServiceFoundInCacheAsync != null)
                         OnNoServiceFoundInCacheAsync = null;
                 }

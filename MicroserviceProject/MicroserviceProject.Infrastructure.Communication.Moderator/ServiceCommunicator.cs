@@ -247,9 +247,6 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                     if (_credentialProvider != null)
                         _credentialProvider.Dispose();
 
-                    if (_memoryCache != null)
-                        _memoryCache.Dispose();
-
                     if (_routeNameProvider != null)
                         _routeNameProvider.Dispose();
 
