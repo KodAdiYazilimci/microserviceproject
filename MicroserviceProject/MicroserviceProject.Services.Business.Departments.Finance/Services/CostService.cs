@@ -335,9 +335,11 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Services
                     _transactionItemRepository.Dispose();
                     _transactionRepository.Dispose();
                     _unitOfWork.Dispose();
-
-                    disposed = true;
                 }
+
+                disposed = true;
+
+                Dispose();
             }
         }
 

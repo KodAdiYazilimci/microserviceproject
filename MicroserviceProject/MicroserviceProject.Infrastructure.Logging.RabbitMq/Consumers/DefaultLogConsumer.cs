@@ -41,9 +41,13 @@ namespace MicroserviceProject.Infrastructure.Logging.RabbitMq.Consumers
             {
                 if (!disposed)
                 {
-                    disposed = true;
+
                 }
-            }
+
+                disposed = true;
+                
+                Dispose();
+            }            
         }
     }
 }

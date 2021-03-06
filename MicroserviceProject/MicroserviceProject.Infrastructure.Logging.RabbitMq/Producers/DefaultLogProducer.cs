@@ -53,8 +53,12 @@ namespace MicroserviceProject.Infrastructure.Logging.RabbitMq.Producers
             {
                 if (!disposed)
                 {
-                    disposed = true;
+
                 }
+
+                disposed = true;
+
+                Dispose();
             }
         }
     }

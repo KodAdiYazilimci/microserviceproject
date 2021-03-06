@@ -357,8 +357,12 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Persistence.
             {
                 if (!disposed)
                 {
-                    disposed = true;
+
                 }
+
+                disposed = true;
+
+                Dispose();
             }
         }
     }

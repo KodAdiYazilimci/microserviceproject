@@ -137,9 +137,11 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Repositories.Sql
                 if (!disposed)
                 {
                     UnitOfWork.Dispose();
-
-                    disposed = true;
                 }
+
+                disposed = true;
+
+                Dispose();
             }
         }
 

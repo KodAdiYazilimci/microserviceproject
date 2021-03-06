@@ -546,9 +546,11 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
                     _transactionRepository.Dispose();
                     _workerInventoryRepository.Dispose();
                     _unitOfWork.Dispose();
-
-                    disposed = true;
                 }
+
+                disposed = true;
+
+                Dispose();
             }
         }
 

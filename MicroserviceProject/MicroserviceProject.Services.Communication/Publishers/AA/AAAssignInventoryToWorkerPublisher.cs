@@ -35,8 +35,12 @@ namespace MicroserviceProject.Services.Communication.Publishers.AA
             {
                 if (!disposed)
                 {
-                    disposed = true;
+
                 }
+
+                disposed = true;
+
+                Dispose();
             }
         }
     }

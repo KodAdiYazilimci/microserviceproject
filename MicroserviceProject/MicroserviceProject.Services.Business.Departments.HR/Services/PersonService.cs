@@ -502,9 +502,11 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                     _workerRelationRepository.Dispose();
                     _workerRepository.Dispose();
                     _unitOfWork.Dispose();
-
-                    disposed = true;
                 }
+
+                disposed = true;
+
+                Dispose();
             }
         }
 
