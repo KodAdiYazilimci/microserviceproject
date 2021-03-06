@@ -123,11 +123,9 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Repositories
                 if (!disposed)
                 {
                     UnitOfWork.Dispose();
+
+                    disposed = true;
                 }
-
-                disposed = true;
-
-                Dispose();
             }
         }
 

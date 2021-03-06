@@ -108,11 +108,9 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
                 if (!disposed)
                 {
                     UnitOfWork.Dispose();
+
+                    disposed = true;
                 }
-
-                disposed = true;
-
-                Dispose();
             }
         }
 

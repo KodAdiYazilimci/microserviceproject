@@ -166,11 +166,9 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositor
                 if (!disposed)
                 {
                     UnitOfWork.Dispose();
+
+                    disposed = true;
                 }
-
-                disposed = true;
-
-                Dispose();
             }
         }
 

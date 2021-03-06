@@ -36,12 +36,8 @@ namespace MicroserviceProject.Services.Communication.Publishers.Buying
             {
                 if (!disposed)
                 {
-
+                    disposed = true;
                 }
-
-                disposed = true;
-
-                Dispose();
             }
         }
     }
