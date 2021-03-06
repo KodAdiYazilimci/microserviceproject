@@ -81,7 +81,7 @@ namespace MicroserviceProject.Infrastructure.Logging.File.Loggers
             {
                 if (!disposed)
                 {
-
+                    _fileConfiguration = null;
                 }
 
                 disposed = true;

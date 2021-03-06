@@ -1,4 +1,6 @@
-﻿namespace MicroserviceProject.Infrastructure.Logging.MongoDb.Configuration
+﻿using System;
+
+namespace MicroserviceProject.Infrastructure.Logging.MongoDb.Configuration
 {
     /// <summary>
     /// MongoDB ye yazılacak logların yapılandırma arayüzü

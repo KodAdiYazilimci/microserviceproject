@@ -1,4 +1,6 @@
-﻿namespace MicroserviceProject.Infrastructure.Communication.Mq.Rabbit
+﻿using System;
+
+namespace MicroserviceProject.Infrastructure.Communication.Mq.Rabbit
 {
     /// <summary>
     /// Rabbit sunucusunun yapılandırma ayarları

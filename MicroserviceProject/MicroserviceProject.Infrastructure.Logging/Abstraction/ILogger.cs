@@ -1,5 +1,6 @@
 ﻿using MicroserviceProject.Infrastructure.Logging.Model;
 
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,7 +10,7 @@ namespace MicroserviceProject.Infrastructure.Logging.Abstraction
     /// Loglayıcı sınıfların arayüzü
     /// </summary>
     /// <typeparam name="TModel">Yazılacak logun tipi</typeparam>
-    public interface ILogger<TModel> where TModel : BaseLogModel, new()
+    public interface ILogger<TModel> : IDisposable where TModel : BaseLogModel, new()
     {
         /// <summary>
         /// Log yazar
