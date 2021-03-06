@@ -6,6 +6,7 @@ using MicroserviceProject.Infrastructure.Communication.Moderator;
 using MicroserviceProject.Infrastructure.Routing.Providers;
 using MicroserviceProject.Services.Business.Departments.Buying.Entities.Sql;
 using MicroserviceProject.Services.Business.Departments.Buying.Repositories.Sql;
+using MicroserviceProject.Services.Communication.Publishers.Buying;
 using MicroserviceProject.Services.Communication.Publishers.IT;
 using MicroserviceProject.Services.Model.Department.Buying;
 using MicroserviceProject.Services.Model.Department.Finance;
@@ -93,6 +94,11 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Services
         private readonly ITInformInventoryRequestPublisher _ITInformInventoryRequestPublisher;
 
         /// <summary>
+        /// Satınalma departmanından alınması istenilen envanter talepleri için kayıt açan nesne
+        /// </summary>
+        protected readonly InventoryRequestPublisher _inventoryRequestPublisher;
+
+        /// <summary>
         /// Talep işlemleri iş mantığı sınıfı
         /// </summary>
         /// <param name="mapper">Mapping işlemleri için mapper nesnesi</param>
@@ -117,7 +123,8 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Services
             TransactionItemRepository transactionItemRepository,
             InventoryRequestRepository inventoryRequestRepository,
             AAInformInventoryRequestPublisher aaInformInventoryRequestPublisher,
-            ITInformInventoryRequestPublisher itInformInventoryRequestPublisher)
+            ITInformInventoryRequestPublisher itInformInventoryRequestPublisher,
+            InventoryRequestPublisher inventoryRequestPublisher)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
@@ -132,6 +139,7 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Services
 
             _AAInformInventoryRequestPublisher = aaInformInventoryRequestPublisher;
             _ITInformInventoryRequestPublisher = itInformInventoryRequestPublisher;
+            _inventoryRequestPublisher = inventoryRequestPublisher;
         }
 
         /// <summary>
@@ -283,6 +291,13 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Services
                 },
                 cancellationToken: cancellationToken);
 
+            await _inventoryRequestPublisher.PublishAsync(
+                model: new DecidedCostModel
+                {
+                    InventoryRequestId = createdInventoryRequestId
+                },
+                cancellationToken: cancellationToken);
+
             await _unitOfWork.SaveAsync(cancellationToken);
 
             inventoryRequest.Id = createdInventoryRequestId;
@@ -387,7 +402,7 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Services
                 throw new Exception("Envanter talebi bulunamadı");
             }
 
-            if (decidedCost.InventoryRequest.DepartmentId == (int)Model.Constants.Departments.AdministrativeAffairs)
+            if (inventoryRequestEntity.DepartmentId == (int)Model.Constants.Departments.AdministrativeAffairs)
             {
                 await _AAInformInventoryRequestPublisher.PublishAsync(
                     model: new InventoryRequestModel
@@ -399,7 +414,7 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Services
                     },
                     cancellationToken: cancellationToken);
             }
-            else if (decidedCost.InventoryRequest.DepartmentId == (int)Model.Constants.Departments.InformationTechnologies)
+            else if (inventoryRequestEntity.DepartmentId == (int)Model.Constants.Departments.InformationTechnologies)
             {
                 await _ITInformInventoryRequestPublisher.PublishAsync(
                     model: new InventoryRequestModel
@@ -433,7 +448,7 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Services
                     _transactionRepository.Dispose();
                     _unitOfWork.Dispose();
                     _AAInformInventoryRequestPublisher.Dispose();
-                    _ITInformInventoryRequestPublisher.Dispose(); 
+                    _ITInformInventoryRequestPublisher.Dispose();
 
                     disposed = true;
                 }

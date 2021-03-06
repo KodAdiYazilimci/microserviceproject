@@ -232,6 +232,8 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
             }
 
             await _unitOfWork.SaveAsync(cancellationToken);
+
+            _cacheDataProvider.RemoveObject(CACHED_INVENTORIES_KEY);
         }
 
         /// <summary>

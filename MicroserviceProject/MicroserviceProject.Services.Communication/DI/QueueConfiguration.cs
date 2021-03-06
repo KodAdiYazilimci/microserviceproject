@@ -1,6 +1,7 @@
 ﻿using MicroserviceProject.Services.Communication.Configuration.Rabbit.AA;
 using MicroserviceProject.Services.Communication.Configuration.Rabbit.Accounting;
 using MicroserviceProject.Services.Communication.Configuration.Rabbit.Buying;
+using MicroserviceProject.Services.Communication.Configuration.Rabbit.Finance;
 using MicroserviceProject.Services.Communication.Configuration.Rabbit.IT;
 using MicroserviceProject.Services.Communication.Publishers.AA;
 using MicroserviceProject.Services.Communication.Publishers.Account;
@@ -30,6 +31,7 @@ namespace MicroserviceProject.Services.Communication.DI
             services.AddSingleton<AAInformInventoryRequestRabbitConfiguration>();
             services.AddSingleton<ITInformInventoryRequestRabbitConfiguration>();
             services.AddSingleton<NotifyCostApprovementRabbitConfiguration>();
+            services.AddSingleton<InventoryRequestRabbitConfiguration>();
 
             services.AddSingleton<AAAssignInventoryToWorkerPublisher>();
             services.AddSingleton<ITAssignInventoryToWorkerPublisher>();
@@ -38,6 +40,7 @@ namespace MicroserviceProject.Services.Communication.DI
             services.AddSingleton<AAInformInventoryRequestPublisher>();
             services.AddSingleton<ITInformInventoryRequestPublisher>();
             services.AddSingleton<NotifyCostApprovementPublisher>();
+            services.AddSingleton<InventoryRequestPublisher>();
 
             return services;
         }
