@@ -23,8 +23,8 @@ namespace MicroserviceProject.Services.UnitOfWork
         /// <summary>
         /// Veritabanı işlem bütünlüğünü çalıştırır
         /// </summary>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        Task SaveAsync(CancellationToken cancellationToken);
+        Task SaveAsync(CancellationTokenSource cancellationTokenSource);
     }
 }

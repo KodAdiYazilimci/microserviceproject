@@ -100,7 +100,7 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization
                             StatusCode = httpContext.Response.StatusCode,
                             Url = httpContext.Request.Path.ToString()
                         },
-                        cancellationToken: cancellationTokenSource.Token);
+                        cancellationTokenSource: cancellationTokenSource);
                 }
                 catch (Exception)
                 {

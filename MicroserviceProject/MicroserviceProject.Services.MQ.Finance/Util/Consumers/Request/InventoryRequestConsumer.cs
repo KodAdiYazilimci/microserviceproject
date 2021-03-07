@@ -61,7 +61,7 @@ namespace MicroserviceProject.Services.MQ.Finance.Util.Consumers.Request
                 serviceName: _routeNameProvider.Finance_CreateCost,
                 postData: data,
                 queryParameters: null,
-                cancellationToken: cancellationTokenSource.Token);
+                cancellationTokenSource: cancellationTokenSource);
         }
 
         /// <summary>

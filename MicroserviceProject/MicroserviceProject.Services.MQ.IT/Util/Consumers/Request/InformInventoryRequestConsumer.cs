@@ -61,7 +61,7 @@ namespace MicroserviceProject.Services.MQ.IT.Util.Consumers.Inventory
                 serviceName: _routeNameProvider.IT_InformInventoryRequest,
                 postData: data,
                 queryParameters: null,
-                cancellationToken: cancellationTokenSource.Token);
+                cancellationTokenSource: cancellationTokenSource);
         }
 
         /// <summary>

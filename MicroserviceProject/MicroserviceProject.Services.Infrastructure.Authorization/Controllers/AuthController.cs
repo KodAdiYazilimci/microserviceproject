@@ -29,18 +29,18 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Controllers
 
         [Route("GetToken")]
         [HttpPost]
-        public async Task<IActionResult> GetToken([FromBody] Credential credential, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetToken([FromBody] Credential credential, CancellationTokenSource cancellationTokenSource)
         {
             try
             {
-                var validateResult = await GetTokenValidator.ValidateAsync(credential, cancellationToken);
+                var validateResult = await GetTokenValidator.ValidateAsync(credential, cancellationTokenSource);
 
                 if (!validateResult.IsSuccess)
                 {
                     return BadRequest(validateResult);
                 }
 
-                var token = await _sessionService.GetTokenAsync(credential, new CancellationTokenSource().Token);
+                var token = await _sessionService.GetTokenAsync(credential, new CancellationTokenSource());
 
                 return Ok(new ServiceResultModel<Token>()
                 {
@@ -72,7 +72,7 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Controllers
         {
             try
             {
-                User user = await _userService.GetUserAsync(token, new CancellationTokenSource().Token);
+                User user = await _userService.GetUserAsync(token, new CancellationTokenSource());
 
                 return Ok(new ServiceResultModel<User>()
                 {
@@ -109,7 +109,7 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Controllers
             {
                 return Ok(new ServiceResultModel<bool>()
                 {
-                    Data = await _userService.CheckUserAsync(email, new CancellationTokenSource().Token)
+                    Data = await _userService.CheckUserAsync(email, new CancellationTokenSource())
                 });
             }
             catch (Exception ex)
@@ -124,7 +124,7 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Controllers
         {
             try
             {
-                await _userService.RegisterUserAsync(credential, new CancellationTokenSource().Token);
+                await _userService.RegisterUserAsync(credential, new CancellationTokenSource());
 
                 return Ok(new ServiceResultModel()
                 {

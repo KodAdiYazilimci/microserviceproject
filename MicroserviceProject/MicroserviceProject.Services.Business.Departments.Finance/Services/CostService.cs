@@ -127,9 +127,9 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Services
         /// <summary>
         /// Karar verilen masrafların listesini verir
         /// </summary>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<List<DecidedCostModel>> GetDecidedCostsAsync(CancellationToken cancellationToken)
+        public async Task<List<DecidedCostModel>> GetDecidedCostsAsync(CancellationTokenSource cancellationTokenSource)
         {
             if (_cacheDataProvider.TryGetValue(CACHED_DECIDED_COSTS_KEY, out List<DecidedCostModel> cachedDecidedCosts)
                 &&
@@ -138,7 +138,7 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Services
                 return cachedDecidedCosts;
             }
 
-            List<DecidedCostEntity> decidedCosts = await _decidedCostRepository.GetListAsync(cancellationToken);
+            List<DecidedCostEntity> decidedCosts = await _decidedCostRepository.GetListAsync(cancellationTokenSource);
 
             List<DecidedCostModel> mappedDecidedCosts =
                 _mapper.Map<List<DecidedCostEntity>, List<DecidedCostModel>>(decidedCosts);
@@ -152,13 +152,13 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Services
         /// Yeni masraf kaydı oluşturur
         /// </summary>
         /// <param name="decidedCost">Oluşturulacak masraf kaydı nesnesi</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<int> CreateDecidedCostAsync(DecidedCostModel decidedCost, CancellationToken cancellationToken)
+        public async Task<int> CreateDecidedCostAsync(DecidedCostModel decidedCost, CancellationTokenSource cancellationTokenSource)
         {
             DecidedCostEntity mappedDecidedCost = _mapper.Map<DecidedCostModel, DecidedCostEntity>(decidedCost);
 
-            int createdDecidedCostId = await _decidedCostRepository.CreateAsync(mappedDecidedCost, cancellationToken);
+            int createdDecidedCostId = await _decidedCostRepository.CreateAsync(mappedDecidedCost, cancellationTokenSource);
 
             await CreateCheckpointAsync(
                 rollback: new RollbackModel()
@@ -176,9 +176,9 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Services
                         }
                     }
                 },
-                cancellationToken: cancellationToken);
+                cancellationTokenSource: cancellationTokenSource);
 
-            await _unitOfWork.SaveAsync(cancellationToken);
+            await _unitOfWork.SaveAsync(cancellationTokenSource);
 
             decidedCost.Id = createdDecidedCostId;
 
@@ -198,13 +198,13 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Services
         /// Bir masrafı onaylar
         /// </summary>
         /// <param name="costId">Onaylanacak masrafın Id değeri</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<int> ApproveCostAsync(int costId, CancellationToken cancellationToken)
+        public async Task<int> ApproveCostAsync(int costId, CancellationTokenSource cancellationTokenSource)
         {
-            int result = await _decidedCostRepository.ApproveAsync(costId, cancellationToken);
+            int result = await _decidedCostRepository.ApproveAsync(costId, cancellationTokenSource);
 
-            DecidedCostEntity decidedCostEntity = await _decidedCostRepository.GetAsync(costId, cancellationToken);
+            DecidedCostEntity decidedCostEntity = await _decidedCostRepository.GetAsync(costId, cancellationTokenSource);
 
             if (decidedCostEntity == null)
             {
@@ -239,18 +239,19 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Services
                         }
                     }
                 },
-                cancellationToken: cancellationToken);
+                cancellationTokenSource: cancellationTokenSource);
 
-            await _notifyCostApprovementPublisher.PublishAsync(
+            _notifyCostApprovementPublisher.AddToBuffer(
                 model: new DecidedCostModel
                 {
                     Approved = true,
                     InventoryRequestId = decidedCostEntity.InventoryRequestId,
                     Done = true
-                },
-                cancellationToken: cancellationToken);
+                });
 
-            await _unitOfWork.SaveAsync(cancellationToken);
+            await _unitOfWork.SaveAsync(cancellationTokenSource);
+
+            await _notifyCostApprovementPublisher.PublishBufferAsync(cancellationTokenSource);
 
             _cacheDataProvider.RemoveObject(CACHED_DECIDED_COSTS_KEY);
 
@@ -261,13 +262,13 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Services
         /// Bir masrafı reddeder
         /// </summary>
         /// <param name="costId">Reddedilecek masrafın Id değeri</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<int> RejectCostAsync(int costId, CancellationToken cancellationToken)
+        public async Task<int> RejectCostAsync(int costId, CancellationTokenSource cancellationTokenSource)
         {
-            int result = await _decidedCostRepository.RejectAsync(costId, cancellationToken);
+            int result = await _decidedCostRepository.RejectAsync(costId, cancellationTokenSource);
 
-            DecidedCostEntity decidedCostEntity = await _decidedCostRepository.GetAsync(costId, cancellationToken);
+            DecidedCostEntity decidedCostEntity = await _decidedCostRepository.GetAsync(costId, cancellationTokenSource);
 
             if (decidedCostEntity == null)
             {
@@ -302,18 +303,19 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Services
                         }
                     }
                 },
-                cancellationToken: cancellationToken);
+                cancellationTokenSource: cancellationTokenSource);
 
-            await _notifyCostApprovementPublisher.PublishAsync(
+            _notifyCostApprovementPublisher.AddToBuffer(
                 model: new DecidedCostModel
                 {
                     Approved = false,
                     InventoryRequestId = decidedCostEntity.InventoryRequestId,
                     Done = true
-                },
-                cancellationToken: cancellationToken);
+                });
 
-            await _unitOfWork.SaveAsync(cancellationToken);
+            await _unitOfWork.SaveAsync(cancellationTokenSource);
+
+            await _notifyCostApprovementPublisher.PublishBufferAsync(cancellationTokenSource);
 
             _cacheDataProvider.RemoveObject(CACHED_DECIDED_COSTS_KEY);
 
@@ -345,9 +347,9 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Services
         /// Bir işlemi geri almak için yedekleme noktası oluşturur
         /// </summary>
         /// <param name="rollback">İşlemin yedekleme noktası nesnesi</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
-        public async Task<int> CreateCheckpointAsync(RollbackModel rollback, CancellationToken cancellationToken)
+        public async Task<int> CreateCheckpointAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
         {
             RollbackEntity rollbackEntity = _mapper.Map<RollbackModel, RollbackEntity>(rollback);
 
@@ -357,19 +359,19 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Services
             {
                 rollbackItemEntity.TransactionIdentity = rollbackEntity.TransactionIdentity;
 
-                await _transactionItemRepository.CreateAsync(rollbackItemEntity, cancellationToken);
+                await _transactionItemRepository.CreateAsync(rollbackItemEntity, cancellationTokenSource);
             }
 
-            return await _transactionRepository.CreateAsync(rollbackEntity, cancellationToken);
+            return await _transactionRepository.CreateAsync(rollbackEntity, cancellationTokenSource);
         }
 
         /// <summary>
         /// Bir işlemi geri alır
         /// </summary>
         /// <param name="rollback">Geri alınacak işlemin yedekleme noktası nesnesi</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
-        public async Task<int> RollbackTransactionAsync(RollbackModel rollback, CancellationToken cancellationToken)
+        public async Task<int> RollbackTransactionAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
         {
             foreach (var rollbackItem in rollback.RollbackItems)
             {
@@ -378,15 +380,15 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Services
                     case DecidedCostRepository.TABLE_NAME:
                         if (rollbackItem.RollbackType == RollbackType.Delete)
                         {
-                            await _decidedCostRepository.DeleteAsync((int)rollbackItem.Identity, cancellationToken);
+                            await _decidedCostRepository.DeleteAsync((int)rollbackItem.Identity, cancellationTokenSource);
                         }
                         else if (rollbackItem.RollbackType == RollbackType.Insert)
                         {
-                            await _decidedCostRepository.UnDeleteAsync((int)rollbackItem.Identity, cancellationToken);
+                            await _decidedCostRepository.UnDeleteAsync((int)rollbackItem.Identity, cancellationTokenSource);
                         }
                         else if (rollbackItem.RollbackType == RollbackType.Update)
                         {
-                            await _decidedCostRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationToken);
+                            await _decidedCostRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationTokenSource);
                         }
                         else
                             throw new Exception("Tanımlanmamış geri alma biçimi");
@@ -396,9 +398,9 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Services
                 }
             }
 
-            int rollbackResult = await _transactionRepository.SetRolledbackAsync(rollback.TransactionIdentity, cancellationToken);
+            int rollbackResult = await _transactionRepository.SetRolledbackAsync(rollback.TransactionIdentity, cancellationTokenSource);
 
-            await _unitOfWork.SaveAsync(cancellationToken);
+            await _unitOfWork.SaveAsync(cancellationTokenSource);
 
             return rollbackResult;
         }

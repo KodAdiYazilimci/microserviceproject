@@ -70,9 +70,9 @@ namespace MicroserviceProject.Infrastructure.Security.Authentication.BasicToken.
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            if (await GetUserAsync(cancellationTokenSource.Token) != null)
+            if (await GetUserAsync(cancellationTokenSource) != null)
             {
-                ClaimsIdentity claimsIdentity = new ClaimsIdentity(AuthenticationPersistence.GetClaims(await GetUserAsync(cancellationTokenSource.Token)), Default.DefaultScheme);
+                ClaimsIdentity claimsIdentity = new ClaimsIdentity(AuthenticationPersistence.GetClaims(await GetUserAsync(cancellationTokenSource)), Default.DefaultScheme);
 
                 ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
@@ -87,7 +87,7 @@ namespace MicroserviceProject.Infrastructure.Security.Authentication.BasicToken.
         /// <summary>
         /// Oturumda bulunan kullanıcı
         /// </summary>
-        protected async Task<User> GetUserAsync(CancellationToken cancellationToken)
+        protected async Task<User> GetUserAsync(CancellationTokenSource cancellationTokenSource)
         {
             if (Request.Headers.TryGetValue("Authorization", out StringValues headerToken) && headerToken.Any(x => x.Length > 0))
             {
@@ -104,7 +104,7 @@ namespace MicroserviceProject.Infrastructure.Security.Authentication.BasicToken.
                         serviceName: _routeNameProvider.Auth_GetUser,
                         postData: null,
                         queryParameters: new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("token", headerToken) },
-                        cancellationToken: cancellationToken);
+                        cancellationTokenSource: cancellationTokenSource);
 
                 if (serviceResult.IsSuccess && serviceResult.Data != null)
                 {

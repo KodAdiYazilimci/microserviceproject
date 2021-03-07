@@ -31,17 +31,15 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Business.Ser
         /// Kullanıcı kimliğine göre token verir
         /// </summary>
         /// <param name="credential">Kullanıcının kimlik bilgleri</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<Token> GetTokenAsync(Credential credential, CancellationToken cancellationToken)
+        public async Task<Token> GetTokenAsync(Credential credential, CancellationTokenSource cancellationTokenSource)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
             string passwordHash = SHA256Cryptography.Crypt(credential.Password);
 
             User user =
                 await
-                _userRepository.GetUserAsync(credential.Email, passwordHash, cancellationToken);
+                _userRepository.GetUserAsync(credential.Email, passwordHash, cancellationTokenSource);
 
             if (user != null)
             {
@@ -59,7 +57,7 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Business.Ser
                         validTo,
                         credential.IpAddress,
                         credential.UserAgent,
-                        cancellationToken);
+                        cancellationTokenSource);
 
                 return new Token()
                 {

@@ -61,7 +61,7 @@ namespace MicroserviceProject.Services.MQ.Accounting.Util.Consumers.Inventory
                 serviceName: _routeNameProvider.Accounting_CreateBankAccount,
                 postData: data,
                 queryParameters: null,
-                cancellationToken: cancellationTokenSource.Token);
+                cancellationTokenSource: cancellationTokenSource);
         }
 
         /// <summary>

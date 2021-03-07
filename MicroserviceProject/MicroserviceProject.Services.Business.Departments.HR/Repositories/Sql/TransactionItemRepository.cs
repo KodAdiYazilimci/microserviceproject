@@ -40,8 +40,8 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
         /// </summary>
         /// <param name="inventory">Oluşturulacak transaction öğesi kaydı nesnesi</param><
         /// <param name="unitOfWork">Oluşturma esnasında kullanılacak transaction nesnesi</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
-        public override async Task<int> CreateAsync(RollbackItemEntity entity, CancellationToken cancellationToken)
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
+        public override async Task<int> CreateAsync(RollbackItemEntity entity, CancellationTokenSource cancellationTokenSource)
         {
             SqlCommand sqlCommand = new SqlCommand($@"INSERT INTO {TABLE_NAME}
                                                      ([ROLLBACK_TYPE],
@@ -73,19 +73,19 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
             sqlCommand.Parameters.AddWithValue("@NEW_VALUE", ((object)entity.NewValue) ?? DBNull.Value);
             sqlCommand.Parameters.AddWithValue("@IS_ROLLED_BACK", ((object)entity.IsRolledback) ?? DBNull.Value);
 
-            return (int)await sqlCommand.ExecuteScalarAsync(cancellationToken);
+            return (int)await sqlCommand.ExecuteScalarAsync(cancellationTokenSource.Token);
         }
 
         /// <summary>
         /// İşlem öğelerinin listesini verir
         /// </summary>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public override async Task<List<RollbackItemEntity>> GetListAsync(CancellationToken cancellationToken)
+        public override async Task<List<RollbackItemEntity>> GetListAsync(CancellationTokenSource cancellationTokenSource)
         {
             List<RollbackItemEntity> entities = new List<RollbackItemEntity>();
 
-            SqlCommand sqlCommand = new SqlCommand($@"SELECT 
+            using (SqlCommand sqlCommand = new SqlCommand($@"SELECT 
                                                       [ID],
                                                       [ROLLBACK_TYPE],
                                                       [NAME],
@@ -96,33 +96,35 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql
                                                       [IS_ROLLED_BACK]
                                                       FROM {TABLE_NAME}
                                                       WHERE DELETE_DATE IS NULL",
-                                                     UnitOfWork.SqlConnection,
-                                                     UnitOfWork.SqlTransaction);
-
-            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
-
-            SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationToken);
-
-            if (sqlDataReader.HasRows)
+                                                       UnitOfWork.SqlConnection,
+                                                       UnitOfWork.SqlTransaction))
             {
-                while (await sqlDataReader.ReadAsync(cancellationToken))
+                sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+                using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationTokenSource.Token))
                 {
-                    RollbackItemEntity inventory = new RollbackItemEntity();
+                    if (sqlDataReader.HasRows)
+                    {
+                        while (await sqlDataReader.ReadAsync(cancellationTokenSource.Token))
+                        {
+                            RollbackItemEntity inventory = new RollbackItemEntity();
 
-                    inventory.Id = sqlDataReader.GetInt32("ID");
-                    inventory.RollbackType = sqlDataReader.GetInt32("ROLLBACK_TYPE");
-                    inventory.Name = sqlDataReader.GetString("NAME");
-                    inventory.DataSet = sqlDataReader.GetString("DATASET");
-                    inventory.Identity = sqlDataReader.GetString("IDENTITY");
-                    inventory.OldValue = sqlDataReader.GetString("OLD_VALUE");
-                    inventory.NewValue = sqlDataReader.GetString("NEW_VALUE");
-                    inventory.IsRolledback = sqlDataReader.GetBoolean("IS_ROLLED_BACK");
+                            inventory.Id = sqlDataReader.GetInt32("ID");
+                            inventory.RollbackType = sqlDataReader.GetInt32("ROLLBACK_TYPE");
+                            inventory.Name = sqlDataReader.GetString("NAME");
+                            inventory.DataSet = sqlDataReader.GetString("DATASET");
+                            inventory.Identity = sqlDataReader.GetString("IDENTITY");
+                            inventory.OldValue = sqlDataReader.GetString("OLD_VALUE");
+                            inventory.NewValue = sqlDataReader.GetString("NEW_VALUE");
+                            inventory.IsRolledback = sqlDataReader.GetBoolean("IS_ROLLED_BACK");
 
-                    entities.Add(inventory);
+                            entities.Add(inventory);
+                        }
+                    }
+
+                    return entities;
                 }
             }
-
-            return entities;
         }
 
         /// <summary>

@@ -75,6 +75,11 @@ namespace MicroserviceProject.Services.UnitOfWork
                     }
 
                     sqlTransaction = SqlConnection.BeginTransaction();
+
+                    if (SqlTransaction.SupportsSavepoints)
+                    {
+                        SqlTransaction.Save("SavePoint");
+                    }
                 }
 
                 return sqlTransaction;
@@ -135,19 +140,21 @@ namespace MicroserviceProject.Services.UnitOfWork
         /// <summary>
         /// Veritabanı işlem bütünlüğünü çalıştırır
         /// </summary>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task SaveAsync(CancellationToken cancellationToken)
+        public async Task SaveAsync(CancellationTokenSource cancellationTokenSource)
         {
             Exception exception = null;
 
             try
             {
-                await SqlTransaction.CommitAsync(cancellationToken);
+                await SqlTransaction.CommitAsync(cancellationTokenSource.Token);
             }
             catch (Exception ex)
             {
                 exception = ex;
+
+                await SqlTransaction.RollbackAsync(cancellationTokenSource.Token);
             }
             finally
             {

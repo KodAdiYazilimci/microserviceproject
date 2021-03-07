@@ -21,15 +21,15 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Util.Vali
         /// Request body doğrular
         /// </summary>
         /// <param name="bankAccount">Doğrulanacak nesne</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public static async Task ValidateAsync(BankAccountModel bankAccount, CancellationToken cancellationToken)
+        public static async Task ValidateAsync(BankAccountModel bankAccount, CancellationTokenSource cancellationTokenSource)
         {
             CreateBankAccountRule validationRules = new CreateBankAccountRule();
 
             if (bankAccount != null)
             {
-                ValidationResult validationResult = await validationRules.ValidateAsync(bankAccount, cancellationToken);
+                ValidationResult validationResult = await validationRules.ValidateAsync(bankAccount, cancellationTokenSource.Token);
 
                 if (!validationResult.IsValid)
                 {

@@ -21,15 +21,15 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Util.Vali
         /// Request body doğrular
         /// </summary>
         /// <param name="currency">Doğrulanacak nesne</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public static async Task ValidateAsync(CurrencyModel currency, CancellationToken cancellationToken)
+        public static async Task ValidateAsync(CurrencyModel currency, CancellationTokenSource cancellationTokenSource)
         {
             CreateCurrencyRule validationRules = new CreateCurrencyRule();
 
             if (currency != null)
             {
-                ValidationResult validationResult = await validationRules.ValidateAsync(currency, cancellationToken);
+                ValidationResult validationResult = await validationRules.ValidateAsync(currency, cancellationTokenSource.Token);
 
                 if (!validationResult.IsValid)
                 {

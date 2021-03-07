@@ -69,7 +69,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.HR
                                         Name = txtIsim.Text
                                     },
                                     queryParameters: null,
-                                    cancellationToken: cancellationTokenSource.Token);
+                                    cancellationTokenSource: cancellationTokenSource);
 
                     if (createPersonServiceResult.IsSuccess)
                     {

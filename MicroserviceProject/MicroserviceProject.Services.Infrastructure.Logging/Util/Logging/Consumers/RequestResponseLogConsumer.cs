@@ -59,7 +59,7 @@ namespace MicroserviceProject.Services.Infrastructure.Logging.Util.Logging.Consu
             {
                 CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-                await _requestResponseRepository.InsertLogAsync(requestResponseLog, cancellationTokenSource.Token);
+                await _requestResponseRepository.InsertLogAsync(requestResponseLog, cancellationTokenSource);
             }
         }
 

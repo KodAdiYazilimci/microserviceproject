@@ -80,13 +80,13 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
         /// <param name="serviceName">İletişime geçilecek servisin adı</param>
         /// <param name="postData">Gerektiğinde servise post edilecek veri</param>
         /// <param name="queryParameters">Gerektiğinde servise verilecek query string parametreleri</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
         public async Task<ServiceResultModel> Call(
           string serviceName,
           object postData,
           List<KeyValuePair<string, string>> queryParameters,
-          CancellationToken cancellationToken)
+          CancellationTokenSource cancellationTokenSource)
         {
             ServiceRouteModel serviceRoute = null;
 
@@ -131,7 +131,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                                     .PostAsync<ServiceResultModel, object>(
                                         url: serviceRoute.Endpoint,
                                         postData: postData,
-                                        cancellationToken: cancellationToken);
+                                        cancellationTokenSource: cancellationTokenSource);
                             }
                             else if (serviceRoute.CallType.ToUpper() == "GET")
                             {
@@ -147,7 +147,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                                     await
                                     httpGetProvider
                                     .GetAsync<ServiceResultModel>(
-                                        url: serviceRoute.Endpoint, cancellationToken);
+                                        url: serviceRoute.Endpoint, cancellationTokenSource);
                             }
                             else
                             {
@@ -190,7 +190,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                             serviceName: route.ServiceName,
                             postData: postData,
                             queryParameters: queryParameters,
-                            cancellationToken: cancellationToken);
+                            cancellationTokenSource: cancellationTokenSource);
 
                         if (alternativeCallResult.IsSuccess)
                             return alternativeCallResult;
@@ -212,13 +212,13 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
         /// <param name="serviceName">İletişime geçilecek servisin adı</param>
         /// <param name="postData">Gerektiğinde servise post edilecek veri</param>
         /// <param name="queryParameters">Gerektiğinde servise verilecek query string parametreleri</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
         public async Task<ServiceResultModel<TResult>> Call<TResult>(
             string serviceName,
             object postData,
             List<KeyValuePair<string, string>> queryParameters,
-            CancellationToken cancellationToken)
+            CancellationTokenSource cancellationTokenSource)
         {
             ServiceRouteModel serviceRoute = null;
 
@@ -263,7 +263,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                                     .PostAsync<ServiceResultModel<TResult>, object>(
                                         url: serviceRoute.Endpoint,
                                         postData: postData,
-                                        cancellationToken: cancellationToken);
+                                        cancellationTokenSource: cancellationTokenSource);
                             }
                             else if (serviceRoute.CallType.ToUpper() == "GET")
                             {
@@ -279,7 +279,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                                     await
                                     httpGetProvider
                                     .GetAsync<ServiceResultModel<TResult>>(
-                                        url: serviceRoute.Endpoint, cancellationToken);
+                                        url: serviceRoute.Endpoint, cancellationTokenSource);
                             }
                             else
                             {
@@ -322,7 +322,7 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                             serviceName: route.ServiceName,
                             postData: postData,
                             queryParameters: queryParameters,
-                            cancellationToken: cancellationToken);
+                            cancellationTokenSource: cancellationTokenSource);
 
                         if (alternativeCallResult.IsSuccess)
                             return alternativeCallResult;

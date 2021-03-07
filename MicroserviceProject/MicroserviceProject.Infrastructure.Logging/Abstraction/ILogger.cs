@@ -16,7 +16,7 @@ namespace MicroserviceProject.Infrastructure.Logging.Abstraction
         /// Log yazar
         /// </summary>
         /// <param name="model">Yazılacak logun modeli</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
-        Task LogAsync(TModel model, CancellationToken cancellationToken);
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
+        Task LogAsync(TModel model, CancellationTokenSource cancellationTokenSource);
     }
 }

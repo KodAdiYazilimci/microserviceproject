@@ -27,18 +27,18 @@ namespace MicroserviceProject.Services.Infrastructure.Logging.Controllers
 
         [HttpPost]
         [Route(nameof(WriteRequestResponseLog))]
-        public async Task<IActionResult> WriteRequestResponseLog([FromBody] RequestResponseLogModel logModel, CancellationToken cancellationToken)
+        public async Task<IActionResult> WriteRequestResponseLog([FromBody] RequestResponseLogModel logModel, CancellationTokenSource cancellationTokenSource)
         {
             try
             {
-                ServiceResultModel validationResult = await WriteRequestResponseLogValidator.ValidateAsync(logModel, cancellationToken);
+                ServiceResultModel validationResult = await WriteRequestResponseLogValidator.ValidateAsync(logModel, cancellationTokenSource);
 
                 if (!validationResult.IsSuccess)
                 {
                     return BadRequest(validationResult);
                 }
 
-                await _requestResponseRepository.InsertLogAsync(logModel, cancellationToken);
+                await _requestResponseRepository.InsertLogAsync(logModel, cancellationTokenSource);
 
                 return Ok(new ServiceResultModel());
             }

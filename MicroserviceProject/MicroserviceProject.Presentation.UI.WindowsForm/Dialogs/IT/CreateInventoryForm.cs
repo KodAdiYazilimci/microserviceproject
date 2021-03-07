@@ -64,7 +64,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.IT
                                         CurrentStockCount = (int)numAdet.Value
                                     },
                                     queryParameters: null,
-                                    cancellationToken: cancellationTokenSource.Token);
+                                    cancellationTokenSource: cancellationTokenSource);
 
                     if (createInventoryServiceResult.IsSuccess)
                     {

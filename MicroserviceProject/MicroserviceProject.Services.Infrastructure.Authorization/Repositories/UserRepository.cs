@@ -35,10 +35,8 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Persistence.
         /// Kullanıcıların listesini verir
         /// </summary>
         /// <returns></returns>
-        public async Task<List<User>> GetUsersAsync(CancellationToken cancellationToken)
+        public async Task<List<User>> GetUsersAsync(CancellationTokenSource cancellationTokenSource)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
             List<User> users = new List<User>();
 
             Exception exception = null;
@@ -47,33 +45,33 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Persistence.
 
             try
             {
-                SqlCommand sqlCommand =
-                    new SqlCommand(@"
+                using (SqlCommand sqlCommand =
+                        new SqlCommand(@"
                                     SELECT * FROM USERS 
                                     WHERE 
-                                    DELETE_DATE IS NULL", sqlConnection);
-
-                if (sqlConnection.State != ConnectionState.Open)
+                                    DELETE_DATE IS NULL", sqlConnection))
                 {
-                    await sqlConnection.OpenAsync(cancellationToken);
-                }
-
-                SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationToken);
-
-                if (sqlDataReader.HasRows)
-                {
-                    while (await sqlDataReader.ReadAsync(cancellationToken))
+                    if (sqlConnection.State != ConnectionState.Open)
                     {
-                        cancellationToken.ThrowIfCancellationRequested();
+                        await sqlConnection.OpenAsync(cancellationTokenSource.Token);
+                    }
 
-                        User user = new User
+                    using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationTokenSource.Token))
+                    {
+                        if (sqlDataReader.HasRows)
                         {
-                            Id = Convert.ToInt32(sqlDataReader["ID"])
-                        };
-                        user.Name = sqlDataReader["NAME"].ToString();
-                        user.IsAdmin = Convert.ToBoolean(sqlDataReader["ISADMIN"]);
+                            while (await sqlDataReader.ReadAsync(cancellationTokenSource.Token))
+                            {
+                                User user = new User
+                                {
+                                    Id = Convert.ToInt32(sqlDataReader["ID"])
+                                };
+                                user.Name = sqlDataReader["NAME"].ToString();
+                                user.IsAdmin = Convert.ToBoolean(sqlDataReader["ISADMIN"]);
 
-                        users.Add(user);
+                                users.Add(user);
+                            }
+                        }
                     }
                 }
             }
@@ -102,10 +100,8 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Persistence.
         /// </summary>
         /// <param name="userId">Getirilecek kullanıcının Id değeri</param>
         /// <returns></returns>
-        public async Task<User> GetUserAsync(int userId, CancellationToken cancellationToken)
+        public async Task<User> GetUserAsync(int userId, CancellationTokenSource cancellationTokenSource)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
             User user = null;
 
             Exception exception = null;
@@ -114,29 +110,30 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Persistence.
 
             try
             {
-                SqlCommand sqlCommand = new SqlCommand(@"SELECT TOP 1 * FROM USERS WHERE ID = @id AND DELETE_DATE IS NULL", sqlConnection);
-                sqlCommand.Parameters.AddWithValue("@id", userId);
-
-                if (sqlConnection.State != ConnectionState.Open)
+                using (SqlCommand sqlCommand = new SqlCommand(@"SELECT TOP 1 * FROM USERS WHERE ID = @id AND DELETE_DATE IS NULL", sqlConnection))
                 {
-                    await sqlConnection.OpenAsync(cancellationToken);
-                }
+                    sqlCommand.Parameters.AddWithValue("@id", userId);
 
-                SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationToken);
-
-                if (sqlDataReader.HasRows)
-                {
-                    while (await sqlDataReader.ReadAsync(cancellationToken))
+                    if (sqlConnection.State != ConnectionState.Open)
                     {
-                        cancellationToken.ThrowIfCancellationRequested();
+                        await sqlConnection.OpenAsync(cancellationTokenSource.Token);
+                    }
 
-                        user = new User
+                    using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationTokenSource.Token))
+                    {
+                        if (sqlDataReader.HasRows)
                         {
-                            Id = Convert.ToInt32(sqlDataReader["ID"])
-                        };
-                        user.Name = sqlDataReader["NAME"].ToString();
-                        user.Email = sqlDataReader["EMAIL"].ToString();
-                        user.IsAdmin = Convert.ToBoolean(sqlDataReader["ISADMIN"]);
+                            while (await sqlDataReader.ReadAsync(cancellationTokenSource.Token))
+                            {
+                                user = new User
+                                {
+                                    Id = Convert.ToInt32(sqlDataReader["ID"])
+                                };
+                                user.Name = sqlDataReader["NAME"].ToString();
+                                user.Email = sqlDataReader["EMAIL"].ToString();
+                                user.IsAdmin = Convert.ToBoolean(sqlDataReader["ISADMIN"]);
+                            }
+                        }
                     }
                 }
             }
@@ -166,10 +163,8 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Persistence.
         /// <param name="email">Kullanıcının e-posta adresi</param>
         /// <param name="password">Kullanıcının parolası</param>
         /// <returns></returns>
-        public async Task<User> GetUserAsync(string email, string password, CancellationToken cancellationToken)
+        public async Task<User> GetUserAsync(string email, string password, CancellationTokenSource cancellationTokenSource)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
             User user = null;
 
             Exception exception = null;
@@ -178,36 +173,37 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Persistence.
 
             try
             {
-                SqlCommand sqlCommand = new SqlCommand(@"SELECT TOP 1 * FROM USERS WHERE EMAIL = @EMAIL AND PASSWORD=@PASSWORD AND DELETE_DATE IS NULL", sqlConnection);
-                sqlCommand.Parameters.AddWithValue("@EMAIL", email);
-                sqlCommand.Parameters.AddWithValue("@PASSWORD", password);
-
-                if (sqlConnection.State != ConnectionState.Open)
+                using (SqlCommand sqlCommand = new SqlCommand(@"SELECT TOP 1 * FROM USERS WHERE EMAIL = @EMAIL AND PASSWORD=@PASSWORD AND DELETE_DATE IS NULL", sqlConnection))
                 {
-                    await sqlConnection.OpenAsync(cancellationToken);
-                }
+                    sqlCommand.Parameters.AddWithValue("@EMAIL", email);
+                    sqlCommand.Parameters.AddWithValue("@PASSWORD", password);
 
-                SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationToken);
-
-                if (sqlDataReader.HasRows)
-                {
-                    while (await sqlDataReader.ReadAsync(cancellationToken))
+                    if (sqlConnection.State != ConnectionState.Open)
                     {
-                        cancellationToken.ThrowIfCancellationRequested();
-
-                        user = new User
-                        {
-                            Id = Convert.ToInt32(sqlDataReader["ID"])
-                        };
-                        user.Name = sqlDataReader["NAME"].ToString();
-                        user.Password = sqlDataReader["PASSWORD"].ToString();
-                        user.Email = sqlDataReader["EMAIL"].ToString();
-                        user.IsAdmin = Convert.ToBoolean(sqlDataReader["ISADMIN"]);
+                        await sqlConnection.OpenAsync(cancellationTokenSource.Token);
                     }
-                }
-                else
-                {
-                    user = null;
+
+                    using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationTokenSource.Token))
+                    {
+                        if (sqlDataReader.HasRows)
+                        {
+                            while (await sqlDataReader.ReadAsync(cancellationTokenSource.Token))
+                            {
+                                user = new User
+                                {
+                                    Id = Convert.ToInt32(sqlDataReader["ID"])
+                                };
+                                user.Name = sqlDataReader["NAME"].ToString();
+                                user.Password = sqlDataReader["PASSWORD"].ToString();
+                                user.Email = sqlDataReader["EMAIL"].ToString();
+                                user.IsAdmin = Convert.ToBoolean(sqlDataReader["ISADMIN"]);
+                            }
+                        }
+                        else
+                        {
+                            user = null;
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -235,17 +231,15 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Persistence.
         /// </summary>
         /// <param name="email">Kullanıcının e-posta adresi</param>
         /// <param name="password">Kullanıcının parolası</param>
-        public async Task RegisterAsync(string email, string password, CancellationToken cancellationToken)
+        public async Task RegisterAsync(string email, string password, CancellationTokenSource cancellationTokenSource)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
             Exception exception = null;
 
             SqlConnection sqlConnection = new SqlConnection(AuthorizationConnectionString);
 
             try
             {
-                SqlCommand sqlCommand = new SqlCommand(@"
+                using (SqlCommand sqlCommand = new SqlCommand(@"
                                                         INSERT INTO [dbo].[USERS]
                                                         (
                                                             [CREATEDATE],
@@ -263,18 +257,19 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Persistence.
                                                             @NAME,
                                                             @PASSWORD,
                                                             0
-                                                        )", sqlConnection);
-
-                sqlCommand.Parameters.AddWithValue("@NAME", email);
-                sqlCommand.Parameters.AddWithValue("@EMAIL", email);
-                sqlCommand.Parameters.AddWithValue("@PASSWORD", password);
-
-                if (sqlConnection.State != ConnectionState.Open)
+                                                        )", sqlConnection))
                 {
-                    await sqlConnection.OpenAsync(cancellationToken);
-                }
+                    sqlCommand.Parameters.AddWithValue("@NAME", email);
+                    sqlCommand.Parameters.AddWithValue("@EMAIL", email);
+                    sqlCommand.Parameters.AddWithValue("@PASSWORD", password);
 
-                await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
+                    if (sqlConnection.State != ConnectionState.Open)
+                    {
+                        await sqlConnection.OpenAsync(cancellationTokenSource.Token);
+                    }
+
+                    await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
+                }
             }
             catch (Exception ex)
             {
@@ -300,10 +295,8 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Persistence.
         /// </summary>
         /// <param name="email">Kullanıcının kontrol edileceği e-posta adresi</param>
         /// <returns></returns>
-        public async Task<bool> CheckUserAsync(string email, CancellationToken cancellationToken)
+        public async Task<bool> CheckUserAsync(string email, CancellationTokenSource cancellationTokenSource)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
             bool isExists = false;
 
             Exception exception = null;
@@ -312,19 +305,22 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Persistence.
 
             try
             {
-                SqlCommand sqlCommand = new SqlCommand(@"SELECT TOP 1 * FROM USERS WHERE EMAIL = @EMAIL AND DELETE_DATE IS NULL", sqlConnection);
-                sqlCommand.Parameters.AddWithValue("@EMAIL", email);
-
-                if (sqlConnection.State != ConnectionState.Open)
+                using (SqlCommand sqlCommand = new SqlCommand(@"SELECT TOP 1 * FROM USERS WHERE EMAIL = @EMAIL AND DELETE_DATE IS NULL", sqlConnection))
                 {
-                    await sqlConnection.OpenAsync(cancellationToken);
-                }
+                    sqlCommand.Parameters.AddWithValue("@EMAIL", email);
 
-                SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationToken);
+                    if (sqlConnection.State != ConnectionState.Open)
+                    {
+                        await sqlConnection.OpenAsync(cancellationTokenSource.Token);
+                    }
 
-                if (sqlDataReader.HasRows)
-                {
-                    isExists = true;
+                    using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationTokenSource.Token))
+                    {
+                        if (sqlDataReader.HasRows)
+                        {
+                            isExists = true;
+                        }
+                    }
                 }
             }
             catch (Exception ex)

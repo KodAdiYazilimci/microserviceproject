@@ -24,7 +24,7 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Controlle
 
         [HttpGet]
         [Route(nameof(GetBankAccountsOfWorker))]
-        public async Task<IActionResult> GetBankAccountsOfWorker(int workerId, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetBankAccountsOfWorker(int workerId, CancellationTokenSource cancellationTokenSource)
         {
             if (Request.Headers.ContainsKey("TransactionIdentity"))
             {
@@ -33,14 +33,14 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Controlle
 
             return await ServiceExecuter.ExecuteServiceAsync<List<BankAccountModel>>(async () =>
             {
-                return await _bankService.GetBankAccounts(workerId, cancellationToken);
+                return await _bankService.GetBankAccounts(workerId, cancellationTokenSource);
             },
             services: _bankService);
         }
 
         [HttpPost]
         [Route(nameof(CreateBankAccount))]
-        public async Task<IActionResult> CreateBankAccount([FromBody] BankAccountModel bankAccount, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateBankAccount([FromBody] BankAccountModel bankAccount, CancellationTokenSource cancellationTokenSource)
         {
             if (Request.Headers.ContainsKey("TransactionIdentity"))
             {
@@ -49,16 +49,16 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Controlle
 
             return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
             {
-                await CreateBankAccountValidator.ValidateAsync(bankAccount, cancellationToken);
+                await CreateBankAccountValidator.ValidateAsync(bankAccount, cancellationTokenSource);
 
-                return await _bankService.CreateBankAccountAsync(bankAccount, cancellationToken);
+                return await _bankService.CreateBankAccountAsync(bankAccount, cancellationTokenSource);
             },
             services: _bankService);
         }
 
         [HttpGet]
         [Route(nameof(GetCurrencies))]
-        public async Task<IActionResult> GetCurrencies(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetCurrencies(CancellationTokenSource cancellationTokenSource)
         {
             if (Request.Headers.ContainsKey("TransactionIdentity"))
             {
@@ -67,14 +67,14 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Controlle
 
             return await ServiceExecuter.ExecuteServiceAsync<List<CurrencyModel>>(async () =>
             {
-                return await _bankService.GetCurrenciesAsync(cancellationToken);
+                return await _bankService.GetCurrenciesAsync(cancellationTokenSource);
             },
             services: _bankService);
         }
 
         [HttpPost]
         [Route(nameof(CreateCurrency))]
-        public async Task<IActionResult> CreateCurrency([FromBody] CurrencyModel currency, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateCurrency([FromBody] CurrencyModel currency, CancellationTokenSource cancellationTokenSource)
         {
             if (Request.Headers.ContainsKey("TransactionIdentity"))
             {
@@ -83,16 +83,16 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Controlle
 
             return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
             {
-                await CreateCurrencyValidator.ValidateAsync(currency, cancellationToken);
+                await CreateCurrencyValidator.ValidateAsync(currency, cancellationTokenSource);
 
-                return await _bankService.CreateCurrencyAsync(currency, cancellationToken);
+                return await _bankService.CreateCurrencyAsync(currency, cancellationTokenSource);
             },
             services: _bankService);
         }
 
         [HttpGet]
         [Route(nameof(GetSalaryPaymentsOfWorker))]
-        public async Task<IActionResult> GetSalaryPaymentsOfWorker(int workerId, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetSalaryPaymentsOfWorker(int workerId, CancellationTokenSource cancellationTokenSource)
         {
             if (Request.Headers.ContainsKey("TransactionIdentity"))
             {
@@ -101,14 +101,14 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Controlle
 
             return await ServiceExecuter.ExecuteServiceAsync<List<SalaryPaymentModel>>(async () =>
             {
-                return await _bankService.GetSalaryPaymentsOfWorkerAsync(workerId, cancellationToken);
+                return await _bankService.GetSalaryPaymentsOfWorkerAsync(workerId, cancellationTokenSource);
             },
             services: _bankService);
         }
 
         [HttpPost]
         [Route(nameof(CreateSalaryPayment))]
-        public async Task<IActionResult> CreateSalaryPayment([FromBody] SalaryPaymentModel salaryPayment, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateSalaryPayment([FromBody] SalaryPaymentModel salaryPayment, CancellationTokenSource cancellationTokenSource)
         {
             if (Request.Headers.ContainsKey("TransactionIdentity"))
             {
@@ -117,9 +117,9 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Controlle
 
             return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
             {
-                await CreateSalaryPaymentValidator.ValidateAsync(salaryPayment, cancellationToken);
+                await CreateSalaryPaymentValidator.ValidateAsync(salaryPayment, cancellationTokenSource);
 
-                return await _bankService.CreateSalaryPaymentAsync(salaryPayment, cancellationToken);
+                return await _bankService.CreateSalaryPaymentAsync(salaryPayment, cancellationTokenSource);
             },
             services: _bankService);
         }

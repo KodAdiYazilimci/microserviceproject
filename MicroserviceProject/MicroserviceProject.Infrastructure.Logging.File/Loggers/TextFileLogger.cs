@@ -38,7 +38,7 @@ namespace MicroserviceProject.Infrastructure.Logging.File.Loggers
         /// Düz metin log yazar
         /// </summary>
         /// <param name="model">Yazılacak logun modeli</param>
-        public async Task LogAsync(TModel model, CancellationToken cancellationToken)
+        public async Task LogAsync(TModel model, CancellationTokenSource cancellationTokenSource)
         {
             DirectoryInfo directoryInfo = new DirectoryInfo(_fileConfiguration.Path);
 
@@ -51,7 +51,7 @@ namespace MicroserviceProject.Infrastructure.Logging.File.Loggers
                 path: _fileConfiguration.Path + "\\" + _fileConfiguration.FileName,
                 contents: model.ToString(),
                 encoding: _fileConfiguration.Encoding,
-                cancellationToken: cancellationToken);
+                cancellationToken: cancellationTokenSource.Token);
         }
 
         /// <summary>

@@ -35,10 +35,8 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Persistence.
         /// </summary>
         /// <param name="userId">Sorgulanacak kullanıcının Id değeri</param>
         /// <returns></returns>
-        public async Task<int> InsertSessionAsync(int userId, string token, DateTime validTo, string ipAddress, string userAgent, CancellationToken cancellationToken)
+        public async Task<int> InsertSessionAsync(int userId, string token, DateTime validTo, string ipAddress, string userAgent, CancellationTokenSource cancellationTokenSource)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
             int generatedSessionId = 0;
             Exception exception = null;
 
@@ -84,10 +82,10 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Persistence.
 
                 if (sqlConnection.State != ConnectionState.Open)
                 {
-                    await sqlConnection.OpenAsync(cancellationToken);
+                    await sqlConnection.OpenAsync(cancellationTokenSource.Token);
                 }
 
-                generatedSessionId = await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
+                generatedSessionId = await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
             }
             catch (Exception ex)
             {
@@ -114,10 +112,8 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Persistence.
         /// </summary>
         /// <param name="token">Oturumun token anahtarı</param>
         /// <returns></returns>
-        public async Task<Session> GetValidSessionAsync(string token, CancellationToken cancellationToken)
+        public async Task<Session> GetValidSessionAsync(string token, CancellationTokenSource cancellationTokenSource)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
             Session session = null;
 
             Exception exception = null;
@@ -126,8 +122,8 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Persistence.
 
             try
             {
-                SqlCommand sqlCommand =
-                    new SqlCommand(@"
+                using (SqlCommand sqlCommand =
+                       new SqlCommand(@"
                                     SELECT [ID]
                                           ,[IPADDRESS]
                                           ,[TOKEN]
@@ -142,32 +138,32 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Persistence.
                                       AND
                                       DELETE_DATE IS NULL
                                       AND
-                                      ISVALID = 1", sqlConnection);
-
-                sqlCommand.Parameters.AddWithValue("@TOKEN", token);
-
-                if (sqlConnection.State != ConnectionState.Open)
+                                      ISVALID = 1", sqlConnection))
                 {
-                    await sqlConnection.OpenAsync(cancellationToken);
-                }
+                    sqlCommand.Parameters.AddWithValue("@TOKEN", token);
 
-                SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationToken);
-
-                if (sqlDataReader.HasRows)
-                {
-                    while (await sqlDataReader.ReadAsync(cancellationToken))
+                    if (sqlConnection.State != ConnectionState.Open)
                     {
-                        cancellationToken.ThrowIfCancellationRequested();
+                        await sqlConnection.OpenAsync(cancellationTokenSource.Token);
+                    }
 
-                        session = new Session
+                    using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationTokenSource.Token))
+                    {
+                        if (sqlDataReader.HasRows)
                         {
-                            Id = Convert.ToInt32(sqlDataReader["ID"])
-                        };
+                            while (await sqlDataReader.ReadAsync(cancellationTokenSource.Token))
+                            {
+                                session = new Session
+                                {
+                                    Id = Convert.ToInt32(sqlDataReader["ID"])
+                                };
 
-                        session.Token = sqlDataReader["TOKEN"].ToString();
-                        session.UserAgent = sqlDataReader["USERAGENT"].ToString();
-                        session.UserId = Convert.ToInt32(sqlDataReader["USERID"]);
-                        session.ValidTo = Convert.ToDateTime(sqlDataReader["VALIDTO"]);
+                                session.Token = sqlDataReader["TOKEN"].ToString();
+                                session.UserAgent = sqlDataReader["USERAGENT"].ToString();
+                                session.UserId = Convert.ToInt32(sqlDataReader["USERID"]);
+                                session.ValidTo = Convert.ToDateTime(sqlDataReader["VALIDTO"]);
+                            }
+                        }
                     }
                 }
             }

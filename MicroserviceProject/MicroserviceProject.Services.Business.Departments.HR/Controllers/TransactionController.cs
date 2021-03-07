@@ -27,7 +27,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Controllers
 
         [HttpPost]
         [Route(nameof(RollbackTransaction))]
-        public async Task<IActionResult> RollbackTransaction([FromBody] RollbackModel rollbackModel, CancellationToken cancellationToken)
+        public async Task<IActionResult> RollbackTransaction([FromBody] RollbackModel rollbackModel, CancellationTokenSource cancellationTokenSource)
         {
             if (Request.Headers.ContainsKey("TransactionIdentity"))
             {
@@ -37,18 +37,18 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Controllers
 
             return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
             {
-                await RollbackTransactionValidator.ValidateAsync(rollbackModel, cancellationToken);
+                await RollbackTransactionValidator.ValidateAsync(rollbackModel, cancellationTokenSource);
 
                 int rollbackResult = 0;
 
                 if (rollbackModel.Modules.Contains(_departmentService.ServiceName))
                 {
-                    rollbackResult = await _departmentService.RollbackTransactionAsync(rollbackModel, cancellationToken);
+                    rollbackResult = await _departmentService.RollbackTransactionAsync(rollbackModel, cancellationTokenSource);
                 }
 
                 if (rollbackModel.Modules.Contains(_personService.ServiceName))
                 {
-                    rollbackResult = await _departmentService.RollbackTransactionAsync(rollbackModel, cancellationToken);
+                    rollbackResult = await _departmentService.RollbackTransactionAsync(rollbackModel, cancellationTokenSource);
                 }
 
                 return rollbackResult;

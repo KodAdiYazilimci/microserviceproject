@@ -21,16 +21,16 @@ namespace MicroserviceProject.Services.Infrastructure.Logging.Util.Validation.Lo
         /// Request body doğrular
         /// </summary>
         /// <param name="credential">Doğrulanacak nesne</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public static async Task<ServiceResultModel> ValidateAsync(RequestResponseLogModel credential, CancellationToken cancellationToken)
+        public static async Task<ServiceResultModel> ValidateAsync(RequestResponseLogModel credential, CancellationTokenSource cancellationTokenSource)
         {
             Configuration.Validation.Logging.WriteRequestResponseLog.RequestResponseLogModelRule validationRules =
                 new Configuration.Validation.Logging.WriteRequestResponseLog.RequestResponseLogModelRule();
 
             if (credential != null)
             {
-                ValidationResult validationResult = await validationRules.ValidateAsync(credential, cancellationToken);
+                ValidationResult validationResult = await validationRules.ValidateAsync(credential, cancellationTokenSource.Token);
 
                 if (!validationResult.IsValid)
                 {

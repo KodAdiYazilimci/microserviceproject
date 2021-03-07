@@ -66,13 +66,13 @@ namespace MicroserviceProject.Infrastructure.Logging.Managers
         /// Log yazar
         /// </summary>
         /// <param name="model">Yazılacak logun modeli</param>
-        public Task LogAsync(TModel model, CancellationToken cancellationToken)
+        public Task LogAsync(TModel model, CancellationTokenSource cancellationTokenSource)
         {
             Task[] tasks = new Task[_loggers.Count];
 
             for (int i = 0; i < _loggers.Count; i++)
             {
-                tasks[i] = _loggers[i].LogAsync(model, cancellationToken);
+                tasks[i] = _loggers[i].LogAsync(model, cancellationTokenSource);
             }
 
             Task.WaitAll(tasks);

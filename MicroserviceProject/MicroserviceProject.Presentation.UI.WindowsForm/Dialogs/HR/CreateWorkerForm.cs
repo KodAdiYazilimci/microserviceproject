@@ -92,7 +92,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.HR
                             serviceName: _routeNameProvider.HR_CreateWorker,
                             postData: worker,
                             queryParameters: null,
-                            cancellationToken: cancellationTokenSource.Token);
+                            cancellationTokenSource: cancellationTokenSource);
 
                     if (createWorkerServiceResult.IsSuccess)
                     {
@@ -137,7 +137,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.HR
                             serviceName: _routeNameProvider.HR_GetPeople,
                             postData: null,
                             queryParameters: null,
-                            cancellationToken: cancellationTokenSource.Token);
+                            cancellationTokenSource: cancellationTokenSource);
 
                     if (personServiceResult.IsSuccess)
                     {
@@ -180,7 +180,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.HR
                             serviceName: _routeNameProvider.HR_GetTitles,
                             postData: null,
                             queryParameters: null,
-                            cancellationToken: cancellationTokenSource.Token);
+                            cancellationTokenSource: cancellationTokenSource);
 
                     if (titleServiceResult.IsSuccess)
                     {
@@ -223,7 +223,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.HR
                             serviceName: _routeNameProvider.HR_GetDepartments,
                             postData: null,
                             queryParameters: null,
-                            cancellationToken: cancellationTokenSource.Token);
+                            cancellationTokenSource: cancellationTokenSource);
 
                     if (departmentServiceResult.IsSuccess)
                     {
@@ -266,7 +266,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.HR
                             serviceName: _routeNameProvider.HR_GetWorkers,
                             postData: null,
                             queryParameters: null,
-                            cancellationToken: cancellationTokenSource.Token);
+                            cancellationTokenSource: cancellationTokenSource);
 
                     if (workersServiceResult.IsSuccess)
                     {

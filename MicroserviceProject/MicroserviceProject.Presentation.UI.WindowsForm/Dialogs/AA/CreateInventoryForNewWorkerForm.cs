@@ -64,7 +64,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.AA
                                         Id = (cmbEnvanter.SelectedItem as InventoryModel).Id
                                     },
                                     queryParameters: null,
-                                    cancellationToken: cancellationTokenSource.Token);
+                                    cancellationTokenSource: cancellationTokenSource);
 
                     if (createInventoryServiceResult.IsSuccess)
                     {
@@ -109,7 +109,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.AA
                             serviceName: _routeNameProvider.AA_GetInventories,
                             postData: null,
                             queryParameters: null,
-                            cancellationToken: cancellationTokenSource.Token);
+                            cancellationTokenSource: cancellationTokenSource);
 
                     if (inventoryServiceResult.IsSuccess)
                     {

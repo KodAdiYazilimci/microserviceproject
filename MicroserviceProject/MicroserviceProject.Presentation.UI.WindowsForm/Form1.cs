@@ -58,7 +58,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
             //         Password = ConfigurationManager.AppSettings["Configuration.Authorization.Credential.password"].ToString()
             //     },
             //     queryParameters: null,
-            //     cancellationToken: cancellationTokenSource.Token);
+            //     cancellationTokenSource: cancellationTokenSource);
         }
 
         private void BtnKisileriGetir_Click(object sender, EventArgs e)
@@ -76,7 +76,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
                             serviceName: _routeNameProvider.HR_GetPeople,
                             postData: null,
                             queryParameters: null,
-                            cancellationToken: cancellationTokenSource.Token);
+                            cancellationTokenSource: cancellationTokenSource);
 
                     if (personServiceResult.IsSuccess)
                     {
@@ -127,7 +127,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
                             serviceName: _routeNameProvider.HR_GetDepartments,
                             postData: null,
                             queryParameters: null,
-                            cancellationToken: cancellationTokenSource.Token);
+                            cancellationTokenSource: cancellationTokenSource);
 
                     if (departmentServiceResult.IsSuccess)
                     {
@@ -166,7 +166,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
                                         Name = "TestDepartman"
                                     },
                                     queryParameters: null,
-                                    cancellationToken: cancellationTokenSource.Token);
+                                    cancellationTokenSource: cancellationTokenSource);
 
                     if (createDepartmentServiceResult.IsSuccess)
                     {
@@ -199,7 +199,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
                             serviceName: _routeNameProvider.HR_GetWorkers,
                             postData: null,
                             queryParameters: null,
-                            cancellationToken: cancellationTokenSource.Token);
+                            cancellationTokenSource: cancellationTokenSource);
 
                     if (workersServiceResult.IsSuccess)
                     {
@@ -250,7 +250,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
                             serviceName: _routeNameProvider.IT_GetInventories,
                             postData: null,
                             queryParameters: null,
-                            cancellationToken: cancellationTokenSource.Token);
+                            cancellationTokenSource: cancellationTokenSource);
 
                     if (inventoryServiceResult.IsSuccess)
                     {
@@ -301,7 +301,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
                             serviceName: _routeNameProvider.AA_GetInventories,
                             postData: null,
                             queryParameters: null,
-                            cancellationToken: cancellationTokenSource.Token);
+                            cancellationTokenSource: cancellationTokenSource);
 
                     if (inventoryServiceResult.IsSuccess)
                     {
@@ -352,7 +352,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
                             serviceName: _routeNameProvider.IT_GetInventoriesForNewWorker,
                             postData: null,
                             queryParameters: null,
-                            cancellationToken: cancellationTokenSource.Token);
+                            cancellationTokenSource: cancellationTokenSource);
 
                     if (inventoryServiceResult.IsSuccess)
                     {
@@ -403,7 +403,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
                             serviceName: _routeNameProvider.AA_GetInventoriesForNewWorker,
                             postData: null,
                             queryParameters: null,
-                            cancellationToken: cancellationTokenSource.Token);
+                            cancellationTokenSource: cancellationTokenSource);
 
                     if (inventoryServiceResult.IsSuccess)
                     {
@@ -454,7 +454,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm
                             serviceName: _routeNameProvider.Buying_GetInventoryRequests,
                             postData: null,
                             queryParameters: null,
-                            cancellationToken: cancellationTokenSource.Token);
+                            cancellationTokenSource: cancellationTokenSource);
 
                     if (inventoryRequestServiceResult.IsSuccess)
                     {

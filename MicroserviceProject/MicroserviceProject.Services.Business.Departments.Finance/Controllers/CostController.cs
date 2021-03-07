@@ -25,7 +25,7 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Controllers
 
         [HttpGet]
         [Route(nameof(GetDecidedCosts))]
-        public async Task<IActionResult> GetDecidedCosts(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetDecidedCosts(CancellationTokenSource cancellationTokenSource)
         {
             if (Request.Headers.ContainsKey("TransactionIdentity"))
             {
@@ -34,14 +34,14 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Controllers
 
             return await ServiceExecuter.ExecuteServiceAsync<List<DecidedCostModel>>(async () =>
             {
-                return await _costService.GetDecidedCostsAsync(cancellationToken);
+                return await _costService.GetDecidedCostsAsync(cancellationTokenSource);
             },
             services: _costService);
         }
 
         [HttpPost]
         [Route(nameof(CreateCost))]
-        public async Task<IActionResult> CreateCost([FromBody] DecidedCostModel cost, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateCost([FromBody] DecidedCostModel cost, CancellationTokenSource cancellationTokenSource)
         {
             if (Request.Headers.ContainsKey("TransactionIdentity"))
             {
@@ -50,16 +50,16 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Controllers
 
             return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
             {
-                await CreateCostValidator.ValidateAsync(cost, cancellationToken);
+                await CreateCostValidator.ValidateAsync(cost, cancellationTokenSource);
 
-                return await _costService.CreateDecidedCostAsync(cost, cancellationToken);
+                return await _costService.CreateDecidedCostAsync(cost, cancellationTokenSource);
             },
             services: _costService);
         }
 
         [HttpPost]
         [Route(nameof(DecideCost))]
-        public async Task<IActionResult> DecideCost([FromBody] DecidedCostModel cost, CancellationToken cancellationToken)
+        public async Task<IActionResult> DecideCost([FromBody] DecidedCostModel cost, CancellationTokenSource cancellationTokenSource)
         {
             if (Request.Headers.ContainsKey("TransactionIdentity"))
             {
@@ -68,12 +68,12 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Controllers
 
             return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
             {
-                await DecideCostValidator.ValidateAsync(cost, cancellationToken);
+                await DecideCostValidator.ValidateAsync(cost, cancellationTokenSource);
 
                 if (cost.Approved)
-                    return await _costService.ApproveCostAsync(cost.Id, cancellationToken);
+                    return await _costService.ApproveCostAsync(cost.Id, cancellationTokenSource);
                 else
-                    return await _costService.RejectCostAsync(cost.Id, cancellationToken);
+                    return await _costService.RejectCostAsync(cost.Id, cancellationTokenSource);
             },
             services: _costService);
         }

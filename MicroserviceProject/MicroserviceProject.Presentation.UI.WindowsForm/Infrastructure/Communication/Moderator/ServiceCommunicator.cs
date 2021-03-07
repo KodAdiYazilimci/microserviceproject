@@ -78,13 +78,13 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Infrastructure.Communi
         /// <param name="serviceName">Çağrı yapılacak servisin adı</param>
         /// <param name="postData">Çağrı yapılacak servise post edilecek payload data</param>
         /// <param name="queryParameters">Çağrı yapılacak servis gönderilecek query string parametreler</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
         public async Task<ServiceResultModel<T>> Call<T>(
             string serviceName,
             object postData,
             List<KeyValuePair<string, string>> queryParameters,
-            CancellationToken cancellationToken)
+            CancellationTokenSource cancellationTokenSource)
         {
             Token takenTokenForThisService = _memoryCache.Get<Token>(TAKENTOKENFORTHISSERVICE);
 
@@ -95,7 +95,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Infrastructure.Communi
                 ServiceCaller serviceTokenCaller = new ServiceCaller(_memoryCache, "");
                 serviceTokenCaller.OnNoServiceFoundInCacheAsync += async (_serviceName) =>
                 {
-                    return await GetServiceAsync(_serviceName, cancellationToken);
+                    return await GetServiceAsync(_serviceName, cancellationTokenSource);
                 };
                 ServiceResultModel<Token> tokenResult =
                     await serviceTokenCaller.Call<Token>(
@@ -106,7 +106,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Infrastructure.Communi
                             Password = _credentialProvider.GetPassword
                         },
                         queryParameters: null,
-                        cancellationToken: cancellationToken);
+                        cancellationTokenSource: cancellationTokenSource);
 
                 if (tokenResult.IsSuccess && tokenResult.Data != null)
                 {
@@ -122,14 +122,14 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Infrastructure.Communi
             ServiceCaller serviceCaller = new ServiceCaller(_memoryCache, takenTokenForThisService.TokenKey);
             serviceCaller.OnNoServiceFoundInCacheAsync += async (_serviceName) =>
             {
-                return await GetServiceAsync(_serviceName, cancellationToken);
+                return await GetServiceAsync(_serviceName, cancellationTokenSource);
             };
 
             ServiceResultModel<T> result = await serviceCaller.Call<T>(
                 serviceName: serviceName,
                 postData: postData,
                 queryParameters: queryParameters,
-                cancellationToken: cancellationToken);
+                cancellationTokenSource: cancellationTokenSource);
 
             return result;
         }
@@ -140,13 +140,13 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Infrastructure.Communi
         /// <param name="serviceName">Çağrı yapılacak servisin adı</param>
         /// <param name="postData">Çağrı yapılacak servise post edilecek payload data</param>
         /// <param name="queryParameters">Çağrı yapılacak servis gönderilecek query string parametreler</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
         public async Task<ServiceResultModel> Call(
             string serviceName,
             object postData,
             List<KeyValuePair<string, string>> queryParameters,
-            CancellationToken cancellationToken)
+            CancellationTokenSource cancellationTokenSource)
         {
             Token takenTokenForThisService = _memoryCache.Get<Token>(TAKENTOKENFORTHISSERVICE);
 
@@ -157,7 +157,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Infrastructure.Communi
                 ServiceCaller serviceTokenCaller = new ServiceCaller(_memoryCache, "");
                 serviceTokenCaller.OnNoServiceFoundInCacheAsync += async (_serviceName) =>
                 {
-                    return await GetServiceAsync(_serviceName, cancellationToken);
+                    return await GetServiceAsync(_serviceName, cancellationTokenSource);
                 };
                 ServiceResultModel<Token> tokenResult =
                     await serviceTokenCaller.Call<Token>(
@@ -168,7 +168,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Infrastructure.Communi
                             Password = _credentialProvider.GetPassword
                         },
                         queryParameters: null,
-                        cancellationToken: cancellationToken);
+                        cancellationTokenSource: cancellationTokenSource);
 
                 if (tokenResult.IsSuccess && tokenResult.Data != null)
                 {
@@ -184,14 +184,14 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Infrastructure.Communi
             ServiceCaller serviceCaller = new ServiceCaller(_memoryCache, takenTokenForThisService.TokenKey);
             serviceCaller.OnNoServiceFoundInCacheAsync += async (_serviceName) =>
             {
-                return await GetServiceAsync(_serviceName, cancellationToken);
+                return await GetServiceAsync(_serviceName, cancellationTokenSource);
             };
 
             ServiceResultModel result = await serviceCaller.Call(
                 serviceName: serviceName,
                 postData: postData,
                 queryParameters: queryParameters,
-                cancellationToken: cancellationToken);
+                cancellationTokenSource: cancellationTokenSource);
 
             return result;
         }
@@ -200,20 +200,20 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Infrastructure.Communi
         /// Servis rota bilgisini verir
         /// </summary>
         /// <param name="serviceName">Bilgisi getirilecek servisin adı</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        private async Task<string> GetServiceAsync(string serviceName, CancellationToken cancellationToken)
+        private async Task<string> GetServiceAsync(string serviceName, CancellationTokenSource cancellationTokenSource)
         {
             List<ServiceRouteModel> serviceRoutes = _memoryCache.Get<List<ServiceRouteModel>>(CACHEDSERVICEROUTES);
 
             if (serviceRoutes == null || !serviceRoutes.Any())
             {
-                serviceRoutes = await _serviceRouteRepository.GetServiceRoutesAsync(cancellationToken);
+                serviceRoutes = await _serviceRouteRepository.GetServiceRoutesAsync(cancellationTokenSource);
 
                 return JsonConvert.SerializeObject(serviceRoutes.FirstOrDefault(x => x.ServiceName == serviceName));
             }
 
-            serviceRoutes = await _serviceRouteRepository.GetServiceRoutesAsync(cancellationToken);
+            serviceRoutes = await _serviceRouteRepository.GetServiceRoutesAsync(cancellationTokenSource);
 
             _memoryCache.Set<List<ServiceRouteModel>>(CACHEDSERVICEROUTES, serviceRoutes, DateTime.Now.AddMinutes(60));
 

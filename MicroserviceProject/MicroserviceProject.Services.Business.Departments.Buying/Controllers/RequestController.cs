@@ -27,7 +27,7 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Controllers
 
         [HttpGet]
         [Route(nameof(GetInventoryRequests))]
-        public async Task<IActionResult> GetInventoryRequests(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetInventoryRequests(CancellationTokenSource cancellationTokenSource)
         {
             if (Request.Headers.ContainsKey("TransactionIdentity"))
             {
@@ -36,14 +36,14 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Controllers
 
             return await ServiceExecuter.ExecuteServiceAsync<List<InventoryRequestModel>>(async () =>
             {
-                return await _requestService.GetInventoryRequestsAsync(cancellationToken);
+                return await _requestService.GetInventoryRequestsAsync(cancellationTokenSource);
             },
             services: _requestService);
         }
 
         [HttpPost]
         [Route(nameof(CreateInventoryRequest))]
-        public async Task<IActionResult> CreateInventoryRequest([FromBody] InventoryRequestModel requestModel, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateInventoryRequest([FromBody] InventoryRequestModel requestModel, CancellationTokenSource cancellationTokenSource)
         {
             if (Request.Headers.ContainsKey("TransactionIdentity"))
             {
@@ -52,16 +52,16 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Controllers
 
             return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
             {
-                await CreateInventoryRequestValidator.ValidateAsync(requestModel, cancellationToken);
+                await CreateInventoryRequestValidator.ValidateAsync(requestModel, cancellationTokenSource);
 
-                return await _requestService.CreateInventoryRequestAsync(requestModel, cancellationToken);
+                return await _requestService.CreateInventoryRequestAsync(requestModel, cancellationTokenSource);
             },
             services: _requestService);
         }
 
         [HttpPost]
         [Route(nameof(ValidateCostInventory))]
-        public async Task<IActionResult> ValidateCostInventory([FromBody] DecidedCostModel decidedCost, CancellationToken cancellationToken)
+        public async Task<IActionResult> ValidateCostInventory([FromBody] DecidedCostModel decidedCost, CancellationTokenSource cancellationTokenSource)
         {
             if (Request.Headers.ContainsKey("TransactionIdentity"))
             {
@@ -70,9 +70,9 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Controllers
 
             return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
             {
-                await ValidateCostInventoryValidator.ValidateAsync(decidedCost, cancellationToken);
+                await ValidateCostInventoryValidator.ValidateAsync(decidedCost, cancellationTokenSource);
 
-                return await _requestService.ValidateCostInventoryAsync(decidedCost, cancellationToken);
+                return await _requestService.ValidateCostInventoryAsync(decidedCost, cancellationTokenSource);
             },
             services: _requestService);
         }

@@ -40,8 +40,8 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Repositories
         /// </summary>
         /// <param name="entity">Oluşturulacak masraf kararı nesnesi</param><
         /// <param name="unitOfWork">Oluşturma esnasında kullanılacak transaction nesnesi</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
-        public override async Task<int> CreateAsync(DecidedCostEntity entity, CancellationToken cancellationToken)
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
+        public override async Task<int> CreateAsync(DecidedCostEntity entity, CancellationTokenSource cancellationTokenSource)
         {
             SqlCommand sqlCommand = new SqlCommand($@"INSERT INTO {TABLE_NAME}
                                                       ([BUYING_INVENTORY_REQUESTS_ID],
@@ -62,50 +62,52 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Repositories
             sqlCommand.Parameters.AddWithValue("@APPROVED", ((object)entity.Approved) ?? DBNull.Value);
             sqlCommand.Parameters.AddWithValue("@DONE", ((object)entity.Done) ?? DBNull.Value);
 
-            return (int)await sqlCommand.ExecuteScalarAsync(cancellationToken);
+            return (int)await sqlCommand.ExecuteScalarAsync(cancellationTokenSource.Token);
         }
 
         /// <summary>
         /// Masraf kararı listesini verir
         /// </summary>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public override async Task<List<DecidedCostEntity>> GetListAsync(CancellationToken cancellationToken)
+        public override async Task<List<DecidedCostEntity>> GetListAsync(CancellationTokenSource cancellationTokenSource)
         {
             List<DecidedCostEntity> entities = new List<DecidedCostEntity>();
 
-            SqlCommand sqlCommand = new SqlCommand($@"SELECT 
+            using (SqlCommand sqlCommand = new SqlCommand($@"SELECT 
                                                       [ID],
                                                       [BUYING_INVENTORY_REQUESTS_ID],
                                                       [APPROVED],
                                                       [DONE]
                                                       FROM {TABLE_NAME}
                                                       WHERE DELETE_DATE IS NULL",
-                                                     UnitOfWork.SqlConnection,
-                                                     UnitOfWork.SqlTransaction)
+                                                       UnitOfWork.SqlConnection,
+                                                       UnitOfWork.SqlTransaction)
             {
                 Transaction = UnitOfWork.SqlTransaction
-            };
-
-            SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationToken);
-
-            if (sqlDataReader.HasRows)
+            })
             {
-                while (await sqlDataReader.ReadAsync(cancellationToken))
+                using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationTokenSource.Token))
                 {
-                    DecidedCostEntity inventory = new DecidedCostEntity
+                    if (sqlDataReader.HasRows)
                     {
-                        Id = sqlDataReader.GetInt32("ID"),
-                        InventoryRequestId = sqlDataReader.GetInt32("BUYING_INVENTORY_REQUESTS_ID"),
-                        Approved = sqlDataReader.GetBoolean("APPROVED"),
-                        Done = sqlDataReader.GetBoolean("DONE")
-                    };
+                        while (await sqlDataReader.ReadAsync(cancellationTokenSource.Token))
+                        {
+                            DecidedCostEntity inventory = new DecidedCostEntity
+                            {
+                                Id = sqlDataReader.GetInt32("ID"),
+                                InventoryRequestId = sqlDataReader.GetInt32("BUYING_INVENTORY_REQUESTS_ID"),
+                                Approved = sqlDataReader.GetBoolean("APPROVED"),
+                                Done = sqlDataReader.GetBoolean("DONE")
+                            };
 
-                    entities.Add(inventory);
+                            entities.Add(inventory);
+                        }
+                    }
+
+                    return entities;
                 }
             }
-
-            return entities;
         }
 
         /// <summary>
@@ -129,80 +131,83 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Repositories
         /// Bir işlemi geri alındı olarak işaretler
         /// </summary>
         /// <param name="transactionIdentity">Geri alındı olarak işaretlenecek işlemin kimliği</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<int> SetRolledbackAsync(string transactionIdentity, CancellationToken cancellationToken)
+        public async Task<int> SetRolledbackAsync(string transactionIdentity, CancellationTokenSource cancellationTokenSource)
         {
-            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+            using (SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
                                                       SET [IS_ROLLED_BACK] = 1
                                                       WHERE
                                                       [TRANSACTION_IDENTITY] = @TRANSACTION_IDENTITY",
-                                               UnitOfWork.SqlConnection,
-                                               UnitOfWork.SqlTransaction)
+                                                  UnitOfWork.SqlConnection,
+                                                  UnitOfWork.SqlTransaction)
             {
                 Transaction = UnitOfWork.SqlTransaction
-            };
+            })
+            {
+                sqlCommand.Parameters.AddWithValue("@TRANSACTION_IDENTITY", transactionIdentity);
 
-            sqlCommand.Parameters.AddWithValue("@TRANSACTION_IDENTITY", transactionIdentity);
-
-            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
+                return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
+            }
         }
 
         /// <summary>
         /// Bir Id değerine sahip envanter talebini silindi olarak işaretler
         /// </summary>
         /// <param name="id">Silindi olarak işaretlenecek envanter talebinin Id değeri</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<int> DeleteAsync(int id, CancellationToken cancellationToken)
+        public async Task<int> DeleteAsync(int id, CancellationTokenSource cancellationTokenSource)
         {
-            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+            using (SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
                                                       SET DELETE_DATE = GETDATE()
                                                       WHERE ID = @ID",
-                                                     UnitOfWork.SqlConnection,
-                                                     UnitOfWork.SqlTransaction)
+                                                         UnitOfWork.SqlConnection,
+                                                         UnitOfWork.SqlTransaction)
             {
                 Transaction = UnitOfWork.SqlTransaction
-            };
+            })
+            {
+                sqlCommand.Parameters.AddWithValue("@ID", id);
 
-            sqlCommand.Parameters.AddWithValue("@ID", id);
-
-            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
+                return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
+            }
         }
 
         /// <summary>
         /// Silindi olarak işaretlenmiş bir envanter talebi kaydının işaretini kaldırır
         /// </summary>
         /// <param name="id">Silindi işareti kaldırılacak envanter talebi kaydının Id değeri</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<int> UnDeleteAsync(int id, CancellationToken cancellationToken)
+        public async Task<int> UnDeleteAsync(int id, CancellationTokenSource cancellationTokenSource)
         {
-            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+            using (SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
                                                       SET DELETE_DATE = NULL
                                                       WHERE ID = @ID",
-                                                              UnitOfWork.SqlConnection,
-                                                              UnitOfWork.SqlTransaction)
+                                                               UnitOfWork.SqlConnection,
+                                                               UnitOfWork.SqlTransaction)
             {
                 Transaction = UnitOfWork.SqlTransaction
-            };
+            })
+            {
+                sqlCommand.Parameters.AddWithValue("@ID", id);
 
-            sqlCommand.Parameters.AddWithValue("@ID", id);
-
-            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
+                return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
+            }
         }
 
         /// <summary>
         /// Masraf onayı bilgisini getirir
         /// </summary>
         /// <param name="costId">Getirilecek masrafın Id değeri</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<DecidedCostEntity> GetAsync(int costId, CancellationToken cancellationToken)
+        public async Task<DecidedCostEntity> GetAsync(int costId, CancellationTokenSource cancellationTokenSource)
         {
             DecidedCostEntity decidedCostEntity = null;
 
-            SqlCommand sqlCommand = new SqlCommand($@"SELECT
+            using (SqlCommand sqlCommand = new SqlCommand($@"SELECT
                                                       TOP 1
                                                       [ID],
                                                       [BUYING_INVENTORY_REQUESTS_ID],
@@ -213,31 +218,34 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Repositories
                                                       ID = @ID
                                                       AND
                                                       DELETE_DATE IS NULL",
-                                                     UnitOfWork.SqlConnection,
-                                                     UnitOfWork.SqlTransaction)
+                                                        UnitOfWork.SqlConnection,
+                                                        UnitOfWork.SqlTransaction)
             {
                 Transaction = UnitOfWork.SqlTransaction
-            };
-
-            sqlCommand.Parameters.AddWithValue("@ID", ((object)costId) ?? DBNull.Value);
-
-            SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationToken);
-
-            if (sqlDataReader.HasRows)
+            })
             {
-                while (await sqlDataReader.ReadAsync(cancellationToken))
-                {
-                    decidedCostEntity = new DecidedCostEntity
-                    {
-                        Id = sqlDataReader.GetInt32("ID"),
-                        InventoryRequestId = sqlDataReader.GetInt32("BUYING_INVENTORY_REQUESTS_ID"),
-                        Approved = sqlDataReader.GetBoolean("APPROVED"),
-                        Done = sqlDataReader.GetBoolean("DONE")
-                    };
-                }
-            }
+                sqlCommand.Parameters.AddWithValue("@ID", ((object)costId) ?? DBNull.Value);
 
-            return decidedCostEntity;
+                using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationTokenSource.Token))
+                {
+
+                    if (sqlDataReader.HasRows)
+                    {
+                        while (await sqlDataReader.ReadAsync(cancellationTokenSource.Token))
+                        {
+                            decidedCostEntity = new DecidedCostEntity
+                            {
+                                Id = sqlDataReader.GetInt32("ID"),
+                                InventoryRequestId = sqlDataReader.GetInt32("BUYING_INVENTORY_REQUESTS_ID"),
+                                Approved = sqlDataReader.GetBoolean("APPROVED"),
+                                Done = sqlDataReader.GetBoolean("DONE")
+                            };
+                        }
+                    }
+                }
+
+                return decidedCostEntity;
+            }
         }
 
 
@@ -247,67 +255,70 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Repositories
         /// <param name="id">Değeri değiştirilecek envanter talebinin Id değeri</param>
         /// <param name="name">Değeri değiştirilecek kolonun adı</param>
         /// <param name="value">Yeni değer</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<int> SetAsync(int id, string name, object value, CancellationToken cancellationToken)
+        public async Task<int> SetAsync(int id, string name, object value, CancellationTokenSource cancellationTokenSource)
         {
-            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+            using (SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
                                                       SET {name.ToUpper()} = @VALUE
                                                       WHERE ID = @ID",
-                                                                  UnitOfWork.SqlConnection,
-                                                                  UnitOfWork.SqlTransaction)
+                                                                      UnitOfWork.SqlConnection,
+                                                                      UnitOfWork.SqlTransaction)
             {
                 Transaction = UnitOfWork.SqlTransaction
-            };
+            })
+            {
+                sqlCommand.Parameters.AddWithValue("@ID", id);
+                sqlCommand.Parameters.AddWithValue("@VALUE", value);
 
-            sqlCommand.Parameters.AddWithValue("@ID", id);
-            sqlCommand.Parameters.AddWithValue("@VALUE", value);
-
-            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
+                return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
+            }
         }
 
         /// <summary>
         /// Masrafı reddeder
         /// </summary>
         /// <param name="costId">Reddedilecek masrafın Id değeri</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<int> ApproveAsync(int costId, CancellationToken cancellationToken)
+        public async Task<int> ApproveAsync(int costId, CancellationTokenSource cancellationTokenSource)
         {
-            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+            using (SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
                                                       SET APPROVED = 1, DONE = 1
                                                       WHERE ID = @ID",
-                                                        UnitOfWork.SqlConnection,
-                                                        UnitOfWork.SqlTransaction)
+                                                           UnitOfWork.SqlConnection,
+                                                           UnitOfWork.SqlTransaction)
             {
                 Transaction = UnitOfWork.SqlTransaction
-            };
+            })
+            {
+                sqlCommand.Parameters.AddWithValue("@ID", costId);
 
-            sqlCommand.Parameters.AddWithValue("@ID", costId);
-
-            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
+                return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
+            }
         }
 
         /// <summary>
         /// Masrafı onaylar
         /// </summary>
         /// <param name="costId">Onaylanacak masrafın Id değeri</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<int> RejectAsync(int costId, CancellationToken cancellationToken)
+        public async Task<int> RejectAsync(int costId, CancellationTokenSource cancellationTokenSource)
         {
-            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+            using (SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
                                                       SET APPROVED = 0, DONE = 1
                                                       WHERE ID = @ID",
-                                                        UnitOfWork.SqlConnection,
-                                                        UnitOfWork.SqlTransaction)
+                                                         UnitOfWork.SqlConnection,
+                                                         UnitOfWork.SqlTransaction)
             {
                 Transaction = UnitOfWork.SqlTransaction
-            };
+            })
+            {
+                sqlCommand.Parameters.AddWithValue("@ID", costId);
 
-            sqlCommand.Parameters.AddWithValue("@ID", costId);
-
-            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
+                return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
+            }
         }
     }
 }

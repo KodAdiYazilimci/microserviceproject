@@ -32,8 +32,8 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Repositories.
             UnitOfWork = unitOfWork;
         }
 
-        public abstract Task<int> CreateAsync(TEntity entity, CancellationToken cancellationToken);
-        public abstract Task<List<TEntity>> GetListAsync(CancellationToken cancellationToken);
+        public abstract Task<int> CreateAsync(TEntity entity, CancellationTokenSource cancellationTokenSource);
+        public abstract Task<List<TEntity>> GetListAsync(CancellationTokenSource cancellationTokenSource);
 
         /// <summary>
         /// Kaynakları serbest bırakır

@@ -112,12 +112,12 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Services
         /// Bir çalışanın maaş hesabı listesini verir
         /// </summary>
         /// <param name="workerId">Çalışanın Id si</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<List<BankAccountModel>> GetBankAccounts(int workerId, CancellationToken cancellationToken)
+        public async Task<List<BankAccountModel>> GetBankAccounts(int workerId, CancellationTokenSource cancellationTokenSource)
         {
             List<BankAccountEntity> bankAccounts =
-                await _bankAccountRepository.GetBankAccountsAsync(workerId, cancellationToken);
+                await _bankAccountRepository.GetBankAccountsAsync(workerId, cancellationTokenSource);
 
             List<BankAccountModel> mappedBankAccounts =
                 _mapper.Map<List<BankAccountEntity>, List<BankAccountModel>>(bankAccounts);
@@ -129,13 +129,13 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Services
         /// Yeni maaş hesabı oluşturur
         /// </summary>
         /// <param name="bankAccount">Oluşturulacak banka hesabı nesnesi</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<int> CreateBankAccountAsync(BankAccountModel bankAccount, CancellationToken cancellationToken)
+        public async Task<int> CreateBankAccountAsync(BankAccountModel bankAccount, CancellationTokenSource cancellationTokenSource)
         {
             BankAccountEntity mappedBankAccount = _mapper.Map<BankAccountModel, BankAccountEntity>(bankAccount);
 
-            int createdBankAccountId = await _bankAccountRepository.CreateAsync(mappedBankAccount, cancellationToken);
+            int createdBankAccountId = await _bankAccountRepository.CreateAsync(mappedBankAccount, cancellationTokenSource);
 
             await CreateCheckpointAsync(
                 rollback: new RollbackModel()
@@ -153,9 +153,9 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Services
                          }
                     }
                 },
-                cancellationToken: cancellationToken);
+                cancellationTokenSource: cancellationTokenSource);
 
-            await _unitOfWork.SaveAsync(cancellationToken);
+            await _unitOfWork.SaveAsync(cancellationTokenSource);
 
             return createdBankAccountId;
         }
@@ -163,9 +163,9 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Services
         /// <summary>
         /// Para birimlerinin listesini verir
         /// </summary>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<List<CurrencyModel>> GetCurrenciesAsync(CancellationToken cancellationToken)
+        public async Task<List<CurrencyModel>> GetCurrenciesAsync(CancellationTokenSource cancellationTokenSource)
         {
             if (_cacheDataProvider.TryGetValue(CACHED_CURRENCIES_KEY, out List<CurrencyModel> cureencies)
                 &&
@@ -174,7 +174,7 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Services
                 return cureencies;
             }
 
-            List<CurrencyEntity> currencies = await _currencyRepository.GetListAsync(cancellationToken);
+            List<CurrencyEntity> currencies = await _currencyRepository.GetListAsync(cancellationTokenSource);
 
             List<CurrencyModel> mappedDepartments =
                 _mapper.Map<List<CurrencyEntity>, List<CurrencyModel>>(currencies);
@@ -188,13 +188,13 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Services
         /// Yeni para birimi oluşturur
         /// </summary>
         /// <param name="currency">Oluşturulacak para birimi nesnesi</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<int> CreateCurrencyAsync(CurrencyModel currency, CancellationToken cancellationToken)
+        public async Task<int> CreateCurrencyAsync(CurrencyModel currency, CancellationTokenSource cancellationTokenSource)
         {
             CurrencyEntity mappedCurrency = _mapper.Map<CurrencyModel, CurrencyEntity>(currency);
 
-            int createdCurrencyId = await _currencyRepository.CreateAsync(mappedCurrency, cancellationToken);
+            int createdCurrencyId = await _currencyRepository.CreateAsync(mappedCurrency, cancellationTokenSource);
 
             await CreateCheckpointAsync(
                 rollback: new RollbackModel()
@@ -212,9 +212,9 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Services
                         }
                     }
                 },
-                cancellationToken: cancellationToken);
+                cancellationTokenSource: cancellationTokenSource);
 
-            await _unitOfWork.SaveAsync(cancellationToken);
+            await _unitOfWork.SaveAsync(cancellationTokenSource);
 
             currency.Id = createdCurrencyId;
 
@@ -232,12 +232,12 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Services
         /// Bir çalışanın maaş ödemelerini verir
         /// </summary>
         /// <param name="workerId">Çalışanın Id si</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<List<SalaryPaymentModel>> GetSalaryPaymentsOfWorkerAsync(int workerId, CancellationToken cancellationToken)
+        public async Task<List<SalaryPaymentModel>> GetSalaryPaymentsOfWorkerAsync(int workerId, CancellationTokenSource cancellationTokenSource)
         {
             List<SalaryPaymentEntity> bankAccounts =
-           await _salaryPaymentRepository.GetSalaryPaymentsOfWorkerAsync(workerId, cancellationToken);
+           await _salaryPaymentRepository.GetSalaryPaymentsOfWorkerAsync(workerId, cancellationTokenSource);
 
             List<SalaryPaymentModel> mappedSalaryPayments =
                 _mapper.Map<List<SalaryPaymentEntity>, List<SalaryPaymentModel>>(bankAccounts);
@@ -249,13 +249,13 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Services
         /// Yeni bir maaş ödemesi oluşturur
         /// </summary>
         /// <param name="salaryPayment">Oluşturulacak maaş ödemesinin nesnesi</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<int> CreateSalaryPaymentAsync(SalaryPaymentModel salaryPayment, CancellationToken cancellationToken)
+        public async Task<int> CreateSalaryPaymentAsync(SalaryPaymentModel salaryPayment, CancellationTokenSource cancellationTokenSource)
         {
             SalaryPaymentEntity mappedBankAccount = _mapper.Map<SalaryPaymentModel, SalaryPaymentEntity>(salaryPayment);
 
-            int createdSalaryPaymentId = await _salaryPaymentRepository.CreateAsync(mappedBankAccount, cancellationToken);
+            int createdSalaryPaymentId = await _salaryPaymentRepository.CreateAsync(mappedBankAccount, cancellationTokenSource);
 
             await CreateCheckpointAsync(
                 rollback: new RollbackModel()
@@ -273,9 +273,9 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Services
                         }
                     }
                 },
-                cancellationToken: cancellationToken);
+                cancellationTokenSource: cancellationTokenSource);
 
-            await _unitOfWork.SaveAsync(cancellationToken);
+            await _unitOfWork.SaveAsync(cancellationTokenSource);
 
             return createdSalaryPaymentId;
         }
@@ -307,9 +307,9 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Services
         /// Bir işlemi geri almak için yedekleme noktası oluşturur
         /// </summary>
         /// <param name="rollback">İşlemin yedekleme noktası nesnesi</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
-        public async Task<int> CreateCheckpointAsync(RollbackModel rollback, CancellationToken cancellationToken)
+        public async Task<int> CreateCheckpointAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
         {
             RollbackEntity rollbackEntity = _mapper.Map<RollbackModel, RollbackEntity>(rollback);
 
@@ -319,19 +319,19 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Services
             {
                 rollbackItemEntity.TransactionIdentity = rollbackEntity.TransactionIdentity;
 
-                await _transactionItemRepository.CreateAsync(rollbackItemEntity, cancellationToken);
+                await _transactionItemRepository.CreateAsync(rollbackItemEntity, cancellationTokenSource);
             }
 
-            return await _transactionRepository.CreateAsync(rollbackEntity, cancellationToken);
+            return await _transactionRepository.CreateAsync(rollbackEntity, cancellationTokenSource);
         }
 
         /// <summary>
         /// Bir işlemi geri alır
         /// </summary>
         /// <param name="rollback">Geri alınacak işlemin yedekleme noktası nesnesi</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
-        public async Task<int> RollbackTransactionAsync(RollbackModel rollback, CancellationToken cancellationToken)
+        public async Task<int> RollbackTransactionAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
         {
             foreach (var rollbackItem in rollback.RollbackItems)
             {
@@ -340,15 +340,15 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Services
                     case BankAccountRepository.TABLE_NAME:
                         if (rollbackItem.RollbackType == RollbackType.Delete)
                         {
-                            await _bankAccountRepository.DeleteAsync((int)rollbackItem.Identity, cancellationToken);
+                            await _bankAccountRepository.DeleteAsync((int)rollbackItem.Identity, cancellationTokenSource);
                         }
                         else if (rollbackItem.RollbackType == RollbackType.Insert)
                         {
-                            await _bankAccountRepository.UnDeleteAsync((int)rollbackItem.Identity, cancellationToken);
+                            await _bankAccountRepository.UnDeleteAsync((int)rollbackItem.Identity, cancellationTokenSource);
                         }
                         else if (rollbackItem.RollbackType == RollbackType.Update)
                         {
-                            await _bankAccountRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationToken);
+                            await _bankAccountRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationTokenSource);
                         }
                         else
                             throw new Exception("Tanımlanmamış geri alma biçimi");
@@ -356,15 +356,15 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Services
                     case CurrencyRepository.TABLE_NAME:
                         if (rollbackItem.RollbackType == RollbackType.Delete)
                         {
-                            await _currencyRepository.DeleteAsync((int)rollbackItem.Identity, cancellationToken);
+                            await _currencyRepository.DeleteAsync((int)rollbackItem.Identity, cancellationTokenSource);
                         }
                         else if (rollbackItem.RollbackType == RollbackType.Insert)
                         {
-                            await _currencyRepository.UnDeleteAsync((int)rollbackItem.Identity, cancellationToken);
+                            await _currencyRepository.UnDeleteAsync((int)rollbackItem.Identity, cancellationTokenSource);
                         }
                         else if (rollbackItem.RollbackType == RollbackType.Update)
                         {
-                            await _currencyRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationToken);
+                            await _currencyRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationTokenSource);
                         }
                         else
                             throw new Exception("Tanımlanmamış geri alma biçimi");
@@ -372,15 +372,15 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Services
                     case SalaryPaymentRepository.TABLE_NAME:
                         if (rollbackItem.RollbackType == RollbackType.Delete)
                         {
-                            await _salaryPaymentRepository.DeleteAsync((int)rollbackItem.Identity, cancellationToken);
+                            await _salaryPaymentRepository.DeleteAsync((int)rollbackItem.Identity, cancellationTokenSource);
                         }
                         else if (rollbackItem.RollbackType == RollbackType.Insert)
                         {
-                            await _salaryPaymentRepository.UnDeleteAsync((int)rollbackItem.Identity, cancellationToken);
+                            await _salaryPaymentRepository.UnDeleteAsync((int)rollbackItem.Identity, cancellationTokenSource);
                         }
                         else if (rollbackItem.RollbackType == RollbackType.Update)
                         {
-                            await _salaryPaymentRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationToken);
+                            await _salaryPaymentRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationTokenSource);
                         }
                         else
                             throw new Exception("Tanımlanmamış geri alma biçimi");
@@ -390,9 +390,9 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Services
                 }
             }
 
-            int rollbackResult = await _transactionRepository.SetRolledbackAsync(rollback.TransactionIdentity, cancellationToken);
+            int rollbackResult = await _transactionRepository.SetRolledbackAsync(rollback.TransactionIdentity, cancellationTokenSource);
 
-            await _unitOfWork.SaveAsync(cancellationToken);
+            await _unitOfWork.SaveAsync(cancellationTokenSource);
 
             return rollbackResult;
         }

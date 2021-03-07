@@ -39,8 +39,8 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositor
         /// </summary>
         /// <param name="entity">Oluşturulacak işlem kaydı nesnesi</param><
         /// <param name="unitOfWork">Oluşturma esnasında kullanılacak transaction nesnesi</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
-        public override async Task<int> CreateAsync(RollbackEntity entity, CancellationToken cancellationToken)
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
+        public override async Task<int> CreateAsync(RollbackEntity entity, CancellationTokenSource cancellationTokenSource)
         {
             SqlCommand sqlCommand = new SqlCommand($@"INSERT INTO {TABLE_NAME}
                                                       ([TRANSACTION_IDENTITY],
@@ -63,19 +63,19 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositor
             sqlCommand.Parameters.AddWithValue("@TRANSACTION_DATE", ((object)entity.TransactionDate) ?? DBNull.Value);
             sqlCommand.Parameters.AddWithValue("@IS_ROLLED_BACK", ((object)entity.IsRolledback) ?? DBNull.Value);
 
-            return (int)await sqlCommand.ExecuteScalarAsync(cancellationToken);
+            return (int)await sqlCommand.ExecuteScalarAsync(cancellationTokenSource.Token);
         }
 
         /// <summary>
         /// İşlem listesini verir
         /// </summary>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public override async Task<List<RollbackEntity>> GetListAsync(CancellationToken cancellationToken)
+        public override async Task<List<RollbackEntity>> GetListAsync(CancellationTokenSource cancellationTokenSource)
         {
             List<RollbackEntity> entities = new List<RollbackEntity>();
 
-            SqlCommand sqlCommand = new SqlCommand($@"SELECT 
+            using (SqlCommand sqlCommand = new SqlCommand($@"SELECT 
                                                       [ID],
                                                       [TRANSACTION_IDENTITY],
                                                       [TRANSACTION_TYPE],
@@ -83,30 +83,32 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositor
                                                       [IS_ROLLED_BACK]
                                                       FROM {TABLE_NAME}
                                                       WHERE DELETE_DATE IS NULL",
-                                                     UnitOfWork.SqlConnection,
-                                                     UnitOfWork.SqlTransaction);
-
-            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
-
-            SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationToken);
-
-            if (sqlDataReader.HasRows)
+                                                      UnitOfWork.SqlConnection,
+                                                      UnitOfWork.SqlTransaction))
             {
-                while (await sqlDataReader.ReadAsync(cancellationToken))
+                sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+                using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationTokenSource.Token))
                 {
-                    RollbackEntity inventory = new RollbackEntity();
+                    if (sqlDataReader.HasRows)
+                    {
+                        while (await sqlDataReader.ReadAsync(cancellationTokenSource.Token))
+                        {
+                            RollbackEntity inventory = new RollbackEntity();
 
-                    inventory.Id = sqlDataReader.GetInt32("ID");
-                    inventory.TransactionIdentity = sqlDataReader.GetString("TRANSACTION_IDENTITY");
-                    inventory.TransactionType = sqlDataReader.GetInt32("TRANSACTION_TYPE");
-                    inventory.TransactionDate = sqlDataReader.GetDateTime("TRANSACTION_DATE");
-                    inventory.IsRolledback = sqlDataReader.GetBoolean("IS_ROLLED_BACK");
+                            inventory.Id = sqlDataReader.GetInt32("ID");
+                            inventory.TransactionIdentity = sqlDataReader.GetString("TRANSACTION_IDENTITY");
+                            inventory.TransactionType = sqlDataReader.GetInt32("TRANSACTION_TYPE");
+                            inventory.TransactionDate = sqlDataReader.GetDateTime("TRANSACTION_DATE");
+                            inventory.IsRolledback = sqlDataReader.GetBoolean("IS_ROLLED_BACK");
 
-                    entities.Add(inventory);
+                            entities.Add(inventory);
+                        }
+                    }
+
+                    return entities;
                 }
             }
-
-            return entities;
         }
 
         /// <summary>
@@ -130,22 +132,23 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Repositor
         /// Bir işlemi geri alındı olarak işaretler
         /// </summary>
         /// <param name="transactionIdentity">Geri alındı olarak işaretlenecek işlemin kimliği</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<int> SetRolledbackAsync(string transactionIdentity, CancellationToken cancellationToken)
+        public async Task<int> SetRolledbackAsync(string transactionIdentity, CancellationTokenSource cancellationTokenSource)
         {
-            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+            using (SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
                                                       SET [IS_ROLLED_BACK] = 1
                                                       WHERE
                                                       [TRANSACTION_IDENTITY] = @TRANSACTION_IDENTITY",
-                                               UnitOfWork.SqlConnection,
-                                               UnitOfWork.SqlTransaction);
+                                                 UnitOfWork.SqlConnection,
+                                                 UnitOfWork.SqlTransaction))
+            {
+                sqlCommand.Transaction = UnitOfWork.SqlTransaction;
 
-            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+                sqlCommand.Parameters.AddWithValue("@TRANSACTION_IDENTITY", transactionIdentity);
 
-            sqlCommand.Parameters.AddWithValue("@TRANSACTION_IDENTITY", transactionIdentity);
-
-            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
+                return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
+            }
         }
     }
 }

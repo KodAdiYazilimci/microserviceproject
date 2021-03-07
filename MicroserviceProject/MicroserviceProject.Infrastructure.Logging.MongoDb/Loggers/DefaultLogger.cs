@@ -39,9 +39,9 @@ namespace MicroserviceProject.Infrastructure.Logging.MongoDb.Loggers
         /// MongoDB ye log yazar
         /// </summary>
         /// <param name="model">Yazılacak logun modeli</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task LogAsync(TModel model, CancellationToken cancellationToken)
+        public async Task LogAsync(TModel model, CancellationTokenSource cancellationTokenSource)
         {
             MongoClient client = new MongoClient(_mongoDbConfiguration.ConnectionString);
             IMongoDatabase database = client.GetDatabase(_mongoDbConfiguration.DataBase);
@@ -54,7 +54,7 @@ namespace MicroserviceProject.Infrastructure.Logging.MongoDb.Loggers
                 {
                     BypassDocumentValidation = false
                 },
-                cancellationToken: cancellationToken);
+                cancellationToken: cancellationTokenSource.Token);
         }
 
         /// <summary>

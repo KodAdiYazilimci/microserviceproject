@@ -26,7 +26,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Controllers
 
         [HttpGet]
         [Route(nameof(GetPeople))]
-        public async Task<IActionResult> GetPeople(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetPeople(CancellationTokenSource cancellationTokenSource)
         {
             if (Request.Headers.ContainsKey("TransactionIdentity"))
             {
@@ -35,14 +35,14 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Controllers
 
             return await ServiceExecuter.ExecuteServiceAsync<List<PersonModel>>(async () =>
             {
-                return await _personService.GetPeopleAsync(cancellationToken);
+                return await _personService.GetPeopleAsync(cancellationTokenSource);
             },
             services: _personService);
         }
 
         [HttpPost]
         [Route(nameof(CreatePerson))]
-        public async Task<IActionResult> CreatePerson([FromBody] PersonModel person, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreatePerson([FromBody] PersonModel person, CancellationTokenSource cancellationTokenSource)
         {
             if (Request.Headers.ContainsKey("TransactionIdentity"))
             {
@@ -51,16 +51,16 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Controllers
 
             return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
             {
-                await CreatePersonValidator.ValidateAsync(person, cancellationToken);
+                await CreatePersonValidator.ValidateAsync(person, cancellationTokenSource);
 
-                return await _personService.CreatePersonAsync(person, cancellationToken);
+                return await _personService.CreatePersonAsync(person, cancellationTokenSource);
             },
             services: _personService);
         }
 
         [HttpGet]
         [Route(nameof(GetTitles))]
-        public async Task<IActionResult> GetTitles(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetTitles(CancellationTokenSource cancellationTokenSource)
         {
             if (Request.Headers.ContainsKey("TransactionIdentity"))
             {
@@ -69,14 +69,14 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Controllers
 
             return await ServiceExecuter.ExecuteServiceAsync<List<TitleModel>>(async () =>
             {
-                return await _personService.GetTitlesAsync(cancellationToken);
+                return await _personService.GetTitlesAsync(cancellationTokenSource);
             },
             services: _personService);
         }
 
         [HttpPost]
         [Route(nameof(CreateTitle))]
-        public async Task<IActionResult> CreateTitle([FromBody] TitleModel title, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateTitle([FromBody] TitleModel title, CancellationTokenSource cancellationTokenSource)
         {
             if (Request.Headers.ContainsKey("TransactionIdentity"))
             {
@@ -85,16 +85,16 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Controllers
 
             return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
             {
-                await CreateTitleValidator.ValidateAsync(title, cancellationToken);
+                await CreateTitleValidator.ValidateAsync(title, cancellationTokenSource);
 
-                return await _personService.CreateTitleAsync(title, cancellationToken);
+                return await _personService.CreateTitleAsync(title, cancellationTokenSource);
             },
             services: _personService);
         }
 
         [HttpGet]
         [Route(nameof(GetWorkers))]
-        public async Task<IActionResult> GetWorkers(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetWorkers(CancellationTokenSource cancellationTokenSource)
         {
             if (Request.Headers.ContainsKey("TransactionIdentity"))
             {
@@ -103,14 +103,14 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Controllers
 
             return await ServiceExecuter.ExecuteServiceAsync<List<WorkerModel>>(async () =>
             {
-                return await _personService.GetWorkersAsync(cancellationToken);
+                return await _personService.GetWorkersAsync(cancellationTokenSource);
             },
             services: _personService);
         }
 
         [HttpPost]
         [Route(nameof(CreateWorker))]
-        public async Task<IActionResult> CreateWorker([FromBody] WorkerModel worker, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateWorker([FromBody] WorkerModel worker, CancellationTokenSource cancellationTokenSource)
         {
             if (Request.Headers.ContainsKey("TransactionIdentity"))
             {
@@ -119,9 +119,9 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Controllers
 
             return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
             {
-                await CreateWorkerValidator.ValidateAsync(worker, cancellationToken);
+                await CreateWorkerValidator.ValidateAsync(worker, cancellationTokenSource);
 
-                return await _personService.CreateWorkerAsync(worker, cancellationToken);
+                return await _personService.CreateWorkerAsync(worker, cancellationTokenSource);
             },
             services: _personService);
         }

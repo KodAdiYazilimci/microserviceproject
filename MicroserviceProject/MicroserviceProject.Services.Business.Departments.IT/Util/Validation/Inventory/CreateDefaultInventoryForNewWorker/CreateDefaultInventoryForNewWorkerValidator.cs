@@ -21,15 +21,15 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Util.Validation.I
         /// Request body doğrular
         /// </summary>
         /// <param name="inventory">Doğrulanacak nesne</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public static async Task ValidateAsync(InventoryModel inventory, CancellationToken cancellationToken)
+        public static async Task ValidateAsync(InventoryModel inventory, CancellationTokenSource cancellationTokenSource)
         {
             CreateDefaultInventoryForNewWorkerRule validationRules = new CreateDefaultInventoryForNewWorkerRule();
 
             if (inventory != null)
             {
-                ValidationResult validationResult = await validationRules.ValidateAsync(inventory, cancellationToken);
+                ValidationResult validationResult = await validationRules.ValidateAsync(inventory, cancellationTokenSource.Token);
 
                 if (!validationResult.IsValid)
                 {

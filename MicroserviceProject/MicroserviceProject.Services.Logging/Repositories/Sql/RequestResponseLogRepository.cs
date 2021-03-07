@@ -39,12 +39,10 @@ namespace MicroserviceProject.Services.Logging.Repositories.Sql
         /// Veritabanına bir request-response log kaydı ekler
         /// </summary>
         /// <param name="requestResponseLogModel">Eklenecek logun nesnesi</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<int> InsertLogAsync(RequestResponseLogModel requestResponseLogModel, CancellationToken cancellationToken)
+        public async Task<int> InsertLogAsync(RequestResponseLogModel requestResponseLogModel, CancellationTokenSource cancellationTokenSource)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
             Exception exception = null;
             int result = 0;
 
@@ -107,10 +105,10 @@ namespace MicroserviceProject.Services.Logging.Repositories.Sql
 
                 if (sqlConnection.State != ConnectionState.Open)
                 {
-                    await sqlConnection.OpenAsync(cancellationToken);
+                    await sqlConnection.OpenAsync(cancellationTokenSource.Token);
                 }
 
-                result = await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
+                result = await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
             }
             catch (Exception ex)
             {

@@ -23,7 +23,7 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Controllers
 
         [HttpPost]
         [Route(nameof(RollbackTransaction))]
-        public async Task<IActionResult> RollbackTransaction([FromBody] RollbackModel rollbackModel, CancellationToken cancellationToken)
+        public async Task<IActionResult> RollbackTransaction([FromBody] RollbackModel rollbackModel, CancellationTokenSource cancellationTokenSource)
         {
             if (Request.Headers.ContainsKey("TransactionIdentity"))
             {
@@ -32,13 +32,13 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Controllers
 
             return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
             {
-                await RollbackTransactionValidator.ValidateAsync(rollbackModel, cancellationToken);
+                await RollbackTransactionValidator.ValidateAsync(rollbackModel, cancellationTokenSource);
 
                 int rollbackResult = 0;
 
                 if (rollbackModel.Modules.Contains(_costService.ServiceName))
                 {
-                    rollbackResult = await _costService.RollbackTransactionAsync(rollbackModel, cancellationToken);
+                    rollbackResult = await _costService.RollbackTransactionAsync(rollbackModel, cancellationTokenSource);
                 }
 
 

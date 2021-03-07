@@ -29,7 +29,7 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Controllers
 
         [HttpGet]
         [Route(nameof(GetInventories))]
-        public async Task<IActionResult> GetInventories(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetInventories(CancellationTokenSource cancellationTokenSource)
         {
             if (Request.Headers.ContainsKey("TransactionIdentity"))
             {
@@ -38,14 +38,14 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Controllers
 
             return await ServiceExecuter.ExecuteServiceAsync<List<InventoryModel>>(async () =>
             {
-                return await _inventoryService.GetInventoriesAsync(cancellationToken);
+                return await _inventoryService.GetInventoriesAsync(cancellationTokenSource);
             },
             services: _inventoryService);
         }
 
         [HttpPost]
         [Route(nameof(CreateInventory))]
-        public async Task<IActionResult> CreateInventory([FromBody] InventoryModel inventory, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateInventory([FromBody] InventoryModel inventory, CancellationTokenSource cancellationTokenSource)
         {
             if (Request.Headers.ContainsKey("TransactionIdentity"))
             {
@@ -54,16 +54,16 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Controllers
 
             return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
             {
-                await CreateInventoryValidator.ValidateAsync(inventory, cancellationToken);
+                await CreateInventoryValidator.ValidateAsync(inventory, cancellationTokenSource);
 
-                return await _inventoryService.CreateInventoryAsync(inventory, cancellationToken);
+                return await _inventoryService.CreateInventoryAsync(inventory, cancellationTokenSource);
             },
             services: _inventoryService);
         }
 
         [HttpPost]
         [Route(nameof(AssignInventoryToWorker))]
-        public async Task<IActionResult> AssignInventoryToWorker([FromBody] WorkerModel worker, CancellationToken cancellationToken)
+        public async Task<IActionResult> AssignInventoryToWorker([FromBody] WorkerModel worker, CancellationTokenSource cancellationTokenSource)
         {
             if (Request.Headers.ContainsKey("TransactionIdentity"))
             {
@@ -72,16 +72,16 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Controllers
 
             return await ServiceExecuter.ExecuteServiceAsync<WorkerModel>(async () =>
             {
-                await AssignInventoryToWorkerValidator.ValidateAsync(worker, cancellationToken);
+                await AssignInventoryToWorkerValidator.ValidateAsync(worker, cancellationTokenSource);
 
-                return await _inventoryService.AssignInventoryToWorkerAsync(worker, cancellationToken);
+                return await _inventoryService.AssignInventoryToWorkerAsync(worker, cancellationTokenSource);
             },
             services: _inventoryService);
         }
 
         [HttpPost]
         [Route(nameof(CreateDefaultInventoryForNewWorker))]
-        public async Task<IActionResult> CreateDefaultInventoryForNewWorker([FromBody] InventoryModel inventory, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateDefaultInventoryForNewWorker([FromBody] InventoryModel inventory, CancellationTokenSource cancellationTokenSource)
         {
             if (Request.Headers.ContainsKey("TransactionIdentity"))
             {
@@ -90,16 +90,16 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Controllers
 
             return await ServiceExecuter.ExecuteServiceAsync<InventoryModel>(async () =>
             {
-                await CreateDefaultInventoryForNewWorkerValidator.ValidateAsync(inventory, cancellationToken);
+                await CreateDefaultInventoryForNewWorkerValidator.ValidateAsync(inventory, cancellationTokenSource);
 
-                return await _inventoryService.CreateDefaultInventoryForNewWorkerAsync(inventory, cancellationToken);
+                return await _inventoryService.CreateDefaultInventoryForNewWorkerAsync(inventory, cancellationTokenSource);
             },
             services: _inventoryService);
         }
 
         [HttpGet]
         [Route(nameof(GetInventoriesForNewWorker))]
-        public IActionResult GetInventoriesForNewWorker(CancellationToken cancellationToken)
+        public IActionResult GetInventoriesForNewWorker(CancellationTokenSource cancellationTokenSource)
         {
             if (Request.Headers.ContainsKey("TransactionIdentity"))
             {
@@ -108,14 +108,14 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Controllers
 
             return ServiceExecuter.ExecuteService<List<InventoryModel>>(() =>
             {
-                return _inventoryService.GetInventoriesForNewWorker(cancellationToken);
+                return _inventoryService.GetInventoriesForNewWorker(cancellationTokenSource);
             },
             services: _inventoryService);
         }
 
         [HttpPost]
         [Route(nameof(InformInventoryRequest))]
-        public async Task<IActionResult> InformInventoryRequest([FromBody] InventoryRequestModel inventoryRequest, CancellationToken cancellationToken)
+        public async Task<IActionResult> InformInventoryRequest([FromBody] InventoryRequestModel inventoryRequest, CancellationTokenSource cancellationTokenSource)
         {
             if (Request.Headers.ContainsKey("TransactionIdentity"))
             {
@@ -124,9 +124,9 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Controllers
 
             return await ServiceExecuter.ExecuteServiceAsync(async () =>
             {
-                await InformInventoryRequestValidator.ValidateAsync(inventoryRequest, cancellationToken);
+                await InformInventoryRequestValidator.ValidateAsync(inventoryRequest, cancellationTokenSource);
 
-                await _inventoryService.InformInventoryRequestAsync(inventoryRequest, cancellationToken);
+                await _inventoryService.InformInventoryRequestAsync(inventoryRequest, cancellationTokenSource);
             },
             services: _inventoryService);
         }

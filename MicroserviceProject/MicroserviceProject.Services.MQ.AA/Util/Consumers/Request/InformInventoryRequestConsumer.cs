@@ -61,7 +61,7 @@ namespace MicroserviceProject.Services.MQ.AA.Util.Consumers.Request
                 serviceName: _routeNameProvider.AA_InformInventoryRequest,
                 postData: data,
                 queryParameters: null,
-                cancellationToken: cancellationTokenSource.Token);
+                cancellationTokenSource: cancellationTokenSource);
         }
 
         /// <summary>

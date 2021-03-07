@@ -99,7 +99,7 @@ namespace MicroserviceProject.Services.Infrastructure.Logging
                             StatusCode = httpContext.Response.StatusCode,
                             Url = httpContext.Request.Path.ToString()
                         },
-                        cancellationToken: cancellationTokenSource.Token);
+                        cancellationTokenSource: cancellationTokenSource);
                 }
                 catch (Exception)
                 {

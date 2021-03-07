@@ -180,9 +180,9 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
         /// <summary>
         /// Kişilerin listesini verir
         /// </summary>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<List<PersonModel>> GetPeopleAsync(CancellationToken cancellationToken)
+        public async Task<List<PersonModel>> GetPeopleAsync(CancellationTokenSource cancellationTokenSource)
         {
             if (_cacheDataProvider.TryGetValue(CACHED_PEOPLE_KEY, out List<PersonModel> cachedPeople)
                 &&
@@ -191,7 +191,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                 return cachedPeople;
             }
 
-            List<PersonEntity> people = await _personRepository.GetListAsync(cancellationToken);
+            List<PersonEntity> people = await _personRepository.GetListAsync(cancellationTokenSource);
 
             List<PersonModel> mappedPeople =
                 _mapper.Map<List<PersonEntity>, List<PersonModel>>(people);
@@ -205,13 +205,13 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
         /// Yeni kişi oluşturur
         /// </summary>
         /// <param name="person">Oluşturulacak kişi nesnesi</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<int> CreatePersonAsync(PersonModel person, CancellationToken cancellationToken)
+        public async Task<int> CreatePersonAsync(PersonModel person, CancellationTokenSource cancellationTokenSource)
         {
             PersonEntity mappedPerson = _mapper.Map<PersonModel, PersonEntity>(person);
 
-            int createdPersonId = await _personRepository.CreateAsync(mappedPerson, cancellationToken);
+            int createdPersonId = await _personRepository.CreateAsync(mappedPerson, cancellationTokenSource);
 
             await CreateCheckpointAsync(
                 rollback: new RollbackModel()
@@ -229,9 +229,9 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                         }
                     }
                 },
-                cancellationToken: cancellationToken);
+                cancellationTokenSource: cancellationTokenSource);
 
-            await _unitOfWork.SaveAsync(cancellationToken);
+            await _unitOfWork.SaveAsync(cancellationTokenSource);
 
             person.Id = createdPersonId;
 
@@ -248,9 +248,9 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
         /// <summary>
         /// Ünvanların listesini verir
         /// </summary>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<List<TitleModel>> GetTitlesAsync(CancellationToken cancellationToken)
+        public async Task<List<TitleModel>> GetTitlesAsync(CancellationTokenSource cancellationTokenSource)
         {
             if (_cacheDataProvider.TryGetValue(CACHED_TITLES_KEY, out List<TitleModel> cachedTitles)
                 &&
@@ -259,7 +259,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                 return cachedTitles;
             }
 
-            List<TitleEntity> titles = await _titleRepository.GetListAsync(cancellationToken);
+            List<TitleEntity> titles = await _titleRepository.GetListAsync(cancellationTokenSource);
 
             List<TitleModel> mappedTitles =
                 _mapper.Map<List<TitleEntity>, List<TitleModel>>(titles);
@@ -273,13 +273,13 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
         /// Yeni ünvan oluşturur
         /// </summary>
         /// <param name="title">Oluşturulacak ünvan nesnesi</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<int> CreateTitleAsync(TitleModel title, CancellationToken cancellationToken)
+        public async Task<int> CreateTitleAsync(TitleModel title, CancellationTokenSource cancellationTokenSource)
         {
             TitleEntity mappedTitles = _mapper.Map<TitleModel, TitleEntity>(title);
 
-            int createdTitleId = await _titleRepository.CreateAsync(mappedTitles, cancellationToken);
+            int createdTitleId = await _titleRepository.CreateAsync(mappedTitles, cancellationTokenSource);
 
             await CreateCheckpointAsync(
                 rollback: new RollbackModel()
@@ -297,9 +297,9 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                         }
                     }
                 },
-                cancellationToken: cancellationToken);
+                cancellationTokenSource: cancellationTokenSource);
 
-            await _unitOfWork.SaveAsync(cancellationToken);
+            await _unitOfWork.SaveAsync(cancellationTokenSource);
 
             title.Id = createdTitleId;
 
@@ -316,9 +316,9 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
         /// <summary>
         /// Çalışanların listesini verir
         /// </summary>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<List<WorkerModel>> GetWorkersAsync(CancellationToken cancellationToken)
+        public async Task<List<WorkerModel>> GetWorkersAsync(CancellationTokenSource cancellationTokenSource)
         {
             if (_cacheDataProvider.TryGetValue(CACHED_WORKERS_KEY, out List<WorkerModel> cachedWorkers)
                 &&
@@ -327,7 +327,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                 return cachedWorkers;
             }
 
-            List<WorkerModel> workerModels = GetWorkers(cancellationToken);
+            List<WorkerModel> workerModels = GetWorkers(cancellationTokenSource);
 
             foreach (var worker in workerModels)
             {
@@ -336,7 +336,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                      serviceName: _routeNameProvider.Accounting_GetBankAccountsOfWorker,
                      postData: null,
                      queryParameters: new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("workerId", worker.Id.ToString()) },
-                     cancellationToken: cancellationToken);
+                     cancellationTokenSource: cancellationTokenSource);
 
                 if (bankAccountsServiceResult.IsSuccess)
                 {
@@ -353,19 +353,19 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
             return workerModels;
         }
 
-        private List<WorkerModel> GetWorkers(CancellationToken cancellationToken)
+        private List<WorkerModel> GetWorkers(CancellationTokenSource cancellationTokenSource)
         {
-            Task<List<DepartmentEntity>> departmentTask = _departmentRepository.GetListAsync(cancellationToken);
+            Task<List<DepartmentEntity>> departmentTask = _departmentRepository.GetListAsync(cancellationTokenSource);
 
-            Task<List<PersonEntity>> personTask = _personRepository.GetListAsync(cancellationToken);
+            Task<List<PersonEntity>> personTask = _personRepository.GetListAsync(cancellationTokenSource);
 
-            Task<List<TitleEntity>> titleTask = _titleRepository.GetListAsync(cancellationToken);
+            Task<List<TitleEntity>> titleTask = _titleRepository.GetListAsync(cancellationTokenSource);
 
-            Task<List<WorkerEntity>> workerTask = _workerRepository.GetListAsync(cancellationToken);
+            Task<List<WorkerEntity>> workerTask = _workerRepository.GetListAsync(cancellationTokenSource);
 
-            Task<List<WorkerRelationEntity>> workerRelationTask = _workerRelationRepository.GetListAsync(cancellationToken);
+            Task<List<WorkerRelationEntity>> workerRelationTask = _workerRelationRepository.GetListAsync(cancellationTokenSource);
 
-            Task.WaitAll(new Task[] { departmentTask, personTask, titleTask, workerTask, workerRelationTask }, cancellationToken);
+            Task.WaitAll(new Task[] { departmentTask, personTask, titleTask, workerTask, workerRelationTask }, cancellationTokenSource.Token);
 
             var workerModels = (from w in workerTask.Result
                                 join t in titleTask.Result
@@ -388,26 +388,25 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
         /// Yeni çalışan oluşturur
         /// </summary>
         /// <param name="worker">Oluşturulacak çalışan nesnesi</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<int> CreateWorkerAsync(WorkerModel worker, CancellationToken cancellationToken)
+        public async Task<int> CreateWorkerAsync(WorkerModel worker, CancellationTokenSource cancellationTokenSource)
         {
             WorkerEntity mappedWorker = _mapper.Map<WorkerModel, WorkerEntity>(worker);
 
-            worker.Id = await _workerRepository.CreateAsync(mappedWorker, cancellationToken);
+            worker.Id = await _workerRepository.CreateAsync(mappedWorker, cancellationTokenSource);
 
             // Not: Burada doğrudan diğer servislerle de iletişime geçilebilir 
             // veya rabbit kuyruğuna kayıt atılabilir
 
             #region Muhasebe departmanının banka hesabı açması için rabbit e kayıt ekler
 
-            await _createBankAccountPublisher.PublishAsync(
+            _createBankAccountPublisher.AddToBuffer(
                 model: new BankAccountModel()
                 {
                     Worker = worker,
                     IBAN = worker.BankAccounts.FirstOrDefault().IBAN
-                },
-                cancellationToken: cancellationToken);
+                });
 
             #endregion
 
@@ -423,7 +422,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                         serviceName: _routeNameProvider.AA_GetInventoriesForNewWorker,
                         postData: null,
                         queryParameters: null,
-                        cancellationToken);
+                        cancellationTokenSource);
 
                 if (defaultInventoriesServiceResult.IsSuccess)
                 {
@@ -435,9 +434,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                 }
             }
 
-            await _AAassignInventoryToWorkerPublisher.PublishAsync(
-                model: worker,
-                cancellationToken: cancellationToken);
+            _AAassignInventoryToWorkerPublisher.AddToBuffer(worker);
 
             #endregion
 
@@ -453,7 +450,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                         serviceName: _routeNameProvider.IT_GetInventoriesForNewWorker,
                         postData: null,
                         queryParameters: null,
-                        cancellationToken);
+                        cancellationTokenSource);
 
                 if (defaultInventoriesServiceResult.IsSuccess)
                 {
@@ -465,13 +462,19 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                 }
             }
 
-            await _ITAssignInventoryToWorkerPublisher.PublishAsync(
-                model: worker,
-                cancellationToken: cancellationToken);
+            _ITAssignInventoryToWorkerPublisher.AddToBuffer(worker);
 
             #endregion
 
-            await _unitOfWork.SaveAsync(cancellationToken);
+            await _unitOfWork.SaveAsync(cancellationTokenSource);
+
+            Task.WaitAll(new Task[]
+            {
+                _createBankAccountPublisher.PublishBufferAsync(cancellationTokenSource),
+                _AAassignInventoryToWorkerPublisher.PublishBufferAsync(cancellationTokenSource),
+                _ITAssignInventoryToWorkerPublisher.PublishBufferAsync(cancellationTokenSource)
+
+            }, cancellationTokenSource.Token);
 
             if (_cacheDataProvider.TryGetValue(CACHED_WORKERS_KEY, out List<WorkerModel> cachedWorkers) && cachedWorkers != null)
             {
@@ -512,9 +515,9 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
         /// Bir işlemi geri almak için yedekleme noktası oluşturur
         /// </summary>
         /// <param name="rollback">İşlemin yedekleme noktası nesnesi</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
-        public async Task<int> CreateCheckpointAsync(RollbackModel rollback, CancellationToken cancellationToken)
+        public async Task<int> CreateCheckpointAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
         {
             RollbackEntity rollbackEntity = _mapper.Map<RollbackModel, RollbackEntity>(rollback);
 
@@ -524,19 +527,19 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
             {
                 rollbackItemEntity.TransactionIdentity = rollbackEntity.TransactionIdentity;
 
-                await _transactionItemRepository.CreateAsync(rollbackItemEntity, cancellationToken);
+                await _transactionItemRepository.CreateAsync(rollbackItemEntity, cancellationTokenSource);
             }
 
-            return await _transactionRepository.CreateAsync(rollbackEntity, cancellationToken);
+            return await _transactionRepository.CreateAsync(rollbackEntity, cancellationTokenSource);
         }
 
         /// <summary>
         /// Bir işlemi geri alır
         /// </summary>
         /// <param name="rollback">Geri alınacak işlemin yedekleme noktası nesnesi</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
-        public async Task<int> RollbackTransactionAsync(RollbackModel rollback, CancellationToken cancellationToken)
+        public async Task<int> RollbackTransactionAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
         {
             foreach (var rollbackItem in rollback.RollbackItems)
             {
@@ -545,15 +548,15 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                     case DepartmentRepository.TABLE_NAME:
                         if (rollbackItem.RollbackType == RollbackType.Delete)
                         {
-                            await _departmentRepository.DeleteAsync((int)rollbackItem.Identity, cancellationToken);
+                            await _departmentRepository.DeleteAsync((int)rollbackItem.Identity, cancellationTokenSource);
                         }
                         else if (rollbackItem.RollbackType == RollbackType.Insert)
                         {
-                            await _departmentRepository.UnDeleteAsync((int)rollbackItem.Identity, cancellationToken);
+                            await _departmentRepository.UnDeleteAsync((int)rollbackItem.Identity, cancellationTokenSource);
                         }
                         else if (rollbackItem.RollbackType == RollbackType.Update)
                         {
-                            await _departmentRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationToken);
+                            await _departmentRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationTokenSource);
                         }
                         else
                             throw new Exception("Tanımlanmamış geri alma biçimi");
@@ -561,15 +564,15 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                     case PersonRepository.TABLE_NAME:
                         if (rollbackItem.RollbackType == RollbackType.Delete)
                         {
-                            await _personRepository.DeleteAsync((int)rollbackItem.Identity, cancellationToken);
+                            await _personRepository.DeleteAsync((int)rollbackItem.Identity, cancellationTokenSource);
                         }
                         else if (rollbackItem.RollbackType == RollbackType.Insert)
                         {
-                            await _personRepository.UnDeleteAsync((int)rollbackItem.Identity, cancellationToken);
+                            await _personRepository.UnDeleteAsync((int)rollbackItem.Identity, cancellationTokenSource);
                         }
                         else if (rollbackItem.RollbackType == RollbackType.Update)
                         {
-                            await _personRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationToken);
+                            await _personRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationTokenSource);
                         }
                         else
                             throw new Exception("Tanımlanmamış geri alma biçimi");
@@ -577,15 +580,15 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                     case TitleRepository.TABLE_NAME:
                         if (rollbackItem.RollbackType == RollbackType.Delete)
                         {
-                            await _titleRepository.DeleteAsync((int)rollbackItem.Identity, cancellationToken);
+                            await _titleRepository.DeleteAsync((int)rollbackItem.Identity, cancellationTokenSource);
                         }
                         else if (rollbackItem.RollbackType == RollbackType.Insert)
                         {
-                            await _titleRepository.UnDeleteAsync((int)rollbackItem.Identity, cancellationToken);
+                            await _titleRepository.UnDeleteAsync((int)rollbackItem.Identity, cancellationTokenSource);
                         }
                         else if (rollbackItem.RollbackType == RollbackType.Update)
                         {
-                            await _titleRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationToken);
+                            await _titleRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationTokenSource);
                         }
                         else
                             throw new Exception("Tanımlanmamış geri alma biçimi");
@@ -593,15 +596,15 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                     case WorkerRelationRepository.TABLE_NAME:
                         if (rollbackItem.RollbackType == RollbackType.Delete)
                         {
-                            await _workerRelationRepository.DeleteAsync((int)rollbackItem.Identity, cancellationToken);
+                            await _workerRelationRepository.DeleteAsync((int)rollbackItem.Identity, cancellationTokenSource);
                         }
                         else if (rollbackItem.RollbackType == RollbackType.Insert)
                         {
-                            await _workerRelationRepository.UnDeleteAsync((int)rollbackItem.Identity, cancellationToken);
+                            await _workerRelationRepository.UnDeleteAsync((int)rollbackItem.Identity, cancellationTokenSource);
                         }
                         else if (rollbackItem.RollbackType == RollbackType.Update)
                         {
-                            await _workerRelationRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationToken);
+                            await _workerRelationRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationTokenSource);
                         }
                         else
                             throw new Exception("Tanımlanmamış geri alma biçimi");
@@ -609,15 +612,15 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                     case WorkerRepository.TABLE_NAME:
                         if (rollbackItem.RollbackType == RollbackType.Delete)
                         {
-                            await _workerRepository.DeleteAsync((int)rollbackItem.Identity, cancellationToken);
+                            await _workerRepository.DeleteAsync((int)rollbackItem.Identity, cancellationTokenSource);
                         }
                         else if (rollbackItem.RollbackType == RollbackType.Insert)
                         {
-                            await _workerRepository.UnDeleteAsync((int)rollbackItem.Identity, cancellationToken);
+                            await _workerRepository.UnDeleteAsync((int)rollbackItem.Identity, cancellationTokenSource);
                         }
                         else if (rollbackItem.RollbackType == RollbackType.Update)
                         {
-                            await _workerRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationToken);
+                            await _workerRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationTokenSource);
                         }
                         else
                             throw new Exception("Tanımlanmamış geri alma biçimi");
@@ -627,9 +630,9 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                 }
             }
 
-            int rollbackResult = await _transactionRepository.SetRolledbackAsync(rollback.TransactionIdentity, cancellationToken);
+            int rollbackResult = await _transactionRepository.SetRolledbackAsync(rollback.TransactionIdentity, cancellationTokenSource);
 
-            await _unitOfWork.SaveAsync(cancellationToken);
+            await _unitOfWork.SaveAsync(cancellationTokenSource);
 
             return rollbackResult;
         }

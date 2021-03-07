@@ -61,7 +61,7 @@ namespace MicroserviceProject.Services.MQ.Buying.Util.Consumers.Request
                 serviceName: _routeNameProvider.Buying_CreateInventoryRequest,
                 postData: data,
                 queryParameters: null,
-                cancellationToken: cancellationTokenSource.Token);
+                cancellationTokenSource: cancellationTokenSource);
         }
 
         /// <summary>

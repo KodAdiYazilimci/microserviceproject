@@ -27,12 +27,10 @@ namespace MicroserviceProject.Infrastructure.Communication.Http.Providers
         /// <typeparam name="TPostData">Http isteği içerisinde gönderilecek datanın tipi</typeparam>
         /// <param name="url">Http isteği atılacak adres</param>
         /// <param name="postData">Http isteği içerisinde gönderilecek data</param>
-        /// <param name="cancellationToken">İsteğin iptal tokenı</param>
+        /// <param name="cancellationTokenSource">İsteğin iptal tokenı</param>
         /// <returns></returns>
-        public virtual async Task<TResult> PostAsync<TResult, TPostData>(string url, TPostData postData, CancellationToken cancellationToken)
+        public virtual async Task<TResult> PostAsync<TResult, TPostData>(string url, TPostData postData, CancellationTokenSource cancellationTokenSource)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
             Uri requestUri = GenerateUri(url);
 
             HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(requestUri);

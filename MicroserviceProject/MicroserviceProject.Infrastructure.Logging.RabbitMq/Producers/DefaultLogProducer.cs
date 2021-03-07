@@ -38,9 +38,9 @@ namespace MicroserviceProject.Infrastructure.Logging.RabbitMq.Producers
         /// </summary>
         /// <param name="model">Üretilecek logun nesnesi</param>
         /// <returns></returns>
-        public Task LogAsync(TModel model, CancellationToken cancellationToken)
+        public Task LogAsync(TModel model, CancellationTokenSource cancellationTokenSource)
         {
-            return base.PublishAsync(model, cancellationToken);
+            return base.PublishAsync(model, cancellationTokenSource);
         }
 
         /// <summary>

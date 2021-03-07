@@ -76,7 +76,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.Buying
                                             Amount = (int)numAdet.Value
                                         },
                                         queryParameters: null,
-                                        cancellationToken: cancellationTokenSource.Token);
+                                        cancellationTokenSource: cancellationTokenSource);
 
                         if (createInventoryRequestServiceResult.IsSuccess)
                         {
@@ -121,7 +121,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.Buying
                             serviceName: _routeNameProvider.HR_GetDepartments,
                             postData: null,
                             queryParameters: null,
-                            cancellationToken: cancellationTokenSource.Token);
+                            cancellationTokenSource: cancellationTokenSource);
 
                     if (departmentServiceResult.IsSuccess)
                     {
@@ -168,7 +168,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.Buying
                                     serviceName: _routeNameProvider.AA_GetInventories,
                                     postData: null,
                                     queryParameters: null,
-                                    cancellationToken: cancellationTokenSource.Token);
+                                    cancellationTokenSource: cancellationTokenSource);
 
                             if (inventoryServiceResult.IsSuccess)
                             {
@@ -203,7 +203,7 @@ namespace MicroserviceProject.Presentation.UI.WindowsForm.Dialogs.Buying
                                     serviceName: _routeNameProvider.IT_GetInventories,
                                     postData: null,
                                     queryParameters: null,
-                                    cancellationToken: cancellationTokenSource.Token);
+                                    cancellationTokenSource: cancellationTokenSource);
 
                             if (inventoryServiceResult.IsSuccess)
                             {

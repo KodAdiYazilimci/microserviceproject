@@ -83,9 +83,9 @@ namespace MicroserviceProject.Services.Logging.Loggers
         /// Log yazar
         /// </summary>
         /// <param name="model">Yazılacak request-response logun nesnesi</param>
-        public async Task LogAsync(RequestResponseLogModel model, CancellationToken cancellationToken)
+        public async Task LogAsync(RequestResponseLogModel model, CancellationTokenSource cancellationTokenSource)
         {
-            await _logManager.LogAsync(model, cancellationToken);
+            await _logManager.LogAsync(model, cancellationTokenSource);
         }
     }
 }

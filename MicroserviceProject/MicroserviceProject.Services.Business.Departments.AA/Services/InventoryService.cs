@@ -138,12 +138,12 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
         /// Satın alınmayı bekleyen envanterle ilgili çalışana envanter ataması yapar veya alımı erteler
         /// </summary>
         /// <param name="inventoryRequest">Envanter talebi nesnesi</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task InformInventoryRequestAsync(InventoryRequestModel inventoryRequest, CancellationToken cancellationToken)
+        public async Task InformInventoryRequestAsync(InventoryRequestModel inventoryRequest, CancellationTokenSource cancellationTokenSource)
         {
             if (inventoryRequest.Revoked)
-                await _inventoryRepository.IncreaseStockCountAsync(inventoryRequest.InventoryId, inventoryRequest.Amount, cancellationToken);
+                await _inventoryRepository.IncreaseStockCountAsync(inventoryRequest.InventoryId, inventoryRequest.Amount, cancellationTokenSource);
 
             await CreateCheckpointAsync(
                 rollback: new RollbackModel()
@@ -163,9 +163,9 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
                         }
                     }
                 },
-                cancellationToken: cancellationToken);
+                cancellationTokenSource: cancellationTokenSource);
 
-            List<PendingWorkerInventoryEntity> pendingInventories = await _pendingWorkerInventoryRepository.GetListAsync(cancellationToken);
+            List<PendingWorkerInventoryEntity> pendingInventories = await _pendingWorkerInventoryRepository.GetListAsync(cancellationTokenSource);
 
             foreach (var pendingWorkerInventory in pendingInventories.Where(x => x.InventoryId == inventoryRequest.InventoryId).ToList())
             {
@@ -179,7 +179,7 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
                             WorkerId = pendingWorkerInventory.WorkerId,
                             InventoryId = pendingWorkerInventory.InventoryId
                         },
-                        cancellationToken: cancellationToken);
+                        cancellationTokenSource: cancellationTokenSource);
 
                     await CreateCheckpointAsync(
                         rollback: new RollbackModel()
@@ -197,9 +197,9 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
                                 }
                             }
                         },
-                        cancellationToken: cancellationToken);
+                        cancellationTokenSource: cancellationTokenSource);
 
-                    await _inventoryRepository.DescendStockCountAsync(inventoryRequest.InventoryId, 1, cancellationToken);
+                    await _inventoryRepository.DescendStockCountAsync(inventoryRequest.InventoryId, 1, cancellationTokenSource);
 
                     await CreateCheckpointAsync(
                         rollback: new RollbackModel()
@@ -219,19 +219,19 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
                                 }
                             }
                         },
-                        cancellationToken: cancellationToken);
+                        cancellationTokenSource: cancellationTokenSource);
 
-                    await _pendingWorkerInventoryRepository.SetCompleteAsync(pendingWorkerInventory.WorkerId, pendingWorkerInventory.InventoryId, cancellationToken);
+                    await _pendingWorkerInventoryRepository.SetCompleteAsync(pendingWorkerInventory.WorkerId, pendingWorkerInventory.InventoryId, cancellationTokenSource);
 
                     inventoryRequest.Amount -= 1;
                 }
                 else if (!inventoryRequest.Revoked)
                 {
-                    await _pendingWorkerInventoryRepository.DelayAsync(pendingWorkerInventory.WorkerId, pendingWorkerInventory.InventoryId, DateTime.Now.AddDays(7), cancellationToken);
+                    await _pendingWorkerInventoryRepository.DelayAsync(pendingWorkerInventory.WorkerId, pendingWorkerInventory.InventoryId, DateTime.Now.AddDays(7), cancellationTokenSource);
                 }
             }
 
-            await _unitOfWork.SaveAsync(cancellationToken);
+            await _unitOfWork.SaveAsync(cancellationTokenSource);
 
             _cacheDataProvider.RemoveObject(CACHED_INVENTORIES_KEY);
         }
@@ -239,9 +239,9 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
         /// <summary>
         /// Envanterlerin listesini verir
         /// </summary>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<List<InventoryModel>> GetInventoriesAsync(CancellationToken cancellationToken)
+        public async Task<List<InventoryModel>> GetInventoriesAsync(CancellationTokenSource cancellationTokenSource)
         {
             if (_cacheDataProvider.TryGetValue(CACHED_INVENTORIES_KEY, out List<InventoryModel> cachedInventories)
                 &&
@@ -250,7 +250,7 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
                 return cachedInventories;
             }
 
-            List<InventoryEntity> inventories = await _inventoryRepository.GetListAsync(cancellationToken);
+            List<InventoryEntity> inventories = await _inventoryRepository.GetListAsync(cancellationTokenSource);
 
             List<InventoryModel> mappedInventories =
                 _mapper.Map<List<InventoryEntity>, List<InventoryModel>>(inventories);
@@ -264,13 +264,13 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
         /// Yeni envanter oluşturur
         /// </summary>
         /// <param name="inventory">Oluşturulacak envanter nesnesi</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<int> CreateInventoryAsync(InventoryModel inventory, CancellationToken cancellationToken)
+        public async Task<int> CreateInventoryAsync(InventoryModel inventory, CancellationTokenSource cancellationTokenSource)
         {
             InventoryEntity mappedInventory = _mapper.Map<InventoryModel, InventoryEntity>(inventory);
 
-            int createdInventoryId = await _inventoryRepository.CreateAsync(mappedInventory, cancellationToken);
+            int createdInventoryId = await _inventoryRepository.CreateAsync(mappedInventory, cancellationTokenSource);
 
             await CreateCheckpointAsync(
                 rollback: new RollbackModel()
@@ -288,9 +288,9 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
                         }
                     }
                 },
-                cancellationToken: cancellationToken);
+                cancellationTokenSource: cancellationTokenSource);
 
-            await _unitOfWork.SaveAsync(cancellationToken);
+            await _unitOfWork.SaveAsync(cancellationTokenSource);
 
             inventory.Id = createdInventoryId;
 
@@ -308,18 +308,18 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
         /// Yeni çalışan için varsayılan envanter ataması yapar
         /// </summary>
         /// <param name="inventory">Atanacak envanter</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<InventoryModel> CreateDefaultInventoryForNewWorkerAsync(InventoryModel inventory, CancellationToken cancellationToken)
+        public async Task<InventoryModel> CreateDefaultInventoryForNewWorkerAsync(InventoryModel inventory, CancellationTokenSource cancellationTokenSource)
         {
-            List<InventoryModel> existingInventories = await GetInventoriesAsync(cancellationToken);
+            List<InventoryModel> existingInventories = await GetInventoriesAsync(cancellationTokenSource);
 
             if (!existingInventories.Any(x => x.Id == inventory.Id))
             {
                 throw new Exception("Id ye ait envanter bulunamadı");
             }
 
-            if (await _inventoryDefaultsRepository.CheckExistAsync(inventory.Id, cancellationToken))
+            if (await _inventoryDefaultsRepository.CheckExistAsync(inventory.Id, cancellationTokenSource))
             {
                 throw new Exception("Bu envanter zaten atanmış");
             }
@@ -330,7 +330,7 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
                      InventoryId = inventory.Id,
                      ForNewWorker = true
                  },
-                 cancellationToken: cancellationToken);
+                 cancellationTokenSource: cancellationTokenSource);
 
             await CreateCheckpointAsync(
                 rollback: new RollbackModel()
@@ -348,9 +348,9 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
                         }
                     }
                 },
-                cancellationToken: cancellationToken);
+                cancellationTokenSource: cancellationTokenSource);
 
-            await _unitOfWork.SaveAsync(cancellationToken);
+            await _unitOfWork.SaveAsync(cancellationTokenSource);
 
             if (_cacheDataProvider.TryGetValue(CACHED_INVENTORIES_DEFAULTS_KEY, out List<InventoryModel> cachedInventories)
                 &&
@@ -367,9 +367,9 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
         /// <summary>
         /// Yeni çalışanlara verilecek envanterlerin listesini verir
         /// </summary>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public List<InventoryModel> GetInventoriesForNewWorker(CancellationToken cancellationToken)
+        public List<InventoryModel> GetInventoriesForNewWorker(CancellationTokenSource cancellationTokenSource)
         {
             if (_cacheDataProvider.TryGetValue(CACHED_INVENTORIES_DEFAULTS_KEY, out List<InventoryModel> cachedInventories)
                 &&
@@ -378,10 +378,10 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
                 return cachedInventories;
             }
 
-            Task<List<InventoryEntity>> inventoriesTask = _inventoryRepository.GetListAsync(cancellationToken);
-            Task<List<InventoryDefaultsEntity>> inventoryDefaultsTask = _inventoryDefaultsRepository.GetListAsync(cancellationToken);
+            Task<List<InventoryEntity>> inventoriesTask = _inventoryRepository.GetListAsync(cancellationTokenSource);
+            Task<List<InventoryDefaultsEntity>> inventoryDefaultsTask = _inventoryDefaultsRepository.GetListAsync(cancellationTokenSource);
 
-            Task.WaitAll(new Task[] { inventoriesTask, inventoryDefaultsTask }, cancellationToken);
+            Task.WaitAll(new Task[] { inventoriesTask, inventoryDefaultsTask }, cancellationTokenSource.Token);
 
             List<InventoryModel> inventories = (from inv in inventoriesTask.Result
                                                 join def in inventoryDefaultsTask.Result
@@ -405,14 +405,14 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
         /// Bir çalışana envanter ataması yapar
         /// </summary>
         /// <param name="worker">Envanter bilgisini içeren çalışan nesnesi</param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationTokenSource"></param>
         /// <returns></returns>
-        public async Task<WorkerModel> AssignInventoryToWorkerAsync(WorkerModel worker, CancellationToken cancellationToken)
+        public async Task<WorkerModel> AssignInventoryToWorkerAsync(WorkerModel worker, CancellationTokenSource cancellationTokenSource)
         {
             List<int> inventoryIds = worker.AAInventories.Select(x => x.Id).ToList();
 
             List<InventoryEntity> inventories =
-                await _inventoryRepository.GetForSpecificIdAsync(inventoryIds, cancellationToken);
+                await _inventoryRepository.GetForSpecificIdAsync(inventoryIds, cancellationTokenSource);
 
             foreach (var inventoryId in inventoryIds)
             {
@@ -425,18 +425,18 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
 
                 if (inventoryEntity.CurrentStockCount <= 0)
                 {
-                    await _createInventoryRequestPublisher.PublishAsync(new InventoryRequestModel()
+                    _createInventoryRequestPublisher.AddToBuffer(new InventoryRequestModel()
                     {
                         Amount = 3,
                         DepartmentId = (int)Model.Constants.Departments.AdministrativeAffairs,
                         InventoryId = inventoryId
-                    }, cancellationToken);
+                    });
 
                     worker.AAInventories.FirstOrDefault(x => x.Id == inventoryId).CurrentStockCount = 0;
                 }
                 else
                 {
-                    await _inventoryRepository.DescendStockCountAsync(inventoryId, 1, cancellationToken);
+                    await _inventoryRepository.DescendStockCountAsync(inventoryId, 1, cancellationTokenSource);
 
                     await CreateCheckpointAsync(
                         rollback: new RollbackModel()
@@ -456,7 +456,7 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
                                 }
                             }
                         },
-                        cancellationToken: cancellationToken);
+                        cancellationTokenSource: cancellationTokenSource);
 
                     _cacheDataProvider.RemoveObject(CACHED_INVENTORIES_KEY);
                 }
@@ -472,7 +472,7 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
                         ToDate = worker.ToDate,
                         InventoryId = inventoryModel.Id,
                         WorkerId = worker.Id
-                    }, cancellationToken);
+                    }, cancellationTokenSource);
 
                     await CreateCheckpointAsync(
                         rollback: new RollbackModel()
@@ -490,7 +490,7 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
                                 }
                             }
                         },
-                        cancellationToken: cancellationToken);
+                        cancellationTokenSource: cancellationTokenSource);
 
                     inventories.FirstOrDefault(x => x.Id == inventoryModel.Id).CurrentStockCount -= 1;
                 }
@@ -503,7 +503,7 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
                         StockCount = 1,
                         ToDate = worker.ToDate,
                         WorkerId = worker.Id
-                    }, cancellationToken);
+                    }, cancellationTokenSource);
 
                     await CreateCheckpointAsync(
                         rollback: new RollbackModel()
@@ -521,11 +521,13 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
                                 }
                             }
                         },
-                        cancellationToken: cancellationToken);
+                        cancellationTokenSource: cancellationTokenSource);
                 }
             }
 
-            await _unitOfWork.SaveAsync(cancellationToken);
+            await _unitOfWork.SaveAsync(cancellationTokenSource);
+
+            await _createInventoryRequestPublisher.PublishBufferAsync(cancellationTokenSource);
 
             return worker;
         }
@@ -558,9 +560,9 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
         /// Bir işlemi geri almak için yedekleme noktası oluşturur
         /// </summary>
         /// <param name="rollback">İşlemin yedekleme noktası nesnesi</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
-        public async Task<int> CreateCheckpointAsync(RollbackModel rollback, CancellationToken cancellationToken)
+        public async Task<int> CreateCheckpointAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
         {
             RollbackEntity rollbackEntity = _mapper.Map<RollbackModel, RollbackEntity>(rollback);
 
@@ -570,19 +572,19 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
             {
                 rollbackItemEntity.TransactionIdentity = rollbackEntity.TransactionIdentity;
 
-                await _transactionItemRepository.CreateAsync(rollbackItemEntity, cancellationToken);
+                await _transactionItemRepository.CreateAsync(rollbackItemEntity, cancellationTokenSource);
             }
 
-            return await _transactionRepository.CreateAsync(rollbackEntity, cancellationToken);
+            return await _transactionRepository.CreateAsync(rollbackEntity, cancellationTokenSource);
         }
 
         /// <summary>
         /// Bir işlemi geri alır
         /// </summary>
         /// <param name="rollback">Geri alınacak işlemin yedekleme noktası nesnesi</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
-        public async Task<int> RollbackTransactionAsync(RollbackModel rollback, CancellationToken cancellationToken)
+        public async Task<int> RollbackTransactionAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
         {
             foreach (var rollbackItem in rollback.RollbackItems)
             {
@@ -591,23 +593,23 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
                     case InventoryRepository.TABLE_NAME:
                         if (rollbackItem.RollbackType == RollbackType.Delete)
                         {
-                            await _inventoryRepository.DeleteAsync((int)rollbackItem.Identity, cancellationToken);
+                            await _inventoryRepository.DeleteAsync((int)rollbackItem.Identity, cancellationTokenSource);
                         }
                         else if (rollbackItem.RollbackType == RollbackType.Insert)
                         {
-                            await _inventoryRepository.UnDeleteAsync((int)rollbackItem.Identity, cancellationToken);
+                            await _inventoryRepository.UnDeleteAsync((int)rollbackItem.Identity, cancellationTokenSource);
                         }
                         else if (rollbackItem.RollbackType == RollbackType.Update)
                         {
-                            await _inventoryRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationToken);
+                            await _inventoryRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationTokenSource);
                         }
                         else if (rollbackItem.RollbackType == RollbackType.IncreaseValue)
                         {
-                            await _inventoryRepository.IncreaseStockCountAsync((int)rollbackItem.Identity, (int)rollbackItem.Difference, cancellationToken);
+                            await _inventoryRepository.IncreaseStockCountAsync((int)rollbackItem.Identity, (int)rollbackItem.Difference, cancellationTokenSource);
                         }
                         else if (rollbackItem.RollbackType == RollbackType.DecreaseValue)
                         {
-                            await _inventoryRepository.DescendStockCountAsync((int)rollbackItem.Identity, (int)rollbackItem.Difference, cancellationToken);
+                            await _inventoryRepository.DescendStockCountAsync((int)rollbackItem.Identity, (int)rollbackItem.Difference, cancellationTokenSource);
                         }
                         else
                             throw new Exception("Tanımlanmamış geri alma biçimi");
@@ -615,15 +617,15 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
                     case InventoryDefaultsRepository.TABLE_NAME:
                         if (rollbackItem.RollbackType == RollbackType.Delete)
                         {
-                            await _inventoryDefaultsRepository.DeleteAsync((int)rollbackItem.Identity, cancellationToken);
+                            await _inventoryDefaultsRepository.DeleteAsync((int)rollbackItem.Identity, cancellationTokenSource);
                         }
                         else if (rollbackItem.RollbackType == RollbackType.Insert)
                         {
-                            await _inventoryDefaultsRepository.UnDeleteAsync((int)rollbackItem.Identity, cancellationToken);
+                            await _inventoryDefaultsRepository.UnDeleteAsync((int)rollbackItem.Identity, cancellationTokenSource);
                         }
                         else if (rollbackItem.RollbackType == RollbackType.Update)
                         {
-                            await _inventoryDefaultsRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationToken);
+                            await _inventoryDefaultsRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationTokenSource);
                         }
                         else
                             throw new Exception("Tanımlanmamış geri alma biçimi");
@@ -631,15 +633,15 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
                     case WorkerInventoryRepository.TABLE_NAME:
                         if (rollbackItem.RollbackType == RollbackType.Delete)
                         {
-                            await _workerInventoryRepository.DeleteAsync((int)rollbackItem.Identity, cancellationToken);
+                            await _workerInventoryRepository.DeleteAsync((int)rollbackItem.Identity, cancellationTokenSource);
                         }
                         else if (rollbackItem.RollbackType == RollbackType.Insert)
                         {
-                            await _inventoryDefaultsRepository.UnDeleteAsync((int)rollbackItem.Identity, cancellationToken);
+                            await _inventoryDefaultsRepository.UnDeleteAsync((int)rollbackItem.Identity, cancellationTokenSource);
                         }
                         else if (rollbackItem.RollbackType == RollbackType.Update)
                         {
-                            await _inventoryDefaultsRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationToken);
+                            await _inventoryDefaultsRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationTokenSource);
                         }
                         else
                             throw new Exception("Tanımlanmamış geri alma biçimi");
@@ -649,9 +651,9 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
                 }
             }
 
-            int rollbackResult = await _transactionRepository.SetRolledbackAsync(rollback.TransactionIdentity, cancellationToken);
+            int rollbackResult = await _transactionRepository.SetRolledbackAsync(rollback.TransactionIdentity, cancellationTokenSource);
 
-            await _unitOfWork.SaveAsync(cancellationToken);
+            await _unitOfWork.SaveAsync(cancellationTokenSource);
 
             return rollbackResult;
         }

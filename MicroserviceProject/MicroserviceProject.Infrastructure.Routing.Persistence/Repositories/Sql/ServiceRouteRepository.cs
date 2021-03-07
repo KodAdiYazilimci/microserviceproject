@@ -48,10 +48,8 @@ namespace MicroserviceProject.Infrastructure.Routing.Persistence.Repositories.Sq
             }
         }
 
-        public async Task<List<ServiceRouteModel>> GetServiceRoutesAsync(CancellationToken cancellationToken)
+        public async Task<List<ServiceRouteModel>> GetServiceRoutesAsync(CancellationTokenSource cancellationTokenSource)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
             List<ServiceRouteModel> routes = new List<ServiceRouteModel>();
 
             Exception exception = null;
@@ -60,74 +58,71 @@ namespace MicroserviceProject.Infrastructure.Routing.Persistence.Repositories.Sq
 
             try
             {
-                SqlCommand sqlRouteCommand =
-                    new SqlCommand(@"
+                using (SqlCommand sqlRouteCommand =
+                     new SqlCommand(@"
                                     SELECT R.* FROM SERVICE_ROUTES R
                                     WHERE 
-                                    R.DELETE_DATE IS NULL", sqlConnection);
-
-                if (sqlConnection.State != ConnectionState.Open)
+                                    R.DELETE_DATE IS NULL", sqlConnection))
                 {
-                    await sqlConnection.OpenAsync(cancellationToken);
-                }
-
-                SqlDataReader sqlRouteDataReader = await sqlRouteCommand.ExecuteReaderAsync(cancellationToken);
-
-                if (sqlRouteDataReader.HasRows)
-                {
-                    while (await sqlRouteDataReader.ReadAsync(cancellationToken))
+                    if (sqlConnection.State != ConnectionState.Open)
                     {
-                        cancellationToken.ThrowIfCancellationRequested();
-
-                        ServiceRouteModel route = new ServiceRouteModel
-                        {
-                            Id = Convert.ToInt32(sqlRouteDataReader["ID"])
-                        };
-                        route.ServiceName = sqlRouteDataReader["NAME"].ToString();
-                        route.CallType = sqlRouteDataReader["CALLTYPE"].ToString();
-                        route.Endpoint = sqlRouteDataReader["ENDPOINT"].ToString();
-
-                        routes.Add(route);
+                        await sqlConnection.OpenAsync(cancellationTokenSource.Token);
                     }
 
-                    await sqlRouteDataReader.CloseAsync();
-                    await sqlRouteDataReader.DisposeAsync();
-                    await sqlRouteCommand.DisposeAsync();
-                }
-
-                foreach (var route in routes)
-                {
-                    SqlCommand sqlQueryCommand = new SqlCommand(@"SELECT Q.* FROM SERVICE_ROUTES_QUERYKEYS Q
-                                                                  WHERE
-                                                                  Q.SERVICE_ROUTE_ID=@ROUTEID
-                                                                  AND
-                                                                  Q.DELETE_DATE IS NULL", sqlConnection);
-
-                    sqlQueryCommand.Parameters.AddWithValue("@ROUTEID", route.Id);
-
-                    SqlDataReader sqlQueryReader = await sqlQueryCommand.ExecuteReaderAsync(cancellationToken);
-
-                    if (sqlQueryReader.HasRows)
+                    using (SqlDataReader sqlRouteDataReader = await sqlRouteCommand.ExecuteReaderAsync(cancellationTokenSource.Token))
                     {
-                        while (await sqlQueryReader.ReadAsync(cancellationToken))
+
+                        if (sqlRouteDataReader.HasRows)
                         {
-                            cancellationToken.ThrowIfCancellationRequested();
-
-                            RouteQueryModel queryKey = new RouteQueryModel
+                            while (await sqlRouteDataReader.ReadAsync(cancellationTokenSource.Token))
                             {
-                                Id = Convert.ToInt32(sqlQueryReader["ID"]),
-                                CallModelId = Convert.ToInt32(sqlQueryReader["SERVICE_ROUTE_ID"]),
-                                Key = sqlQueryReader["KEY"].ToString()
-                            };
+                                ServiceRouteModel route = new ServiceRouteModel
+                                {
+                                    Id = Convert.ToInt32(sqlRouteDataReader["ID"])
+                                };
+                                route.ServiceName = sqlRouteDataReader["NAME"].ToString();
+                                route.CallType = sqlRouteDataReader["CALLTYPE"].ToString();
+                                route.Endpoint = sqlRouteDataReader["ENDPOINT"].ToString();
 
-                            route.QueryKeys.Add(queryKey);
+                                routes.Add(route);
+                            }
                         }
                     }
                 }
 
                 foreach (var route in routes)
                 {
-                    SqlCommand sqlAlternativesCommand = new SqlCommand(@"SELECT 
+                    using (SqlCommand sqlQueryCommand = new SqlCommand(@"SELECT Q.* FROM SERVICE_ROUTES_QUERYKEYS Q
+                                                                  WHERE
+                                                                  Q.SERVICE_ROUTE_ID=@ROUTEID
+                                                                  AND
+                                                                  Q.DELETE_DATE IS NULL", sqlConnection))
+                    {
+                        sqlQueryCommand.Parameters.AddWithValue("@ROUTEID", route.Id);
+
+                        using (SqlDataReader sqlQueryReader = await sqlQueryCommand.ExecuteReaderAsync(cancellationTokenSource.Token))
+                        {
+                            if (sqlQueryReader.HasRows)
+                            {
+                                while (await sqlQueryReader.ReadAsync(cancellationTokenSource.Token))
+                                {
+                                    RouteQueryModel queryKey = new RouteQueryModel
+                                    {
+                                        Id = Convert.ToInt32(sqlQueryReader["ID"]),
+                                        CallModelId = Convert.ToInt32(sqlQueryReader["SERVICE_ROUTE_ID"]),
+                                        Key = sqlQueryReader["KEY"].ToString()
+                                    };
+
+                                    route.QueryKeys.Add(queryKey);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                foreach (var route in routes)
+                {
+                    using (SqlCommand sqlAlternativesCommand = new SqlCommand(@"SELECT 
                                                                          ALT.ALTERNATIVE_SERVICE_ROUTE_ID,
                                                                          RO.[NAME],
                                                                          RO.CALLTYPE,
@@ -140,30 +135,33 @@ namespace MicroserviceProject.Infrastructure.Routing.Persistence.Repositories.Sq
                                                                          AND
                                                                          RO.DELETE_DATE IS NULL
                                                                          AND
-                                                                         ALT.SERVICE_ROUTES_ID = @SERVICE_ROUTES_ID", sqlConnection);
-
-                    sqlAlternativesCommand.Parameters.AddWithValue("@SERVICE_ROUTES_ID", (((object)route.Id) ?? DBNull.Value));
-
-                    SqlDataReader sqlAlternativeRouteReader = await sqlAlternativesCommand.ExecuteReaderAsync(cancellationToken);
-
-                    if (sqlAlternativeRouteReader.HasRows)
+                                                                         ALT.SERVICE_ROUTES_ID = @SERVICE_ROUTES_ID", sqlConnection))
                     {
-                        while (await sqlAlternativeRouteReader.ReadAsync(cancellationToken))
+
+                        sqlAlternativesCommand.Parameters.AddWithValue("@SERVICE_ROUTES_ID", (((object)route.Id) ?? DBNull.Value));
+
+                        using (SqlDataReader sqlAlternativeRouteReader = await sqlAlternativesCommand.ExecuteReaderAsync(cancellationTokenSource.Token))
                         {
-                            ServiceRouteModel alternativeRoute = new ServiceRouteModel
+                            if (sqlAlternativeRouteReader.HasRows)
                             {
-                                Id = sqlAlternativeRouteReader.GetInt32("ALTERNATIVE_SERVICE_ROUTE_ID"),
-                                ServiceName = sqlAlternativeRouteReader.GetString("NAME"),
-                                CallType = sqlAlternativeRouteReader.GetString("CALLTYPE"),
-                                Endpoint = sqlAlternativeRouteReader.GetString("ENDPOINT")
-                            };
+                                while (await sqlAlternativeRouteReader.ReadAsync(cancellationTokenSource.Token))
+                                {
+                                    ServiceRouteModel alternativeRoute = new ServiceRouteModel
+                                    {
+                                        Id = sqlAlternativeRouteReader.GetInt32("ALTERNATIVE_SERVICE_ROUTE_ID"),
+                                        ServiceName = sqlAlternativeRouteReader.GetString("NAME"),
+                                        CallType = sqlAlternativeRouteReader.GetString("CALLTYPE"),
+                                        Endpoint = sqlAlternativeRouteReader.GetString("ENDPOINT")
+                                    };
 
-                            if (route.AlternativeRoutes == null)
-                            {
-                                route.AlternativeRoutes = new List<ServiceRouteModel>();
+                                    if (route.AlternativeRoutes == null)
+                                    {
+                                        route.AlternativeRoutes = new List<ServiceRouteModel>();
+                                    }
+
+                                    route.AlternativeRoutes.Add(alternativeRoute);
+                                }
                             }
-
-                            route.AlternativeRoutes.Add(alternativeRoute);
                         }
                     }
                 }
@@ -177,30 +175,30 @@ namespace MicroserviceProject.Infrastructure.Routing.Persistence.Repositories.Sq
                             if (alternativeRoute.QueryKeys == null)
                                 alternativeRoute.QueryKeys = new List<RouteQueryModel>();
 
-                            SqlCommand sqlAlternativeRouteQueryCommand = new SqlCommand(@"SELECT Q.* FROM SERVICE_ROUTES_QUERYKEYS Q
+                            using (SqlCommand sqlAlternativeRouteQueryCommand = new SqlCommand(@"SELECT Q.* FROM SERVICE_ROUTES_QUERYKEYS Q
                                                                   WHERE
                                                                   Q.SERVICE_ROUTE_ID=@ROUTEID
                                                                   AND
-                                                                  Q.DELETE_DATE IS NULL", sqlConnection);
-
-                            sqlAlternativeRouteQueryCommand.Parameters.AddWithValue("@ROUTEID", alternativeRoute.Id);
-
-                            SqlDataReader sqlAlternativeRouteQueryReader = await sqlAlternativeRouteQueryCommand.ExecuteReaderAsync(cancellationToken);
-
-                            if (sqlAlternativeRouteQueryReader.HasRows)
+                                                                  Q.DELETE_DATE IS NULL", sqlConnection))
                             {
-                                while (await sqlAlternativeRouteQueryReader.ReadAsync(cancellationToken))
+                                sqlAlternativeRouteQueryCommand.Parameters.AddWithValue("@ROUTEID", alternativeRoute.Id);
+
+                                using (SqlDataReader sqlAlternativeRouteQueryReader = await sqlAlternativeRouteQueryCommand.ExecuteReaderAsync(cancellationTokenSource.Token))
                                 {
-                                    cancellationToken.ThrowIfCancellationRequested();
-
-                                    RouteQueryModel queryKey = new RouteQueryModel
+                                    if (sqlAlternativeRouteQueryReader.HasRows)
                                     {
-                                        Id = Convert.ToInt32(sqlAlternativeRouteQueryReader["ID"]),
-                                        CallModelId = Convert.ToInt32(sqlAlternativeRouteQueryReader["SERVICE_ROUTE_ID"]),
-                                        Key = sqlAlternativeRouteQueryReader["KEY"].ToString()
-                                    };
+                                        while (await sqlAlternativeRouteQueryReader.ReadAsync(cancellationTokenSource.Token))
+                                        {
+                                            RouteQueryModel queryKey = new RouteQueryModel
+                                            {
+                                                Id = Convert.ToInt32(sqlAlternativeRouteQueryReader["ID"]),
+                                                CallModelId = Convert.ToInt32(sqlAlternativeRouteQueryReader["SERVICE_ROUTE_ID"]),
+                                                Key = sqlAlternativeRouteQueryReader["KEY"].ToString()
+                                            };
 
-                                    alternativeRoute.QueryKeys.Add(queryKey);
+                                            alternativeRoute.QueryKeys.Add(queryKey);
+                                        }
+                                    }
                                 }
                             }
                         }

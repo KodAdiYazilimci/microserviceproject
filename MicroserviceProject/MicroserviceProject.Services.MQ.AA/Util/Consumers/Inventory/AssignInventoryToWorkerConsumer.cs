@@ -61,7 +61,7 @@ namespace MicroserviceProject.Services.MQ.AA.Util.Consumers.Inventory
                 serviceName: _routeNameProvider.AA_AssignInventoryToWorker,
                 postData: data,
                 queryParameters: null,
-                cancellationToken: cancellationTokenSource.Token);
+                cancellationTokenSource: cancellationTokenSource);
         }
 
         /// <summary>

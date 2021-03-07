@@ -22,15 +22,15 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Util.Validati
         /// Request body doğrular
         /// </summary>
         /// <param name="decidedCost">Doğrulanacak nesne</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public static async Task ValidateAsync(DecidedCostModel decidedCost, CancellationToken cancellationToken)
+        public static async Task ValidateAsync(DecidedCostModel decidedCost, CancellationTokenSource cancellationTokenSource)
         {
             ValidateCostInventoryRule validationRules = new ValidateCostInventoryRule();
 
             if (decidedCost != null)
             {
-                ValidationResult validationResult = await validationRules.ValidateAsync(decidedCost, cancellationToken);
+                ValidationResult validationResult = await validationRules.ValidateAsync(decidedCost, cancellationTokenSource.Token);
 
                 if (!validationResult.IsValid)
                 {

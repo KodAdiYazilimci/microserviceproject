@@ -24,7 +24,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Controllers
 
         [HttpGet]
         [Route(nameof(GetDepartments))]
-        public async Task<IActionResult> GetDepartments(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetDepartments(CancellationTokenSource cancellationTokenSource)
         {
             if (Request.Headers.ContainsKey("TransactionIdentity"))
             {
@@ -33,14 +33,14 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Controllers
 
             return await ServiceExecuter.ExecuteServiceAsync<List<DepartmentModel>>(async () =>
             {
-                return await _departmentService.GetDepartmentsAsync(cancellationToken);
+                return await _departmentService.GetDepartmentsAsync(cancellationTokenSource);
             },
             services: _departmentService);
         }
 
         [HttpPost]
         [Route(nameof(CreateDepartment))]
-        public async Task<IActionResult> CreateDepartment([FromBody] DepartmentModel department, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateDepartment([FromBody] DepartmentModel department, CancellationTokenSource cancellationTokenSource)
         {
             if (Request.Headers.ContainsKey("TransactionIdentity"))
             {
@@ -49,9 +49,9 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Controllers
 
             return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
             {
-                await CreateDepartmentValidator.ValidateAsync(department, cancellationToken);
+                await CreateDepartmentValidator.ValidateAsync(department, cancellationTokenSource);
 
-                return await _departmentService.CreateDepartmentAsync(department, cancellationToken);
+                return await _departmentService.CreateDepartmentAsync(department, cancellationTokenSource);
             },
             services: _departmentService);
         }

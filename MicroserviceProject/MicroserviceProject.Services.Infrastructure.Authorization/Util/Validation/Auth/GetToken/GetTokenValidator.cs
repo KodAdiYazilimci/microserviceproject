@@ -21,15 +21,15 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Util.Validat
         /// Request body doğrular
         /// </summary>
         /// <param name="credential">Doğrulanacak nesne</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public static async Task<ServiceResultModel> ValidateAsync(Credential credential, CancellationToken cancellationToken)
+        public static async Task<ServiceResultModel> ValidateAsync(Credential credential, CancellationTokenSource cancellationTokenSource)
         {
             Configuration.Validation.Auth.GetToken.CredentialRule validationRules = new Configuration.Validation.Auth.GetToken.CredentialRule();
 
             if (credential != null)
             {
-                ValidationResult validationResult = await validationRules.ValidateAsync(credential, cancellationToken);
+                ValidationResult validationResult = await validationRules.ValidateAsync(credential, cancellationTokenSource.Token);
 
                 if (!validationResult.IsValid)
                 {

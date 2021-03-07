@@ -31,20 +31,18 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Business.Ser
         /// Kullanıcıyı asenkron olarak getirir
         /// </summary>
         /// <param name="token">Kullanıcının token değeri</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<User> GetUserAsync(string token, CancellationToken cancellationToken)
+        public async Task<User> GetUserAsync(string token, CancellationTokenSource cancellationTokenSource)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
             Session session =
                 await
                 _sessionRepository
-                .GetValidSessionAsync(token, cancellationToken);
+                .GetValidSessionAsync(token, cancellationTokenSource);
 
             if (session != null)
             {
-                User user = await _userRepository.GetUserAsync(session.UserId, cancellationToken);
+                User user = await _userRepository.GetUserAsync(session.UserId, cancellationTokenSource);
 
                 if (user != null)
                 {
@@ -78,28 +76,24 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Business.Ser
         /// Kullanıcının varlığını e-posta adresine göre kontrol eder
         /// </summary>
         /// <param name="email">E-posta adresi</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<bool> CheckUserAsync(string email, CancellationToken cancellationToken)
+        public async Task<bool> CheckUserAsync(string email, CancellationTokenSource cancellationTokenSource)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
-            return await _userRepository.CheckUserAsync(email, cancellationToken);
+            return await _userRepository.CheckUserAsync(email, cancellationTokenSource);
         }
 
         /// <summary>
         /// Kullanıcı oluşturur ve ardından token verir
         /// </summary>
         /// <param name="credential">Kullanıcının kimlik bilgileri</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task RegisterUserAsync(Credential credential, CancellationToken cancellationToken)
+        public async Task RegisterUserAsync(Credential credential, CancellationTokenSource cancellationTokenSource)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
             string passwordHash = SHA256Cryptography.Crypt(credential.Password);
 
-            await _userRepository.RegisterAsync(credential.Email, passwordHash, cancellationToken);
+            await _userRepository.RegisterAsync(credential.Email, passwordHash, cancellationTokenSource);
         }
 
         /// <summary>

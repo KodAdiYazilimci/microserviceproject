@@ -21,15 +21,15 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Util.Validat
         /// Request body doğrular
         /// </summary>
         /// <param name="costModel">Doğrulanacak nesne</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public static async Task ValidateAsync(DecidedCostModel costModel, CancellationToken cancellationToken)
+        public static async Task ValidateAsync(DecidedCostModel costModel, CancellationTokenSource cancellationTokenSource)
         {
             CreateCostRule validationRules = new CreateCostRule();
 
             if (costModel != null)
             {
-                ValidationResult validationResult = await validationRules.ValidateAsync(costModel, cancellationToken);
+                ValidationResult validationResult = await validationRules.ValidateAsync(costModel, cancellationTokenSource.Token);
 
                 if (!validationResult.IsValid)
                 {

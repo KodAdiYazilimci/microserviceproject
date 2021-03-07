@@ -2,6 +2,7 @@
 using MicroserviceProject.Infrastructure.Logging.RabbitMq.Producers;
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,12 +25,28 @@ namespace MicroserviceProject.Services.Communication.Publishers
         private Publisher<TModel> _publisher;
 
         /// <summary>
+        /// Rabbit kuyruğuna kayıt edilecek nesnelerin tampon belleği
+        /// </summary>
+        private List<TModel> buffer;
+
+        /// <summary>
         /// Rabbit kuyruğuna kayıt ekleyecek sınıfların temel sınıfı
         /// </summary>
         /// <param name="rabbitConfiguration">Kuyruk ayarlarını verece configuration nesnesi</param>
         public BasePublisher(IRabbitConfiguration rabbitConfiguration)
         {
+            buffer = new List<TModel>();
+
             _publisher = new Publisher<TModel>(rabbitConfiguration);
+        }
+
+        /// <summary>
+        /// Rabbit kuyruğuna kayıt edilecek nesneleri tampon belleğe ekler
+        /// </summary>
+        /// <param name="model">Eklenecek kaydın nesnesi</param>
+        public virtual void AddToBuffer(TModel model)
+        {
+            buffer.Add(model);
         }
 
         /// <summary>
@@ -37,9 +54,24 @@ namespace MicroserviceProject.Services.Communication.Publishers
         /// </summary>
         /// <param name="model">Eklenecek kaydın nesnesi</param>
         /// <returns></returns>
-        public virtual Task PublishAsync(TModel model, CancellationToken cancellationToken)
+        public virtual Task PublishAsync(TModel model, CancellationTokenSource cancellationTokenSource)
         {
-            return _publisher.PublishAsync(model, cancellationToken);
+            return _publisher.PublishAsync(model, cancellationTokenSource);
+        }
+
+        /// <summary>
+        /// Tampon belleğe eklenen kayıtları rabbit kuyruğuna atar
+        /// </summary>
+        /// <param name="cancellationTokenSource"></param>
+        /// <returns></returns>
+        public virtual async Task PublishBufferAsync(CancellationTokenSource cancellationTokenSource)
+        {
+            foreach (var data in buffer)
+            {
+                await _publisher.PublishAsync(data, cancellationTokenSource);
+            }
+
+            buffer.Clear();
         }
 
         /// <summary>
@@ -65,6 +97,12 @@ namespace MicroserviceProject.Services.Communication.Publishers
                     {
                         _publisher.Dispose();
                         _publisher = null;
+                    }
+
+                    if (buffer != null)
+                    {
+                        buffer.Clear();
+                        buffer = null;
                     }
                 }
 

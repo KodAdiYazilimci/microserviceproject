@@ -21,15 +21,15 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Util.Validation.D
         /// Request body doğrular
         /// </summary>
         /// <param name="department">Doğrulanacak nesne</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public static async Task ValidateAsync(DepartmentModel department, CancellationToken cancellationToken)
+        public static async Task ValidateAsync(DepartmentModel department, CancellationTokenSource cancellationTokenSource)
         {
             CreatePersonRule validationRules = new CreatePersonRule();
 
             if (department != null)
             {
-                ValidationResult validationResult = await validationRules.ValidateAsync(department, cancellationToken);
+                ValidationResult validationResult = await validationRules.ValidateAsync(department, cancellationTokenSource.Token);
 
                 if (!validationResult.IsValid)
                 {

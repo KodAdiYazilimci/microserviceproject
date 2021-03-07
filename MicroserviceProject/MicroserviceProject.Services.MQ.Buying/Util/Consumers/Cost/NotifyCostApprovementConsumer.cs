@@ -61,7 +61,7 @@ namespace MicroserviceProject.Services.MQ.Buying.Util.Consumers.Cost
                 serviceName: _routeNameProvider.Buying_ValidateCostInventory,
                 postData: data,
                 queryParameters: null,
-                cancellationToken: cancellationTokenSource.Token);
+                cancellationTokenSource: cancellationTokenSource);
         }
 
         /// <summary>

@@ -21,15 +21,15 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Util.Validation.T
         /// Request body doğrular
         /// </summary>
         /// <param name="rollbackModel">Doğrulanacak nesne</param>
-        /// <param name="cancellationToken">İptal tokenı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public static async Task ValidateAsync(RollbackModel rollbackModel, CancellationToken cancellationToken)
+        public static async Task ValidateAsync(RollbackModel rollbackModel, CancellationTokenSource cancellationTokenSource)
         {
             RollbackTransactionRule validationRules = new RollbackTransactionRule();
 
             if (rollbackModel != null)
             {
-                ValidationResult validationResult = await validationRules.ValidateAsync(rollbackModel, cancellationToken);
+                ValidationResult validationResult = await validationRules.ValidateAsync(rollbackModel, cancellationTokenSource.Token);
 
                 if (!validationResult.IsValid)
                 {
