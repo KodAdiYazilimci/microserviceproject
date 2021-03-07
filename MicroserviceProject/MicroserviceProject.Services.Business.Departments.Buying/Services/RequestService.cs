@@ -8,6 +8,7 @@ using MicroserviceProject.Services.Business.Departments.Buying.Entities.Sql;
 using MicroserviceProject.Services.Business.Departments.Buying.Repositories.Sql;
 using MicroserviceProject.Services.Communication.Publishers.Buying;
 using MicroserviceProject.Services.Communication.Publishers.IT;
+using MicroserviceProject.Services.Disposing;
 using MicroserviceProject.Services.Model.Department.Buying;
 using MicroserviceProject.Services.Model.Department.Finance;
 using MicroserviceProject.Services.Transaction;
@@ -26,7 +27,7 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Services
     /// <summary>
     /// Talep işlemleri iş mantığı sınıfı
     /// </summary>
-    public class RequestService : BaseService, IRollbackableAsync<int>, IDisposable
+    public class RequestService : BaseService, IRollbackableAsync<int>, IDisposable, IDisposableInjections
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -447,14 +448,6 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Services
             {
                 if (!disposed)
                 {
-                    _cacheDataProvider.Dispose();
-                    _inventoryRequestRepository.Dispose();
-                    _transactionItemRepository.Dispose();
-                    _transactionRepository.Dispose();
-                    _unitOfWork.Dispose();
-                    _AAInformInventoryRequestPublisher.Dispose();
-                    _ITInformInventoryRequestPublisher.Dispose();
-
                     disposed = true;
                 }
             }
@@ -520,6 +513,17 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Services
             await _unitOfWork.SaveAsync(cancellationTokenSource);
 
             return rollbackResult;
+        }
+
+        public void DisposeInjections()
+        {
+            _cacheDataProvider.Dispose();
+            _inventoryRequestRepository.Dispose();
+            _transactionItemRepository.Dispose();
+            _transactionRepository.Dispose();
+            _unitOfWork.Dispose();
+            _AAInformInventoryRequestPublisher.Dispose();
+            _ITInformInventoryRequestPublisher.Dispose();
         }
     }
 }

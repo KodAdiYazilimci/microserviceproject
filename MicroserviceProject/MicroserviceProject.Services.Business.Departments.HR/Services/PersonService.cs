@@ -9,6 +9,7 @@ using MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql;
 using MicroserviceProject.Services.Communication.Publishers.AA;
 using MicroserviceProject.Services.Communication.Publishers.Account;
 using MicroserviceProject.Services.Communication.Publishers.IT;
+using MicroserviceProject.Services.Disposing;
 using MicroserviceProject.Services.Model.Department.Accounting;
 using MicroserviceProject.Services.Model.Department.HR;
 using MicroserviceProject.Services.Transaction;
@@ -27,7 +28,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
     /// <summary>
     /// Kişi işlemleri iş mantığı sınıfı
     /// </summary>
-    public class PersonService : BaseService, IRollbackableAsync<int>, IDisposable
+    public class PersonService : BaseService, IRollbackableAsync<int>, IDisposable, IDisposableInjections
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -496,16 +497,6 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
             {
                 if (!disposed)
                 {
-                    _cacheDataProvider.Dispose();
-                    _personRepository.Dispose();
-                    _departmentRepository.Dispose();
-                    _titleRepository.Dispose();
-                    _transactionItemRepository.Dispose();
-                    _transactionRepository.Dispose();
-                    _workerRelationRepository.Dispose();
-                    _workerRepository.Dispose();
-                    _unitOfWork.Dispose();
-
                     disposed = true;
                 }
             }
@@ -635,6 +626,19 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
             await _unitOfWork.SaveAsync(cancellationTokenSource);
 
             return rollbackResult;
+        }
+
+        public void DisposeInjections()
+        {
+            _cacheDataProvider.Dispose();
+            _personRepository.Dispose();
+            _departmentRepository.Dispose();
+            _titleRepository.Dispose();
+            _transactionItemRepository.Dispose();
+            _transactionRepository.Dispose();
+            _workerRelationRepository.Dispose();
+            _workerRepository.Dispose();
+            _unitOfWork.Dispose();
         }
     }
 }

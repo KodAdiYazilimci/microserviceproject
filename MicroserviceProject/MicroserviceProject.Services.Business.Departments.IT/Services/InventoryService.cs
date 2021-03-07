@@ -4,6 +4,7 @@ using MicroserviceProject.Infrastructure.Caching.Redis;
 using MicroserviceProject.Services.Business.Departments.IT.Entities.Sql;
 using MicroserviceProject.Services.Business.Departments.IT.Repositories.Sql;
 using MicroserviceProject.Services.Communication.Publishers.Buying;
+using MicroserviceProject.Services.Disposing;
 using MicroserviceProject.Services.Model.Department.Buying;
 using MicroserviceProject.Services.Model.Department.HR;
 using MicroserviceProject.Services.Model.Department.IT;
@@ -23,7 +24,7 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Services
     /// <summary>
     /// Envanter işlemleri iş mantığı sınıfı
     /// </summary>
-    public class InventoryService : BaseService, IRollbackableAsync<int>, IDisposable
+    public class InventoryService : BaseService, IRollbackableAsync<int>, IDisposable, IDisposableInjections
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -482,15 +483,6 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Services
             {
                 if (!disposed)
                 {
-                    _cacheDataProvider.Dispose();
-                    _inventoryRepository.Dispose();
-                    _inventoryDefaultsRepository.Dispose();
-                    _pendingWorkerInventoryRepository.Dispose();
-                    _transactionItemRepository.Dispose();
-                    _transactionRepository.Dispose();
-                    _workerInventoryRepository.Dispose();
-                    _unitOfWork.Dispose();
-
                     disposed = true;
                 }
             }
@@ -596,6 +588,18 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Services
             await _unitOfWork.SaveAsync(cancellationTokenSource);
 
             return rollbackResult;
+        }
+
+        public void DisposeInjections()
+        {
+            _cacheDataProvider.Dispose();
+            _inventoryRepository.Dispose();
+            _inventoryDefaultsRepository.Dispose();
+            _pendingWorkerInventoryRepository.Dispose();
+            _transactionItemRepository.Dispose();
+            _transactionRepository.Dispose();
+            _workerInventoryRepository.Dispose();
+            _unitOfWork.Dispose();
         }
     }
 }

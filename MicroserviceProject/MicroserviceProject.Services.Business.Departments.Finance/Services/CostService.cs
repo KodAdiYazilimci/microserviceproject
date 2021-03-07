@@ -7,6 +7,7 @@ using MicroserviceProject.Infrastructure.Routing.Providers;
 using MicroserviceProject.Services.Business.Departments.Finance.Entities.Sql;
 using MicroserviceProject.Services.Business.Departments.Finance.Repositories.Sql;
 using MicroserviceProject.Services.Communication.Publishers.Buying;
+using MicroserviceProject.Services.Disposing;
 using MicroserviceProject.Services.Model.Department.Buying;
 using MicroserviceProject.Services.Model.Department.Finance;
 using MicroserviceProject.Services.Transaction;
@@ -25,7 +26,7 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Services
     /// <summary>
     /// Karar verilen masraflar iş mantığı sınıfı
     /// </summary>
-    public class CostService : BaseService, IRollbackableAsync<int>, IDisposable
+    public class CostService : BaseService, IRollbackableAsync<int>, IDisposable, IDisposableInjections
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -332,12 +333,6 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Services
             {
                 if (!disposed)
                 {
-                    _cacheDataProvider.Dispose();
-                    _decidedCostRepository.Dispose();
-                    _transactionItemRepository.Dispose();
-                    _transactionRepository.Dispose();
-                    _unitOfWork.Dispose();
-
                     disposed = true;
                 }
             }
@@ -403,6 +398,15 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Services
             await _unitOfWork.SaveAsync(cancellationTokenSource);
 
             return rollbackResult;
+        }
+
+        public void DisposeInjections()
+        {
+            _cacheDataProvider.Dispose();
+            _decidedCostRepository.Dispose();
+            _transactionItemRepository.Dispose();
+            _transactionRepository.Dispose();
+            _unitOfWork.Dispose();
         }
     }
 }

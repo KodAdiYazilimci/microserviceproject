@@ -2,6 +2,7 @@
 using MicroserviceProject.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Infrastructure.Communication.Model.Errors;
 using MicroserviceProject.Infrastructure.Validation.Exceptions;
+using MicroserviceProject.Services.Disposing;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -73,6 +74,19 @@ namespace MicroserviceProject.Services
                     }
                 });
             }
+            finally
+            {
+                if (services != null && services.Any())
+                {
+                    foreach (var service in services)
+                    {
+                        if (service != null && service is IDisposableInjections)
+                        {
+                            (service as IDisposableInjections).DisposeInjections();
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -134,6 +148,19 @@ namespace MicroserviceProject.Services
                     }
                 });
             }
+            finally
+            {
+                if (services != null && services.Any())
+                {
+                    foreach (var service in services)
+                    {
+                        if (service != null && service is IDisposableInjections)
+                        {
+                            (service as IDisposableInjections).DisposeInjections();
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -192,6 +219,19 @@ namespace MicroserviceProject.Services
                         Modules = services.Select(x => x.ServiceName).ToList()
                     }
                 });
+            }
+            finally
+            {
+                if (services != null && services.Any())
+                {
+                    foreach (var service in services)
+                    {
+                        if (service != null && service is IDisposableInjections)
+                        {
+                            (service as IDisposableInjections).DisposeInjections();
+                        }
+                    }
+                }
             }
         }
 
@@ -253,6 +293,19 @@ namespace MicroserviceProject.Services
                         Modules = services.Select(x => x.ServiceName).ToList()
                     }
                 });
+            }
+            finally
+            {
+                if (services != null && services.Any())
+                {
+                    foreach (var service in services)
+                    {
+                        if (service != null && service is IDisposableInjections)
+                        {
+                            (service as IDisposableInjections).DisposeInjections();
+                        }
+                    }
+                }
             }
         }
     }

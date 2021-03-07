@@ -3,6 +3,7 @@
 using MicroserviceProject.Infrastructure.Caching.Redis;
 using MicroserviceProject.Services.Business.Departments.HR.Entities.Sql;
 using MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql;
+using MicroserviceProject.Services.Disposing;
 using MicroserviceProject.Services.Model.Department.HR;
 using MicroserviceProject.Services.Transaction;
 using MicroserviceProject.Services.Transaction.Models;
@@ -20,7 +21,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
     /// <summary>
     /// Departman işlemleri iş mantığı sınıfı
     /// </summary>
-    public class DepartmentService : BaseService, IRollbackableAsync<int>, IDisposable
+    public class DepartmentService : BaseService, IRollbackableAsync<int>, IDisposable, IDisposableInjections
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -170,12 +171,6 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
             {
                 if (!disposed)
                 {
-                    _cacheDataProvider.Dispose();
-                    _departmentRepository.Dispose();
-                    _transactionItemRepository.Dispose();
-                    _transactionRepository.Dispose();
-                    _unitOfWork.Dispose();
-
                     disposed = true;
                 }
             }
@@ -241,6 +236,15 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
             await _unitOfWork.SaveAsync(cancellationTokenSource);
 
             return rollbackResult;
+        }
+
+        public void DisposeInjections()
+        {
+            _cacheDataProvider.Dispose();
+            _departmentRepository.Dispose();
+            _transactionItemRepository.Dispose();
+            _transactionRepository.Dispose();
+            _unitOfWork.Dispose();
         }
     }
 }

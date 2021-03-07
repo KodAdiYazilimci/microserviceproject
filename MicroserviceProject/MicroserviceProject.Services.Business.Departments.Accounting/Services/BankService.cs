@@ -3,6 +3,7 @@
 using MicroserviceProject.Infrastructure.Caching.Redis;
 using MicroserviceProject.Services.Business.Departments.Accounting.Entities.Sql;
 using MicroserviceProject.Services.Business.Departments.Accounting.Repositories.Sql;
+using MicroserviceProject.Services.Disposing;
 using MicroserviceProject.Services.Model.Department.Accounting;
 using MicroserviceProject.Services.Transaction;
 using MicroserviceProject.Services.Transaction.Models;
@@ -20,7 +21,7 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Services
     /// <summary>
     /// Banka hesapları iş mantığı sınıfı
     /// </summary>
-    public class BankService : BaseService, IRollbackableAsync<int>, IDisposable
+    public class BankService : BaseService, IRollbackableAsync<int>, IDisposable, IDisposableInjections
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -290,14 +291,6 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Services
             {
                 if (!disposed)
                 {
-                    _cacheDataProvider.Dispose();
-                    _bankAccountRepository.Dispose();
-                    _currencyRepository.Dispose();
-                    _salaryPaymentRepository.Dispose();
-                    _transactionItemRepository.Dispose();
-                    _transactionRepository.Dispose();
-                    _unitOfWork.Dispose();
-
                     disposed = true;
                 }
             }
@@ -395,6 +388,17 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Services
             await _unitOfWork.SaveAsync(cancellationTokenSource);
 
             return rollbackResult;
+        }
+
+        public void DisposeInjections()
+        {
+            _cacheDataProvider.Dispose();
+            _bankAccountRepository.Dispose();
+            _currencyRepository.Dispose();
+            _salaryPaymentRepository.Dispose();
+            _transactionItemRepository.Dispose();
+            _transactionRepository.Dispose();
+            _unitOfWork.Dispose();
         }
     }
 }

@@ -431,7 +431,9 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                 if (!disposed)
                 {
                     if (OnNoServiceFoundInCacheAsync != null)
+                    {
                         OnNoServiceFoundInCacheAsync = null;
+                    }
                 }
 
                 disposed = true;
