@@ -2,6 +2,7 @@ using MicroserviceProject.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Infrastructure.Communication.Model.Errors;
 using MicroserviceProject.Services.Authentication;
 using MicroserviceProject.Services.Communication.DI;
+using MicroserviceProject.Services.Localization.DI;
 using MicroserviceProject.Services.MQ.Accounting.DI;
 
 using Microsoft.AspNetCore.Builder;
@@ -29,6 +30,8 @@ namespace MicroserviceProject.Services.MQ.Accounting
             services.RegisterServiceCommunicator();
             services.RegisterConsumers();
             services.RegisterRouteRepositories();
+            services.RegisterLocalizationPersistence();
+            services.RegisterLocalizationProviders();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

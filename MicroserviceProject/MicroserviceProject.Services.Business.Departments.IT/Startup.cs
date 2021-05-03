@@ -5,6 +5,7 @@ using MicroserviceProject.Services.Authentication.DI;
 using MicroserviceProject.Services.Business.Departments.IT.DI;
 using MicroserviceProject.Services.Cache.DI;
 using MicroserviceProject.Services.Communication.DI;
+using MicroserviceProject.Services.Localization.DI;
 using MicroserviceProject.Services.Logging.DI;
 using MicroserviceProject.Services.UnitOfWork.DI;
 using MicroserviceProject.Services.Util.DI;
@@ -41,6 +42,8 @@ namespace MicroserviceProject.Services.Business.Departments.IT
             services.RegisterBusinessServices();
             services.RegisterCaching();
             services.RegisterCredentialProvider();
+            services.RegisterLocalizationPersistence();
+            services.RegisterLocalizationProviders();
             services.RegisterLogger();
             services.RegisterMappings();
             services.RegisterQueues();

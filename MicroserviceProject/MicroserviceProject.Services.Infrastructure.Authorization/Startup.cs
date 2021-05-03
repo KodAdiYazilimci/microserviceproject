@@ -1,6 +1,7 @@
 using MicroserviceProject.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Infrastructure.Communication.Model.Errors;
 using MicroserviceProject.Services.Infrastructure.Authorization.Configuration.Services;
+using MicroserviceProject.Services.Localization.DI;
 using MicroserviceProject.Services.Logging.DI;
 using MicroserviceProject.Services.Util.DI;
 
@@ -31,11 +32,10 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization
         public void ConfigureServices(IServiceCollection services)
         {
             services.RegisterLogger();
-
             services.RegisterRepositories(Configuration);
-
+            services.RegisterLocalizationPersistence();
+            services.RegisterLocalizationProviders();
             services.RegisterServices();
-
             services.RegisterSwagger();
 
             services.AddControllers();
