@@ -34,6 +34,11 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
         public override string ServiceName => "MicroserviceProject.Services.Business.Departments.HR.Services.DepartmentService";
 
         /// <summary>
+        /// Servisin ait olduğu api servisinin adı
+        /// </summary>
+        public override string ApiServiceName => "MicroserviceProject.Services.Business.Departments.HR";
+
+        /// <summary>
         /// Önbelleğe alınan departmanların önbellekteki adı
         /// </summary>
         private const string CACHED_DEPARTMENTS_KEY = "MicroserviceProject.Services.Business.Departments.HR.Departments";

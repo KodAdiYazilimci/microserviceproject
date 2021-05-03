@@ -169,7 +169,16 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                 {
                     if (wex.Response is HttpWebResponse && (wex.Response as HttpWebResponse).StatusCode == HttpStatusCode.Unauthorized)
                     {
-                        return new ServiceResultModel() { IsSuccess = false, ErrorModel = new ErrorModel() { Code = "401", Description = wex.Message } };
+                        return new ServiceResultModel()
+                        {
+                            IsSuccess = false,
+                            SourceApiService = serviceName,
+                            ErrorModel = new ErrorModel()
+                            {
+                                Code = "401",
+                                Description = wex.Message
+                            }
+                        };
                     }
                     else if (wex.Response is HttpWebResponse && (wex.Response as HttpWebResponse).StatusCode == HttpStatusCode.BadRequest)
                     {
@@ -197,11 +206,11 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                     }
                 }
 
-                return new ServiceResultModel() { IsSuccess = false, ErrorModel = new ErrorModel() { Description = wex.Message } };
+                return new ServiceResultModel() { IsSuccess = false, SourceApiService = serviceName, ErrorModel = new ErrorModel() { Description = wex.Message } };
             }
             catch (Exception ex)
             {
-                return new ServiceResultModel() { IsSuccess = false, ErrorModel = new ErrorModel() { Description = ex.ToString() } };
+                return new ServiceResultModel() { IsSuccess = false, SourceApiService = serviceName, ErrorModel = new ErrorModel() { Description = ex.ToString() } };
             }
         }
 
@@ -301,7 +310,16 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                 {
                     if (wex.Response is HttpWebResponse && (wex.Response as HttpWebResponse).StatusCode == HttpStatusCode.Unauthorized)
                     {
-                        return new ServiceResultModel<TResult>() { IsSuccess = false, ErrorModel = new ErrorModel() { Code = "401", Description = wex.Message } };
+                        return new ServiceResultModel<TResult>()
+                        {
+                            IsSuccess = false,
+                            SourceApiService = serviceName,
+                            ErrorModel = new ErrorModel()
+                            {
+                                Code = "401",
+                                Description = wex.Message
+                            }
+                        };
                     }
                     else if (wex.Response is HttpWebResponse && (wex.Response as HttpWebResponse).StatusCode == HttpStatusCode.BadRequest)
                     {
@@ -329,11 +347,11 @@ namespace MicroserviceProject.Infrastructure.Communication.Moderator
                     }
                 }
 
-                return new ServiceResultModel<TResult>() { IsSuccess = false, ErrorModel = new ErrorModel() { Description = wex.Message } };
+                return new ServiceResultModel<TResult>() { IsSuccess = false, SourceApiService = serviceName, ErrorModel = new ErrorModel() { Description = wex.Message } };
             }
             catch (Exception ex)
             {
-                return new ServiceResultModel<TResult>() { IsSuccess = false, ErrorModel = new ErrorModel() { Description = ex.Message } };
+                return new ServiceResultModel<TResult>() { IsSuccess = false, SourceApiService = serviceName, ErrorModel = new ErrorModel() { Description = ex.Message } };
             }
         }
 

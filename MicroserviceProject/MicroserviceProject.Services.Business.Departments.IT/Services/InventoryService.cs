@@ -42,6 +42,11 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Services
         private const string CACHED_INVENTORIES_KEY = "MicroserviceProject.Services.Business.Departments.IT.Inventories";
 
         /// <summary>
+        /// Servisin ait olduğu api servisinin adı
+        /// </summary>
+        public override string ApiServiceName => "MicroserviceProject.Services.Business.Departments.IT";
+
+        /// <summary>
         /// Önbelleğe alınan varsayılan envanterlerin önbellekteki adı
         /// </summary>
         private const string CACHED_INVENTORIES_DEFAULTS_KEY = "MicroserviceProject.Services.Business.Departments.IT.InventoryDefaults";

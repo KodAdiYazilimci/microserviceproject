@@ -34,6 +34,11 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Services
         public override string ServiceName => "MicroserviceProject.Services.Business.Departments.Accounting.Services.BankService";
 
         /// <summary>
+        /// Servisin ait olduğu api servisinin adı
+        /// </summary>
+        public override string ApiServiceName => "MicroserviceProject.Services.Business.Departments.Accounting";
+
+        /// <summary>
         /// Önbelleğe alınan para birimlerinin önbellekteki adı
         /// </summary>
         private const string CACHED_CURRENCIES_KEY = "MicroserviceProject.Services.Business.Departments.Accounting.Currencies";

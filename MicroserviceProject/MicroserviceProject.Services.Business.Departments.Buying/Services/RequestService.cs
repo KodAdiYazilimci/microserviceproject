@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 
 using MicroserviceProject.Infrastructure.Caching.Redis;
+using MicroserviceProject.Infrastructure.Communication.Http.Exceptions;
 using MicroserviceProject.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Infrastructure.Communication.Moderator;
 using MicroserviceProject.Infrastructure.Routing.Providers;
@@ -38,6 +39,11 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Services
         /// İçerisinde çalışılan servisin adı
         /// </summary>
         public override string ServiceName => "MicroserviceProject.Services.Business.Departments.Buying.Services.RequestService";
+
+        /// <summary>
+        /// Servisin ait olduğu api servisinin adı
+        /// </summary>
+        public override string ApiServiceName => "MicroserviceProject.Services.Business.Departments.Buying";
 
         /// <summary>
         /// Önbelleğe alınan envanter taleplerinin önbellekteki adı
@@ -212,7 +218,14 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Services
 
             if (!serviceResult.IsSuccess)
             {
-                throw new Exception(serviceResult.ErrorModel.Description);
+                throw new CallException(
+                        message: serviceResult.ErrorModel.Description,
+                        endpoint:
+                        !string.IsNullOrEmpty(serviceResult.SourceApiService)
+                        ?
+                        serviceResult.SourceApiService
+                        :
+                        $"{ApiServiceName}).{nameof(RequestService)}.{nameof(GetAAInventoriesAsync)}");
             }
 
             return serviceResult.Data;
@@ -235,7 +248,14 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Services
 
             if (!serviceResult.IsSuccess)
             {
-                throw new Exception(serviceResult.ErrorModel.Description);
+                throw new CallException(
+                        message: serviceResult.ErrorModel.Description,
+                        endpoint:
+                        !string.IsNullOrEmpty(serviceResult.SourceApiService)
+                        ?
+                        serviceResult.SourceApiService
+                        :
+                        $"{ApiServiceName}).{nameof(RequestService)}.{nameof(GetAAInventoriesAsync)}");
             }
 
             return serviceResult.Data;

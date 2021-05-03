@@ -27,6 +27,11 @@ namespace MicroserviceProject.Infrastructure.Communication.Model.Basics
         /// Servis işlemleri boyunca geçerli olacak işlem kimliği
         /// </summary>
         public TransactionModel Transaction { get; set; }
+
+        /// <summary>
+        /// Yanıtın hangi serviste meydana geldiği
+        /// </summary>
+        public string SourceApiService { get; set; }
     }
 
     /// <summary>

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 
 using MicroserviceProject.Infrastructure.Caching.Redis;
+using MicroserviceProject.Infrastructure.Communication.Http.Exceptions;
 using MicroserviceProject.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Infrastructure.Communication.Moderator;
 using MicroserviceProject.Infrastructure.Routing.Providers;
@@ -39,6 +40,11 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
         /// İşlem sürecinde adı geçecek modül adı
         /// </summary>
         public override string ServiceName => "MicroserviceProject.Services.Business.Departments.HR.Services.PersonService";
+
+        /// <summary>
+        /// Servisin ait olduğu api servisinin adı
+        /// </summary>
+        public override string ApiServiceName => "MicroserviceProject.Services.Business.Departments.HR";
 
         /// <summary>
         /// Önbelleğe alınan kişilerin önbellekteki adı
@@ -345,7 +351,14 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                 }
                 else
                 {
-                    throw new Exception(bankAccountsServiceResult.ErrorModel.Description);
+                    throw new CallException(
+                        message: bankAccountsServiceResult.ErrorModel.Description,
+                        endpoint:
+                        !string.IsNullOrEmpty(bankAccountsServiceResult.SourceApiService)
+                        ?
+                        bankAccountsServiceResult.SourceApiService
+                        :
+                        $"{ApiServiceName}).{nameof(PersonService)}.{nameof(GetWorkersAsync)}");
                 }
             }
 
@@ -356,6 +369,8 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
 
         private List<WorkerModel> GetWorkers(CancellationTokenSource cancellationTokenSource)
         {
+            //TO DO: Join sorgusu yazılacak
+
             Task<List<DepartmentEntity>> departmentTask = _departmentRepository.GetListAsync(cancellationTokenSource);
 
             Task<List<PersonEntity>> personTask = _personRepository.GetListAsync(cancellationTokenSource);
@@ -431,7 +446,14 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                 }
                 else
                 {
-                    throw new Exception(defaultInventoriesServiceResult.ErrorModel.Description);
+                    throw new CallException(
+                        message: defaultInventoriesServiceResult.ErrorModel.Description,
+                        endpoint:
+                        !string.IsNullOrEmpty(defaultInventoriesServiceResult.SourceApiService)
+                        ?
+                        defaultInventoriesServiceResult.SourceApiService
+                        :
+                        $"{ApiServiceName}).{nameof(PersonService)}.{nameof(CreateWorkerAsync)}");
                 }
             }
 
@@ -459,7 +481,14 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Services
                 }
                 else
                 {
-                    throw new Exception(defaultInventoriesServiceResult.ErrorModel.Description);
+                    throw new CallException(
+                        message: defaultInventoriesServiceResult.ErrorModel.Description,
+                        endpoint:
+                        !string.IsNullOrEmpty(defaultInventoriesServiceResult.SourceApiService)
+                        ?
+                        defaultInventoriesServiceResult.SourceApiService
+                        :
+                        $"{ApiServiceName}).{nameof(PersonService)}.{nameof(CreateWorkerAsync)}");
                 }
             }
 

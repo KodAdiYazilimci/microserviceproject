@@ -113,7 +113,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Service
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Services.Business.Departments.Finance", "MicroserviceProject.Services.Business.Departments.Finance\MicroserviceProject.Services.Business.Departments.Finance.csproj", "{7DB3E86C-2B2F-454C-A075-3B4938740603}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Services.MQ.Finance", "MicroserviceProject.Services.MQ.Finance\MicroserviceProject.Services.MQ.Finance.csproj", "{A62F0A47-2403-48F2-8471-8B6B97EBFE43}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Services.MQ.Finance", "MicroserviceProject.Services.MQ.Finance\MicroserviceProject.Services.MQ.Finance.csproj", "{A62F0A47-2403-48F2-8471-8B6B97EBFE43}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

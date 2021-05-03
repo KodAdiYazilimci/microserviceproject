@@ -39,6 +39,11 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Services
         public override string ServiceName => "MicroserviceProject.Services.Business.Departments.Finance.Services.CostService";
 
         /// <summary>
+        /// Servisin ait olduğu api servisinin adı
+        /// </summary>
+        public override string ApiServiceName => "MicroserviceProject.Services.Business.Departments.Finance";
+
+        /// <summary>
         /// Önbelleğe alınan karar verilen masrafların önbellekteki adı
         /// </summary>
         private const string CACHED_DECIDED_COSTS_KEY = "MicroserviceProject.Services.Business.Departments.Buying.InventoryRequests";

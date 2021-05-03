@@ -44,6 +44,11 @@ namespace MicroserviceProject.Services
         public abstract string ServiceName { get; }
 
         /// <summary>
+        /// Servisin ait olduğu api servisinin adı
+        /// </summary>
+        public abstract string ApiServiceName { get; }
+
+        /// <summary>
         /// Kaynakları serbest bırakır
         /// </summary>
         public void Dispose()

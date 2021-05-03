@@ -1,4 +1,5 @@
-﻿using MicroserviceProject.Infrastructure.Communication.Model;
+﻿using MicroserviceProject.Infrastructure.Communication.Http.Exceptions;
+using MicroserviceProject.Infrastructure.Communication.Model;
 using MicroserviceProject.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Infrastructure.Communication.Model.Errors;
 using MicroserviceProject.Infrastructure.Validation.Exceptions;
@@ -32,6 +33,7 @@ namespace MicroserviceProject.Services
                 ServiceResultModel serviceResult = new ServiceResultModel()
                 {
                     IsSuccess = true,
+                    SourceApiService = services.FirstOrDefault()?.ApiServiceName,
                     Transaction = new Infrastructure.Communication.Model.TransactionModel()
                     {
                         TransactionIdentity =
@@ -46,11 +48,27 @@ namespace MicroserviceProject.Services
 
                 return new OkObjectResult(serviceResult);
             }
+            catch (CallException cex)
+            {
+                var serviceResult = new ServiceResultModel()
+                {
+                    IsSuccess = false,
+                    SourceApiService = cex.Endpoint,
+                    ErrorModel = new ErrorModel()
+                    {
+                        Code = string.Empty,
+                        Description = cex.Message
+                    }
+                };
+
+                return new BadRequestObjectResult(serviceResult);
+            }
             catch (ValidationException vex)
             {
                 var serviceResult = new ServiceResultModel()
                 {
                     IsSuccess = false,
+                    SourceApiService = services.FirstOrDefault()?.ApiServiceName,
                     Validation = vex.ValidationResult
                 };
 
@@ -61,6 +79,7 @@ namespace MicroserviceProject.Services
                 return new BadRequestObjectResult(new ServiceResultModel()
                 {
                     IsSuccess = false,
+                    SourceApiService = services.FirstOrDefault()?.ApiServiceName,
                     ErrorModel = new ErrorModel() { Description = ex.ToString() },
                     Transaction = new Infrastructure.Communication.Model.TransactionModel()
                     {
@@ -105,6 +124,7 @@ namespace MicroserviceProject.Services
                 ServiceResultModel<TResult> serviceResult = new ServiceResultModel<TResult>()
                 {
                     IsSuccess = true,
+                    SourceApiService = services.FirstOrDefault()?.ApiServiceName,
                     Data = result,
                     Transaction = new TransactionModel()
                     {
@@ -120,11 +140,27 @@ namespace MicroserviceProject.Services
 
                 return new OkObjectResult(serviceResult);
             }
+            catch (CallException cex)
+            {
+                var serviceResult = new ServiceResultModel()
+                {
+                    IsSuccess = false,
+                    SourceApiService = cex.Endpoint,
+                    ErrorModel = new ErrorModel()
+                    {
+                        Code = string.Empty,
+                        Description = cex.Message
+                    }
+                };
+
+                return new BadRequestObjectResult(serviceResult);
+            }
             catch (ValidationException vex)
             {
                 var serviceResult = new ServiceResultModel()
                 {
                     IsSuccess = false,
+                    SourceApiService = services.FirstOrDefault()?.ApiServiceName,
                     Validation = vex.ValidationResult
                 };
 
@@ -135,6 +171,7 @@ namespace MicroserviceProject.Services
                 return new BadRequestObjectResult(new ServiceResultModel()
                 {
                     IsSuccess = false,
+                    SourceApiService = services.FirstOrDefault()?.ApiServiceName,
                     ErrorModel = new ErrorModel() { Description = ex.ToString() },
                     Transaction = new TransactionModel()
                     {
@@ -178,6 +215,7 @@ namespace MicroserviceProject.Services
                 ServiceResultModel serviceResult = new ServiceResultModel()
                 {
                     IsSuccess = true,
+                    SourceApiService = services.FirstOrDefault()?.ApiServiceName,
                     Transaction = new TransactionModel()
                     {
                         TransactionIdentity =
@@ -192,11 +230,27 @@ namespace MicroserviceProject.Services
 
                 return new OkObjectResult(serviceResult);
             }
+            catch (CallException cex)
+            {
+                var serviceResult = new ServiceResultModel()
+                {
+                    IsSuccess = false,
+                    SourceApiService = cex.Endpoint,
+                    ErrorModel = new ErrorModel()
+                    {
+                        Code = string.Empty,
+                        Description = cex.Message
+                    }
+                };
+
+                return new BadRequestObjectResult(serviceResult);
+            }
             catch (ValidationException vex)
             {
                 var serviceResult = new ServiceResultModel()
                 {
                     IsSuccess = false,
+                    SourceApiService = services.FirstOrDefault()?.ApiServiceName,
                     Validation = vex.ValidationResult
                 };
 
@@ -207,6 +261,7 @@ namespace MicroserviceProject.Services
                 return new BadRequestObjectResult(new ServiceResultModel()
                 {
                     IsSuccess = false,
+                    SourceApiService = services.FirstOrDefault()?.ApiServiceName,
                     ErrorModel = new ErrorModel() { Description = ex.ToString() },
                     Transaction = new TransactionModel()
                     {
@@ -251,6 +306,7 @@ namespace MicroserviceProject.Services
                 ServiceResultModel<TResult> serviceResult = new ServiceResultModel<TResult>()
                 {
                     IsSuccess = true,
+                    SourceApiService = services.FirstOrDefault()?.ApiServiceName,
                     Data = result,
                     Transaction = new TransactionModel()
                     {
@@ -266,11 +322,27 @@ namespace MicroserviceProject.Services
 
                 return new OkObjectResult(serviceResult);
             }
+            catch (CallException cex)
+            {
+                var serviceResult = new ServiceResultModel()
+                {
+                    IsSuccess = false,
+                    SourceApiService = cex.Endpoint,
+                    ErrorModel = new ErrorModel()
+                    {
+                        Code = string.Empty,
+                        Description = cex.Message
+                    }
+                };
+
+                return new BadRequestObjectResult(serviceResult);
+            }
             catch (ValidationException vex)
             {
                 var serviceResult = new ServiceResultModel()
                 {
                     IsSuccess = false,
+                    SourceApiService = services.FirstOrDefault()?.ApiServiceName,
                     Validation = vex.ValidationResult
                 };
 
@@ -281,6 +353,7 @@ namespace MicroserviceProject.Services
                 return new BadRequestObjectResult(new ServiceResultModel()
                 {
                     IsSuccess = false,
+                    SourceApiService = services.FirstOrDefault()?.ApiServiceName,
                     ErrorModel = new ErrorModel() { Description = ex.ToString() },
                     Transaction = new TransactionModel()
                     {

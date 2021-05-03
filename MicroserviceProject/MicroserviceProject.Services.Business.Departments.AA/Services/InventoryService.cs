@@ -37,6 +37,11 @@ namespace MicroserviceProject.Services.Business.Departments.AA.Services
         public override string ServiceName => "MicroserviceProject.Services.Business.Departments.AA.Services.InventoryService";
 
         /// <summary>
+        /// Servisin ait olduğu api servisinin adı
+        /// </summary>
+        public override string ApiServiceName => "MicroserviceProject.Services.Business.Departments.AA";
+
+        /// <summary>
         /// Önbelleğe alınan envanterlerin önbellekteki adı
         /// </summary>
         private const string CACHED_INVENTORIES_KEY = "MicroserviceProject.Services.Business.Departments.AA.Inventories";
