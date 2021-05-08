@@ -43,8 +43,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Persistence.Repositories.Sq
                 return
                     _configuration
                     .GetSection("Configuration")
-                    .GetSection("Routing")
-                    .GetSection("DataSource").Value;
+                    .GetSection("Routing")["DataSource"];
             }
         }
 

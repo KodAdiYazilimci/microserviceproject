@@ -75,12 +75,12 @@ namespace MicroserviceProject.Services.Localization.Providers
         {
             if (string.IsNullOrEmpty(regionCode))
             {
-                regionCode = configuration.GetSection("Configuration").GetSection("Localization").GetSection("DefaultRegion").Value;
+                regionCode = configuration.GetSection("Configuration").GetSection("Localization")["DefaultRegion"];
             }
 
             string language = CultureInfo.GetCultureInfo(regionCode).TwoLetterISOLanguageName;
 
-            string cacheKey = configuration.GetSection("Configuration").GetSection("Localization").GetSection("CacheKey").Value;
+            string cacheKey = configuration.GetSection("Configuration").GetSection("Localization")["CacheKey"];
 
             if (cacheDataProvider.TryGetValue(cacheKey, out List<TranslationModel> translations))
             {
@@ -116,12 +116,12 @@ namespace MicroserviceProject.Services.Localization.Providers
         {
             if (string.IsNullOrEmpty(regionCode))
             {
-                regionCode = configuration.GetSection("Configuration").GetSection("Localization").GetSection("DefaultRegion").Value;
+                regionCode = configuration.GetSection("Configuration").GetSection("Localization")["DefaultRegion"];
             }
 
             string language = CultureInfo.GetCultureInfo(regionCode).TwoLetterISOLanguageName;
 
-            string cacheKey = configuration.GetSection("Configuration").GetSection("Localization").GetSection("CacheKey").Value;
+            string cacheKey = configuration.GetSection("Configuration").GetSection("Localization")["CacheKey"];
 
             if (cacheDataProvider.TryGetValue(cacheKey, out List<TranslationModel> translations))
             {

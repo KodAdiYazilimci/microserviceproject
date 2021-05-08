@@ -19,22 +19,19 @@ namespace MicroserviceProject.Services.Infrastructure.Logging.Configuration.Logg
                .GetSection("Configuration")
                .GetSection("Logging")
                .GetSection("RequestResponseLogging")
-               .GetSection("MongoConfiguration")
-               .GetSection("ConnectionString").Value;
+               .GetSection("MongoConfiguration")["ConnectionString"];
 
             DataBase = configuration
                 .GetSection("Configuration")
                 .GetSection("Logging")
                 .GetSection("RequestResponseLogging")
-                .GetSection("MongoConfiguration")
-                .GetSection("DataBase").Value;
+                .GetSection("MongoConfiguration")["DataBase"];
 
             CollectionName = configuration
                 .GetSection("Configuration")
                 .GetSection("Logging")
                 .GetSection("RequestResponseLogging")
-                .GetSection("MongoConfiguration")
-                .GetSection("CollectionName").Value;
+                .GetSection("MongoConfiguration")["CollectionName"];
         }
 
         /// <summary>

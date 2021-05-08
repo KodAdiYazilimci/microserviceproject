@@ -34,32 +34,28 @@ namespace MicroserviceProject.Services.Logging.Configuration
                 .GetSection("Configuration")
                 .GetSection("Logging")
                 .GetSection("RequestResponseLogging")
-                .GetSection("RabbitConfiguration")
-                .GetSection("Host").Value;
+                .GetSection("RabbitConfiguration")["Host"];
 
             UserName =
                 _configuration
                 .GetSection("Configuration")
                 .GetSection("Logging")
                 .GetSection("RequestResponseLogging")
-                .GetSection("RabbitConfiguration")
-                .GetSection("UserName").Value;
+                .GetSection("RabbitConfiguration")["UserName"];
 
             Password =
                 _configuration
                 .GetSection("Configuration")
                 .GetSection("Logging")
                 .GetSection("RequestResponseLogging")
-                .GetSection("RabbitConfiguration")
-                .GetSection("Password").Value;
+                .GetSection("RabbitConfiguration")["Password"];
 
             QueueName =
                 _configuration
                 .GetSection("Configuration")
                 .GetSection("Logging")
                 .GetSection("RequestResponseLogging")
-                .GetSection("RabbitConfiguration")
-                .GetSection("QueueName").Value;
+                .GetSection("RabbitConfiguration")["QueueName"];
         }
 
         /// <summary>

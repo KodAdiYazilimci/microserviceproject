@@ -51,8 +51,7 @@ namespace MicroserviceProject.Infrastructure.Caching.Redis
             {
                 return
                     _configuration
-                    .GetSection("Persistence")
-                    .GetSection("CacheServer").Value;
+                    .GetSection("Persistence")["CacheServer"];
             }
         }
 

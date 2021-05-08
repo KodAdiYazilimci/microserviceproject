@@ -25,7 +25,7 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Controllers
         [Route(nameof(RollbackTransaction))]
         public async Task<IActionResult> RollbackTransaction([FromBody] RollbackModel rollbackModel, CancellationTokenSource cancellationTokenSource)
         {
-            if (Request.Headers.ContainsKey("TransactionIdentity"))
+            if (Request != null && Request.Headers.ContainsKey("TransactionIdentity"))
             {
                 _costService.TransactionIdentity = Request.Headers["TransactionIdentity"].ToString();
             }

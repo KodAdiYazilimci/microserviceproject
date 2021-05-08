@@ -13,10 +13,10 @@ namespace MicroserviceProject.Infrastructure.Localization.Persistence.Configurat
     /// </summary>
     public class TranslationDbContext : DbContext
     {
-        /// <summary>
-        /// Yapılandırma bilgilerinin alınacağı configuration nesnesi
-        /// </summary>
-        private readonly IConfiguration configuration;
+        ///// <summary>
+        ///// Yapılandırma bilgilerinin alınacağı configuration nesnesi
+        ///// </summary>
+        //private readonly IConfiguration configuration;
 
         public virtual DbSet<TranslationEntity> Translations { get; set; }
 
@@ -27,34 +27,37 @@ namespace MicroserviceProject.Infrastructure.Localization.Persistence.Configurat
 
         public TranslationDbContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
         {
-            
+
         }
 
-        /// <summary>
-        /// Dil çevirilerine ait veritabanı bağlantısı context sınıfı
-        /// </summary>
-        /// <param name="configuration">Yapılandırma bilgilerinin alınacağı configuration nesnesi</param>
-        public TranslationDbContext(IConfiguration configuration)
+        public TranslationDbContext(DbContextOptionsBuilder dbContextOptionsBuilder) : base()
         {
-            this.configuration = configuration;
+
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            //optionsBuilder.UseSqlServer("server=localhost;DataBase=MicroserviceDB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true");
+        ///// <summary>
+        ///// Dil çevirilerine ait veritabanı bağlantısı context sınıfı
+        ///// </summary>
+        ///// <param name="configuration">Yapılandırma bilgilerinin alınacağı configuration nesnesi</param>
+        //public TranslationDbContext(IConfiguration configuration)
+        //{
+        //    this.configuration = configuration;
+        //}
 
-            optionsBuilder.UseSqlServer(
-                configuration
-                .GetSection("Configuration")
-                .GetSection("Localization")
-                .GetSection("TranslationDbConnnectionString")
-                .Value);
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    //optionsBuilder.UseSqlServer("server=localhost;DataBase=MicroserviceDB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true");
 
-            optionsBuilder.EnableSensitiveDataLogging();
-            optionsBuilder.EnableDetailedErrors();
+        //    //optionsBuilder.UseSqlServer(
+        //    //    configuration
+        //    //    .GetSection("Configuration")
+        //    //    .GetSection("Localization")["TranslationDbConnnectionString"]);
 
-            base.OnConfiguring(optionsBuilder);
-        }
+        //    //optionsBuilder.EnableSensitiveDataLogging();
+        //    //optionsBuilder.EnableDetailedErrors();
+
+        //    base.OnConfiguring(optionsBuilder);
+        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

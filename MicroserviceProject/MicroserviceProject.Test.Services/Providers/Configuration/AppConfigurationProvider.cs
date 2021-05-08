@@ -1,6 +1,7 @@
 ﻿using MicroserviceProject.Test.Services.Providers.Configuration.Sections.AuthorizationNode;
 using MicroserviceProject.Test.Services.Providers.Configuration.Sections.LocalizationNode;
 using MicroserviceProject.Test.Services.Providers.Configuration.Sections.LoggingNode;
+using MicroserviceProject.Test.Services.Providers.Configuration.Sections.PersistenceNode;
 using MicroserviceProject.Test.Services.Providers.Configuration.Sections.RabbitQueuesNode;
 using MicroserviceProject.Test.Services.Providers.Configuration.Sections.RoutingNode;
 
@@ -20,9 +21,10 @@ namespace MicroserviceProject.Test.Services.Providers.Configuration
         public AuthorizationSection AuthorizationSection { get; set; } = new AuthorizationSection();
         public LocalizationSection LocalizationSection { get; set; } = new LocalizationSection();
         public LoggingSection LoggingSection { get; set; } = new LoggingSection();
+        public PersistenceSection PersistenceSection { get; set; } = new PersistenceSection();
         public RabbitQueuesSection RabbitQueuesSection { get; set; } = new RabbitQueuesSection();
-        public Sections.ServicesNode.ServicesSection ServicesSection { get; set; } = new Sections.ServicesNode.ServicesSection();
         public RoutingSection RoutingSection { get; set; } = new RoutingSection();
+        public Sections.ServicesNode.ServicesSection ServicesSection { get; set; } = new Sections.ServicesNode.ServicesSection();
 
         public IEnumerable<IConfigurationSection> GetChildren()
         {
@@ -31,6 +33,7 @@ namespace MicroserviceProject.Test.Services.Providers.Configuration
                 AuthorizationSection,
                 LocalizationSection,
                 LoggingSection,
+                PersistenceSection,
                 RabbitQueuesSection,
                 RoutingSection,
                 ServicesSection
@@ -47,6 +50,7 @@ namespace MicroserviceProject.Test.Services.Providers.Configuration
                 case "Authorization": return AuthorizationSection;
                 case "Localization": return LocalizationSection;
                 case "Logging": return LoggingSection;
+                case "Persistence":return PersistenceSection;
                 case "RabbitQueues": return RabbitQueuesSection;
                 case "Routing": return RoutingSection;
                 case "Services": return ServicesSection;

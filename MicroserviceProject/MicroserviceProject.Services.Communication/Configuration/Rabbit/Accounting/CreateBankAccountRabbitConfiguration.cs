@@ -29,8 +29,7 @@ namespace MicroserviceProject.Services.Communication.Configuration.Rabbit.Accoun
                 .GetSection("RabbitQueues")
                 .GetSection("Services")
                 .GetSection("Accounting")
-                .GetSection("QueueNames")
-                .GetSection("CreateBankAccount").Value;
+                .GetSection("QueueNames")["CreateBankAccount"];
         }
 
         /// <summary>

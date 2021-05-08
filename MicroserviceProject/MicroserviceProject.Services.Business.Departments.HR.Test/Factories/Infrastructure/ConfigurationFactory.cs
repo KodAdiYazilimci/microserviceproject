@@ -86,6 +86,9 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Test.Prepreations
                 appConfigurationProvider.ServicesSection.EndpointsSection.ITSection["CreateDefaultInventoryForNewWorker"] = "it.inventory.createdefaultinventoryfornewworker";
                 appConfigurationProvider.ServicesSection.EndpointsSection.ITSection["RollbackTransaction"] = "it.transaction.rollbacktransaction";
                 appConfigurationProvider.ServicesSection.EndpointsSection.ITSection["InformInventoryRequest"] = "it.inventory.informinventoryrequest";
+
+                appConfigurationProvider.PersistenceSection["DataSource"] = "server=localhost;DataBase=MicroserviceDB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true";
+                appConfigurationProvider.PersistenceSection["CacheServer"] = "localhost";
             }
 
             return appConfigurationProvider;

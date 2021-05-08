@@ -1,5 +1,8 @@
 ﻿using MicroserviceProject.Services.Business.Departments.HR.Repositories.Sql;
 using MicroserviceProject.Services.Business.Departments.HR.Test.Prepreations.Infrastructure;
+using MicroserviceProject.Services.UnitOfWork;
+
+using Microsoft.Extensions.Configuration;
 
 namespace MicroserviceProject.Services.Business.Departments.HR.Test.Factories.Repositories
 {
@@ -13,9 +16,11 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Test.Factories.Re
             {
                 if (departmentRepository == null)
                 {
-                    AppConfigurationProvider configurationProvider = ConfigurationFactory.GetInstance();
+                    IConfiguration configurationProvider = ConfigurationFactory.GetConfiguration();
 
-                    departmentRepository = new DepartmentRepository(UnitOfWorkFactory.GetInstance(configurationProvider));
+                    IUnitOfWork unitOfWork = UnitOfWorkFactory.GetInstance(configurationProvider);
+
+                    departmentRepository = new DepartmentRepository(unitOfWork);
                 }
 
                 return departmentRepository;

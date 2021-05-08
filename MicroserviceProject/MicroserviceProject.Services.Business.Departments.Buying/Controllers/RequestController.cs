@@ -29,7 +29,7 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Controllers
         [Route(nameof(GetInventoryRequests))]
         public async Task<IActionResult> GetInventoryRequests(CancellationTokenSource cancellationTokenSource)
         {
-            if (Request.Headers.ContainsKey("TransactionIdentity"))
+            if (Request != null && Request.Headers.ContainsKey("TransactionIdentity"))
             {
                 _requestService.TransactionIdentity = Request.Headers["TransactionIdentity"].ToString();
             }
@@ -45,7 +45,7 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Controllers
         [Route(nameof(CreateInventoryRequest))]
         public async Task<IActionResult> CreateInventoryRequest([FromBody] InventoryRequestModel requestModel, CancellationTokenSource cancellationTokenSource)
         {
-            if (Request.Headers.ContainsKey("TransactionIdentity"))
+            if (Request != null && Request.Headers.ContainsKey("TransactionIdentity"))
             {
                 _requestService.TransactionIdentity = Request.Headers["TransactionIdentity"].ToString();
             }
@@ -63,7 +63,7 @@ namespace MicroserviceProject.Services.Business.Departments.Buying.Controllers
         [Route(nameof(ValidateCostInventory))]
         public async Task<IActionResult> ValidateCostInventory([FromBody] DecidedCostModel decidedCost, CancellationTokenSource cancellationTokenSource)
         {
-            if (Request.Headers.ContainsKey("TransactionIdentity"))
+            if (Request != null && Request.Headers.ContainsKey("TransactionIdentity"))
             {
                 _requestService.TransactionIdentity = Request.Headers["TransactionIdentity"].ToString();
             }

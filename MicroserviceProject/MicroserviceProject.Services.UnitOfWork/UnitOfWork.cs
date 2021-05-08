@@ -31,8 +31,7 @@ namespace MicroserviceProject.Services.UnitOfWork
             get
             {
                 return _configuration
-                    .GetSection("Persistence")
-                    .GetSection("DataSource").Value;
+                    .GetSection("Persistence")["DataSource"];
             }
         }
 

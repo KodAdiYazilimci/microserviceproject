@@ -5,6 +5,8 @@ using MicroserviceProject.Services.Business.Departments.HR.Test.Prepreations.Inf
 using MicroserviceProject.Services.Business.Departments.HR.Test.Prepreations.Repositories;
 using MicroserviceProject.Test.Services.Factories;
 
+using Microsoft.Extensions.Configuration;
+
 namespace MicroserviceProject.Services.Business.Departments.HR.Test.Factories.Services
 {
     public class DepartmentServiceFactory
@@ -17,12 +19,12 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Test.Factories.Se
             {
                 if (departmentService == null)
                 {
-                    AppConfigurationProvider configurationProvider = ConfigurationFactory.GetInstance();
+                    IConfiguration configuration = ConfigurationFactory.GetConfiguration();
 
                     departmentService = new DepartmentService(
                         mapper: MappingFactory.GetInstance(new MappingProfile()),
-                        unitOfWork: UnitOfWorkFactory.GetInstance(configurationProvider),
-                        cacheDataProvider: CacheDataProviderFactory.GetInstance(configurationProvider),
+                        unitOfWork: UnitOfWorkFactory.GetInstance(configuration),
+                        cacheDataProvider: CacheDataProviderFactory.GetInstance(configuration),
                         transactionRepository: TransactionRepositoryFactory.Instance,
                         transactionItemRepository: TransactionItemRepositoryFactory.Instance,
                         departmentRepository: DepartmentRepositoryFactory.Instance);

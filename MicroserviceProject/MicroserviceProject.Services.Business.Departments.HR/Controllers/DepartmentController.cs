@@ -26,7 +26,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Controllers
         [Route(nameof(GetDepartments))]
         public async Task<IActionResult> GetDepartments(CancellationTokenSource cancellationTokenSource)
         {
-            if (Request.Headers.ContainsKey("TransactionIdentity"))
+            if (Request != null && Request.Headers.ContainsKey("TransactionIdentity"))
             {
                 _departmentService.TransactionIdentity = Request.Headers["TransactionIdentity"].ToString();
             }
@@ -42,7 +42,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Controllers
         [Route(nameof(CreateDepartment))]
         public async Task<IActionResult> CreateDepartment([FromBody] DepartmentModel department, CancellationTokenSource cancellationTokenSource)
         {
-            if (Request.Headers.ContainsKey("TransactionIdentity"))
+            if (Request != null && Request.Headers.ContainsKey("TransactionIdentity"))
             {
                 _departmentService.TransactionIdentity = Request.Headers["TransactionIdentity"].ToString();
             }

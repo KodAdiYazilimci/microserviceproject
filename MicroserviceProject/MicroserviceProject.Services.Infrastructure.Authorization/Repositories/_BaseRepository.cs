@@ -40,8 +40,7 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization.Persistence.
                 return
                     _configuration
                     .GetSection("Configuration")
-                    .GetSection("Authorization")
-                    .GetSection("DataSource").Value;
+                    .GetSection("Authorization")["DataSource"];
             }
         }
 

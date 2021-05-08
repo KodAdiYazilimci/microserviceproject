@@ -39,8 +39,7 @@ namespace MicroserviceProject.Infrastructure.Security.Providers
                     _configuration
                     .GetSection("Configuration")
                     .GetSection("Authorization")
-                    .GetSection("Credential")
-                    .GetSection("email").Value;
+                    .GetSection("Credential")["email"];
             }
         }
 
@@ -55,8 +54,7 @@ namespace MicroserviceProject.Infrastructure.Security.Providers
                     _configuration
                     .GetSection("Configuration")
                     .GetSection("Authorization")
-                    .GetSection("Credential")
-                    .GetSection("password").Value;
+                    .GetSection("Credential")["password"];
             }
         }
 

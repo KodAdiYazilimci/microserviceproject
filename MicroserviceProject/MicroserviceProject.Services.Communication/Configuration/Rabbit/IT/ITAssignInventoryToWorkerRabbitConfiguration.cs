@@ -29,8 +29,7 @@ namespace MicroserviceProject.Services.Communication.Configuration.Rabbit.IT
                 .GetSection("RabbitQueues")
                 .GetSection("Services")
                 .GetSection("IT")
-                .GetSection("QueueNames")
-                .GetSection("AssignInventoryToWorker").Value;
+                .GetSection("QueueNames")["AssignInventoryToWorker"];
         }
 
         /// <summary>

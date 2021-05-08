@@ -21,22 +21,19 @@ namespace MicroserviceProject.Services.Infrastructure.Logging.Configuration.Logg
                .GetSection("Configuration")
                .GetSection("Logging")
                .GetSection("RequestResponseLogging")
-               .GetSection("FileConfiguration")
-               .GetSection("Path").Value;
+               .GetSection("FileConfiguration")["Path"];
 
             FileName = configuration
                 .GetSection("Configuration")
                 .GetSection("Logging")
                 .GetSection("RequestResponseLogging")
-                .GetSection("FileConfiguration")
-                .GetSection("FileName").Value;
+                .GetSection("FileConfiguration")["FileName"];
 
             string encodingCode = configuration
                 .GetSection("Configuration")
                 .GetSection("Logging")
                 .GetSection("RequestResponseLogging")
-                .GetSection("FileConfiguration")
-                .GetSection("Encoding").Value;
+                .GetSection("FileConfiguration")["Encoding"];
 
             Encoding = Encoding.GetEncoding(encodingCode);
         }

@@ -143,8 +143,7 @@ namespace MicroserviceProject.Services.Logging.Repositories.Sql
                     .GetSection("Configuration")
                     .GetSection("Logging")
                     .GetSection("RequestResponseLogging")
-                    .GetSection("DataBaseConfiguration")
-                    .GetSection("DataSource").Value;
+                    .GetSection("DataBaseConfiguration")["DataSource"];
 
                 return connectionString;
             }

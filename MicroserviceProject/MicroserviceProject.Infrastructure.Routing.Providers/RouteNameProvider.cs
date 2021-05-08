@@ -39,8 +39,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
                     _configuration
                     .GetSection("Configuration")
                     .GetSection("Authorization")
-                    .GetSection("Endpoints")
-                    .GetSection("GetToken").Value;
+                    .GetSection("Endpoints")["GetToken"];
             }
         }
 
@@ -55,8 +54,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
                     _configuration
                     .GetSection("Configuration")
                     .GetSection("Authorization")
-                    .GetSection("Endpoints")
-                    .GetSection("GetUser").Value;
+                    .GetSection("Endpoints")["GetUser"];
             }
         }
 
@@ -71,8 +69,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
                     _configuration
                     .GetSection("Services")
                     .GetSection("Endpoints")
-                    .GetSection("HR")
-                    .GetSection("GetDepartments").Value;
+                    .GetSection("HR")["GetDepartments"];
             }
         }
 
@@ -87,8 +84,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
                     _configuration
                     .GetSection("Services")
                     .GetSection("Endpoints")
-                    .GetSection("HR")
-                    .GetSection("CreateDepartment<").Value;
+                    .GetSection("HR")["CreateDepartment"];
             }
         }
 
@@ -103,8 +99,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
                     _configuration
                     .GetSection("Services")
                     .GetSection("Endpoints")
-                    .GetSection("HR")
-                    .GetSection("GetPeople").Value;
+                    .GetSection("HR")["GetPeople"];
             }
         }
 
@@ -119,8 +114,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
                     _configuration
                     .GetSection("Services")
                     .GetSection("Endpoints")
-                    .GetSection("HR")
-                    .GetSection("CreatePerson").Value;
+                    .GetSection("HR")["CreatePerson"];
             }
         }
 
@@ -135,8 +129,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
                     _configuration
                     .GetSection("Services")
                     .GetSection("Endpoints")
-                    .GetSection("HR")
-                    .GetSection("GetTitles").Value;
+                    .GetSection("HR")["GetTitles"];
             }
         }
 
@@ -151,8 +144,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
                     _configuration
                     .GetSection("Services")
                     .GetSection("Endpoints")
-                    .GetSection("HR")
-                    .GetSection("CreateTitle").Value;
+                    .GetSection("HR")["CreateTitle"];
             }
         }
 
@@ -167,8 +159,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
                     _configuration
                     .GetSection("Services")
                     .GetSection("Endpoints")
-                    .GetSection("HR")
-                    .GetSection("GetWorkers").Value;
+                    .GetSection("HR")["GetWorkers"];
             }
         }
 
@@ -183,8 +174,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
                     _configuration
                     .GetSection("Services")
                     .GetSection("Endpoints")
-                    .GetSection("HR")
-                    .GetSection("CreateWorker").Value;
+                    .GetSection("HR")["CreateWorker"];
             }
         }
 
@@ -199,8 +189,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
                     _configuration
                     .GetSection("Services")
                     .GetSection("Endpoints")
-                    .GetSection("Accounting")
-                    .GetSection("CreateBankAccount").Value;
+                    .GetSection("Accounting")["CreateBankAccount"];
             }
         }
 
@@ -215,8 +204,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
                     _configuration
                     .GetSection("Services")
                     .GetSection("Endpoints")
-                    .GetSection("Accounting")
-                    .GetSection("GetBankAccountsOfWorker").Value;
+                    .GetSection("Accounting")["GetBankAccountsOfWorker"];
             }
         }
 
@@ -231,8 +219,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
                     _configuration
                     .GetSection("Services")
                     .GetSection("Endpoints")
-                    .GetSection("Accounting")
-                    .GetSection("GetCurrencies").Value;
+                    .GetSection("Accounting")["GetCurrencies"];
             }
         }
 
@@ -247,8 +234,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
                     _configuration
                     .GetSection("Services")
                     .GetSection("Endpoints")
-                    .GetSection("Accounting")
-                    .GetSection("CreateCurrency").Value;
+                    .GetSection("Accounting")["CreateCurrency"];
             }
         }
 
@@ -263,8 +249,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
                     _configuration
                     .GetSection("Services")
                     .GetSection("Endpoints")
-                    .GetSection("IT")
-                    .GetSection("GetInventories").Value;
+                    .GetSection("IT")["GetInventories"];
             }
         }
 
@@ -279,8 +264,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
                     _configuration
                     .GetSection("Services")
                     .GetSection("Endpoints")
-                    .GetSection("IT")
-                    .GetSection("CreateInventory").Value;
+                    .GetSection("IT")["CreateInventory"];
             }
         }
 
@@ -295,8 +279,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
                     _configuration
                     .GetSection("Services")
                     .GetSection("Endpoints")
-                    .GetSection("IT")
-                    .GetSection("AssignInventoryToWorker").Value;
+                    .GetSection("IT")["AssignInventoryToWorker"];
             }
         }
 
@@ -311,8 +294,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
                     _configuration
                     .GetSection("Services")
                     .GetSection("Endpoints")
-                    .GetSection("IT")
-                    .GetSection("GetInventoriesForNewWorker").Value;
+                    .GetSection("IT")["GetInventoriesForNewWorker"];
             }
         }
 
@@ -327,8 +309,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
                     _configuration
                     .GetSection("Services")
                     .GetSection("Endpoints")
-                    .GetSection("IT")
-                    .GetSection("CreateDefaultInventoryForNewWorker").Value;
+                    .GetSection("IT")["CreateDefaultInventoryForNewWorker"];
             }
         }
 
@@ -343,8 +324,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
                     _configuration
                     .GetSection("Services")
                     .GetSection("Endpoints")
-                    .GetSection("AA")
-                    .GetSection("GetInventories").Value;
+                    .GetSection("AA")["GetInventories"];
             }
         }
 
@@ -359,8 +339,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
                     _configuration
                     .GetSection("Services")
                     .GetSection("Endpoints")
-                    .GetSection("AA")
-                    .GetSection("CreateInventory").Value;
+                    .GetSection("AA")["CreateInventory"];
             }
         }
 
@@ -375,8 +354,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
                     _configuration
                     .GetSection("Services")
                     .GetSection("Endpoints")
-                    .GetSection("AA")
-                    .GetSection("AssignInventoryToWorker").Value;
+                    .GetSection("AA")["AssignInventoryToWorker"];
             }
         }
 
@@ -391,8 +369,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
                     _configuration
                     .GetSection("Services")
                     .GetSection("Endpoints")
-                    .GetSection("AA")
-                    .GetSection("GetInventoriesForNewWorker").Value;
+                    .GetSection("AA")["GetInventoriesForNewWorker"];
             }
         }
 
@@ -407,8 +384,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
                     _configuration
                     .GetSection("Services")
                     .GetSection("Endpoints")
-                    .GetSection("AA")
-                    .GetSection("InformInventoryRequest").Value;
+                    .GetSection("AA")["InformInventoryRequest"];
             }
         }
 
@@ -423,8 +399,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
                     _configuration
                     .GetSection("Services")
                     .GetSection("Endpoints")
-                    .GetSection("IT")
-                    .GetSection("InformInventoryRequest").Value;
+                    .GetSection("IT")["InformInventoryRequest"];
             }
         }
 
@@ -439,8 +414,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
                     _configuration
                     .GetSection("Services")
                     .GetSection("Endpoints")
-                    .GetSection("AA")
-                    .GetSection("RollbackTransaction").Value;
+                    .GetSection("AA")["RollbackTransaction"];
             }
         }
 
@@ -455,8 +429,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
                     _configuration
                     .GetSection("Services")
                     .GetSection("Endpoints")
-                    .GetSection("Accounting")
-                    .GetSection("RollbackTransaction").Value;
+                    .GetSection("Accounting")["RollbackTransaction"];
             }
         }
 
@@ -471,8 +444,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
                     _configuration
                     .GetSection("Services")
                     .GetSection("Endpoints")
-                    .GetSection("HR")
-                    .GetSection("RollbackTransaction").Value;
+                    .GetSection("HR")["RollbackTransaction"];
             }
         }
 
@@ -487,8 +459,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
                     _configuration
                     .GetSection("Services")
                     .GetSection("Endpoints")
-                    .GetSection("IT")
-                    .GetSection("RollbackTransaction").Value;
+                    .GetSection("IT")["RollbackTransaction"];
             }
         }
 
@@ -503,8 +474,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
                     _configuration
                     .GetSection("Services")
                     .GetSection("Endpoints")
-                    .GetSection("Buying")
-                    .GetSection("GetInventoryRequests").Value;
+                    .GetSection("Buying")["GetInventoryRequests"];
             }
         }
 
@@ -519,8 +489,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
                     _configuration
                     .GetSection("Services")
                     .GetSection("Endpoints")
-                    .GetSection("Buying")
-                    .GetSection("CreateInventoryRequest").Value;
+                    .GetSection("Buying")["CreateInventoryRequest"];
             }
         }
 
@@ -535,8 +504,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
                     _configuration
                     .GetSection("Services")
                     .GetSection("Endpoints")
-                    .GetSection("Buying")
-                    .GetSection("RollbackTransaction").Value;
+                    .GetSection("Buying")["RollbackTransaction"];
             }
         }
 
@@ -551,8 +519,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
                     _configuration
                     .GetSection("Services")
                     .GetSection("Endpoints")
-                    .GetSection("Buying")
-                    .GetSection("ValidateCostInventory").Value;
+                    .GetSection("Buying")["ValidateCostInventory"];
             }
         }
 
@@ -567,8 +534,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
                     _configuration
                     .GetSection("Services")
                     .GetSection("Endpoints")
-                    .GetSection("Finance")
-                    .GetSection("GetDecidedCosts").Value;
+                    .GetSection("Finance")["GetDecidedCosts"];
             }
         }
 
@@ -583,8 +549,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
                     _configuration
                     .GetSection("Services")
                     .GetSection("Endpoints")
-                    .GetSection("Finance")
-                    .GetSection("CreateCost").Value;
+                    .GetSection("Finance")["CreateCost"];
             }
         }
 
@@ -599,8 +564,7 @@ namespace MicroserviceProject.Infrastructure.Routing.Providers
                     _configuration
                     .GetSection("Services")
                     .GetSection("Endpoints")
-                    .GetSection("Finance")
-                    .GetSection("DecideCost").Value;
+                    .GetSection("Finance")["DecideCost"];
             }
         }
 

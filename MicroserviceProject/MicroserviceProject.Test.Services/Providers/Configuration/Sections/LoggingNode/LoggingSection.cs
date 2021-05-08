@@ -28,7 +28,7 @@ namespace MicroserviceProject.Test.Services.Providers.Configuration.Sections.Log
             {
                 case "RequestResponseLogging": return RequestResponseLoggingSection;
                 default:
-                    break;
+                    return null;
             }
         }
 

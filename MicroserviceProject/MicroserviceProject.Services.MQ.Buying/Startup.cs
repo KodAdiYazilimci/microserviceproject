@@ -1,6 +1,7 @@
 using MicroserviceProject.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Infrastructure.Communication.Model.Errors;
 using MicroserviceProject.Services.Authentication;
+using MicroserviceProject.Services.Cache.DI;
 using MicroserviceProject.Services.Communication.DI;
 using MicroserviceProject.Services.Localization.DI;
 using MicroserviceProject.Services.MQ.Buying.DI;
@@ -25,6 +26,7 @@ namespace MicroserviceProject.Services.MQ.Buying
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMemoryCache();
+            services.RegisterCaching();
             services.RegisterRouteProvider();
             services.RegisterCredentialProvider();
             services.RegisterServiceCommunicator();

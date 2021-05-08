@@ -1,6 +1,8 @@
 ﻿using MicroserviceProject.Infrastructure.Localization.Persistence.Configuration;
 using MicroserviceProject.Services.Localization.Repositories;
 
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MicroserviceProject.Services.Localization.DI
@@ -17,7 +19,19 @@ namespace MicroserviceProject.Services.Localization.DI
         /// <returns></returns>
         public static IServiceCollection RegisterLocalizationPersistence(this IServiceCollection services)
         {
-            services.AddDbContext<TranslationDbContext>();
+            IConfiguration configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
+
+            services.AddDbContext<TranslationDbContext>(optionBuilder =>
+            {
+                optionBuilder.UseSqlServer(
+                    configuration
+                    .GetSection("Configuration")
+                    .GetSection("Localization")["TranslationDbConnnectionString"]);
+
+                optionBuilder.EnableSensitiveDataLogging();
+                optionBuilder.EnableDetailedErrors();
+            }, ServiceLifetime.Singleton);
+
             services.AddSingleton<TranslationRepository>();
 
             return services;

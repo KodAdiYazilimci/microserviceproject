@@ -26,7 +26,7 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Controlle
         [Route(nameof(GetBankAccountsOfWorker))]
         public async Task<IActionResult> GetBankAccountsOfWorker(int workerId, CancellationTokenSource cancellationTokenSource)
         {
-            if (Request.Headers.ContainsKey("TransactionIdentity"))
+            if (Request != null && Request.Headers.ContainsKey("TransactionIdentity"))
             {
                 _bankService.TransactionIdentity = Request.Headers["TransactionIdentity"].ToString();
             }
@@ -42,7 +42,7 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Controlle
         [Route(nameof(CreateBankAccount))]
         public async Task<IActionResult> CreateBankAccount([FromBody] BankAccountModel bankAccount, CancellationTokenSource cancellationTokenSource)
         {
-            if (Request.Headers.ContainsKey("TransactionIdentity"))
+            if (Request != null && Request.Headers.ContainsKey("TransactionIdentity"))
             {
                 _bankService.TransactionIdentity = Request.Headers["TransactionIdentity"].ToString();
             }
@@ -60,7 +60,7 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Controlle
         [Route(nameof(GetCurrencies))]
         public async Task<IActionResult> GetCurrencies(CancellationTokenSource cancellationTokenSource)
         {
-            if (Request.Headers.ContainsKey("TransactionIdentity"))
+            if (Request != null && Request.Headers.ContainsKey("TransactionIdentity"))
             {
                 _bankService.TransactionIdentity = Request.Headers["TransactionIdentity"].ToString();
             }
@@ -76,7 +76,7 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Controlle
         [Route(nameof(CreateCurrency))]
         public async Task<IActionResult> CreateCurrency([FromBody] CurrencyModel currency, CancellationTokenSource cancellationTokenSource)
         {
-            if (Request.Headers.ContainsKey("TransactionIdentity"))
+            if (Request != null && Request.Headers.ContainsKey("TransactionIdentity"))
             {
                 _bankService.TransactionIdentity = Request.Headers["TransactionIdentity"].ToString();
             }
@@ -94,7 +94,7 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Controlle
         [Route(nameof(GetSalaryPaymentsOfWorker))]
         public async Task<IActionResult> GetSalaryPaymentsOfWorker(int workerId, CancellationTokenSource cancellationTokenSource)
         {
-            if (Request.Headers.ContainsKey("TransactionIdentity"))
+            if (Request != null && Request.Headers.ContainsKey("TransactionIdentity"))
             {
                 _bankService.TransactionIdentity = Request.Headers["TransactionIdentity"].ToString();
             }
@@ -110,7 +110,7 @@ namespace MicroserviceProject.Services.Business.Departments.Accounting.Controlle
         [Route(nameof(CreateSalaryPayment))]
         public async Task<IActionResult> CreateSalaryPayment([FromBody] SalaryPaymentModel salaryPayment, CancellationTokenSource cancellationTokenSource)
         {
-            if (Request.Headers.ContainsKey("TransactionIdentity"))
+            if (Request != null && Request.Headers.ContainsKey("TransactionIdentity"))
             {
                 _bankService.TransactionIdentity = Request.Headers["TransactionIdentity"].ToString();
             }

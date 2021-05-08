@@ -31,7 +31,7 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Controllers
         [Route(nameof(GetInventories))]
         public async Task<IActionResult> GetInventories(CancellationTokenSource cancellationTokenSource)
         {
-            if (Request.Headers.ContainsKey("TransactionIdentity"))
+            if (Request != null && Request.Headers.ContainsKey("TransactionIdentity"))
             {
                 _inventoryService.TransactionIdentity = Request.Headers["TransactionIdentity"].ToString();
             }
@@ -47,7 +47,7 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Controllers
         [Route(nameof(CreateInventory))]
         public async Task<IActionResult> CreateInventory([FromBody] InventoryModel inventory, CancellationTokenSource cancellationTokenSource)
         {
-            if (Request.Headers.ContainsKey("TransactionIdentity"))
+            if (Request != null && Request.Headers.ContainsKey("TransactionIdentity"))
             {
                 _inventoryService.TransactionIdentity = Request.Headers["TransactionIdentity"].ToString();
             }
@@ -65,7 +65,7 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Controllers
         [Route(nameof(AssignInventoryToWorker))]
         public async Task<IActionResult> AssignInventoryToWorker([FromBody] WorkerModel worker, CancellationTokenSource cancellationTokenSource)
         {
-            if (Request.Headers.ContainsKey("TransactionIdentity"))
+            if (Request != null && Request.Headers.ContainsKey("TransactionIdentity"))
             {
                 _inventoryService.TransactionIdentity = Request.Headers["TransactionIdentity"].ToString();
             }
@@ -83,7 +83,7 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Controllers
         [Route(nameof(CreateDefaultInventoryForNewWorker))]
         public async Task<IActionResult> CreateDefaultInventoryForNewWorker([FromBody] InventoryModel inventory, CancellationTokenSource cancellationTokenSource)
         {
-            if (Request.Headers.ContainsKey("TransactionIdentity"))
+            if (Request != null && Request.Headers.ContainsKey("TransactionIdentity"))
             {
                 _inventoryService.TransactionIdentity = Request.Headers["TransactionIdentity"].ToString();
             }
@@ -101,7 +101,7 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Controllers
         [Route(nameof(GetInventoriesForNewWorker))]
         public IActionResult GetInventoriesForNewWorker(CancellationTokenSource cancellationTokenSource)
         {
-            if (Request.Headers.ContainsKey("TransactionIdentity"))
+            if (Request != null && Request.Headers.ContainsKey("TransactionIdentity"))
             {
                 _inventoryService.TransactionIdentity = Request.Headers["TransactionIdentity"].ToString();
             }
@@ -117,7 +117,7 @@ namespace MicroserviceProject.Services.Business.Departments.IT.Controllers
         [Route(nameof(InformInventoryRequest))]
         public async Task<IActionResult> InformInventoryRequest([FromBody] InventoryRequestModel inventoryRequest, CancellationTokenSource cancellationTokenSource)
         {
-            if (Request.Headers.ContainsKey("TransactionIdentity"))
+            if (Request != null && Request.Headers.ContainsKey("TransactionIdentity"))
             {
                 _inventoryService.TransactionIdentity = Request.Headers["TransactionIdentity"].ToString();
             }

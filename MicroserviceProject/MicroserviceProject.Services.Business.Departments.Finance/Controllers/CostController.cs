@@ -27,7 +27,7 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Controllers
         [Route(nameof(GetDecidedCosts))]
         public async Task<IActionResult> GetDecidedCosts(CancellationTokenSource cancellationTokenSource)
         {
-            if (Request.Headers.ContainsKey("TransactionIdentity"))
+            if (Request != null && Request.Headers.ContainsKey("TransactionIdentity"))
             {
                 _costService.TransactionIdentity = Request.Headers["TransactionIdentity"].ToString();
             }
@@ -43,7 +43,7 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Controllers
         [Route(nameof(CreateCost))]
         public async Task<IActionResult> CreateCost([FromBody] DecidedCostModel cost, CancellationTokenSource cancellationTokenSource)
         {
-            if (Request.Headers.ContainsKey("TransactionIdentity"))
+            if (Request != null && Request.Headers.ContainsKey("TransactionIdentity"))
             {
                 _costService.TransactionIdentity = Request.Headers["TransactionIdentity"].ToString();
             }
@@ -61,7 +61,7 @@ namespace MicroserviceProject.Services.Business.Departments.Finance.Controllers
         [Route(nameof(DecideCost))]
         public async Task<IActionResult> DecideCost([FromBody] DecidedCostModel cost, CancellationTokenSource cancellationTokenSource)
         {
-            if (Request.Headers.ContainsKey("TransactionIdentity"))
+            if (Request != null && Request.Headers.ContainsKey("TransactionIdentity"))
             {
                 _costService.TransactionIdentity = Request.Headers["TransactionIdentity"].ToString();
             }

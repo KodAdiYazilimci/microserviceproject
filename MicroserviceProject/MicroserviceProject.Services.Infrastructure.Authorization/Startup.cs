@@ -33,8 +33,8 @@ namespace MicroserviceProject.Services.Infrastructure.Authorization
         {
             services.RegisterLogger();
             services.RegisterRepositories(Configuration);
-            services.RegisterLocalizationPersistence();
-            services.RegisterLocalizationProviders();
+            //services.RegisterLocalizationPersistence();
+            //services.RegisterLocalizationProviders();
             services.RegisterServices();
             services.RegisterSwagger();
 
