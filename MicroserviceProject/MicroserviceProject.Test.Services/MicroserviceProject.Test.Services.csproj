@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MicroserviceProject.Infrastructure.Caching.Redis\MicroserviceProject.Infrastructure.Caching.Redis.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Services.UnitOfWork\MicroserviceProject.Services.UnitOfWork.csproj" />
+  </ItemGroup>
+
+</Project>

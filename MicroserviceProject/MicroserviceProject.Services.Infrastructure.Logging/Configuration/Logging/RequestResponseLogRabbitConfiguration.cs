@@ -28,7 +28,6 @@ namespace MicroserviceProject.Services.Infrastructure.Logging.Configuration.Logg
                 .GetSection("Logging")
                 .GetSection("RequestResponseLogging")
                 .GetSection("RabbitConfiguration")
-                .GetSection("RequestResponseLogging")
                 .GetSection("Host").Value;
 
             UserName =
@@ -37,7 +36,6 @@ namespace MicroserviceProject.Services.Infrastructure.Logging.Configuration.Logg
                 .GetSection("Logging")
                 .GetSection("RequestResponseLogging")
                 .GetSection("RabbitConfiguration")
-                .GetSection("RequestResponseLogging")
                 .GetSection("UserName").Value;
 
             Password =
@@ -46,7 +44,6 @@ namespace MicroserviceProject.Services.Infrastructure.Logging.Configuration.Logg
                 .GetSection("Logging")
                 .GetSection("RequestResponseLogging")
                 .GetSection("RabbitConfiguration")
-                .GetSection("RequestResponseLogging")
                 .GetSection("Password").Value;
 
             QueueName =
@@ -55,7 +52,6 @@ namespace MicroserviceProject.Services.Infrastructure.Logging.Configuration.Logg
                 .GetSection("Logging")
                 .GetSection("RequestResponseLogging")
                 .GetSection("RabbitConfiguration")
-                .GetSection("RequestResponseLogging")
                 .GetSection("QueueName").Value;
         }
 
