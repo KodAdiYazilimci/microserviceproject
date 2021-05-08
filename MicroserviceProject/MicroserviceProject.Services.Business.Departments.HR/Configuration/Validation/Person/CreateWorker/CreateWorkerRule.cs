@@ -15,6 +15,8 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Configuration.Val
         public CreateWorkerRule()
         {
             RuleFor(x => x.Person).NotNull().WithMessage("Kişi bilgisi boş geçilemez");
+            RuleFor(x => x.BankAccounts).NotNull().WithMessage("Banka hesap bilgisi boş geçilemez");
+            RuleFor(x => x.BankAccounts.Count).GreaterThan(0).WithMessage("Banka hesap bilgisi boş geçilemez");
         }
     }
 }

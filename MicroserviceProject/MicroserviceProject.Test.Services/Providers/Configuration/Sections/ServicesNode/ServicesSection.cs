@@ -35,7 +35,7 @@ namespace MicroserviceProject.Test.Services.Providers.Configuration.Sections.Ser
             public bool ActiveChangeCallbacks { get; }
             public IDisposable RegisterChangeCallback(Action<object> callback, object state)
             {
-                throw new NotImplementedException();
+                return new ServicesDisposable();
             }
             public class ServicesDisposable : IDisposable
             {

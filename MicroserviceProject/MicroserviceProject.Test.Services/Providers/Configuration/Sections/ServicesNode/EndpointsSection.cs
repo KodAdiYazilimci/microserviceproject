@@ -26,7 +26,17 @@ namespace MicroserviceProject.Test.Services.Providers.Configuration.Sections.Ser
 
         public IConfigurationSection GetSection(string key)
         {
-            throw new System.NotImplementedException();
+            switch (key)
+            {
+                case "AA": return AASection;
+                case "Accounting": return AccountingSection;
+                case "Buying": return BuyingSection;
+                case "Finance": return FinanceSection;
+                case "HR": return HRSection;
+                case "IT": return ITSection;
+                default:
+                    return null;
+            }
         }
         public class EndpointsChangeToken : IChangeToken
         {
