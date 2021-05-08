@@ -8,22 +8,22 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Test.Factories.Re
 {
     public class DepartmentRepositoryFactory
     {
-        private static DepartmentRepository departmentRepository = null;
+        private static DepartmentRepository repository = null;
 
         public static DepartmentRepository Instance
         {
             get
             {
-                if (departmentRepository == null)
+                if (repository == null)
                 {
                     IConfiguration configurationProvider = ConfigurationFactory.GetConfiguration();
 
                     IUnitOfWork unitOfWork = UnitOfWorkFactory.GetInstance(configurationProvider);
 
-                    departmentRepository = new DepartmentRepository(unitOfWork);
+                    repository = new DepartmentRepository(unitOfWork);
                 }
 
-                return departmentRepository;
+                return repository;
             }
         }
     }

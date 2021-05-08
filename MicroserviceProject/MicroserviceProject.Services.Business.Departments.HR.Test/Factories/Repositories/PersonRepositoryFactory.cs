@@ -6,20 +6,21 @@ using Microsoft.Extensions.Configuration;
 
 namespace MicroserviceProject.Services.Business.Departments.HR.Test.Factories.Repositories
 {
-    public class TransactionItemRepositoryFactory
+    public class PersonRepositoryFactory
     {
-        private static TransactionItemRepository repository = null;
+        private static PersonRepository repository = null;
 
-        public static TransactionItemRepository Instance
+        public static PersonRepository Instance
         {
             get
             {
                 if (repository == null)
                 {
-                    IConfiguration configuration = ConfigurationFactory.GetConfiguration();
-                    IUnitOfWork unitOfWork = UnitOfWorkFactory.GetInstance(configuration);
+                    IConfiguration configurationProvider = ConfigurationFactory.GetConfiguration();
 
-                    repository = new TransactionItemRepository(unitOfWork);
+                    IUnitOfWork unitOfWork = UnitOfWorkFactory.GetInstance(configurationProvider);
+
+                    repository = new PersonRepository(unitOfWork);
                 }
 
                 return repository;

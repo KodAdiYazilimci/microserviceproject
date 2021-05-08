@@ -14,37 +14,37 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Test.Prepreations
             {
                 appConfigurationProvider = new AppConfigurationProvider();
 
-                appConfigurationProvider.AuthorizationSection.CredentialSection["email"] = "MicroserviceProject.Services.Business.Departments.HR@service.service";
-                appConfigurationProvider.AuthorizationSection.CredentialSection["password"] = "1234";
+                appConfigurationProvider.ConfigurationSection.AuthorizationSection.CredentialSection["email"] = "MicroserviceProject.Services.Business.Departments.HR@service.service";
+                appConfigurationProvider.ConfigurationSection.AuthorizationSection.CredentialSection["password"] = "1234";
 
-                appConfigurationProvider.AuthorizationSection.EndpointsSection["GetToken"] = "authorization.auth.gettoken";
-                appConfigurationProvider.AuthorizationSection.EndpointsSection["GetUser"] = "authorization.auth.getuser";
+                appConfigurationProvider.ConfigurationSection.AuthorizationSection.EndpointsSection["GetToken"] = "authorization.auth.gettoken";
+                appConfigurationProvider.ConfigurationSection.AuthorizationSection.EndpointsSection["GetUser"] = "authorization.auth.getuser";
 
-                appConfigurationProvider.LocalizationSection["TranslationDbConnnectionString"] = "server=localhost;DataBase=MicroserviceDB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true";
-                appConfigurationProvider.LocalizationSection["DefaultRegion"] = "tr-TR";
-                appConfigurationProvider.LocalizationSection["CacheKey"] = "localization.translations";
+                appConfigurationProvider.ConfigurationSection.LocalizationSection["TranslationDbConnnectionString"] = "server=localhost;DataBase=MicroserviceDB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true";
+                appConfigurationProvider.ConfigurationSection.LocalizationSection["DefaultRegion"] = "tr-TR";
+                appConfigurationProvider.ConfigurationSection.LocalizationSection["CacheKey"] = "localization.translations";
 
-                appConfigurationProvider.LoggingSection.RequestResponseLoggingSection.DataBaseConfigurationSection["DataSource"] = "server=localhost;DataBase=MicroserviceDB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true";
-                appConfigurationProvider.LoggingSection.RequestResponseLoggingSection.FileConfigurationSection["Path"] = "D:\\Logs\\MicroserviceProject.Services.Business.Departments.AA\\";
-                appConfigurationProvider.LoggingSection.RequestResponseLoggingSection.FileConfigurationSection["FileName"] = "RequestResponseLog";
-                appConfigurationProvider.LoggingSection.RequestResponseLoggingSection.FileConfigurationSection["Encoding"] = "UTF-8";
-                appConfigurationProvider.LoggingSection.RequestResponseLoggingSection.MongoConfigurationSection["ConnectionString"] = "mongodb://localhost:27017";
-                appConfigurationProvider.LoggingSection.RequestResponseLoggingSection.MongoConfigurationSection["DataBase"] = "Logs";
-                appConfigurationProvider.LoggingSection.RequestResponseLoggingSection.MongoConfigurationSection["CollectionName"] = "RequestResponseLog";
+                appConfigurationProvider.ConfigurationSection.LoggingSection.RequestResponseLoggingSection.DataBaseConfigurationSection["DataSource"] = "server=localhost;DataBase=MicroserviceDB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true";
+                appConfigurationProvider.ConfigurationSection.LoggingSection.RequestResponseLoggingSection.FileConfigurationSection["Path"] = "D:\\Logs\\MicroserviceProject.Services.Business.Departments.AA\\";
+                appConfigurationProvider.ConfigurationSection.LoggingSection.RequestResponseLoggingSection.FileConfigurationSection["FileName"] = "RequestResponseLog";
+                appConfigurationProvider.ConfigurationSection.LoggingSection.RequestResponseLoggingSection.FileConfigurationSection["Encoding"] = "UTF-8";
+                appConfigurationProvider.ConfigurationSection.LoggingSection.RequestResponseLoggingSection.MongoConfigurationSection["ConnectionString"] = "mongodb://localhost:27017";
+                appConfigurationProvider.ConfigurationSection.LoggingSection.RequestResponseLoggingSection.MongoConfigurationSection["DataBase"] = "Logs";
+                appConfigurationProvider.ConfigurationSection.LoggingSection.RequestResponseLoggingSection.MongoConfigurationSection["CollectionName"] = "RequestResponseLog";
 
-                appConfigurationProvider.RoutingSection["DataSource"] = "server=localhost;DataBase=MicroserviceDB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true";
+                appConfigurationProvider.ConfigurationSection.RoutingSection["DataSource"] = "server=localhost;DataBase=MicroserviceDB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true";
 
-                appConfigurationProvider.RabbitQueuesSection["DefaultHost"] = "localhost";
-                appConfigurationProvider.RabbitQueuesSection["DefaultUserName"] = "guest";
-                appConfigurationProvider.RabbitQueuesSection["DefaultPassword"] = "guest";
-                appConfigurationProvider.RabbitQueuesSection.ServicesSection.AASection.QueueNamesSection["AssignInventoryToWorker"] = "aa.queue.inventory.assignInventorytoworker";
-                appConfigurationProvider.RabbitQueuesSection.ServicesSection.AASection.QueueNamesSection["InformInventoryRequest"] = "aa.queue.request.informinventoryrequest";
-                appConfigurationProvider.RabbitQueuesSection.ServicesSection.ITSection.QueueNamesSection["AssignInventoryToWorker"] = "it.queue.inventory.assignInventorytoworker";
-                appConfigurationProvider.RabbitQueuesSection.ServicesSection.ITSection.QueueNamesSection["InformInventoryRequest"] = "it.queue.request.informinventoryrequest";
-                appConfigurationProvider.RabbitQueuesSection.ServicesSection.AccountingSection.QueueNamesSection["CreateBankAccount"] = "accounting.queue.bankaccounts.createbankaccount";
-                appConfigurationProvider.RabbitQueuesSection.ServicesSection.AccountingSection.QueueNamesSection["CreateInventoryRequest"] = "buying.queue.request.createinventoryrequest";
-                appConfigurationProvider.RabbitQueuesSection.ServicesSection.AccountingSection.QueueNamesSection["NotifyCostApprovement"] = "buying.queue.cost.notifycostapprovement";
-                appConfigurationProvider.RabbitQueuesSection.ServicesSection.FinanceSection.QueueNamesSection["InventoryRequest"] = "finance.queue.request.inventoryrequest";
+                appConfigurationProvider.ConfigurationSection.RabbitQueuesSection["DefaultHost"] = "localhost";
+                appConfigurationProvider.ConfigurationSection.RabbitQueuesSection["DefaultUserName"] = "guest";
+                appConfigurationProvider.ConfigurationSection.RabbitQueuesSection["DefaultPassword"] = "guest";
+                appConfigurationProvider.ConfigurationSection.RabbitQueuesSection.ServicesSection.AASection.QueueNamesSection["AssignInventoryToWorker"] = "aa.queue.inventory.assignInventorytoworker";
+                appConfigurationProvider.ConfigurationSection.RabbitQueuesSection.ServicesSection.AASection.QueueNamesSection["InformInventoryRequest"] = "aa.queue.request.informinventoryrequest";
+                appConfigurationProvider.ConfigurationSection.RabbitQueuesSection.ServicesSection.ITSection.QueueNamesSection["AssignInventoryToWorker"] = "it.queue.inventory.assignInventorytoworker";
+                appConfigurationProvider.ConfigurationSection.RabbitQueuesSection.ServicesSection.ITSection.QueueNamesSection["InformInventoryRequest"] = "it.queue.request.informinventoryrequest";
+                appConfigurationProvider.ConfigurationSection.RabbitQueuesSection.ServicesSection.AccountingSection.QueueNamesSection["CreateBankAccount"] = "accounting.queue.bankaccounts.createbankaccount";
+                appConfigurationProvider.ConfigurationSection.RabbitQueuesSection.ServicesSection.AccountingSection.QueueNamesSection["CreateInventoryRequest"] = "buying.queue.request.createinventoryrequest";
+                appConfigurationProvider.ConfigurationSection.RabbitQueuesSection.ServicesSection.AccountingSection.QueueNamesSection["NotifyCostApprovement"] = "buying.queue.cost.notifycostapprovement";
+                appConfigurationProvider.ConfigurationSection.RabbitQueuesSection.ServicesSection.FinanceSection.QueueNamesSection["InventoryRequest"] = "finance.queue.request.inventoryrequest";
 
                 appConfigurationProvider.ServicesSection.EndpointsSection.AASection["GetInventories"] = "aa.inventory.getinventories";
                 appConfigurationProvider.ServicesSection.EndpointsSection.AASection["CreateInventory"] = "aa.inventory.createinventory";

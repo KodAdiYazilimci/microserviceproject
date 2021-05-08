@@ -1,9 +1,5 @@
-﻿using MicroserviceProject.Test.Services.Providers.Configuration.Sections.AuthorizationNode;
-using MicroserviceProject.Test.Services.Providers.Configuration.Sections.LocalizationNode;
-using MicroserviceProject.Test.Services.Providers.Configuration.Sections.LoggingNode;
+﻿
 using MicroserviceProject.Test.Services.Providers.Configuration.Sections.PersistenceNode;
-using MicroserviceProject.Test.Services.Providers.Configuration.Sections.RabbitQueuesNode;
-using MicroserviceProject.Test.Services.Providers.Configuration.Sections.RoutingNode;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
@@ -18,24 +14,16 @@ namespace MicroserviceProject.Test.Services.Providers.Configuration
         private readonly Dictionary<string, string> Data = new Dictionary<string, string>();
         public string this[string key] { get => Data[key]; set { Data[key] = value; } }
 
-        public AuthorizationSection AuthorizationSection { get; set; } = new AuthorizationSection();
-        public LocalizationSection LocalizationSection { get; set; } = new LocalizationSection();
-        public LoggingSection LoggingSection { get; set; } = new LoggingSection();
+        public Sections.ConfigurationSection ConfigurationSection { get; set; } = new Sections.ConfigurationSection();
         public PersistenceSection PersistenceSection { get; set; } = new PersistenceSection();
-        public RabbitQueuesSection RabbitQueuesSection { get; set; } = new RabbitQueuesSection();
-        public RoutingSection RoutingSection { get; set; } = new RoutingSection();
         public Sections.ServicesNode.ServicesSection ServicesSection { get; set; } = new Sections.ServicesNode.ServicesSection();
 
         public IEnumerable<IConfigurationSection> GetChildren()
         {
             return new List<IConfigurationSection>()
             {
-                AuthorizationSection,
-                LocalizationSection,
-                LoggingSection,
+                ConfigurationSection,
                 PersistenceSection,
-                RabbitQueuesSection,
-                RoutingSection,
                 ServicesSection
             };
         }
@@ -47,12 +35,8 @@ namespace MicroserviceProject.Test.Services.Providers.Configuration
         {
             switch (key)
             {
-                case "Authorization": return AuthorizationSection;
-                case "Localization": return LocalizationSection;
-                case "Logging": return LoggingSection;
-                case "Persistence":return PersistenceSection;
-                case "RabbitQueues": return RabbitQueuesSection;
-                case "Routing": return RoutingSection;
+                case "Configuration": return ConfigurationSection;
+                case "Persistence": return PersistenceSection;
                 case "Services": return ServicesSection;
                 default:
                     return null;

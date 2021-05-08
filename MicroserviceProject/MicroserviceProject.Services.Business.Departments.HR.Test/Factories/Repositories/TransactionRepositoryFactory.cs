@@ -8,21 +8,21 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Test.Prepreations
 {
     public class TransactionRepositoryFactory
     {
-        private static TransactionRepository transactionRepository = null;
+        private static TransactionRepository repository = null;
 
         public static TransactionRepository Instance
         {
             get
             {
-                if (transactionRepository == null)
+                if (repository == null)
                 {
                     IConfiguration configurationProvider = ConfigurationFactory.GetConfiguration();
                     IUnitOfWork unitOfWork = UnitOfWorkFactory.GetInstance(configurationProvider);
 
-                    transactionRepository = new TransactionRepository(unitOfWork);
+                    repository = new TransactionRepository(unitOfWork);
                 }
 
-                return transactionRepository;
+                return repository;
             }
         }
     }

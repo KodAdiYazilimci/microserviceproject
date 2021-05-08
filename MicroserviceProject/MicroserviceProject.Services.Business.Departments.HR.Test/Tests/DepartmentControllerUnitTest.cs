@@ -20,7 +20,6 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Test.Tests
         public void Init()
         {
             cancellationTokenSource = new CancellationTokenSource();
-
             departmentController = new DepartmentController(DepartmentServiceFactory.Instance);
         }
 
