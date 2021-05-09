@@ -123,13 +123,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrast
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Services.Localization", "MicroserviceProject.Services.Localization\MicroserviceProject.Services.Localization.csproj", "{E850A1CA-FC65-47AA-9A67-FB61D6EFBA2E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Services.Business.Departments.HR.Test", "MicroserviceProject.Services.Business.Departments.HR.Test\MicroserviceProject.Services.Business.Departments.HR.Test.csproj", "{F4778198-B28D-4E63-AFB1-16020BF2E67C}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure.Scheduling", "Infrastructure.Scheduling", "{7427B69E-7379-415E-835D-3AD35D8ED159}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test.Services", "Test.Services", "{A71A1D35-606E-4DED-ADEC-5D857218B82C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Test.Services", "MicroserviceProject.Test.Services\MicroserviceProject.Test.Services.csproj", "{38417577-CB2A-4A83-B159-09AEBFA82359}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services.WebSockets", "Services.WebSockets", "{94935ECC-920C-46B1-BA28-CFEEC1DDE6D1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Services.Business.Departments.HR.Test", "MicroserviceProject.Services.Business.Departments.HR.Test\MicroserviceProject.Services.Business.Departments.HR.Test.csproj", "{6A2D9708-0B38-4F56-B62B-7CC2CD7329B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -309,14 +311,14 @@ Global
 		{E850A1CA-FC65-47AA-9A67-FB61D6EFBA2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E850A1CA-FC65-47AA-9A67-FB61D6EFBA2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E850A1CA-FC65-47AA-9A67-FB61D6EFBA2E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F4778198-B28D-4E63-AFB1-16020BF2E67C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F4778198-B28D-4E63-AFB1-16020BF2E67C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F4778198-B28D-4E63-AFB1-16020BF2E67C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F4778198-B28D-4E63-AFB1-16020BF2E67C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{38417577-CB2A-4A83-B159-09AEBFA82359}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{38417577-CB2A-4A83-B159-09AEBFA82359}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38417577-CB2A-4A83-B159-09AEBFA82359}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38417577-CB2A-4A83-B159-09AEBFA82359}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A2D9708-0B38-4F56-B62B-7CC2CD7329B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A2D9708-0B38-4F56-B62B-7CC2CD7329B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A2D9708-0B38-4F56-B62B-7CC2CD7329B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A2D9708-0B38-4F56-B62B-7CC2CD7329B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -365,8 +367,8 @@ Global
 		{A62F0A47-2403-48F2-8471-8B6B97EBFE43} = {EE45587A-115E-45A0-B5DD-96769BDF8AF5}
 		{92471A15-C1C7-412B-837E-A5A7C3BE88CE} = {43D41D42-686C-4874-AF7E-0C45ABDE192B}
 		{E850A1CA-FC65-47AA-9A67-FB61D6EFBA2E} = {B8BC82E7-C1AE-457E-9B15-0F750DD6C897}
-		{F4778198-B28D-4E63-AFB1-16020BF2E67C} = {B0F2E640-1B33-4428-B49F-183375231B02}
 		{38417577-CB2A-4A83-B159-09AEBFA82359} = {A71A1D35-606E-4DED-ADEC-5D857218B82C}
+		{6A2D9708-0B38-4F56-B62B-7CC2CD7329B0} = {A71A1D35-606E-4DED-ADEC-5D857218B82C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C136217B-3CA6-4AEC-95E4-D62936481A67}
