@@ -16,9 +16,12 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Test.Prepreations
 
                 appConfigurationProvider.ConfigurationSection.AuthorizationSection.CredentialSection["email"] = "MicroserviceProject.Services.Business.Departments.HR@service.service";
                 appConfigurationProvider.ConfigurationSection.AuthorizationSection.CredentialSection["password"] = "1234";
-
                 appConfigurationProvider.ConfigurationSection.AuthorizationSection.EndpointsSection["GetToken"] = "authorization.auth.gettoken";
                 appConfigurationProvider.ConfigurationSection.AuthorizationSection.EndpointsSection["GetUser"] = "authorization.auth.getuser";
+                appConfigurationProvider.ConfigurationSection.AuthorizationSection.JwtSection["JWTSecretKey"] = "Srkn$99@2021!+999**&%100-S3cReTKeY#$$";
+                appConfigurationProvider.ConfigurationSection.AuthorizationSection.JwtSection["Expiration"] = "60";
+                appConfigurationProvider.ConfigurationSection.AuthorizationSection.JwtSection["Issuer"] = "MicroserviceProject.Issuer";
+                appConfigurationProvider.ConfigurationSection.AuthorizationSection.JwtSection["Audience"] = "MicroserviceProject.Audience";
 
                 appConfigurationProvider.ConfigurationSection.LocalizationSection["TranslationDbConnnectionString"] = "server=localhost;DataBase=MicroserviceDB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true";
                 appConfigurationProvider.ConfigurationSection.LocalizationSection["DefaultRegion"] = "tr-TR";

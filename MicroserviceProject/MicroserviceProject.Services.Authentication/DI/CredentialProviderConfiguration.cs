@@ -3,7 +3,7 @@ using MicroserviceProject.Infrastructure.Security.Providers;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace MicroserviceProject.Services.Authentication
+namespace MicroserviceProject.Services.Authentication.BasicToken
 {
     /// <summary>
     /// Servis kimliği sağlayıcısı DI sınıfı

@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MicroserviceProject.Services.Authentication\MicroserviceProject.Services.Authentication.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Services.Authentication\MicroserviceProject.Services.Authentication.BasicToken.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Services.Cache\MicroserviceProject.Services.Cache.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Services.Communication\MicroserviceProject.Services.Communication.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Services.Localization\MicroserviceProject.Services.Localization.csproj" />

@@ -4,7 +4,7 @@ using MicroserviceProject.Infrastructure.Security.Authentication.BasicToken.Sche
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace MicroserviceProject.Services.Authentication.DI
+namespace MicroserviceProject.Services.Authentication.BasicToken.DI
 {
     /// <summary>
     /// Yetki DI sınıfı

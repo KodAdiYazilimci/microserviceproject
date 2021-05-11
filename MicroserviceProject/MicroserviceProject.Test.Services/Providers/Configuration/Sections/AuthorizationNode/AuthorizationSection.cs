@@ -10,6 +10,7 @@ namespace MicroserviceProject.Test.Services.Providers.Configuration.Sections.Aut
     {
         public CredentialSection CredentialSection { get; set; } = new CredentialSection();
         public EndpointsSection EndpointsSection { get; set; } = new EndpointsSection();
+        public JwtSection JwtSection { get; set; } = new JwtSection();
 
         public IEnumerable<IConfigurationSection> GetChildren()
         {
@@ -29,6 +30,7 @@ namespace MicroserviceProject.Test.Services.Providers.Configuration.Sections.Aut
             {
                 case "Credential": return CredentialSection;
                 case "Endpoints": return EndpointsSection;
+                case "JWT": return JwtSection;
                 default:
                     return null;
             }

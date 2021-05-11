@@ -1,7 +1,6 @@
 using MicroserviceProject.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Infrastructure.Communication.Model.Errors;
 using MicroserviceProject.Services.Infrastructure.Authorization.Configuration.Services;
-using MicroserviceProject.Services.Localization.DI;
 using MicroserviceProject.Services.Logging.DI;
 using MicroserviceProject.Services.Util.DI;
 

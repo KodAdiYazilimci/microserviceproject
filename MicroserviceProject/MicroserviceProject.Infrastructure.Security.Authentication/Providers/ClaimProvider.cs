@@ -3,12 +3,12 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 
-namespace MicroserviceProject.Infrastructure.Security.Authentication.BasicToken.Persistence
+namespace MicroserviceProject.Infrastructure.Security.Authentication.Persistence
 {
     /// <summary>
     /// Kimlik bilgisi sağlayan sınıf
     /// </summary>
-    public class AuthenticationPersistence
+    public class ClaimProvider
     {
         /// <summary>
         /// Kimlik bilgilerini verir

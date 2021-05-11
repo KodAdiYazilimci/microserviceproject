@@ -1,7 +1,7 @@
 using MicroserviceProject.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Infrastructure.Communication.Model.Errors;
-using MicroserviceProject.Services.Authentication;
-using MicroserviceProject.Services.Authentication.DI;
+using MicroserviceProject.Services.Authentication.BasicToken;
+using MicroserviceProject.Services.Authentication.BasicToken.DI;
 using MicroserviceProject.Services.Business.Departments.Buying.DI;
 using MicroserviceProject.Services.Business.Departments.Finance.DI;
 using MicroserviceProject.Services.Cache.DI;

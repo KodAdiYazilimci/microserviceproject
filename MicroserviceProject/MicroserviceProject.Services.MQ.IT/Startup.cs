@@ -1,6 +1,6 @@
 using MicroserviceProject.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Infrastructure.Communication.Model.Errors;
-using MicroserviceProject.Services.Authentication;
+using MicroserviceProject.Services.Authentication.BasicToken;
 using MicroserviceProject.Services.Cache.DI;
 using MicroserviceProject.Services.Communication.DI;
 using MicroserviceProject.Services.Localization.DI;

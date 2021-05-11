@@ -1,8 +1,8 @@
 ﻿using MicroserviceProject.Infrastructure.Communication.Model.Basics;
 using MicroserviceProject.Infrastructure.Communication.Moderator;
 using MicroserviceProject.Infrastructure.Routing.Providers;
-using MicroserviceProject.Infrastructure.Security.Authentication.BasicToken.Persistence;
 using MicroserviceProject.Infrastructure.Security.Authentication.BasicToken.Schemes;
+using MicroserviceProject.Infrastructure.Security.Authentication.Persistence;
 using MicroserviceProject.Infrastructure.Security.Model;
 
 using Microsoft.AspNetCore.Authentication;
@@ -72,7 +72,7 @@ namespace MicroserviceProject.Infrastructure.Security.Authentication.BasicToken.
 
             if (await GetUserAsync(cancellationTokenSource) != null)
             {
-                ClaimsIdentity claimsIdentity = new ClaimsIdentity(AuthenticationPersistence.GetClaims(await GetUserAsync(cancellationTokenSource)), Default.DefaultScheme);
+                ClaimsIdentity claimsIdentity = new ClaimsIdentity(ClaimProvider.GetClaims(await GetUserAsync(cancellationTokenSource)), Default.DefaultScheme);
 
                 ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
