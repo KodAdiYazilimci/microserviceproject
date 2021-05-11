@@ -2,8 +2,12 @@
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "http://localhost/MicroserviceProject.Services.Gateway.Public",
+      "sslPort": 0
+    },
     "iisExpress": {
-      "applicationUrl": "http://localhost:25336",
+      "applicationUrl": "http://localhost/MicroserviceProject.Services.Gateway.Public",
       "sslPort": 0
     }
   },
@@ -12,18 +16,22 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    },
-    "MicroserviceProject.Services.Gateway.Public": {
-      "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "weatherforecast",
+      "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "dotnetRunMessages": "true",
+      "sqlDebugging": true,
+      "nativeDebugging": true
+    },
+    "MicroserviceProject.Services.Gateway.Public": {
+      "commandName": "IIS",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "sqlDebugging": true,
+      "nativeDebugging": true,
       "applicationUrl": "http://localhost:5000"
     }
   }

@@ -59,7 +59,7 @@ namespace MicroserviceProject.Infrastructure.Security.Authentication.JWT.Provide
                         configuration
                         .GetSection("Configuration")
                         .GetSection("Authorization")
-                        .GetSection("JWT")["Expiration"]));
+                        .GetSection("Jwt")["Expiration"]));
 
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
 

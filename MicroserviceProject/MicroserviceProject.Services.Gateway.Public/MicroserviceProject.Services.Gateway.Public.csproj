@@ -16,10 +16,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MicroserviceProject.Infrastructure.Communication.Model\MicroserviceProject.Infrastructure.Communication.Model.csproj" />
-    <ProjectReference Include="..\MicroserviceProject.Infrastructure.Security.Authentication.JWT\MicroserviceProject.Infrastructure.Security.Authentication.JWT.csproj" />
-    <ProjectReference Include="..\MicroserviceProject.Infrastructure.Security.Model\MicroserviceProject.Infrastructure.Security.Model.csproj" />
+    <ProjectReference Include="..\MicroserviceProject.Services.Authentication.BasicToken\MicroserviceProject.Services.Authentication.BasicToken.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Services.Authentication.JWT\MicroserviceProject.Services.Authentication.JWT.csproj" />
-    <ProjectReference Include="..\MicroserviceProject.Services.Authentication\MicroserviceProject.Services.Authentication.BasicToken.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Services.Cache\MicroserviceProject.Services.Cache.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Services.Communication\MicroserviceProject.Services.Communication.csproj" />
     <ProjectReference Include="..\MicroserviceProject.Services.Localization\MicroserviceProject.Services.Localization.csproj" />

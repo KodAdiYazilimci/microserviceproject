@@ -4,9 +4,9 @@ using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
 
-namespace MicroserviceProject.Test.Services.Providers.Configuration.Sections.LocalizationNode
+namespace MicroserviceProject.Test.Services.Providers.Configuration.Sections.AuthorizationNode
 {
-    public class LocalizationSection : BaseSection, IConfigurationSection
+    public class DataSourceSection : BaseSection, IConfigurationSection
     {
         public IEnumerable<IConfigurationSection> GetChildren()
         {
@@ -14,21 +14,21 @@ namespace MicroserviceProject.Test.Services.Providers.Configuration.Sections.Loc
         }
         public IChangeToken GetReloadToken()
         {
-            return new LocalizationChangeToken();
+            return new DataSourceSectionChangeToken();
         }
         public IConfigurationSection GetSection(string key)
         {
             return this;
         }
-        public class LocalizationChangeToken : IChangeToken
+        public class DataSourceSectionChangeToken : IChangeToken
         {
             public bool HasChanged { get; }
             public bool ActiveChangeCallbacks { get; }
             public IDisposable RegisterChangeCallback(Action<object> callback, object state)
             {
-                return new LocalizationDisposable();
+                return new DataSourceSectionDisposable();
             }
-            public class LocalizationDisposable : IDisposable
+            public class DataSourceSectionDisposable : IDisposable
             {
                 public void Dispose() { }
             }

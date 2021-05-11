@@ -17,7 +17,15 @@ namespace MicroserviceProject.Test.Services.Providers.Configuration.Sections.Ser
 
         public IEnumerable<IConfigurationSection> GetChildren()
         {
-            throw new System.NotImplementedException();
+            return new List<IConfigurationSection>()
+            {
+                AASection,
+                AccountingSection,
+                BuyingSection,
+                FinanceSection,
+                HRSection,
+                ITSection
+            };
         }
         public IChangeToken GetReloadToken()
         {
@@ -44,7 +52,7 @@ namespace MicroserviceProject.Test.Services.Providers.Configuration.Sections.Ser
             public bool ActiveChangeCallbacks { get; }
             public IDisposable RegisterChangeCallback(Action<object> callback, object state)
             {
-                throw new NotImplementedException();
+                return new EndpointsDisposable();
             }
             public class EndpointsDisposable : IDisposable
             {

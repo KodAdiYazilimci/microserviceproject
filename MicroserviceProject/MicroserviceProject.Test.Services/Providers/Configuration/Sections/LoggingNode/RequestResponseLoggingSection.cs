@@ -48,7 +48,7 @@ namespace MicroserviceProject.Test.Services.Providers.Configuration.Sections.Log
             public bool ActiveChangeCallbacks { get; }
             public IDisposable RegisterChangeCallback(Action<object> callback, object state)
             {
-                throw new NotImplementedException();
+                return new RequestResponseLoggingDisposable();
             }
             public class RequestResponseLoggingDisposable : IDisposable
             {

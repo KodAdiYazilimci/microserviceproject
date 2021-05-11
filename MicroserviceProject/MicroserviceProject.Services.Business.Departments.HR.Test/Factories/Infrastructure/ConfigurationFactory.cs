@@ -14,6 +14,7 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Test.Prepreations
             {
                 appConfigurationProvider = new AppConfigurationProvider();
 
+                appConfigurationProvider.ConfigurationSection.AuthorizationSection.DataSourceSection["ConnectionString"] = "server=localhost;DataBase=MicroserviceDB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true";
                 appConfigurationProvider.ConfigurationSection.AuthorizationSection.CredentialSection["email"] = "MicroserviceProject.Services.Business.Departments.HR@service.service";
                 appConfigurationProvider.ConfigurationSection.AuthorizationSection.CredentialSection["password"] = "1234";
                 appConfigurationProvider.ConfigurationSection.AuthorizationSection.EndpointsSection["GetToken"] = "authorization.auth.gettoken";
@@ -37,9 +38,9 @@ namespace MicroserviceProject.Services.Business.Departments.HR.Test.Prepreations
 
                 appConfigurationProvider.ConfigurationSection.RoutingSection["DataSource"] = "server=localhost;DataBase=MicroserviceDB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true";
 
-                appConfigurationProvider.ConfigurationSection.RabbitQueuesSection["DefaultHost"] = "localhost";
-                appConfigurationProvider.ConfigurationSection.RabbitQueuesSection["DefaultUserName"] = "guest";
-                appConfigurationProvider.ConfigurationSection.RabbitQueuesSection["DefaultPassword"] = "guest";
+                appConfigurationProvider.ConfigurationSection.RabbitQueuesSection.HostSection["DefaultHost"] = "localhost";
+                appConfigurationProvider.ConfigurationSection.RabbitQueuesSection.HostSection["DefaultUserName"] = "guest";
+                appConfigurationProvider.ConfigurationSection.RabbitQueuesSection.HostSection["DefaultPassword"] = "guest";
                 appConfigurationProvider.ConfigurationSection.RabbitQueuesSection.ServicesSection.AASection.QueueNamesSection["AssignInventoryToWorker"] = "aa.queue.inventory.assignInventorytoworker";
                 appConfigurationProvider.ConfigurationSection.RabbitQueuesSection.ServicesSection.AASection.QueueNamesSection["InformInventoryRequest"] = "aa.queue.request.informinventoryrequest";
                 appConfigurationProvider.ConfigurationSection.RabbitQueuesSection.ServicesSection.ITSection.QueueNamesSection["AssignInventoryToWorker"] = "it.queue.inventory.assignInventorytoworker";

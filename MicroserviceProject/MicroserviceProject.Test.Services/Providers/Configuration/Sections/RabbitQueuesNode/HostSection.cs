@@ -4,9 +4,9 @@ using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
 
-namespace MicroserviceProject.Test.Services.Providers.Configuration.Sections.LocalizationNode
+namespace MicroserviceProject.Test.Services.Providers.Configuration.Sections.RabbitQueuesNode
 {
-    public class LocalizationSection : BaseSection, IConfigurationSection
+    public class HostSection : BaseSection, IConfigurationSection
     {
         public IEnumerable<IConfigurationSection> GetChildren()
         {
@@ -14,21 +14,21 @@ namespace MicroserviceProject.Test.Services.Providers.Configuration.Sections.Loc
         }
         public IChangeToken GetReloadToken()
         {
-            return new LocalizationChangeToken();
+            return new HostSectionChangeToken();
         }
         public IConfigurationSection GetSection(string key)
         {
             return this;
         }
-        public class LocalizationChangeToken : IChangeToken
+        public class HostSectionChangeToken : IChangeToken
         {
             public bool HasChanged { get; }
             public bool ActiveChangeCallbacks { get; }
             public IDisposable RegisterChangeCallback(Action<object> callback, object state)
             {
-                return new LocalizationDisposable();
+                return new HostSectionDisposable();
             }
-            public class LocalizationDisposable : IDisposable
+            public class HostSectionDisposable : IDisposable
             {
                 public void Dispose() { }
             }

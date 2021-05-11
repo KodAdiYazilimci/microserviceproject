@@ -69,8 +69,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Service
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Services.Cache", "MicroserviceProject.Services.Cache\MicroserviceProject.Services.Cache.csproj", "{65C99AA5-416D-4C65-97B9-1B00BBD565C9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Services.Authentication.BasicToken", "MicroserviceProject.Services.Authentication\MicroserviceProject.Services.Authentication.BasicToken.csproj", "{2F5CD06F-4A5C-4B7F-AC00-6690A1CD76CE}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Services.Util", "MicroserviceProject.Services.Util\MicroserviceProject.Services.Util.csproj", "{5089FF92-6191-4129-A70E-9432A2C89BC6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Services.Model", "MicroserviceProject.Services.Model\MicroserviceProject.Services.Model.csproj", "{964C3B50-E34B-4C5D-A715-A2806A9F24F1}"
@@ -135,13 +133,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Service
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services.Gateway", "Services.Gateway", "{7978168E-47C1-44FF-879F-F5AE46376F13}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Services.Gateway.Public", "MicroserviceProject.Services.Gateway.Public\MicroserviceProject.Services.Gateway.Public.csproj", "{AC806A74-08E5-46F0-8450-216CC9462655}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Services.Gateway.Public", "MicroserviceProject.Services.Gateway.Public\MicroserviceProject.Services.Gateway.Public.csproj", "{AC806A74-08E5-46F0-8450-216CC9462655}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Infrastructure.Security.Authentication.JWT", "MicroserviceProject.Infrastructure.Security.Authentication.JWT\MicroserviceProject.Infrastructure.Security.Authentication.JWT.csproj", "{D1BE56AD-55E5-4BCF-B5CF-590C5F38B57B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrastructure.Security.Authentication.JWT", "MicroserviceProject.Infrastructure.Security.Authentication.JWT\MicroserviceProject.Infrastructure.Security.Authentication.JWT.csproj", "{D1BE56AD-55E5-4BCF-B5CF-590C5F38B57B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Infrastructure.Security.Authentication", "MicroserviceProject.Infrastructure.Security.Authentication\MicroserviceProject.Infrastructure.Security.Authentication.csproj", "{B5587F5C-C35E-46FA-9322-4F249E8F8304}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Infrastructure.Security.Authentication", "MicroserviceProject.Infrastructure.Security.Authentication\MicroserviceProject.Infrastructure.Security.Authentication.csproj", "{B5587F5C-C35E-46FA-9322-4F249E8F8304}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceProject.Services.Authentication.JWT", "MicroserviceProject.Services.Authentication.JWT\MicroserviceProject.Services.Authentication.JWT.csproj", "{1060D6AC-BD08-4574-88FB-1BDD0062A016}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Services.Authentication.JWT", "MicroserviceProject.Services.Authentication.JWT\MicroserviceProject.Services.Authentication.JWT.csproj", "{1060D6AC-BD08-4574-88FB-1BDD0062A016}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceProject.Services.Authentication.BasicToken", "MicroserviceProject.Services.Authentication.BasicToken\MicroserviceProject.Services.Authentication.BasicToken.csproj", "{6F6985F2-7B51-4707-84DD-22A78F6A05E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -229,10 +229,6 @@ Global
 		{65C99AA5-416D-4C65-97B9-1B00BBD565C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65C99AA5-416D-4C65-97B9-1B00BBD565C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65C99AA5-416D-4C65-97B9-1B00BBD565C9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2F5CD06F-4A5C-4B7F-AC00-6690A1CD76CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2F5CD06F-4A5C-4B7F-AC00-6690A1CD76CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2F5CD06F-4A5C-4B7F-AC00-6690A1CD76CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2F5CD06F-4A5C-4B7F-AC00-6690A1CD76CE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5089FF92-6191-4129-A70E-9432A2C89BC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5089FF92-6191-4129-A70E-9432A2C89BC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5089FF92-6191-4129-A70E-9432A2C89BC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -345,6 +341,10 @@ Global
 		{1060D6AC-BD08-4574-88FB-1BDD0062A016}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1060D6AC-BD08-4574-88FB-1BDD0062A016}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1060D6AC-BD08-4574-88FB-1BDD0062A016}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F6985F2-7B51-4707-84DD-22A78F6A05E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F6985F2-7B51-4707-84DD-22A78F6A05E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F6985F2-7B51-4707-84DD-22A78F6A05E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F6985F2-7B51-4707-84DD-22A78F6A05E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -370,7 +370,6 @@ Global
 		{2E32EADC-647B-45B1-91C2-47033DEB79BB} = {B8BC82E7-C1AE-457E-9B15-0F750DD6C897}
 		{56F2E56F-B35A-419D-AEAC-66E301598438} = {B8BC82E7-C1AE-457E-9B15-0F750DD6C897}
 		{65C99AA5-416D-4C65-97B9-1B00BBD565C9} = {B8BC82E7-C1AE-457E-9B15-0F750DD6C897}
-		{2F5CD06F-4A5C-4B7F-AC00-6690A1CD76CE} = {B8BC82E7-C1AE-457E-9B15-0F750DD6C897}
 		{5089FF92-6191-4129-A70E-9432A2C89BC6} = {B8BC82E7-C1AE-457E-9B15-0F750DD6C897}
 		{964C3B50-E34B-4C5D-A715-A2806A9F24F1} = {B8BC82E7-C1AE-457E-9B15-0F750DD6C897}
 		{6C91249C-C8C2-4392-8816-66704FAEA88E} = {2669D375-E38F-4991-B50C-CAEFD1C57054}
@@ -399,6 +398,7 @@ Global
 		{D1BE56AD-55E5-4BCF-B5CF-590C5F38B57B} = {4B50141F-7DDA-4045-87E0-EFBF72CEFB63}
 		{B5587F5C-C35E-46FA-9322-4F249E8F8304} = {4B50141F-7DDA-4045-87E0-EFBF72CEFB63}
 		{1060D6AC-BD08-4574-88FB-1BDD0062A016} = {B8BC82E7-C1AE-457E-9B15-0F750DD6C897}
+		{6F6985F2-7B51-4707-84DD-22A78F6A05E4} = {B8BC82E7-C1AE-457E-9B15-0F750DD6C897}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C136217B-3CA6-4AEC-95E4-D62936481A67}

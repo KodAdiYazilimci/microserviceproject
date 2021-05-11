@@ -26,17 +26,20 @@ namespace MicroserviceProject.Services.Communication.Configuration.Rabbit
             Host =
                 configuration
                 .GetSection("Configuration")
-                .GetSection("RabbitQueues")["DefaultHost"];
+                .GetSection("RabbitQueues")
+                .GetSection("Host")["DefaultHost"];
 
             UserName =
                 configuration
                 .GetSection("Configuration")
-                .GetSection("RabbitQueues")["DefaultUserName"];
+                .GetSection("RabbitQueues")
+                .GetSection("Host")["DefaultUserName"];
 
             Password =
                 configuration
                 .GetSection("Configuration")
-                .GetSection("RabbitQueues")["DefaultPassword"];
+                .GetSection("RabbitQueues")
+                .GetSection("Host")["DefaultPassword"];
         }
 
         /// <summary>

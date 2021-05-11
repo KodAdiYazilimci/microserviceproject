@@ -9,6 +9,7 @@ namespace MicroserviceProject.Test.Services.Providers.Configuration.Sections.Aut
     public class AuthorizationSection : BaseSection, IConfigurationSection
     {
         public CredentialSection CredentialSection { get; set; } = new CredentialSection();
+        public DataSourceSection DataSourceSection { get; set; } = new DataSourceSection();
         public EndpointsSection EndpointsSection { get; set; } = new EndpointsSection();
         public JwtSection JwtSection { get; set; } = new JwtSection();
 
@@ -17,7 +18,9 @@ namespace MicroserviceProject.Test.Services.Providers.Configuration.Sections.Aut
             return new List<IConfigurationSection>()
             {
                 CredentialSection,
-                EndpointsSection
+                DataSourceSection,
+                EndpointsSection,
+                JwtSection
             };
         }
         public IChangeToken GetReloadToken()
@@ -30,7 +33,8 @@ namespace MicroserviceProject.Test.Services.Providers.Configuration.Sections.Aut
             {
                 case "Credential": return CredentialSection;
                 case "Endpoints": return EndpointsSection;
-                case "JWT": return JwtSection;
+                case "DataSource": return DataSourceSection;
+                case "Jwt": return JwtSection;
                 default:
                     return null;
             }

@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace MicroserviceProject.Services.Gateway.Public.Controllers
 {
+    [Route("Auth")]
     public class AuthorizationController : Controller
     {
         private readonly UserService userService;

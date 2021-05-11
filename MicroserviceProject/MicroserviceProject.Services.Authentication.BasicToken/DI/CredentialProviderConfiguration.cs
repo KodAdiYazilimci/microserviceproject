@@ -17,7 +17,7 @@ namespace MicroserviceProject.Services.Authentication.BasicToken
         /// <param name="configuration">Configuration nesnesi</param>
         /// <returns></returns>
         public static IServiceCollection RegisterCredentialProvider(this IServiceCollection services)
-        {           
+        {
             services.AddSingleton<CredentialProvider>();
 
             return services;

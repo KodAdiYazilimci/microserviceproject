@@ -6,7 +6,6 @@ using MicroserviceProject.Services.Authentication.JWT.DI;
 using MicroserviceProject.Services.Cache.DI;
 using MicroserviceProject.Services.Communication.DI;
 using MicroserviceProject.Services.Gateway.Public.Configuration.Services;
-using MicroserviceProject.Services.Gateway.Public.Services;
 using MicroserviceProject.Services.Localization.DI;
 using MicroserviceProject.Services.Logging.DI;
 using MicroserviceProject.Services.Util.DI;

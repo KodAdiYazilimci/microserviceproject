@@ -34,7 +34,7 @@ namespace MicroserviceProject.Infrastructure.Security.Authentication.JWT.Provide
                     configuration
                     .GetSection("Configuration")
                     .GetSection("Authorization")
-                    .GetSection("JWT")["JWTSecretKey"];
+                    .GetSection("Jwt")["JWTSecretKey"];
             }
         }
 

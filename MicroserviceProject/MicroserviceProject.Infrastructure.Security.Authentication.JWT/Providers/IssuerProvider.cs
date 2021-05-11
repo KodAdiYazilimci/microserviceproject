@@ -32,7 +32,7 @@ namespace MicroserviceProject.Infrastructure.Security.Authentication.JWT.Provide
                     configuration
                     .GetSection("Configuration")
                     .GetSection("Authorization")
-                    .GetSection("JWT")["Issuer"];
+                    .GetSection("Jwt")["Issuer"];
             }
         }
 
@@ -47,7 +47,7 @@ namespace MicroserviceProject.Infrastructure.Security.Authentication.JWT.Provide
                     configuration
                     .GetSection("Configuration")
                     .GetSection("Authorization")
-                    .GetSection("JWT")["Audience"];
+                    .GetSection("Jwt")["Audience"];
             }
         }
     }

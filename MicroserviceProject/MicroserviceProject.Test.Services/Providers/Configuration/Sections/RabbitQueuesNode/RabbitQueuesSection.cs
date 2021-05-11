@@ -9,11 +9,13 @@ namespace MicroserviceProject.Test.Services.Providers.Configuration.Sections.Rab
     public class RabbitQueuesSection : BaseSection, IConfigurationSection
     {
         public ServicesSection ServicesSection { get; set; } = new ServicesSection();
+        public HostSection HostSection { get; set; } = new HostSection();
         public IEnumerable<IConfigurationSection> GetChildren()
         {
             return new List<IConfigurationSection>()
             {
-                ServicesSection
+                ServicesSection,
+                HostSection
             };
         }
         public IChangeToken GetReloadToken()
@@ -25,6 +27,7 @@ namespace MicroserviceProject.Test.Services.Providers.Configuration.Sections.Rab
             switch (key)
             {
                 case "Services": return ServicesSection;
+                case "Host": return HostSection;
                 default:
                     return null;
             }
