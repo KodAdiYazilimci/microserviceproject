@@ -1,0 +1,30 @@
+﻿using AutoMapper;
+
+using Infrastructure.Communication.Model.Department.Accounting;
+using Services.Business.Departments.Accounting.Entities.Sql;
+
+namespace Services.Business.Departments.Accounting.Configuration.Mapping
+{
+    /// <summary>
+    /// Mapping profili sınıfı
+    /// </summary>
+    public class MappingProfile : Profile
+    {
+        /// <summary>
+        /// Mapping profili sınıfı
+        /// </summary>
+        public MappingProfile()
+        {
+            // Model => Entity
+
+            CreateMap<BankAccountModel, BankAccountEntity>();
+            CreateMap<CurrencyModel, CurrencyEntity>();
+            CreateMap<SalaryPaymentModel, SalaryPaymentEntity>();
+
+            // Entity => Model
+            CreateMap<BankAccountEntity, BankAccountModel>();
+            CreateMap<CurrencyEntity, CurrencyModel>();
+            CreateMap<SalaryPaymentEntity, SalaryPaymentModel>();
+        }
+    }
+}
