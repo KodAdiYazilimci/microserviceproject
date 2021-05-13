@@ -5,7 +5,7 @@ using System;
 namespace Infrastructure.Sockets.Providers
 {
     /// <summary>
-    /// Servis rotalarına ait endpoint isimlerini sağlayan sınıf
+    /// Web soketlere ait isimleri sağlayan sınıf
     /// </summary>
     public class SocketNameProvider : IDisposable
     {
@@ -20,7 +20,7 @@ namespace Infrastructure.Sockets.Providers
         private readonly IConfiguration _configuration;
 
         /// <summary>
-        /// Servis rotalarına ait endpoint isimlerini sağlayan sınıf
+        /// Web soketlere ait isimleri sağlayan sınıf
         /// </summary>
         /// <param name="configuration">Endpoint isimlerini getiren configuration</param>
         public SocketNameProvider(IConfiguration configuration)

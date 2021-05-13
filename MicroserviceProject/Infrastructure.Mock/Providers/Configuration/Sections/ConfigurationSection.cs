@@ -15,15 +15,45 @@ using System.Collections.Generic;
 
 namespace Infrastructure.Mock.Providers.Configuration.Sections
 {
+    /// <summary>
+    /// Configuration düğümü sınıfı
+    /// </summary>
     public class ConfigurationSection : BaseSection, IConfigurationSection
     {
+        /// <summary>
+        /// Authorization düğümü
+        /// </summary>
         public AuthorizationSection AuthorizationSection { get; set; } = new AuthorizationSection();
+
+        /// <summary>
+        /// Localization düğümü
+        /// </summary>
         public LocalizationSection LocalizationSection { get; set; } = new LocalizationSection();
+
+        /// <summary>
+        /// Logging düğümü
+        /// </summary>
         public LoggingSection LoggingSection { get; set; } = new LoggingSection();
+
+        /// <summary>
+        /// RabbitQueues düğümü
+        /// </summary>
         public RabbitQueuesSection RabbitQueuesSection { get; set; } = new RabbitQueuesSection();
+
+        /// <summary>
+        /// Routing düğümğ
+        /// </summary>
         public RoutingSection RoutingSection { get; set; } = new RoutingSection();
+
+        /// <summary>
+        /// WebSockets düğümğ
+        /// </summary>
         public WebSocketsSection WebSocketsSection { get; set; } = new WebSocketsSection();
 
+        /// <summary>
+        /// Alt düğümleri verir
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<IConfigurationSection> GetChildren()
         {
             return new List<IConfigurationSection>()
@@ -36,10 +66,21 @@ namespace Infrastructure.Mock.Providers.Configuration.Sections
                 WebSocketsSection
             };
         }
+
+        /// <summary>
+        /// Yenileme tokenı verir
+        /// </summary>
+        /// <returns></returns>
         public IChangeToken GetReloadToken()
         {
             return new ConfigurationChangeToken();
         }
+
+        /// <summary>
+        /// Alt düğümü verir
+        /// </summary>
+        /// <param name="key">Getirilecek alt düğümün adı</param>
+        /// <returns></returns>
         public IConfigurationSection GetSection(string key)
         {
             switch (key)
@@ -54,6 +95,10 @@ namespace Infrastructure.Mock.Providers.Configuration.Sections
                     return null;
             }
         }
+
+        /// <summary>
+        /// Değişim token sınıfı
+        /// </summary>
         public class ConfigurationChangeToken : IChangeToken
         {
             public bool HasChanged { get; }

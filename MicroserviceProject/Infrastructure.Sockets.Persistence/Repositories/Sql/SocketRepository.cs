@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace Infrastructure.Sockets.Persistence.Repositories.Sql
 {
     /// <summary>
-    /// Servis rotaları repository sınıfı
+    /// Web soketler repository sınıfı
     /// </summary>
     public class SocketRepository : IDisposable
     {
@@ -28,7 +28,7 @@ namespace Infrastructure.Sockets.Persistence.Repositories.Sql
         private readonly IConfiguration _configuration;
 
         /// <summary>
-        /// Servis rotaları repository sınıfı
+        /// Web soketler repository sınıfı
         /// </summary>
         /// <param name="configuration">Veritabanı bağlantı cümlesini sağlayacak connection nesnesi</param>
         public SocketRepository(IConfiguration configuration)
@@ -36,6 +36,9 @@ namespace Infrastructure.Sockets.Persistence.Repositories.Sql
             this._configuration = configuration;
         }
 
+        /// <summary>
+        /// Soket bilgisi getirilirken kullanılacak SQL connection cümlesi
+        /// </summary>
         private string ConnectionString
         {
             get
@@ -47,7 +50,12 @@ namespace Infrastructure.Sockets.Persistence.Repositories.Sql
             }
         }
 
-        public async Task<List<SocketModel>> GetServiceRoutesAsync(CancellationTokenSource cancellationTokenSource)
+        /// <summary>
+        /// Web soketlerini verir
+        /// </summary>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<List<SocketModel>> GetSocketsAsync(CancellationTokenSource cancellationTokenSource)
         {
             List<SocketModel> routes = new List<SocketModel>();
 

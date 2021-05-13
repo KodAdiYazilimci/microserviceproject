@@ -1,18 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Communication.Exceptions
 {
+    /// <summary>
+    /// Yanlış çağrı tipi durumunda fırlatılacak istisnai durum
+    /// </summary>
     public class WrongCallTypeException : Exception
     {
+        /// <summary>
+        /// Yanlış çağrı tipi durumunda fırlatılacak istisnai durum
+        /// </summary>
         public WrongCallTypeException() : base("Hatalı çağrı tipi")
         {
 
         }
 
+        /// <summary>
+        /// Yanlış çağrı tipi durumunda fırlatılacak istisnai durum
+        /// </summary>
+        /// <param name="message">Fırlatılacak mesaj</param>
         public WrongCallTypeException(string message) : base(message)
         {
 

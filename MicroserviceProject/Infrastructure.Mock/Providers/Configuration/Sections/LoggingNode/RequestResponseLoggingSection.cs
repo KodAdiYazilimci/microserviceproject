@@ -6,13 +6,35 @@ using System.Collections.Generic;
 
 namespace Infrastructure.Mock.Providers.Configuration.Sections.LoggingNode
 {
+    /// <summary>
+    /// RequestResponseLogging düğümü sınıfı
+    /// </summary>
     public class RequestResponseLoggingSection : BaseSection, IConfigurationSection
     {
+        /// <summary>
+        /// FileConfiguration düğümü
+        /// </summary>
         public FileConfigurationSection FileConfigurationSection { get; set; } = new FileConfigurationSection();
+
+        /// <summary>
+        /// RabbitConfiguration düğümü
+        /// </summary>
         public RabbitConfigurationSection RabbitConfigurationSection { get; set; } = new RabbitConfigurationSection();
+
+        /// <summary>
+        /// DataBaseConfiguration düğümü
+        /// </summary>
         public DataBaseConfigurationSection DataBaseConfigurationSection { get; set; } = new DataBaseConfigurationSection();
+
+        /// <summary>
+        /// MongoConfiguration düğümü
+        /// </summary>
         public MongoConfigurationSection MongoConfigurationSection { get; set; } = new MongoConfigurationSection();
 
+        /// <summary>
+        /// Alt düğümleri verir
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<IConfigurationSection> GetChildren()
         {
             return new List<IConfigurationSection>()
@@ -24,11 +46,20 @@ namespace Infrastructure.Mock.Providers.Configuration.Sections.LoggingNode
             };
         }
 
+        /// <summary>
+        /// Yenileme tokenı verir
+        /// </summary>
+        /// <returns></returns>
         public IChangeToken GetReloadToken()
         {
             return new RequestResponseLoggingChangeToken();
         }
 
+        /// <summary>
+        /// Alt düğümü verir
+        /// </summary>
+        /// <param name="key">Getirilecek alt düğümün adı</param>
+        /// <returns></returns>
         public IConfigurationSection GetSection(string key)
         {
             switch (key)
@@ -42,6 +73,9 @@ namespace Infrastructure.Mock.Providers.Configuration.Sections.LoggingNode
             }
         }
 
+        /// <summary>
+        /// Değişim token sınıfı
+        /// </summary>
         public class RequestResponseLoggingChangeToken : IChangeToken
         {
             public bool HasChanged { get; }

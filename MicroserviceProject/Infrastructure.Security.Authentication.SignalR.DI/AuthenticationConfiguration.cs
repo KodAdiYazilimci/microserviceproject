@@ -7,8 +7,17 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.Security.Authentication.SignalR.DI
 {
+    /// <summary>
+    /// SignalR güvenliği DI sınıfı
+    /// </summary>
     public static class AuthenticationConfiguration
     {
+        /// <summary>
+        /// SignalR güvenliğini enjekte eder
+        /// </summary>
+        /// <param name="services">DI sınıfları nesnesi</param>
+        /// <param name="policyName">Güvenlik politikasının adı</param>
+        /// <returns></returns>
         public static IServiceCollection RegisterSignalRSecurity(this IServiceCollection services, string policyName)
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

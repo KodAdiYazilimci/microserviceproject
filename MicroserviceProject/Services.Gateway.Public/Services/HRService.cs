@@ -4,21 +4,34 @@ using Infrastructure.Communication.Model.Department.HR;
 using Infrastructure.Communication.Moderator;
 using Infrastructure.Routing.Providers;
 using Infrastructure.Transaction.ExecutionHandler;
-using Infrastructure.Validation.Exceptions;
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Services.Gateway.Public.Services
 {
+    /// <summary>
+    /// İnsan kaynakları servisi
+    /// </summary>
     public class HRService : BaseService, IDisposable, IDisposableInjections
     {
+        /// <summary>
+        /// Rota isim sağlayıcısı nesnesi
+        /// </summary>
         private readonly RouteNameProvider _routeNameProvider;
+
+        /// <summary>
+        /// Servis iletişimcisi nesnesi
+        /// </summary>
         private readonly ServiceCommunicator _serviceCommunicator;
 
+        /// <summary>
+        /// İnsan kaynakları servisi
+        /// </summary>
+        /// <param name="routeNameProvider">Rota isim sağlayıcısı nesnesi</param>
+        /// <param name="serviceCommunicator">Servis iletişimcisi nesnesi</param>
         public HRService(
             RouteNameProvider routeNameProvider,
             ServiceCommunicator serviceCommunicator)
@@ -36,6 +49,11 @@ namespace Services.Gateway.Public.Services
             _serviceCommunicator.Dispose();
         }
 
+        /// <summary>
+        /// Departmanları getirir
+        /// </summary>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
+        /// <returns></returns>
         public async Task<List<DepartmentModel>> GetDepartmentsAsync(CancellationTokenSource cancellationTokenSource)
         {
             ServiceResultModel<List<DepartmentModel>> departmentsServiceResult =

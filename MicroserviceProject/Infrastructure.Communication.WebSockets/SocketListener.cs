@@ -25,6 +25,9 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Communication.WebSockets
 {
+    /// <summary>
+    /// Bir websocket bağlantısını dinleyen sınıf
+    /// </summary>
     public class SocketListener : IDisposable
     {
         /// <summary>
@@ -37,6 +40,9 @@ namespace Infrastructure.Communication.WebSockets
         /// </summary>
         private const string CACHEDSERVICEROUTES = "CACHED_SERVICE_ROUTES";
 
+        /// <summary>
+        /// Websocket ile iletişimde kullanılacak yetki tokenının önbellekteki saklama anahtarı
+        /// </summary>
         private const string TAKENTOKENFORTHISSERVICE = "TAKEN_TOKEN_FOR_THIS_SERVICE";
 
         /// <summary>
@@ -54,7 +60,6 @@ namespace Infrastructure.Communication.WebSockets
         /// </summary>
         private readonly CredentialProvider _credentialProvider;
 
-
         /// <summary>
         /// Gerektiğinde iletişimde bulunacak yetki servisi için rota isimleri sağlayıcısı
         /// </summary>
@@ -65,13 +70,36 @@ namespace Infrastructure.Communication.WebSockets
         /// </summary>
         private readonly ServiceRouteRepository _serviceRouteRepository;
 
+        /// <summary>
+        /// Soket isimlerinin sağlayıcısı
+        /// </summary>
         private readonly SocketNameProvider _socketNameProvider;
+
+        /// <summary>
+        /// Soket endpointlerinin sağlayıcısı
+        /// </summary>
         private readonly SocketRepository _socketRepository;
 
+        /// <summary>
+        /// Gelen soket verisini yakalayacak handler
+        /// </summary>
+        /// <param name="webSocketResult">Yakalanan soket verisi</param>
+        public delegate void OnMessageReceivedHandler(WebSocketResultModel webSocketResult);
 
-        public delegate void OnMessageReceivedHandler(string message);
+        /// <summary>
+        /// Soketten veri alındığında ateşlenecek olay
+        /// </summary>
         public event OnMessageReceivedHandler OnMessageReceived;
 
+        /// <summary>
+        /// Bir websocket bağlantısını dinleyen sınıf
+        /// </summary>
+        /// <param name="memoryCache">Önbellek nesnesi</param>
+        /// <param name="credentialProvider">İletişimde kullanılacak yetkiler için sağlayıcı</param>
+        /// <param name="routeNameProvider">Gerektiğinde iletişimde bulunacak yetki servisi için rota isimleri sağlayıcısı</param>
+        /// <param name="serviceRouteRepository">Servis endpointleri sağlayıcısı</param>
+        /// <param name="socketNameProvider">Soket isimlerinin sağlayıcısı</param>
+        /// <param name="socketRepository">Soket endpointlerinin sağlayıcısı</param>
         public SocketListener(
             IMemoryCache memoryCache,
             CredentialProvider credentialProvider,
@@ -88,6 +116,12 @@ namespace Infrastructure.Communication.WebSockets
             _socketRepository = socketRepository;
         }
 
+        /// <summary>
+        /// Bir web soketi dinlemeye başlar
+        /// </summary>
+        /// <param name="socketName">Dinlenecek soketin adı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
+        /// <returns></returns>
         public async Task ListenAsync(string socketName, CancellationTokenSource cancellationTokenSource)
         {
             Token takenTokenForThisService = _memoryCache.Get<Token>(TAKENTOKENFORTHISSERVICE);
@@ -132,11 +166,13 @@ namespace Infrastructure.Communication.WebSockets
                 options.Headers.Add("Authorization", takenTokenForThisService.TokenKey);
             }).Build();
 
-            hubConnection.On<string>(socket.Method, param =>
+            hubConnection.On<object>(socket.Method, param =>
             {
                 if (OnMessageReceived != null)
                 {
-                    OnMessageReceived(param);
+                    WebSocketResultModel webSocketResult = JsonConvert.DeserializeObject<WebSocketResultModel>(param.ToString());
+
+                    OnMessageReceived(webSocketResult);
                 }
             });
 
@@ -166,13 +202,19 @@ namespace Infrastructure.Communication.WebSockets
                 throw new GetRouteException("Servis rotası bulunamadı");
         }
 
+        /// <summary>
+        /// Soket bilgisini verir
+        /// </summary>
+        /// <param name="socketName">Bilgisi getirilecek soketin adı</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
+        /// <returns></returns>
         private async Task<SocketModel> GetSocketAsync(string socketName, CancellationTokenSource cancellationTokenSource)
         {
             List<SocketModel> sockets = _memoryCache.Get<List<SocketModel>>(CACHEDWEBSOCKETS);
 
             if (sockets == null || !sockets.Any())
             {
-                sockets = await _socketRepository.GetServiceRoutesAsync(cancellationTokenSource);
+                sockets = await _socketRepository.GetSocketsAsync(cancellationTokenSource);
 
                 _memoryCache.Set<List<SocketModel>>(CACHEDWEBSOCKETS, sockets, DateTime.Now.AddMinutes(60));
             }

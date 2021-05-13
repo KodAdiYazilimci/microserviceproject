@@ -4,10 +4,21 @@ using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.Mock.Factories
 {
+    /// <summary>
+    /// Web soket isim sağlayıcısını taklit eden sınıf
+    /// </summary>
     public class SocketNameProviderFactory
     {
+        /// <summary>
+        /// Web soket isim sağlayıcısı
+        /// </summary>
         private static SocketNameProvider socketNameProvider;
 
+        /// <summary>
+        /// Web soket isim sağlayıcısı nesnesini verir
+        /// </summary>
+        /// <param name="configuration">Yapılandırma arayüzü nesnesi</param>
+        /// <returns></returns>
         public static SocketNameProvider GetSocketNameProvider(IConfiguration configuration)
         {
             if (socketNameProvider == null)

@@ -1,4 +1,5 @@
-﻿using Infrastructure.Communication.WebSockets;
+﻿using Infrastructure.Communication.Model.Basics;
+using Infrastructure.Communication.WebSockets;
 using Infrastructure.Mock.Factories;
 
 using Microsoft.Extensions.Configuration;
@@ -22,9 +23,9 @@ namespace Services.Monitoring.Security.Console
                 socketNameProvider: SocketNameProviderFactory.GetSocketNameProvider(GetConfiguration(args)),
                 socketRepository: SocketRepositoryFactory.GetSocketRepository(GetConfiguration(args)));
 
-            socketListener.OnMessageReceived += (string message) =>
+            socketListener.OnMessageReceived += (WebSocketResultModel webSocketResult) =>
             {
-                System.Console.WriteLine(message);
+                System.Console.WriteLine(webSocketResult.Content.Message);
             };
 
             await socketListener.ListenAsync(

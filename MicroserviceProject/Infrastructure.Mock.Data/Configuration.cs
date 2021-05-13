@@ -5,10 +5,22 @@ using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.Mock.Data
 {
+    /// <summary>
+    /// Yapılandırma ayarları sınıfı
+    /// </summary>
     public class Configuration
     {
+        /// <summary>
+        /// Yapılandırma ayarlarını taklit eden sınıf
+        /// </summary>
         private static AppConfigurationProvider appConfigurationProvider = null;
 
+        /// <summary>
+        /// Yapılandırma ayarlarına dair veriler verir
+        /// </summary>
+        /// <param name="authorizationCredential">Credential düğüm sınıfı nesnesi</param>
+        /// <param name="loggingFilePath">Dosya log yolu</param>
+        /// <returns></returns>
         public static IConfiguration GetConfiguration(CredentialSection authorizationCredential, string loggingFilePath)
         {
             if (appConfigurationProvider == null)

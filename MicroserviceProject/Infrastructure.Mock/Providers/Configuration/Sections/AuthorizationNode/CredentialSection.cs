@@ -6,20 +6,42 @@ using System.Collections.Generic;
 
 namespace Infrastructure.Mock.Providers.Configuration.Sections.AuthorizationNode
 {
+    /// <summary>
+    /// Credentials düğümü sııfı
+    /// </summary>
     public class CredentialSection : BaseSection, IConfigurationSection
     {
+        /// <summary>
+        /// Alt düğümleri verir
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<IConfigurationSection> GetChildren()
         {
             return null;
         }
+
+        /// <summary>
+        /// Yenileme tokenı verir
+        /// </summary>
+        /// <returns></returns>
         public IChangeToken GetReloadToken()
         {
             return new CredentialChangeToken();
         }
+
+        /// <summary>
+        /// Alt düğümü verir
+        /// </summary>
+        /// <param name="key">Getirilecek alt düğümün adı</param>
+        /// <returns></returns>
         public IConfigurationSection GetSection(string key)
         {
             return this;
         }
+
+        /// <summary>
+        /// Değişim token sınıfı
+        /// </summary>
         public class CredentialChangeToken : IChangeToken
         {
             public bool HasChanged { get; }

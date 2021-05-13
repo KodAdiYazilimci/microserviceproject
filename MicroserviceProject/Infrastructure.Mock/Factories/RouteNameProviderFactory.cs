@@ -4,10 +4,21 @@ using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.Mock.Factories
 {
+    /// <summary>
+    /// Servis rota sağlayıcısını taklit eden sınıf
+    /// </summary>
     public class RouteNameProviderFactory
     {
+        /// <summary>
+        /// Servis rota sağlayıcısı
+        /// </summary>
         private static RouteNameProvider routeNameProvider = null;
 
+        /// <summary>
+        /// Servis rota sağlayıcısı nesnesini verir
+        /// </summary>
+        /// <param name="configuration">Yapılandırma arayüzü nesnesi</param>
+        /// <returns></returns>
         public static RouteNameProvider GetRouteNameProvider(IConfiguration configuration)
         {
             if (routeNameProvider == null)

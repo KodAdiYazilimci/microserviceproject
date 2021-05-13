@@ -1,5 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Infrastructure.Communication.Model.Basics;
+using Infrastructure.Security.Model;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
+using Newtonsoft.Json;
 
 using Services.WebSockets.Security.Hubs;
 
@@ -19,9 +24,20 @@ namespace Services.WebSockets.Security.Controllers
         }
 
         [Route("SendTokenNotification")]
-        public async Task<IActionResult> SendTokenNofication([FromBody] string message)
+        [HttpPost]
+        public async Task<IActionResult> SendTokenNofication([FromBody] WebSocketContentModel webSocketMessage)
         {
-            await _tokensHub.SendAsync(message);
+            User user = null;
+
+            foreach (var claim in this.User.Claims)
+            {
+                if (claim.Value != "User")
+                {
+                    user = JsonConvert.DeserializeObject<User>(claim.Value);
+                    break;
+                }
+            }
+            await _tokensHub.SendAsync(user, webSocketMessage);
 
             return Ok();
         }

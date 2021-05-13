@@ -3,26 +3,45 @@ using Microsoft.Extensions.Primitives;
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Mock.Providers.Configuration.Sections.PersistenceNode
 {
+    /// <summary>
+    /// Persistence düğümü sınıfı
+    /// </summary>
     public class PersistenceSection : BaseSection, IConfigurationSection
     {
+        /// <summary>
+        /// Alt düğümleri verir
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<IConfigurationSection> GetChildren()
         {
             return null;
         }
+
+        /// <summary>
+        /// Yenileme tokenı verir
+        /// </summary>
+        /// <returns></returns>
         public IChangeToken GetReloadToken()
         {
             return new PersistenceChangeToken();
         }
+
+        /// <summary>
+        /// Alt düğümü verir
+        /// </summary>
+        /// <param name="key">Getirilecek alt düğümün adı</param>
+        /// <returns></returns>
         public IConfigurationSection GetSection(string key)
         {
             return this;
         }
+
+        /// <summary>
+        /// Değişim token sınıfı
+        /// </summary>
         public class PersistenceChangeToken : IChangeToken
         {
             public bool HasChanged { get; }

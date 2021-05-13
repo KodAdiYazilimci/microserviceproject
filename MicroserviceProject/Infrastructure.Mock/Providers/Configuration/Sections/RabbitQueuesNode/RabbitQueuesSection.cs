@@ -6,10 +6,25 @@ using System.Collections.Generic;
 
 namespace Infrastructure.Mock.Providers.Configuration.Sections.RabbitQueuesNode
 {
+    /// <summary>
+    /// RabbitQueues düğümü sınıfı
+    /// </summary>
     public class RabbitQueuesSection : BaseSection, IConfigurationSection
     {
+        /// <summary>
+        /// Services düğümü
+        /// </summary>
         public ServicesSection ServicesSection { get; set; } = new ServicesSection();
+
+        /// <summary>
+        /// Host düğümü
+        /// </summary>
         public HostSection HostSection { get; set; } = new HostSection();
+
+        /// <summary>
+        /// Alt düğümleri verir
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<IConfigurationSection> GetChildren()
         {
             return new List<IConfigurationSection>()
@@ -18,10 +33,21 @@ namespace Infrastructure.Mock.Providers.Configuration.Sections.RabbitQueuesNode
                 HostSection
             };
         }
+
+        /// <summary>
+        /// Yenileme tokenı verir
+        /// </summary>
+        /// <returns></returns>
         public IChangeToken GetReloadToken()
         {
             return new RabbitQueuesChangeToken();
         }
+
+        /// <summary>
+        /// Alt düğümü verir
+        /// </summary>
+        /// <param name="key">Getirilecek alt düğümün adı</param>
+        /// <returns></returns>
         public IConfigurationSection GetSection(string key)
         {
             switch (key)
@@ -32,6 +58,10 @@ namespace Infrastructure.Mock.Providers.Configuration.Sections.RabbitQueuesNode
                     return null;
             }
         }
+
+        /// <summary>
+        /// Değişim token sınıfı
+        /// </summary>
         public class RabbitQueuesChangeToken : IChangeToken
         {
             public bool HasChanged { get; }

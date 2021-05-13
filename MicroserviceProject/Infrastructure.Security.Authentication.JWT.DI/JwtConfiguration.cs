@@ -6,8 +6,16 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Infrastructure.Security.Authentication.JWT.DI
 {
+    /// <summary>
+    /// JWT DI sınıfı
+    /// </summary>
     public static class JwtConfiguration
     {
+        /// <summary>
+        /// JWT yi enjekte eder
+        /// </summary>
+        /// <param name="services">DI sınıfları nesnesi</param>
+        /// <returns></returns>
         public static IServiceCollection RegisterJWT(this IServiceCollection services)
         {
             services.AddAuthentication(config =>

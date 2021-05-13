@@ -6,9 +6,20 @@ using System.Collections.Generic;
 
 namespace Infrastructure.Mock.Providers.Configuration.Sections.ServicesNode
 {
+    /// <summary>
+    /// Services düğümü sınıfı
+    /// </summary>
     public class ServicesSection : BaseSection, IConfigurationSection
     {
+        /// <summary>
+        /// Endpoints düğümü
+        /// </summary>
         public EndpointsSection EndpointsSection { get; set; } = new EndpointsSection();
+
+        /// <summary>
+        /// Alt düğümleri verir
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<IConfigurationSection> GetChildren()
         {
             return new List<IConfigurationSection>()
@@ -16,10 +27,21 @@ namespace Infrastructure.Mock.Providers.Configuration.Sections.ServicesNode
                 EndpointsSection
             };
         }
+
+        /// <summary>
+        /// Yenileme tokenı verir
+        /// </summary>
+        /// <returns></returns>
         public IChangeToken GetReloadToken()
         {
             return new ServicesChangeToken();
         }
+
+        /// <summary>
+        /// Alt düğümü verir
+        /// </summary>
+        /// <param name="key">Getirilecek alt düğümün adı</param>
+        /// <returns></returns>
         public IConfigurationSection GetSection(string key)
         {
             switch (key)
@@ -29,6 +51,10 @@ namespace Infrastructure.Mock.Providers.Configuration.Sections.ServicesNode
                     return null;
             }
         }
+
+        /// <summary>
+        /// Değişim token sınıfı
+        /// </summary>
         public class ServicesChangeToken : IChangeToken
         {
             public bool HasChanged { get; }
