@@ -537,5 +537,19 @@ namespace Presentation.UI.Infrastructure.Communication.Moderator.Providers
                     .ToString();
             }
         }
+
+        /// <summary>
+        /// Güvenlik web soketine bildirim mesajı gönderir
+        /// </summary>
+        public string WebSocketSecurity_SendTokenNotification
+        {
+            get
+            {
+                return
+                    ConfigurationManager
+                    .AppSettings["Services.Endpoints.WebSocket.Security.SendTokenNotification"]
+                    .ToString();
+            }
+        }
     }
 }

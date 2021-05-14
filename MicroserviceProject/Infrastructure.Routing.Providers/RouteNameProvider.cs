@@ -569,6 +569,21 @@ namespace Infrastructure.Routing.Providers
         }
 
         /// <summary>
+        /// Güvenlik web soketine bildirim mesajı gönderir
+        /// </summary>
+        public string WebSocketSecurity_SendTokenNotification
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("WebSocket.Security")["SendTokenNotification"];
+            }
+        }
+
+        /// <summary>
         /// Kaynakları serbest bırakır
         /// </summary>
         public void Dispose()

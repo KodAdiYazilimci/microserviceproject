@@ -105,6 +105,8 @@ namespace Infrastructure.Mock.Data
                 appConfigurationProvider.ServicesSection.EndpointsSection.ITSection["RollbackTransaction"] = "it.transaction.rollbacktransaction";
                 appConfigurationProvider.ServicesSection.EndpointsSection.ITSection["InformInventoryRequest"] = "it.inventory.informinventoryrequest";
 
+                appConfigurationProvider.ServicesSection.EndpointsSection.WebSocketsSecuritySection["SendTokenNotification"]
+
                 appConfigurationProvider.PersistenceSection["DataSource"] = "server=localhost;DataBase=MicroserviceDB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true";
                 appConfigurationProvider.PersistenceSection["CacheServer"] = "localhost";
 

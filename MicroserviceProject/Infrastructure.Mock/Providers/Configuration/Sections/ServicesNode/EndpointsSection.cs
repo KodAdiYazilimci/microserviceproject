@@ -42,6 +42,11 @@ namespace Infrastructure.Mock.Providers.Configuration.Sections.ServicesNode
         public ITSection ITSection { get; set; } = new ITSection();
 
         /// <summary>
+        /// WebSocket.Security düğümü
+        /// </summary>
+        public WebSocketsSecuritySection WebSocketsSecuritySection { get; set; } = new WebSocketsSecuritySection();
+
+        /// <summary>
         /// Alt düğümleri verir
         /// </summary>
         /// <returns></returns>
@@ -54,7 +59,8 @@ namespace Infrastructure.Mock.Providers.Configuration.Sections.ServicesNode
                 BuyingSection,
                 FinanceSection,
                 HRSection,
-                ITSection
+                ITSection,
+                WebSocketsSecuritySection
             };
         }
 
@@ -82,6 +88,7 @@ namespace Infrastructure.Mock.Providers.Configuration.Sections.ServicesNode
                 case "Finance": return FinanceSection;
                 case "HR": return HRSection;
                 case "IT": return ITSection;
+                case "WebSocket.Security": return WebSocketsSecuritySection;
                 default:
                     return null;
             }
