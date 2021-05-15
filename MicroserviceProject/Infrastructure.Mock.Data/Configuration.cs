@@ -27,7 +27,7 @@ namespace Infrastructure.Mock.Data
             {
                 appConfigurationProvider = new AppConfigurationProvider();
 
-                appConfigurationProvider.ConfigurationSection.AuthorizationSection.DataSourceSection["ConnectionString"] = "server=localhost;DataBase=MicroserviceDB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true";
+                appConfigurationProvider.ConfigurationSection.AuthorizationSection.DataSourceSection["ConnectionString"] = "server=localhost;DataBase=Microservice_Security_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true";
                 appConfigurationProvider.ConfigurationSection.AuthorizationSection.CredentialSection = authorizationCredential;
                 appConfigurationProvider.ConfigurationSection.AuthorizationSection.EndpointsSection["GetToken"] = "authorization.auth.gettoken";
                 appConfigurationProvider.ConfigurationSection.AuthorizationSection.EndpointsSection["GetUser"] = "authorization.auth.getuser";
@@ -36,11 +36,11 @@ namespace Infrastructure.Mock.Data
                 appConfigurationProvider.ConfigurationSection.AuthorizationSection.JwtSection["Issuer"] = "Issuer";
                 appConfigurationProvider.ConfigurationSection.AuthorizationSection.JwtSection["Audience"] = "Audience";
 
-                appConfigurationProvider.ConfigurationSection.LocalizationSection["TranslationDbConnnectionString"] = "server=localhost;DataBase=MicroserviceDB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true";
+                appConfigurationProvider.ConfigurationSection.LocalizationSection["TranslationDbConnnectionString"] = "server=localhost;DataBase=Microservice_Localization_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true";
                 appConfigurationProvider.ConfigurationSection.LocalizationSection["DefaultRegion"] = "tr-TR";
                 appConfigurationProvider.ConfigurationSection.LocalizationSection["CacheKey"] = "localization.translations";
 
-                appConfigurationProvider.ConfigurationSection.LoggingSection.RequestResponseLoggingSection.DataBaseConfigurationSection["DataSource"] = "server=localhost;DataBase=MicroserviceDB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true";
+                appConfigurationProvider.ConfigurationSection.LoggingSection.RequestResponseLoggingSection.DataBaseConfigurationSection["DataSource"] = "server=localhost;DataBase=Microservice_Logs_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true";
                 appConfigurationProvider.ConfigurationSection.LoggingSection.RequestResponseLoggingSection.FileConfigurationSection["Path"] = loggingFilePath;
                 appConfigurationProvider.ConfigurationSection.LoggingSection.RequestResponseLoggingSection.FileConfigurationSection["FileName"] = "RequestResponseLog";
                 appConfigurationProvider.ConfigurationSection.LoggingSection.RequestResponseLoggingSection.FileConfigurationSection["Encoding"] = "UTF-8";
@@ -48,7 +48,7 @@ namespace Infrastructure.Mock.Data
                 appConfigurationProvider.ConfigurationSection.LoggingSection.RequestResponseLoggingSection.MongoConfigurationSection["DataBase"] = "Logs";
                 appConfigurationProvider.ConfigurationSection.LoggingSection.RequestResponseLoggingSection.MongoConfigurationSection["CollectionName"] = "RequestResponseLog";
 
-                appConfigurationProvider.ConfigurationSection.RoutingSection["DataSource"] = "server=localhost;DataBase=MicroserviceDB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true";
+                appConfigurationProvider.ConfigurationSection.RoutingSection["DataSource"] = "server=localhost;DataBase=Microservice_Routing_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true";
 
                 appConfigurationProvider.ConfigurationSection.RabbitQueuesSection.HostSection["DefaultHost"] = "localhost";
                 appConfigurationProvider.ConfigurationSection.RabbitQueuesSection.HostSection["DefaultUserName"] = "guest";
@@ -62,7 +62,7 @@ namespace Infrastructure.Mock.Data
                 appConfigurationProvider.ConfigurationSection.RabbitQueuesSection.ServicesSection.AccountingSection.QueueNamesSection["NotifyCostApprovement"] = "buying.queue.cost.notifycostapprovement";
                 appConfigurationProvider.ConfigurationSection.RabbitQueuesSection.ServicesSection.FinanceSection.QueueNamesSection["InventoryRequest"] = "finance.queue.request.inventoryrequest";
 
-                appConfigurationProvider.ConfigurationSection.WebSocketsSection["DataSource"] = "server=localhost;DataBase=MicroserviceDB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true";
+                appConfigurationProvider.ConfigurationSection.WebSocketsSection["DataSource"] = "server=localhost;DataBase=Microservice_Socket_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true";
 
                 appConfigurationProvider.ServicesSection.EndpointsSection.AASection["GetInventories"] = "aa.inventory.getinventories";
                 appConfigurationProvider.ServicesSection.EndpointsSection.AASection["CreateInventory"] = "aa.inventory.createinventory";
@@ -105,9 +105,9 @@ namespace Infrastructure.Mock.Data
                 appConfigurationProvider.ServicesSection.EndpointsSection.ITSection["RollbackTransaction"] = "it.transaction.rollbacktransaction";
                 appConfigurationProvider.ServicesSection.EndpointsSection.ITSection["InformInventoryRequest"] = "it.inventory.informinventoryrequest";
 
-                appConfigurationProvider.ServicesSection.EndpointsSection.WebSocketsSecuritySection["SendTokenNotification"]
+                appConfigurationProvider.ServicesSection.EndpointsSection.WebSocketsSecuritySection["SendTokenNotification"] = "websockets.security.sendtokennotification";
 
-                appConfigurationProvider.PersistenceSection["DataSource"] = "server=localhost;DataBase=MicroserviceDB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true";
+                appConfigurationProvider.PersistenceSection["DataSource"] = "server=localhost;DataBase=Microservice_HR_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true";
                 appConfigurationProvider.PersistenceSection["CacheServer"] = "localhost";
 
                 appConfigurationProvider.WebSocketsSection.EndpointsSection["TokensHub.GetTokenMessages"] = "websockets.security.tokenshub.gettokenmessages";

@@ -45,7 +45,7 @@ namespace Infrastructure.Localization.Configuration
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{
-        //    optionsBuilder.UseSqlServer("server=localhost;DataBase=MicroserviceDB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true");
+        //    optionsBuilder.UseSqlServer("server=localhost;DataBase=Microservice_Localization_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true");
 
         //    //optionsBuilder.UseSqlServer(
         //    //    configuration
