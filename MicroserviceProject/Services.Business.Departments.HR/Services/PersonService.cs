@@ -180,6 +180,7 @@ namespace Services.Business.Departments.HR.Services
             _createBankAccountPublisher = createBankAccountPublisher;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _translationProvider = translationProvider;
 
             _transactionRepository = transactionRepository;
             _transactionItemRepository = transactionItemRepository;
