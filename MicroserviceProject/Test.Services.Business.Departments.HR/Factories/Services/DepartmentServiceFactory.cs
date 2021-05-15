@@ -26,7 +26,7 @@ namespace Test.Services.Business.Departments.HR.Factories.Services
                     departmentService = new DepartmentService(
                         mapper: MappingFactory.GetInstance(new MappingProfile()),
                         unitOfWork: UnitOfWorkFactory.GetInstance(configuration),
-                        cacheDataProvider: CacheDataProviderFactory.GetInstance(configuration),
+                        redisCacheDataProvider: CacheDataProviderFactory.GetInstance(configuration),
                         translationProvider: TranslationProviderFactory.GetTranslationProvider(
                             configuration: configuration,
                             cacheDataProvider: CacheDataProviderFactory.GetInstance(configuration),

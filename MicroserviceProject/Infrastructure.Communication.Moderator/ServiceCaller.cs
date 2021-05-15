@@ -1,4 +1,6 @@
-﻿using Infrastructure.Communication.Exceptions;
+﻿using Infrastructure.Caching.Abstraction;
+using Infrastructure.Caching.InMemory;
+using Infrastructure.Communication.Exceptions;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Communication.Http.Providers;
 using Infrastructure.Communication.Model.Basics;
@@ -43,7 +45,7 @@ namespace Infrastructure.Communication.Moderator
         /// <summary>
         /// Servis bilgisini tutan önbellek nesnesi
         /// </summary>
-        private readonly IMemoryCache _memoryCache;
+        private readonly InMemoryCacheDataProvider _cacheProvider;
 
         /// <summary>
         /// Kurulacak servisin beklediği token
@@ -66,13 +68,13 @@ namespace Infrastructure.Communication.Moderator
         /// <summary>
         /// Bir servisle çağrı kurmayı sağlayan moderatör sınıf
         /// </summary>
-        /// <param name="memoryCache">Servis bilgisini tutan önbellek nesnesi</param>
+        /// <param name="cacheProvider">Servis bilgisini tutan önbellek nesnesi</param>
         /// <param name="serviceToken">Kurulacak servisin beklediği token</param>
         public ServiceCaller(
-            IMemoryCache memoryCache,
+            InMemoryCacheDataProvider cacheProvider,
             string serviceToken)
         {
-            _memoryCache = memoryCache;
+            _cacheProvider = cacheProvider;
             _serviceToken = serviceToken;
         }
 
@@ -96,7 +98,7 @@ namespace Infrastructure.Communication.Moderator
 
             try
             {
-                string serviceJson = _memoryCache.Get<string>(SERVICE_ENDPOINT_CACHE_PREFIX + serviceName.ToLower());
+                string serviceJson = _cacheProvider.Get<string>(SERVICE_ENDPOINT_CACHE_PREFIX + serviceName.ToLower());
 
                 if (string.IsNullOrEmpty(serviceJson))
                 {
@@ -105,10 +107,10 @@ namespace Infrastructure.Communication.Moderator
                         serviceJson = await OnNoServiceFoundInCacheAsync(serviceName);
                     }
 
-                    _memoryCache.Set<string>(
+                    _cacheProvider.Set<string>(
                         key: SERVICE_ENDPOINT_CACHE_PREFIX + serviceName.ToLower(),
                         value: serviceJson,
-                        absoluteExpiration: DateTime.Now.AddMinutes(SERVICE_ENDPOINT_CACHE_TIMEOUT));
+                        toTime: DateTime.Now.AddMinutes(SERVICE_ENDPOINT_CACHE_TIMEOUT));
                 }
 
                 if (!string.IsNullOrEmpty(serviceJson))
@@ -258,7 +260,7 @@ namespace Infrastructure.Communication.Moderator
 
             try
             {
-                string serviceJson = _memoryCache.Get<string>(SERVICE_ENDPOINT_CACHE_PREFIX + serviceName.ToLower());
+                string serviceJson = _cacheProvider.Get<string>(SERVICE_ENDPOINT_CACHE_PREFIX + serviceName.ToLower());
 
                 if (string.IsNullOrEmpty(serviceJson))
                 {
@@ -267,10 +269,10 @@ namespace Infrastructure.Communication.Moderator
                         serviceJson = await OnNoServiceFoundInCacheAsync(serviceName);
                     }
 
-                    _memoryCache.Set<string>(
+                    _cacheProvider.Set<string>(
                         key: SERVICE_ENDPOINT_CACHE_PREFIX + serviceName.ToLower(),
                         value: serviceJson,
-                        absoluteExpiration: DateTime.Now.AddMinutes(SERVICE_ENDPOINT_CACHE_TIMEOUT));
+                        toTime: DateTime.Now.AddMinutes(SERVICE_ENDPOINT_CACHE_TIMEOUT));
                 }
 
                 if (!string.IsNullOrEmpty(serviceJson))

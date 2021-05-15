@@ -23,6 +23,7 @@ using Newtonsoft.Json;
 
 using System.Net;
 using Infrastructure.Communication.Mq.Rabbit.Publisher.DI;
+using Infrastructure.Caching.InMemory.DI;
 
 namespace Services.Infrastructure.Logging
 {
@@ -41,7 +42,8 @@ namespace Services.Infrastructure.Logging
             services.AddControllers();
             services.AddMemoryCache();
             services.RegisterAuthentication();
-            services.RegisterCaching();
+            services.RegisterInMemoryCaching();
+            services.RegisterRedisCaching();
             services.RegisterCredentialProvider();
             //services.RegisterLogger();
             services.RegisterLoggers();

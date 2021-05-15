@@ -56,7 +56,7 @@ namespace Services.Business.Departments.HR.Services
         /// <summary>
         /// Rediste tutulan önbellek yönetimini sağlayan sınıf
         /// </summary>
-        private readonly CacheDataProvider _cacheDataProvider;
+        private readonly RedisCacheDataProvider _redisCacheDataProvider;
 
         /// <summary>
         /// Mapping işlemleri için mapper nesnesi
@@ -148,7 +148,7 @@ namespace Services.Business.Departments.HR.Services
         /// kuyruğa kayıt ekleyecek nesne</param>
         /// <param name="unitOfWork">Veritabanı iş birimi nesnesi</param>
         /// <param name="translationProvider">Dil çeviri sağlayıcısı sınıf</param>
-        /// <param name="cacheDataProvider">Rediste tutulan önbellek yönetimini sağlayan sınıf</param>
+        /// <param name="redisCacheDataProvider">Rediste tutulan önbellek yönetimini sağlayan sınıf</param>
         /// <param name="departmentRepository">Departmanlar tablosu için repository sınıfı</param>
         /// <param name="personRepository">Kişi tablosu için repository sınıfı</param>
         /// <param name="titleRepository">Kişi tablosu için repository sınıfı</param>
@@ -163,7 +163,7 @@ namespace Services.Business.Departments.HR.Services
             CreateBankAccountPublisher createBankAccountPublisher,
             IUnitOfWork unitOfWork,
             TranslationProvider translationProvider,
-            CacheDataProvider cacheDataProvider,
+            RedisCacheDataProvider redisCacheDataProvider,
             TransactionRepository transactionRepository,
             TransactionItemRepository transactionItemRepository,
             DepartmentRepository departmentRepository,
@@ -172,7 +172,7 @@ namespace Services.Business.Departments.HR.Services
             WorkerRepository workerRepository,
             WorkerRelationRepository workerRelationRepository)
         {
-            _cacheDataProvider = cacheDataProvider;
+            _redisCacheDataProvider = redisCacheDataProvider;
             _routeNameProvider = routeNameProvider;
             _serviceCommunicator = serviceCommunicator;
             _AAassignInventoryToWorkerPublisher = AAassignInventoryToWorkerPublisher;
@@ -199,7 +199,7 @@ namespace Services.Business.Departments.HR.Services
         /// <returns></returns>
         public async Task<List<PersonModel>> GetPeopleAsync(CancellationTokenSource cancellationTokenSource)
         {
-            if (_cacheDataProvider.TryGetValue(CACHED_PEOPLE_KEY, out List<PersonModel> cachedPeople)
+            if (_redisCacheDataProvider.TryGetValue(CACHED_PEOPLE_KEY, out List<PersonModel> cachedPeople)
                 &&
                 cachedPeople != null && cachedPeople.Any())
             {
@@ -211,7 +211,7 @@ namespace Services.Business.Departments.HR.Services
             List<PersonModel> mappedPeople =
                 _mapper.Map<List<PersonEntity>, List<PersonModel>>(people);
 
-            _cacheDataProvider.Set(CACHED_PEOPLE_KEY, mappedPeople);
+            _redisCacheDataProvider.Set(CACHED_PEOPLE_KEY, mappedPeople);
 
             return mappedPeople;
         }
@@ -250,11 +250,11 @@ namespace Services.Business.Departments.HR.Services
 
             person.Id = createdPersonId;
 
-            if (_cacheDataProvider.TryGetValue(CACHED_PEOPLE_KEY, out List<PersonModel> cachedPeople) && cachedPeople != null)
+            if (_redisCacheDataProvider.TryGetValue(CACHED_PEOPLE_KEY, out List<PersonModel> cachedPeople) && cachedPeople != null)
             {
                 cachedPeople.Add(person);
 
-                _cacheDataProvider.Set(CACHED_PEOPLE_KEY, cachedPeople);
+                _redisCacheDataProvider.Set(CACHED_PEOPLE_KEY, cachedPeople);
             }
 
             return createdPersonId;
@@ -267,7 +267,7 @@ namespace Services.Business.Departments.HR.Services
         /// <returns></returns>
         public async Task<List<TitleModel>> GetTitlesAsync(CancellationTokenSource cancellationTokenSource)
         {
-            if (_cacheDataProvider.TryGetValue(CACHED_TITLES_KEY, out List<TitleModel> cachedTitles)
+            if (_redisCacheDataProvider.TryGetValue(CACHED_TITLES_KEY, out List<TitleModel> cachedTitles)
                 &&
                 cachedTitles != null && cachedTitles.Any())
             {
@@ -279,7 +279,7 @@ namespace Services.Business.Departments.HR.Services
             List<TitleModel> mappedTitles =
                 _mapper.Map<List<TitleEntity>, List<TitleModel>>(titles);
 
-            _cacheDataProvider.Set(CACHED_TITLES_KEY, mappedTitles);
+            _redisCacheDataProvider.Set(CACHED_TITLES_KEY, mappedTitles);
 
             return mappedTitles;
         }
@@ -318,11 +318,11 @@ namespace Services.Business.Departments.HR.Services
 
             title.Id = createdTitleId;
 
-            if (_cacheDataProvider.TryGetValue(CACHED_TITLES_KEY, out List<TitleModel> cachedTitles) && cachedTitles != null)
+            if (_redisCacheDataProvider.TryGetValue(CACHED_TITLES_KEY, out List<TitleModel> cachedTitles) && cachedTitles != null)
             {
                 cachedTitles.Add(title);
 
-                _cacheDataProvider.Set(CACHED_TITLES_KEY, cachedTitles);
+                _redisCacheDataProvider.Set(CACHED_TITLES_KEY, cachedTitles);
             }
 
             return createdTitleId;
@@ -335,7 +335,7 @@ namespace Services.Business.Departments.HR.Services
         /// <returns></returns>
         public async Task<List<WorkerModel>> GetWorkersAsync(CancellationTokenSource cancellationTokenSource)
         {
-            if (_cacheDataProvider.TryGetValue(CACHED_WORKERS_KEY, out List<WorkerModel> cachedWorkers)
+            if (_redisCacheDataProvider.TryGetValue(CACHED_WORKERS_KEY, out List<WorkerModel> cachedWorkers)
                 &&
                 cachedWorkers != null && cachedWorkers.Any())
             {
@@ -376,7 +376,7 @@ namespace Services.Business.Departments.HR.Services
                 }
             }
 
-            _cacheDataProvider.Set(CACHED_WORKERS_KEY, workerModels);
+            _redisCacheDataProvider.Set(CACHED_WORKERS_KEY, workerModels);
 
             return workerModels;
         }
@@ -532,11 +532,11 @@ namespace Services.Business.Departments.HR.Services
 
             }, cancellationTokenSource.Token);
 
-            if (_cacheDataProvider.TryGetValue(CACHED_WORKERS_KEY, out List<WorkerModel> cachedWorkers) && cachedWorkers != null)
+            if (_redisCacheDataProvider.TryGetValue(CACHED_WORKERS_KEY, out List<WorkerModel> cachedWorkers) && cachedWorkers != null)
             {
                 cachedWorkers.Add(worker);
 
-                _cacheDataProvider.Set(CACHED_WORKERS_KEY, cachedWorkers);
+                _redisCacheDataProvider.Set(CACHED_WORKERS_KEY, cachedWorkers);
             }
 
             return worker.Id;
@@ -690,7 +690,7 @@ namespace Services.Business.Departments.HR.Services
 
         public void DisposeInjections()
         {
-            _cacheDataProvider.Dispose();
+            _redisCacheDataProvider.Dispose();
             _personRepository.Dispose();
             _departmentRepository.Dispose();
             _titleRepository.Dispose();

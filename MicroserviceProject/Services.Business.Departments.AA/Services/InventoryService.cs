@@ -53,7 +53,7 @@ namespace Services.Business.Departments.AA.Services
         /// <summary>
         /// Rediste tutulan önbellek yönetimini sağlayan sınıf
         /// </summary>
-        private readonly CacheDataProvider _cacheDataProvider;
+        private readonly RedisCacheDataProvider _redisCacheDataProvider;
 
         /// <summary>
         /// Mapping işlemleri için mapper nesnesi
@@ -111,7 +111,7 @@ namespace Services.Business.Departments.AA.Services
         /// <param name="mapper">Mapping işlemleri için mapper nesnesi</param>
         /// <param name="unitOfWork">Veritabanı iş birimi nesnesi</param>
         /// <param name="translationProvider">Dil çeviri sağlayıcısı sınıf</param>
-        /// <param name="cacheDataProvider">Rediste tutulan önbellek yönetimini sağlayan sınıf</param>
+        /// <param name="redisCacheDataProvider">Rediste tutulan önbellek yönetimini sağlayan sınıf</param>
         /// <param name="createInventoryRequestPublisher">Satınalma departmanına tükenen envanter için alım talebi kuyruğuna kayıt ekleyecek nesne</param>
         /// <param name="transactionRepository">İşlem tablosu için repository sınıfı</param>
         /// <param name="transactionItemRepository">İşlem öğesi tablosu için repository sınıfı</param>
@@ -123,7 +123,7 @@ namespace Services.Business.Departments.AA.Services
             IMapper mapper,
             IUnitOfWork unitOfWork,
             TranslationProvider translationProvider,
-            CacheDataProvider cacheDataProvider,
+            RedisCacheDataProvider redisCacheDataProvider,
             CreateInventoryRequestPublisher createInventoryRequestPublisher,
             TransactionRepository transactionRepository,
             TransactionItemRepository transactionItemRepository,
@@ -135,7 +135,7 @@ namespace Services.Business.Departments.AA.Services
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _translationProvider = translationProvider;
-            _cacheDataProvider = cacheDataProvider;
+            _redisCacheDataProvider = redisCacheDataProvider;
             _createInventoryRequestPublisher = createInventoryRequestPublisher;
 
             _transactionRepository = transactionRepository;
@@ -246,7 +246,7 @@ namespace Services.Business.Departments.AA.Services
 
             await _unitOfWork.SaveAsync(cancellationTokenSource);
 
-            _cacheDataProvider.RemoveObject(CACHED_INVENTORIES_KEY);
+            _redisCacheDataProvider.RemoveObject(CACHED_INVENTORIES_KEY);
         }
 
         /// <summary>
@@ -256,7 +256,7 @@ namespace Services.Business.Departments.AA.Services
         /// <returns></returns>
         public async Task<List<InventoryModel>> GetInventoriesAsync(CancellationTokenSource cancellationTokenSource)
         {
-            if (_cacheDataProvider.TryGetValue(CACHED_INVENTORIES_KEY, out List<InventoryModel> cachedInventories)
+            if (_redisCacheDataProvider.TryGetValue(CACHED_INVENTORIES_KEY, out List<InventoryModel> cachedInventories)
                 &&
                 cachedInventories != null && cachedInventories.Any())
             {
@@ -268,7 +268,7 @@ namespace Services.Business.Departments.AA.Services
             List<InventoryModel> mappedInventories =
                 _mapper.Map<List<InventoryEntity>, List<InventoryModel>>(inventories);
 
-            _cacheDataProvider.Set(CACHED_INVENTORIES_KEY, mappedInventories);
+            _redisCacheDataProvider.Set(CACHED_INVENTORIES_KEY, mappedInventories);
 
             return mappedInventories;
         }
@@ -307,11 +307,11 @@ namespace Services.Business.Departments.AA.Services
 
             inventory.Id = createdInventoryId;
 
-            if (_cacheDataProvider.TryGetValue(CACHED_INVENTORIES_KEY, out List<InventoryModel> cachedInventories) && cachedInventories != null)
+            if (_redisCacheDataProvider.TryGetValue(CACHED_INVENTORIES_KEY, out List<InventoryModel> cachedInventories) && cachedInventories != null)
             {
                 cachedInventories.Add(inventory);
 
-                _cacheDataProvider.Set(CACHED_INVENTORIES_KEY, cachedInventories);
+                _redisCacheDataProvider.Set(CACHED_INVENTORIES_KEY, cachedInventories);
             }
 
             return createdInventoryId;
@@ -365,13 +365,13 @@ namespace Services.Business.Departments.AA.Services
 
             await _unitOfWork.SaveAsync(cancellationTokenSource);
 
-            if (_cacheDataProvider.TryGetValue(CACHED_INVENTORIES_DEFAULTS_KEY, out List<InventoryModel> cachedInventories)
+            if (_redisCacheDataProvider.TryGetValue(CACHED_INVENTORIES_DEFAULTS_KEY, out List<InventoryModel> cachedInventories)
                 &&
                 cachedInventories != null)
             {
                 cachedInventories.Add(existingInventories.FirstOrDefault(x => x.Id == inventory.Id));
 
-                _cacheDataProvider.Set(CACHED_INVENTORIES_DEFAULTS_KEY, cachedInventories);
+                _redisCacheDataProvider.Set(CACHED_INVENTORIES_DEFAULTS_KEY, cachedInventories);
             }
 
             return inventory;
@@ -384,7 +384,7 @@ namespace Services.Business.Departments.AA.Services
         /// <returns></returns>
         public List<InventoryModel> GetInventoriesForNewWorker(CancellationTokenSource cancellationTokenSource)
         {
-            if (_cacheDataProvider.TryGetValue(CACHED_INVENTORIES_DEFAULTS_KEY, out List<InventoryModel> cachedInventories)
+            if (_redisCacheDataProvider.TryGetValue(CACHED_INVENTORIES_DEFAULTS_KEY, out List<InventoryModel> cachedInventories)
                 &&
                 cachedInventories != null && cachedInventories.Any())
             {
@@ -409,7 +409,7 @@ namespace Services.Business.Departments.AA.Services
                                                     Name = inv.Name
                                                 }).ToList();
 
-            _cacheDataProvider.Set(CACHED_INVENTORIES_DEFAULTS_KEY, inventories, new TimeSpan(hours: 0, minutes: 10, seconds: 0));
+            _redisCacheDataProvider.Set(CACHED_INVENTORIES_DEFAULTS_KEY, inventories, DateTime.Now.AddMinutes(10));
 
             return inventories;
         }
@@ -471,7 +471,7 @@ namespace Services.Business.Departments.AA.Services
                         },
                         cancellationTokenSource: cancellationTokenSource);
 
-                    _cacheDataProvider.RemoveObject(CACHED_INVENTORIES_KEY);
+                    _redisCacheDataProvider.RemoveObject(CACHED_INVENTORIES_KEY);
                 }
             }
 
@@ -562,7 +562,7 @@ namespace Services.Business.Departments.AA.Services
 
         public void DisposeInjections()
         {
-            _cacheDataProvider.Dispose();
+            _redisCacheDataProvider.Dispose();
             _inventoryRepository.Dispose();
             _inventoryDefaultsRepository.Dispose();
             _pendingWorkerInventoryRepository.Dispose();

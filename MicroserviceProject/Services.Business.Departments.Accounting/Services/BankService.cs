@@ -45,7 +45,7 @@ namespace Services.Business.Departments.Accounting.Services
         /// <summary>
         /// Rediste tutulan önbellek yönetimini sağlayan sınıf
         /// </summary>
-        private readonly CacheDataProvider _cacheDataProvider;
+        private readonly RedisCacheDataProvider _redisCacheDataProvider;
 
         /// <summary>
         /// Mapping işlemleri için mapper nesnesi
@@ -93,7 +93,7 @@ namespace Services.Business.Departments.Accounting.Services
         /// <param name="mapper">Mapping işlemleri için mapper nesnesi</param>
         /// <param name="unitOfWork">Veritabanı iş birimi nesnesi</param>
         /// <param name="translationProvider">Dil çeviri sağlayıcısı sınıf</param>
-        /// <param name="cacheDataProvider">Rediste tutulan önbellek yönetimini sağlayan sınıf</param>
+        /// <param name="redisCacheDataProvider">Rediste tutulan önbellek yönetimini sağlayan sınıf</param>
         /// <param name="bankAccountRepository">Banka hesapları repository sınıfı</param>
         /// <param name="currencyRepository">Para birimleri repository sınıfı></param>
         /// <param name="salaryPaymentRepository">Maaş ödemeleri repository sınıfı</param>
@@ -101,7 +101,7 @@ namespace Services.Business.Departments.Accounting.Services
             IMapper mapper,
             IUnitOfWork unitOfWork,
             TranslationProvider translationProvider,
-            CacheDataProvider cacheDataProvider,
+            RedisCacheDataProvider redisCacheDataProvider,
             TransactionRepository transactionRepository,
             TransactionItemRepository transactionItemRepository,
             BankAccountRepository bankAccountRepository,
@@ -109,7 +109,7 @@ namespace Services.Business.Departments.Accounting.Services
             SalaryPaymentRepository salaryPaymentRepository)
         {
             _mapper = mapper;
-            _cacheDataProvider = cacheDataProvider;
+            _redisCacheDataProvider = redisCacheDataProvider;
             _unitOfWork = unitOfWork;
             _translationProvider = translationProvider;
 
@@ -180,7 +180,7 @@ namespace Services.Business.Departments.Accounting.Services
         /// <returns></returns>
         public async Task<List<CurrencyModel>> GetCurrenciesAsync(CancellationTokenSource cancellationTokenSource)
         {
-            if (_cacheDataProvider.TryGetValue(CACHED_CURRENCIES_KEY, out List<CurrencyModel> cureencies)
+            if (_redisCacheDataProvider.TryGetValue(CACHED_CURRENCIES_KEY, out List<CurrencyModel> cureencies)
                 &&
                 cureencies != null && cureencies.Any())
             {
@@ -192,7 +192,7 @@ namespace Services.Business.Departments.Accounting.Services
             List<CurrencyModel> mappedDepartments =
                 _mapper.Map<List<CurrencyEntity>, List<CurrencyModel>>(currencies);
 
-            _cacheDataProvider.Set(CACHED_CURRENCIES_KEY, mappedDepartments);
+            _redisCacheDataProvider.Set(CACHED_CURRENCIES_KEY, mappedDepartments);
 
             return mappedDepartments;
         }
@@ -231,11 +231,11 @@ namespace Services.Business.Departments.Accounting.Services
 
             currency.Id = createdCurrencyId;
 
-            if (_cacheDataProvider.TryGetValue(CACHED_CURRENCIES_KEY, out List<CurrencyModel> cachedCurrencies) && cachedCurrencies != null)
+            if (_redisCacheDataProvider.TryGetValue(CACHED_CURRENCIES_KEY, out List<CurrencyModel> cachedCurrencies) && cachedCurrencies != null)
             {
                 cachedCurrencies.Add(currency);
 
-                _cacheDataProvider.Set(CACHED_CURRENCIES_KEY, cachedCurrencies);
+                _redisCacheDataProvider.Set(CACHED_CURRENCIES_KEY, cachedCurrencies);
             }
 
             return createdCurrencyId;
@@ -407,7 +407,7 @@ namespace Services.Business.Departments.Accounting.Services
 
         public void DisposeInjections()
         {
-            _cacheDataProvider.Dispose();
+            _redisCacheDataProvider.Dispose();
             _bankAccountRepository.Dispose();
             _currencyRepository.Dispose();
             _salaryPaymentRepository.Dispose();

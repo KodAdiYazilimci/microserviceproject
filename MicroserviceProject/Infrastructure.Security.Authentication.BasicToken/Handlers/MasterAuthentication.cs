@@ -1,4 +1,6 @@
-﻿using Infrastructure.Communication.Model.Basics;
+﻿using Infrastructure.Caching.Abstraction;
+using Infrastructure.Caching.InMemory;
+using Infrastructure.Communication.Model.Basics;
 using Infrastructure.Communication.Moderator;
 using Infrastructure.Routing.Providers;
 using Infrastructure.Security.Authentication.BasicToken.Schemes;
@@ -36,7 +38,7 @@ namespace Infrastructure.Security.Authentication.BasicToken.Handlers
         /// </summary>
         private const string CACHEDTOKENBASEDSESSIONS = "CACHED_TOKENBASED_SESSIONS";
 
-        private readonly IMemoryCache _memoryCache;
+        private readonly InMemoryCacheDataProvider _cacheProvider;
         private readonly RouteNameProvider _routeNameProvider;
         private readonly ServiceCommunicator _serviceCommunicator;
 
@@ -52,12 +54,12 @@ namespace Infrastructure.Security.Authentication.BasicToken.Handlers
             ILoggerFactory loggerFactory,
             UrlEncoder urlEncoder,
             ISystemClock systemClock,
-            IMemoryCache memoryCache,
+            InMemoryCacheDataProvider cacheProvider,
             RouteNameProvider routeNameProvider,
             ServiceCommunicator serviceCommunicator
             ) : base(options, loggerFactory, urlEncoder, systemClock)
         {
-            _memoryCache = memoryCache;
+            _cacheProvider = cacheProvider;
             _routeNameProvider = routeNameProvider;
             _serviceCommunicator = serviceCommunicator;
         }
@@ -125,13 +127,13 @@ namespace Infrastructure.Security.Authentication.BasicToken.Handlers
         /// <param name="userModel">Kullanıcının model nesnesi</param>
         private void SetToCache(User userModel)
         {
-            if (_memoryCache.TryGetValue(CACHEDTOKENBASEDSESSIONS, out List<User> cachedUsers) && cachedUsers != default(List<User>))
+            if (_cacheProvider.TryGetValue(CACHEDTOKENBASEDSESSIONS, out List<User> cachedUsers) && cachedUsers != default(List<User>))
             {
                 cachedUsers.RemoveAll(x => x == null || x.Token == null || x.Token.ValidTo < DateTime.Now);
 
                 cachedUsers.Add(userModel);
 
-                _memoryCache.Set(CACHEDTOKENBASEDSESSIONS, cachedUsers);
+                _cacheProvider.Set(CACHEDTOKENBASEDSESSIONS, cachedUsers);
             }
             else
             {
@@ -140,7 +142,7 @@ namespace Infrastructure.Security.Authentication.BasicToken.Handlers
                     userModel
                 };
 
-                _memoryCache.Set(CACHEDTOKENBASEDSESSIONS, userModels);
+                _cacheProvider.Set(CACHEDTOKENBASEDSESSIONS, userModels);
             }
         }
 
@@ -151,11 +153,11 @@ namespace Infrastructure.Security.Authentication.BasicToken.Handlers
         /// <returns></returns>
         private User GetUserFromCache(string token)
         {
-            if (_memoryCache.TryGetValue(CACHEDTOKENBASEDSESSIONS, out List<User> cachedUsers) && cachedUsers != default(List<User>))
+            if (_cacheProvider.TryGetValue(CACHEDTOKENBASEDSESSIONS, out List<User> cachedUsers) && cachedUsers != default(List<User>))
             {
                 if (cachedUsers.RemoveAll(x => x == null || x.Token == null || x.Token.ValidTo < DateTime.Now) > 0)
                 {
-                    _memoryCache.Set(CACHEDTOKENBASEDSESSIONS, cachedUsers);
+                    _cacheProvider.Set(CACHEDTOKENBASEDSESSIONS, cachedUsers);
                 }
 
                 return cachedUsers.FirstOrDefault(x => x.Token.TokenKey == token);

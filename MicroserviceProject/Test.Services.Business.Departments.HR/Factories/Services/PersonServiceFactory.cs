@@ -27,7 +27,7 @@ namespace Test.Services.Business.Departments.HR.Factories.Services
                         mapper: MappingFactory.GetInstance(new MappingProfile()),
                         routeNameProvider: RouteNameProviderFactory.GetRouteNameProvider(configuration),
                         serviceCommunicator: ServiceCommunicatorFactory.GetServiceCommunicator(
-                            memoryCache: MemoryCacheFactory.Instance,
+                            cacheProvider: InMemoryCacheDataProviderFactory.Instance,
                             credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),
                             routeNameProvider: RouteNameProviderFactory.GetRouteNameProvider(configuration),
                             serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration)),
@@ -44,7 +44,7 @@ namespace Test.Services.Business.Departments.HR.Factories.Services
                             translationRepository: TranslationRepositoryFactory.GetTranslationRepository(
                                 translationDbContext: TranslationDbContextFactory.GetTranslationDbContext(configuration)),
                             translationHelper: TranslationHelperFactory.Instance),
-                        cacheDataProvider: CacheDataProviderFactory.GetInstance(configuration),
+                        redisCacheDataProvider: CacheDataProviderFactory.GetInstance(configuration),
                         transactionRepository: TransactionRepositoryFactory.Instance,
                         transactionItemRepository: TransactionItemRepositoryFactory.Instance,
                         departmentRepository: DepartmentRepositoryFactory.Instance,

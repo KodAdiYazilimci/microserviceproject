@@ -1,4 +1,6 @@
-﻿using Infrastructure.Communication.Moderator;
+﻿using Infrastructure.Caching.Abstraction;
+using Infrastructure.Caching.InMemory;
+using Infrastructure.Communication.Moderator;
 using Infrastructure.Routing.Persistence.Repositories.Sql;
 using Infrastructure.Routing.Providers;
 using Infrastructure.Security.Providers;
@@ -20,20 +22,20 @@ namespace Infrastructure.Mock.Factories
         /// <summary>
         /// Servis iletişim sağlayıcısını verir
         /// </summary>
-        /// <param name="memoryCache">Önbellek nesnesi</param>
+        /// <param name="cacheProvider">Önbellek nesnesi</param>
         /// <param name="credentialProvider">Kullanıcı bilgi sağlayıcısının nesnesi</param>
         /// <param name="routeNameProvider">Servis rota isimleri sağlayıcısının nesnesi</param>
         /// <param name="serviceRouteRepository">Servis rota repository sınıfı nesnesi</param>
         /// <returns></returns>
         public static ServiceCommunicator GetServiceCommunicator(
-            IMemoryCache memoryCache,
+            InMemoryCacheDataProvider cacheProvider,
             CredentialProvider credentialProvider,
             RouteNameProvider routeNameProvider,
             ServiceRouteRepository serviceRouteRepository)
         {
             if (serviceCommunicator == null)
             {
-                serviceCommunicator = new ServiceCommunicator(memoryCache, credentialProvider, routeNameProvider, serviceRouteRepository);
+                serviceCommunicator = new ServiceCommunicator(cacheProvider, credentialProvider, routeNameProvider, serviceRouteRepository);
             }
 
             return serviceCommunicator;

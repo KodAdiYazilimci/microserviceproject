@@ -27,7 +27,7 @@ namespace Infrastructure.Mock.Factories
         /// <returns></returns>
         public static TranslationProvider GetTranslationProvider(
             IConfiguration configuration,
-            CacheDataProvider cacheDataProvider,
+            RedisCacheDataProvider cacheDataProvider,
             TranslationRepository translationRepository,
             TranslationHelper translationHelper)
         {

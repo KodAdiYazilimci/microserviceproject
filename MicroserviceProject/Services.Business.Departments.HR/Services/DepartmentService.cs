@@ -46,7 +46,7 @@ namespace Services.Business.Departments.HR.Services
         /// <summary>
         /// Rediste tutulan önbellek yönetimini sağlayan sınıf
         /// </summary>
-        private readonly CacheDataProvider _cacheDataProvider;
+        private readonly RedisCacheDataProvider _redisCacheDataProvider;
 
         /// <summary>
         /// Mapping işlemleri için mapper nesnesi
@@ -80,19 +80,19 @@ namespace Services.Business.Departments.HR.Services
         /// </summary>
         /// <param name="mapper">Mapping işlemleri için mapper nesnesi</param>
         /// <param name="unitOfWork">Veritabanı iş birimi nesnesi</param>
-        /// <param name="cacheDataProvider">Rediste tutulan önbellek yönetimini sağlayan sınıf</param>
+        /// <param name="redisCacheDataProvider">Rediste tutulan önbellek yönetimini sağlayan sınıf</param>
         /// <param name="departmentRepository">Departman tablosu için repository sınıfı</param>
         public DepartmentService(
             IMapper mapper,
             IUnitOfWork unitOfWork,
             TranslationProvider translationProvider,
-            CacheDataProvider cacheDataProvider,
+            RedisCacheDataProvider redisCacheDataProvider,
             TransactionRepository transactionRepository,
             TransactionItemRepository transactionItemRepository,
             DepartmentRepository departmentRepository)
         {
             _mapper = mapper;
-            _cacheDataProvider = cacheDataProvider;
+            _redisCacheDataProvider = redisCacheDataProvider;
             _translationProvider = translationProvider;
 
             _transactionRepository = transactionRepository;
@@ -109,7 +109,7 @@ namespace Services.Business.Departments.HR.Services
         /// <returns></returns>
         public async Task<List<DepartmentModel>> GetDepartmentsAsync(CancellationTokenSource cancellationTokenSource)
         {
-            if (_cacheDataProvider.TryGetValue(CACHED_DEPARTMENTS_KEY, out List<DepartmentModel> cachedDepartments)
+            if (_redisCacheDataProvider.TryGetValue(CACHED_DEPARTMENTS_KEY, out List<DepartmentModel> cachedDepartments)
                 &&
                 cachedDepartments != null && cachedDepartments.Any())
             {
@@ -121,7 +121,7 @@ namespace Services.Business.Departments.HR.Services
             List<DepartmentModel> mappedDepartments =
                 _mapper.Map<List<DepartmentEntity>, List<DepartmentModel>>(departments);
 
-            _cacheDataProvider.Set(CACHED_DEPARTMENTS_KEY, mappedDepartments);
+            _redisCacheDataProvider.Set(CACHED_DEPARTMENTS_KEY, mappedDepartments);
 
             return mappedDepartments;
         }
@@ -160,11 +160,11 @@ namespace Services.Business.Departments.HR.Services
 
             department.Id = createdDepartmentId;
 
-            if (_cacheDataProvider.TryGetValue(CACHED_DEPARTMENTS_KEY, out List<DepartmentModel> cachedDepartments) && cachedDepartments != null)
+            if (_redisCacheDataProvider.TryGetValue(CACHED_DEPARTMENTS_KEY, out List<DepartmentModel> cachedDepartments) && cachedDepartments != null)
             {
                 cachedDepartments.Add(department);
 
-                _cacheDataProvider.Set(CACHED_DEPARTMENTS_KEY, cachedDepartments);
+                _redisCacheDataProvider.Set(CACHED_DEPARTMENTS_KEY, cachedDepartments);
             }
 
             return createdDepartmentId;
@@ -250,7 +250,7 @@ namespace Services.Business.Departments.HR.Services
 
         public void DisposeInjections()
         {
-            _cacheDataProvider.Dispose();
+            _redisCacheDataProvider.Dispose();
             _departmentRepository.Dispose();
             _transactionItemRepository.Dispose();
             _transactionRepository.Dispose();

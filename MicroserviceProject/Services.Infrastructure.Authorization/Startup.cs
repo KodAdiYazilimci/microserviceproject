@@ -1,3 +1,4 @@
+using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Caching.Redis.DI;
 using Infrastructure.Communication.Model.Basics;
 using Infrastructure.Communication.Model.Errors;
@@ -34,8 +35,9 @@ namespace Services.Infrastructure.Authorization
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMemoryCache();
-            services.RegisterCaching();
+            services.RegisterInMemoryCaching();
             services.RegisterLogger();
+            services.RegisterRedisCaching();
             services.RegisterRepositories(Configuration);
             services.RegisterLocalizationPersistence();
             services.RegisterLocalizationProviders();

@@ -36,7 +36,7 @@ namespace Test.Services.Business.Departments.HR.Tests
 
             serviceCommunicator =
                 ServiceCommunicatorFactory.GetServiceCommunicator(
-                    memoryCache: MemoryCacheFactory.Instance,
+                    cacheProvider: InMemoryCacheDataProviderFactory.Instance,
                     credentialProvider: CredentialProviderFactory.GetCredentialProvider(ConfigurationFactory.GetConfiguration()),
                     routeNameProvider: routeNameProvider,
                     serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(ConfigurationFactory.GetConfiguration()));

@@ -1,4 +1,6 @@
-﻿using Infrastructure.Communication.Model.Basics;
+﻿using Infrastructure.Caching.Abstraction;
+using Infrastructure.Caching.InMemory;
+using Infrastructure.Communication.Model.Basics;
 using Infrastructure.Communication.Moderator;
 using Infrastructure.Routing.Providers;
 using Infrastructure.Security.Authentication.SignalR.Requirements;
@@ -39,7 +41,7 @@ namespace Infrastructure.Security.Authentication.SignalR.Handlers
         /// <summary>
         /// Oturum bilgilerinin saklanacağı önbellek nesnesi
         /// </summary>
-        private readonly IMemoryCache _memoryCache;
+        private readonly InMemoryCacheDataProvider _cacheProvider;
 
         /// <summary>
         /// Yetki sunucusu adreslerini sağlayacak rota sağlayıcı nesnes
@@ -55,17 +57,17 @@ namespace Infrastructure.Security.Authentication.SignalR.Handlers
         /// Varsayılan kimlik denetimi yapan sınıf
         /// </summary>
         /// <param name="httpContextAccessor">Http üst öğelerine erişim sağlayacak nesne</param>
-        /// <param name="memoryCache">Oturum bilgilerinin saklanacağı önbellek nesnesi</param>
+        /// <param name="cacheProvider">Oturum bilgilerinin saklanacağı önbellek nesnesi</param>
         /// <param name="routeNameProvider">Yetki sunucusu adreslerini sağlayacak rota sağlayıcı nesnes</param>
         /// <param name="serviceCommunicator">Yetki sunucusuyla iletişim kuracak servis iletişimcisi</param>
         public DefaultAuthorizationHandler(
             IHttpContextAccessor httpContextAccessor,
-            IMemoryCache memoryCache,
+            InMemoryCacheDataProvider cacheProvider,
             RouteNameProvider routeNameProvider,
             ServiceCommunicator serviceCommunicator)
         {
             _httpContextAccessor = httpContextAccessor;
-            _memoryCache = memoryCache;
+            _cacheProvider = cacheProvider;
             _routeNameProvider = routeNameProvider;
             _serviceCommunicator = serviceCommunicator;
         }
@@ -117,13 +119,13 @@ namespace Infrastructure.Security.Authentication.SignalR.Handlers
         /// <param name="userModel">Kullanıcının model nesnesi</param>
         private void SetToCache(User userModel)
         {
-            if (_memoryCache.TryGetValue(CACHEDTOKENBASEDSESSIONS, out List<User> cachedUsers) && cachedUsers != default(List<User>))
+            if (_cacheProvider.TryGetValue(CACHEDTOKENBASEDSESSIONS, out List<User> cachedUsers) && cachedUsers != default(List<User>))
             {
                 cachedUsers.RemoveAll(x => x == null || x.Token == null || x.Token.ValidTo < DateTime.Now);
 
                 cachedUsers.Add(userModel);
 
-                _memoryCache.Set(CACHEDTOKENBASEDSESSIONS, cachedUsers);
+                _cacheProvider.Set(CACHEDTOKENBASEDSESSIONS, cachedUsers);
             }
             else
             {
@@ -132,7 +134,7 @@ namespace Infrastructure.Security.Authentication.SignalR.Handlers
                     userModel
                 };
 
-                _memoryCache.Set(CACHEDTOKENBASEDSESSIONS, userModels);
+                _cacheProvider.Set(CACHEDTOKENBASEDSESSIONS, userModels);
             }
         }
 
@@ -143,11 +145,11 @@ namespace Infrastructure.Security.Authentication.SignalR.Handlers
         /// <returns></returns>
         private User GetUserFromCache(string token)
         {
-            if (_memoryCache.TryGetValue(CACHEDTOKENBASEDSESSIONS, out List<User> cachedUsers) && cachedUsers != default(List<User>))
+            if (_cacheProvider.TryGetValue(CACHEDTOKENBASEDSESSIONS, out List<User> cachedUsers) && cachedUsers != default(List<User>))
             {
                 if (cachedUsers.RemoveAll(x => x == null || x.Token == null || x.Token.ValidTo < DateTime.Now) > 0)
                 {
-                    _memoryCache.Set(CACHEDTOKENBASEDSESSIONS, cachedUsers);
+                    _cacheProvider.Set(CACHEDTOKENBASEDSESSIONS, cachedUsers);
                 }
 
                 return cachedUsers.FirstOrDefault(x => x.Token.TokenKey == token);

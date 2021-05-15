@@ -12,18 +12,18 @@ namespace Infrastructure.Mock.Factories
         /// <summary>
         /// Önbellek sağlayıcısı
         /// </summary>
-        private static CacheDataProvider cacheDataProvider = null;
+        private static RedisCacheDataProvider cacheDataProvider = null;
 
         /// <summary>
         /// Önbellek sağlyıcısının örneğini verir
         /// </summary>
         /// <param name="configuration">Yapılandırma arayüzü nesnesi</param>
         /// <returns></returns>
-        public static CacheDataProvider GetInstance(IConfiguration configuration)
+        public static RedisCacheDataProvider GetInstance(IConfiguration configuration)
         {
             if (cacheDataProvider == null)
             {
-                cacheDataProvider = new CacheDataProvider(configuration);
+                cacheDataProvider = new RedisCacheDataProvider(configuration);
             }
 
             return cacheDataProvider;

@@ -18,6 +18,7 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 
 using System.Net;
+using Infrastructure.Caching.InMemory.DI;
 
 namespace Services.MQ.Accounting
 {
@@ -28,9 +29,10 @@ namespace Services.MQ.Accounting
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMemoryCache();
-            services.RegisterCaching();
+            services.RegisterRedisCaching();
             services.RegisterRouteProvider();
             services.RegisterCredentialProvider();
+            services.RegisterInMemoryCaching();
             services.RegisterServiceCommunicator();
             services.RegisterConsumers();
             services.RegisterRouteRepositories();

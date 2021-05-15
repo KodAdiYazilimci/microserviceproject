@@ -1,4 +1,6 @@
 ﻿
+using Infrastructure.Caching.Abstraction;
+using Infrastructure.Caching.InMemory;
 using Infrastructure.Communication.Model.Basics;
 using Infrastructure.Routing.Model;
 using Infrastructure.Routing.Persistence.Repositories.Sql;
@@ -42,7 +44,7 @@ namespace Infrastructure.Communication.Moderator
         /// <summary>
         /// Önbellek nesnesi
         /// </summary>
-        private readonly IMemoryCache _memoryCache;
+        private readonly InMemoryCacheDataProvider _cacheProvider;
 
         /// <summary>
         /// İletişimde kullanılacak yetkiler için sağlayıcı
@@ -62,17 +64,17 @@ namespace Infrastructure.Communication.Moderator
         /// <summary>
         /// Yetki denetimi destekli servis iletişim sağlayıcı sınıf
         /// </summary>
-        /// <param name="memoryCache">Önbellek nesnesi</param>
+        /// <param name="cacheProvider">Önbellek nesnesi</param>
         /// <param name="credentialProvider">İletişimde kullanılacak yetkiler için sağlayıcı</param>
         /// <param name="routeNameProvider">Gerektiğinde iletişimde bulunacak yetki servisi için rota isimleri sağlayıcısı</param>
         /// <param name="serviceRouteRepository">Servis endpointleri sağlayıcısı</param>
         public ServiceCommunicator(
-            IMemoryCache memoryCache,
+            InMemoryCacheDataProvider cacheProvider,
             CredentialProvider credentialProvider,
             RouteNameProvider routeNameProvider,
             ServiceRouteRepository serviceRouteRepository)
         {
-            _memoryCache = memoryCache;
+            _cacheProvider = cacheProvider;
             _credentialProvider = credentialProvider;
             _routeNameProvider = routeNameProvider;
             _serviceRouteRepository = serviceRouteRepository;
@@ -95,13 +97,13 @@ namespace Infrastructure.Communication.Moderator
             List<KeyValuePair<string, string>> headers,
             CancellationTokenSource cancellationTokenSource)
         {
-            Token takenTokenForThisService = _memoryCache.Get<Token>(TAKENTOKENFORTHISSERVICE);
+            Token takenTokenForThisService = _cacheProvider.Get<Token>(TAKENTOKENFORTHISSERVICE);
 
             if (string.IsNullOrWhiteSpace(takenTokenForThisService?.TokenKey)
                 ||
                 takenTokenForThisService.ValidTo <= DateTime.Now)
             {
-                ServiceCaller serviceTokenCaller = new ServiceCaller(_memoryCache, "");
+                ServiceCaller serviceTokenCaller = new ServiceCaller(_cacheProvider, "");
                 serviceTokenCaller.OnNoServiceFoundInCacheAsync += async (serviceName) =>
                 {
                     return await GetServiceAsync(serviceName, cancellationTokenSource);
@@ -121,7 +123,7 @@ namespace Infrastructure.Communication.Moderator
                 if (tokenResult.IsSuccess && tokenResult.Data != null)
                 {
                     takenTokenForThisService = tokenResult.Data;
-                    _memoryCache.Set<Token>(TAKENTOKENFORTHISSERVICE, tokenResult.Data);
+                    _cacheProvider.Set<Token>(TAKENTOKENFORTHISSERVICE, tokenResult.Data);
                 }
                 else
                 {
@@ -129,7 +131,7 @@ namespace Infrastructure.Communication.Moderator
                 }
             }
 
-            ServiceCaller serviceCaller = new ServiceCaller(_memoryCache, takenTokenForThisService.TokenKey);
+            ServiceCaller serviceCaller = new ServiceCaller(_cacheProvider, takenTokenForThisService.TokenKey);
             serviceCaller.OnNoServiceFoundInCacheAsync += async (serviceName) =>
             {
                 return await GetServiceAsync(serviceName, cancellationTokenSource);
@@ -161,13 +163,13 @@ namespace Infrastructure.Communication.Moderator
             List<KeyValuePair<string, string>> headers,
             CancellationTokenSource cancellationTokenSource)
         {
-            Token takenTokenForThisService = _memoryCache.Get<Token>(TAKENTOKENFORTHISSERVICE);
+            Token takenTokenForThisService = _cacheProvider.Get<Token>(TAKENTOKENFORTHISSERVICE);
 
             if (string.IsNullOrWhiteSpace(takenTokenForThisService?.TokenKey)
                 ||
                 takenTokenForThisService.ValidTo <= DateTime.Now)
             {
-                ServiceCaller serviceTokenCaller = new ServiceCaller(_memoryCache, "");
+                ServiceCaller serviceTokenCaller = new ServiceCaller(_cacheProvider, "");
                 serviceTokenCaller.OnNoServiceFoundInCacheAsync += async (serviceName) =>
                 {
                     return await GetServiceAsync(serviceName, cancellationTokenSource);
@@ -187,7 +189,7 @@ namespace Infrastructure.Communication.Moderator
                 if (tokenResult.IsSuccess && tokenResult.Data != null)
                 {
                     takenTokenForThisService = tokenResult.Data;
-                    _memoryCache.Set<Token>(TAKENTOKENFORTHISSERVICE, tokenResult.Data);
+                    _cacheProvider.Set<Token>(TAKENTOKENFORTHISSERVICE, tokenResult.Data);
                 }
                 else
                 {
@@ -195,7 +197,7 @@ namespace Infrastructure.Communication.Moderator
                 }
             }
 
-            ServiceCaller serviceCaller = new ServiceCaller(_memoryCache, takenTokenForThisService.TokenKey);
+            ServiceCaller serviceCaller = new ServiceCaller(_cacheProvider, takenTokenForThisService.TokenKey);
             serviceCaller.OnNoServiceFoundInCacheAsync += async (serviceName) =>
             {
                 return await GetServiceAsync(serviceName, cancellationTokenSource);
@@ -219,13 +221,13 @@ namespace Infrastructure.Communication.Moderator
         /// <returns></returns>
         private async Task<string> GetServiceAsync(string serviceName, CancellationTokenSource cancellationTokenSource)
         {
-            List<ServiceRouteModel> serviceRoutes = _memoryCache.Get<List<ServiceRouteModel>>(CACHEDSERVICEROUTES);
+            List<ServiceRouteModel> serviceRoutes = _cacheProvider.Get<List<ServiceRouteModel>>(CACHEDSERVICEROUTES);
 
             if (serviceRoutes == null || !serviceRoutes.Any())
             {
                 serviceRoutes = await _serviceRouteRepository.GetServiceRoutesAsync(cancellationTokenSource);
 
-                _memoryCache.Set<List<ServiceRouteModel>>(CACHEDSERVICEROUTES, serviceRoutes, DateTime.Now.AddMinutes(60));                
+                _cacheProvider.Set<List<ServiceRouteModel>>(CACHEDSERVICEROUTES, serviceRoutes, DateTime.Now.AddMinutes(60));                
             }
 
             return JsonConvert.SerializeObject(serviceRoutes.FirstOrDefault(x => x.ServiceName == serviceName));

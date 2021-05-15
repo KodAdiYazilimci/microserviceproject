@@ -25,6 +25,7 @@ using Newtonsoft.Json;
 
 using System.Net;
 using Infrastructure.Communication.Mq.Rabbit.Publisher.DI;
+using Infrastructure.Caching.InMemory.DI;
 
 namespace Services.Gateway.Public
 {
@@ -42,8 +43,9 @@ namespace Services.Gateway.Public
         {
             services.AddControllers();
             services.AddMemoryCache();
-            services.RegisterCaching();
+            services.RegisterRedisCaching();
             services.RegisterCredentialProvider();
+            services.RegisterInMemoryCaching();
             services.RegisterLocalizationPersistence();
             services.RegisterLocalizationProviders();
             services.RegisterLogger();

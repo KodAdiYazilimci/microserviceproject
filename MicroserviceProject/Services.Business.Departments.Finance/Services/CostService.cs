@@ -48,7 +48,7 @@ namespace Services.Business.Departments.Finance.Services
         /// <summary>
         /// Rediste tutulan önbellek yönetimini sağlayan sınıf
         /// </summary>
-        private readonly CacheDataProvider _cacheDataProvider;
+        private readonly RedisCacheDataProvider _redisCacheDataProvider;
 
         /// <summary>
         /// Mapping işlemleri için mapper nesnesi
@@ -103,7 +103,7 @@ namespace Services.Business.Departments.Finance.Services
         /// <param name="translationProvider">Dil çeviri sağlayıcısı sınıf</param>
         /// <param name="routeNameProvider">Servislerin rota isimlerini sağlayan sınıf</param>
         /// <param name="serviceCommunicator">Diğer servislerle iletişim kuracak ara bulucu</param>
-        /// <param name="cacheDataProvider">Rediste tutulan önbellek yönetimini sağlayan sınıf</param>
+        /// <param name="redisCacheDataProvider">Rediste tutulan önbellek yönetimini sağlayan sınıf</param>
         /// <param name="transactionRepository">İşlem tablosu için repository sınıfı</param>
         /// <param name="transactionItemRepository">İşlem öğesi tablosu için repository sınıfı</param>
         /// <param name="decidedCostRepository">Karar verilen masraflar tablosu için repository sınıfı</param>
@@ -115,7 +115,7 @@ namespace Services.Business.Departments.Finance.Services
             TranslationProvider translationProvider,
             RouteNameProvider routeNameProvider,
             ServiceCommunicator serviceCommunicator,
-            CacheDataProvider cacheDataProvider,
+            RedisCacheDataProvider redisCacheDataProvider,
             TransactionRepository transactionRepository,
             TransactionItemRepository transactionItemRepository,
             DecidedCostRepository decidedCostRepository,
@@ -123,7 +123,7 @@ namespace Services.Business.Departments.Finance.Services
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
-            _cacheDataProvider = cacheDataProvider;
+            _redisCacheDataProvider = redisCacheDataProvider;
             _translationProvider = translationProvider;
             _routeNameProvider = routeNameProvider;
             _serviceCommunicator = serviceCommunicator;
@@ -142,7 +142,7 @@ namespace Services.Business.Departments.Finance.Services
         /// <returns></returns>
         public async Task<List<DecidedCostModel>> GetDecidedCostsAsync(CancellationTokenSource cancellationTokenSource)
         {
-            if (_cacheDataProvider.TryGetValue(CACHED_DECIDED_COSTS_KEY, out List<DecidedCostModel> cachedDecidedCosts)
+            if (_redisCacheDataProvider.TryGetValue(CACHED_DECIDED_COSTS_KEY, out List<DecidedCostModel> cachedDecidedCosts)
                 &&
                 cachedDecidedCosts != null && cachedDecidedCosts.Any())
             {
@@ -154,7 +154,7 @@ namespace Services.Business.Departments.Finance.Services
             List<DecidedCostModel> mappedDecidedCosts =
                 _mapper.Map<List<DecidedCostEntity>, List<DecidedCostModel>>(decidedCosts);
 
-            _cacheDataProvider.Set(CACHED_DECIDED_COSTS_KEY, mappedDecidedCosts);
+            _redisCacheDataProvider.Set(CACHED_DECIDED_COSTS_KEY, mappedDecidedCosts);
 
             return mappedDecidedCosts;
         }
@@ -193,13 +193,13 @@ namespace Services.Business.Departments.Finance.Services
 
             decidedCost.Id = createdDecidedCostId;
 
-            if (_cacheDataProvider.TryGetValue(CACHED_DECIDED_COSTS_KEY, out List<DecidedCostModel> cachedIDecidedCosts)
+            if (_redisCacheDataProvider.TryGetValue(CACHED_DECIDED_COSTS_KEY, out List<DecidedCostModel> cachedIDecidedCosts)
                 &&
                 cachedIDecidedCosts != null)
             {
                 cachedIDecidedCosts.Add(decidedCost);
 
-                _cacheDataProvider.Set(CACHED_DECIDED_COSTS_KEY, cachedIDecidedCosts);
+                _redisCacheDataProvider.Set(CACHED_DECIDED_COSTS_KEY, cachedIDecidedCosts);
             }
 
             return createdDecidedCostId;
@@ -264,7 +264,7 @@ namespace Services.Business.Departments.Finance.Services
 
             await _notifyCostApprovementPublisher.PublishBufferAsync(cancellationTokenSource);
 
-            _cacheDataProvider.RemoveObject(CACHED_DECIDED_COSTS_KEY);
+            _redisCacheDataProvider.RemoveObject(CACHED_DECIDED_COSTS_KEY);
 
             return result;
         }
@@ -328,7 +328,7 @@ namespace Services.Business.Departments.Finance.Services
 
             await _notifyCostApprovementPublisher.PublishBufferAsync(cancellationTokenSource);
 
-            _cacheDataProvider.RemoveObject(CACHED_DECIDED_COSTS_KEY);
+            _redisCacheDataProvider.RemoveObject(CACHED_DECIDED_COSTS_KEY);
 
             return result;
         }
@@ -413,7 +413,7 @@ namespace Services.Business.Departments.Finance.Services
 
         public void DisposeInjections()
         {
-            _cacheDataProvider.Dispose();
+            _redisCacheDataProvider.Dispose();
             _decidedCostRepository.Dispose();
             _transactionItemRepository.Dispose();
             _transactionRepository.Dispose();

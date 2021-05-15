@@ -1,3 +1,4 @@
+using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Communication.Model.Basics;
 using Infrastructure.Communication.Model.Errors;
 using Infrastructure.Communication.Moderator.DI;
@@ -32,7 +33,7 @@ namespace Services.WebSockets.Security
             services.AddMemoryCache();
             services.AddSignalR();
             services.AddSingleton<TokensHub>();
-
+            services.RegisterInMemoryCaching();
             services.RegisterAuthentication();
             services.RegisterCredentialProvider();
             services.RegisterRouteRepositories();

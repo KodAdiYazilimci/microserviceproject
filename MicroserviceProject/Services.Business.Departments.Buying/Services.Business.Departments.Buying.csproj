@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.Caching.InMemory.DI\Infrastructure.Caching.InMemory.DI.csproj" />
     <ProjectReference Include="..\Infrastructure.Caching.Redis.DI\Infrastructure.Caching.Redis.DI.csproj" />
     <ProjectReference Include="..\Infrastructure.Caching.Redis\Infrastructure.Caching.Redis.csproj" />
     <ProjectReference Include="..\Infrastructure.Communication.Http\Infrastructure.Communication.Http.csproj" />

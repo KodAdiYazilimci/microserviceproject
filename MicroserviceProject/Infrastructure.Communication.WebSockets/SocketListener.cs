@@ -1,4 +1,6 @@
-﻿using Infrastructure.Communication.Model.Basics;
+﻿using Infrastructure.Caching.Abstraction;
+using Infrastructure.Caching.InMemory;
+using Infrastructure.Communication.Model.Basics;
 using Infrastructure.Communication.Moderator;
 using Infrastructure.Routing.Exceptions;
 using Infrastructure.Routing.Model;
@@ -53,7 +55,7 @@ namespace Infrastructure.Communication.WebSockets
         /// <summary>
         /// Önbellek nesnesi
         /// </summary>
-        private readonly IMemoryCache _memoryCache;
+        private readonly InMemoryCacheDataProvider _cacheProvider;
 
         /// <summary>
         /// İletişimde kullanılacak yetkiler için sağlayıcı
@@ -94,21 +96,21 @@ namespace Infrastructure.Communication.WebSockets
         /// <summary>
         /// Bir websocket bağlantısını dinleyen sınıf
         /// </summary>
-        /// <param name="memoryCache">Önbellek nesnesi</param>
+        /// <param name="cacheProvider">Önbellek nesnesi</param>
         /// <param name="credentialProvider">İletişimde kullanılacak yetkiler için sağlayıcı</param>
         /// <param name="routeNameProvider">Gerektiğinde iletişimde bulunacak yetki servisi için rota isimleri sağlayıcısı</param>
         /// <param name="serviceRouteRepository">Servis endpointleri sağlayıcısı</param>
         /// <param name="socketNameProvider">Soket isimlerinin sağlayıcısı</param>
         /// <param name="socketRepository">Soket endpointlerinin sağlayıcısı</param>
         public SocketListener(
-            IMemoryCache memoryCache,
+            InMemoryCacheDataProvider cacheProvider,
             CredentialProvider credentialProvider,
             RouteNameProvider routeNameProvider,
             ServiceRouteRepository serviceRouteRepository,
             SocketNameProvider socketNameProvider,
             SocketRepository socketRepository)
         {
-            _memoryCache = memoryCache;
+            _cacheProvider = cacheProvider;
             _credentialProvider = credentialProvider;
             _routeNameProvider = routeNameProvider;
             _serviceRouteRepository = serviceRouteRepository;
@@ -124,13 +126,13 @@ namespace Infrastructure.Communication.WebSockets
         /// <returns></returns>
         public async Task ListenAsync(string socketName, CancellationTokenSource cancellationTokenSource)
         {
-            Token takenTokenForThisService = _memoryCache.Get<Token>(TAKENTOKENFORTHISSERVICE);
+            Token takenTokenForThisService = _cacheProvider.Get<Token>(TAKENTOKENFORTHISSERVICE);
 
             if (string.IsNullOrWhiteSpace(takenTokenForThisService?.TokenKey)
                 ||
                 takenTokenForThisService.ValidTo <= DateTime.Now)
             {
-                ServiceCaller serviceTokenCaller = new ServiceCaller(_memoryCache, "");
+                ServiceCaller serviceTokenCaller = new ServiceCaller(_cacheProvider, "");
                 serviceTokenCaller.OnNoServiceFoundInCacheAsync += async (serviceName) =>
                 {
                     return await GetServiceAsync(serviceName, cancellationTokenSource);
@@ -151,7 +153,7 @@ namespace Infrastructure.Communication.WebSockets
                 if (tokenResult.IsSuccess && tokenResult.Data != null)
                 {
                     takenTokenForThisService = tokenResult.Data;
-                    _memoryCache.Set<Token>(TAKENTOKENFORTHISSERVICE, tokenResult.Data);
+                    _cacheProvider.Set<Token>(TAKENTOKENFORTHISSERVICE, tokenResult.Data);
                 }
                 else
                 {
@@ -187,13 +189,13 @@ namespace Infrastructure.Communication.WebSockets
         /// <returns></returns>
         private async Task<string> GetServiceAsync(string serviceName, CancellationTokenSource cancellationTokenSource)
         {
-            List<ServiceRouteModel> serviceRoutes = _memoryCache.Get<List<ServiceRouteModel>>(CACHEDSERVICEROUTES);
+            List<ServiceRouteModel> serviceRoutes = _cacheProvider.Get<List<ServiceRouteModel>>(CACHEDSERVICEROUTES);
 
             if (serviceRoutes == null || !serviceRoutes.Any())
             {
                 serviceRoutes = await _serviceRouteRepository.GetServiceRoutesAsync(cancellationTokenSource);
 
-                _memoryCache.Set<List<ServiceRouteModel>>(CACHEDSERVICEROUTES, serviceRoutes, DateTime.Now.AddMinutes(60));
+                _cacheProvider.Set<List<ServiceRouteModel>>(CACHEDSERVICEROUTES, serviceRoutes, DateTime.Now.AddMinutes(60));
             }
 
             if (serviceRoutes.Any(x => x.ServiceName == serviceName))
@@ -210,13 +212,13 @@ namespace Infrastructure.Communication.WebSockets
         /// <returns></returns>
         private async Task<SocketModel> GetSocketAsync(string socketName, CancellationTokenSource cancellationTokenSource)
         {
-            List<SocketModel> sockets = _memoryCache.Get<List<SocketModel>>(CACHEDWEBSOCKETS);
+            List<SocketModel> sockets = _cacheProvider.Get<List<SocketModel>>(CACHEDWEBSOCKETS);
 
             if (sockets == null || !sockets.Any())
             {
                 sockets = await _socketRepository.GetSocketsAsync(cancellationTokenSource);
 
-                _memoryCache.Set<List<SocketModel>>(CACHEDWEBSOCKETS, sockets, DateTime.Now.AddMinutes(60));
+                _cacheProvider.Set<List<SocketModel>>(CACHEDWEBSOCKETS, sockets, DateTime.Now.AddMinutes(60));
             }
 
             if (sockets.Any(x => x.Name == socketName))

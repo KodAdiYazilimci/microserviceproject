@@ -10,6 +10,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.Caching.InMemory\Infrastructure.Caching.InMemory.csproj" />
+    <ProjectReference Include="..\Infrastructure.Caching\Infrastructure.Caching.csproj" />
     <ProjectReference Include="..\Infrastructure.Communication.Http\Infrastructure.Communication.Http.csproj" />
     <ProjectReference Include="..\Infrastructure.Communication.Model\Infrastructure.Communication.Model.csproj" />
     <ProjectReference Include="..\Infrastructure.Communication\Infrastructure.Communication.csproj" />

@@ -25,6 +25,7 @@ using Newtonsoft.Json;
 
 using System.Net;
 using Infrastructure.Communication.Mq.Rabbit.Publisher.DI;
+using Infrastructure.Caching.InMemory.DI;
 
 namespace Services.Business.Departments.Accounting
 {
@@ -44,8 +45,9 @@ namespace Services.Business.Departments.Accounting
             services.AddMemoryCache();
             services.RegisterAuthentication();
             services.RegisterBusinessServices();
-            services.RegisterCaching();
+            services.RegisterRedisCaching();
             services.RegisterCredentialProvider();
+            services.RegisterInMemoryCaching();
             services.RegisterLocalizationPersistence();
             services.RegisterLocalizationProviders();
             services.RegisterLogger();

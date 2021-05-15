@@ -16,7 +16,7 @@ namespace Services.Monitoring.Security.Console
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
             SocketListener socketListener = new SocketListener(
-                memoryCache: MemoryCacheFactory.Instance,
+                cacheProvider: InMemoryCacheDataProviderFactory.Instance,
                 credentialProvider: CredentialProviderFactory.GetCredentialProvider(GetConfiguration(args)),
                 routeNameProvider: RouteNameProviderFactory.GetRouteNameProvider(GetConfiguration(args)),
                 serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(GetConfiguration(args)),

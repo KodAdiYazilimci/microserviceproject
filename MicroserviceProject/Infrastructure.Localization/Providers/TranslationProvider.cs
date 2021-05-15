@@ -33,7 +33,7 @@ namespace Infrastructure.Localization.Providers
         /// <summary>
         /// Önbellekteki çevirileri yönetecek sağlayıcı
         /// </summary>
-        private readonly CacheDataProvider cacheDataProvider;
+        private readonly RedisCacheDataProvider cacheDataProvider;
 
         /// <summary>
         /// Dil çeviri kayıtlarını yöneten repository sınıfı
@@ -54,7 +54,7 @@ namespace Infrastructure.Localization.Providers
         /// <param name="translationHelper">Dil çeviri yardımcısı</param>
         public TranslationProvider(
             IConfiguration configuration,
-            CacheDataProvider cacheDataProvider,
+            RedisCacheDataProvider cacheDataProvider,
             TranslationRepository translationRepository,
             TranslationHelper translationHelper)
         {
