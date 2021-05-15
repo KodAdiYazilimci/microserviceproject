@@ -23,6 +23,39 @@ namespace Infrastructure.Communication.Http.Providers
         /// <summary>
         /// Http post isteği gönderir
         /// </summary>
+        /// <typeparam name="TPostData">Http isteği içerisinde gönderilecek datanın tipi</typeparam>
+        /// <param name="url">Http isteği atılacak adres</param>
+        /// <param name="postData">Http isteği içerisinde gönderilecek data</param>
+        /// <param name="cancellationTokenSource">İsteğin iptal tokenı</param>
+        /// <returns></returns>
+        public virtual async Task<string> PostAsync<TPostData>(string url, TPostData postData, CancellationTokenSource cancellationTokenSource)
+        {
+            Uri requestUri = GenerateUri(url);
+
+            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(requestUri);
+            webRequest.Method = "POST";
+            webRequest.ContentType = "application/json; charset=UTF-8";
+
+            AppendHeaders(webRequest);
+
+            using (StreamWriter streamWriter = new StreamWriter(await webRequest.GetRequestStreamAsync()))
+            {
+                string jsonBody = JsonConvert.SerializeObject(postData);
+
+                await streamWriter.WriteAsync(jsonBody);
+            }
+
+            HttpWebResponse webResponse = (HttpWebResponse)await webRequest.GetResponseAsync();
+
+            using (StreamReader streamReader = new StreamReader(webResponse.GetResponseStream()))
+            {
+                return await streamReader.ReadToEndAsync();
+            }
+        }
+
+        /// <summary>
+        /// Http post isteği gönderir
+        /// </summary>
         /// <typeparam name="TResult">Http isteğinden dönecek yanıtın tipi</typeparam>
         /// <typeparam name="TPostData">Http isteği içerisinde gönderilecek datanın tipi</typeparam>
         /// <param name="url">Http isteği atılacak adres</param>
