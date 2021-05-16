@@ -1,9 +1,9 @@
-﻿using Infrastructure.Scheduling.Departments.Finance.Models;
+﻿using Services.Scheduling.Departments.Finance.Models;
 
 using System;
 using System.Xml;
 
-namespace Infrastructure.Scheduling.Departments.Finance.Converters
+namespace Services.Scheduling.Departments.Finance.Converters
 {
     /// <summary>
     /// XML metnini Exchange modele dönüştürür

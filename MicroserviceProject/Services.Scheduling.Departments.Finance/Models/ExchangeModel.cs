@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Infrastructure.Scheduling.Departments.Finance.Models
+namespace Services.Scheduling.Departments.Finance.Models
 {
     public class ExchangeModel
     {

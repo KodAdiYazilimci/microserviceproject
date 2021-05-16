@@ -2,14 +2,14 @@
 
 using Infrastructure.Caching.InMemory;
 using Infrastructure.Communication.Http.Providers;
-using Infrastructure.Scheduling.Departments.Finance.Converters;
-using Infrastructure.Scheduling.Departments.Finance.Models;
+using Services.Scheduling.Departments.Finance.Converters;
+using Services.Scheduling.Departments.Finance.Models;
 
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Scheduling.Departments.Finance.Jobs
+namespace Services.Scheduling.Departments.Finance.Jobs
 {
     public class GetExchangeJob
     {

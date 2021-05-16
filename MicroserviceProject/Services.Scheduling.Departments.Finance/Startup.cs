@@ -2,7 +2,7 @@ using Hangfire;
 using Hangfire.MemoryStorage;
 
 using Infrastructure.Caching.InMemory.DI;
-using Infrastructure.Scheduling.Departments.Finance.Jobs;
+using Services.Scheduling.Departments.Finance.Jobs;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,7 +12,7 @@ using Microsoft.Extensions.Hosting;
 
 using System;
 
-namespace Infrastructure.Scheduling.Departments.Finance
+namespace Services.Scheduling.Departments.Finance
 {
     public class Startup
     {

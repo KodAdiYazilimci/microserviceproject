@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Scheduling.Departments.Finance
+namespace Services.Scheduling.Departments.Finance
 {
     public class Program
     {
