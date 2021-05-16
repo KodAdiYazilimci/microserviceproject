@@ -8,6 +8,7 @@ using Infrastructure.Routing.Providers;
 using Infrastructure.Transaction.ExecutionHandler;
 using Infrastructure.Transaction.Recovery;
 using Infrastructure.Transaction.UnitOfWork;
+
 using Services.Business.Departments.Finance.Entities.Sql;
 using Services.Business.Departments.Finance.Repositories.Sql;
 using Services.Model.Department.Finance;
@@ -253,7 +254,7 @@ namespace Services.Business.Departments.Finance.Services
                 cancellationTokenSource: cancellationTokenSource);
 
             _notifyCostApprovementPublisher.AddToBuffer(
-                model: new DecidedCostModel
+                model: new Infrastructure.Communication.Mq.Rabbit.Publisher.Buying.Models.DecidedCostModel
                 {
                     Approved = true,
                     InventoryRequestId = decidedCostEntity.InventoryRequestId,
@@ -317,7 +318,7 @@ namespace Services.Business.Departments.Finance.Services
                 cancellationTokenSource: cancellationTokenSource);
 
             _notifyCostApprovementPublisher.AddToBuffer(
-                model: new DecidedCostModel
+                model: new Infrastructure.Communication.Mq.Rabbit.Publisher.Buying.Models.DecidedCostModel
                 {
                     Approved = false,
                     InventoryRequestId = decidedCostEntity.InventoryRequestId,

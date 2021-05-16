@@ -1,13 +1,12 @@
-﻿
-using Infrastructure.Communication.Model.Department.Buying;
-using Infrastructure.Transaction.ExecutionHandler;
-using Services.Business.Departments.Buying.Services;
-using Services.Business.Departments.Buying.Util.Validation.Request.CreateInventoryRequest;
-using Services.Business.Departments.Buying.Util.Validation.Request.ValidateCostInventory;
-using Services.Model.Department.Finance;
+﻿using Infrastructure.Transaction.ExecutionHandler;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
+using Services.Business.Departments.Buying.Models;
+using Services.Business.Departments.Buying.Services;
+using Services.Business.Departments.Buying.Util.Validation.Request.CreateInventoryRequest;
+using Services.Business.Departments.Buying.Util.Validation.Request.ValidateCostInventory;
 
 using System.Collections.Generic;
 using System.Threading;

@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-using Infrastructure.Communication.Model.Department.HR;
+using Services.Business.Departments.HR.Models;
 
 namespace Services.Business.Departments.HR.Configuration.Validation.Person.CreatePerson
 {

@@ -1,7 +1,6 @@
 ﻿using Hangfire.Common;
 
 using Infrastructure.Caching.InMemory;
-using Infrastructure.Caching.Redis;
 using Infrastructure.Communication.Http.Providers;
 using Infrastructure.Scheduling.Departments.Finance.Converters;
 using Infrastructure.Scheduling.Departments.Finance.Models;
@@ -9,7 +8,6 @@ using Infrastructure.Scheduling.Departments.Finance.Models;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Xml;
 
 namespace Infrastructure.Scheduling.Departments.Finance.Jobs
 {

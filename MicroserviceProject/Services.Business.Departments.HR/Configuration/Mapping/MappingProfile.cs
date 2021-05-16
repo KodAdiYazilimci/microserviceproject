@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 
-using Infrastructure.Communication.Model.Department.HR;
 using Infrastructure.Transaction.Recovery;
+
 using Services.Business.Departments.HR.Entities.Sql;
+using Services.Business.Departments.HR.Models;
 
 namespace Services.Business.Departments.HR.Configuration.Mapping
 {
@@ -25,6 +26,7 @@ namespace Services.Business.Departments.HR.Configuration.Mapping
 
             CreateMap<RollbackModel, RollbackEntity>();
             CreateMap<RollbackItemModel, RollbackItemEntity>();
+
             // Entity => Model
 
             CreateMap<DepartmentEntity, DepartmentModel>();

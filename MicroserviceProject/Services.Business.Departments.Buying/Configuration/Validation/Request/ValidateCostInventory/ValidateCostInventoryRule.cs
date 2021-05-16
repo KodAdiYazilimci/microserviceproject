@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-using Services.Model.Department.Finance;
+using Services.Business.Departments.Buying.Models;
 
 namespace Services.Business.Departments.Buying.Configuration.Validation.Request.ValidateCostInventory
 {

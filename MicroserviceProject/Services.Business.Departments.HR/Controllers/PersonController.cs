@@ -1,12 +1,13 @@
-﻿using Infrastructure.Communication.Model.Department.HR;
-using Infrastructure.Transaction.ExecutionHandler;
+﻿using Infrastructure.Transaction.ExecutionHandler;
+
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+using Services.Business.Departments.HR.Models;
 using Services.Business.Departments.HR.Services;
 using Services.Business.Departments.HR.Util.Validation.Person.CreatePerson;
 using Services.Business.Departments.HR.Util.Validation.Person.CreateTitle;
 using Services.Business.Departments.HR.Util.Validation.Person.CreateWorker;
-
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 
 using System.Collections.Generic;
 using System.Threading;

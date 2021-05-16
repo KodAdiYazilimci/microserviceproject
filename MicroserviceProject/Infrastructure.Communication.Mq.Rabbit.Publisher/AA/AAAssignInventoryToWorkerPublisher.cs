@@ -1,5 +1,5 @@
-﻿using Infrastructure.Communication.Model.Department.HR;
-using Infrastructure.Communication.Mq.Rabbit.Configuration.AA;
+﻿using Infrastructure.Communication.Mq.Rabbit.Configuration.AA;
+using Infrastructure.Communication.Mq.Rabbit.Publisher.AA.Models;
 
 using System;
 

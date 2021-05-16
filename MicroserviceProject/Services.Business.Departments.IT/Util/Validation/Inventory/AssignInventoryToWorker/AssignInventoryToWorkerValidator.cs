@@ -1,9 +1,10 @@
 ﻿using FluentValidation.Results;
 
-using Infrastructure.Communication.Model.Department.HR;
 using Infrastructure.Validation.Exceptions;
 using Infrastructure.Validation.Model;
+
 using Services.Business.Departments.IT.Configuration.Validation.Inventory.AssignInventoryToWorker;
+using Services.Business.Departments.IT.Models;
 
 using System.Collections.Generic;
 using System.Linq;

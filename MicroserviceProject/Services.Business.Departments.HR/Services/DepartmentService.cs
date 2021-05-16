@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
 
 using Infrastructure.Caching.Redis;
-using Infrastructure.Communication.Model.Department.HR;
 using Infrastructure.Localization.Providers;
 using Infrastructure.Transaction.ExecutionHandler;
 using Infrastructure.Transaction.Recovery;
 using Infrastructure.Transaction.UnitOfWork;
 
 using Services.Business.Departments.HR.Entities.Sql;
+using Services.Business.Departments.HR.Models;
 using Services.Business.Departments.HR.Repositories.Sql;
 
 using System;

@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-using Infrastructure.Communication.Model.Department.IT;
+using Services.Business.Departments.IT.Models;
 
 namespace Services.Business.Departments.IT.Configuration.Validation.Inventory.CreateInventory
 {

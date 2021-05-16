@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-using Infrastructure.Communication.Model.Department.HR;
+using Services.Business.Departments.IT.Models;
 
 using System.Linq;
 

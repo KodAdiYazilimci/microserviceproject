@@ -1,5 +1,5 @@
-﻿using Infrastructure.Communication.Model.Department.Accounting;
-using Infrastructure.Communication.Mq.Rabbit.Configuration.Accounting;
+﻿using Infrastructure.Communication.Mq.Rabbit.Configuration.Accounting;
+using Infrastructure.Communication.Mq.Rabbit.Publisher.Accounting.Models;
 
 using System;
 

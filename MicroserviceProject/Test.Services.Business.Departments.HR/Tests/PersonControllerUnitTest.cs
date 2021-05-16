@@ -1,11 +1,10 @@
 ﻿using Infrastructure.Communication.Model.Basics;
-using Infrastructure.Communication.Model.Department.Accounting;
-using Infrastructure.Communication.Model.Department.HR;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Services.Business.Departments.HR.Controllers;
+using Services.Business.Departments.HR.Models;
 
 using System;
 using System.Collections.Generic;

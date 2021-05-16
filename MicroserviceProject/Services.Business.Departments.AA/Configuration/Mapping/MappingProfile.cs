@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 
-using Infrastructure.Communication.Model.Department.AA;
 using Infrastructure.Transaction.Recovery;
+
 using Services.Business.Departments.AA.Entities.Sql;
+using Services.Business.Departments.AA.Models;
 
 namespace Services.Business.Departments.AA.Configuration.Mapping
 {

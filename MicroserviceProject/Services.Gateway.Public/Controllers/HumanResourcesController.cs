@@ -1,8 +1,4 @@
-﻿using Infrastructure.Communication.Model.Basics;
-using Infrastructure.Communication.Model.Department.HR;
-using Infrastructure.Communication.Moderator;
-using Infrastructure.Routing.Providers;
-using Infrastructure.Transaction.ExecutionHandler;
+﻿using Infrastructure.Transaction.ExecutionHandler;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Services.Gateway.Public.Services;
 
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 

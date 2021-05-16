@@ -13,7 +13,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure.Caching.InMemory.DI\Infrastructure.Caching.InMemory.DI.csproj" />
     <ProjectReference Include="..\Infrastructure.Caching.Redis.DI\Infrastructure.Caching.Redis.DI.csproj" />
-    <ProjectReference Include="..\Infrastructure.Communication.Model.Department\Infrastructure.Communication.Model.Department.csproj" />
     <ProjectReference Include="..\Infrastructure.Communication.Moderator.DI\Infrastructure.Communication.Moderator.DI.csproj" />
     <ProjectReference Include="..\Infrastructure.Communication.Moderator\Infrastructure.Communication.Moderator.csproj" />
     <ProjectReference Include="..\Infrastructure.Communication.Mq.Rabbit.Configuration.DI\Infrastructure.Communication.Mq.Rabbit.Configuration.DI.csproj" />

@@ -1,5 +1,5 @@
 ﻿using Infrastructure.Communication.Mq.Rabbit.Configuration.Buying;
-using Services.Model.Department.Finance;
+using Infrastructure.Communication.Mq.Rabbit.Publisher.Buying.Models;
 
 using System;
 

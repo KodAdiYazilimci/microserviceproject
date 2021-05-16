@@ -1,8 +1,8 @@
 ﻿using Infrastructure.Communication.Moderator;
 using Infrastructure.Communication.Mq.Rabbit;
 using Infrastructure.Communication.Mq.Rabbit.Configuration.Finance;
+using Infrastructure.Communication.Mq.Rabbit.Publisher.Finance.Models;
 using Infrastructure.Routing.Providers;
-using Services.Model.Department.Finance;
 
 using System;
 using System.Threading;

@@ -3,8 +3,6 @@
 using Infrastructure.Caching.Redis;
 using Infrastructure.Communication.Http.Exceptions;
 using Infrastructure.Communication.Model.Basics;
-using Infrastructure.Communication.Model.Department.Accounting;
-using Infrastructure.Communication.Model.Department.HR;
 using Infrastructure.Communication.Moderator;
 using Infrastructure.Communication.Mq.Rabbit.Publisher.AA;
 using Infrastructure.Communication.Mq.Rabbit.Publisher.Accounting;
@@ -16,6 +14,7 @@ using Infrastructure.Transaction.Recovery;
 using Infrastructure.Transaction.UnitOfWork;
 
 using Services.Business.Departments.HR.Entities.Sql;
+using Services.Business.Departments.HR.Models;
 using Services.Business.Departments.HR.Repositories.Sql;
 
 using System;
@@ -432,9 +431,9 @@ namespace Services.Business.Departments.HR.Services
             #region Muhasebe departmanının banka hesabı açması için rabbit e kayıt ekler
 
             _createBankAccountPublisher.AddToBuffer(
-                model: new BankAccountModel()
+                model: new Infrastructure.Communication.Mq.Rabbit.Publisher.Accounting.Models.BankAccountModel()
                 {
-                    Worker = worker,
+                    Worker = new Infrastructure.Communication.Mq.Rabbit.Publisher.Accounting.Models.WorkerModel() { Id = worker.Id },
                     IBAN = worker.BankAccounts.FirstOrDefault().IBAN
                 });
 
@@ -443,12 +442,12 @@ namespace Services.Business.Departments.HR.Services
             #region İdari işler departmanının kendi envanterlerini ataması için rabbit e kayıt ekle
 
             if (worker.AAInventories == null)
-                worker.AAInventories = new List<Infrastructure.Communication.Model.Department.AA.InventoryModel>();
+                worker.AAInventories = new List<InventoryModel>();
 
             if (!worker.AAInventories.Any())
             {
-                ServiceResultModel<List<Infrastructure.Communication.Model.Department.AA.InventoryModel>> defaultInventoriesServiceResult =
-                    await _serviceCommunicator.Call<List<Infrastructure.Communication.Model.Department.AA.InventoryModel>>(
+                ServiceResultModel<List<InventoryModel>> defaultInventoriesServiceResult =
+                    await _serviceCommunicator.Call<List<InventoryModel>>(
                         serviceName: _routeNameProvider.AA_GetInventoriesForNewWorker,
                         postData: null,
                         queryParameters: null,
@@ -477,19 +476,28 @@ namespace Services.Business.Departments.HR.Services
                 }
             }
 
-            _AAassignInventoryToWorkerPublisher.AddToBuffer(worker);
+            _AAassignInventoryToWorkerPublisher.AddToBuffer(new Infrastructure.Communication.Mq.Rabbit.Publisher.AA.Models.WorkerModel()
+            {
+                Id = worker.Id,
+                Inventories = worker.AAInventories.Select(x => new Infrastructure.Communication.Mq.Rabbit.Publisher.AA.Models.InventoryModel()
+                {
+                    FromDate = x.FromDate,
+                    Id = x.Id,
+                    ToDate = x.ToDate
+                }).ToList()
+            });
 
             #endregion
 
             #region IT departmanının kendi envanterlerini ataması için rabbit e kayıt ekle
 
             if (worker.ITInventories == null)
-                worker.ITInventories = new List<Infrastructure.Communication.Model.Department.IT.InventoryModel>();
+                worker.ITInventories = new List<InventoryModel>();
 
             if (!worker.ITInventories.Any())
             {
-                ServiceResultModel<List<Infrastructure.Communication.Model.Department.IT.InventoryModel>> defaultInventoriesServiceResult =
-                    await _serviceCommunicator.Call<List<Infrastructure.Communication.Model.Department.IT.InventoryModel>>(
+                ServiceResultModel<List<InventoryModel>> defaultInventoriesServiceResult =
+                    await _serviceCommunicator.Call<List<InventoryModel>>(
                         serviceName: _routeNameProvider.IT_GetInventoriesForNewWorker,
                         postData: null,
                         queryParameters: null,
@@ -518,7 +526,16 @@ namespace Services.Business.Departments.HR.Services
                 }
             }
 
-            _ITAssignInventoryToWorkerPublisher.AddToBuffer(worker);
+            _ITAssignInventoryToWorkerPublisher.AddToBuffer(new Infrastructure.Communication.Mq.Rabbit.Publisher.IT.Models.WorkerModel()
+            {
+                Id = worker.Id,
+                Inventories = worker.ITInventories.Select(x => new Infrastructure.Communication.Mq.Rabbit.Publisher.IT.Models.InventoryModel()
+                {
+                    FromDate = x.FromDate,
+                    Id = x.Id,
+                    ToDate = x.ToDate
+                }).ToList()
+            });
 
             #endregion
 

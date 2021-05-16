@@ -1,10 +1,11 @@
-﻿using Infrastructure.Communication.Model.Department.HR;
-using Infrastructure.Transaction.ExecutionHandler;
-using Services.Business.Departments.HR.Services;
-using Services.Business.Departments.HR.Util.Validation.Department.CreateDepartment;
+﻿using Infrastructure.Transaction.ExecutionHandler;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
+using Services.Business.Departments.HR.Models;
+using Services.Business.Departments.HR.Services;
+using Services.Business.Departments.HR.Util.Validation.Department.CreateDepartment;
 
 using System.Collections.Generic;
 using System.Threading;

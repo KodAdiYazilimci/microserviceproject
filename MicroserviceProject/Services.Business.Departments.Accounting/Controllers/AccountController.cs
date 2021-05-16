@@ -1,10 +1,11 @@
-﻿using Infrastructure.Communication.Model.Department.Accounting;
-using Infrastructure.Transaction.ExecutionHandler;
-using Services.Business.Departments.Accounting.Services;
-using Services.Business.Departments.Accounting.Util.Validation.Department.CreateDepartment;
+﻿using Infrastructure.Transaction.ExecutionHandler;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
+using Services.Business.Departments.Accounting.Models;
+using Services.Business.Departments.Accounting.Services;
+using Services.Business.Departments.Accounting.Util.Validation.Department.CreateDepartment;
 
 using System.Collections.Generic;
 using System.Threading;

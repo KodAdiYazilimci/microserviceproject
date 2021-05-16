@@ -1,9 +1,10 @@
 ﻿using Infrastructure.Communication.Http.Exceptions;
 using Infrastructure.Communication.Model.Basics;
-using Infrastructure.Communication.Model.Department.HR;
 using Infrastructure.Communication.Moderator;
 using Infrastructure.Routing.Providers;
 using Infrastructure.Transaction.ExecutionHandler;
+
+using Services.Gateway.Public.Models.HR;
 
 using System;
 using System.Collections.Generic;

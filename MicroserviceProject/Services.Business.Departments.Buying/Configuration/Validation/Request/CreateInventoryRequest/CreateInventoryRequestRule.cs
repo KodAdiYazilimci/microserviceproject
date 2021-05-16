@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-using Infrastructure.Communication.Model.Department.Buying;
+using Services.Business.Departments.Buying.Models;
 
 namespace Services.Business.Departments.Buying.Configuration.Validation.Request.CreateInventoryRequest
 {

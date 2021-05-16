@@ -1,15 +1,14 @@
 ﻿using AutoMapper;
 
 using Infrastructure.Caching.Redis;
-using Infrastructure.Communication.Model.Department.AA;
-using Infrastructure.Communication.Model.Department.Buying;
-using Infrastructure.Communication.Model.Department.HR;
 using Infrastructure.Communication.Mq.Rabbit.Publisher.Buying;
 using Infrastructure.Localization.Providers;
 using Infrastructure.Transaction.ExecutionHandler;
 using Infrastructure.Transaction.Recovery;
 using Infrastructure.Transaction.UnitOfWork;
+
 using Services.Business.Departments.AA.Entities.Sql;
+using Services.Business.Departments.AA.Models;
 using Services.Business.Departments.AA.Repositories.Sql;
 
 using System;
@@ -438,10 +437,10 @@ namespace Services.Business.Departments.AA.Services
 
                 if (inventoryEntity.CurrentStockCount <= 0)
                 {
-                    _createInventoryRequestPublisher.AddToBuffer(new InventoryRequestModel()
+                    _createInventoryRequestPublisher.AddToBuffer(new  Infrastructure.Communication.Mq.Rabbit.Publisher.Buying.Models.InventoryRequestModel()
                     {
                         Amount = 3,
-                        DepartmentId = (int) Infrastructure.Communication.Model.Department.Constants.Departments.AdministrativeAffairs,
+                        DepartmentId = (int)Constants.Departments.AdministrativeAffairs,
                         InventoryId = inventoryId
                     });
 

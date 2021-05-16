@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-using Infrastructure.Communication.Model.Department.AA;
+using Services.Business.Departments.AA.Models;
 
 namespace Services.Business.Departments.AA.Configuration.Validation.Inventory.CreateDefaultInventoryForNewWorker
 {

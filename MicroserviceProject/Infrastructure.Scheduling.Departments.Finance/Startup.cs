@@ -2,7 +2,6 @@ using Hangfire;
 using Hangfire.MemoryStorage;
 
 using Infrastructure.Caching.InMemory.DI;
-using Infrastructure.Caching.Redis;
 using Infrastructure.Scheduling.Departments.Finance.Jobs;
 
 using Microsoft.AspNetCore.Builder;
@@ -40,7 +39,6 @@ namespace Infrastructure.Scheduling.Departments.Finance
             IApplicationBuilder app,
             IWebHostEnvironment env,
             IServiceProvider serviceProvider,
-            RedisCacheDataProvider redisCacheDataProvider,
             IBackgroundJobClient backgroundJobClient,
             IRecurringJobManager recurringJobManager)
         {

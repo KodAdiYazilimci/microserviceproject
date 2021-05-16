@@ -1,15 +1,14 @@
-﻿using Infrastructure.Communication.Model.Department.Buying;
-using Infrastructure.Communication.Model.Department.HR;
-using Infrastructure.Communication.Model.Department.IT;
-using Infrastructure.Transaction.ExecutionHandler;
+﻿using Infrastructure.Transaction.ExecutionHandler;
+
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+using Services.Business.Departments.IT.Models;
 using Services.Business.Departments.IT.Services;
 using Services.Business.Departments.IT.Util.Validation.Inventory.AssignInventoryToWorker;
 using Services.Business.Departments.IT.Util.Validation.Inventory.CreateDefaultInventoryForNewWorker;
 using Services.Business.Departments.IT.Util.Validation.Inventory.CreateInventory;
 using Services.Business.Departments.IT.Util.Validation.Inventory.InformInventoryRequest;
-
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 
 using System.Collections.Generic;
 using System.Threading;

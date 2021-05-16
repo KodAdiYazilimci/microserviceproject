@@ -15,8 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Communicatio
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Communication.Model", "Infrastructure.Communication.Model\Infrastructure.Communication.Model.csproj", "{FB2345CA-7300-478A-8DAE-1BC1AD7ED11D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Communication.Model.Department", "Infrastructure.Communication.Model.Department\Infrastructure.Communication.Model.Department.csproj", "{8328634D-5815-4015-9012-56DB0C4F9B30}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Communication.Moderator", "Infrastructure.Communication.Moderator\Infrastructure.Communication.Moderator.csproj", "{BE294FED-D02A-4ABB-B022-0ABA3DBEF433}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Communication.Moderator.DI", "Infrastructure.Communication.Moderator.DI\Infrastructure.Communication.Moderator.DI.csproj", "{0EE01F5C-62A5-4043-98E4-692CE4928145}"
@@ -189,7 +187,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Caching.InMe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Caching.InMemory.DI", "Infrastructure.Caching.InMemory.DI\Infrastructure.Caching.InMemory.DI.csproj", "{F700807D-81A0-42CE-A62A-DAC7CCEC4333}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Scheduling.Departments.Finance", "Infrastructure.Scheduling.Departments.Finance\Infrastructure.Scheduling.Departments.Finance.csproj", "{35496E2E-1915-4046-B526-D2BD1EA71F37}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Scheduling.Departments.Finance", "Infrastructure.Scheduling.Departments.Finance\Infrastructure.Scheduling.Departments.Finance.csproj", "{35496E2E-1915-4046-B526-D2BD1EA71F37}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -213,10 +211,6 @@ Global
 		{FB2345CA-7300-478A-8DAE-1BC1AD7ED11D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB2345CA-7300-478A-8DAE-1BC1AD7ED11D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB2345CA-7300-478A-8DAE-1BC1AD7ED11D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8328634D-5815-4015-9012-56DB0C4F9B30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8328634D-5815-4015-9012-56DB0C4F9B30}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8328634D-5815-4015-9012-56DB0C4F9B30}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8328634D-5815-4015-9012-56DB0C4F9B30}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BE294FED-D02A-4ABB-B022-0ABA3DBEF433}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BE294FED-D02A-4ABB-B022-0ABA3DBEF433}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE294FED-D02A-4ABB-B022-0ABA3DBEF433}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -498,7 +492,6 @@ Global
 		{7F496DAC-FF7F-40FA-BA65-368CBC56AE2A} = {06239A3E-3565-4F22-B3B1-83FD91A7427A}
 		{EBF11376-41B1-45FA-A929-9A5AA65E2AD7} = {0785BF07-F570-4362-BF9C-87B069DD06D7}
 		{FB2345CA-7300-478A-8DAE-1BC1AD7ED11D} = {0785BF07-F570-4362-BF9C-87B069DD06D7}
-		{8328634D-5815-4015-9012-56DB0C4F9B30} = {0785BF07-F570-4362-BF9C-87B069DD06D7}
 		{BE294FED-D02A-4ABB-B022-0ABA3DBEF433} = {0785BF07-F570-4362-BF9C-87B069DD06D7}
 		{0EE01F5C-62A5-4043-98E4-692CE4928145} = {0785BF07-F570-4362-BF9C-87B069DD06D7}
 		{09B6FDCE-627E-44BA-996B-FEC877ED750A} = {0785BF07-F570-4362-BF9C-87B069DD06D7}

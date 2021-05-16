@@ -2,8 +2,9 @@
 
 using Infrastructure.Validation.Exceptions;
 using Infrastructure.Validation.Model;
+
 using Services.Business.Departments.Buying.Configuration.Validation.Request.ValidateCostInventory;
-using Services.Model.Department.Finance;
+using Services.Business.Departments.Buying.Models;
 
 using System.Collections.Generic;
 using System.Linq;

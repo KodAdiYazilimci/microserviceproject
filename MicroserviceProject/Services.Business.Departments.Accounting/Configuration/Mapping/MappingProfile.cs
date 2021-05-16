@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 
-using Infrastructure.Communication.Model.Department.Accounting;
 using Services.Business.Departments.Accounting.Entities.Sql;
+using Services.Business.Departments.Accounting.Models;
 
 namespace Services.Business.Departments.Accounting.Configuration.Mapping
 {
