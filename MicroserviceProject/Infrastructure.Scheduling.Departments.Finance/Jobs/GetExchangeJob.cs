@@ -1,5 +1,6 @@
 ﻿using Hangfire.Common;
 
+using Infrastructure.Caching.InMemory;
 using Infrastructure.Caching.Redis;
 using Infrastructure.Communication.Http.Providers;
 using Infrastructure.Scheduling.Departments.Finance.Converters;
@@ -16,11 +17,11 @@ namespace Infrastructure.Scheduling.Departments.Finance.Jobs
     {
         private const string STORED_LAST_EXCHANGE = "stored.last.exhange";
 
-        private readonly RedisCacheDataProvider _redisCacheDataProvider;
+        private readonly InMemoryCacheDataProvider _inMemoryCacheDataProvider;
 
-        public GetExchangeJob(RedisCacheDataProvider redisCacheDataProvider)
+        public GetExchangeJob(InMemoryCacheDataProvider inMemoryCacheDataProvider)
         {
-            _redisCacheDataProvider = redisCacheDataProvider;
+            _inMemoryCacheDataProvider = inMemoryCacheDataProvider;
         }
 
         public async Task CallExchangesAsync()
@@ -35,13 +36,13 @@ namespace Infrastructure.Scheduling.Departments.Finance.Jobs
 
             if (exchangeModel != null
                 &&
-                (_redisCacheDataProvider.Get<string>(STORED_LAST_EXCHANGE) == null
+                (_inMemoryCacheDataProvider.Get<string>(STORED_LAST_EXCHANGE) == null
                 ||
-                _redisCacheDataProvider.Get<int>(STORED_LAST_EXCHANGE) < Convert.ToInt32(exchangeModel.Bulten.Replace("/", ""))))
+                _inMemoryCacheDataProvider.Get<int>(STORED_LAST_EXCHANGE) < Convert.ToInt32(exchangeModel.Bulten.Replace("/", ""))))
             {
 
 
-                _redisCacheDataProvider.Set<int>(STORED_LAST_EXCHANGE, Convert.ToInt32(exchangeModel.Bulten.Replace("/", "")));
+                _inMemoryCacheDataProvider.Set<int>(STORED_LAST_EXCHANGE, Convert.ToInt32(exchangeModel.Bulten.Replace("/", "")));
             }
         }
 

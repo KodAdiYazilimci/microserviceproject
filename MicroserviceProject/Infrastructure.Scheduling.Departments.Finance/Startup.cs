@@ -1,24 +1,17 @@
 using Hangfire;
-using Hangfire.Common;
 using Hangfire.MemoryStorage;
 
+using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Caching.Redis;
-using Infrastructure.Caching.Redis.DI;
 using Infrastructure.Scheduling.Departments.Finance.Jobs;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Scheduling.Departments.Finance
 {
@@ -37,7 +30,7 @@ namespace Infrastructure.Scheduling.Departments.Finance
                 .UseMemoryStorage();
             });
             services.AddMemoryCache();
-            services.RegisterRedisCaching();
+            services.RegisterInMemoryCaching();
 
             services.AddHangfireServer();
         }
