@@ -106,6 +106,7 @@ namespace Infrastructure.Mock.Data
                 appConfigurationProvider.ServicesSection.EndpointsSection.ITSection["InformInventoryRequest"] = "it.inventory.informinventoryrequest";
 
                 appConfigurationProvider.ServicesSection.EndpointsSection.WebSocketsSecuritySection["SendTokenNotification"] = "websockets.security.sendtokennotification";
+                appConfigurationProvider.ServicesSection.EndpointsSection.WebSocketsSecuritySection["SendErrorNotification"] = "websockets.reliability.senderrornotification";
 
                 appConfigurationProvider.PersistenceSection["DataSource"] = "server=localhost;DataBase=Microservice_HR_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true";
                 appConfigurationProvider.PersistenceSection["CacheServer"] = "localhost";

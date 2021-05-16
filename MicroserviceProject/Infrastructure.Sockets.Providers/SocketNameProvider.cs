@@ -29,7 +29,7 @@ namespace Infrastructure.Sockets.Providers
         }
 
         /// <summary>
-        /// Kullanıcı bilgilerine göre token getirir
+        /// Token mesajlarını getirir
         /// </summary>
         public string Security_TokensHub_GetTokenMessages
         {
@@ -39,6 +39,20 @@ namespace Infrastructure.Sockets.Providers
                     _configuration
                     .GetSection("WebSockets")
                     .GetSection("Endpoints")["TokensHub.GetTokenMessages"];
+            }
+        }
+
+        /// <summary>
+        /// Hata mesajlarını getirir
+        /// </summary>
+        public string Reliability_ErrorHub_GetErrorMessages
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("WebSockets")
+                    .GetSection("Endpoints")["SecurityHub.GetErrorMessages"];
             }
         }
 
