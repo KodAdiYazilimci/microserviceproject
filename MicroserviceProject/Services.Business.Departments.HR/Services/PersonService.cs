@@ -4,9 +4,9 @@ using Infrastructure.Caching.Redis;
 using Infrastructure.Communication.Http.Exceptions;
 using Infrastructure.Communication.Model.Basics;
 using Infrastructure.Communication.Moderator;
-using Infrastructure.Communication.Mq.Rabbit.Publisher.AA;
-using Infrastructure.Communication.Mq.Rabbit.Publisher.Accounting;
-using Infrastructure.Communication.Mq.Rabbit.Publisher.IT;
+using Infrastructure.Communication.Mq.Rabbit.Publisher.Department.AA;
+using Infrastructure.Communication.Mq.Rabbit.Publisher.Department.Accounting;
+using Infrastructure.Communication.Mq.Rabbit.Publisher.Department.IT;
 using Infrastructure.Localization.Providers;
 using Infrastructure.Routing.Providers;
 using Infrastructure.Transaction.ExecutionHandler;
@@ -431,9 +431,9 @@ namespace Services.Business.Departments.HR.Services
             #region Muhasebe departmanının banka hesabı açması için rabbit e kayıt ekler
 
             _createBankAccountPublisher.AddToBuffer(
-                model: new Infrastructure.Communication.Mq.Rabbit.Publisher.Accounting.Models.BankAccountModel()
+                model: new Infrastructure.Communication.Mq.Rabbit.Publisher.Department.Accounting.Models.BankAccountModel()
                 {
-                    Worker = new Infrastructure.Communication.Mq.Rabbit.Publisher.Accounting.Models.WorkerModel() { Id = worker.Id },
+                    Worker = new Infrastructure.Communication.Mq.Rabbit.Publisher.Department.Accounting.Models.WorkerModel() { Id = worker.Id },
                     IBAN = worker.BankAccounts.FirstOrDefault().IBAN
                 });
 
@@ -476,10 +476,10 @@ namespace Services.Business.Departments.HR.Services
                 }
             }
 
-            _AAassignInventoryToWorkerPublisher.AddToBuffer(new Infrastructure.Communication.Mq.Rabbit.Publisher.AA.Models.WorkerModel()
+            _AAassignInventoryToWorkerPublisher.AddToBuffer(new Infrastructure.Communication.Mq.Rabbit.Publisher.Department.AA.Models.WorkerModel()
             {
                 Id = worker.Id,
-                Inventories = worker.AAInventories.Select(x => new Infrastructure.Communication.Mq.Rabbit.Publisher.AA.Models.InventoryModel()
+                Inventories = worker.AAInventories.Select(x => new Infrastructure.Communication.Mq.Rabbit.Publisher.Department.AA.Models.InventoryModel()
                 {
                     FromDate = x.FromDate,
                     Id = x.Id,
@@ -526,10 +526,10 @@ namespace Services.Business.Departments.HR.Services
                 }
             }
 
-            _ITAssignInventoryToWorkerPublisher.AddToBuffer(new Infrastructure.Communication.Mq.Rabbit.Publisher.IT.Models.WorkerModel()
+            _ITAssignInventoryToWorkerPublisher.AddToBuffer(new Infrastructure.Communication.Mq.Rabbit.Publisher.Department.IT.Models.WorkerModel()
             {
                 Id = worker.Id,
-                Inventories = worker.ITInventories.Select(x => new Infrastructure.Communication.Mq.Rabbit.Publisher.IT.Models.InventoryModel()
+                Inventories = worker.ITInventories.Select(x => new Infrastructure.Communication.Mq.Rabbit.Publisher.Department.IT.Models.InventoryModel()
                 {
                     FromDate = x.FromDate,
                     Id = x.Id,

@@ -4,9 +4,9 @@ using Infrastructure.Caching.Redis;
 using Infrastructure.Communication.Http.Exceptions;
 using Infrastructure.Communication.Model.Basics;
 using Infrastructure.Communication.Moderator;
-using Infrastructure.Communication.Mq.Rabbit.Publisher.AA;
-using Infrastructure.Communication.Mq.Rabbit.Publisher.Finance;
-using Infrastructure.Communication.Mq.Rabbit.Publisher.IT;
+using Infrastructure.Communication.Mq.Rabbit.Publisher.Department.AA;
+using Infrastructure.Communication.Mq.Rabbit.Publisher.Department.Finance;
+using Infrastructure.Communication.Mq.Rabbit.Publisher.Department.IT;
 using Infrastructure.Localization.Providers;
 using Infrastructure.Routing.Providers;
 using Infrastructure.Transaction.ExecutionHandler;
@@ -333,7 +333,7 @@ namespace Services.Business.Departments.Buying.Services
                 cancellationTokenSource: cancellationTokenSource);
 
             _inventoryRequestPublisher.AddToBuffer(
-                model: new Infrastructure.Communication.Mq.Rabbit.Publisher.Finance.Models.DecidedCostModel
+                model: new Infrastructure.Communication.Mq.Rabbit.Publisher.Department.Finance.Models.DecidedCostModel
                 {
                     InventoryRequestId = createdInventoryRequestId
                 });
@@ -447,7 +447,7 @@ namespace Services.Business.Departments.Buying.Services
             if (inventoryRequestEntity.DepartmentId == (int)Constants.Departments.AdministrativeAffairs)
             {
                 _AAInformInventoryRequestPublisher.AddToBuffer(
-                    model: new Infrastructure.Communication.Mq.Rabbit.Publisher.AA.Models.InventoryRequestModel
+                    model: new Infrastructure.Communication.Mq.Rabbit.Publisher.Department.AA.Models.InventoryRequestModel
                     {
                         InventoryId = inventoryRequestEntity.InventoryId,
                         Amount = inventoryRequestEntity.Amount,
@@ -458,7 +458,7 @@ namespace Services.Business.Departments.Buying.Services
             else if (inventoryRequestEntity.DepartmentId == (int)Constants.Departments.InformationTechnologies)
             {
                 _ITInformInventoryRequestPublisher.AddToBuffer(
-                    model: new Infrastructure.Communication.Mq.Rabbit.Publisher.IT.Models.InventoryRequestModel
+                    model: new Infrastructure.Communication.Mq.Rabbit.Publisher.Department.IT.Models.InventoryRequestModel
                     {
                         InventoryId = inventoryRequestEntity.InventoryId,
                         Amount = inventoryRequestEntity.Amount,

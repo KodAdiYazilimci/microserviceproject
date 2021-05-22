@@ -1,4 +1,4 @@
-﻿using Infrastructure.Communication.Mq.Rabbit.Configuration.AA;
+﻿using Infrastructure.Communication.Mq.Rabbit.Configuration.Department.AA;
 using Services.MQ.AA.Util.Consumers.Inventory;
 using Services.MQ.AA.Util.Consumers.Request;
 

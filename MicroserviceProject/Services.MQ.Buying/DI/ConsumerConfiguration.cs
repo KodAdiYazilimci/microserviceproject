@@ -1,4 +1,4 @@
-﻿using Infrastructure.Communication.Mq.Rabbit.Configuration.Buying;
+﻿using Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Buying;
 using Services.MQ.Buying.Util.Consumers.Cost;
 using Services.MQ.Buying.Util.Consumers.Request;
 

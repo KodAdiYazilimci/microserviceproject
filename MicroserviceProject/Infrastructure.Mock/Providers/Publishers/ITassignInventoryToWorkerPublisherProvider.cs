@@ -1,5 +1,5 @@
-﻿using Infrastructure.Communication.Mq.Rabbit.Configuration.IT;
-using Infrastructure.Communication.Mq.Rabbit.Publisher.IT;
+﻿using Infrastructure.Communication.Mq.Rabbit.Configuration.Department.IT;
+using Infrastructure.Communication.Mq.Rabbit.Publisher.Department.IT;
 
 namespace Infrastructure.Mock.Publishers
 {

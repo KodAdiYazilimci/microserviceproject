@@ -2,7 +2,7 @@
 
 using Infrastructure.Caching.Redis;
 using Infrastructure.Communication.Moderator;
-using Infrastructure.Communication.Mq.Rabbit.Publisher.Buying;
+using Infrastructure.Communication.Mq.Rabbit.Publisher.Department.Buying;
 using Infrastructure.Localization.Providers;
 using Infrastructure.Routing.Providers;
 using Infrastructure.Transaction.ExecutionHandler;
@@ -254,7 +254,7 @@ namespace Services.Business.Departments.Finance.Services
                 cancellationTokenSource: cancellationTokenSource);
 
             _notifyCostApprovementPublisher.AddToBuffer(
-                model: new Infrastructure.Communication.Mq.Rabbit.Publisher.Buying.Models.DecidedCostModel
+                model: new Infrastructure.Communication.Mq.Rabbit.Publisher.Department.Buying.Models.DecidedCostModel
                 {
                     Approved = true,
                     InventoryRequestId = decidedCostEntity.InventoryRequestId,
@@ -318,7 +318,7 @@ namespace Services.Business.Departments.Finance.Services
                 cancellationTokenSource: cancellationTokenSource);
 
             _notifyCostApprovementPublisher.AddToBuffer(
-                model: new Infrastructure.Communication.Mq.Rabbit.Publisher.Buying.Models.DecidedCostModel
+                model: new Infrastructure.Communication.Mq.Rabbit.Publisher.Department.Buying.Models.DecidedCostModel
                 {
                     Approved = false,
                     InventoryRequestId = decidedCostEntity.InventoryRequestId,

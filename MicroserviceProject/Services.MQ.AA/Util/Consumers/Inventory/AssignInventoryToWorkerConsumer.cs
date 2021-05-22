@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Communication.Moderator;
 using Infrastructure.Communication.Mq.Rabbit;
-using Infrastructure.Communication.Mq.Rabbit.Configuration.AA;
-using Infrastructure.Communication.Mq.Rabbit.Publisher.AA.Models;
+using Infrastructure.Communication.Mq.Rabbit.Configuration.Department.AA;
+using Infrastructure.Communication.Mq.Rabbit.Publisher.Department.AA.Models;
 using Infrastructure.Routing.Providers;
 
 using System;

@@ -11,20 +11,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Infrastructure.Caching.InMemory.DI\Infrastructure.Caching.InMemory.DI.csproj" />
-    <ProjectReference Include="..\Infrastructure.Caching.Redis.DI\Infrastructure.Caching.Redis.DI.csproj" />
-    <ProjectReference Include="..\Infrastructure.Communication.Moderator.DI\Infrastructure.Communication.Moderator.DI.csproj" />
     <ProjectReference Include="..\Infrastructure.Communication.Moderator\Infrastructure.Communication.Moderator.csproj" />
-    <ProjectReference Include="..\Infrastructure.Communication.Mq.Rabbit.Configuration.DI\Infrastructure.Communication.Mq.Rabbit.Configuration.DI.csproj" />
     <ProjectReference Include="..\Infrastructure.Communication.Mq.Rabbit.Configuration\Infrastructure.Communication.Mq.Rabbit.Configuration.csproj" />
-    <ProjectReference Include="..\Infrastructure.Communication.Mq.Rabbit.Publisher.DI\Infrastructure.Communication.Mq.Rabbit.Publisher.DI.csproj" />
     <ProjectReference Include="..\Infrastructure.Communication.Mq.Rabbit.Publisher\Infrastructure.Communication.Mq.Rabbit.Publisher.csproj" />
     <ProjectReference Include="..\Infrastructure.Communication.Mq.Rabbit\Infrastructure.Communication.Mq.Rabbit.csproj" />
     <ProjectReference Include="..\Infrastructure.Localization\Infrastructure.Localization.csproj" />
-    <ProjectReference Include="..\Infrastructure.Routing.Persistence.DI\Infrastructure.Routing.Persistence.DI.csproj" />
-    <ProjectReference Include="..\Infrastructure.Routing.Providers.DI\Infrastructure.Routing.Providers.DI.csproj" />
     <ProjectReference Include="..\Infrastructure.Routing.Providers\Infrastructure.Routing.Providers.csproj" />
-    <ProjectReference Include="..\Infrastructure.Security.Authentication.BasicToken.DI\Infrastructure.Security.Authentication.BasicToken.DI.csproj" />
+    <ProjectReference Include="..\Infrastructure.Security.Authentication.BasicToken\Infrastructure.Security.Authentication.BasicToken.csproj" />
     <ProjectReference Include="..\Infrastructure.Util.DI\Infrastructure.Util.DI.csproj" />
   </ItemGroup>
 

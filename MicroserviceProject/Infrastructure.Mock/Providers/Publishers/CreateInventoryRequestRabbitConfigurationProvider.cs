@@ -1,4 +1,4 @@
-﻿using Infrastructure.Communication.Mq.Rabbit.Configuration.Buying;
+﻿using Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Buying;
 
 using Microsoft.Extensions.Configuration;
 

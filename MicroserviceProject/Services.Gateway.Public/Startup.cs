@@ -24,7 +24,7 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 
 using System.Net;
-using Infrastructure.Communication.Mq.Rabbit.Publisher.DI;
+using Infrastructure.Communication.Mq.Rabbit.Publisher.Department.DI;
 using Infrastructure.Caching.InMemory.DI;
 
 namespace Services.Gateway.Public
