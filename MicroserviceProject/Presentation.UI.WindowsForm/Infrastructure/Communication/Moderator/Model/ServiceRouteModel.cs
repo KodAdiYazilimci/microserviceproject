@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Presentation.UI.Infrastructure.Communication.Moderator.Model
+namespace Presentation.UI.Infrastructure.Communication.Broker.Model
 {
     /// <summary>
     /// Çağrı modeli

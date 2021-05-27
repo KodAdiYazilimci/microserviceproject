@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure.Mock.Data\Infrastructure.Mock.Data.csproj" />
+    <ProjectReference Include="..\Infrastructure.Routing.Providers\Infrastructure.Routing.Providers.csproj" />
     <ProjectReference Include="..\Services.Business.Departments.Accounting\Services.Business.Departments.Accounting.csproj" />
   </ItemGroup>
 

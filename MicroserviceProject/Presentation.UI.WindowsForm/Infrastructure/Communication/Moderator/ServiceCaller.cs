@@ -3,7 +3,7 @@ using Presentation.UI.Infrastructure.Communication.Http.Model;
 using Presentation.UI.Infrastructure.Communication.Http.Providers;
 using Presentation.UI.Infrastructure.Communication.Model.Basics;
 using Presentation.UI.Infrastructure.Communication.Model.Errors;
-using Presentation.UI.Infrastructure.Communication.Moderator.Model;
+using Presentation.UI.Infrastructure.Communication.Broker.Model;
 
 using Microsoft.Extensions.Caching.Memory;
 
@@ -17,7 +17,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Presentation.UI.WindowsForm.Infrastructure.Communication.Moderator
+namespace Presentation.UI.WindowsForm.Infrastructure.Communication.Broker
 {
     /// <summary>
     /// Bir servisle çağrı kurmayı sağlayan moderatör sınıf

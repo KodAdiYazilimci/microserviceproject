@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -12,7 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Infrastructure.Communication.Moderator\Infrastructure.Communication.Moderator.csproj" />
+    <ProjectReference Include="..\Infrastructure.Caching.InMemory\Infrastructure.Caching.InMemory.csproj" />
+    <ProjectReference Include="..\Infrastructure.Communication.Broker\Infrastructure.Communication.Broker.csproj" />
     <ProjectReference Include="..\Infrastructure.Security.Authentication\Infrastructure.Security.Authentication.csproj" />
     <ProjectReference Include="..\Infrastructure.Security.Model\Infrastructure.Security.Model.csproj" />
   </ItemGroup>

@@ -1,7 +1,7 @@
 ﻿
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Infrastructure.Communication.Moderator.DI
+namespace Infrastructure.Communication.Broker.DI
 {
     /// <summary>
     /// Servis iletişim sağlayıcı DI sınıfı

@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Communication.Http.Exceptions;
 using Infrastructure.Communication.Model.Basics;
-using Infrastructure.Communication.Moderator;
+using Infrastructure.Communication.Broker;
 using Infrastructure.Routing.Providers;
 using Infrastructure.Transaction.ExecutionHandler;
 

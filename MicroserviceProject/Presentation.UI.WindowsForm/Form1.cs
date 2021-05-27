@@ -2,11 +2,11 @@
 using Presentation.UI.WindowsForm.Business.Model.Department.HR;
 using Presentation.UI.WindowsForm.Business.Model.Department.IT;
 using Presentation.UI.Infrastructure.Communication.Model.Basics;
-using Presentation.UI.Infrastructure.Communication.Moderator;
-using Presentation.UI.Infrastructure.Communication.Moderator.Providers;
+using Presentation.UI.Infrastructure.Communication.Broker;
+using Presentation.UI.Infrastructure.Communication.Broker.Providers;
 using Presentation.UI.Infrastructure.Persistence.Repositories;
 using Presentation.UI.WindowsForm.Dialogs.HR;
-using Presentation.UI.WindowsForm.Infrastructure.Communication.Moderator;
+using Presentation.UI.WindowsForm.Infrastructure.Communication.Broker;
 
 using Microsoft.Extensions.Caching.Memory;
 

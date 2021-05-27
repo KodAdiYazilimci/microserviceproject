@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Caching.Abstraction;
 using Infrastructure.Caching.InMemory;
 using Infrastructure.Communication.Model.Basics;
-using Infrastructure.Communication.Moderator;
+using Infrastructure.Communication.Broker;
 using Infrastructure.Routing.Providers;
 using Infrastructure.Security.Authentication.BasicToken.Schemes;
 using Infrastructure.Security.Authentication.Persistence;

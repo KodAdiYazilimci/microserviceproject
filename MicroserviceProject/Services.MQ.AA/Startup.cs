@@ -1,7 +1,7 @@
 using Infrastructure.Caching.Redis.DI;
 using Infrastructure.Communication.Model.Basics;
 using Infrastructure.Communication.Model.Errors;
-using Infrastructure.Communication.Moderator.DI;
+using Infrastructure.Communication.Broker.DI;
 using Infrastructure.Localization.DI;
 using Infrastructure.Routing.Persistence.DI;
 using Infrastructure.Routing.Providers.DI;

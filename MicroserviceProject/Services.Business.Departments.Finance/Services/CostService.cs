@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 
 using Infrastructure.Caching.Redis;
-using Infrastructure.Communication.Moderator;
+using Infrastructure.Communication.Broker;
 using Infrastructure.Communication.Mq.Rabbit.Publisher.Department.Buying;
 using Infrastructure.Localization.Providers;
 using Infrastructure.Routing.Providers;

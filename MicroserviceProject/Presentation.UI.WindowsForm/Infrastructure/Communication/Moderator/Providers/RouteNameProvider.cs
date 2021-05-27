@@ -1,6 +1,6 @@
 ﻿using System.Configuration;
 
-namespace Presentation.UI.Infrastructure.Communication.Moderator.Providers
+namespace Presentation.UI.Infrastructure.Communication.Broker.Providers
 {
     /// <summary>
     /// Servis rotalarına ait endpoint isimlerini sağlayan sınıf

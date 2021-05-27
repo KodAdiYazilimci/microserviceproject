@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Caching.Abstraction;
 using Infrastructure.Caching.InMemory;
-using Infrastructure.Communication.Moderator;
+using Infrastructure.Communication.Broker;
 using Infrastructure.Routing.Persistence.Repositories.Sql;
 using Infrastructure.Routing.Providers;
 using Infrastructure.Security.Providers;

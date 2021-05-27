@@ -1,4 +1,4 @@
-﻿using Infrastructure.Communication.Moderator;
+﻿using Infrastructure.Communication.Broker;
 using Infrastructure.Communication.Mq.Rabbit;
 using Infrastructure.Communication.Mq.Rabbit.Configuration.Department.AA;
 using Infrastructure.Communication.Mq.Rabbit.Publisher.Department.AA.Models;

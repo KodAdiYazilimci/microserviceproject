@@ -19,7 +19,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Communication.Moderator
+namespace Infrastructure.Communication.Broker
 {
     /// <summary>
     /// Yetki denetimi destekli servis iletişim sağlayıcı sınıf

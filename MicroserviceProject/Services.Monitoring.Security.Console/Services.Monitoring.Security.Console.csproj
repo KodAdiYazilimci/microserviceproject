@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Infrastructure.Communication.Moderator\Infrastructure.Communication.Moderator.csproj" />
+    <ProjectReference Include="..\Infrastructure.Communication.Broker\Infrastructure.Communication.Broker.csproj" />
     <ProjectReference Include="..\Infrastructure.Communication.WebSockets\Infrastructure.Communication.WebSockets.csproj" />
     <ProjectReference Include="..\Infrastructure.Mock.Data\Infrastructure.Mock.Data.csproj" />
     <ProjectReference Include="..\Infrastructure.Mock\Infrastructure.Mock.csproj" />

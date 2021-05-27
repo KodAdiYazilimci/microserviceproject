@@ -20,7 +20,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Communication.Moderator
+namespace Infrastructure.Communication.Broker
 {
     /// <summary>
     /// Bir servisle çağrı kurmayı sağlayan moderatör sınıf

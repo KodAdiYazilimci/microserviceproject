@@ -1,5 +1,5 @@
 ﻿
-using Infrastructure.Communication.Moderator;
+using Infrastructure.Communication.Broker;
 using Infrastructure.Communication.Mq.Rabbit;
 using Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Buying;
 using Infrastructure.Communication.Mq.Rabbit.Publisher.Department.Buying.Models;

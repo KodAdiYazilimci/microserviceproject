@@ -1,7 +1,7 @@
 ﻿
 using Presentation.UI.Infrastructure.Communication.Model.Basics;
-using Presentation.UI.Infrastructure.Communication.Moderator.Model;
-using Presentation.UI.Infrastructure.Communication.Moderator.Providers;
+using Presentation.UI.Infrastructure.Communication.Broker.Model;
+using Presentation.UI.Infrastructure.Communication.Broker.Providers;
 using Presentation.UI.Infrastructure.Persistence.Repositories;
 using Presentation.UI.Infrastructure.Security.Model;
 
@@ -15,7 +15,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Presentation.UI.WindowsForm.Infrastructure.Communication.Moderator
+namespace Presentation.UI.WindowsForm.Infrastructure.Communication.Broker
 {
     /// <summary>
     /// Yetki denetimi destekli servis iletişim sağlayıcı sınıf

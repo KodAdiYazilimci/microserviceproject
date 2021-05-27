@@ -1,5 +1,5 @@
 ﻿
-using Presentation.UI.Infrastructure.Communication.Moderator.Model;
+using Presentation.UI.Infrastructure.Communication.Broker.Model;
 
 using System;
 using System.Collections.Generic;

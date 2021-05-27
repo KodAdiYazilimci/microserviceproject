@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure.Communication.Model\Infrastructure.Communication.Model.csproj" />
-    <ProjectReference Include="..\Infrastructure.Communication.Moderator\Infrastructure.Communication.Moderator.csproj" />
+    <ProjectReference Include="..\Infrastructure.Communication.Broker\Infrastructure.Communication.Broker.csproj" />
     <ProjectReference Include="..\Infrastructure.Communication.Mq.Rabbit.Configuration\Infrastructure.Communication.Mq.Rabbit.Configuration.csproj" />
     <ProjectReference Include="..\Infrastructure.Communication.Mq.Rabbit.Publisher\Infrastructure.Communication.Mq.Rabbit.Publisher.csproj" />
     <ProjectReference Include="..\Infrastructure.Localization\Infrastructure.Localization.csproj" />
