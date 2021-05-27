@@ -1,5 +1,5 @@
 ﻿using Infrastructure.Communication.Http.Broker.Models;
-using Infrastructure.Validation.Model;
+using Infrastructure.Validation.Models;
 
 using System;
 

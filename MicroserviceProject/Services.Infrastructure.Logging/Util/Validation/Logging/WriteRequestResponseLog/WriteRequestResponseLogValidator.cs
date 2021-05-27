@@ -2,7 +2,7 @@
 
 using Infrastructure.Communication.Http.Broker.Models;
 using Infrastructure.Logging.Logger.RequestResponseLogger;
-using Infrastructure.Validation.Model;
+using Infrastructure.Validation.Models;
 
 using System.Collections.Generic;
 using System.Linq;

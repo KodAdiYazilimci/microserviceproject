@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Validation.Model
+﻿namespace Infrastructure.Validation.Models
 {
     /// <summary>
     /// Doğrulamaya ait detay

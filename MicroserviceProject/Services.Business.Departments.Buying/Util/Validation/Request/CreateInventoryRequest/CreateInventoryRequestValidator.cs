@@ -1,7 +1,7 @@
 ﻿using FluentValidation.Results;
 
 using Infrastructure.Validation.Exceptions;
-using Infrastructure.Validation.Model;
+using Infrastructure.Validation.Models;
 
 using Services.Business.Departments.Buying.Configuration.Validation.Request.CreateInventoryRequest;
 using Services.Business.Departments.Buying.Models;

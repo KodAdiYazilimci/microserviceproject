@@ -16,7 +16,6 @@
     <ProjectReference Include="..\Infrastructure.Cryptography\Infrastructure.Cryptography.csproj" />
     <ProjectReference Include="..\Infrastructure.Localization\Infrastructure.Localization.csproj" />
     <ProjectReference Include="..\Infrastructure.Logging.Logger.RequestResponseLogger\Infrastructure.Logging.Logger.RequestResponseLogger.csproj" />
-    <ProjectReference Include="..\Infrastructure.Security.Model\Infrastructure.Security.Model.csproj" />
     <ProjectReference Include="..\Infrastructure.Transaction.ExecutionHandler\Infrastructure.Transaction.ExecutionHandler.csproj" />
     <ProjectReference Include="..\Infrastructure.Util.DI\Infrastructure.Util.DI.csproj" />
   </ItemGroup>

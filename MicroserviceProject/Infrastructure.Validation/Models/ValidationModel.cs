@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Infrastructure.Validation.Model
+namespace Infrastructure.Validation.Models
 {
     /// <summary>
     /// Servisten dönen doğrulama

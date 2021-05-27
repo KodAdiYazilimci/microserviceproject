@@ -2,7 +2,8 @@
 
 using Infrastructure.Transaction.Recovery;
 using Infrastructure.Validation.Exceptions;
-using Infrastructure.Validation.Model;
+using Infrastructure.Validation.Models;
+
 using Services.Business.Departments.Accounting.Configuration.Validation.Transaction;
 
 using System.Collections.Generic;

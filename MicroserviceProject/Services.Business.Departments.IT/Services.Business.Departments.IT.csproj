@@ -24,8 +24,6 @@
     <ProjectReference Include="..\Infrastructure.Transaction.Recovery\Infrastructure.Transaction.Recovery.csproj" />
     <ProjectReference Include="..\Infrastructure.Transaction.UnitOfWork\Infrastructure.Transaction.UnitOfWork.csproj" />
     <ProjectReference Include="..\Infrastructure.Util.DI\Infrastructure.Util.DI.csproj" />
-    <ProjectReference Include="..\Infrastructure.Validation.Exceptions\Infrastructure.Validation.Exceptions.csproj" />
-    <ProjectReference Include="..\Infrastructure.Validation.Model\Infrastructure.Validation.Model.csproj" />
   </ItemGroup>
 
 </Project>

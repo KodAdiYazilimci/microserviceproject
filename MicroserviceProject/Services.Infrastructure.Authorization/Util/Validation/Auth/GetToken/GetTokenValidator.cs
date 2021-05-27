@@ -2,7 +2,7 @@
 
 using Infrastructure.Communication.Http.Broker.Models;
 using Infrastructure.Security.Model;
-using Infrastructure.Validation.Model;
+using Infrastructure.Validation.Models;
 
 using System.Collections.Generic;
 using System.Linq;

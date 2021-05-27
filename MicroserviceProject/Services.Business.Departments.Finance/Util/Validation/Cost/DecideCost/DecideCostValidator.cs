@@ -1,7 +1,7 @@
 ﻿using FluentValidation.Results;
 
 using Infrastructure.Validation.Exceptions;
-using Infrastructure.Validation.Model;
+using Infrastructure.Validation.Models;
 using Services.Business.Departments.Finance.Configuration.Validation.Cost.DecideCost;
 using Services.Model.Department.Finance;
 

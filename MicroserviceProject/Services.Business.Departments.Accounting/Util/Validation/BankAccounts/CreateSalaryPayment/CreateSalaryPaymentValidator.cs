@@ -1,7 +1,7 @@
 ﻿using FluentValidation.Results;
 
 using Infrastructure.Validation.Exceptions;
-using Infrastructure.Validation.Model;
+using Infrastructure.Validation.Models;
 
 using Services.Business.Departments.Accounting.Configuration.Validation.BankAccounts.CreateBankAccount;
 using Services.Business.Departments.Accounting.Models;

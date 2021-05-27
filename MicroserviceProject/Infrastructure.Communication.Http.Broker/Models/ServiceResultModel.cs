@@ -1,4 +1,4 @@
-﻿using Infrastructure.Validation.Model;
+﻿using Infrastructure.Validation.Models;
 
 namespace Infrastructure.Communication.Http.Broker.Models
 {

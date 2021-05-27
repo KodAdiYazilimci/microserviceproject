@@ -15,7 +15,6 @@
     <ProjectReference Include="..\Infrastructure.Caching.InMemory\Infrastructure.Caching.InMemory.csproj" />
     <ProjectReference Include="..\Infrastructure.Communication.Http.Broker\Infrastructure.Communication.Http.Broker.csproj" />
     <ProjectReference Include="..\Infrastructure.Routing.Providers\Infrastructure.Routing.Providers.csproj" />
-    <ProjectReference Include="..\Infrastructure.Security.Model\Infrastructure.Security.Model.csproj" />
   </ItemGroup>
 
 </Project>
