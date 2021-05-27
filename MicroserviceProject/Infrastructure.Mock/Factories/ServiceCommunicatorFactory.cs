@@ -1,11 +1,8 @@
-﻿using Infrastructure.Caching.Abstraction;
-using Infrastructure.Caching.InMemory;
+﻿using Infrastructure.Caching.InMemory;
 using Infrastructure.Communication.Broker;
 using Infrastructure.Routing.Persistence.Repositories.Sql;
 using Infrastructure.Routing.Providers;
 using Infrastructure.Security.Providers;
-
-using Microsoft.Extensions.Caching.Memory;
 
 namespace Infrastructure.Mock.Factories
 {

@@ -14,7 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Infrastructure.Communication.Broker\Infrastructure.Communication.Http.Broker.csproj" />
     <ProjectReference Include="..\Infrastructure.Communication.Mq.Rabbit.Configuration\Infrastructure.Communication.Mq.Rabbit.Configuration.csproj" />
     <ProjectReference Include="..\Infrastructure.Communication.Mq.Rabbit.Publisher\Infrastructure.Communication.Mq.Rabbit.Publisher.csproj" />
     <ProjectReference Include="..\Infrastructure.Communication.Mq.Rabbit\Infrastructure.Communication.Mq.Rabbit.csproj" />

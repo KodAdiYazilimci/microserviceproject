@@ -16,7 +16,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure.Caching.Redis\Infrastructure.Caching.Redis.csproj" />
     <ProjectReference Include="..\Infrastructure.Communication.Http\Infrastructure.Communication.Http.csproj" />
-    <ProjectReference Include="..\Infrastructure.Communication.Broker\Infrastructure.Communication.Http.Broker.csproj" />
     <ProjectReference Include="..\Infrastructure.Communication.Mq.Rabbit.Publisher\Infrastructure.Communication.Mq.Rabbit.Publisher.csproj" />
     <ProjectReference Include="..\Infrastructure.Localization\Infrastructure.Localization.csproj" />
     <ProjectReference Include="..\Infrastructure.Logging.Logger.RequestResponseLogger\Infrastructure.Logging.Logger.RequestResponseLogger.csproj" />

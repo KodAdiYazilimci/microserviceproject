@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Infrastructure.Communication.Broker\Infrastructure.Communication.Http.Broker.csproj" />
+    <ProjectReference Include="..\Infrastructure.Communication.Http.Broker\Infrastructure.Communication.Http.Broker.csproj" />
     <ProjectReference Include="..\Infrastructure.Communication.Mq.Rabbit\Infrastructure.Communication.Mq.Rabbit.csproj" />
   </ItemGroup>
 

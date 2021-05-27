@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Infrastructure.Communication.Broker\Infrastructure.Communication.Http.Broker.csproj" />
+    <ProjectReference Include="..\Infrastructure.Communication.Http.Broker\Infrastructure.Communication.Http.Broker.csproj" />
     <ProjectReference Include="..\Infrastructure.Communication.Http\Infrastructure.Communication.Http.csproj" />
     <ProjectReference Include="..\Infrastructure.Validation.Exceptions\Infrastructure.Validation.Exceptions.csproj" />
   </ItemGroup>

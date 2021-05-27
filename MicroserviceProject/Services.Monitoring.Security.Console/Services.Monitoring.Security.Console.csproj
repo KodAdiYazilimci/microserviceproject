@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Infrastructure.Communication.Broker\Infrastructure.Communication.Http.Broker.csproj" />
     <ProjectReference Include="..\Infrastructure.Communication.WebSockets\Infrastructure.Communication.WebSockets.csproj" />
     <ProjectReference Include="..\Infrastructure.Mock.Data\Infrastructure.Mock.Data.csproj" />
     <ProjectReference Include="..\Infrastructure.Mock\Infrastructure.Mock.csproj" />

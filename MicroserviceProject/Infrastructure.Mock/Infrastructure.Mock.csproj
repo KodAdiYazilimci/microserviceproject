@@ -12,9 +12,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure.Caching.InMemory\Infrastructure.Caching.InMemory.csproj" />
-    <ProjectReference Include="..\Infrastructure.Communication.Broker\Infrastructure.Communication.Http.Broker.csproj" />
+    <ProjectReference Include="..\Infrastructure.Communication.Http.Broker\Infrastructure.Communication.Http.Broker.csproj" />
     <ProjectReference Include="..\Infrastructure.Communication.Mq.Rabbit.Publisher\Infrastructure.Communication.Mq.Rabbit.Publisher.csproj" />
     <ProjectReference Include="..\Infrastructure.Localization\Infrastructure.Localization.csproj" />
+    <ProjectReference Include="..\Infrastructure.Routing.Persistence\Infrastructure.Routing.Persistence.csproj" />
+    <ProjectReference Include="..\Infrastructure.Routing.Providers\Infrastructure.Routing.Providers.csproj" />
+    <ProjectReference Include="..\Infrastructure.Security.Providers\Infrastructure.Security.Providers.csproj" />
     <ProjectReference Include="..\Infrastructure.Sockets.Persistence\Infrastructure.Sockets.Persistence.csproj" />
     <ProjectReference Include="..\Infrastructure.Sockets.Providers\Infrastructure.Sockets.Providers.csproj" />
     <ProjectReference Include="..\Infrastructure.Transaction.UnitOfWork\Infrastructure.Transaction.UnitOfWork.csproj" />

@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure.Caching.InMemory\Infrastructure.Caching.InMemory.csproj" />
-    <ProjectReference Include="..\Infrastructure.Communication.Broker\Infrastructure.Communication.Http.Broker.csproj" />
+    <ProjectReference Include="..\Infrastructure.Communication.Http.Broker\Infrastructure.Communication.Http.Broker.csproj" />
     <ProjectReference Include="..\Infrastructure.Communication.Mq.Rabbit\Infrastructure.Communication.Mq.Rabbit.csproj" />
     <ProjectReference Include="..\Infrastructure.Routing.Persistence\Infrastructure.Routing.Persistence.csproj" />
     <ProjectReference Include="..\Infrastructure.Routing.Providers\Infrastructure.Routing.Providers.csproj" />
