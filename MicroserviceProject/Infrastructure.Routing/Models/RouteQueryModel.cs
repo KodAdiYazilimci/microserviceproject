@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Routing.Model
+﻿namespace Infrastructure.Routing.Models
 {
     /// <summary>
     /// Çağırılacak servisin query string parametreleri

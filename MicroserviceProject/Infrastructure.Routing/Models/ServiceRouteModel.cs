@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Infrastructure.Routing.Model
+namespace Infrastructure.Routing.Models
 {
     /// <summary>
     /// Çağrı modeli

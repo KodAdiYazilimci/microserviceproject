@@ -3,19 +3,18 @@ using Infrastructure.Communication.Broker;
 using Infrastructure.Communication.Http.Broker.Models;
 using Infrastructure.Communication.Mq.Rabbit.Models;
 using Infrastructure.Routing.Exceptions;
-using Infrastructure.Routing.Model;
+using Infrastructure.Routing.Models;
 using Infrastructure.Routing.Persistence.Repositories.Sql;
 using Infrastructure.Routing.Providers;
 using Infrastructure.Security.Authentication.Exceptions;
 using Infrastructure.Security.Model;
 using Infrastructure.Security.Providers;
 using Infrastructure.Sockets.Exceptions;
-using Infrastructure.Sockets.Model;
+using Infrastructure.Sockets.Models;
 using Infrastructure.Sockets.Persistence.Repositories.Sql;
 using Infrastructure.Sockets.Providers;
 
 using Microsoft.AspNetCore.SignalR.Client;
-using Microsoft.Extensions.Caching.Memory;
 
 using Newtonsoft.Json;
 

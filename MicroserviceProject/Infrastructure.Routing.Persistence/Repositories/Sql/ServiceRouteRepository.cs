@@ -1,5 +1,5 @@
 ﻿
-using Infrastructure.Routing.Model;
+using Infrastructure.Routing.Models;
 
 using Microsoft.Extensions.Configuration;
 

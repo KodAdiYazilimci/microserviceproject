@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Sockets.Model
+﻿namespace Infrastructure.Sockets.Models
 {
     /// <summary>
     /// Soket modeli

@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Infrastructure.Routing.Model\Infrastructure.Routing.Model.csproj" />
+    <ProjectReference Include="..\Infrastructure.Routing\Infrastructure.Routing.csproj" />
   </ItemGroup>
 
 </Project>

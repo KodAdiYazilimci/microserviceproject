@@ -1,5 +1,5 @@
 ﻿
-using Infrastructure.Sockets.Model;
+using Infrastructure.Sockets.Models;
 
 using Microsoft.Extensions.Configuration;
 

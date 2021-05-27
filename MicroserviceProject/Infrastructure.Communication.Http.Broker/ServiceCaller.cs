@@ -4,7 +4,7 @@ using Infrastructure.Communication.Http.Broker.Models;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Communication.Http.Providers;
 using Infrastructure.Routing.Exceptions;
-using Infrastructure.Routing.Model;
+using Infrastructure.Routing.Models;
 
 using Newtonsoft.Json;
 
