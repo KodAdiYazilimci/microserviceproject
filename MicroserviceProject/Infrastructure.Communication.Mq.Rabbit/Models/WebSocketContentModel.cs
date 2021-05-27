@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Communication.Model.Basics
+﻿namespace Infrastructure.Communication.Mq.Rabbit.Models
 {
     /// <summary>
     /// Websocketten gelen içerik

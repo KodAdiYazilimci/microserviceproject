@@ -9,7 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Infrastructure.Communication.Model\Infrastructure.Communication.Model.csproj" />
     <ProjectReference Include="..\Infrastructure.Validation.Model\Infrastructure.Validation.Model.csproj" />
   </ItemGroup>
 

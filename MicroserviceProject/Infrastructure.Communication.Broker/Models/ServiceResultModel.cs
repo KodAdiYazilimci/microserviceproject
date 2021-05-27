@@ -1,7 +1,6 @@
-﻿using Infrastructure.Communication.Model.Errors;
-using Infrastructure.Validation.Model;
+﻿using Infrastructure.Validation.Model;
 
-namespace Infrastructure.Communication.Model.Basics
+namespace Infrastructure.Communication.Http.Broker.Models
 {
     /// <summary>
     /// Bir servisten dönen yanıt

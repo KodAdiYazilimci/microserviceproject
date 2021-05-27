@@ -1,12 +1,10 @@
 using Infrastructure.Caching.InMemory.DI;
-using Infrastructure.Communication.Model.Basics;
-using Infrastructure.Communication.Model.Errors;
 using Infrastructure.Communication.Broker.DI;
+using Infrastructure.Communication.Http.Broker.Models;
 using Infrastructure.Routing.Persistence.DI;
 using Infrastructure.Routing.Providers.DI;
 using Infrastructure.Security.Authentication.BasicToken.DI;
 using Infrastructure.Security.Authentication.SignalR.DI;
-using Infrastructure.Security.Authentication.SignalR.Requirements;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;

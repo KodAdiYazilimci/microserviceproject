@@ -1,5 +1,5 @@
-using Infrastructure.Communication.Model.Basics;
-using Infrastructure.Communication.Model.Errors;
+
+using Infrastructure.Communication.Http.Broker.Models;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;

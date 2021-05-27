@@ -1,14 +1,10 @@
-﻿using Infrastructure.Caching.Abstraction;
-using Infrastructure.Caching.InMemory;
-using Infrastructure.Communication.Exceptions;
+﻿using Infrastructure.Caching.InMemory;
+using Infrastructure.Communication.Http.Broker.Exceptions;
+using Infrastructure.Communication.Http.Broker.Models;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Communication.Http.Providers;
-using Infrastructure.Communication.Model.Basics;
-using Infrastructure.Communication.Model.Errors;
 using Infrastructure.Routing.Exceptions;
 using Infrastructure.Routing.Model;
-
-using Microsoft.Extensions.Caching.Memory;
 
 using Newtonsoft.Json;
 

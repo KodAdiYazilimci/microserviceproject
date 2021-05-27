@@ -1,7 +1,6 @@
 ﻿using FluentValidation.Results;
 
-using Infrastructure.Communication.Model.Basics;
-using Infrastructure.Communication.Model.Errors;
+using Infrastructure.Communication.Http.Broker.Models;
 using Infrastructure.Logging.Logger.RequestResponseLogger;
 using Infrastructure.Validation.Model;
 

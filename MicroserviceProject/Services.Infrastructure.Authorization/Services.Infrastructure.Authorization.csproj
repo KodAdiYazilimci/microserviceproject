@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure.Caching.InMemory\Infrastructure.Caching.InMemory.csproj" />
-    <ProjectReference Include="..\Infrastructure.Communication.Model\Infrastructure.Communication.Model.csproj" />
     <ProjectReference Include="..\Infrastructure.Cryptography\Infrastructure.Cryptography.csproj" />
     <ProjectReference Include="..\Infrastructure.Localization\Infrastructure.Localization.csproj" />
     <ProjectReference Include="..\Infrastructure.Logging.Logger.RequestResponseLogger\Infrastructure.Logging.Logger.RequestResponseLogger.csproj" />

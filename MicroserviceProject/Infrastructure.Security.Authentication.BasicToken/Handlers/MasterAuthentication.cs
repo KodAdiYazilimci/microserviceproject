@@ -1,14 +1,12 @@
-﻿using Infrastructure.Caching.Abstraction;
-using Infrastructure.Caching.InMemory;
-using Infrastructure.Communication.Model.Basics;
+﻿using Infrastructure.Caching.InMemory;
 using Infrastructure.Communication.Broker;
+using Infrastructure.Communication.Http.Broker.Models;
 using Infrastructure.Routing.Providers;
 using Infrastructure.Security.Authentication.BasicToken.Schemes;
 using Infrastructure.Security.Authentication.Persistence;
 using Infrastructure.Security.Model;
 
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;

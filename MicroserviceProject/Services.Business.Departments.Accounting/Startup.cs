@@ -1,17 +1,15 @@
+using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Caching.Redis.DI;
-using Infrastructure.Communication.Model.Basics;
-using Infrastructure.Communication.Model.Errors;
 using Infrastructure.Communication.Broker.DI;
+using Infrastructure.Communication.Http.Broker.Models;
 using Infrastructure.Communication.Mq.Rabbit.Configuration.DI;
+using Infrastructure.Communication.Mq.Rabbit.Publisher.Department.DI;
 using Infrastructure.Localization.DI;
 using Infrastructure.Logging.Logger.RequestResponseLogger.DI;
 using Infrastructure.Routing.Persistence.DI;
 using Infrastructure.Routing.Providers.DI;
 using Infrastructure.Security.Authentication.BasicToken.DI;
 using Infrastructure.Util.DI;
-using Services.Business.Departments.Accounting.DI;
-using Services.Business.Departments.HR.DI;
-using Services.UnitOfWork.DI;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -23,9 +21,11 @@ using Microsoft.Extensions.Hosting;
 
 using Newtonsoft.Json;
 
+using Services.Business.Departments.Accounting.DI;
+using Services.Business.Departments.HR.DI;
+using Services.UnitOfWork.DI;
+
 using System.Net;
-using Infrastructure.Communication.Mq.Rabbit.Publisher.Department.DI;
-using Infrastructure.Caching.InMemory.DI;
 
 namespace Services.Business.Departments.Accounting
 {

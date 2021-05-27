@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 
 using Infrastructure.Caching.Redis;
-using Infrastructure.Communication.Http.Exceptions;
-using Infrastructure.Communication.Model.Basics;
 using Infrastructure.Communication.Broker;
+using Infrastructure.Communication.Http.Broker.Exceptions;
+using Infrastructure.Communication.Http.Broker.Models;
 using Infrastructure.Communication.Mq.Rabbit.Publisher.Department.AA;
 using Infrastructure.Communication.Mq.Rabbit.Publisher.Department.Finance;
 using Infrastructure.Communication.Mq.Rabbit.Publisher.Department.IT;

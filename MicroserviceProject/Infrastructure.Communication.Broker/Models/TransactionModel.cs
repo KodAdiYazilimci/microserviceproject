@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Infrastructure.Communication.Model
+namespace Infrastructure.Communication.Http.Broker.Models
 {
     /// <summary>
     /// İşlem süreci nesnesi

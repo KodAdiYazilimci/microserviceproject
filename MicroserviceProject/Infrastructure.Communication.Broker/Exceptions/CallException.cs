@@ -1,10 +1,9 @@
-﻿using Infrastructure.Communication.Model;
-using Infrastructure.Communication.Model.Errors;
+﻿using Infrastructure.Communication.Http.Broker.Models;
 using Infrastructure.Validation.Model;
 
 using System;
 
-namespace Infrastructure.Communication.Http.Exceptions
+namespace Infrastructure.Communication.Http.Broker.Exceptions
 {
     /// <summary>
     /// Servis çağrısı esnasında ortaya çıkan sorunlarda fırlatılacak istisnai durum

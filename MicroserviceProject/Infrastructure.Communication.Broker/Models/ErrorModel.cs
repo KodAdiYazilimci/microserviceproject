@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Communication.Model.Errors
+﻿namespace Infrastructure.Communication.Http.Broker.Models
 {
     /// <summary>
     /// Servisten dönen hata

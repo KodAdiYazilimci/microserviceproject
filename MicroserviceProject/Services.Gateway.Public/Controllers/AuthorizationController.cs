@@ -1,12 +1,11 @@
-﻿
-using Infrastructure.Communication.Model.Basics;
-using Infrastructure.Communication.Model.Errors;
+﻿using Infrastructure.Communication.Http.Broker.Models;
 using Infrastructure.Security.Model;
-using Services.Gateway.Public.Services;
-using Services.Gateway.Public.Util.Validation.Auth.GetToken;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
+using Services.Gateway.Public.Services;
+using Services.Gateway.Public.Util.Validation.Auth.GetToken;
 
 using System;
 using System.Threading;

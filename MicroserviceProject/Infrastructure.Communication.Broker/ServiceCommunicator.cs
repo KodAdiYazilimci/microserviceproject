@@ -1,7 +1,5 @@
-﻿
-using Infrastructure.Caching.Abstraction;
-using Infrastructure.Caching.InMemory;
-using Infrastructure.Communication.Model.Basics;
+﻿using Infrastructure.Caching.InMemory;
+using Infrastructure.Communication.Http.Broker.Models;
 using Infrastructure.Routing.Model;
 using Infrastructure.Routing.Persistence.Repositories.Sql;
 using Infrastructure.Routing.Providers;

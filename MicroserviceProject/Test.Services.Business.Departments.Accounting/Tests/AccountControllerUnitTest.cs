@@ -1,5 +1,5 @@
-﻿using Infrastructure.Communication.Model.Basics;
-using Infrastructure.Communication.Broker;
+﻿using Infrastructure.Communication.Broker;
+using Infrastructure.Communication.Http.Broker.Models;
 using Infrastructure.Mock.Factories;
 using Infrastructure.Routing.Providers;
 

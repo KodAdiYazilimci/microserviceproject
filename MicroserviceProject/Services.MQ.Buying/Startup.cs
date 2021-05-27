@@ -1,12 +1,11 @@
+using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Caching.Redis.DI;
-using Infrastructure.Communication.Model.Basics;
-using Infrastructure.Communication.Model.Errors;
 using Infrastructure.Communication.Broker.DI;
+using Infrastructure.Communication.Http.Broker.Models;
 using Infrastructure.Localization.DI;
 using Infrastructure.Routing.Persistence.DI;
 using Infrastructure.Routing.Providers.DI;
 using Infrastructure.Security.Authentication.BasicToken.DI;
-using Services.MQ.Buying.DI;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -17,8 +16,9 @@ using Microsoft.Extensions.Hosting;
 
 using Newtonsoft.Json;
 
+using Services.MQ.Buying.DI;
+
 using System.Net;
-using Infrastructure.Caching.InMemory.DI;
 
 namespace Services.MQ.Buying
 {

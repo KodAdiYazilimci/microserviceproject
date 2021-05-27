@@ -1,4 +1,5 @@
-﻿using Infrastructure.Communication.Model.Basics;
+﻿
+using Infrastructure.Communication.Http.Broker.Models;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

@@ -1,15 +1,13 @@
+using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Caching.Redis.DI;
-using Infrastructure.Communication.Model.Basics;
-using Infrastructure.Communication.Model.Errors;
 using Infrastructure.Communication.Broker.DI;
+using Infrastructure.Communication.Http.Broker.Models;
 using Infrastructure.Communication.Mq.Rabbit.Configuration.DI;
+using Infrastructure.Communication.Mq.Rabbit.Publisher.Department.DI;
 using Infrastructure.Routing.Persistence.DI;
 using Infrastructure.Routing.Providers.DI;
 using Infrastructure.Security.Authentication.BasicToken.DI;
 using Infrastructure.Util.DI;
-using Services.Infrastructure.Logging.Configuration.Services.Repositories;
-using Services.Infrastructure.Logging.DI;
-using Services.UnitOfWork.DI;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -21,9 +19,11 @@ using Microsoft.Extensions.Hosting;
 
 using Newtonsoft.Json;
 
+using Services.Infrastructure.Logging.Configuration.Services.Repositories;
+using Services.Infrastructure.Logging.DI;
+using Services.UnitOfWork.DI;
+
 using System.Net;
-using Infrastructure.Communication.Mq.Rabbit.Publisher.Department.DI;
-using Infrastructure.Caching.InMemory.DI;
 
 namespace Services.Infrastructure.Logging
 {

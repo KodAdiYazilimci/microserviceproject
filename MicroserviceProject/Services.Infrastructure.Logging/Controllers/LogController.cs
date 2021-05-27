@@ -1,12 +1,11 @@
-﻿
-using Infrastructure.Communication.Model.Basics;
-using Infrastructure.Communication.Model.Errors;
+﻿using Infrastructure.Communication.Http.Broker.Models;
 using Infrastructure.Logging.Logger.RequestResponseLogger;
 using Infrastructure.Logging.Logger.RequestResponseLogger.Persistence;
-using Services.Infrastructure.Logging.Util.Validation.Logging.WriteRequestResponseLog;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
+using Services.Infrastructure.Logging.Util.Validation.Logging.WriteRequestResponseLog;
 
 using System;
 using System.Threading;

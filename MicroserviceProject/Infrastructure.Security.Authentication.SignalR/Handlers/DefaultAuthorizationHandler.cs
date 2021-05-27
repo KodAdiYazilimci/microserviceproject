@@ -1,14 +1,12 @@
-﻿using Infrastructure.Caching.Abstraction;
-using Infrastructure.Caching.InMemory;
-using Infrastructure.Communication.Model.Basics;
+﻿using Infrastructure.Caching.InMemory;
 using Infrastructure.Communication.Broker;
+using Infrastructure.Communication.Http.Broker.Models;
 using Infrastructure.Routing.Providers;
 using Infrastructure.Security.Authentication.SignalR.Requirements;
 using Infrastructure.Security.Model;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Caching.Memory;
 
 using System;
 using System.Collections.Generic;

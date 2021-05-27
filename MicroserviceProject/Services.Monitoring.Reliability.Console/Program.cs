@@ -1,4 +1,4 @@
-﻿using Infrastructure.Communication.Model.Basics;
+﻿using Infrastructure.Communication.Mq.Rabbit.Models;
 using Infrastructure.Communication.WebSockets;
 using Infrastructure.Mock.Factories;
 
