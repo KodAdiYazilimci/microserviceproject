@@ -30,7 +30,7 @@ namespace Services.Business.Departments.HR.Controllers
         {
             SetServiceDefaults(_departmentService);
 
-            return await ServiceExecuter.ExecuteServiceAsync<List<DepartmentModel>>(async () =>
+            return await HttpResponseWrapper.WrapAsync<List<DepartmentModel>>(async () =>
             {
                 return await _departmentService.GetDepartmentsAsync(cancellationTokenSource);
             },
@@ -43,7 +43,7 @@ namespace Services.Business.Departments.HR.Controllers
         {
             SetServiceDefaults(_departmentService);
 
-            return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
+            return await HttpResponseWrapper.WrapAsync<int>(async () =>
             {
                 await CreateDepartmentValidator.ValidateAsync(department, cancellationTokenSource);
 

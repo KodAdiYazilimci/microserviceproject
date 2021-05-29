@@ -31,7 +31,7 @@ namespace Services.Business.Departments.Buying.Controllers
         {
             SetServiceDefaults(_requestService);
 
-            return await ServiceExecuter.ExecuteServiceAsync<List<InventoryRequestModel>>(async () =>
+            return await HttpResponseWrapper.WrapAsync<List<InventoryRequestModel>>(async () =>
             {
                 return await _requestService.GetInventoryRequestsAsync(cancellationTokenSource);
             },
@@ -44,7 +44,7 @@ namespace Services.Business.Departments.Buying.Controllers
         {
             SetServiceDefaults(_requestService);
 
-            return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
+            return await HttpResponseWrapper.WrapAsync<int>(async () =>
             {
                 await CreateInventoryRequestValidator.ValidateAsync(requestModel, cancellationTokenSource);
 
@@ -59,7 +59,7 @@ namespace Services.Business.Departments.Buying.Controllers
         {
             SetServiceDefaults(_requestService);
 
-            return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
+            return await HttpResponseWrapper.WrapAsync<int>(async () =>
             {
                 await ValidateCostInventoryValidator.ValidateAsync(decidedCost, cancellationTokenSource);
 

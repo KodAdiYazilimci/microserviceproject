@@ -30,7 +30,7 @@ namespace Services.Business.Departments.Accounting.Controllers
         {
             SetServiceDefaults(_bankService);
 
-            return await ServiceExecuter.ExecuteServiceAsync<List<BankAccountModel>>(async () =>
+            return await HttpResponseWrapper.WrapAsync<List<BankAccountModel>>(async () =>
             {
                 return await _bankService.GetBankAccounts(workerId, cancellationTokenSource);
             },
@@ -43,7 +43,7 @@ namespace Services.Business.Departments.Accounting.Controllers
         {
             SetServiceDefaults(_bankService);
 
-            return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
+            return await HttpResponseWrapper.WrapAsync<int>(async () =>
             {
                 await CreateBankAccountValidator.ValidateAsync(bankAccount, cancellationTokenSource);
 
@@ -58,7 +58,7 @@ namespace Services.Business.Departments.Accounting.Controllers
         {
             SetServiceDefaults(_bankService);
 
-            return await ServiceExecuter.ExecuteServiceAsync<List<CurrencyModel>>(async () =>
+            return await HttpResponseWrapper.WrapAsync<List<CurrencyModel>>(async () =>
             {
                 return await _bankService.GetCurrenciesAsync(cancellationTokenSource);
             },
@@ -71,7 +71,7 @@ namespace Services.Business.Departments.Accounting.Controllers
         {
             SetServiceDefaults(_bankService);
 
-            return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
+            return await HttpResponseWrapper.WrapAsync<int>(async () =>
             {
                 await CreateCurrencyValidator.ValidateAsync(currency, cancellationTokenSource);
 
@@ -86,7 +86,7 @@ namespace Services.Business.Departments.Accounting.Controllers
         {
             SetServiceDefaults(_bankService);
 
-            return await ServiceExecuter.ExecuteServiceAsync<List<SalaryPaymentModel>>(async () =>
+            return await HttpResponseWrapper.WrapAsync<List<SalaryPaymentModel>>(async () =>
             {
                 return await _bankService.GetSalaryPaymentsOfWorkerAsync(workerId, cancellationTokenSource);
             },
@@ -99,7 +99,7 @@ namespace Services.Business.Departments.Accounting.Controllers
         {
             SetServiceDefaults(_bankService);
 
-            return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
+            return await HttpResponseWrapper.WrapAsync<int>(async () =>
             {
                 await CreateSalaryPaymentValidator.ValidateAsync(salaryPayment, cancellationTokenSource);
 

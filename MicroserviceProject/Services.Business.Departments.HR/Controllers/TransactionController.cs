@@ -32,7 +32,7 @@ namespace Services.Business.Departments.HR.Controllers
         {
             SetServiceDefaults(_departmentService, _personService);
 
-            return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
+            return await HttpResponseWrapper.WrapAsync<int>(async () =>
             {
                 await RollbackTransactionValidator.ValidateAsync(rollbackModel, cancellationTokenSource);
 

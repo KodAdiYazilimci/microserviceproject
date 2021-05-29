@@ -28,7 +28,7 @@ namespace Services.Business.Departments.AA.Controllers
         {
             SetServiceDefaults(_inventoryService);
 
-            return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
+            return await HttpResponseWrapper.WrapAsync<int>(async () =>
             {
                 await RollbackTransactionValidator.ValidateAsync(rollbackModel, cancellationTokenSource);
 

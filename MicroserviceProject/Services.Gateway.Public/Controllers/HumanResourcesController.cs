@@ -28,7 +28,7 @@ namespace Services.Gateway.Public.Controllers
         {
             hrService.TransactionIdentity = Guid.NewGuid().ToString();
 
-            return await ServiceExecuter.ExecuteServiceAsync(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
                 return await hrService.GetDepartmentsAsync(cancellationTokenSource);
             }, hrService);

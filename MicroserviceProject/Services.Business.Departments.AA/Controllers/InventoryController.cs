@@ -33,7 +33,7 @@ namespace Services.Business.Departments.AA.Controllers
         {
             SetServiceDefaults(_inventoryService);
 
-            return await ServiceExecuter.ExecuteServiceAsync<List<InventoryModel>>(async () =>
+            return await HttpResponseWrapper.WrapAsync<List<InventoryModel>>(async () =>
             {
                 return await _inventoryService.GetInventoriesAsync(cancellationTokenSource);
             },
@@ -46,7 +46,7 @@ namespace Services.Business.Departments.AA.Controllers
         {
             SetServiceDefaults(_inventoryService);
 
-            return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
+            return await HttpResponseWrapper.WrapAsync<int>(async () =>
             {
                 await CreateInventoryValidator.ValidateAsync(inventory, cancellationTokenSource);
 
@@ -61,7 +61,7 @@ namespace Services.Business.Departments.AA.Controllers
         {
             SetServiceDefaults(_inventoryService);
 
-            return await ServiceExecuter.ExecuteServiceAsync<WorkerModel>(async () =>
+            return await HttpResponseWrapper.WrapAsync<WorkerModel>(async () =>
             {
                 await AssignInventoryToWorkerValidator.ValidateAsync(worker, cancellationTokenSource);
 
@@ -76,7 +76,7 @@ namespace Services.Business.Departments.AA.Controllers
         {
             SetServiceDefaults(_inventoryService);
 
-            return await ServiceExecuter.ExecuteServiceAsync<InventoryModel>(async () =>
+            return await HttpResponseWrapper.WrapAsync<InventoryModel>(async () =>
             {
                 await CreateDefaultInventoryForNewWorkerValidator.ValidateAsync(inventory, cancellationTokenSource);
 
@@ -91,7 +91,7 @@ namespace Services.Business.Departments.AA.Controllers
         {
             SetServiceDefaults(_inventoryService);
 
-            return ServiceExecuter.ExecuteService<List<InventoryModel>>(() =>
+            return HttpResponseWrapper.Wrap<List<InventoryModel>>(() =>
             {
                 return _inventoryService.GetInventoriesForNewWorker(cancellationTokenSource);
             },
@@ -104,7 +104,7 @@ namespace Services.Business.Departments.AA.Controllers
         {
             SetServiceDefaults(_inventoryService);
 
-            return await ServiceExecuter.ExecuteServiceAsync(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
                 await InformInventoryRequestValidator.ValidateAsync(inventoryRequest, cancellationTokenSource);
 

@@ -32,7 +32,7 @@ namespace Services.Business.Departments.HR.Controllers
         {
             SetServiceDefaults(_personService);
 
-            return await ServiceExecuter.ExecuteServiceAsync<List<PersonModel>>(async () =>
+            return await HttpResponseWrapper.WrapAsync<List<PersonModel>>(async () =>
             {
                 return await _personService.GetPeopleAsync(cancellationTokenSource);
             },
@@ -45,7 +45,7 @@ namespace Services.Business.Departments.HR.Controllers
         {
             SetServiceDefaults(_personService);
 
-            return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
+            return await HttpResponseWrapper.WrapAsync<int>(async () =>
             {
                 await CreatePersonValidator.ValidateAsync(person, cancellationTokenSource);
 
@@ -60,7 +60,7 @@ namespace Services.Business.Departments.HR.Controllers
         {
             SetServiceDefaults(_personService);
 
-            return await ServiceExecuter.ExecuteServiceAsync<List<TitleModel>>(async () =>
+            return await HttpResponseWrapper.WrapAsync<List<TitleModel>>(async () =>
             {
                 return await _personService.GetTitlesAsync(cancellationTokenSource);
             },
@@ -73,7 +73,7 @@ namespace Services.Business.Departments.HR.Controllers
         {
             SetServiceDefaults(_personService);
 
-            return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
+            return await HttpResponseWrapper.WrapAsync<int>(async () =>
             {
                 await CreateTitleValidator.ValidateAsync(title, cancellationTokenSource);
 
@@ -88,7 +88,7 @@ namespace Services.Business.Departments.HR.Controllers
         {
             SetServiceDefaults(_personService);
 
-            return await ServiceExecuter.ExecuteServiceAsync<List<WorkerModel>>(async () =>
+            return await HttpResponseWrapper.WrapAsync<List<WorkerModel>>(async () =>
             {
                 return await _personService.GetWorkersAsync(cancellationTokenSource);
             },
@@ -101,7 +101,7 @@ namespace Services.Business.Departments.HR.Controllers
         {
             SetServiceDefaults(_personService);
 
-            return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
+            return await HttpResponseWrapper.WrapAsync<int>(async () =>
             {
                 await CreateWorkerValidator.ValidateAsync(worker, cancellationTokenSource);
 

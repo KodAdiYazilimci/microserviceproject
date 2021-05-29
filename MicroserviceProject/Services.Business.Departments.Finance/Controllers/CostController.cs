@@ -30,7 +30,7 @@ namespace Services.Business.Departments.Finance.Controllers
         {
             SetServiceDefaults(_costService);
 
-            return await ServiceExecuter.ExecuteServiceAsync<List<DecidedCostModel>>(async () =>
+            return await HttpResponseWrapper.WrapAsync<List<DecidedCostModel>>(async () =>
             {
                 return await _costService.GetDecidedCostsAsync(cancellationTokenSource);
             },
@@ -43,7 +43,7 @@ namespace Services.Business.Departments.Finance.Controllers
         {
             SetServiceDefaults(_costService);
 
-            return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
+            return await HttpResponseWrapper.WrapAsync<int>(async () =>
             {
                 await CreateCostValidator.ValidateAsync(cost, cancellationTokenSource);
 
@@ -58,7 +58,7 @@ namespace Services.Business.Departments.Finance.Controllers
         {
             SetServiceDefaults(_costService);
 
-            return await ServiceExecuter.ExecuteServiceAsync<int>(async () =>
+            return await HttpResponseWrapper.WrapAsync<int>(async () =>
             {
                 await DecideCostValidator.ValidateAsync(cost, cancellationTokenSource);
 

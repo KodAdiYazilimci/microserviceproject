@@ -13,7 +13,7 @@ namespace Infrastructure.Communication.Http.Wrapper
     /// <summary>
     /// İş mantığı servislerini çalıştırarak Http response aşamasına getiren sınıf
     /// </summary>
-    public class ServiceExecuter
+    public class HttpResponseWrapper
     {
         /// <summary>
         /// İş mantığı servislerini çalıştırır ve Http response üretir
@@ -21,7 +21,7 @@ namespace Infrastructure.Communication.Http.Wrapper
         /// <param name="func">Servisin çalıştırıldığı fonksiyon gövdesi</param>
         /// <param name="services">Çalıştırılan servisler</param>
         /// <returns></returns>
-        public static IActionResult ExecuteService(Action func, params BaseService[] services)
+        public static IActionResult Wrap(Action func, params BaseService[] services)
         {
             try
             {
@@ -112,7 +112,7 @@ namespace Infrastructure.Communication.Http.Wrapper
         /// <param name="func">Servisin çalıştırıldığı fonksiyon gövdesi</param>
         /// <param name="services">Çalıştırılan servisler</param>
         /// <returns></returns>
-        public static IActionResult ExecuteService<TResult>(Func<TResult> func, params BaseService[] services)
+        public static IActionResult Wrap<TResult>(Func<TResult> func, params BaseService[] services)
         {
             try
             {
@@ -203,7 +203,7 @@ namespace Infrastructure.Communication.Http.Wrapper
         /// <param name="func">Servisin çalıştırıldığı fonksiyon gövdesi</param>
         /// <param name="services">Çalıştırılan servisler</param>
         /// <returns></returns>
-        public static async Task<IActionResult> ExecuteServiceAsync(Func<Task> func, params BaseService[] services)
+        public static async Task<IActionResult> WrapAsync(Func<Task> func, params BaseService[] services)
         {
             try
             {
@@ -294,7 +294,7 @@ namespace Infrastructure.Communication.Http.Wrapper
         /// <param name="func">Servisin çalıştırıldığı fonksiyon gövdesi</param>
         /// <param name="services">Çalıştırılan servisler</param>
         /// <returns></returns>
-        public static async Task<IActionResult> ExecuteServiceAsync<TResult>(Func<Task<TResult>> func, params BaseService[] services)
+        public static async Task<IActionResult> WrapAsync<TResult>(Func<Task<TResult>> func, params BaseService[] services)
         {
             try
             {
