@@ -3,7 +3,7 @@
 using Infrastructure.Caching.Redis;
 using Infrastructure.Communication.Mq.Rabbit.Publisher.Department.Buying;
 using Infrastructure.Localization.Providers;
-using Infrastructure.Transaction.ExecutionHandler;
+using Infrastructure.Communication.Http.Wrapper;
 using Infrastructure.Transaction.Recovery;
 using Infrastructure.Transaction.UnitOfWork;
 

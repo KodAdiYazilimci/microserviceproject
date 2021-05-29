@@ -9,7 +9,7 @@ using Infrastructure.Communication.Mq.Rabbit.Publisher.Department.Finance;
 using Infrastructure.Communication.Mq.Rabbit.Publisher.Department.IT;
 using Infrastructure.Localization.Providers;
 using Infrastructure.Routing.Providers;
-using Infrastructure.Transaction.ExecutionHandler;
+using Infrastructure.Communication.Http.Wrapper;
 using Infrastructure.Transaction.Recovery;
 using Infrastructure.Transaction.UnitOfWork;
 

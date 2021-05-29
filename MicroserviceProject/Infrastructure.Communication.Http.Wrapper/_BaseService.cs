@@ -2,7 +2,7 @@
 using System;
 using System.Globalization;
 
-namespace Infrastructure.Transaction.ExecutionHandler
+namespace Infrastructure.Communication.Http.Wrapper
 {
     /// <summary>
     /// Servis sınıflarının temeli

@@ -2,7 +2,7 @@
 using Infrastructure.Communication.Http.Broker.Exceptions;
 using Infrastructure.Communication.Http.Broker.Models;
 using Infrastructure.Routing.Providers;
-using Infrastructure.Transaction.ExecutionHandler;
+using Infrastructure.Communication.Http.Wrapper;
 
 using Services.Gateway.Public.Models.HR;
 

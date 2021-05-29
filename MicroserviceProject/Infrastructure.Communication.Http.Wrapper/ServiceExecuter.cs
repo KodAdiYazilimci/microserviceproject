@@ -8,7 +8,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Transaction.ExecutionHandler
+namespace Infrastructure.Communication.Http.Wrapper
 {
     /// <summary>
     /// İş mantığı servislerini çalıştırarak Http response aşamasına getiren sınıf

@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Cryptography.Ciphers;
 using Infrastructure.Localization.Providers;
 using Infrastructure.Security.Model;
-using Infrastructure.Transaction.ExecutionHandler;
+using Infrastructure.Communication.Http.Wrapper;
 
 using Services.Infrastructure.Authorization.Persistence.Sql.Exceptions;
 using Services.Infrastructure.Authorization.Persistence.Sql.Repositories;

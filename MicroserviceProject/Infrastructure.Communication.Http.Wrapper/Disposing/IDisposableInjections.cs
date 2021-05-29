@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Transaction.ExecutionHandler
+﻿namespace Infrastructure.Communication.Http.Wrapper
 {
     /// <summary>
     /// Enjekte edilmiş nesneleri dispose edecek arayüz
