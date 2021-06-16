@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Security.Model;
 
-namespace Infrastructure.Communication.Mq.Rabbit.Models
+namespace Infrastructure.Communication.WebSockets.Models
 {
     /// <summary>
     /// Websocketten gelen veri

@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Caching.InMemory;
 using Infrastructure.Communication.Broker;
 using Infrastructure.Communication.Http.Broker.Models;
-using Infrastructure.Communication.Mq.Rabbit.Models;
+using Infrastructure.Communication.WebSockets.Models;
 using Infrastructure.Routing.Exceptions;
 using Infrastructure.Routing.Models;
 using Infrastructure.Routing.Persistence.Repositories.Sql;

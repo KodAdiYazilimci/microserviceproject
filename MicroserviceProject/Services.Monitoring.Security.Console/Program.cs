@@ -1,5 +1,5 @@
-﻿using Infrastructure.Communication.Mq.Rabbit.Models;
-using Infrastructure.Communication.WebSockets;
+﻿using Infrastructure.Communication.WebSockets;
+using Infrastructure.Communication.WebSockets.Models;
 using Infrastructure.Mock.Factories;
 
 using Microsoft.Extensions.Configuration;

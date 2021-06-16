@@ -1,4 +1,4 @@
-﻿using Infrastructure.Communication.Mq.Rabbit.Models;
+﻿using Infrastructure.Communication.WebSockets.Models;
 using Infrastructure.Security.Model;
 
 using Microsoft.AspNetCore.Authorization;
