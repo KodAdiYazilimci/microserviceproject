@@ -584,6 +584,21 @@ namespace Infrastructure.Routing.Providers
         }
 
         /// <summary>
+        /// Sistem işleyişi web soketine bildirim mesajı gönderir
+        /// </summary>
+        public string WebSocketSecurity_SendErrorNofication
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("WebSocket.Reliability")["SendErrorNofication"];
+            }
+        }
+
+        /// <summary>
         /// Kaynakları serbest bırakır
         /// </summary>
         public void Dispose()
