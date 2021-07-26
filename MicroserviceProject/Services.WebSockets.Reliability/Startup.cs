@@ -1,5 +1,10 @@
-
+using Infrastructure.Caching.InMemory.DI;
+using Infrastructure.Communication.Broker.DI;
 using Infrastructure.Communication.Http.Broker.Models;
+using Infrastructure.Routing.Persistence.DI;
+using Infrastructure.Routing.Providers.DI;
+using Infrastructure.Security.Authentication.BasicToken.DI;
+using Infrastructure.Security.Authentication.SignalR.DI;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -23,6 +28,19 @@ namespace Services.WebSockets.Reliability
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMemoryCache();
+            services.AddSignalR();
+            services.AddSingleton<ErrorHub>();
+            services.RegisterInMemoryCaching();
+            services.RegisterAuthentication();
+            services.RegisterCredentialProvider();
+            services.RegisterRouteRepositories();
+            services.RegisterRouteProvider();
+            services.RegisterServiceCommunicator();
+            services.RegisterCredentialProvider();
+            services.RegisterSignalRSecurity(policyName: "ErrorPolicy");
+
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

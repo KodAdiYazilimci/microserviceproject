@@ -52,7 +52,7 @@ namespace Infrastructure.Sockets.Providers
                 return
                     _configuration
                     .GetSection("WebSockets")
-                    .GetSection("Endpoints")["SecurityHub.GetErrorMessages"];
+                    .GetSection("Endpoints")["ErrorHub.GetErrorMessages"];
             }
         }
 
