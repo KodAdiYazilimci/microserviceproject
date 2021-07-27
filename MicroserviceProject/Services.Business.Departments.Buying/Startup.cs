@@ -22,7 +22,7 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 
 using Services.Business.Departments.Buying.DI;
-using Services.UnitOfWork.DI;
+using Services.UnitOfWork.Sql.DI;
 
 using System.Net;
 

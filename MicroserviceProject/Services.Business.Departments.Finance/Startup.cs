@@ -23,7 +23,7 @@ using Newtonsoft.Json;
 
 using Services.Business.Departments.Buying.DI;
 using Services.Business.Departments.Finance.DI;
-using Services.UnitOfWork.DI;
+using Services.UnitOfWork.Sql.DI;
 
 using System.Net;
 

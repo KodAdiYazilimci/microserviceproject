@@ -5,7 +5,7 @@ using Infrastructure.Communication.Mq.Rabbit.Publisher.Department.Buying;
 using Infrastructure.Localization.Providers;
 using Infrastructure.Communication.Http.Wrapper;
 using Infrastructure.Transaction.Recovery;
-using Infrastructure.Transaction.UnitOfWork;
+using Infrastructure.Transaction.UnitOfWork.Sql;
 
 using Services.Business.Departments.AA.Entities.Sql;
 using Services.Business.Departments.AA.Models;

@@ -20,7 +20,7 @@
     <ProjectReference Include="..\Infrastructure.Security.Providers\Infrastructure.Security.Providers.csproj" />
     <ProjectReference Include="..\Infrastructure.Sockets.Persistence\Infrastructure.Sockets.Persistence.csproj" />
     <ProjectReference Include="..\Infrastructure.Sockets.Providers\Infrastructure.Sockets.Providers.csproj" />
-    <ProjectReference Include="..\Infrastructure.Transaction.UnitOfWork\Infrastructure.Transaction.UnitOfWork.csproj" />
+    <ProjectReference Include="..\Infrastructure.Transaction.UnitOfWork.Sql\Infrastructure.Transaction.UnitOfWork.Sql.csproj" />
   </ItemGroup>
 
 </Project>

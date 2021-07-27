@@ -4,7 +4,7 @@ using Infrastructure.Caching.Redis;
 using Infrastructure.Localization.Providers;
 using Infrastructure.Communication.Http.Wrapper;
 using Infrastructure.Transaction.Recovery;
-using Infrastructure.Transaction.UnitOfWork;
+using Infrastructure.Transaction.UnitOfWork.Sql;
 
 using Services.Business.Departments.Accounting.Entities.Sql;
 using Services.Business.Departments.Accounting.Models;

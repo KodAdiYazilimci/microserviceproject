@@ -1,9 +1,8 @@
-﻿
-using Infrastructure.Transaction.UnitOfWork;
+﻿using Infrastructure.Transaction.UnitOfWork.Sql;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Services.UnitOfWork.DI
+namespace Services.UnitOfWork.Sql.DI
 {
     /// <summary>
     /// İş birimi DI sınıfı
@@ -17,7 +16,7 @@ namespace Services.UnitOfWork.DI
         /// <returns></returns>
         public static IServiceCollection RegisterUnitOfWork(this IServiceCollection services)
         {
-            services.AddScoped<IUnitOfWork, Infrastructure.Transaction.UnitOfWork.UnitOfWork>();
+            services.AddScoped<IUnitOfWork, Infrastructure.Transaction.UnitOfWork.Sql.UnitOfWork>();
 
             return services;
         }

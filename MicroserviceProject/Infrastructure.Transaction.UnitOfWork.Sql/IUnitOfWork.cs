@@ -3,7 +3,7 @@ using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Transaction.UnitOfWork
+namespace Infrastructure.Transaction.UnitOfWork.Sql
 {
     /// <summary>
     /// Ms SQL veritabanı işlemleri transaction için iş birimi arayüzü

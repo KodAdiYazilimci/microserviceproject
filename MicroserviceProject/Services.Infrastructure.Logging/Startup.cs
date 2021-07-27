@@ -21,7 +21,7 @@ using Newtonsoft.Json;
 
 using Services.Infrastructure.Logging.Configuration.Services.Repositories;
 using Services.Infrastructure.Logging.DI;
-using Services.UnitOfWork.DI;
+using Services.UnitOfWork.Sql.DI;
 
 using System.Net;
 

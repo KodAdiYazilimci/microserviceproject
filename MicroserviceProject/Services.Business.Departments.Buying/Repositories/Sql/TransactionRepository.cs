@@ -1,4 +1,4 @@
-﻿using Infrastructure.Transaction.UnitOfWork;
+﻿using Infrastructure.Transaction.UnitOfWork.Sql;
 using Services.Business.Departments.Buying.Entities.Sql;
 
 using System;
