@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Communication.Broker;
 using Infrastructure.Communication.Mq.Rabbit;
 using Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Finance;
-using Infrastructure.Communication.Mq.Rabbit.Publisher.Department.Finance.Models;
+using Communication.Mq.Rabbit.Publisher.Department.Finance.Models;
 using Infrastructure.Routing.Providers;
 
 using System;

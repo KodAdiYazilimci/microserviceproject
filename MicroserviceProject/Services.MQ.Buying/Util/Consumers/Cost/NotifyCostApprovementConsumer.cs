@@ -2,7 +2,7 @@
 using Infrastructure.Communication.Broker;
 using Infrastructure.Communication.Mq.Rabbit;
 using Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Buying;
-using Infrastructure.Communication.Mq.Rabbit.Publisher.Department.Buying.Models;
+using Communication.Mq.Rabbit.Publisher.Department.Buying.Models;
 using Infrastructure.Routing.Providers;
 
 using System;
