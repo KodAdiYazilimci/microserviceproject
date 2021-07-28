@@ -82,16 +82,6 @@ namespace Services.Business.Departments.Finance.Services
         private readonly TranslationProvider _translationProvider;
 
         /// <summary>
-        /// Servislerin rota isimlerini sağlayan sınıf
-        /// </summary>
-        private readonly RouteNameProvider _routeNameProvider;
-
-        /// <summary>
-        /// Diğer servislerle iletişim kuracak ara bulucu
-        /// </summary>
-        private readonly ServiceCommunicator _serviceCommunicator;
-
-        /// <summary>
         /// Satın alınması istenilen envanterlere ait kararları rabbit kuyruğuna ekleyen nesne
         /// </summary>
         private readonly NotifyCostApprovementPublisher _notifyCostApprovementPublisher;
@@ -114,8 +104,6 @@ namespace Services.Business.Departments.Finance.Services
             IMapper mapper,
             IUnitOfWork unitOfWork,
             TranslationProvider translationProvider,
-            RouteNameProvider routeNameProvider,
-            ServiceCommunicator serviceCommunicator,
             RedisCacheDataProvider redisCacheDataProvider,
             TransactionRepository transactionRepository,
             TransactionItemRepository transactionItemRepository,
@@ -126,8 +114,6 @@ namespace Services.Business.Departments.Finance.Services
             _unitOfWork = unitOfWork;
             _redisCacheDataProvider = redisCacheDataProvider;
             _translationProvider = translationProvider;
-            _routeNameProvider = routeNameProvider;
-            _serviceCommunicator = serviceCommunicator;
 
             _transactionRepository = transactionRepository;
             _transactionItemRepository = transactionItemRepository;

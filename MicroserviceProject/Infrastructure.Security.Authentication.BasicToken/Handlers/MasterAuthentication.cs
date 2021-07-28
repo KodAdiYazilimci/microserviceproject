@@ -1,7 +1,7 @@
-﻿using Infrastructure.Caching.InMemory;
-using Infrastructure.Communication.Broker;
+﻿using Communication.Http.Authorization;
+
+using Infrastructure.Caching.InMemory;
 using Infrastructure.Communication.Http.Broker.Models;
-using Infrastructure.Routing.Providers;
 using Infrastructure.Security.Authentication.BasicToken.Schemes;
 using Infrastructure.Security.Authentication.Persistence;
 using Infrastructure.Security.Model;
@@ -37,8 +37,11 @@ namespace Infrastructure.Security.Authentication.BasicToken.Handlers
         private const string CACHEDTOKENBASEDSESSIONS = "CACHED_TOKENBASED_SESSIONS";
 
         private readonly InMemoryCacheDataProvider _cacheProvider;
-        private readonly RouteNameProvider _routeNameProvider;
-        private readonly ServiceCommunicator _serviceCommunicator;
+
+        /// <summary>
+        /// Kimlik denetimi servisi iletişimcisi
+        /// </summary>
+        private readonly AuthorizationCommunicator _authorizationCommunicator;
 
         /// <summary>
         /// Kimlik doğrulama denetimi yapacak sınıf
@@ -47,19 +50,17 @@ namespace Infrastructure.Security.Authentication.BasicToken.Handlers
         /// <param name="loggerFactory"></param>
         /// <param name="urlEncoder"></param>
         /// <param name="systemClock"></param>
+        /// <param name="authorizationCommunicator">Kimlik denetimi servisi iletişimcisi</param>
         public MasterAuthentication(
             IOptionsMonitor<AuthenticationSchemeOptions> options,
             ILoggerFactory loggerFactory,
             UrlEncoder urlEncoder,
             ISystemClock systemClock,
             InMemoryCacheDataProvider cacheProvider,
-            RouteNameProvider routeNameProvider,
-            ServiceCommunicator serviceCommunicator
-            ) : base(options, loggerFactory, urlEncoder, systemClock)
+            AuthorizationCommunicator authorizationCommunicator) : base(options, loggerFactory, urlEncoder, systemClock)
         {
             _cacheProvider = cacheProvider;
-            _routeNameProvider = routeNameProvider;
-            _serviceCommunicator = serviceCommunicator;
+            _authorizationCommunicator = authorizationCommunicator;
         }
 
         /// <summary>
@@ -98,21 +99,33 @@ namespace Infrastructure.Security.Authentication.BasicToken.Handlers
                     return user;
                 }
 
-                ServiceResultModel<User> serviceResult =
-                    await
-                    _serviceCommunicator.Call<User>(
-                        serviceName: _routeNameProvider.Auth_GetUser,
-                        postData: null,
-                        queryParameters: new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("token", headerToken) },
-                        headers: null,
-                        cancellationTokenSource: cancellationTokenSource);
+                ServiceResultModel<global::Communication.Http.Authorization.Models.User> serviceResult = await _authorizationCommunicator.GetUserAsync(headerToken, cancellationTokenSource);
 
-                if (serviceResult.IsSuccess && serviceResult.Data != null)
+                if (serviceResult.Data != null)
                 {
-                    SetToCache(serviceResult.Data);
-                }
+                    User userData = new User
+                    {
+                        Email = serviceResult.Data.Email,
+                        Id = serviceResult.Data.Id,
+                        IsAdmin = serviceResult.Data.IsAdmin,
+                        Name = serviceResult.Data.Name,
+                        Password = serviceResult.Data.Password,
+                        Region = serviceResult.Data.Region,
+                        SessionId = serviceResult.Data.SessionId,
+                        Token = serviceResult.Data.Token != null ? new Token()
+                        {
+                            TokenKey = serviceResult.Data.Token.TokenKey,
+                            ValidTo = serviceResult.Data.Token.ValidTo
+                        } : null
+                    };
 
-                return serviceResult.Data;
+                    if (serviceResult.IsSuccess)
+                    {
+                        SetToCache(userData);
+                    }
+
+                    return userData;
+                }
             }
 
             //throw new SessionExpiredException("Lütfen tekrar oturum açın!");
@@ -183,11 +196,7 @@ namespace Infrastructure.Security.Authentication.BasicToken.Handlers
             {
                 if (!disposed)
                 {
-                    if (_routeNameProvider != null)
-                        _routeNameProvider.Dispose();
-
-                    if (_serviceCommunicator != null)
-                        _serviceCommunicator.Dispose();
+                    _authorizationCommunicator.Dispose();
                 }
 
                 disposed = true;

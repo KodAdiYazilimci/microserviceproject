@@ -7,6 +7,9 @@ using Infrastructure.Routing.Providers;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Communication.Http.Department.Accounting;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Services.MQ.Accounting.Util.Consumers.Inventory
 {
@@ -26,28 +29,20 @@ namespace Services.MQ.Accounting.Util.Consumers.Inventory
         private readonly Consumer<WorkerModel> _consumer;
 
         /// <summary>
-        /// Kuyruktan alınan verinin iletileceği servisin adını veren nesne
+        /// Muhasebe departmanı servis iletişimcisi
         /// </summary>
-        private readonly RouteNameProvider _routeNameProvider;
-
-        /// <summary>
-        /// Kuyruktan alınan verinin iletileceği servisle iletişimi kuracak nesne
-        /// </summary>
-        private readonly ServiceCommunicator _serviceCommunicator;
+        private readonly AccountingCommunicator _accountingCommunicator;
 
         /// <summary>
         /// Çalışana maaş hesabı açacak kayıtları tüketen sınıf
         /// </summary>
         /// <param name="rabbitConfiguration">Kuyruk ayarlarının alınacağın configuration nesnesi</param>
-        /// <param name="routeNameProvider">Kuyruktan alınan verinin iletileceği servisin adını veren nesne</param>
-        /// <param name="serviceCommunicator">Kuyruktan alınan verinin iletileceği servisle iletişimi kuracak nesne</param>
+        /// <param name="accountingCommunicator">Muhasebe departmanı servis iletişimcisi</param>
         public CreateBankAccountConsumer(
             CreateBankAccountRabbitConfiguration rabbitConfiguration,
-            RouteNameProvider routeNameProvider,
-            ServiceCommunicator serviceCommunicator)
+            AccountingCommunicator accountingCommunicator)
         {
-            _routeNameProvider = routeNameProvider;
-            _serviceCommunicator = serviceCommunicator;
+            _accountingCommunicator = accountingCommunicator;
 
             _consumer = new Consumer<WorkerModel>(rabbitConfiguration);
             _consumer.OnConsumed += Consumer_OnConsumed;
@@ -57,12 +52,16 @@ namespace Services.MQ.Accounting.Util.Consumers.Inventory
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            _ = await _serviceCommunicator.Call<int>(
-                serviceName: _routeNameProvider.Accounting_CreateBankAccount,
-                postData: data,
-                queryParameters: null,
-                headers: null,
-                cancellationTokenSource: cancellationTokenSource);
+            Communication.Http.Department.Accounting.Models.WorkerModel workerModel = new Communication.Http.Department.Accounting.Models.WorkerModel
+            {
+                Id = data.Id,
+                BankAccounts = data.BankAccounts.Select(x => new Communication.Http.Department.Accounting.Models.BankAccountModel()
+                {
+                    IBAN = x.IBAN
+                }).ToList()
+            };
+
+            await _accountingCommunicator.CreateBankAccountAsync(workerModel, cancellationTokenSource);
         }
 
         /// <summary>
@@ -93,8 +92,7 @@ namespace Services.MQ.Accounting.Util.Consumers.Inventory
                 if (!disposed)
                 {
                     _consumer.Dispose();
-                    _routeNameProvider.Dispose();
-                    _serviceCommunicator.Dispose();
+                    _accountingCommunicator.Dispose();
                 }
 
                 disposed = true;

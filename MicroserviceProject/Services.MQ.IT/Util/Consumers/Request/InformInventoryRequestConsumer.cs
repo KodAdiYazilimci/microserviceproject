@@ -1,8 +1,8 @@
-﻿using Infrastructure.Communication.Broker;
+﻿using Communication.Http.Department.IT;
+using Communication.Mq.Rabbit.Publisher.Department.IT.Models;
+
 using Infrastructure.Communication.Mq.Rabbit;
 using Infrastructure.Communication.Mq.Rabbit.Configuration.Department.IT;
-using Communication.Mq.Rabbit.Publisher.Department.IT.Models;
-using Infrastructure.Routing.Providers;
 
 using System;
 using System.Threading;
@@ -26,29 +26,20 @@ namespace Services.MQ.IT.Util.Consumers.Inventory
         private readonly Consumer<InventoryRequestModel> _consumer;
 
         /// <summary>
-        /// Kuyruktan alınan verinin iletileceği servisin adını veren nesne
+        /// IT departmanı servis iletişimcisi
         /// </summary>
-        private readonly RouteNameProvider _routeNameProvider;
-
-        /// <summary>
-        /// Kuyruktan alınan verinin iletileceği servisle iletişimi kuracak nesne
-        /// </summary>
-        private readonly ServiceCommunicator _serviceCommunicator;
+        private readonly ITCommunicator _itCommunicator;
 
         /// <summary>
         /// Envanter talebiyle ilgili satınalma sonucunu tüketen sınıf
         /// </summary>
         /// <param name="rabbitConfiguration">Kuyruk ayarlarının alınacağın configuration nesnesi</param>
-        /// <param name="routeNameProvider">Kuyruktan alınan verinin iletileceği servisin adını veren nesne</param>
-        /// <param name="serviceCommunicator">Kuyruktan alınan verinin iletileceği servisle iletişimi kuracak nesne</param>
+        /// <param name="itCommunicator">IT departmanı servis iletişimcisi</param>
         public InformInventoryRequestConsumer(
             ITInformInventoryRequestRabbitConfiguration rabbitConfiguration,
-            RouteNameProvider routeNameProvider,
-            ServiceCommunicator serviceCommunicator)
+            ITCommunicator itCommunicator)
         {
-            _routeNameProvider = routeNameProvider;
-            _serviceCommunicator = serviceCommunicator;
-
+            _itCommunicator = itCommunicator;
             _consumer = new Consumer<InventoryRequestModel>(rabbitConfiguration);
             _consumer.OnConsumed += Consumer_OnConsumed;
         }
@@ -57,12 +48,15 @@ namespace Services.MQ.IT.Util.Consumers.Inventory
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            _ = await _serviceCommunicator.Call<int>(
-                serviceName: _routeNameProvider.IT_InformInventoryRequest,
-                postData: data,
-                queryParameters: null,
-                headers: null,
-                cancellationTokenSource: cancellationTokenSource);
+            Communication.Http.Department.IT.Models.InventoryRequestModel inventoryRequestModel = new Communication.Http.Department.IT.Models.InventoryRequestModel
+            {
+                Amount = data.Amount,
+                Done = data.Done,
+                InventoryId = data.InventoryId,
+                Revoked = data.Revoked
+            };
+
+            await _itCommunicator.InformInventoryRequestAsync(inventoryRequestModel, cancellationTokenSource);
         }
 
         /// <summary>
@@ -93,8 +87,7 @@ namespace Services.MQ.IT.Util.Consumers.Inventory
                 if (!disposed)
                 {
                     _consumer.Dispose();
-                    _routeNameProvider.Dispose();
-                    _serviceCommunicator.Dispose();
+                    _itCommunicator.Dispose();
                 }
 
                 disposed = true;

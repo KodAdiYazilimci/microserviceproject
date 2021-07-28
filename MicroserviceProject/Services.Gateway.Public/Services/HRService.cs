@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Communication.Http.Department.HR;
 
 namespace Services.Gateway.Public.Services
 {
@@ -19,26 +20,17 @@ namespace Services.Gateway.Public.Services
     public class HRService : BaseService, IDisposable, IDisposableInjections
     {
         /// <summary>
-        /// Rota isim sağlayıcısı nesnesi
+        /// İnsan kaynakları servis iletişimcisi
         /// </summary>
-        private readonly RouteNameProvider _routeNameProvider;
-
-        /// <summary>
-        /// Servis iletişimcisi nesnesi
-        /// </summary>
-        private readonly ServiceCommunicator _serviceCommunicator;
+        private readonly HRCommunicator _hrCommunicator;
 
         /// <summary>
         /// İnsan kaynakları servisi
         /// </summary>
-        /// <param name="routeNameProvider">Rota isim sağlayıcısı nesnesi</param>
-        /// <param name="serviceCommunicator">Servis iletişimcisi nesnesi</param>
-        public HRService(
-            RouteNameProvider routeNameProvider,
-            ServiceCommunicator serviceCommunicator)
+        /// <param name="hrCommunicator">İnsan kaynakları servis iletişimcisi</param>
+        public HRService(HRCommunicator hrCommunicator)
         {
-            _routeNameProvider = routeNameProvider;
-            _serviceCommunicator = serviceCommunicator;
+            _hrCommunicator = hrCommunicator;
         }
 
         public override string ApiServiceName => "Services.Gateway.Public";
@@ -46,8 +38,7 @@ namespace Services.Gateway.Public.Services
 
         public void DisposeInjections()
         {
-            _routeNameProvider.Dispose();
-            _serviceCommunicator.Dispose();
+            _hrCommunicator.Dispose();
         }
 
         /// <summary>
@@ -55,19 +46,9 @@ namespace Services.Gateway.Public.Services
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<List<DepartmentModel>> GetDepartmentsAsync(CancellationTokenSource cancellationTokenSource)
+        public async Task<List<Communication.Http.Department.HR.Models.DepartmentModel>> GetDepartmentsAsync(CancellationTokenSource cancellationTokenSource)
         {
-            ServiceResultModel<List<DepartmentModel>> departmentsServiceResult =
-                    await
-                    _serviceCommunicator.Call<List<DepartmentModel>>(
-                        serviceName: _routeNameProvider.HR_GetDepartments,
-                        postData: null,
-                        queryParameters: null,
-                        headers: new List<KeyValuePair<string, string>>()
-                        {
-                            new KeyValuePair<string, string>("TransactionIdentity", TransactionIdentity)
-                        },
-                        cancellationTokenSource: cancellationTokenSource);
+            ServiceResultModel<List<Communication.Http.Department.HR.Models.DepartmentModel>> departmentsServiceResult = await _hrCommunicator.GetDepartmentsAsync(TransactionIdentity, cancellationTokenSource);
 
             if (departmentsServiceResult.IsSuccess)
             {

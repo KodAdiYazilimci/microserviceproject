@@ -26,6 +26,7 @@ using Newtonsoft.Json;
 using Services.Gateway.Public.Configuration.Services;
 
 using System.Net;
+using Communication.Http.DI;
 
 namespace Services.Gateway.Public
 {
@@ -44,6 +45,7 @@ namespace Services.Gateway.Public
             services.AddControllers();
             services.AddMemoryCache();
             services.RegisterRedisCaching();
+            services.RegisterCommunicators();
             services.RegisterCredentialProvider();
             services.RegisterInMemoryCaching();
             services.RegisterLocalizationPersistence();

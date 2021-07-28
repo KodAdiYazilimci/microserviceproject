@@ -1,4 +1,6 @@
-﻿namespace Services.Business.Departments.Buying.Models
+﻿using System;
+
+namespace Services.Business.Departments.Buying.Models
 {
     /// <summary>
     /// Envanter modeli
@@ -6,5 +8,9 @@
     public class InventoryModel
     {
         public int Id { get; set; }
+        public string Name { get; set; }
+        public int CurrentStockCount { get; set; }
+        public DateTime FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
     }
 }

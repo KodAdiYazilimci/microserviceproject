@@ -1,9 +1,11 @@
+using Communication.Http.DI;
+using Communication.Mq.Rabbit.Publisher.Department.DI;
+
 using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Caching.Redis.DI;
 using Infrastructure.Communication.Broker.DI;
 using Infrastructure.Communication.Http.Broker.Models;
 using Infrastructure.Communication.Mq.Rabbit.Configuration.DI;
-using Communication.Mq.Rabbit.Publisher.Department.DI;
 using Infrastructure.Localization.DI;
 using Infrastructure.Logging.Logger.RequestResponseLogger.DI;
 using Infrastructure.Routing.Persistence.DI;
@@ -45,6 +47,7 @@ namespace Services.Business.Departments.IT
             services.RegisterAuthentication();
             services.RegisterBusinessServices();
             services.RegisterRedisCaching();
+            services.RegisterCommunicators();
             services.RegisterCredentialProvider();
             services.RegisterInMemoryCaching();
             services.RegisterLocalizationPersistence();

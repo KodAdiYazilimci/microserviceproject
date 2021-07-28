@@ -1,3 +1,5 @@
+using Communication.Http.DI;
+
 using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Caching.Redis.DI;
 using Infrastructure.Communication.Broker.DI;
@@ -29,6 +31,7 @@ namespace Services.MQ.AA
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMemoryCache();
+            services.RegisterCommunicators();
             services.RegisterInMemoryCaching();
             services.RegisterRedisCaching();
             services.RegisterRouteProvider();

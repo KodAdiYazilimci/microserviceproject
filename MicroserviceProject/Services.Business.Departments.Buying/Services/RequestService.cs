@@ -22,6 +22,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Communication.Http.Department.AA;
+using Communication.Http.Department.IT;
 
 namespace Services.Business.Departments.Buying.Services
 {
@@ -86,14 +88,14 @@ namespace Services.Business.Departments.Buying.Services
         private readonly TranslationProvider _translationProvider;
 
         /// <summary>
-        /// Servislerin rota isimlerini sağlayan sınıf
+        /// İdari işler servis iletişimcisi
         /// </summary>
-        private readonly RouteNameProvider _routeNameProvider;
+        private readonly AACommunicator _aaCommunicator;
 
         /// <summary>
-        /// Diğer servislerle iletişim kuracak ara bulucu
+        /// IT departmanı servis iletişimcisi
         /// </summary>
-        private readonly ServiceCommunicator _serviceCommunicator;
+        private readonly ITCommunicator _itCommunicator;
 
         /// <summary>
         /// İdari işler departmanına satın alımla ilgili olumlu veya olumsuz dönüş verisini rabbit kuyruğuna ekleyecek nesne
@@ -115,27 +117,28 @@ namespace Services.Business.Departments.Buying.Services
         /// </summary>
         /// <param name="mapper">Mapping işlemleri için mapper nesnesi</param>
         /// <param name="unitOfWork">Veritabanı iş birimi nesnesi</param>
-        /// <param name="translationProvider">Dil çeviri sağlayıcısı sınıf</param>
-        /// <param name="routeNameProvider">Servislerin rota isimlerini sağlayan sınıf</param>
-        /// <param name="serviceCommunicator">Diğer servislerle iletişim kuracak ara bulucu</param>
+        /// <param name="translationProvider">Dil çeviri sağlayıcısı sınıf</param>        
         /// <param name="redisCacheDataProvider">Rediste tutulan önbellek yönetimini sağlayan sınıf</param>
         /// <param name="transactionRepository">İşlem tablosu için repository sınıfı</param>
         /// <param name="transactionItemRepository">İşlem öğesi tablosu için repository sınıfı</param>
         /// <param name="inventoryRequestRepository">Envanter talepleri tablosu için repository sınıfı</param>
+        /// <param name="aaCommunicator">İdari işler servis iletişimcisi</param>
+        /// <param name="itCommunicator">IT departmanı servis iletişimcisi</param>
         /// <param name="aaInformInventoryRequestPublisher">İdari işler departmanına satın alımla ilgili olumlu veya olumsuz 
         /// dönüş verisini rabbit kuyruğuna ekleyecek nesne</param>
         /// <param name="itInformInventoryRequestPublisher">Bilgi teknolojileri departmanına satın alımla ilgili olumlu veya 
         /// olumsuz dönüş verisini rabbit kuyruğuna ekleyecek nesne</param>
+        /// <param name="inventoryRequestPublisher">Satınalma departmanından alınması istenilen envanter talepleri için kayıt açan nesne</param>
         public RequestService(
             IMapper mapper,
             IUnitOfWork unitOfWork,
             TranslationProvider translationProvider,
-            RouteNameProvider routeNameProvider,
-            ServiceCommunicator serviceCommunicator,
             RedisCacheDataProvider redisCacheDataProvider,
             TransactionRepository transactionRepository,
             TransactionItemRepository transactionItemRepository,
             InventoryRequestRepository inventoryRequestRepository,
+            AACommunicator aaCommunicator,
+            ITCommunicator itCommunicator,
             AAInformInventoryRequestPublisher aaInformInventoryRequestPublisher,
             ITInformInventoryRequestPublisher itInformInventoryRequestPublisher,
             InventoryRequestPublisher inventoryRequestPublisher)
@@ -144,13 +147,14 @@ namespace Services.Business.Departments.Buying.Services
             _unitOfWork = unitOfWork;
             _translationProvider = translationProvider;
             _redisCacheDataProvider = redisCacheDataProvider;
-            _routeNameProvider = routeNameProvider;
-            _serviceCommunicator = serviceCommunicator;
 
             _transactionRepository = transactionRepository;
             _transactionItemRepository = transactionItemRepository;
 
             _inventoryRequestRepository = inventoryRequestRepository;
+
+            _aaCommunicator = aaCommunicator;
+            _itCommunicator = itCommunicator;
 
             _AAInformInventoryRequestPublisher = aaInformInventoryRequestPublisher;
             _ITInformInventoryRequestPublisher = itInformInventoryRequestPublisher;
@@ -176,14 +180,14 @@ namespace Services.Business.Departments.Buying.Services
             List<InventoryRequestModel> mappedInventoryRequests =
                 _mapper.Map<List<InventoryRequestEntity>, List<InventoryRequestModel>>(inventoryRequests);
 
-            List<InventoryModel> aaInventories = new List<InventoryModel>();
+            List<Communication.Http.Department.AA.Models.InventoryModel> aaInventories = new List<Communication.Http.Department.AA.Models.InventoryModel>();
 
             if (mappedInventoryRequests.Any(x => x.DepartmentId == (int)Constants.Departments.AdministrativeAffairs))
             {
                 aaInventories = await GetAAInventoriesAsync(cancellationTokenSource);
             }
 
-            List<InventoryModel> itInventories = new List<InventoryModel>();
+            List<Communication.Http.Department.IT.Models.InventoryModel> itInventories = new List<Communication.Http.Department.IT.Models.InventoryModel>();
 
             if (mappedInventoryRequests.Any(x => x.DepartmentId == (int)Constants.Departments.AdministrativeAffairs))
             {
@@ -194,11 +198,35 @@ namespace Services.Business.Departments.Buying.Services
             {
                 if (requestModel.DepartmentId == (int)Constants.Departments.AdministrativeAffairs)
                 {
-                    requestModel.AAInventory = aaInventories.FirstOrDefault(x => x.Id == requestModel.InventoryId);
+                    if (aaInventories.Any(x => x.Id == requestModel.InventoryId))
+                    {
+                        Communication.Http.Department.AA.Models.InventoryModel inventory = aaInventories.FirstOrDefault(x => x.Id == requestModel.InventoryId);
+
+                        requestModel.AAInventory = new InventoryModel()
+                        {
+                            CurrentStockCount = inventory.CurrentStockCount,
+                            FromDate = inventory.FromDate,
+                            Id = inventory.Id,
+                            Name = inventory.Name,
+                            ToDate = inventory.ToDate
+                        };
+                    }
                 }
                 else if (requestModel.DepartmentId == (int)Constants.Departments.InformationTechnologies)
                 {
-                    requestModel.ITInventory = itInventories.FirstOrDefault(x => x.Id == requestModel.InventoryId);
+                    if (itInventories.Any(x => x.Id == requestModel.InventoryId))
+                    {
+                        Communication.Http.Department.IT.Models.InventoryModel inventory = itInventories.FirstOrDefault(x => x.Id == requestModel.InventoryId);
+
+                        requestModel.ITInventory = new InventoryModel()
+                        {
+                            CurrentStockCount = inventory.CurrentStockCount,
+                            FromDate = inventory.FromDate,
+                            ToDate = inventory.ToDate,
+                            Name = inventory.Name,
+                            Id = inventory.Id
+                        };
+                    }
                 }
                 else
                     throw new Exception("Tanımlanmamış departman Id si");
@@ -214,19 +242,10 @@ namespace Services.Business.Departments.Buying.Services
         /// </summary>
         /// <param name="cancellationTokenSource"></param>
         /// <returns></returns>
-        private async Task<List<InventoryModel>> GetAAInventoriesAsync(CancellationTokenSource cancellationTokenSource)
+        private async Task<List<Communication.Http.Department.AA.Models.InventoryModel>> GetAAInventoriesAsync(CancellationTokenSource cancellationTokenSource)
         {
-            ServiceResultModel<List<InventoryModel>> serviceResult =
-                    await
-                    _serviceCommunicator.Call<List<InventoryModel>>(
-                            serviceName: _routeNameProvider.AA_GetInventories,
-                            postData: null,
-                            queryParameters: null,
-                            headers: new List<KeyValuePair<string, string>>()
-                            {
-                                new KeyValuePair<string, string>("TransactionIdentity", TransactionIdentity)
-                            },
-                            cancellationTokenSource: cancellationTokenSource);
+            ServiceResultModel<List<Communication.Http.Department.AA.Models.InventoryModel>> serviceResult =
+                await _aaCommunicator.GetInventoriesAsync(TransactionIdentity, cancellationTokenSource);
 
             if (!serviceResult.IsSuccess)
             {
@@ -250,19 +269,10 @@ namespace Services.Business.Departments.Buying.Services
         /// </summary>
         /// <param name="cancellationTokenSource"></param>
         /// <returns></returns>
-        private async Task<List<InventoryModel>> GetITInventoriesAsync(CancellationTokenSource cancellationTokenSource)
+        private async Task<List<Communication.Http.Department.IT.Models.InventoryModel>> GetITInventoriesAsync(CancellationTokenSource cancellationTokenSource)
         {
-            ServiceResultModel<List<InventoryModel>> serviceResult =
-                    await
-                    _serviceCommunicator.Call<List<InventoryModel>>(
-                            serviceName: _routeNameProvider.IT_GetInventories,
-                            postData: null,
-                            queryParameters: null,
-                            headers: new List<KeyValuePair<string, string>>()
-                            {
-                                new KeyValuePair<string, string>("TransactionIdentity", TransactionIdentity)
-                            },
-                            cancellationTokenSource: cancellationTokenSource);
+            ServiceResultModel<List<Communication.Http.Department.IT.Models.InventoryModel>> serviceResult =
+                await _itCommunicator.GetInventoriesAsync(TransactionIdentity, cancellationTokenSource);
 
             if (!serviceResult.IsSuccess)
             {
@@ -293,7 +303,7 @@ namespace Services.Business.Departments.Buying.Services
 
             if (mappedInventoryRequest.DepartmentId == (int)Constants.Departments.AdministrativeAffairs)
             {
-                List<InventoryModel> aaInventories = await GetAAInventoriesAsync(cancellationTokenSource);
+                List<Communication.Http.Department.AA.Models.InventoryModel> aaInventories = await GetAAInventoriesAsync(cancellationTokenSource);
 
                 if (!aaInventories.Any(x => x.Id == mappedInventoryRequest.InventoryId))
                 {
@@ -302,7 +312,7 @@ namespace Services.Business.Departments.Buying.Services
             }
             else if (mappedInventoryRequest.DepartmentId == (int)Constants.Departments.InformationTechnologies)
             {
-                List<InventoryModel> itInventories = await GetITInventoriesAsync(cancellationTokenSource);
+                List<Communication.Http.Department.IT.Models.InventoryModel> itInventories = await GetITInventoriesAsync(cancellationTokenSource);
 
                 if (!itInventories.Any(x => x.Id == mappedInventoryRequest.InventoryId))
                 {
@@ -566,6 +576,8 @@ namespace Services.Business.Departments.Buying.Services
             _AAInformInventoryRequestPublisher.Dispose();
             _ITInformInventoryRequestPublisher.Dispose();
             _translationProvider.Dispose();
+            _aaCommunicator.Dispose();
+            _itCommunicator.Dispose();
         }
     }
 }

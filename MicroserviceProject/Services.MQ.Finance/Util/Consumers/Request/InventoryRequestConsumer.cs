@@ -7,6 +7,7 @@ using Infrastructure.Routing.Providers;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Communication.Http.Department.Finance;
 
 namespace Services.MQ.Finance.Util.Consumers.Request
 {
@@ -26,29 +27,20 @@ namespace Services.MQ.Finance.Util.Consumers.Request
         private readonly Consumer<DecidedCostModel> _consumer;
 
         /// <summary>
-        /// Kuyruktan alınan verinin iletileceği servisin adını veren nesne
+        /// Finans departmanı servis iletişimcisi
         /// </summary>
-        private readonly RouteNameProvider _routeNameProvider;
-
-        /// <summary>
-        /// Kuyruktan alınan verinin iletileceği servisle iletişimi kuracak nesne
-        /// </summary>
-        private readonly ServiceCommunicator _serviceCommunicator;
+        private readonly FinanceCommunicator _financeCommunicator;
 
         /// <summary>
         /// Satınalma departmanından alınması istenilen envanter taleplerini tüketen sınıf
         /// </summary>
         /// <param name="rabbitConfiguration">Kuyruk ayarlarının alınacağın configuration nesnesi</param>
-        /// <param name="routeNameProvider">Kuyruktan alınan verinin iletileceği servisin adını veren nesne</param>
-        /// <param name="serviceCommunicator">Kuyruktan alınan verinin iletileceği servisle iletişimi kuracak nesne</param>
+        /// <param name="financeCommunicator">Finans departmanı servis iletişimcisi</param>
         public InventoryRequestConsumer(
             InventoryRequestRabbitConfiguration rabbitConfiguration,
-            RouteNameProvider routeNameProvider,
-            ServiceCommunicator serviceCommunicator)
+            FinanceCommunicator financeCommunicator)
         {
-            _routeNameProvider = routeNameProvider;
-            _serviceCommunicator = serviceCommunicator;
-
+            _financeCommunicator = financeCommunicator;
             _consumer = new Consumer<DecidedCostModel>(rabbitConfiguration);
             _consumer.OnConsumed += Consumer_OnConsumed;
         }
@@ -57,12 +49,12 @@ namespace Services.MQ.Finance.Util.Consumers.Request
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            _ = await _serviceCommunicator.Call<int>(
-                serviceName: _routeNameProvider.Finance_CreateCost,
-                postData: data,
-                queryParameters: null,
-                headers: null,
-                cancellationTokenSource: cancellationTokenSource);
+            Communication.Http.Department.Finance.Models.DecidedCostModel decidedCostModel = new Communication.Http.Department.Finance.Models.DecidedCostModel
+            {
+                InventoryRequestId = data.InventoryRequestId
+            };
+
+            await _financeCommunicator.CreateCostAsync(decidedCostModel, cancellationTokenSource);
         }
 
         /// <summary>
@@ -93,8 +85,7 @@ namespace Services.MQ.Finance.Util.Consumers.Request
                 if (!disposed)
                 {
                     _consumer.Dispose();
-                    _routeNameProvider.Dispose();
-                    _serviceCommunicator.Dispose();
+                    _financeCommunicator.Dispose();
                 }
 
                 disposed = true;

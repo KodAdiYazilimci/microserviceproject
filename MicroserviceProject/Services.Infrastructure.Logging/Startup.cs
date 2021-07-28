@@ -24,6 +24,7 @@ using Services.Infrastructure.Logging.DI;
 using Services.UnitOfWork.Sql.DI;
 
 using System.Net;
+using Communication.Http.DI;
 
 namespace Services.Infrastructure.Logging
 {
@@ -42,6 +43,7 @@ namespace Services.Infrastructure.Logging
             services.AddControllers();
             services.AddMemoryCache();
             services.RegisterAuthentication();
+            services.RegisterCommunicators();
             services.RegisterInMemoryCaching();
             services.RegisterRedisCaching();
             services.RegisterCredentialProvider();

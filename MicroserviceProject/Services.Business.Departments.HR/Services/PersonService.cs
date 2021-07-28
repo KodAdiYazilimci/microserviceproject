@@ -22,6 +22,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Communication.Http.Department.Accounting;
+using Communication.Http.Department.IT;
+using Communication.Http.Department.AA;
 
 namespace Services.Business.Departments.HR.Services
 {
@@ -73,16 +76,6 @@ namespace Services.Business.Departments.HR.Services
         private readonly TransactionItemRepository _transactionItemRepository;
 
         /// <summary>
-        /// Servislerin rota isimlerini sağlayan sınıf
-        /// </summary>
-        private readonly RouteNameProvider _routeNameProvider;
-
-        /// <summary>
-        /// Diğer servislerle iletişim kuracak ara bulucu
-        /// </summary>
-        private readonly ServiceCommunicator _serviceCommunicator;
-
-        /// <summary>
         /// Veritabanı iş birimi nesnesi
         /// </summary>
         private readonly IUnitOfWork _unitOfWork;
@@ -118,6 +111,21 @@ namespace Services.Business.Departments.HR.Services
         private readonly WorkerRelationRepository _workerRelationRepository;
 
         /// <summary>
+        /// İdari işler departmanı servis iletişimcisi
+        /// </summary>
+        private readonly AACommunicator _aaCommunicator;
+
+        /// <summary>
+        /// Muhasebe departmanı servis iletişimcisi
+        /// </summary>
+        private readonly AccountingCommunicator _accountingCommunicator;
+
+        /// <summary>
+        /// IT departmanı servis iletişimcisi
+        /// </summary>
+        private readonly ITCommunicator _itCommunicator;
+
+        /// <summary>
         /// İdari işler tarafından yeni çalışana varsayılan envanter ataması yapacak kuyruğa
         /// kayıt ekleyecek nesne
         /// </summary>
@@ -137,8 +145,9 @@ namespace Services.Business.Departments.HR.Services
         /// Kişi işlemleri iş mantığı sınıfı
         /// </summary>
         /// <param name="mapper">Mapping işlemleri için mapper nesnesi</param>
-        /// <param name="routeNameProvider">Servislerin rota isimlerini sağlayan sınıf</param>
-        /// <param name="serviceCommunicator">Diğer servislerle iletişim kuracak ara bulucu</param>
+        /// <param name="aACommunicator">İdari işler departmanı servis iletişimcisi</param>
+        /// <param name="accountingCommunicator">Muhasebe departmanı servis iletişimcisi</param>
+        /// <param name="itCommunicator">IT departmanı servis iletişimcisi</param>
         /// <param name="AAassignInventoryToWorkerPublisher">İdari işler tarafından yeni çalışana 
         /// varsayılan envanter ataması yapacak kuyruğa kayıt ekleyecek nesne</param>
         /// <param name="ITassignInventoryToWorkerPublisher">IT tarafından yeni çalışana varsayılan envanter 
@@ -155,8 +164,9 @@ namespace Services.Business.Departments.HR.Services
         /// <param name="workerRelationRepository">Çalışan ilişkileri tablosu için repository sınıfı</param>
         public PersonService(
             IMapper mapper,
-            RouteNameProvider routeNameProvider,
-            ServiceCommunicator serviceCommunicator,
+            AACommunicator aACommunicator,
+            AccountingCommunicator accountingCommunicator,
+            ITCommunicator itCommunicator,
             AAAssignInventoryToWorkerPublisher AAassignInventoryToWorkerPublisher,
             ITAssignInventoryToWorkerPublisher ITassignInventoryToWorkerPublisher,
             CreateBankAccountPublisher createBankAccountPublisher,
@@ -172,11 +182,14 @@ namespace Services.Business.Departments.HR.Services
             WorkerRelationRepository workerRelationRepository)
         {
             _redisCacheDataProvider = redisCacheDataProvider;
-            _routeNameProvider = routeNameProvider;
-            _serviceCommunicator = serviceCommunicator;
             _AAassignInventoryToWorkerPublisher = AAassignInventoryToWorkerPublisher;
             _ITAssignInventoryToWorkerPublisher = ITassignInventoryToWorkerPublisher;
             _createBankAccountPublisher = createBankAccountPublisher;
+
+            _aaCommunicator = aACommunicator;
+            _accountingCommunicator = accountingCommunicator;
+            _itCommunicator = itCommunicator;
+
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _translationProvider = translationProvider;
@@ -345,20 +358,19 @@ namespace Services.Business.Departments.HR.Services
 
             foreach (var worker in workerModels)
             {
-                ServiceResultModel<List<BankAccountModel>> bankAccountsServiceResult =
-                 await _serviceCommunicator.Call<List<BankAccountModel>>(
-                     serviceName: _routeNameProvider.Accounting_GetBankAccountsOfWorker,
-                     postData: null,
-                     queryParameters: new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("workerId", worker.Id.ToString()) },
-                     headers: new List<KeyValuePair<string, string>>()
-                     {
-                         new KeyValuePair<string, string>("TransactionIdentity", TransactionIdentity)
-                     },
-                     cancellationTokenSource: cancellationTokenSource);
+                ServiceResultModel<List<Communication.Http.Department.Accounting.Models.BankAccountModel>> bankAccountsServiceResult =
+                    await _accountingCommunicator.GetBankAccountsOfWorkerAsync(worker.Id, TransactionIdentity, cancellationTokenSource);
 
                 if (bankAccountsServiceResult.IsSuccess)
                 {
-                    worker.BankAccounts = bankAccountsServiceResult.Data;
+                    worker.BankAccounts = bankAccountsServiceResult.Data.Select(x => new BankAccountModel()
+                    {
+                        IBAN = x.IBAN,
+                        Worker = new WorkerModel()
+                        {
+                            Id = x.Worker.Id
+                        }
+                    }).ToList();
                 }
                 else
                 {
@@ -446,20 +458,19 @@ namespace Services.Business.Departments.HR.Services
 
             if (!worker.AAInventories.Any())
             {
-                ServiceResultModel<List<InventoryModel>> defaultInventoriesServiceResult =
-                    await _serviceCommunicator.Call<List<InventoryModel>>(
-                        serviceName: _routeNameProvider.AA_GetInventoriesForNewWorker,
-                        postData: null,
-                        queryParameters: null,
-                        headers: new List<KeyValuePair<string, string>>()
-                        {
-                            new KeyValuePair<string, string>("TransactionIdentity", TransactionIdentity)
-                        },
-                        cancellationTokenSource);
+                ServiceResultModel<List<Communication.Http.Department.AA.Models.InventoryModel>> defaultInventoriesServiceResult =
+                    await _aaCommunicator.GetInventoriesForNewWorkerAsync(TransactionIdentity, cancellationTokenSource);
 
                 if (defaultInventoriesServiceResult.IsSuccess)
                 {
-                    worker.AAInventories.AddRange(defaultInventoriesServiceResult.Data);
+                    worker.AAInventories.AddRange(defaultInventoriesServiceResult.Data.Select(x => new InventoryModel()
+                    {
+                        CurrentStockCount = x.CurrentStockCount,
+                        FromDate = x.FromDate,
+                        Id = x.Id,
+                        Name = x.Name,
+                        ToDate = x.ToDate
+                    }).ToList());
                 }
                 else
                 {
@@ -496,20 +507,19 @@ namespace Services.Business.Departments.HR.Services
 
             if (!worker.ITInventories.Any())
             {
-                ServiceResultModel<List<InventoryModel>> defaultInventoriesServiceResult =
-                    await _serviceCommunicator.Call<List<InventoryModel>>(
-                        serviceName: _routeNameProvider.IT_GetInventoriesForNewWorker,
-                        postData: null,
-                        queryParameters: null,
-                        headers: new List<KeyValuePair<string, string>>()
-                        {
-                            new KeyValuePair<string, string>("TransactionIdentity", TransactionIdentity)
-                        },
-                        cancellationTokenSource);
+                ServiceResultModel<List<Communication.Http.Department.IT.Models.InventoryModel>> defaultInventoriesServiceResult =
+                    await _itCommunicator.GetInventoriesForNewWorkerAsync(TransactionIdentity, cancellationTokenSource);
 
                 if (defaultInventoriesServiceResult.IsSuccess)
                 {
-                    worker.ITInventories.AddRange(defaultInventoriesServiceResult.Data);
+                    worker.ITInventories.AddRange(defaultInventoriesServiceResult.Data.Select(x => new InventoryModel()
+                    {
+                        CurrentStockCount = x.CurrentStockCount,
+                        FromDate = x.FromDate,
+                        Id = x.Id,
+                        Name = x.Name,
+                        ToDate = x.ToDate
+                    }).ToList());
                 }
                 else
                 {
@@ -717,6 +727,9 @@ namespace Services.Business.Departments.HR.Services
             _workerRepository.Dispose();
             _unitOfWork.Dispose();
             _translationProvider.Dispose();
+            _aaCommunicator.Dispose();
+            _accountingCommunicator.Dispose();
+            _itCommunicator.Dispose();
         }
     }
 }

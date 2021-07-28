@@ -7,6 +7,7 @@ using Infrastructure.Routing.Providers;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Communication.Http.Department.AA;
 
 namespace Services.MQ.AA.Util.Consumers.Request
 {
@@ -26,28 +27,20 @@ namespace Services.MQ.AA.Util.Consumers.Request
         private readonly Consumer<InventoryRequestModel> _consumer;
 
         /// <summary>
-        /// Kuyruktan alınan verinin iletileceği servisin adını veren nesne
+        /// İdari işler servis iletişimcisi
         /// </summary>
-        private readonly RouteNameProvider _routeNameProvider;
-
-        /// <summary>
-        /// Kuyruktan alınan verinin iletileceği servisle iletişimi kuracak nesne
-        /// </summary>
-        private readonly ServiceCommunicator _serviceCommunicator;
+        private readonly AACommunicator _aaCommunicator;
 
         /// <summary>
         /// Envanter talebiyle ilgili satınalma sonucunu tüketen sınıf
         /// </summary>
         /// <param name="rabbitConfiguration">Kuyruk ayarlarının alınacağın configuration nesnesi</param>
-        /// <param name="routeNameProvider">Kuyruktan alınan verinin iletileceği servisin adını veren nesne</param>
-        /// <param name="serviceCommunicator">Kuyruktan alınan verinin iletileceği servisle iletişimi kuracak nesne</param>
+        /// <param name="aaCommunicator">İdari işler servis iletişimcisi</param>
         public InformInventoryRequestConsumer(
             AAInformInventoryRequestRabbitConfiguration rabbitConfiguration,
-            RouteNameProvider routeNameProvider,
-            ServiceCommunicator serviceCommunicator)
+            AACommunicator aaCommunicator)
         {
-            _routeNameProvider = routeNameProvider;
-            _serviceCommunicator = serviceCommunicator;
+            _aaCommunicator = aaCommunicator;
 
             _consumer = new Consumer<InventoryRequestModel>(rabbitConfiguration);
             _consumer.OnConsumed += Consumer_OnConsumed;
@@ -57,12 +50,15 @@ namespace Services.MQ.AA.Util.Consumers.Request
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            _ = await _serviceCommunicator.Call<int>(
-                serviceName: _routeNameProvider.AA_InformInventoryRequest,
-                postData: data,
-                queryParameters: null,
-                headers: null,
-                cancellationTokenSource: cancellationTokenSource);
+            Communication.Http.Department.AA.Models.InventoryRequestModel inventoryRequestModel = new Communication.Http.Department.AA.Models.InventoryRequestModel
+            {
+                Amount = data.Amount,
+                Done = data.Done,
+                InventoryId = data.InventoryId,
+                Revoked = data.Revoked
+            };
+
+            await _aaCommunicator.InformInventoryRequestAsync(inventoryRequestModel, cancellationTokenSource);
         }
 
         /// <summary>
@@ -93,8 +89,7 @@ namespace Services.MQ.AA.Util.Consumers.Request
                 if (!disposed)
                 {
                     _consumer.Dispose();
-                    _routeNameProvider.Dispose();
-                    _serviceCommunicator.Dispose();
+                    _aaCommunicator.Dispose();
                 }
 
                 disposed = true;

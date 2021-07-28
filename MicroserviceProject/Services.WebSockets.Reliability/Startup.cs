@@ -1,3 +1,5 @@
+using Communication.Http.DI;
+
 using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Communication.Broker.DI;
 using Infrastructure.Communication.Http.Broker.Models;
@@ -31,6 +33,7 @@ namespace Services.WebSockets.Reliability
             services.AddMemoryCache();
             services.AddSignalR();
             services.AddSingleton<ErrorHub>();
+            services.RegisterCommunicators();
             services.RegisterInMemoryCaching();
             services.RegisterAuthentication();
             services.RegisterCredentialProvider();

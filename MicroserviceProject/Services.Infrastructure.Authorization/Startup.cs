@@ -1,8 +1,14 @@
+using Communication.Http.DI;
+
 using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Caching.Redis.DI;
+using Infrastructure.Communication.Broker.DI;
 using Infrastructure.Communication.Http.Broker.Models;
 using Infrastructure.Localization.DI;
 using Infrastructure.Logging.Logger.RequestResponseLogger.DI;
+using Infrastructure.Routing.Persistence.DI;
+using Infrastructure.Routing.Providers.DI;
+using Infrastructure.Security.Authentication.BasicToken.DI;
 using Infrastructure.Util.DI;
 
 using Microsoft.AspNetCore.Builder;
@@ -34,12 +40,17 @@ namespace Services.Infrastructure.Authorization
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMemoryCache();
+            services.RegisterCommunicators();
+            services.RegisterCredentialProvider();
             services.RegisterInMemoryCaching();
+            services.RegisterLocalizationPersistence();
+            services.RegisterLocalizationProviders();
             services.RegisterLogger();
             services.RegisterRedisCaching();
             services.RegisterRepositories(Configuration);
-            services.RegisterLocalizationPersistence();
-            services.RegisterLocalizationProviders();
+            services.RegisterRouteProvider();
+            services.RegisterRouteRepositories();
+            services.RegisterServiceCommunicator();
             services.RegisterServices();
             services.RegisterSwagger();
 

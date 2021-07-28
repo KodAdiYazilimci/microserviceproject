@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Mock.Factories;
+using Infrastructure.Mock.Providers.Communicators;
 using Infrastructure.Mock.Publishers;
 
 using Microsoft.Extensions.Configuration;
@@ -25,12 +26,27 @@ namespace Test.Services.Business.Departments.HR.Factories.Services
 
                     service = new PersonService(
                         mapper: MappingFactory.GetInstance(new MappingProfile()),
-                        routeNameProvider: RouteNameProviderFactory.GetRouteNameProvider(configuration),
-                        serviceCommunicator: ServiceCommunicatorFactory.GetServiceCommunicator(
-                            cacheProvider: InMemoryCacheDataProviderFactory.Instance,
-                            credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),
-                            routeNameProvider: RouteNameProviderFactory.GetRouteNameProvider(configuration),
-                            serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration)),
+                        aACommunicator: AACommunicatorProvider.GetAACommunicator(
+                             routeNameProvider: RouteNameProviderFactory.GetRouteNameProvider(configuration),
+                             serviceCommunicator: ServiceCommunicatorFactory.GetServiceCommunicator(
+                                 cacheProvider: InMemoryCacheDataProviderFactory.Instance,
+                                 credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),
+                                 routeNameProvider: RouteNameProviderFactory.GetRouteNameProvider(configuration),
+                                 serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration))),
+                        accountingCommunicator: AccountingCommunicatorProvider.GetAccountingCommunicator(
+                             routeNameProvider: RouteNameProviderFactory.GetRouteNameProvider(configuration),
+                             serviceCommunicator: ServiceCommunicatorFactory.GetServiceCommunicator(
+                                 cacheProvider: InMemoryCacheDataProviderFactory.Instance,
+                                 credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),
+                                 routeNameProvider: RouteNameProviderFactory.GetRouteNameProvider(configuration),
+                                 serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration))),
+                        itCommunicator: ITCommunicatorProvider.GetITCommunicator(
+                             routeNameProvider: RouteNameProviderFactory.GetRouteNameProvider(configuration),
+                             serviceCommunicator: ServiceCommunicatorFactory.GetServiceCommunicator(
+                                 cacheProvider: InMemoryCacheDataProviderFactory.Instance,
+                                 credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),
+                                 routeNameProvider: RouteNameProviderFactory.GetRouteNameProvider(configuration),
+                                 serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration))),
                         AAassignInventoryToWorkerPublisher: AAAssignInventoryToWorkerPublisherProvider.GetPublisher(
                             configuration: AAAssignInventoryToWorkerRabbitConfigurationProvider.GetConfiguration(configuration)),
                         ITassignInventoryToWorkerPublisher: ITassignInventoryToWorkerPublisherProvider.GetPublisher(

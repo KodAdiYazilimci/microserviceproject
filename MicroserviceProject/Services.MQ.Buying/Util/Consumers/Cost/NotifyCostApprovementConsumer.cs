@@ -1,9 +1,8 @@
-﻿
-using Infrastructure.Communication.Broker;
+﻿using Communication.Http.Department.Buying;
+using Communication.Mq.Rabbit.Publisher.Department.Buying.Models;
+
 using Infrastructure.Communication.Mq.Rabbit;
 using Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Buying;
-using Communication.Mq.Rabbit.Publisher.Department.Buying.Models;
-using Infrastructure.Routing.Providers;
 
 using System;
 using System.Threading;
@@ -27,28 +26,20 @@ namespace Services.MQ.Buying.Util.Consumers.Cost
         private readonly Consumer<DecidedCostModel> _consumer;
 
         /// <summary>
-        /// Kuyruktan alınan verinin iletileceği servisin adını veren nesne
+        /// Satınalma departmanı servis iletişimcisi
         /// </summary>
-        private readonly RouteNameProvider _routeNameProvider;
-
-        /// <summary>
-        /// Kuyruktan alınan verinin iletileceği servisle iletişimi kuracak nesne
-        /// </summary>
-        private readonly ServiceCommunicator _serviceCommunicator;
+        private readonly BuyingCommunicator _buyingCommunicator;
 
         /// <summary>
         /// Satın alınması planlanan envanterlere ait bütçenin sonuçlarını tüketen sınıf
         /// </summary>
         /// <param name="rabbitConfiguration">Kuyruk ayarlarının alınacağın configuration nesnesi</param>
-        /// <param name="routeNameProvider">Kuyruktan alınan verinin iletileceği servisin adını veren nesne</param>
-        /// <param name="serviceCommunicator">Kuyruktan alınan verinin iletileceği servisle iletişimi kuracak nesne</param>
+        /// <param name="buyingCommunicator">Satınalma departmanı servis iletişimcisi</param>
         public NotifyCostApprovementConsumer(
             NotifyCostApprovementRabbitConfiguration rabbitConfiguration,
-            RouteNameProvider routeNameProvider,
-            ServiceCommunicator serviceCommunicator)
+            BuyingCommunicator buyingCommunicator)
         {
-            _routeNameProvider = routeNameProvider;
-            _serviceCommunicator = serviceCommunicator;
+            _buyingCommunicator = buyingCommunicator;
 
             _consumer = new Consumer<DecidedCostModel>(rabbitConfiguration);
             _consumer.OnConsumed += Consumer_OnConsumed;
@@ -58,12 +49,14 @@ namespace Services.MQ.Buying.Util.Consumers.Cost
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            _ = await _serviceCommunicator.Call<int>(
-                serviceName: _routeNameProvider.Buying_ValidateCostInventory,
-                postData: data,
-                queryParameters: null,
-                headers: null,
-                cancellationTokenSource: cancellationTokenSource);
+            Communication.Http.Department.Buying.Models.DecidedCostModel decidedCostModel = new Communication.Http.Department.Buying.Models.DecidedCostModel
+            {
+                Approved = data.Approved,
+                Done = data.Done,
+                InventoryRequestId = data.InventoryRequestId
+            };
+
+            await _buyingCommunicator.ValidateCostInventoryAsync(decidedCostModel, cancellationTokenSource);
         }
 
         /// <summary>
@@ -94,8 +87,7 @@ namespace Services.MQ.Buying.Util.Consumers.Cost
                 if (!disposed)
                 {
                     _consumer.Dispose();
-                    _routeNameProvider.Dispose();
-                    _serviceCommunicator.Dispose();
+                    _buyingCommunicator.Dispose();
                 }
 
                 disposed = true;

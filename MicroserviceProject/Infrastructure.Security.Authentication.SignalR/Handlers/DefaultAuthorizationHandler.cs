@@ -1,4 +1,6 @@
-﻿using Infrastructure.Caching.InMemory;
+﻿using Communication.Http.Authorization;
+
+using Infrastructure.Caching.InMemory;
 using Infrastructure.Communication.Broker;
 using Infrastructure.Communication.Http.Broker.Models;
 using Infrastructure.Routing.Providers;
@@ -42,32 +44,24 @@ namespace Infrastructure.Security.Authentication.SignalR.Handlers
         private readonly InMemoryCacheDataProvider _cacheProvider;
 
         /// <summary>
-        /// Yetki sunucusu adreslerini sağlayacak rota sağlayıcı nesnes
+        /// Kimlik denetimi servisi iletişimcisi
         /// </summary>
-        private readonly RouteNameProvider _routeNameProvider;
-
-        /// <summary>
-        /// Yetki sunucusuyla iletişim kuracak servis iletişimcisi
-        /// </summary>
-        private readonly ServiceCommunicator _serviceCommunicator;
+        private readonly AuthorizationCommunicator _authorizationCommunicator;
 
         /// <summary>
         /// Varsayılan kimlik denetimi yapan sınıf
         /// </summary>
         /// <param name="httpContextAccessor">Http üst öğelerine erişim sağlayacak nesne</param>
         /// <param name="cacheProvider">Oturum bilgilerinin saklanacağı önbellek nesnesi</param>
-        /// <param name="routeNameProvider">Yetki sunucusu adreslerini sağlayacak rota sağlayıcı nesnes</param>
-        /// <param name="serviceCommunicator">Yetki sunucusuyla iletişim kuracak servis iletişimcisi</param>
+        /// <param name="authorizationCommunicator">Kimlik denetimi servisi iletişimcisi</param>
         public DefaultAuthorizationHandler(
             IHttpContextAccessor httpContextAccessor,
             InMemoryCacheDataProvider cacheProvider,
-            RouteNameProvider routeNameProvider,
-            ServiceCommunicator serviceCommunicator)
+            AuthorizationCommunicator authorizationCommunicator)
         {
             _httpContextAccessor = httpContextAccessor;
             _cacheProvider = cacheProvider;
-            _routeNameProvider = routeNameProvider;
-            _serviceCommunicator = serviceCommunicator;
+            _authorizationCommunicator = authorizationCommunicator;
         }
 
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, DefaultAuthorizationRequirement requirement)
@@ -86,18 +80,27 @@ namespace Infrastructure.Security.Authentication.SignalR.Handlers
             {
                 if (!string.IsNullOrEmpty(token))
                 {
-                    ServiceResultModel<User> serviceResult =
-                        await
-                        _serviceCommunicator.Call<User>(
-                            serviceName: _routeNameProvider.Auth_GetUser,
-                            postData: null,
-                            queryParameters: new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("token", token) },
-                            headers: null,
-                            cancellationTokenSource: cancellationTokenSource);
+                    ServiceResultModel<global::Communication.Http.Authorization.Models.User> serviceResult = await _authorizationCommunicator.GetUserAsync(token, cancellationTokenSource);
 
                     if (serviceResult.IsSuccess && serviceResult.Data != null)
                     {
-                        SetToCache(serviceResult.Data);
+                        User userData = new User
+                        {
+                            Email = serviceResult.Data.Email,
+                            Id = serviceResult.Data.Id,
+                            IsAdmin = serviceResult.Data.IsAdmin,
+                            Name = serviceResult.Data.Name,
+                            Password = serviceResult.Data.Password,
+                            Region = serviceResult.Data.Region,
+                            SessionId = serviceResult.Data.SessionId,
+                            Token = serviceResult.Data.Token != null ? new Token()
+                            {
+                                TokenKey = serviceResult.Data.Token.TokenKey,
+                                ValidTo = serviceResult.Data.Token.ValidTo
+                            } : null
+                        };
+
+                        SetToCache(userData);
 
                         context.Succeed(requirement);
                     }
@@ -166,11 +169,7 @@ namespace Infrastructure.Security.Authentication.SignalR.Handlers
             {
                 if (!disposed)
                 {
-                    if (_routeNameProvider != null)
-                        _routeNameProvider.Dispose();
-
-                    if (_serviceCommunicator != null)
-                        _serviceCommunicator.Dispose();
+                    _authorizationCommunicator.Dispose();
                 }
 
                 disposed = true;
