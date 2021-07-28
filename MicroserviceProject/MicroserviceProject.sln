@@ -163,6 +163,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Communicatio
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Transaction.UnitOfWork.Sql", "Infrastructure.Transaction.UnitOfWork.Sql\Infrastructure.Transaction.UnitOfWork.Sql.csproj", "{5FEBCB9B-BFFA-4FE8-84AE-97E70B2F4583}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Transaction.UnitOfWork.EntityFramework", "Infrastructure.Transaction.UnitOfWork.EntityFramework\Infrastructure.Transaction.UnitOfWork.EntityFramework.csproj", "{79A25012-0A96-46AC-B72E-431A904EE427}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -405,6 +407,10 @@ Global
 		{5FEBCB9B-BFFA-4FE8-84AE-97E70B2F4583}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5FEBCB9B-BFFA-4FE8-84AE-97E70B2F4583}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5FEBCB9B-BFFA-4FE8-84AE-97E70B2F4583}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79A25012-0A96-46AC-B72E-431A904EE427}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79A25012-0A96-46AC-B72E-431A904EE427}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79A25012-0A96-46AC-B72E-431A904EE427}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79A25012-0A96-46AC-B72E-431A904EE427}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -469,6 +475,7 @@ Global
 		{12BA2947-C5EB-4008-9FFB-73059FD3B035} = {E6FE7D11-D875-4BA0-93A1-9676B90EBABC}
 		{0F172FD6-CBC6-4B30-9FBB-D927EAB877CC} = {0785BF07-F570-4362-BF9C-87B069DD06D7}
 		{5FEBCB9B-BFFA-4FE8-84AE-97E70B2F4583} = {E47E6E2E-1D2F-4FE0-8B97-4BF397015454}
+		{79A25012-0A96-46AC-B72E-431A904EE427} = {E47E6E2E-1D2F-4FE0-8B97-4BF397015454}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5FD68A04-D16D-49EC-9D04-25E6B952DA89}
