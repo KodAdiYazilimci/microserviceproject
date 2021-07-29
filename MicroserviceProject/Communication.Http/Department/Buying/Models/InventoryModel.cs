@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace Communication.Http.Department.IT.Models
+namespace Communication.Http.Department.Buying.Models
 {
     /// <summary>
-    /// IT envanterleri modeli
+    /// Envanter modeli
     /// </summary>
     public class InventoryModel
     {

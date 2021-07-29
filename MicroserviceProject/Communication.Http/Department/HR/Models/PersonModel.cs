@@ -1,4 +1,4 @@
-﻿namespace Communication.Http.Department.Accounting.Models
+﻿namespace Communication.Http.Department.HR.Models
 {
     /// <summary>
     /// Kişiler

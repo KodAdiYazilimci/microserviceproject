@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Communication.Http.Department.IT.Models
 {
@@ -7,11 +8,21 @@ namespace Communication.Http.Department.IT.Models
     /// </summary>
     public class WorkerModel
     {
-        public int Id { get; set; }
+        public int Id { get; set; }    
 
         /// <summary>
-        /// Çalışanın envanterleri
+        /// Başlama tarihi
         /// </summary>
-        public List<InventoryModel> Inventories { get; set; }
+        public DateTime FromDate { get; set; }
+
+        /// <summary>
+        /// Bitiş tarihi
+        /// </summary>
+        public DateTime? ToDate { get; set; }
+
+        /// <summary>
+        /// Çalışanın IT envanterleri
+        /// </summary>
+        public List<InventoryModel> ITInventories { get; set; }
     }
 }

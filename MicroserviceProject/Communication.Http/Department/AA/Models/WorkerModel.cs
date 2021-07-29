@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Communication.Http.Department.AA.Models
 {
@@ -10,8 +11,18 @@ namespace Communication.Http.Department.AA.Models
         public int Id { get; set; }
 
         /// <summary>
-        /// Çalışanın envanterleri
+        /// Başlama tarihi
         /// </summary>
-        public List<InventoryModel> Inventories { get; set; }
+        public DateTime FromDate { get; set; }
+
+        /// <summary>
+        /// Bitiş tarihi
+        /// </summary>
+        public DateTime? ToDate { get; set; }
+
+        /// <summary>
+        /// Çalışanın idari işler envanterleri
+        /// </summary>
+        public List<InventoryModel> AAInventories { get; set; }
     }
 }

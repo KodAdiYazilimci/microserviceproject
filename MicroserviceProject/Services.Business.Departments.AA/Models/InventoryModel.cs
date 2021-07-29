@@ -1,4 +1,6 @@
-﻿namespace Services.Business.Departments.AA.Models
+﻿using System;
+
+namespace Services.Business.Departments.AA.Models
 {
     /// <summary>
     /// İdari işler envanterleri
@@ -8,5 +10,7 @@
         public int Id { get; set; }
         public string Name { get; set; }
         public int CurrentStockCount { get; set; }
+        public DateTime FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
     }
 }

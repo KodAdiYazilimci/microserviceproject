@@ -53,7 +53,7 @@ namespace Services.MQ.IT.Util.Consumers.Inventory
             Communication.Http.Department.IT.Models.WorkerModel workerModel = new Communication.Http.Department.IT.Models.WorkerModel
             {
                 Id = data.Id,
-                Inventories = data.Inventories.Select(x => new Communication.Http.Department.IT.Models.InventoryModel
+                ITInventories = data.Inventories.Select(x => new Communication.Http.Department.IT.Models.InventoryModel
                 {
                     Id = x.Id,
                     FromDate = x.FromDate,
