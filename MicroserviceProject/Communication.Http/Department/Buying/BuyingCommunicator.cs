@@ -5,6 +5,7 @@ using Infrastructure.Communication.Http.Broker.Models;
 using Infrastructure.Routing.Providers;
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -41,6 +42,21 @@ namespace Communication.Http.Department.Buying
         {
             _routeNameProvider = routeNameProvider;
             _serviceCommunicator = serviceCommunicator;
+        }
+
+        /// <summary>
+        /// Satınalma departmanındaki envanter taleplerini getirir
+        /// </summary>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<ServiceResultModel<List<InventoryRequestModel>>> GetInventoryRequests(CancellationTokenSource cancellationTokenSource)
+        {
+            return await _serviceCommunicator.Call<List<InventoryRequestModel>>(
+                serviceName: _routeNameProvider.Buying_GetInventoryRequests,
+                postData: null,
+                queryParameters: null,
+                headers: null,
+                cancellationTokenSource: cancellationTokenSource);
         }
 
         /// <summary>

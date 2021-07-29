@@ -5,6 +5,7 @@ using Infrastructure.Communication.Http.Broker.Models;
 using Infrastructure.Routing.Providers;
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -53,6 +54,37 @@ namespace Communication.Http.Department.Finance
         {
             return await _serviceCommunicator.Call<int>(
                 serviceName: _routeNameProvider.Finance_CreateCost,
+                postData: decidedCostModel,
+                queryParameters: null,
+                headers: null,
+                cancellationTokenSource: cancellationTokenSource);
+        }
+
+        /// <summary>
+        /// Finans departmanındaki karar verilen masrafları verir
+        /// </summary>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<ServiceResultModel<List<DecidedCostModel>>> GetDecidedCostsAsync(CancellationTokenSource cancellationTokenSource)
+        {
+            return await _serviceCommunicator.Call<List<DecidedCostModel>>(
+                serviceName: _routeNameProvider.Finance_GetDecidedCosts,
+                postData: null,
+                queryParameters: null,
+                headers: null,
+                cancellationTokenSource: cancellationTokenSource);
+        }
+
+        /// <summary>
+        /// Finans departmanındaki masrafa onay veya red verir
+        /// </summary>
+        /// <param name="decidedCostModel">Masraf modeli</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<ServiceResultModel<int>> DecideCostAsync(DecidedCostModel decidedCostModel, CancellationTokenSource cancellationTokenSource)
+        {
+            return await _serviceCommunicator.Call<int>(
+                serviceName: _routeNameProvider.Finance_DecideCost,
                 postData: decidedCostModel,
                 queryParameters: null,
                 headers: null,

@@ -84,6 +84,69 @@ namespace Communication.Http.Department.Accounting
         }
 
         /// <summary>
+        /// Para birimlerini getirir
+        /// </summary>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<ServiceResultModel<List<CurrencyModel>>> GetCurrenciesAsync(CancellationTokenSource cancellationTokenSource)
+        {
+            return await _serviceCommunicator.Call<List<CurrencyModel>>(
+                serviceName: _routeNameProvider.Accounting_GetCurrencies,
+                postData: null,
+                queryParameters: null,
+                headers: null,
+                cancellationTokenSource: cancellationTokenSource);
+        }
+
+        /// <summary>
+        /// Para birimi oluşturur
+        /// </summary>
+        /// <param name="currencyModel">Para birimi modeli</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<ServiceResultModel<int>> CreateCurrencyAsync(CurrencyModel currencyModel, CancellationTokenSource cancellationTokenSource)
+        {
+            return await _serviceCommunicator.Call<int>(
+                serviceName: _routeNameProvider.Accounting_CreateCurrency,
+                postData: currencyModel,
+                queryParameters: null,
+                headers: null,
+                cancellationTokenSource: cancellationTokenSource);
+        }
+
+        /// <summary>
+        /// Çalışanın maaş ödemelerini verir
+        /// </summary>
+        /// <param name="workerId">Maaş bilgileri getirilecek çalışanın Id değeri</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<ServiceResultModel<List<SalaryPaymentModel>>> GetSalaryPaymentsOfWorker(int workerId, CancellationTokenSource cancellationTokenSource)
+        {
+            return await _serviceCommunicator.Call<List<SalaryPaymentModel>>(
+                serviceName: _routeNameProvider.Accounting_GetSalaryPaymentsOfWorker,
+                postData: null,
+                queryParameters: new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("workerId", workerId.ToString()) },
+                headers: null,
+                cancellationTokenSource: cancellationTokenSource);
+        }
+
+        /// <summary>
+        /// Çalışana maaş ödemesi oluşturur
+        /// </summary>
+        /// <param name="salaryPaymentModel">Maaş ödeme modeli</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<ServiceResultModel<int>> CreateSalaryPayment(SalaryPaymentModel salaryPaymentModel, CancellationTokenSource cancellationTokenSource)
+        {
+            return await _serviceCommunicator.Call<int>(
+                serviceName: _routeNameProvider.Accounting_CreateSalaryPayment,
+                postData: salaryPaymentModel,
+                queryParameters: null,
+                headers: null,
+                cancellationTokenSource: cancellationTokenSource);
+        }
+
+        /// <summary>
         /// Kaynakları serbest bırakır
         /// </summary>
         public void Dispose()

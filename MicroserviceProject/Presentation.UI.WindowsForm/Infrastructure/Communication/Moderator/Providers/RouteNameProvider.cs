@@ -104,6 +104,28 @@ namespace Presentation.UI.Infrastructure.Communication.Broker.Providers
             }
         }
 
+        public string Accounting_GetSalaryPaymentsOfWorker
+        {
+            get
+            {
+                return
+                    ConfigurationManager
+                    .AppSettings["Services.Endpoints.Accounting.GetSalaryPaymentsOfWorker"]
+                    .ToString();
+            }
+        }
+
+        public string Accounting_CreateSalaryPayment
+        {
+            get
+            {
+                return
+                    ConfigurationManager
+                    .AppSettings["Services.Endpoints.Accounting.CreateSalaryPayment"]
+                    .ToString();
+            }
+        }
+
         /// <summary>
         /// Departmanları verir
         /// </summary>

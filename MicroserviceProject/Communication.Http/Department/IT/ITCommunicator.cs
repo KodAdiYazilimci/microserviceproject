@@ -68,6 +68,21 @@ namespace Communication.Http.Department.IT
         }
 
         /// <summary>
+        /// IT envanteri oluşturur
+        /// </summary>
+        /// <<param name="inventoryModel">Envanter modeli</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
+        public async Task<ServiceResultModel<int>> CreateInventoryAsync(InventoryModel inventoryModel, CancellationTokenSource cancellationTokenSource)
+        {
+            return await _serviceCommunicator.Call<int>(
+                serviceName: _routeNameProvider.IT_CreateInventory,
+                postData: inventoryModel,
+                queryParameters: null,
+                headers: null,
+                cancellationTokenSource: cancellationTokenSource);
+        }
+
+        /// <summary>
         /// Yeni çalışanlar için IT tarafından varsayılan envanterleri verir
         /// </summary>
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
@@ -100,6 +115,35 @@ namespace Communication.Http.Department.IT
             return await _serviceCommunicator.Call<int>(
                 serviceName: _routeNameProvider.IT_AssignInventoryToWorker,
                 postData: workerModel,
+                queryParameters: null,
+                headers: null,
+                cancellationTokenSource: cancellationTokenSource);
+        }
+
+        /// <summary>
+        /// Yeni çalışan için varsayılan IT envanteri ataması yapar
+        /// </summary>
+        /// <param name="inventoryModel">Envanter modeli</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
+        public async Task<ServiceResultModel<InventoryModel>> CreateDefaultInventoryForNewWorkerAsync(InventoryModel inventoryModel, CancellationTokenSource cancellationTokenSource)
+        {
+            return await _serviceCommunicator.Call<InventoryModel>(
+                serviceName: _routeNameProvider.IT_CreateDefaultInventoryForNewWorker,
+                postData: inventoryModel,
+                queryParameters: null,
+                headers: null,
+                cancellationTokenSource: cancellationTokenSource);
+        }
+
+        /// <summary>
+        /// Yeni çalışanlar için IT tarafından varsayılan envanterleri verir
+        /// </summary>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
+        public async Task<ServiceResultModel<List<InventoryModel>>> GetInventoriesForNewWorkerAsync(CancellationTokenSource cancellationTokenSource)
+        {
+            return await _serviceCommunicator.Call<List<InventoryModel>>(
+                serviceName: _routeNameProvider.IT_GetInventoriesForNewWorker,
+                postData: null,
                 queryParameters: null,
                 headers: null,
                 cancellationTokenSource: cancellationTokenSource);

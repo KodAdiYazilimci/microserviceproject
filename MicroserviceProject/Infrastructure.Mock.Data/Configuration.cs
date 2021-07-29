@@ -66,6 +66,7 @@ namespace Infrastructure.Mock.Data
 
                 appConfigurationProvider.ServicesSection.EndpointsSection.AASection["GetInventories"] = "aa.inventory.getinventories";
                 appConfigurationProvider.ServicesSection.EndpointsSection.AASection["CreateInventory"] = "aa.inventory.createinventory";
+                appConfigurationProvider.ServicesSection.EndpointsSection.AASection["CreateDefaultInventoryForNewWorker"] = "aa.inventory.createdefaultinventoryfornewworker";
                 appConfigurationProvider.ServicesSection.EndpointsSection.AASection["AssignInventoryToWorker"] = "aa.inventory.assigninventorytoworker";
                 appConfigurationProvider.ServicesSection.EndpointsSection.AASection["GetInventoriesForNewWorker"] = "aa.inventory.getinventoriesfornewworker";
                 appConfigurationProvider.ServicesSection.EndpointsSection.AASection["CreateDefaultInventoryForNewWorker"] = "aa.inventory.createdefaultinventoryfornewworker";

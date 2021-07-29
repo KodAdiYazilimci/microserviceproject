@@ -68,6 +68,21 @@ namespace Communication.Http.Department.AA
         }
 
         /// <summary>
+        /// İdari işler envanteri oluşturur
+        /// </summary>
+        /// <param name="inventoryModel">Envanterin modeli</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
+        public async Task<ServiceResultModel<int>> CreateInventoryAsync(InventoryModel inventoryModel, CancellationTokenSource cancellationTokenSource)
+        {
+            return await _serviceCommunicator.Call<int>(
+                serviceName: _routeNameProvider.AA_CreateInventory,
+                postData: inventoryModel,
+                queryParameters: null,
+                headers: null,
+                cancellationTokenSource: cancellationTokenSource);
+        }
+
+        /// <summary>
         /// Yeni çalışanlar için idari işler tarafından varsayılan envanterleri verir
         /// </summary>
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
@@ -116,6 +131,22 @@ namespace Communication.Http.Department.AA
             return await _serviceCommunicator.Call<int>(
                 serviceName: _routeNameProvider.AA_InformInventoryRequest,
                 postData: inventoryRequestModel,
+                queryParameters: null,
+                headers: null,
+                cancellationTokenSource: cancellationTokenSource);
+        }
+
+        /// <summary>
+        /// Yeni çalışan için varsayılan idari işler envanteri ataması yapar
+        /// </summary>
+        /// <param name="inventoryModel">Envanter modeli</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<ServiceResultModel<InventoryModel>> CreateDefaultInventoryForNewWorkerAsync(InventoryModel inventoryModel,CancellationTokenSource cancellationTokenSource)
+        {
+            return await _serviceCommunicator.Call<InventoryModel>(
+                serviceName: _routeNameProvider.AA_CreateDefaultInventoryForNewWorker,
+                postData: inventoryModel,
                 queryParameters: null,
                 headers: null,
                 cancellationTokenSource: cancellationTokenSource);

@@ -239,6 +239,37 @@ namespace Infrastructure.Routing.Providers
         }
 
         /// <summary>
+        /// Çalışanın maaş ödemelerini verir
+        /// </summary>
+        public string Accounting_GetSalaryPaymentsOfWorker
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("Accounting")["GetSalaryPaymentsOfWorker"];
+            }
+        }
+
+
+        /// <summary>
+        /// Çalışana maaş ödemesi oluşturur
+        /// </summary>
+        public string Accounting_CreateSalaryPayment
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("Accounting")["CreateSalaryPayment"];
+            }
+        }
+
+        /// <summary>
         /// IT envanterlerini verir
         /// </summary>
         public string IT_GetInventories
@@ -340,6 +371,22 @@ namespace Infrastructure.Routing.Providers
                     .GetSection("Services")
                     .GetSection("Endpoints")
                     .GetSection("AA")["CreateInventory"];
+            }
+        }
+
+
+        /// <summary>
+        /// Yeni çalışan için varsayılan idari işler envanteri ataması yapar
+        /// </summary>
+        public string AA_CreateDefaultInventoryForNewWorker
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("AA")["CreateDefaultInventoryForNewWorker"];
             }
         }
 
