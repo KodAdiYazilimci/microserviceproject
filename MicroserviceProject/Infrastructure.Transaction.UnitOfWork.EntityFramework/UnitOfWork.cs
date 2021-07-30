@@ -1,7 +1,10 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Storage;
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,14 +21,20 @@ namespace Infrastructure.Transaction.UnitOfWork.EntityFramework
         private bool disposed = false;
 
         /// <summary>
-        /// Transactionın tamamlanıp tamamlanmadığı bilgisi
-        /// </summary>
-        private bool hasCommittedTransaction = false;
-
-        /// <summary>
         /// DbContextten türemiş sınıfın nesnesi
         /// </summary>
         private DbContext dbContext { get; set; }
+
+        /// <summary>
+        /// Transaction tamamlanmadan önce entitylerin yapısını değiştirecek handler
+        /// </summary>
+        /// <param name="entityEntries"></param>
+        public delegate void EditEntriesBeforeCommitHandler(IEnumerable<EntityEntry> entityEntries);
+
+        /// <summary>
+        /// Transaction tamamlanmadan önce entitylerin yapısını değiştirir
+        /// </summary>
+        public EditEntriesBeforeCommitHandler EditEntriesBeforeCommit { get; set; }
 
         /// <summary>
         /// Entity Framework veritabanı işlemleri transaction için iş birimi sınıfı
@@ -34,8 +43,42 @@ namespace Infrastructure.Transaction.UnitOfWork.EntityFramework
         public UnitOfWork(DbContext dbContext)
         {
             this.dbContext = dbContext;
+        }
 
-            this.dbContext.Database.BeginTransaction();
+        /// <summary>
+        /// Veritabanı işlem bütünlüğünü çalıştırır
+        /// </summary>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task SaveAsync(CancellationTokenSource cancellationTokenSource)
+        {
+            Exception exception = null;
+
+            using (IDbContextTransaction transaction = await dbContext.Database.BeginTransactionAsync(cancellationTokenSource.Token))
+            {
+                try
+                {
+                    if (EditEntriesBeforeCommit != null)
+                    {
+                        EditEntriesBeforeCommit(dbContext.ChangeTracker.Entries());
+                    }
+
+                    int result = await dbContext.SaveChangesAsync(cancellationTokenSource != null ? cancellationTokenSource.Token : default(CancellationToken));
+
+                    await transaction.CommitAsync(cancellationTokenSource != null ? cancellationTokenSource.Token : default(CancellationToken));
+                }
+                catch (Exception ex)
+                {
+                    exception = ex;
+
+                    await transaction.RollbackAsync(cancellationTokenSource != null ? cancellationTokenSource.Token : default(CancellationToken));
+                }
+            }
+
+            if (exception != null)
+            {
+                throw exception;
+            }
         }
 
         /// <summary>
@@ -44,6 +87,7 @@ namespace Infrastructure.Transaction.UnitOfWork.EntityFramework
         public async ValueTask DisposeAsync()
         {
             await DisposeAsync(true);
+
             GC.SuppressFinalize(this);
         }
 
@@ -57,45 +101,10 @@ namespace Infrastructure.Transaction.UnitOfWork.EntityFramework
             {
                 if (!disposed)
                 {
-                    if (!hasCommittedTransaction)
-                    {
-                        await SaveAsync(null);
-                    }
-
                     await dbContext.DisposeAsync();
                 }
 
                 disposed = true;
-            }
-        }
-
-        /// <summary>
-        /// Veritabanı işlem bütünlüğünü çalıştırır
-        /// </summary>
-        /// <param name="cancellationTokenSource">İptal tokenı</param>
-        /// <returns></returns>
-        public async Task SaveAsync(CancellationTokenSource cancellationTokenSource)
-        {
-            Exception exception = null;
-
-            try
-            {
-                await dbContext.Database.CommitTransactionAsync(cancellationTokenSource != null ? cancellationTokenSource.Token : default(CancellationToken));
-            }
-            catch (Exception ex)
-            {
-                exception = ex;
-
-                await dbContext.Database.RollbackTransactionAsync(cancellationTokenSource != null ? cancellationTokenSource.Token : default(CancellationToken));
-            }
-            finally
-            {
-                hasCommittedTransaction = true;
-            }
-
-            if (exception != null)
-            {
-                throw exception;
             }
         }
     }
