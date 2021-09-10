@@ -19,7 +19,7 @@
         /// <summary>
         /// Öğenin bulunduğu veri seti
         /// </summary>
-        public object DataSet { get; set; }
+        public string DataSet { get; set; }
 
         /// <summary>
         /// İşlem öğesinin adı
@@ -29,17 +29,17 @@
         /// <summary>
         /// Öğenin tanımlayıcısı
         /// </summary>
-        public object Identity { get; set; }
+        public string Identity { get; set; }
 
         /// <summary>
         /// Öğenin önceki değeri
         /// </summary>
-        public object OldValue { get; set; }
+        public string OldValue { get; set; }
 
         /// <summary>
         /// Öğenin yeni değeri
         /// </summary>
-        public object NewValue { get; set; }
+        public string NewValue { get; set; }
 
         /// <summary>
         /// İşlem öğesinin geri alınıp alınmadığı bilgisi

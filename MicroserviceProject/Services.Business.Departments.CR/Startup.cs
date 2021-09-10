@@ -17,12 +17,14 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 using Newtonsoft.Json;
 
+using Services.Business.Departments.CR.Configuration.Persistence;
 using Services.Business.Departments.CR.DI;
 using Services.UnitOfWork.EntityFramework.DI;
 
@@ -54,6 +56,7 @@ namespace Services.Business.Departments.CR
             services.RegisterLocalizationProviders();
             services.RegisterLogger();
             services.RegisterMappings();
+            services.RegisterPersistence();
             services.RegisterPublishers();
             services.RegisterQueues();
             services.RegisterRouteProvider();
@@ -61,7 +64,7 @@ namespace Services.Business.Departments.CR
             services.RegisterRouteRepositories();
             services.RegisterServiceCommunicator();
             services.RegisterSwagger();
-            services.RegisterUnitOfWork();
+            services.RegisterUnitOfWork<CRContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

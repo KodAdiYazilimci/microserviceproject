@@ -1,8 +1,11 @@
 ﻿
+using Infrastructure.Communication.Http.Wrapper;
 using Infrastructure.Logging.Logger.RequestResponseLogger;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+
+using Services.Business.Departments.Buying.Services;
 
 using System;
 using System.Diagnostics;
@@ -39,6 +42,10 @@ namespace Services.Business.Departments.Buying
 
         public async Task Invoke(HttpContext httpContext, Logger requestResponseLogger)
         {
+            RequestService requestService = (RequestService) httpContext.RequestServices.GetService(typeof(RequestService));
+
+            SetServiceDefaults(httpContext, requestService);
+
             var httpRequestTimeFeature = new HttpRequestTimeFeature();
             httpContext.Features.Set<IHttpRequestTimeFeature>(httpRequestTimeFeature);
 
@@ -108,6 +115,21 @@ namespace Services.Business.Departments.Buying
             });
 
             //return _next(httpContext);
+        }
+
+        private void SetServiceDefaults(HttpContext httpContext,params BaseService[] services)
+        {
+            if (httpContext.Request != null)
+            {
+                foreach (var service in services)
+                {
+                    if (httpContext.Request.Headers.ContainsKey("TransactionIdentity"))
+                        service.TransactionIdentity = httpContext.Request.Headers["TransactionIdentity"].ToString();
+
+                    if (httpContext.Request.Headers.ContainsKey("Region"))
+                        service.Region = httpContext.Request.Headers["Region"].ToString();
+                }
+            }
         }
     }
 

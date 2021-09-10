@@ -1,6 +1,8 @@
 ﻿
 using Microsoft.Extensions.DependencyInjection;
 
+using Services.Business.Departments.CR.Repositories.EntityFramework;
+
 namespace Services.Business.Departments.CR.DI
 {
     /// <summary>
@@ -16,6 +18,7 @@ namespace Services.Business.Departments.CR.DI
         /// <returns></returns>
         public static IServiceCollection RegisterRepositories(this IServiceCollection services)
         {
+            services.AddScoped<CustomerRepository>();
 
             return services;
         }

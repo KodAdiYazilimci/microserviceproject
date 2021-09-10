@@ -13,7 +13,8 @@ namespace Infrastructure.Transaction.UnitOfWork.EntityFramework
     /// <summary>
     /// Entity Framework veritabanı işlemleri transaction için iş birimi sınıfı
     /// </summary>
-    public class UnitOfWork : IUnitOfWork, IAsyncDisposable
+    /// <typeparam name="TContext">Veritabanıyla iletişim kuracak context sınıfı tipi</typeparam>
+    public class UnitOfWork<TContext> : IUnitOfWork<TContext>, IAsyncDisposable where TContext : DbContext
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -21,9 +22,9 @@ namespace Infrastructure.Transaction.UnitOfWork.EntityFramework
         private bool disposed = false;
 
         /// <summary>
-        /// DbContextten türemiş sınıfın nesnesi
+        /// Veritabanıyla iletişim kuracak context sınıfı
         /// </summary>
-        private DbContext dbContext { get; set; }
+        public TContext Context { get; set; }
 
         /// <summary>
         /// Transaction tamamlanmadan önce entitylerin yapısını değiştirecek handler
@@ -39,10 +40,10 @@ namespace Infrastructure.Transaction.UnitOfWork.EntityFramework
         /// <summary>
         /// Entity Framework veritabanı işlemleri transaction için iş birimi sınıfı
         /// </summary>
-        /// <param name="dbContext">DbContextten türemiş sınıfın nesnesi</param>
-        public UnitOfWork(DbContext dbContext)
+        /// <param name="dbContext">Veritabanıyla iletişim kuracak context sınıfı nesnesi</param>
+        public UnitOfWork(TContext dbContext)
         {
-            this.dbContext = dbContext;
+            this.Context = dbContext;
         }
 
         /// <summary>
@@ -54,16 +55,16 @@ namespace Infrastructure.Transaction.UnitOfWork.EntityFramework
         {
             Exception exception = null;
 
-            using (IDbContextTransaction transaction = await dbContext.Database.BeginTransactionAsync(cancellationTokenSource.Token))
+            using (IDbContextTransaction transaction = await Context.Database.BeginTransactionAsync(cancellationTokenSource.Token))
             {
                 try
                 {
                     if (EditEntriesBeforeCommit != null)
                     {
-                        EditEntriesBeforeCommit(dbContext.ChangeTracker.Entries());
+                        EditEntriesBeforeCommit(Context.ChangeTracker.Entries());
                     }
 
-                    int result = await dbContext.SaveChangesAsync(cancellationTokenSource != null ? cancellationTokenSource.Token : default(CancellationToken));
+                    int result = await Context.SaveChangesAsync(cancellationTokenSource != null ? cancellationTokenSource.Token : default(CancellationToken));
 
                     await transaction.CommitAsync(cancellationTokenSource != null ? cancellationTokenSource.Token : default(CancellationToken));
                 }
@@ -101,7 +102,7 @@ namespace Infrastructure.Transaction.UnitOfWork.EntityFramework
             {
                 if (!disposed)
                 {
-                    await dbContext.DisposeAsync();
+                    await Context.DisposeAsync();
                 }
 
                 disposed = true;
