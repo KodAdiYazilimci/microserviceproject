@@ -4,6 +4,8 @@ using Infrastructure.Logging.Logger.RequestResponseLogger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 
+using Services.Business.Departments.Accounting.Services;
+
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -37,10 +39,12 @@ namespace Services.Business.Departments.Accounting
             _next = next;
         }
 
-        public async Task Invoke(HttpContext httpContext, Logger requestResponseLogger)
+        public async Task Invoke(HttpContext httpContext, Logger requestResponseLogger, IServiceProvider serviceProvider)
         {
             var httpRequestTimeFeature = new HttpRequestTimeFeature();
             httpContext.Features.Set<IHttpRequestTimeFeature>(httpRequestTimeFeature);
+
+            SetServiceDefaults(httpContext, serviceProvider);
 
             var watch = new Stopwatch();
             watch.Start();
@@ -108,6 +112,15 @@ namespace Services.Business.Departments.Accounting
             });
 
             //return _next(httpContext);
+        }
+
+        private static void SetServiceDefaults(HttpContext httpContext, IServiceProvider serviceProvider)
+        {
+            if (!string.IsNullOrEmpty(httpContext.Request.Headers["TransactionIdentity"]))
+            {
+                var bankService = serviceProvider.GetService(typeof(BankService));
+                (bankService as BankService).TransactionIdentity = httpContext.Request.Headers["TransactionIdentity"].ToString();
+            }
         }
     }
 

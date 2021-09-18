@@ -26,8 +26,6 @@ namespace Services.Business.Departments.Accounting.Controllers
         [Route(nameof(RollbackTransaction))]
         public async Task<IActionResult> RollbackTransaction([FromBody] RollbackModel rollbackModel, CancellationTokenSource cancellationTokenSource)
         {
-            SetServiceDefaults(_bankService);
-
             return await HttpResponseWrapper.WrapAsync<int>(async () =>
             {
                 await RollbackTransactionValidator.ValidateAsync(rollbackModel, cancellationTokenSource);

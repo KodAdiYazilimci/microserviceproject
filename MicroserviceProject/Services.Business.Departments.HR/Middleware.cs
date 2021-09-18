@@ -4,6 +4,8 @@ using Infrastructure.Logging.Logger.RequestResponseLogger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 
+using Services.Business.Departments.HR.Services;
+
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -37,10 +39,12 @@ namespace Services.Business.Departments.HR
             _next = next;
         }
 
-        public async Task Invoke(HttpContext httpContext, Logger requestResponseLogger)
+        public async Task Invoke(HttpContext httpContext, Logger requestResponseLogger, IServiceProvider serviceProvider)
         {
             var httpRequestTimeFeature = new HttpRequestTimeFeature();
             httpContext.Features.Set<IHttpRequestTimeFeature>(httpRequestTimeFeature);
+
+            SetServiceDefaults(httpContext, serviceProvider);
 
             var watch = new Stopwatch();
             watch.Start();
@@ -108,6 +112,18 @@ namespace Services.Business.Departments.HR
             });
 
             //return _next(httpContext);
+        }
+
+        private static void SetServiceDefaults(HttpContext httpContext, IServiceProvider serviceProvider)
+        {
+            if (!string.IsNullOrEmpty(httpContext.Request.Headers["TransactionIdentity"]))
+            {
+                object departmentService = serviceProvider.GetService(typeof(DepartmentService));
+                (departmentService as DepartmentService).TransactionIdentity = httpContext.Request.Headers["TransactionIdentity"].ToString();
+
+                object personService = serviceProvider.GetService(typeof(PersonService));
+                (personService as PersonService).TransactionIdentity = httpContext.Request.Headers["TransactionIdentity"].ToString();
+            }
         }
     }
 

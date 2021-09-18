@@ -90,6 +90,8 @@ namespace Services.Business.Departments.HR
                 });
             });
 
+            app.UseMiddleware<Middleware>();
+
             app.UseRouting();
 
             app.UseAuthentication();
@@ -100,7 +102,6 @@ namespace Services.Business.Departments.HR
                 endpoints.MapControllers();
             });
 
-            app.UseMiddleware<Middleware>();
 
             app.UseSwagger();
             app.UseSwaggerUI(options =>

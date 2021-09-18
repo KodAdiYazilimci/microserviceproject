@@ -30,8 +30,6 @@ namespace Services.Business.Departments.HR.Controllers
         [Route(nameof(RollbackTransaction))]
         public async Task<IActionResult> RollbackTransaction([FromBody] RollbackModel rollbackModel, CancellationTokenSource cancellationTokenSource)
         {
-            SetServiceDefaults(_departmentService, _personService);
-
             return await HttpResponseWrapper.WrapAsync<int>(async () =>
             {
                 await RollbackTransactionValidator.ValidateAsync(rollbackModel, cancellationTokenSource);

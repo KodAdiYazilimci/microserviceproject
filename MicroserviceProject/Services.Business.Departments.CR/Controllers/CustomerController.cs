@@ -28,8 +28,6 @@ namespace Services.Business.Departments.CR.Controllers
         [Route(nameof(GetCustomers))]
         public async Task<IActionResult> GetCustomers(CancellationTokenSource cancellationTokenSource)
         {
-            SetServiceDefaults(_customerService);
-
             return await HttpResponseWrapper.WrapAsync<List<CustomerModel>>(async () =>
             {
                 return await _customerService.GetCustomersAsync(cancellationTokenSource);
@@ -41,8 +39,6 @@ namespace Services.Business.Departments.CR.Controllers
         [Route(nameof(CreateCustomer))]
         public async Task<IActionResult> CreateCustomer([FromBody] CustomerModel customerModel, CancellationTokenSource cancellationTokenSource)
         {
-            SetServiceDefaults(_customerService);
-
             return await HttpResponseWrapper.WrapAsync<int>(async () =>
             {
                 await CreateCustomerValidator.ValidateAsync(customerModel, cancellationTokenSource);

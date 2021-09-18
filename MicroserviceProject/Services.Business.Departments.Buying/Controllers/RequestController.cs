@@ -29,8 +29,6 @@ namespace Services.Business.Departments.Buying.Controllers
         [Route(nameof(GetInventoryRequests))]
         public async Task<IActionResult> GetInventoryRequests(CancellationTokenSource cancellationTokenSource)
         {
-            SetServiceDefaults(_requestService);
-
             return await HttpResponseWrapper.WrapAsync<List<InventoryRequestModel>>(async () =>
             {
                 return await _requestService.GetInventoryRequestsAsync(cancellationTokenSource);
@@ -42,8 +40,6 @@ namespace Services.Business.Departments.Buying.Controllers
         [Route(nameof(CreateInventoryRequest))]
         public async Task<IActionResult> CreateInventoryRequest([FromBody] InventoryRequestModel requestModel, CancellationTokenSource cancellationTokenSource)
         {
-            SetServiceDefaults(_requestService);
-
             return await HttpResponseWrapper.WrapAsync<int>(async () =>
             {
                 await CreateInventoryRequestValidator.ValidateAsync(requestModel, cancellationTokenSource);
@@ -57,8 +53,6 @@ namespace Services.Business.Departments.Buying.Controllers
         [Route(nameof(ValidateCostInventory))]
         public async Task<IActionResult> ValidateCostInventory([FromBody] DecidedCostModel decidedCost, CancellationTokenSource cancellationTokenSource)
         {
-            SetServiceDefaults(_requestService);
-
             return await HttpResponseWrapper.WrapAsync<int>(async () =>
             {
                 await ValidateCostInventoryValidator.ValidateAsync(decidedCost, cancellationTokenSource);

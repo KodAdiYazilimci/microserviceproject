@@ -28,8 +28,6 @@ namespace Services.Business.Departments.Accounting.Controllers
         [Route(nameof(GetBankAccountsOfWorker))]
         public async Task<IActionResult> GetBankAccountsOfWorker(int workerId, CancellationTokenSource cancellationTokenSource)
         {
-            SetServiceDefaults(_bankService);
-
             return await HttpResponseWrapper.WrapAsync<List<BankAccountModel>>(async () =>
             {
                 return await _bankService.GetBankAccounts(workerId, cancellationTokenSource);
@@ -41,8 +39,6 @@ namespace Services.Business.Departments.Accounting.Controllers
         [Route(nameof(CreateBankAccount))]
         public async Task<IActionResult> CreateBankAccount([FromBody] BankAccountModel bankAccount, CancellationTokenSource cancellationTokenSource)
         {
-            SetServiceDefaults(_bankService);
-
             return await HttpResponseWrapper.WrapAsync<int>(async () =>
             {
                 await CreateBankAccountValidator.ValidateAsync(bankAccount, cancellationTokenSource);
@@ -56,8 +52,6 @@ namespace Services.Business.Departments.Accounting.Controllers
         [Route(nameof(GetCurrencies))]
         public async Task<IActionResult> GetCurrencies(CancellationTokenSource cancellationTokenSource)
         {
-            SetServiceDefaults(_bankService);
-
             return await HttpResponseWrapper.WrapAsync<List<CurrencyModel>>(async () =>
             {
                 return await _bankService.GetCurrenciesAsync(cancellationTokenSource);
@@ -69,8 +63,6 @@ namespace Services.Business.Departments.Accounting.Controllers
         [Route(nameof(CreateCurrency))]
         public async Task<IActionResult> CreateCurrency([FromBody] CurrencyModel currency, CancellationTokenSource cancellationTokenSource)
         {
-            SetServiceDefaults(_bankService);
-
             return await HttpResponseWrapper.WrapAsync<int>(async () =>
             {
                 await CreateCurrencyValidator.ValidateAsync(currency, cancellationTokenSource);
@@ -84,8 +76,6 @@ namespace Services.Business.Departments.Accounting.Controllers
         [Route(nameof(GetSalaryPaymentsOfWorker))]
         public async Task<IActionResult> GetSalaryPaymentsOfWorker(int workerId, CancellationTokenSource cancellationTokenSource)
         {
-            SetServiceDefaults(_bankService);
-
             return await HttpResponseWrapper.WrapAsync<List<SalaryPaymentModel>>(async () =>
             {
                 return await _bankService.GetSalaryPaymentsOfWorkerAsync(workerId, cancellationTokenSource);
@@ -97,8 +87,6 @@ namespace Services.Business.Departments.Accounting.Controllers
         [Route(nameof(CreateSalaryPayment))]
         public async Task<IActionResult> CreateSalaryPayment([FromBody] SalaryPaymentModel salaryPayment, CancellationTokenSource cancellationTokenSource)
         {
-            SetServiceDefaults(_bankService);
-
             return await HttpResponseWrapper.WrapAsync<int>(async () =>
             {
                 await CreateSalaryPaymentValidator.ValidateAsync(salaryPayment, cancellationTokenSource);

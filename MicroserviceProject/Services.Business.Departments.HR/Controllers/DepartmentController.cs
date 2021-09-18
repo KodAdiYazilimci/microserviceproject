@@ -28,8 +28,6 @@ namespace Services.Business.Departments.HR.Controllers
         [Route(nameof(GetDepartments))]
         public async Task<IActionResult> GetDepartments(CancellationTokenSource cancellationTokenSource)
         {
-            SetServiceDefaults(_departmentService);
-
             return await HttpResponseWrapper.WrapAsync<List<DepartmentModel>>(async () =>
             {
                 return await _departmentService.GetDepartmentsAsync(cancellationTokenSource);
@@ -41,8 +39,6 @@ namespace Services.Business.Departments.HR.Controllers
         [Route(nameof(CreateDepartment))]
         public async Task<IActionResult> CreateDepartment([FromBody] DepartmentModel department, CancellationTokenSource cancellationTokenSource)
         {
-            SetServiceDefaults(_departmentService);
-
             return await HttpResponseWrapper.WrapAsync<int>(async () =>
             {
                 await CreateDepartmentValidator.ValidateAsync(department, cancellationTokenSource);

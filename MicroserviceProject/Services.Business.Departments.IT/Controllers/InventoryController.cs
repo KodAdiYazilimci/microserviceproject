@@ -31,8 +31,6 @@ namespace Services.Business.Departments.IT.Controllers
         [Route(nameof(GetInventories))]
         public async Task<IActionResult> GetInventories(CancellationTokenSource cancellationTokenSource)
         {
-            SetServiceDefaults(_inventoryService);
-
             return await HttpResponseWrapper.WrapAsync<List<InventoryModel>>(async () =>
             {
                 return await _inventoryService.GetInventoriesAsync(cancellationTokenSource);
@@ -44,8 +42,6 @@ namespace Services.Business.Departments.IT.Controllers
         [Route(nameof(CreateInventory))]
         public async Task<IActionResult> CreateInventory([FromBody] InventoryModel inventory, CancellationTokenSource cancellationTokenSource)
         {
-            SetServiceDefaults(_inventoryService);
-
             return await HttpResponseWrapper.WrapAsync<int>(async () =>
             {
                 await CreateInventoryValidator.ValidateAsync(inventory, cancellationTokenSource);
@@ -59,8 +55,6 @@ namespace Services.Business.Departments.IT.Controllers
         [Route(nameof(AssignInventoryToWorker))]
         public async Task<IActionResult> AssignInventoryToWorker([FromBody] WorkerModel worker, CancellationTokenSource cancellationTokenSource)
         {
-            SetServiceDefaults(_inventoryService);
-
             return await HttpResponseWrapper.WrapAsync<WorkerModel>(async () =>
             {
                 await AssignInventoryToWorkerValidator.ValidateAsync(worker, cancellationTokenSource);
@@ -74,8 +68,6 @@ namespace Services.Business.Departments.IT.Controllers
         [Route(nameof(CreateDefaultInventoryForNewWorker))]
         public async Task<IActionResult> CreateDefaultInventoryForNewWorker([FromBody] InventoryModel inventory, CancellationTokenSource cancellationTokenSource)
         {
-            SetServiceDefaults(_inventoryService);
-
             return await HttpResponseWrapper.WrapAsync<InventoryModel>(async () =>
             {
                 await CreateDefaultInventoryForNewWorkerValidator.ValidateAsync(inventory, cancellationTokenSource);
@@ -89,8 +81,6 @@ namespace Services.Business.Departments.IT.Controllers
         [Route(nameof(GetInventoriesForNewWorker))]
         public IActionResult GetInventoriesForNewWorker(CancellationTokenSource cancellationTokenSource)
         {
-            SetServiceDefaults(_inventoryService);
-
             return HttpResponseWrapper.Wrap<List<InventoryModel>>(() =>
             {
                 return _inventoryService.GetInventoriesForNewWorker(cancellationTokenSource);
@@ -102,8 +92,6 @@ namespace Services.Business.Departments.IT.Controllers
         [Route(nameof(InformInventoryRequest))]
         public async Task<IActionResult> InformInventoryRequest([FromBody] InventoryRequestModel inventoryRequest, CancellationTokenSource cancellationTokenSource)
         {
-            SetServiceDefaults(_inventoryService);
-
             return await HttpResponseWrapper.WrapAsync(async () =>
             {
                 await InformInventoryRequestValidator.ValidateAsync(inventoryRequest, cancellationTokenSource);

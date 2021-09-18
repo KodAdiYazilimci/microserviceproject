@@ -40,14 +40,12 @@ namespace Services.Business.Departments.Buying
             _next = next;
         }
 
-        public async Task Invoke(HttpContext httpContext, Logger requestResponseLogger)
+        public async Task Invoke(HttpContext httpContext, Logger requestResponseLogger, IServiceProvider serviceProvider)
         {
-            RequestService requestService = (RequestService) httpContext.RequestServices.GetService(typeof(RequestService));
-
-            SetServiceDefaults(httpContext, requestService);
-
             var httpRequestTimeFeature = new HttpRequestTimeFeature();
             httpContext.Features.Set<IHttpRequestTimeFeature>(httpRequestTimeFeature);
+
+            SetServiceDefaults(httpContext, serviceProvider);
 
             var watch = new Stopwatch();
             watch.Start();
@@ -117,18 +115,12 @@ namespace Services.Business.Departments.Buying
             //return _next(httpContext);
         }
 
-        private void SetServiceDefaults(HttpContext httpContext,params BaseService[] services)
+        private static void SetServiceDefaults(HttpContext httpContext, IServiceProvider serviceProvider)
         {
-            if (httpContext.Request != null)
+            if (!string.IsNullOrEmpty(httpContext.Request.Headers["TransactionIdentity"]))
             {
-                foreach (var service in services)
-                {
-                    if (httpContext.Request.Headers.ContainsKey("TransactionIdentity"))
-                        service.TransactionIdentity = httpContext.Request.Headers["TransactionIdentity"].ToString();
-
-                    if (httpContext.Request.Headers.ContainsKey("Region"))
-                        service.Region = httpContext.Request.Headers["Region"].ToString();
-                }
+                var requestService = serviceProvider.GetService(typeof(RequestService));
+                (requestService as RequestService).TransactionIdentity = httpContext.Request.Headers["TransactionIdentity"].ToString();
             }
         }
     }

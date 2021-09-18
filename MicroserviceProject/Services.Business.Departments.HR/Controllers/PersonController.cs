@@ -30,8 +30,6 @@ namespace Services.Business.Departments.HR.Controllers
         [Route(nameof(GetPeople))]
         public async Task<IActionResult> GetPeople(CancellationTokenSource cancellationTokenSource)
         {
-            SetServiceDefaults(_personService);
-
             return await HttpResponseWrapper.WrapAsync<List<PersonModel>>(async () =>
             {
                 return await _personService.GetPeopleAsync(cancellationTokenSource);
@@ -43,8 +41,6 @@ namespace Services.Business.Departments.HR.Controllers
         [Route(nameof(CreatePerson))]
         public async Task<IActionResult> CreatePerson([FromBody] PersonModel person, CancellationTokenSource cancellationTokenSource)
         {
-            SetServiceDefaults(_personService);
-
             return await HttpResponseWrapper.WrapAsync<int>(async () =>
             {
                 await CreatePersonValidator.ValidateAsync(person, cancellationTokenSource);
@@ -58,8 +54,6 @@ namespace Services.Business.Departments.HR.Controllers
         [Route(nameof(GetTitles))]
         public async Task<IActionResult> GetTitles(CancellationTokenSource cancellationTokenSource)
         {
-            SetServiceDefaults(_personService);
-
             return await HttpResponseWrapper.WrapAsync<List<TitleModel>>(async () =>
             {
                 return await _personService.GetTitlesAsync(cancellationTokenSource);
@@ -71,8 +65,6 @@ namespace Services.Business.Departments.HR.Controllers
         [Route(nameof(CreateTitle))]
         public async Task<IActionResult> CreateTitle([FromBody] TitleModel title, CancellationTokenSource cancellationTokenSource)
         {
-            SetServiceDefaults(_personService);
-
             return await HttpResponseWrapper.WrapAsync<int>(async () =>
             {
                 await CreateTitleValidator.ValidateAsync(title, cancellationTokenSource);
@@ -86,8 +78,6 @@ namespace Services.Business.Departments.HR.Controllers
         [Route(nameof(GetWorkers))]
         public async Task<IActionResult> GetWorkers(CancellationTokenSource cancellationTokenSource)
         {
-            SetServiceDefaults(_personService);
-
             return await HttpResponseWrapper.WrapAsync<List<WorkerModel>>(async () =>
             {
                 return await _personService.GetWorkersAsync(cancellationTokenSource);
@@ -99,8 +89,6 @@ namespace Services.Business.Departments.HR.Controllers
         [Route(nameof(CreateWorker))]
         public async Task<IActionResult> CreateWorker([FromBody] WorkerModel worker, CancellationTokenSource cancellationTokenSource)
         {
-            SetServiceDefaults(_personService);
-
             return await HttpResponseWrapper.WrapAsync<int>(async () =>
             {
                 await CreateWorkerValidator.ValidateAsync(worker, cancellationTokenSource);

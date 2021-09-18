@@ -89,12 +89,12 @@ namespace Services.Gateway.Public
                 });
             });
 
+            app.UseMiddleware<Middleware>();
+
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
-
-            app.UseMiddleware<Middleware>();
 
             app.UseEndpoints(endpoints =>
             {

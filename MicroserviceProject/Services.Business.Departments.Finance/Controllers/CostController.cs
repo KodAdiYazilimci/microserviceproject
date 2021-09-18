@@ -28,8 +28,6 @@ namespace Services.Business.Departments.Finance.Controllers
         [Route(nameof(GetDecidedCosts))]
         public async Task<IActionResult> GetDecidedCosts(CancellationTokenSource cancellationTokenSource)
         {
-            SetServiceDefaults(_costService);
-
             return await HttpResponseWrapper.WrapAsync<List<DecidedCostModel>>(async () =>
             {
                 return await _costService.GetDecidedCostsAsync(cancellationTokenSource);
@@ -41,8 +39,6 @@ namespace Services.Business.Departments.Finance.Controllers
         [Route(nameof(CreateCost))]
         public async Task<IActionResult> CreateCost([FromBody] DecidedCostModel cost, CancellationTokenSource cancellationTokenSource)
         {
-            SetServiceDefaults(_costService);
-
             return await HttpResponseWrapper.WrapAsync<int>(async () =>
             {
                 await CreateCostValidator.ValidateAsync(cost, cancellationTokenSource);
@@ -56,8 +52,6 @@ namespace Services.Business.Departments.Finance.Controllers
         [Route(nameof(DecideCost))]
         public async Task<IActionResult> DecideCost([FromBody] DecidedCostModel cost, CancellationTokenSource cancellationTokenSource)
         {
-            SetServiceDefaults(_costService);
-
             return await HttpResponseWrapper.WrapAsync<int>(async () =>
             {
                 await DecideCostValidator.ValidateAsync(cost, cancellationTokenSource);
