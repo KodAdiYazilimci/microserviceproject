@@ -169,9 +169,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Communication.Http", "Commu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Business.Departments.CR", "Services.Business.Departments.CR\Services.Business.Departments.CR.csproj", "{41450030-7057-434E-BBDA-B7176CD32D96}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Transaction.Recovery.Sql", "Infrastructure.Transaction.Recovery.Sql\Infrastructure.Transaction.Recovery.Sql.csproj", "{B7A1CA76-001E-4A7B-823D-59485F50C698}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Transaction.Recovery", "Infrastructure.Transaction.Recovery\Infrastructure.Transaction.Recovery.csproj", "{98F72928-C528-431B-956C-C61DF3EE9774}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Transaction.Recovery", "Infrastructure.Transaction.Recovery\Infrastructure.Transaction.Recovery.csproj", "{98F72928-C528-431B-956C-C61DF3EE9774}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -423,10 +421,6 @@ Global
 		{41450030-7057-434E-BBDA-B7176CD32D96}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{41450030-7057-434E-BBDA-B7176CD32D96}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{41450030-7057-434E-BBDA-B7176CD32D96}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B7A1CA76-001E-4A7B-823D-59485F50C698}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B7A1CA76-001E-4A7B-823D-59485F50C698}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B7A1CA76-001E-4A7B-823D-59485F50C698}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B7A1CA76-001E-4A7B-823D-59485F50C698}.Release|Any CPU.Build.0 = Release|Any CPU
 		{98F72928-C528-431B-956C-C61DF3EE9774}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{98F72928-C528-431B-956C-C61DF3EE9774}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98F72928-C528-431B-956C-C61DF3EE9774}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -497,7 +491,6 @@ Global
 		{E6410D60-D5A2-4DD8-999E-1871273FF173} = {15B93380-C3E2-401F-B6E8-63CB262BEC13}
 		{8F146C15-8A64-4827-B9C3-BFFF0EE250C5} = {15B93380-C3E2-401F-B6E8-63CB262BEC13}
 		{41450030-7057-434E-BBDA-B7176CD32D96} = {4E185930-BD2A-4783-A076-20242950F439}
-		{B7A1CA76-001E-4A7B-823D-59485F50C698} = {E47E6E2E-1D2F-4FE0-8B97-4BF397015454}
 		{98F72928-C528-431B-956C-C61DF3EE9774} = {E47E6E2E-1D2F-4FE0-8B97-4BF397015454}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
