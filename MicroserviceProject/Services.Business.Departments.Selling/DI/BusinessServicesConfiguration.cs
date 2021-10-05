@@ -1,9 +1,9 @@
 ﻿
 using Microsoft.Extensions.DependencyInjection;
 
-using Services.Business.Departments.CR.Services;
+using Services.Business.Departments.Selling.Services;
 
-namespace Services.Business.Departments.CR.DI
+namespace Services.Business.Departments.Selling.DI
 {
     /// <summary>
     /// İş mantığı servisleri DI sınıfı
@@ -17,7 +17,7 @@ namespace Services.Business.Departments.CR.DI
         /// <returns></returns>
         public static IServiceCollection RegisterBusinessServices(this IServiceCollection services)
         {
-            services.AddScoped<CustomerService>();
+            services.AddScoped<SellingService>();
 
             return services;
         }
