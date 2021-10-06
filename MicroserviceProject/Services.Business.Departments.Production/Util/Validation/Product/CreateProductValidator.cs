@@ -3,7 +3,7 @@
 using Infrastructure.Validation.Exceptions;
 using Infrastructure.Validation.Models;
 
-using Services.Business.Departments.Production.Configuration.Validation.Selling;
+using Services.Business.Departments.Production.Configuration.Validation.Product;
 using Services.Business.Departments.Production.Models;
 
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Services.Business.Departments.Production.Util.Validation.Selling
+namespace Services.Business.Departments.Production.Util.Validation.Product
 {
     /// <summary>
     /// Product/CreateProduct Http endpoint için validasyon kuralını doğrulayan sınıf

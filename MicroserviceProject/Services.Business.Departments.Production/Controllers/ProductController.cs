@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using Services.Business.Departments.Production.Models;
 using Services.Business.Departments.Production.Services;
-using Services.Business.Departments.Production.Util.Validation.Selling;
+using Services.Business.Departments.Production.Util.Validation.Product;
 
 using System.Collections.Generic;
 using System.Threading;
@@ -37,13 +37,13 @@ namespace Services.Business.Departments.Production.Controllers
 
         [HttpPost]
         [Route(nameof(CreateProduct))]
-        public async Task<IActionResult> CreateProduct([FromBody] ProductModel sellModel, CancellationTokenSource cancellationTokenSource)
+        public async Task<IActionResult> CreateProduct([FromBody] ProductModel productModel, CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync<int>(async () =>
             {
-                await CreateProductValidator.ValidateAsync(sellModel, cancellationTokenSource);
+                await CreateProductValidator.ValidateAsync(productModel, cancellationTokenSource);
 
-                return await _productService.CreateProductAsync(sellModel, cancellationTokenSource);
+                return await _productService.CreateProductAsync(productModel, cancellationTokenSource);
             },
             services: _productService);
         }

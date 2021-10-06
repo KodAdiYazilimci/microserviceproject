@@ -2,7 +2,7 @@
 
 using Services.Business.Departments.Production.Models;
 
-namespace Services.Business.Departments.Production.Configuration.Validation.Selling
+namespace Services.Business.Departments.Production.Configuration.Validation.Product
 {
     /// <summary>
     /// Product/CreateProduct Http endpoint için validasyon kuralı
