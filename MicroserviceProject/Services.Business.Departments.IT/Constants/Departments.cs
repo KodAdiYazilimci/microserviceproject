@@ -33,6 +33,26 @@
         /// <summary>
         /// İdari işler
         /// </summary>
-        AdministrativeAffairs = 6
+        AdministrativeAffairs = 6,
+
+        /// <summary>
+        /// Müşteri ilişkileri
+        /// </summary>
+        CustomerRelationship = 7,
+
+        /// <summary>
+        /// Üretim
+        /// </summary>
+        Production = 8,
+
+        /// <summary>
+        /// Satış
+        /// </summary>
+        Selling = 9,
+
+        /// <summary>
+        /// Depolama
+        /// </summary>
+        Storage = 10
     }
 }

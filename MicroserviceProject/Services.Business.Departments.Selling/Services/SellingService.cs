@@ -1,6 +1,12 @@
 ﻿using AutoMapper;
 
+using Communication.Http.Department.Storage;
+using Communication.Http.Department.Storage.Models;
+using Communication.Mq.Rabbit.Publisher.Department.Production;
+
 using Infrastructure.Caching.Redis;
+using Infrastructure.Communication.Http.Broker.Exceptions;
+using Infrastructure.Communication.Http.Broker.Models;
 using Infrastructure.Communication.Http.Wrapper;
 using Infrastructure.Communication.Http.Wrapper.Disposing;
 using Infrastructure.Localization.Providers;
@@ -8,6 +14,7 @@ using Infrastructure.Transaction.Recovery;
 using Infrastructure.Transaction.UnitOfWork.EntityFramework;
 
 using Services.Business.Departments.Selling.Configuration.Persistence;
+using Services.Business.Departments.Selling.Constants;
 using Services.Business.Departments.Selling.Entities.EntityFramework;
 using Services.Business.Departments.Selling.Models;
 using Services.Business.Departments.Selling.Repositories.EntityFramework;
@@ -39,7 +46,6 @@ namespace Services.Business.Departments.Selling.Services
         /// Servisin ait olduğu api servisinin adı
         /// </summary>
         public override string ApiServiceName => "Services.Business.Departments.Selling";
-
 
         /// <summary>
         /// Rediste tutulan önbellek yönetimini sağlayan sınıf
@@ -77,6 +83,16 @@ namespace Services.Business.Departments.Selling.Services
         private readonly TranslationProvider _translationProvider;
 
         /// <summary>
+        /// Stok servisi sınıfı
+        /// </summary>
+        private readonly StorageCommunicator _storageCommunicator;
+
+        /// <summary>
+        /// Üretilecek ürünler için kuyruk sınıfı
+        /// </summary>
+        private readonly ProductionProducePublisherPublisher _productionProducePublisherPublisher;
+
+        /// <summary>
         /// Satışlar iş mantığı sınıfı
         /// </summary>
         /// <param name="mapper">Mapping işlemleri için mapper nesnesi</param>
@@ -86,6 +102,8 @@ namespace Services.Business.Departments.Selling.Services
         /// <param name="transactionRepository">İşlem tablosu için repository sınıfı nesnesi</param>
         /// <param name="transactionItemRepository">İşlem öğesi tablosu için repository sınıfı nesnesi</param>
         /// <param name="sellRepository">Satışlar repository sınıfı nesnesi</param>
+        /// <param name="storageCommunicator">Stok servisi sınıfı nesnesi</param>
+        /// <param name="productionProducePublisherPublisher">Üretilecek ürünler için kuyruk sınıfı nesnesi</param>
         public SellingService(
             IMapper mapper,
             IUnitOfWork<SellingContext> unitOfWork,
@@ -93,7 +111,9 @@ namespace Services.Business.Departments.Selling.Services
             RedisCacheDataProvider redisCacheDataProvider,
             TransactionRepository transactionRepository,
             TransactionItemRepository transactionItemRepository,
-            SellRepository sellRepository)
+            SellRepository sellRepository,
+            StorageCommunicator storageCommunicator,
+            ProductionProducePublisherPublisher productionProducePublisherPublisher)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
@@ -103,6 +123,8 @@ namespace Services.Business.Departments.Selling.Services
             _transactionRepository = transactionRepository;
             _transactionItemRepository = transactionItemRepository;
             _sellRepository = sellRepository;
+            _storageCommunicator = storageCommunicator;
+            _productionProducePublisherPublisher = productionProducePublisherPublisher;
         }
 
         /// <summary>
@@ -212,6 +234,40 @@ namespace Services.Business.Departments.Selling.Services
         public async Task<int> CreateSellingAsync(SellModel sellModel, CancellationTokenSource cancellationTokenSource)
         {
             SellEntity mappedSellEntity = _mapper.Map<SellModel, SellEntity>(sellModel);
+
+            ServiceResultModel<StockModel> stockServiceResult = await _storageCommunicator.GetStockAsync(mappedSellEntity.ProductId, cancellationTokenSource);
+
+            if (stockServiceResult.IsSuccess)
+            {
+                if (stockServiceResult.Data.Amount < sellModel.Quantity)
+                {
+                    mappedSellEntity.SellStatusId = (int)SellStatus.PendingStock;
+
+                    await _productionProducePublisherPublisher.PublishAsync(new Communication.Mq.Rabbit.Publisher.Department.Production.Models.ProduceModel()
+                    {
+                        ProductId = mappedSellEntity.ProductId,
+                        Amount = sellModel.Quantity,
+                        DepartmentId = (int)Constants.Departments.Selling
+                    }, cancellationTokenSource);
+                }
+                else
+                {
+                    mappedSellEntity.SellStatusId = (int)SellStatus.ReadyToSell;
+                }
+            }
+            else
+            {
+                throw new CallException(
+                        message: stockServiceResult.ErrorModel.Description,
+                        endpoint:
+                        !string.IsNullOrEmpty(stockServiceResult.SourceApiService)
+                        ?
+                        stockServiceResult.SourceApiService
+                        :
+                        $"{ApiServiceName}).{nameof(SellingService)}.{nameof(CreateSellingAsync)}",
+                        error: stockServiceResult.ErrorModel,
+                        validation: stockServiceResult.Validation);
+            }
 
             await _sellRepository.CreateAsync(mappedSellEntity, cancellationTokenSource);
 

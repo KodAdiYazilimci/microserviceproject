@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Services.Business.Departments.Selling.Constants;
+
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Services.Business.Departments.Selling.Entities.EntityFramework
 {
@@ -10,5 +10,16 @@ namespace Services.Business.Departments.Selling.Entities.EntityFramework
         public int ProductId { get; set; }
         public int CustomerId { get; set; }
         public int Quantity { get; set; }
+
+        public int SellStatusId { get; set; }
+
+        [NotMapped]
+        public SellStatus SellStatus
+        {
+            get
+            {
+                return (SellStatus)Enum.ToObject(typeof(SellStatus), (byte)SellStatusId);
+            }
+        }
     }
 }

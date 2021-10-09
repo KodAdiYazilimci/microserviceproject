@@ -1,4 +1,4 @@
-﻿namespace Services.Business.Departments.AA.Constants
+﻿namespace Services.Business.Departments.Selling.Constants
 {
     /// <summary>
     /// Departmanları verir
