@@ -60,6 +60,22 @@ namespace Communication.Http.Department.Storage
         }
 
         /// <summary>
+        /// Stok departmanındaki bir ürünün stok değerini azaltır
+        /// </summary>
+        /// <param name="stockModel">Stoğu düşürecek model</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<ServiceResultModel<int>> DescendStockAsync(StockModel stockModel, CancellationTokenSource cancellationTokenSource)
+        {
+            return await _serviceCommunicator.Call<int>(
+                serviceName: _routeNameProvider.Storage_DescendProductStock,
+                postData: stockModel,
+                queryParameters: null,
+                headers: null,
+                cancellationTokenSource: cancellationTokenSource);
+        }
+
+        /// <summary>
         /// Stok departmanına yeni bir stok kaydı oluşturur
         /// </summary>
         /// <param name="stockModel">Stok modeli</param>

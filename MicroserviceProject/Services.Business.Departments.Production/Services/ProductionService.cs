@@ -1,19 +1,32 @@
 ﻿using AutoMapper;
 
+using Communication.Http.Department.Storage;
+using Communication.Http.Department.Storage.Models;
+using Communication.Mq.Rabbit.Publisher.Department.Buying;
+using Communication.Mq.Rabbit.Publisher.Department.Buying.Models;
+using Communication.Mq.Rabbit.Publisher.Department.Storage;
+using Communication.Mq.Rabbit.Publisher.Department.Storage.Models;
+
 using Infrastructure.Caching.Redis;
+using Infrastructure.Communication.Http.Broker.Exceptions;
+using Infrastructure.Communication.Http.Broker.Models;
 using Infrastructure.Communication.Http.Wrapper;
 using Infrastructure.Communication.Http.Wrapper.Disposing;
 using Infrastructure.Localization.Providers;
 using Infrastructure.Transaction.Recovery;
 using Infrastructure.Transaction.UnitOfWork.EntityFramework;
 
+using Microsoft.EntityFrameworkCore;
+
 using Services.Business.Departments.Production.Configuration.Persistence;
+using Services.Business.Departments.Production.Constants;
 using Services.Business.Departments.Production.Entities.EntityFramework;
 using Services.Business.Departments.Production.Models;
 using Services.Business.Departments.Production.Repositories.EntityFramework;
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -65,14 +78,34 @@ namespace Services.Business.Departments.Production.Services
         private readonly IUnitOfWork<ProductionContext> _unitOfWork;
 
         /// <summary>
-        /// Müşteriler repository sınıfı
+        /// Ürünler repository sınıfı
         /// </summary>
         private readonly ProductRepository _productRepository;
+
+        /// <summary>
+        /// Ürün bağımlılıkları repository sınıfı
+        /// </summary>
+        private readonly ProductDependencyRepository _productDependencyRepository;
 
         /// <summary>
         /// Dil çeviri sağlayıcısı sınıf
         /// </summary>
         private readonly TranslationProvider _translationProvider;
+
+        /// <summary>
+        /// Stok servisi iletişim sağlayıcı sınıf
+        /// </summary>
+        private readonly StorageCommunicator _storageCommunicator;
+
+        /// <summary>
+        /// Satınalma departmanına alınması istenilen ürün talepleri için kayıt açan sınıf
+        /// </summary>
+        private readonly CreateProductRequestPublisher _createProductRequestPublisher;
+
+        /// <summary>
+        /// Depolama departmanına ürün stoğunu düşüren kuyruğa kayıt atan sınıf
+        /// </summary>
+        private readonly DescendProductStockPublisher _descendProductStockPublisher;
 
         /// <summary>
         /// Ürün işlemleri iş mantığı sınıfı
@@ -84,6 +117,10 @@ namespace Services.Business.Departments.Production.Services
         /// <param name="transactionRepository">İşlem tablosu için repository sınıfı nesnesi</param>
         /// <param name="transactionItemRepository">İşlem öğesi tablosu için repository sınıfı nesnesi</param>
         /// <param name="productRepository">Ürünler repository sınıfı nesnesi</param>
+        /// <param name="productDependencyRepository">Ürün bağımlılıkları repository sınıfı</param>
+        /// <param name="storageCommunicator">Stok servisi iletişim sağlayıcı sınıf</param>
+        /// <param name="createProductRequestPublisher">Satınalma departmanına alınması istenilen ürün talepleri için kayıt açan sınıf nesnesi</param>
+        /// <param name="descendProductStockPublisher">Depolama departmanına ürün stoğunu düşüren kuyruğa kayıt atan sınıf</param>
         public ProductionService(
             IMapper mapper,
             IUnitOfWork<ProductionContext> unitOfWork,
@@ -91,7 +128,11 @@ namespace Services.Business.Departments.Production.Services
             RedisCacheDataProvider redisCacheDataProvider,
             TransactionRepository transactionRepository,
             TransactionItemRepository transactionItemRepository,
-            ProductRepository productRepository)
+            ProductRepository productRepository,
+            ProductDependencyRepository productDependencyRepository,
+            StorageCommunicator storageCommunicator,
+            CreateProductRequestPublisher createProductRequestPublisher,
+            DescendProductStockPublisher descendProductStockPublisher)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
@@ -101,6 +142,10 @@ namespace Services.Business.Departments.Production.Services
             _transactionRepository = transactionRepository;
             _transactionItemRepository = transactionItemRepository;
             _productRepository = productRepository;
+            _productDependencyRepository = productDependencyRepository;
+            _storageCommunicator = storageCommunicator;
+            _createProductRequestPublisher = createProductRequestPublisher;
+            _descendProductStockPublisher = descendProductStockPublisher;
         }
 
         /// <summary>
@@ -209,6 +254,70 @@ namespace Services.Business.Departments.Production.Services
         /// <returns></returns>
         public async Task<int> ProduceProductAsync(ProduceModel produceModel, CancellationTokenSource cancellationTokenSource)
         {
+            ProductEntity product = await _productRepository.GetAsync(produceModel.ProductId, cancellationTokenSource);
+
+            if (product != null)
+            {
+                ProductionEntity production = new ProductionEntity();
+
+                production.ProductId = product.Id;
+                production.ReferenceNumber = produceModel.ReferenceNumber;
+                production.DepartmentId = produceModel.DepartmentId;
+
+                List<ProductDependencyEntity> productDependencies =
+                    await _productDependencyRepository.GetAsQueryable().Where(x => x.ProductId == product.Id).ToListAsync();
+
+                foreach (ProductDependencyEntity dependedProduct in productDependencies)
+                {
+                    ServiceResultModel<StockModel> stocksServiceResult = await _storageCommunicator.GetStockAsync(dependedProduct.DependedProductId, cancellationTokenSource);
+
+                    if (stocksServiceResult.IsSuccess)
+                    {
+                        if (stocksServiceResult.Data.Amount < dependedProduct.Amount)
+                        {
+                            _createProductRequestPublisher.AddToBuffer(new ProductRequestModel()
+                            {
+                                Amount = dependedProduct.Amount,
+                                ProductId = dependedProduct.DependedProductId,
+                                ReferenceNumber = production.Id
+                            });
+
+                            production.StatusId = (int)ProductionStatus.WaitingDependency;
+                        }
+                        else
+                        {
+                            _descendProductStockPublisher.AddToBuffer(new ProductStockModel()
+                            {
+                                Amount = dependedProduct.Amount,
+                                ProductId = dependedProduct.DependedProductId
+                            });
+                        }
+                    }
+                    else
+                    {
+                        throw new CallException(
+                                message: stocksServiceResult.ErrorModel.Description,
+                                endpoint:
+                                !string.IsNullOrEmpty(stocksServiceResult.SourceApiService)
+                                ?
+                                stocksServiceResult.SourceApiService
+                                :
+                                $"{ApiServiceName}).{nameof(ProductionService)}.{nameof(ProduceProductAsync)}",
+                                error: stocksServiceResult.ErrorModel,
+                                validation: stocksServiceResult.Validation);
+                    }
+                }
+
+                await _unitOfWork.SaveAsync(cancellationTokenSource);
+
+                await _createProductRequestPublisher.PublishBufferAsync(cancellationTokenSource);
+                await _descendProductStockPublisher.PublishBufferAsync(cancellationTokenSource);
+
+                return production.Id;
+            }
+            else
+                throw new Exception("Ürün kaydı bulunamadı");
+
             // TO DO: ürünün bağımlı olduğu alt ürünleri getir
             // alt bağımlı olduğu ürünlerin stoklarını kontrol et
             // -    yoksa satın alma talebi oluştur
@@ -216,8 +325,6 @@ namespace Services.Business.Departments.Production.Services
             // alt bağımlı ürünlerin stoklarını düşür
             // üretimin tamamlandığına dair satış departmanına referans numarasıyla bilgilendirme yap
             // Satış departmanının ürünü nakletmesini sağla
-
-            throw new NotImplementedException();
         }
     }
 }

@@ -3,6 +3,7 @@ using Communication.Mq.Rabbit.Publisher.Department.Accounting;
 using Communication.Mq.Rabbit.Publisher.Department.Buying;
 using Communication.Mq.Rabbit.Publisher.Department.Finance;
 using Communication.Mq.Rabbit.Publisher.Department.IT;
+using Communication.Mq.Rabbit.Publisher.Department.Storage;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -28,6 +29,7 @@ namespace Communication.Mq.Rabbit.Publisher.Department.DI
             services.AddSingleton<ITInformInventoryRequestPublisher>();
             services.AddSingleton<NotifyCostApprovementPublisher>();
             services.AddSingleton<InventoryRequestPublisher>();
+            services.AddSingleton<DescendProductStockPublisher>();
 
             return services;
         }

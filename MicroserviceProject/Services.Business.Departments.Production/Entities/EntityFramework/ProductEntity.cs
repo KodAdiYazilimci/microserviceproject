@@ -9,5 +9,7 @@ namespace Services.Business.Departments.Production.Entities.EntityFramework
 
         public virtual ICollection<ProductDependencyEntity> ProductDependenciesForProduct { get; set; }
         public virtual ICollection<ProductDependencyEntity> ProductDependenciesForDependency { get; set; }
+        
+        public virtual ICollection<ProductionEntity> Productions { get; set; }
     }
 }

@@ -13,6 +13,7 @@ namespace Services.Business.Departments.Production.Configuration.Persistence
     {
         public DbSet<ProductEntity> Products { get; set; }
         public DbSet<ProductDependencyEntity> ProductDependencies { get; set; }
+        public DbSet<ProductionEntity> Productions { get; set; }
         public DbSet<RollbackEntity> Rollbacks { get; set; }
         public DbSet<RollbackItemEntity> RollbackItems { get; set; }
 
@@ -52,6 +53,15 @@ namespace Services.Business.Departments.Production.Configuration.Persistence
 
             modelBuilder.Entity<ProductDependencyEntity>().HasOne(x => x.Product).WithMany(x => x.ProductDependenciesForProduct).HasForeignKey(x => x.ProductId);
             modelBuilder.Entity<ProductDependencyEntity>().HasOne(x => x.DependedProduct).WithMany(x => x.ProductDependenciesForDependency).HasForeignKey(x => x.DependedProductId);
+
+            modelBuilder.Entity<ProductionEntity>().ToTable("PRODUCTION_PRODUCTIONS");
+            modelBuilder.Entity<ProductionEntity>().HasKey(x => x.Id);
+            modelBuilder.Entity<ProductionEntity>().Property(x => x.ProductId).HasColumnName("PRODUCT_ID");
+            modelBuilder.Entity<ProductionEntity>().Property(x => x.DepartmentId).HasColumnName("DEPARTMENT_ID");
+            modelBuilder.Entity<ProductionEntity>().Property(x => x.StatusId).HasColumnName("STATUS_ID");
+            modelBuilder.Entity<ProductionEntity>().Property(x => x.ReferenceNumber).HasColumnName("REFERENCE_NUMBER");
+
+            modelBuilder.Entity<ProductionEntity>().HasOne(x => x.Product).WithMany(x => x.Productions).HasForeignKey(x => x.ProductId);
 
             modelBuilder.Entity<RollbackEntity>().ToTable("PRODUCTION_TRANSACTIONS");
 

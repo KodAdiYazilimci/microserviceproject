@@ -709,6 +709,19 @@ namespace Infrastructure.Routing.Providers
                     .GetSection("Storage")["GetStock"];
             }
         }
+
+        public string Storage_DescendProductStock
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("Storage")["DescendProductStock"];
+            }
+        }
+
         public string Storage_CreateStock
         {
             get
