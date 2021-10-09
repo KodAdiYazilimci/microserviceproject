@@ -57,11 +57,6 @@ namespace Infrastructure.Communication.Broker
         /// </summary>
         private readonly ServiceRouteRepository _serviceRouteRepository;
 
-        public Task Call<T>()
-        {
-            throw new NotImplementedException();
-        }
-
         /// <summary>
         /// Yetki denetimi destekli servis iletişim sağlayıcı sınıf
         /// </summary>

@@ -615,6 +615,100 @@ namespace Infrastructure.Routing.Providers
             }
         }
 
+        public string CR_GetCustomers
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("CR")["GetCustomers"];
+            }
+        }
+        public string CR_CreateCustomer
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("CR")["CreateCustomer"];
+            }
+        }
+
+        public string Production_GetProducts
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("Production")["GetProducts"];
+            }
+        }
+
+        public string Production_CreateProduct
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("Production")["CreateProduct"];
+            }
+        }
+
+        public string Selling_GetSolds
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("Selling")["GetSolds"];
+            }
+        }
+
+        public string Selling_CreateSelling
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("Selling")["CreateSelling"];
+            }
+        }
+
+        public string Storage_GetStock
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("Storage")["GetStock"];
+            }
+        }
+        public string Storage_CreateStock
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("Storage")["CreateStock"];
+            }
+        }
+
         /// <summary>
         /// Güvenlik web soketine bildirim mesajı gönderir
         /// </summary>
