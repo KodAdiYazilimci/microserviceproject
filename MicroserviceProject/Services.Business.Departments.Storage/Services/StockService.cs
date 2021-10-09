@@ -18,6 +18,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Services.Business.Departments.Storage.Configuration.Persistence;
 using Infrastructure.Communication.Http.Wrapper.Disposing;
+using Microsoft.EntityFrameworkCore;
 
 namespace Services.Business.Departments.Storage.Services
 {
@@ -226,43 +227,132 @@ namespace Services.Business.Departments.Storage.Services
             return mappedStocks.FirstOrDefault(x => x.ProductId == productId);
         }
 
-
         public async Task<int> CreateStockAsync(StockModel stockModel, CancellationTokenSource cancellationTokenSource)
+        {
+            StockEntity existingStock = await _stockRepository.GetAsQueryable().FirstOrDefaultAsync(x => x.ProductId == stockModel.ProductId);
+
+            if (existingStock != null)
+            {
+                await CreateCheckpointAsync(
+                    rollback: new RollbackModel()
+                    {
+                        TransactionType = TransactionType.Update,
+                        TransactionDate = DateTime.Now,
+                        TransactionIdentity = TransactionIdentity,
+                        RollbackItems = new List<RollbackItemModel>
+                        {
+                            new RollbackItemModel()
+                            {
+                                Identity = existingStock.Id,
+                                DataSet = StockRepository.TABLE_NAME,
+                                RollbackType = RollbackType.DecreaseValue,
+                                Difference = stockModel.Amount,
+                                Name = nameof(existingStock.Amount)
+                            }
+                        }
+                    },
+                    cancellationTokenSource: cancellationTokenSource);
+
+                existingStock.Amount += stockModel.Amount;
+
+                await _unitOfWork.SaveAsync(cancellationTokenSource);
+
+                if (_redisCacheDataProvider.TryGetValue(CACHED_STOCKS_KEY, out List<StockModel> cachedStocks) && cachedStocks != null)
+                {
+                    cachedStocks.FirstOrDefault(x => x.ProductId == stockModel.ProductId).Amount += stockModel.Amount;
+
+                    _redisCacheDataProvider.Set(CACHED_STOCKS_KEY, cachedStocks);
+                }
+
+                return existingStock.Id;
+            }
+            else
+            {
+                StockEntity mappedStockEntity = _mapper.Map<StockModel, StockEntity>(stockModel);
+
+                await _stockRepository.CreateAsync(mappedStockEntity, cancellationTokenSource);
+
+                await CreateCheckpointAsync(
+                    rollback: new RollbackModel()
+                    {
+                        TransactionType = TransactionType.Insert,
+                        TransactionDate = DateTime.Now,
+                        TransactionIdentity = TransactionIdentity,
+                        RollbackItems = new List<RollbackItemModel>
+                        {
+                            new RollbackItemModel()
+                            {
+                                Identity = mappedStockEntity.Id,
+                                DataSet = StockRepository.TABLE_NAME,
+                                RollbackType = RollbackType.Delete
+                            }
+                        }
+                    },
+                    cancellationTokenSource: cancellationTokenSource);
+
+                await _unitOfWork.SaveAsync(cancellationTokenSource);
+
+                stockModel.ProductId = mappedStockEntity.Id;
+
+                if (_redisCacheDataProvider.TryGetValue(CACHED_STOCKS_KEY, out List<StockModel> cachedStocks) && cachedStocks != null)
+                {
+                    cachedStocks.Add(stockModel);
+
+                    _redisCacheDataProvider.Set(CACHED_STOCKS_KEY, cachedStocks);
+                }
+
+                return mappedStockEntity.Id;
+            }
+        }
+
+        public async Task<int> DescendProductStockAsync(StockModel stockModel, CancellationTokenSource cancellationTokenSource)
         {
             StockEntity mappedStockEntity = _mapper.Map<StockModel, StockEntity>(stockModel);
 
-            await _stockRepository.CreateAsync(mappedStockEntity, cancellationTokenSource);
+            StockEntity stockEntity = await _stockRepository.GetAsQueryable().FirstOrDefaultAsync(x => x.ProductId == mappedStockEntity.ProductId);
 
-            await CreateCheckpointAsync(
-                rollback: new RollbackModel()
-                {
-                    TransactionType = TransactionType.Insert,
-                    TransactionDate = DateTime.Now,
-                    TransactionIdentity = TransactionIdentity,
-                    RollbackItems = new List<RollbackItemModel>
-                    {
-                        new RollbackItemModel()
-                        {
-                            Identity = mappedStockEntity.Id,
-                            DataSet = StockRepository.TABLE_NAME,
-                            RollbackType = RollbackType.Delete
-                        }
-                    }
-                },
-                cancellationTokenSource: cancellationTokenSource);
-
-            await _unitOfWork.SaveAsync(cancellationTokenSource);
-
-            stockModel.ProductId = mappedStockEntity.Id;
-
-            if (_redisCacheDataProvider.TryGetValue(CACHED_STOCKS_KEY, out List<StockModel> cachedStocks) && cachedStocks != null)
+            if (stockEntity != null)
             {
-                cachedStocks.Add(stockModel);
+                await CreateCheckpointAsync(
+                    rollback: new RollbackModel()
+                    {
+                        TransactionType = TransactionType.Update,
+                        TransactionDate = DateTime.Now,
+                        TransactionIdentity = TransactionIdentity,
+                        RollbackItems = new List<RollbackItemModel>
+                        {
+                            new RollbackItemModel()
+                            {
+                                Identity = stockEntity.Id,
+                                DataSet = StockRepository.TABLE_NAME,
+                                RollbackType = RollbackType.IncreaseValue,
+                                Difference = stockModel.Amount,
+                                Name = nameof(stockEntity.Amount)
+                            }
+                        }
+                    },
+                    cancellationTokenSource: cancellationTokenSource);
 
-                _redisCacheDataProvider.Set(CACHED_STOCKS_KEY, cachedStocks);
+                stockEntity.Amount -= mappedStockEntity.Amount;
+
+                if (stockEntity.Amount < 0)
+                {
+                    throw new Exception("Stok miktarı negatife düşüyor");
+                }
+
+                await _unitOfWork.SaveAsync(cancellationTokenSource);
+
+                if (_redisCacheDataProvider.TryGetValue(CACHED_STOCKS_KEY, out List<StockModel> cachedStocks) && cachedStocks != null)
+                {
+                    cachedStocks.FirstOrDefault(x => x.ProductId == stockModel.ProductId).Amount = stockEntity.Amount;
+
+                    _redisCacheDataProvider.Set(CACHED_STOCKS_KEY, cachedStocks);
+                }
+
+                return stockEntity.Id;
             }
-
-            return mappedStockEntity.Id;
+            else
+                throw new Exception("Ürün kaydı bulunamadı");
         }
     }
 }

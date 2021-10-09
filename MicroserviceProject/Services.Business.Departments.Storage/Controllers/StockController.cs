@@ -46,5 +46,18 @@ namespace Services.Business.Departments.Storage.Controllers
             },
             services: _stockService);
         }
+
+        [HttpPost]
+        [Route(nameof(DescendProductStock))]
+        public async Task<IActionResult> DescendProductStock([FromBody] StockModel stockModel,CancellationTokenSource cancellationTokenSource)
+        {
+            return await HttpResponseWrapper.WrapAsync<int>(async () =>
+            {
+                await DescendStockValidator.ValidateAsync(stockModel, cancellationTokenSource);
+
+                return await _stockService.DescendProductStockAsync(stockModel, cancellationTokenSource);
+            },
+            services: _stockService);
+        }
     }
 }
