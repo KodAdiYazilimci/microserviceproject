@@ -243,12 +243,13 @@ namespace Services.Business.Departments.Selling.Services
                 {
                     mappedSellEntity.SellStatusId = (int)SellStatus.PendingStock;
 
-                    await _productionProducePublisherPublisher.PublishAsync(new Communication.Mq.Rabbit.Publisher.Department.Production.Models.ProduceModel()
+                    _productionProducePublisherPublisher.AddToBuffer(new Communication.Mq.Rabbit.Publisher.Department.Production.Models.ProduceModel()
                     {
                         ProductId = mappedSellEntity.ProductId,
                         Amount = sellModel.Quantity,
-                        DepartmentId = (int)Constants.Departments.Selling
-                    }, cancellationTokenSource);
+                        DepartmentId = (int)Constants.Departments.Selling,
+                        ReferenceNumber = mappedSellEntity.Id
+                    });
                 }
                 else
                 {
@@ -290,6 +291,8 @@ namespace Services.Business.Departments.Selling.Services
                 cancellationTokenSource: cancellationTokenSource);
 
             await _unitOfWork.SaveAsync(cancellationTokenSource);
+
+            await _productionProducePublisherPublisher.PublishBufferAsync(cancellationTokenSource);
 
             return mappedSellEntity.Id;
         }

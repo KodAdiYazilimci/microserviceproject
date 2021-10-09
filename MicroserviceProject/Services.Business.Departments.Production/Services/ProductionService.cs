@@ -209,6 +209,14 @@ namespace Services.Business.Departments.Production.Services
         /// <returns></returns>
         public async Task<int> ProduceProductAsync(ProduceModel produceModel, CancellationTokenSource cancellationTokenSource)
         {
+            // TO DO: ürünün bağımlı olduğu alt ürünleri getir
+            // alt bağımlı olduğu ürünlerin stoklarını kontrol et
+            // -    yoksa satın alma talebi oluştur
+            // üretimi gerçekleştir
+            // alt bağımlı ürünlerin stoklarını düşür
+            // üretimin tamamlandığına dair satış departmanına referans numarasıyla bilgilendirme yap
+            // Satış departmanının ürünü nakletmesini sağla
+
             throw new NotImplementedException();
         }
     }

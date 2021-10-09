@@ -53,7 +53,8 @@ namespace Services.MQ.Production.Util.Consumers.Request
             {
                 ProductId = data.ProductId,
                 Amount = data.Amount,
-                DepartmentId = data.DepartmentId
+                DepartmentId = data.DepartmentId,
+                ReferenceNumber = data.ReferenceNumber
             }, cancellationTokenSource);
         }
 

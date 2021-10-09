@@ -10,5 +10,6 @@ namespace Services.Business.Departments.Production.Models
         public int ProductId { get; set; }
         public int Amount { get; set; }
         public int DepartmentId { get; set; }
+        public int ReferenceNumber { get; set; }
     }
 }

@@ -17,6 +17,7 @@ namespace Services.Business.Departments.Production.Configuration.Validation.Prod
             RuleFor(x => x.ProductId).GreaterThan(0).WithMessage("Ürün Id boş geçilemez");
             RuleFor(x => x.DepartmentId).GreaterThan(0).WithMessage("Departman Id boş geçilemez");
             RuleFor(x => x.Amount).GreaterThan(0).WithMessage("Miktar sıfırdan büyük olmalıdır");
+            RuleFor(x => x.ReferenceNumber).GreaterThan(0).WithMessage("Referans numarası sıfırdan büyük olmalıdır");
         }
     }
 }
