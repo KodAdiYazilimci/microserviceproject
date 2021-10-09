@@ -27,6 +27,11 @@ namespace Infrastructure.Mock.Providers.Configuration.Sections.ServicesNode
         public BuyingSection BuyingSection { get; set; } = new BuyingSection();
 
         /// <summary>
+        /// CR Düğümü
+        /// </summary>
+        public CRSection CRSection { get; set; } = new CRSection();
+
+        /// <summary>
         /// Finance düğümü
         /// </summary>
         public FinanceSection FinanceSection { get; set; } = new FinanceSection();
@@ -40,6 +45,21 @@ namespace Infrastructure.Mock.Providers.Configuration.Sections.ServicesNode
         /// IT düğümü
         /// </summary>
         public ITSection ITSection { get; set; } = new ITSection();
+
+        /// <summary>
+        /// Production düğümü
+        /// </summary>
+        public ProductionSection ProductionSection { get; set; } = new ProductionSection();
+
+        /// <summary>
+        /// Selling düğümü
+        /// </summary>
+        public SellingSection SellingSection { get; set; } = new SellingSection();
+
+        /// <summary>
+        /// Storage düğümü
+        /// </summary>
+        public StorageSection StorageSection { get; set; } = new StorageSection();
 
         /// <summary>
         /// WebSocket.Security düğümü

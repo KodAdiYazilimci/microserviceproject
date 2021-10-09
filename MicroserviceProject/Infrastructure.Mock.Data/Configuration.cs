@@ -84,6 +84,9 @@ namespace Infrastructure.Mock.Data
                 appConfigurationProvider.ServicesSection.EndpointsSection.BuyingSection["RollbackTransaction"] = "buying.transaction.rollbacktransaction";
                 appConfigurationProvider.ServicesSection.EndpointsSection.BuyingSection["ValidateCostInventory"] = "buying.request.validatecostinventory";
 
+                appConfigurationProvider.ServicesSection.EndpointsSection.CRSection["GetCustomers"] = "cr.customers.getcustomers";
+                appConfigurationProvider.ServicesSection.EndpointsSection.CRSection["CreateCustomer"] = "cr.customers.createcustomer";
+
                 appConfigurationProvider.ServicesSection.EndpointsSection.FinanceSection["GetDecidedCosts"] = "finance.cost.getdecidedcosts";
                 appConfigurationProvider.ServicesSection.EndpointsSection.FinanceSection["CreateCost"] = "finance.cost.createcost";
                 appConfigurationProvider.ServicesSection.EndpointsSection.FinanceSection["DecideCost"] = "finance.cost.decidecost";
@@ -105,6 +108,15 @@ namespace Infrastructure.Mock.Data
                 appConfigurationProvider.ServicesSection.EndpointsSection.ITSection["CreateDefaultInventoryForNewWorker"] = "it.inventory.createdefaultinventoryfornewworker";
                 appConfigurationProvider.ServicesSection.EndpointsSection.ITSection["RollbackTransaction"] = "it.transaction.rollbacktransaction";
                 appConfigurationProvider.ServicesSection.EndpointsSection.ITSection["InformInventoryRequest"] = "it.inventory.informinventoryrequest";
+
+                appConfigurationProvider.ServicesSection.EndpointsSection.ProductionSection["GetProducts"] = "production.product.getproducts";
+                appConfigurationProvider.ServicesSection.EndpointsSection.ProductionSection["CreateProduct"] = "production.product.createproduct";
+
+                appConfigurationProvider.ServicesSection.EndpointsSection.SellingSection["GetSolds"] = "selling.selling.getsolds";
+                appConfigurationProvider.ServicesSection.EndpointsSection.SellingSection["CreateSelling"] = "selling.selling.createselling";
+
+                appConfigurationProvider.ServicesSection.EndpointsSection.StorageSection["GetStock"] = "storage.stock.getstock";
+                appConfigurationProvider.ServicesSection.EndpointsSection.StorageSection["CreateStock"] = "storage.stock.createstock";
 
                 appConfigurationProvider.ServicesSection.EndpointsSection.WebSocketsSecuritySection["SendTokenNotification"] = "websockets.security.sendtokennotification";
                 appConfigurationProvider.ServicesSection.EndpointsSection.WebSocketsSecuritySection["SendErrorNotification"] = "websockets.reliability.senderrornotification";
