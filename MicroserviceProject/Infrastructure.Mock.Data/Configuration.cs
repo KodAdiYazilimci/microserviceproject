@@ -111,6 +111,7 @@ namespace Infrastructure.Mock.Data
 
                 appConfigurationProvider.ServicesSection.EndpointsSection.ProductionSection["GetProducts"] = "production.product.getproducts";
                 appConfigurationProvider.ServicesSection.EndpointsSection.ProductionSection["CreateProduct"] = "production.product.createproduct";
+                appConfigurationProvider.ServicesSection.EndpointsSection.ProductionSection["ProduceProduct"] = "production.production.produceproduct";
 
                 appConfigurationProvider.ServicesSection.EndpointsSection.SellingSection["GetSolds"] = "selling.selling.getsolds";
                 appConfigurationProvider.ServicesSection.EndpointsSection.SellingSection["CreateSelling"] = "selling.selling.createselling";

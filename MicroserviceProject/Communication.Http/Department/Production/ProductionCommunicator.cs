@@ -60,12 +60,28 @@ namespace Communication.Http.Department.Production
         }
 
         /// <summary>
+        /// Üretim departmanına ürün üretme talebi iletir
+        /// </summary>
+        /// <param name="produceModel">Üretilecek ürünün talep modeli</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<ServiceResultModel<int>> ProduceProductAsync(ProduceModel produceModel, CancellationTokenSource cancellationTokenSource)
+        {
+            return await _serviceCommunicator.Call<int>(
+                serviceName: _routeNameProvider.Production_ProduceProduct,
+                postData: produceModel,
+                queryParameters: null,
+                headers: null,
+                cancellationTokenSource: cancellationTokenSource);
+        }
+
+        /// <summary>
         /// Üretim departmanına yeni ürün kaydı oluşturur
         /// </summary>
         /// <param name="productModel">Ürün modeli</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<int>> CreateCustomerAsync(ProductModel productModel, CancellationTokenSource cancellationTokenSource)
+        public async Task<ServiceResultModel<int>> CreateProductAsync(ProductModel productModel, CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call<int>(
                 serviceName: _routeNameProvider.Production_CreateProduct,
