@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Services.Business.Departments.Production.Entities.EntityFramework
 {
@@ -9,5 +6,8 @@ namespace Services.Business.Departments.Production.Entities.EntityFramework
     {
         public int ProductId { get; set; }
         public string ProductName { get; set; }
+
+        public virtual ICollection<ProductDependencyEntity> ProductDependenciesForProduct { get; set; }
+        public virtual ICollection<ProductDependencyEntity> ProductDependenciesForDependency { get; set; }
     }
 }
