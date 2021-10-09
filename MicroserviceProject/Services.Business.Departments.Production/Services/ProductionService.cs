@@ -83,6 +83,16 @@ namespace Services.Business.Departments.Production.Services
         private readonly ProductRepository _productRepository;
 
         /// <summary>
+        /// Üretilen ürünler repository sınıfı
+        /// </summary>
+        private readonly ProductionRepository _productionRepository;
+
+        /// <summary>
+        /// Üretilen ürünler detay repository sınıfı
+        /// </summary>
+        private readonly ProductionItemRepository _productionItemRepository;
+
+        /// <summary>
         /// Ürün bağımlılıkları repository sınıfı
         /// </summary>
         private readonly ProductDependencyRepository _productDependencyRepository;
@@ -108,6 +118,11 @@ namespace Services.Business.Departments.Production.Services
         private readonly DescendProductStockPublisher _descendProductStockPublisher;
 
         /// <summary>
+        /// Depolama departmanına ürün stoğunu artıran kuyruğa kayıt atan sınıf
+        /// </summary>
+        private readonly IncreaseProductStockPublisher _increaseProductStockPublisher;
+
+        /// <summary>
         /// Ürün işlemleri iş mantığı sınıfı
         /// </summary>
         /// <param name="mapper">Mapping işlemleri için mapper nesnesi</param>
@@ -117,10 +132,13 @@ namespace Services.Business.Departments.Production.Services
         /// <param name="transactionRepository">İşlem tablosu için repository sınıfı nesnesi</param>
         /// <param name="transactionItemRepository">İşlem öğesi tablosu için repository sınıfı nesnesi</param>
         /// <param name="productRepository">Ürünler repository sınıfı nesnesi</param>
+        /// <param name="productionRepository">Üretilen ürünler repository sınıfı</param>
+        /// <param name="productionItemRepository">Üretilen ürünler detay repository sınıfı</param>
         /// <param name="productDependencyRepository">Ürün bağımlılıkları repository sınıfı</param>
         /// <param name="storageCommunicator">Stok servisi iletişim sağlayıcı sınıf</param>
         /// <param name="createProductRequestPublisher">Satınalma departmanına alınması istenilen ürün talepleri için kayıt açan sınıf nesnesi</param>
         /// <param name="descendProductStockPublisher">Depolama departmanına ürün stoğunu düşüren kuyruğa kayıt atan sınıf</param>
+        /// <param name="increaseProductStockPublisher">Depolama departmanına ürün stoğunu artıran kuyruğa kayıt atan sınıf</param>
         public ProductionService(
             IMapper mapper,
             IUnitOfWork<ProductionContext> unitOfWork,
@@ -129,10 +147,13 @@ namespace Services.Business.Departments.Production.Services
             TransactionRepository transactionRepository,
             TransactionItemRepository transactionItemRepository,
             ProductRepository productRepository,
+            ProductionRepository productionRepository,
+            ProductionItemRepository productionItemRepository,
             ProductDependencyRepository productDependencyRepository,
             StorageCommunicator storageCommunicator,
             CreateProductRequestPublisher createProductRequestPublisher,
-            DescendProductStockPublisher descendProductStockPublisher)
+            DescendProductStockPublisher descendProductStockPublisher,
+            IncreaseProductStockPublisher increaseProductStockPublisher)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
@@ -142,10 +163,13 @@ namespace Services.Business.Departments.Production.Services
             _transactionRepository = transactionRepository;
             _transactionItemRepository = transactionItemRepository;
             _productRepository = productRepository;
+            _productionRepository = productionRepository;
             _productDependencyRepository = productDependencyRepository;
             _storageCommunicator = storageCommunicator;
             _createProductRequestPublisher = createProductRequestPublisher;
             _descendProductStockPublisher = descendProductStockPublisher;
+            _increaseProductStockPublisher = increaseProductStockPublisher;
+            _productionItemRepository = productionItemRepository;
         }
 
         /// <summary>
@@ -263,35 +287,66 @@ namespace Services.Business.Departments.Production.Services
                 production.ProductId = product.Id;
                 production.ReferenceNumber = produceModel.ReferenceNumber;
                 production.DepartmentId = produceModel.DepartmentId;
+                production.RequestedAmount = produceModel.Amount;
+                production.StatusId = (int)ProductionStatus.ReadyToProduce;
 
                 List<ProductDependencyEntity> productDependencies =
                     await _productDependencyRepository.GetAsQueryable().Where(x => x.ProductId == product.Id).ToListAsync();
 
                 foreach (ProductDependencyEntity dependedProduct in productDependencies)
                 {
-                    ServiceResultModel<StockModel> stocksServiceResult = await _storageCommunicator.GetStockAsync(dependedProduct.DependedProductId, cancellationTokenSource);
+                    ServiceResultModel<StockModel> stocksServiceResult =
+                        await _storageCommunicator.GetStockAsync(dependedProduct.DependedProductId, cancellationTokenSource);
 
                     if (stocksServiceResult.IsSuccess)
                     {
-                        if (stocksServiceResult.Data.Amount < dependedProduct.Amount)
+                        ProductionItemEntity productionItem = new ProductionItemEntity();
+                        productionItem.DependedProductId = dependedProduct.DependedProductId;
+                        productionItem.RequiredAmount = dependedProduct.Amount * produceModel.Amount;
+
+                        if (stocksServiceResult.Data.Amount < dependedProduct.Amount * produceModel.Amount)
                         {
+                            productionItem.StatusId = (int)ProductionStatus.WaitingDependency;
+                            production.StatusId = (int)ProductionStatus.WaitingDependency;
+
                             _createProductRequestPublisher.AddToBuffer(new ProductRequestModel()
                             {
-                                Amount = dependedProduct.Amount,
+                                Amount = dependedProduct.Amount * produceModel.Amount,
                                 ProductId = dependedProduct.DependedProductId,
                                 ReferenceNumber = production.Id
                             });
-
-                            production.StatusId = (int)ProductionStatus.WaitingDependency;
                         }
                         else
                         {
+                            productionItem.StatusId = (int)ProductionStatus.ReadyToProduce;
+
                             _descendProductStockPublisher.AddToBuffer(new ProductStockModel()
                             {
-                                Amount = dependedProduct.Amount,
+                                Amount = dependedProduct.Amount * produceModel.Amount,
                                 ProductId = dependedProduct.DependedProductId
                             });
                         }
+
+                        productionItem.Production = production;
+                        production.ProductionItems.Add(productionItem);
+
+                        await CreateCheckpointAsync(
+                            rollback: new RollbackModel()
+                            {
+                                TransactionType = TransactionType.Insert,
+                                TransactionDate = DateTime.Now,
+                                TransactionIdentity = TransactionIdentity,
+                                RollbackItems = new List<RollbackItemModel>
+                                {
+                                    new RollbackItemModel()
+                                    {
+                                        Identity = productionItem.Id,
+                                        DataSet = ProductionItemRepository.TABLE_NAME,
+                                        RollbackType = RollbackType.Delete
+                                    }
+                                }
+                            },
+                            cancellationTokenSource: cancellationTokenSource);
                     }
                     else
                     {
@@ -306,25 +361,134 @@ namespace Services.Business.Departments.Production.Services
                                 error: stocksServiceResult.ErrorModel,
                                 validation: stocksServiceResult.Validation);
                     }
+
+                    await CreateCheckpointAsync(
+                        rollback: new RollbackModel()
+                        {
+                            TransactionType = TransactionType.Insert,
+                            TransactionDate = DateTime.Now,
+                            TransactionIdentity = TransactionIdentity,
+                            RollbackItems = new List<RollbackItemModel>
+                            {
+                                new RollbackItemModel()
+                                {
+                                    Identity = production.Id,
+                                    DataSet = ProductionRepository.TABLE_NAME,
+                                    RollbackType = RollbackType.Delete
+                                }
+                            }
+                        },
+                        cancellationTokenSource: cancellationTokenSource);
+
+                    await _productionRepository.CreateAsync(production, cancellationTokenSource);
                 }
 
                 await _unitOfWork.SaveAsync(cancellationTokenSource);
 
-                await _createProductRequestPublisher.PublishBufferAsync(cancellationTokenSource);
-                await _descendProductStockPublisher.PublishBufferAsync(cancellationTokenSource);
+                if (production.ProductionStatus == ProductionStatus.ReadyToProduce)
+                {
+                    _increaseProductStockPublisher.AddToBuffer(new ProductStockModel()
+                    {
+                        ProductId = production.ProductId,
+                        Amount = production.RequestedAmount
+                    });
+                }
 
-                return production.Id;
+                Task createProductRequestTask = _createProductRequestPublisher.PublishBufferAsync(cancellationTokenSource);
+                Task descendProductStockTask = _descendProductStockPublisher.PublishBufferAsync(cancellationTokenSource);
+                Task increaseProductStockTask = _increaseProductStockPublisher.PublishBufferAsync(cancellationTokenSource);
+
+                Task.WaitAll(createProductRequestTask, descendProductStockTask, increaseProductStockTask);
+
+                return product.Id;
             }
             else
                 throw new Exception("Ürün kaydı bulunamadı");
+        }
 
-            // TO DO: ürünün bağımlı olduğu alt ürünleri getir
-            // alt bağımlı olduğu ürünlerin stoklarını kontrol et
-            // -    yoksa satın alma talebi oluştur
-            // üretimi gerçekleştir
-            // alt bağımlı ürünlerin stoklarını düşür
-            // üretimin tamamlandığına dair satış departmanına referans numarasıyla bilgilendirme yap
-            // Satış departmanının ürünü nakletmesini sağla
+        public async Task<int> ReEvaluateProduceProductasync(int referenceNumber, CancellationTokenSource cancellationTokenSource)
+        {
+            int executed = 0;
+
+            ProductionEntity production =
+                await
+                _productionRepository
+                .GetAsQueryable()
+                .Where(x => x.ReferenceNumber == referenceNumber
+                            &&
+                            x.StatusId == (int)ProductionStatus.WaitingDependency)
+                .FirstOrDefaultAsync(cancellationTokenSource.Token);
+
+            if (production != null)
+            {
+                production.StatusId = (int)ProductionStatus.ReadyToProduce;
+
+                List<ProductionItemEntity> productionItems =
+                    await
+                    _productionItemRepository
+                    .GetAsQueryable()
+                    .Where(x => x.ProductionId == production.Id
+                                &&
+                                x.StatusId == (int)ProductionStatus.WaitingDependency)
+                    .ToListAsync();
+
+                foreach (var productionItem in productionItems)
+                {
+                    ServiceResultModel<StockModel> stocksServiceResult =
+                           await _storageCommunicator.GetStockAsync(productionItem.DependedProductId, cancellationTokenSource);
+
+                    if (stocksServiceResult.IsSuccess)
+                    {
+                        if (stocksServiceResult.Data.Amount >= productionItem.RequiredAmount)
+                        {
+                            _descendProductStockPublisher.AddToBuffer(new ProductStockModel()
+                            {
+                                Amount = productionItem.RequiredAmount,
+                                ProductId = productionItem.DependedProductId
+                            });
+
+                            executed++;
+                        }
+                        else
+                        {
+                            production.StatusId = (int)ProductionStatus.WaitingDependency;
+                        }
+                    }
+                    else
+                    {
+                        throw new CallException(
+                                message: stocksServiceResult.ErrorModel.Description,
+                                endpoint:
+                                !string.IsNullOrEmpty(stocksServiceResult.SourceApiService)
+                                ?
+                                stocksServiceResult.SourceApiService
+                                :
+                                $"{ApiServiceName}).{nameof(ProductionService)}.{nameof(ReEvaluateProduceProductasync)}",
+                                error: stocksServiceResult.ErrorModel,
+                                validation: stocksServiceResult.Validation);
+                    }
+                }
+
+                if (production.StatusId == (int)ProductionStatus.WaitingDependency)
+                {
+                    _increaseProductStockPublisher.AddToBuffer(new ProductStockModel()
+                    {
+                        Amount = production.RequestedAmount,
+                        ProductId = production.ProductId
+                    });
+                }
+
+                await _unitOfWork.SaveAsync(cancellationTokenSource);
+
+                Task descendProductStockTask = _descendProductStockPublisher.PublishBufferAsync(cancellationTokenSource);
+                Task increaseProductStokTask = _increaseProductStockPublisher.PublishBufferAsync(cancellationTokenSource);
+
+                Task.WaitAll(descendProductStockTask, increaseProductStokTask);
+
+                return executed;
+            }
+            else
+                throw new Exception("Üretim kaydı bulunamadı");
         }
     }
 }

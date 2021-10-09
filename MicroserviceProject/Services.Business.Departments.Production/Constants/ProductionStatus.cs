@@ -8,6 +8,11 @@
         /// <summary>
         /// Satın alınmayı beklenen alt bağımlı ürünler var
         /// </summary>
-        WaitingDependency = 1
+        WaitingDependency = 1,
+
+        /// <summary>
+        /// Üretime hazır
+        /// </summary>
+        ReadyToProduce = 2
     }
 }

@@ -14,6 +14,7 @@ namespace Services.Business.Departments.Production.Configuration.Persistence
         public DbSet<ProductEntity> Products { get; set; }
         public DbSet<ProductDependencyEntity> ProductDependencies { get; set; }
         public DbSet<ProductionEntity> Productions { get; set; }
+        public DbSet<ProductionItemEntity> ProductionItems { get; set; }
         public DbSet<RollbackEntity> Rollbacks { get; set; }
         public DbSet<RollbackItemEntity> RollbackItems { get; set; }
 
@@ -60,8 +61,19 @@ namespace Services.Business.Departments.Production.Configuration.Persistence
             modelBuilder.Entity<ProductionEntity>().Property(x => x.DepartmentId).HasColumnName("DEPARTMENT_ID");
             modelBuilder.Entity<ProductionEntity>().Property(x => x.StatusId).HasColumnName("STATUS_ID");
             modelBuilder.Entity<ProductionEntity>().Property(x => x.ReferenceNumber).HasColumnName("REFERENCE_NUMBER");
+            modelBuilder.Entity<ProductionEntity>().Property(x => x.RequestedAmount).HasColumnName("REQUESTED_AMOUNT");
 
             modelBuilder.Entity<ProductionEntity>().HasOne(x => x.Product).WithMany(x => x.Productions).HasForeignKey(x => x.ProductId);
+
+            modelBuilder.Entity<ProductionItemEntity>().ToTable("PRODUCTION_PRODUCTIONS_ITEMS");
+            modelBuilder.Entity<ProductionItemEntity>().HasKey(x => x.Id);
+            modelBuilder.Entity<ProductionItemEntity>().Property(x => x.ProductionId).HasColumnName("PRODUCTION_ID");
+            modelBuilder.Entity<ProductionItemEntity>().Property(x => x.DependedProductId).HasColumnName("PRODUCT_DEPENDEDPRODUCTID");
+            modelBuilder.Entity<ProductionItemEntity>().Property(x => x.StatusId).HasColumnName("STATUS_ID");
+            modelBuilder.Entity<ProductionItemEntity>().Property(x => x.RequiredAmount).HasColumnName("REQUIRED_AMOUNT");
+
+            modelBuilder.Entity<ProductionItemEntity>().HasOne(x => x.DependedProduct).WithMany(x => x.ProductionItems).HasForeignKey(x => x.DependedProductId);
+            modelBuilder.Entity<ProductionItemEntity>().HasOne(x => x.Production).WithMany(x => x.ProductionItems).HasForeignKey(x => x.ProductionId);
 
             modelBuilder.Entity<RollbackEntity>().ToTable("PRODUCTION_TRANSACTIONS");
 

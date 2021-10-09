@@ -19,6 +19,11 @@ namespace Services.Business.Departments.Production.DI
         public static IServiceCollection RegisterRepositories(this IServiceCollection services)
         {
             services.AddScoped<ProductRepository>();
+            services.AddScoped<ProductDependencyRepository>();
+            services.AddScoped<ProductionRepository>();
+            services.AddScoped<ProductionItemRepository>();
+            services.AddScoped<TransactionRepository>();
+            services.AddScoped<TransactionItemRepository>();
 
             return services;
         }

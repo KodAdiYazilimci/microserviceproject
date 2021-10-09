@@ -11,5 +11,6 @@ namespace Services.Business.Departments.Production.Entities.EntityFramework
         public virtual ICollection<ProductDependencyEntity> ProductDependenciesForDependency { get; set; }
         
         public virtual ICollection<ProductionEntity> Productions { get; set; }
+        public virtual ICollection<ProductionItemEntity> ProductionItems { get; set; }
     }
 }

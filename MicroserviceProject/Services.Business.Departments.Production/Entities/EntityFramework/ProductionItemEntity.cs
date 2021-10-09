@@ -1,22 +1,19 @@
 ﻿using Services.Business.Departments.Production.Constants;
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Services.Business.Departments.Production.Entities.EntityFramework
 {
-    public class ProductionEntity : BaseEntity
+    public class ProductionItemEntity : BaseEntity
     {
-        public int DepartmentId { get; set; }
-        public int ProductId { get; set; }
-        public int RequestedAmount { get; set; }
+        public int ProductionId { get; set; }
+        public int DependedProductId { get; set; }
+        public int RequiredAmount { get; set; }
         public int StatusId { get; set; }
-        public int ReferenceNumber { get; set; }
 
-        public virtual ProductEntity Product { get; set; }
-
-        public virtual ICollection<ProductionItemEntity> ProductionItems { get; set; }
+        public virtual ProductEntity DependedProduct { get; set; }
+        public virtual ProductionEntity Production { get; set; }
 
         [NotMapped]
         public ProductionStatus ProductionStatus

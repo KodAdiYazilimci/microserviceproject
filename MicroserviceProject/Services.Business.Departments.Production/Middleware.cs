@@ -118,6 +118,9 @@ namespace Services.Business.Departments.Production
             {
                 var productService = serviceProvider.GetService(typeof(ProductService));
                 (productService as ProductService).TransactionIdentity = httpContext.Request.Headers["TransactionIdentity"].ToString();
+
+                var productionService = serviceProvider.GetService(typeof(ProductionService));
+                (productionService as ProductionService).TransactionIdentity = httpContext.Request.Headers["TransactionIdentity"].ToString();
             }
         }
     }
