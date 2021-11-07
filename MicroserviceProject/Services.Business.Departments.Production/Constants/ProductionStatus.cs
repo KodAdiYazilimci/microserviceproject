@@ -13,6 +13,11 @@
         /// <summary>
         /// Üretime hazır
         /// </summary>
-        ReadyToProduce = 2
+        ReadyToProduce = 2,
+
+        /// <summary>
+        /// Üretimi tamamlandı
+        /// </summary>
+        Completed = 3
     }
 }

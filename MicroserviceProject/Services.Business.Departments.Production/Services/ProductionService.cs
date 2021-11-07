@@ -406,7 +406,13 @@ namespace Services.Business.Departments.Production.Services
                 throw new Exception("Ürün kaydı bulunamadı");
         }
 
-        public async Task<int> ReEvaluateProduceProductasync(int referenceNumber, CancellationTokenSource cancellationTokenSource)
+        /// <summary>
+        /// Bileşenlerin stok yetersizliği sebebiyle üretim süreci askıya alınmış ürünün durumunu yeniden değerlendirir
+        /// </summary>
+        /// <param name="referenceNumber">Askıya alınmış sürecin referans numarası</param>
+        /// <param name="cancellationTokenSource">İptal token ı</param>
+        /// <returns></returns>
+        public async Task<int> ReEvaluateProduceProductAsync(int referenceNumber, CancellationTokenSource cancellationTokenSource)
         {
             int executed = 0;
 
@@ -447,6 +453,8 @@ namespace Services.Business.Departments.Production.Services
                                 ProductId = productionItem.DependedProductId
                             });
 
+                            productionItem.StatusId = (int)ProductionStatus.ReadyToProduce;
+
                             executed++;
                         }
                         else
@@ -463,19 +471,21 @@ namespace Services.Business.Departments.Production.Services
                                 ?
                                 stocksServiceResult.SourceApiService
                                 :
-                                $"{ApiServiceName}).{nameof(ProductionService)}.{nameof(ReEvaluateProduceProductasync)}",
+                                $"{ApiServiceName}).{nameof(ProductionService)}.{nameof(ReEvaluateProduceProductAsync)}",
                                 error: stocksServiceResult.ErrorModel,
                                 validation: stocksServiceResult.Validation);
                     }
                 }
 
-                if (production.StatusId == (int)ProductionStatus.WaitingDependency)
+                if (production.StatusId == (int)ProductionStatus.ReadyToProduce)
                 {
                     _increaseProductStockPublisher.AddToBuffer(new ProductStockModel()
                     {
                         Amount = production.RequestedAmount,
                         ProductId = production.ProductId
                     });
+
+                    production.StatusId = (int)ProductionStatus.Completed;
                 }
 
                 await _unitOfWork.SaveAsync(cancellationTokenSource);
