@@ -35,5 +35,18 @@ namespace Services.Business.Departments.Production.Controllers
             },
             services: _productionService);
         }
+
+        [HttpPost]
+        [Route(nameof(ReEvaluateProduceProductAsync))]
+        public async Task<IActionResult> ReEvaluateProduceProductAsync(int referenceNumber, CancellationTokenSource cancellationTokenSource)
+        {
+            return await HttpResponseWrapper.WrapAsync<int>(async () =>
+            {
+                await ReEvaluateProduceProductValidator.ValidateAsync(referenceNumber, cancellationTokenSource);
+
+                return await _productionService.ReEvaluateProduceProductAsync(referenceNumber, cancellationTokenSource);
+            },
+           services: _productionService);
+        }
     }
 }
