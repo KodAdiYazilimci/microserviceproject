@@ -37,8 +37,8 @@ namespace Services.Business.Departments.Production.Controllers
         }
 
         [HttpPost]
-        [Route(nameof(ReEvaluateProduceProductAsync))]
-        public async Task<IActionResult> ReEvaluateProduceProductAsync(int referenceNumber, CancellationTokenSource cancellationTokenSource)
+        [Route(nameof(ReEvaluateProduceProduct))]
+        public async Task<IActionResult> ReEvaluateProduceProduct(int referenceNumber, CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync<int>(async () =>
             {
