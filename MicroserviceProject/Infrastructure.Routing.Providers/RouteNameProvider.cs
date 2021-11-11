@@ -674,6 +674,18 @@ namespace Infrastructure.Routing.Providers
             }
         }
 
+        public string Production_ReEvaluateProduceProduct
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("Production")["ReEvaluateProduceProduct"];
+            }
+        }
+
         public string Selling_GetSolds
         {
             get
