@@ -1,9 +1,10 @@
-﻿using Infrastructure.Communication.Http.Wrapper;
+﻿using Communication.Http.Department.CR.Models;
+
+using Infrastructure.Communication.Http.Wrapper;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using Services.Business.Departments.CR.Models;
 using Services.Business.Departments.CR.Services;
 using Services.Business.Departments.CR.Util.Validation.Customer.CreateCustomer;
 

@@ -1,10 +1,11 @@
-﻿using FluentValidation.Results;
+﻿using Communication.Http.Department.HR.Models;
+
+using FluentValidation.Results;
 
 using Infrastructure.Validation.Exceptions;
 using Infrastructure.Validation.Models;
 
 using Services.Business.Departments.HR.Configuration.Validation.Person.CreateWorker;
-using Services.Business.Departments.HR.Models;
 
 using System.Collections.Generic;
 using System.Linq;

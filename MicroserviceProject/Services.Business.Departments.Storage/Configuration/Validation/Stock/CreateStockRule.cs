@@ -1,6 +1,6 @@
-﻿using FluentValidation;
+﻿using Communication.Http.Department.Storage.Models;
 
-using Services.Business.Departments.Storage.Models;
+using FluentValidation;
 
 namespace Services.Business.Departments.Storage.Configuration.Validation.Stock
 {

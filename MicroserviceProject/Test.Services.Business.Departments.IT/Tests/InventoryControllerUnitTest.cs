@@ -1,4 +1,6 @@
-﻿using Infrastructure.Communication.Broker;
+﻿using Communication.Http.Department.IT.Models;
+
+using Infrastructure.Communication.Broker;
 using Infrastructure.Communication.Http.Broker.Models;
 using Infrastructure.Mock.Factories;
 using Infrastructure.Routing.Providers;
@@ -7,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Services.Business.Departments.IT.Controllers;
-using Services.Business.Departments.IT.Models;
 
 using System;
 using System.Collections.Generic;

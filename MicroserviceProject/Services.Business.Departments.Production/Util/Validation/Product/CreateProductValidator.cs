@@ -1,10 +1,11 @@
-﻿using FluentValidation.Results;
+﻿using Communication.Http.Department.Production.Models;
+
+using FluentValidation.Results;
 
 using Infrastructure.Validation.Exceptions;
 using Infrastructure.Validation.Models;
 
 using Services.Business.Departments.Production.Configuration.Validation.Product;
-using Services.Business.Departments.Production.Models;
 
 using System.Collections.Generic;
 using System.Linq;

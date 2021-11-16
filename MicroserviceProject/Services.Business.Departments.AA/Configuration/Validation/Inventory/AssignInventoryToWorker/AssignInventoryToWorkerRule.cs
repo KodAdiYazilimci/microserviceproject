@@ -1,6 +1,6 @@
-﻿using FluentValidation;
+﻿using Communication.Http.Department.AA.Models;
 
-using Services.Business.Departments.AA.Models;
+using FluentValidation;
 
 using System.Linq;
 

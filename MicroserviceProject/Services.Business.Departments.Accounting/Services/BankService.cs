@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
 
+using Communication.Http.Department.Accounting.Models;
+
 using Infrastructure.Caching.Redis;
-using Infrastructure.Localization.Providers;
 using Infrastructure.Communication.Http.Wrapper;
+using Infrastructure.Localization.Providers;
 using Infrastructure.Transaction.Recovery;
 using Infrastructure.Transaction.UnitOfWork.Sql;
 
 using Services.Business.Departments.Accounting.Entities.Sql;
-using Services.Business.Departments.Accounting.Models;
 using Services.Business.Departments.Accounting.Repositories.Sql;
 
 using System;

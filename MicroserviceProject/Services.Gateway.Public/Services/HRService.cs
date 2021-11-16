@@ -1,16 +1,14 @@
-﻿using Infrastructure.Communication.Broker;
+﻿using Communication.Http.Department.HR;
+using Communication.Http.Department.HR.Models;
+
 using Infrastructure.Communication.Http.Broker.Exceptions;
 using Infrastructure.Communication.Http.Broker.Models;
-using Infrastructure.Routing.Providers;
 using Infrastructure.Communication.Http.Wrapper;
-
-using Services.Gateway.Public.Models.HR;
 
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Communication.Http.Department.HR;
 
 namespace Services.Gateway.Public.Services
 {
@@ -46,9 +44,9 @@ namespace Services.Gateway.Public.Services
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<List<Communication.Http.Department.HR.Models.DepartmentModel>> GetDepartmentsAsync(CancellationTokenSource cancellationTokenSource)
+        public async Task<List<DepartmentModel>> GetDepartmentsAsync(CancellationTokenSource cancellationTokenSource)
         {
-            ServiceResultModel<List<Communication.Http.Department.HR.Models.DepartmentModel>> departmentsServiceResult = await _hrCommunicator.GetDepartmentsAsync(TransactionIdentity, cancellationTokenSource);
+            ServiceResultModel<List<DepartmentModel>> departmentsServiceResult = await _hrCommunicator.GetDepartmentsAsync(TransactionIdentity, cancellationTokenSource);
 
             if (departmentsServiceResult.IsSuccess)
             {

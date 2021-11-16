@@ -1,9 +1,10 @@
-﻿using Infrastructure.Communication.Http.Wrapper;
+﻿using Communication.Http.Department.Accounting.Models;
+
+using Infrastructure.Communication.Http.Wrapper;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using Services.Business.Departments.Accounting.Models;
 using Services.Business.Departments.Accounting.Services;
 using Services.Business.Departments.Accounting.Util.Validation.Department.CreateDepartment;
 

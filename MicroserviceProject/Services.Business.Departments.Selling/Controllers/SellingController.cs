@@ -1,9 +1,10 @@
-﻿using Infrastructure.Communication.Http.Wrapper;
+﻿using Communication.Http.Department.Selling.Models;
+
+using Infrastructure.Communication.Http.Wrapper;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using Services.Business.Departments.Selling.Models;
 using Services.Business.Departments.Selling.Services;
 using Services.Business.Departments.Selling.Util.Validation.Selling;
 

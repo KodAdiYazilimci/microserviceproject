@@ -1,12 +1,13 @@
-﻿using Presentation.UI.Business.Model.Constants;
-using Presentation.UI.Infrastructure.Communication.Model.Basics;
-using Presentation.UI.Infrastructure.Communication.Broker.Providers;
-using Presentation.UI.Infrastructure.Persistence.Repositories;
-using Presentation.UI.WindowsForm.Business.Model.Department.Buying;
-using Presentation.UI.WindowsForm.Business.Model.Department.HR;
-using Presentation.UI.WindowsForm.Infrastructure.Communication.Broker;
+﻿using Communication.Http.Department.AA.Models;
+using Communication.Http.Department.HR.Models;
 
 using Microsoft.Extensions.Caching.Memory;
+
+using Presentation.UI.Business.Model.Constants;
+using Presentation.UI.Infrastructure.Communication.Broker.Providers;
+using Presentation.UI.Infrastructure.Communication.Model.Basics;
+using Presentation.UI.Infrastructure.Persistence.Repositories;
+using Presentation.UI.WindowsForm.Infrastructure.Communication.Broker;
 
 using System;
 using System.Collections.Generic;
@@ -69,9 +70,9 @@ namespace Presentation.UI.WindowsForm.Dialogs.Buying
                                             InventoryId =
                                             (cmbDepartman.SelectedItem as DepartmentModel).Id == (int)Departments.AdministrativeAffairs
                                             ?
-                                            (cmbEnvanter.SelectedItem as Business.Model.Department.AA.InventoryModel).Id
+                                            (cmbEnvanter.SelectedItem as Communication.Http.Department.Buying.Models.InventoryModel).Id
                                             :
-                                            (cmbEnvanter.SelectedItem as Business.Model.Department.IT.InventoryModel).Id,
+                                            (cmbEnvanter.SelectedItem as Communication.Http.Department.AA.Models.InventoryModel).Id,
 
                                             Amount = (int)numAdet.Value
                                         },
@@ -163,8 +164,8 @@ namespace Presentation.UI.WindowsForm.Dialogs.Buying
                     {
                         Task.Run(async delegate
                         {
-                            ServiceResultModel<List<Business.Model.Department.AA.InventoryModel>> inventoryServiceResult =
-                                await _serviceCommunicator.Call<List<Business.Model.Department.AA.InventoryModel>>(
+                            ServiceResultModel<List<Communication.Http.Department.AA.Models.InventoryModel>> inventoryServiceResult =
+                                await _serviceCommunicator.Call<List<Communication.Http.Department.AA.Models.InventoryModel>>(
                                     serviceName: _routeNameProvider.AA_GetInventories,
                                     postData: null,
                                     queryParameters: null,
@@ -198,8 +199,8 @@ namespace Presentation.UI.WindowsForm.Dialogs.Buying
                     {
                         Task.Run(async delegate
                         {
-                            ServiceResultModel<List<Business.Model.Department.IT.InventoryModel>> inventoryServiceResult =
-                                await _serviceCommunicator.Call<List<Business.Model.Department.IT.InventoryModel>>(
+                            ServiceResultModel<List<Communication.Http.Department.IT.Models.InventoryModel>> inventoryServiceResult =
+                                await _serviceCommunicator.Call<List<Communication.Http.Department.IT.Models.InventoryModel>>(
                                     serviceName: _routeNameProvider.IT_GetInventories,
                                     postData: null,
                                     queryParameters: null,

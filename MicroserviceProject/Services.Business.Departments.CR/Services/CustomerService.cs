@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 
+using Communication.Http.Department.CR.Models;
+
 using Infrastructure.Caching.Redis;
 using Infrastructure.Communication.Http.Wrapper;
 using Infrastructure.Communication.Http.Wrapper.Disposing;
@@ -9,7 +11,6 @@ using Infrastructure.Transaction.UnitOfWork.EntityFramework;
 
 using Services.Business.Departments.CR.Configuration.Persistence;
 using Services.Business.Departments.CR.Entities.EntityFramework;
-using Services.Business.Departments.CR.Models;
 using Services.Business.Departments.CR.Repositories.EntityFramework;
 
 using System;

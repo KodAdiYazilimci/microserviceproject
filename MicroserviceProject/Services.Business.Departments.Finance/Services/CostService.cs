@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 
+using Communication.Http.Department.Finance.Models;
 using Communication.Mq.Rabbit.Publisher.Department.Buying;
 
 using Infrastructure.Caching.Redis;
@@ -10,7 +11,6 @@ using Infrastructure.Transaction.UnitOfWork.Sql;
 
 using Services.Business.Departments.Finance.Entities.Sql;
 using Services.Business.Departments.Finance.Repositories.Sql;
-using Services.Model.Department.Finance;
 
 using System;
 using System.Collections.Generic;

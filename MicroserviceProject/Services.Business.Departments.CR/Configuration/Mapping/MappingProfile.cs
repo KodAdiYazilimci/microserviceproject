@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
 
+using Communication.Http.Department.CR.Models;
+
 using Infrastructure.Transaction.Recovery;
 
 using Services.Business.Departments.CR.Entities.EntityFramework;
-using Services.Business.Departments.CR.Models;
 
 namespace Services.Business.Departments.CR.Configuration.Mapping
 {

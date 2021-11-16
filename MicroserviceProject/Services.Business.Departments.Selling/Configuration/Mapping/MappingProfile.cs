@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 
-using Infrastructure.Transaction.Recovery;
+using Communication.Http.Department.Selling.Models;
 
 using Services.Business.Departments.Selling.Entities.EntityFramework;
-using Services.Business.Departments.Selling.Models;
 
 namespace Services.Business.Departments.Selling.Configuration.Mapping
 {

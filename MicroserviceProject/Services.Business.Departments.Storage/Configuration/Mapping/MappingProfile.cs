@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 
+using Communication.Http.Department.Storage.Models;
+
 using Services.Business.Departments.Storage.Entities.EntityFramework;
-using Services.Business.Departments.Storage.Models;
 
 namespace Services.Business.Departments.Storage.Configuration.Mapping
 {

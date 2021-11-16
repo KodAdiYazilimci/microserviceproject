@@ -1,6 +1,6 @@
-﻿using FluentValidation;
+﻿using Communication.Http.Department.Accounting.Models;
 
-using Services.Business.Departments.Accounting.Models;
+using FluentValidation;
 
 namespace Services.Business.Departments.Accounting.Configuration.Validation.BankAccounts.CreateBankAccount
 {

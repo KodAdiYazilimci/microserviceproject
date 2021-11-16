@@ -1,25 +1,22 @@
 ﻿using AutoMapper;
 
+using Communication.Http.Department.Finance.Models;
+using Communication.Mq.Rabbit.Publisher.Department.Selling;
+
 using Infrastructure.Caching.Redis;
-using Infrastructure.Communication.Broker;
-using Communication.Mq.Rabbit.Publisher.Department.Buying;
-using Infrastructure.Localization.Providers;
-using Infrastructure.Routing.Providers;
 using Infrastructure.Communication.Http.Wrapper;
+using Infrastructure.Localization.Providers;
 using Infrastructure.Transaction.Recovery;
 using Infrastructure.Transaction.UnitOfWork.Sql;
 
 using Services.Business.Departments.Finance.Entities.Sql;
 using Services.Business.Departments.Finance.Repositories.Sql;
-using Services.Model.Department.Finance;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Services.Business.Departments.Finance.Models;
-using Communication.Mq.Rabbit.Publisher.Department.Selling;
 
 namespace Services.Business.Departments.Finance.Services
 {

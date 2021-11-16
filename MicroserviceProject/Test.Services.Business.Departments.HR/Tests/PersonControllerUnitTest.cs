@@ -1,11 +1,12 @@
 ﻿
+using Communication.Http.Department.HR.Models;
+
 using Infrastructure.Communication.Http.Broker.Models;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Services.Business.Departments.HR.Controllers;
-using Services.Business.Departments.HR.Models;
 
 using System;
 using System.Collections.Generic;

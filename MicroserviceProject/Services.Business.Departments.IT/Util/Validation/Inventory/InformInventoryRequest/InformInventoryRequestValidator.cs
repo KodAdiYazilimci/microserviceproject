@@ -1,10 +1,11 @@
-﻿using FluentValidation.Results;
+﻿using Communication.Http.Department.IT.Models;
+
+using FluentValidation.Results;
 
 using Infrastructure.Validation.Exceptions;
 using Infrastructure.Validation.Models;
 
 using Services.Business.Departments.IT.Configuration.Validation.Inventory.InformInventoryRequest;
-using Services.Business.Departments.IT.Models;
 
 using System.Collections.Generic;
 using System.Linq;

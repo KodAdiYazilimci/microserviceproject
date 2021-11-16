@@ -1,9 +1,10 @@
-﻿using Infrastructure.Communication.Http.Wrapper;
+﻿using Communication.Http.Department.Storage.Models;
+
+using Infrastructure.Communication.Http.Wrapper;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using Services.Business.Departments.Storage.Models;
 using Services.Business.Departments.Storage.Services;
 using Services.Business.Departments.Storage.Util.Validation.Stock;
 

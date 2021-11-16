@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 
+using Communication.Http.Department.Selling.Models;
 using Communication.Http.Department.Storage;
 using Communication.Http.Department.Storage.Models;
 using Communication.Mq.Rabbit.Publisher.Department.Finance;
@@ -17,7 +18,6 @@ using Infrastructure.Transaction.UnitOfWork.EntityFramework;
 using Services.Business.Departments.Selling.Configuration.Persistence;
 using Services.Business.Departments.Selling.Constants;
 using Services.Business.Departments.Selling.Entities.EntityFramework;
-using Services.Business.Departments.Selling.Models;
 using Services.Business.Departments.Selling.Repositories.EntityFramework;
 
 using System;

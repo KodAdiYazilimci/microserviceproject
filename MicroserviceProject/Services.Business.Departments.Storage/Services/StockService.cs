@@ -1,14 +1,18 @@
 ﻿using AutoMapper;
 
+using Communication.Http.Department.Storage.Models;
+
 using Infrastructure.Caching.Redis;
-using Communication.Mq.Rabbit.Publisher.Department.Buying;
-using Infrastructure.Localization.Providers;
 using Infrastructure.Communication.Http.Wrapper;
+using Infrastructure.Communication.Http.Wrapper.Disposing;
+using Infrastructure.Localization.Providers;
 using Infrastructure.Transaction.Recovery;
 using Infrastructure.Transaction.UnitOfWork.EntityFramework;
 
+using Microsoft.EntityFrameworkCore;
+
+using Services.Business.Departments.Storage.Configuration.Persistence;
 using Services.Business.Departments.Storage.Entities.EntityFramework;
-using Services.Business.Departments.Storage.Models;
 using Services.Business.Departments.Storage.Repositories.EntityFramework;
 
 using System;
@@ -16,9 +20,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Services.Business.Departments.Storage.Configuration.Persistence;
-using Infrastructure.Communication.Http.Wrapper.Disposing;
-using Microsoft.EntityFrameworkCore;
 
 namespace Services.Business.Departments.Storage.Services
 {

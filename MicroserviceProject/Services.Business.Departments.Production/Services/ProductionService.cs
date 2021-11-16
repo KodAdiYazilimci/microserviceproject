@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 
+using Communication.Http.Department.Production.Models;
 using Communication.Http.Department.Storage;
 using Communication.Http.Department.Storage.Models;
 using Communication.Mq.Rabbit.Publisher.Department.Buying;
@@ -21,7 +22,6 @@ using Microsoft.EntityFrameworkCore;
 using Services.Business.Departments.Production.Configuration.Persistence;
 using Services.Business.Departments.Production.Constants;
 using Services.Business.Departments.Production.Entities.EntityFramework;
-using Services.Business.Departments.Production.Models;
 using Services.Business.Departments.Production.Repositories.EntityFramework;
 
 using System;

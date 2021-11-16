@@ -1,9 +1,10 @@
-﻿using Infrastructure.Communication.Http.Wrapper;
+﻿using Communication.Http.Department.Buying.Models;
+
+using Infrastructure.Communication.Http.Wrapper;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using Services.Business.Departments.Buying.Models;
 using Services.Business.Departments.Buying.Services;
 using Services.Business.Departments.Buying.Util.Validation.Request.CreateInventoryRequest;
 using Services.Business.Departments.Buying.Util.Validation.Request.ValidateCostInventory;

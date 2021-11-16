@@ -1,10 +1,11 @@
-﻿using FluentValidation.Results;
+﻿using Communication.Http.Department.Storage.Models;
+
+using FluentValidation.Results;
 
 using Infrastructure.Validation.Exceptions;
 using Infrastructure.Validation.Models;
 
 using Services.Business.Departments.Storage.Configuration.Validation.Stock;
-using Services.Business.Departments.Storage.Models;
 
 using System.Collections.Generic;
 using System.Linq;

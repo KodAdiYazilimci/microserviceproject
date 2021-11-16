@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 
+using Communication.Http.Department.Accounting.Models;
+
 using Services.Business.Departments.Accounting.Entities.Sql;
-using Services.Business.Departments.Accounting.Models;
 
 namespace Services.Business.Departments.Accounting.Configuration.Mapping
 {

@@ -1,10 +1,11 @@
-﻿using FluentValidation.Results;
+﻿using Communication.Http.Department.CR.Models;
+
+using FluentValidation.Results;
 
 using Infrastructure.Validation.Exceptions;
 using Infrastructure.Validation.Models;
 
 using Services.Business.Departments.CR.Configuration.Validation.Customer.CreateCustomer;
-using Services.Business.Departments.CR.Models;
 
 using System.Collections.Generic;
 using System.Linq;

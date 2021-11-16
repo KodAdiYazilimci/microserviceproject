@@ -1,9 +1,10 @@
-﻿using Infrastructure.Communication.Http.Wrapper;
+﻿using Communication.Http.Department.Finance.Models;
+
+using Infrastructure.Communication.Http.Wrapper;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using Services.Business.Departments.Finance.Models;
 using Services.Business.Departments.Finance.Services;
 using Services.Business.Departments.Finance.Util.Validation.Request.CreateProductionRequest;
 

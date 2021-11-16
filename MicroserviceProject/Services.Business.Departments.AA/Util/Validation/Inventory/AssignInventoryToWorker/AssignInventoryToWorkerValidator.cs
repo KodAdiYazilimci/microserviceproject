@@ -1,10 +1,11 @@
-﻿using FluentValidation.Results;
+﻿using Communication.Http.Department.AA.Models;
+
+using FluentValidation.Results;
 
 using Infrastructure.Validation.Exceptions;
 using Infrastructure.Validation.Models;
 
 using Services.Business.Departments.AA.Configuration.Validation.Inventory.AssignInventoryToWorker;
-using Services.Business.Departments.AA.Models;
 
 using System.Collections.Generic;
 using System.Linq;

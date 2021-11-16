@@ -1,9 +1,10 @@
-﻿using Infrastructure.Communication.Http.Wrapper;
+﻿using Communication.Http.Department.IT.Models;
+
+using Infrastructure.Communication.Http.Wrapper;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using Services.Business.Departments.IT.Models;
 using Services.Business.Departments.IT.Services;
 using Services.Business.Departments.IT.Util.Validation.Inventory.AssignInventoryToWorker;
 using Services.Business.Departments.IT.Util.Validation.Inventory.CreateDefaultInventoryForNewWorker;

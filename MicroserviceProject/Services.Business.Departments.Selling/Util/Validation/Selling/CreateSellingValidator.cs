@@ -1,10 +1,11 @@
-﻿using FluentValidation.Results;
+﻿using Communication.Http.Department.Selling.Models;
+
+using FluentValidation.Results;
 
 using Infrastructure.Validation.Exceptions;
 using Infrastructure.Validation.Models;
 
 using Services.Business.Departments.Selling.Configuration.Validation.Selling;
-using Services.Business.Departments.Selling.Models;
 
 using System.Collections.Generic;
 using System.Linq;

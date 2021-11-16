@@ -1,6 +1,6 @@
-﻿using FluentValidation;
+﻿using Communication.Http.Department.Selling.Models;
 
-using Services.Business.Departments.Selling.Models;
+using FluentValidation;
 
 namespace Services.Business.Departments.Selling.Configuration.Validation.Selling
 {

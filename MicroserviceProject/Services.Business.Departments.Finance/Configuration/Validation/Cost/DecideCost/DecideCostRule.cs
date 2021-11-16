@@ -1,6 +1,6 @@
-﻿using FluentValidation;
+﻿using Communication.Http.Department.Finance.Models;
 
-using Services.Model.Department.Finance;
+using FluentValidation;
 
 namespace Services.Business.Departments.Finance.Configuration.Validation.Cost.DecideCost
 {

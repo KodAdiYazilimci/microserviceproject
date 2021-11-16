@@ -49,5 +49,6 @@ namespace Communication.Http.Department.HR.Models
         /// Çalışanın idari işler envanterleri
         /// </summary>
         public List<InventoryModel> AAInventories { get; set; }
+        public List<WorkerModel> Managers { get; set; }
     }
 }

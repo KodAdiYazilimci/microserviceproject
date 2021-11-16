@@ -1,11 +1,13 @@
-﻿using Infrastructure.Communication.Http.Wrapper;
-using Services.Business.Departments.Finance.Services;
-using Services.Business.Departments.Finance.Util.Validation.Cost.CreateCost;
-using Services.Business.Departments.Finance.Util.Validation.Cost.DecideCost;
-using Services.Model.Department.Finance;
+﻿using Communication.Http.Department.Finance.Models;
+
+using Infrastructure.Communication.Http.Wrapper;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
+using Services.Business.Departments.Finance.Services;
+using Services.Business.Departments.Finance.Util.Validation.Cost.CreateCost;
+using Services.Business.Departments.Finance.Util.Validation.Cost.DecideCost;
 
 using System.Collections.Generic;
 using System.Threading;

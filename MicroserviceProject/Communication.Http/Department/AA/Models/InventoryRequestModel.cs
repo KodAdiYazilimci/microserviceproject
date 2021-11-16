@@ -9,5 +9,6 @@
         public int Amount { get; set; }
         public bool Revoked { get; set; }
         public bool Done { get; set; }
+        public int DepartmentId { get; set; }
     }
 }

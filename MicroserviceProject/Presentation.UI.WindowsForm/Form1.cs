@@ -1,14 +1,12 @@
-﻿using Presentation.UI.WindowsForm.Business.Model.Department.Buying;
-using Presentation.UI.WindowsForm.Business.Model.Department.HR;
-using Presentation.UI.WindowsForm.Business.Model.Department.IT;
-using Presentation.UI.Infrastructure.Communication.Model.Basics;
-using Presentation.UI.Infrastructure.Communication.Broker;
+﻿using Communication.Http.Department.HR.Models;
+
+using Microsoft.Extensions.Caching.Memory;
+
 using Presentation.UI.Infrastructure.Communication.Broker.Providers;
+using Presentation.UI.Infrastructure.Communication.Model.Basics;
 using Presentation.UI.Infrastructure.Persistence.Repositories;
 using Presentation.UI.WindowsForm.Dialogs.HR;
 using Presentation.UI.WindowsForm.Infrastructure.Communication.Broker;
-
-using Microsoft.Extensions.Caching.Memory;
 
 using System;
 using System.Collections.Generic;
@@ -449,8 +447,8 @@ namespace Presentation.UI.WindowsForm
             {
                 Task.Run(async delegate
                 {
-                    ServiceResultModel<List<InventoryRequestModel>> inventoryRequestServiceResult =
-                        await _serviceCommunicator.Call<List<InventoryRequestModel>>(
+                    ServiceResultModel<List<Communication.Http.Department.Buying.Models.InventoryRequestModel>> inventoryRequestServiceResult =
+                        await _serviceCommunicator.Call<List<Communication.Http.Department.Buying.Models.InventoryRequestModel>>(
                             serviceName: _routeNameProvider.Buying_GetInventoryRequests,
                             postData: null,
                             queryParameters: null,

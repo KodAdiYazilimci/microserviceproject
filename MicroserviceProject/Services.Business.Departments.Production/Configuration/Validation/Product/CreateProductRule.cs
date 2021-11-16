@@ -1,6 +1,6 @@
-﻿using FluentValidation;
+﻿using Communication.Http.Department.Production.Models;
 
-using Services.Business.Departments.Production.Models;
+using FluentValidation;
 
 namespace Services.Business.Departments.Production.Configuration.Validation.Product
 {

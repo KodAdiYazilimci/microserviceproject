@@ -1,9 +1,10 @@
-﻿using Infrastructure.Communication.Http.Wrapper;
+﻿using Communication.Http.Department.HR.Models;
+
+using Infrastructure.Communication.Http.Wrapper;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using Services.Business.Departments.HR.Models;
 using Services.Business.Departments.HR.Services;
 using Services.Business.Departments.HR.Util.Validation.Person.CreatePerson;
 using Services.Business.Departments.HR.Util.Validation.Person.CreateTitle;

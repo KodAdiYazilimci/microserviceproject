@@ -1,10 +1,11 @@
-﻿using FluentValidation.Results;
+﻿using Communication.Http.Department.Accounting.Models;
+
+using FluentValidation.Results;
 
 using Infrastructure.Validation.Exceptions;
 using Infrastructure.Validation.Models;
 
 using Services.Business.Departments.Accounting.Configuration.Validation.BankAccounts.CreateBankAccount;
-using Services.Business.Departments.Accounting.Models;
 
 using System.Collections.Generic;
 using System.Linq;

@@ -1,20 +1,22 @@
 ﻿using AutoMapper;
 
-using Infrastructure.Caching.Redis;
-using Infrastructure.Communication.Broker;
-using Infrastructure.Communication.Http.Broker.Exceptions;
-using Infrastructure.Communication.Http.Broker.Models;
+using Communication.Http.Department.AA;
+using Communication.Http.Department.Accounting;
+using Communication.Http.Department.HR.Models;
+using Communication.Http.Department.IT;
 using Communication.Mq.Rabbit.Publisher.Department.AA;
 using Communication.Mq.Rabbit.Publisher.Department.Accounting;
 using Communication.Mq.Rabbit.Publisher.Department.IT;
-using Infrastructure.Localization.Providers;
-using Infrastructure.Routing.Providers;
+
+using Infrastructure.Caching.Redis;
+using Infrastructure.Communication.Http.Broker.Exceptions;
+using Infrastructure.Communication.Http.Broker.Models;
 using Infrastructure.Communication.Http.Wrapper;
+using Infrastructure.Localization.Providers;
 using Infrastructure.Transaction.Recovery;
 using Infrastructure.Transaction.UnitOfWork.Sql;
 
 using Services.Business.Departments.HR.Entities.Sql;
-using Services.Business.Departments.HR.Models;
 using Services.Business.Departments.HR.Repositories.Sql;
 
 using System;
@@ -22,9 +24,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Communication.Http.Department.Accounting;
-using Communication.Http.Department.IT;
-using Communication.Http.Department.AA;
 
 namespace Services.Business.Departments.HR.Services
 {

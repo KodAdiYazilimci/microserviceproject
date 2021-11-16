@@ -1,10 +1,11 @@
-﻿using FluentValidation.Results;
+﻿using Communication.Http.Department.Finance.Models;
+
+using FluentValidation.Results;
 
 using Infrastructure.Validation.Exceptions;
 using Infrastructure.Validation.Models;
 
 using Services.Business.Departments.Finance.Configuration.Validation.Request.CreateProductionRequest;
-using Services.Business.Departments.Finance.Models;
 
 using System.Collections.Generic;
 using System.Linq;

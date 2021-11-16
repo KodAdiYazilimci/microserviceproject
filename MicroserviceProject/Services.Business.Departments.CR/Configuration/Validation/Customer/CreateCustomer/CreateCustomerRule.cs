@@ -1,6 +1,6 @@
-﻿using FluentValidation;
+﻿using Communication.Http.Department.CR.Models;
 
-using Services.Business.Departments.CR.Models;
+using FluentValidation;
 
 namespace Services.Business.Departments.CR.Configuration.Validation.Customer.CreateCustomer
 {

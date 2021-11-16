@@ -1,6 +1,6 @@
-﻿using FluentValidation;
+﻿using Communication.Http.Department.Finance.Models;
 
-using Services.Business.Departments.Finance.Models;
+using FluentValidation;
 
 namespace Services.Business.Departments.Finance.Configuration.Validation.Request.DecideProductionRequest
 {

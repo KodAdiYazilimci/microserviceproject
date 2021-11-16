@@ -1,6 +1,6 @@
-﻿using FluentValidation;
+﻿using Communication.Http.Department.HR.Models;
 
-using Services.Business.Departments.HR.Models;
+using FluentValidation;
 
 namespace Services.Business.Departments.HR.Configuration.Validation.Person.CreatePerson
 {
