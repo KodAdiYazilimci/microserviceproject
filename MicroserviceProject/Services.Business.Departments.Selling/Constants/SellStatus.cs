@@ -13,6 +13,11 @@
         /// <summary>
         /// Satışa hazır
         /// </summary>
-        ReadyToSell = 2
+        ReadyToSell = 2,
+
+        /// <summary>
+        /// Üretimi için finans onayı bekliyor
+        /// </summary>
+        PendingFinanceApprovementToProduce = 3
     }
 }

@@ -17,6 +17,11 @@ namespace Services.MQ.Finance
 
             inventoryRequestConsumer.StartToConsume();
 
+            ProductionRequestConsumer productionRequestConsumer =
+                (ProductionRequestConsumer)host.Services.GetService(typeof(ProductionRequestConsumer));
+
+            productionRequestConsumer.StartToConsume();
+
             host.Run();
         }
 

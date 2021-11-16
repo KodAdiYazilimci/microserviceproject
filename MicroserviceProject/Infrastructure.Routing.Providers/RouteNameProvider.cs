@@ -601,6 +601,21 @@ namespace Infrastructure.Routing.Providers
         }
 
         /// <summary>
+        /// Finans departmanı için ürün üretim kararı oluşturur
+        /// </summary>
+        public string Finance_CreateProductionRequest
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("Finance")["CreateProductionRequest"];
+            }
+        }
+
+        /// <summary>
         /// Finans departmanındaki masrafa onay veya red verir
         /// </summary>
         public string Finance_DecideCost
@@ -709,6 +724,18 @@ namespace Infrastructure.Routing.Providers
                     .GetSection("Selling")["CreateSelling"];
             }
         }
+
+        public string Selling_NotifyProductionRequest
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("Selling")["NotifyProductionRequest"];
+            }
+        }        
 
         public string Storage_GetStock
         {

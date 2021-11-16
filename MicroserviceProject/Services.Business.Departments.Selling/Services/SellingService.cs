@@ -2,6 +2,7 @@
 
 using Communication.Http.Department.Storage;
 using Communication.Http.Department.Storage.Models;
+using Communication.Mq.Rabbit.Publisher.Department.Finance;
 using Communication.Mq.Rabbit.Publisher.Department.Production;
 
 using Infrastructure.Caching.Redis;
@@ -93,6 +94,11 @@ namespace Services.Business.Departments.Selling.Services
         private readonly ProductionProducePublisherPublisher _productionProducePublisherPublisher;
 
         /// <summary>
+        /// Üretilecek ürünler için finans departmanına üretim talebi iletir
+        /// </summary>
+        private readonly ProductionRequestPublisher _productionRequestPublisher;
+
+        /// <summary>
         /// Satışlar iş mantığı sınıfı
         /// </summary>
         /// <param name="mapper">Mapping işlemleri için mapper nesnesi</param>
@@ -104,6 +110,7 @@ namespace Services.Business.Departments.Selling.Services
         /// <param name="sellRepository">Satışlar repository sınıfı nesnesi</param>
         /// <param name="storageCommunicator">Stok servisi sınıfı nesnesi</param>
         /// <param name="productionProducePublisherPublisher">Üretilecek ürünler için kuyruk sınıfı nesnesi</param>
+        /// <param name="productionRequestPublisher">Üretilecek ürünler için finans departmanına üretim talebi ileten sınıf nesnesi</param>
         public SellingService(
             IMapper mapper,
             IUnitOfWork<SellingContext> unitOfWork,
@@ -113,7 +120,8 @@ namespace Services.Business.Departments.Selling.Services
             TransactionItemRepository transactionItemRepository,
             SellRepository sellRepository,
             StorageCommunicator storageCommunicator,
-            ProductionProducePublisherPublisher productionProducePublisherPublisher)
+            ProductionProducePublisherPublisher productionProducePublisherPublisher,
+            ProductionRequestPublisher productionRequestPublisher)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
@@ -125,6 +133,7 @@ namespace Services.Business.Departments.Selling.Services
             _sellRepository = sellRepository;
             _storageCommunicator = storageCommunicator;
             _productionProducePublisherPublisher = productionProducePublisherPublisher;
+            _productionRequestPublisher = productionRequestPublisher;
         }
 
         /// <summary>
@@ -241,18 +250,20 @@ namespace Services.Business.Departments.Selling.Services
             {
                 if (stockServiceResult.Data.Amount < sellModel.Quantity)
                 {
-                    mappedSellEntity.SellStatusId = (int)SellStatus.PendingStock;
-
-                    _productionProducePublisherPublisher.AddToBuffer(new Communication.Mq.Rabbit.Publisher.Department.Production.Models.ProduceModel()
+                    _productionRequestPublisher.AddToBuffer(new Communication.Mq.Rabbit.Publisher.Department.Finance.Models.ProductionRequestModel()
                     {
-                        ProductId = mappedSellEntity.ProductId,
                         Amount = sellModel.Quantity,
                         DepartmentId = (int)Constants.Departments.Selling,
-                        ReferenceNumber = mappedSellEntity.Id
+                        ProductId = mappedSellEntity.ProductId,
+                        ReferenceNumber = sellModel.ReferenceNumber
                     });
+
+                    mappedSellEntity.SellStatusId = (int)SellStatus.PendingFinanceApprovementToProduce;
                 }
                 else
                 {
+                    //TODO: Nakliyat departmanı çağırılacak
+
                     mappedSellEntity.SellStatusId = (int)SellStatus.ReadyToSell;
                 }
             }
@@ -294,7 +305,62 @@ namespace Services.Business.Departments.Selling.Services
 
             await _productionProducePublisherPublisher.PublishBufferAsync(cancellationTokenSource);
 
+            await _productionRequestPublisher.PublishBufferAsync(cancellationTokenSource);
+
             return mappedSellEntity.Id;
+        }
+
+        /// <summary>
+        /// Yetersiz ürün stoğunun üretimi için gelen onayı değerlendirir
+        /// </summary>
+        /// <param name="productionRequest">Üretim onayı nesnesi</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<int> NotifyProductionRequestAsync(ProductionRequestModel productionRequest, CancellationTokenSource cancellationTokenSource)
+        {
+            if (productionRequest.Approved)
+            {
+                SellEntity sellEntity = _sellRepository.GetAsQueryable().FirstOrDefault(x => x.ReferenceNumber == productionRequest.ReferenceNumber);
+
+                int oldStatusId = sellEntity.SellStatusId;
+
+                sellEntity.SellStatusId = (int)SellStatus.PendingStock;
+
+                await CreateCheckpointAsync(
+                    rollback: new RollbackModel()
+                    {
+                        TransactionType = TransactionType.Update,
+                        TransactionDate = DateTime.Now,
+                        TransactionIdentity = TransactionIdentity,
+                        RollbackItems = new List<RollbackItemModel>
+                        {
+                            new RollbackItemModel()
+                            {
+                                Identity = sellEntity.Id,
+                                DataSet = SellRepository.TABLE_NAME,
+                                Name = nameof(SellEntity.SellStatusId),
+                                NewValue = (int)SellStatus.PendingStock,
+                                OldValue = oldStatusId,
+                                RollbackType = RollbackType.Update
+                            }
+                        }
+                    },
+                    cancellationTokenSource: cancellationTokenSource);
+
+                await _unitOfWork.SaveAsync(cancellationTokenSource);
+
+                await _productionProducePublisherPublisher.PublishAsync(new Communication.Mq.Rabbit.Publisher.Department.Production.Models.ProduceModel()
+                {
+                    ProductId = sellEntity.ProductId,
+                    Amount = sellEntity.Quantity,
+                    DepartmentId = (int)Constants.Departments.Selling,
+                    ReferenceNumber = sellEntity.ReferenceNumber
+                }, cancellationTokenSource);
+
+                return sellEntity.Id;
+            }
+
+            return 0;
         }
 
         /// <summary>

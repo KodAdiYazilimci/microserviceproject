@@ -18,8 +18,10 @@ namespace Services.MQ.Finance.DI
         public static IServiceCollection RegisterConsumers(this IServiceCollection services)
         {
             services.AddSingleton<InventoryRequestRabbitConfiguration>();
+            services.AddSingleton<ProductionRequestRabbitConfiguration>();
 
             services.AddSingleton<InventoryRequestConsumer>();
+            services.AddSingleton<ProductionRequestConsumer>();
 
             return services;
         }

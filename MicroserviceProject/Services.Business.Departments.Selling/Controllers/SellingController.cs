@@ -47,5 +47,18 @@ namespace Services.Business.Departments.Selling.Controllers
             },
             services: _sellingService);
         }
+
+        [HttpPost]
+        [Route(nameof(NotifyProductionRequest))]
+        public async Task<IActionResult> NotifyProductionRequest([FromBody] ProductionRequestModel productionRequest, CancellationTokenSource cancellationTokenSource)
+        {
+            return await HttpResponseWrapper.WrapAsync<int>(async () =>
+            {
+                await NotifyProductionRequestValidator.ValidateAsync(productionRequest, cancellationTokenSource);
+
+                return await _sellingService.NotifyProductionRequestAsync(productionRequest, cancellationTokenSource);
+            },
+            services: _sellingService);
+        }
     }
 }

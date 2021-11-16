@@ -120,6 +120,9 @@ namespace Services.Business.Departments.Buying
             {
                 var costService = serviceProvider.GetService(typeof(CostService));
                 (costService as CostService).TransactionIdentity = httpContext.Request.Headers["TransactionIdentity"].ToString();
+
+                var productionRequestService = serviceProvider.GetService(typeof(ProductionRequestService));
+                (productionRequestService as ProductionRequestService).TransactionIdentity = httpContext.Request.Headers["TransactionIdentity"].ToString();
             }
         }
     }

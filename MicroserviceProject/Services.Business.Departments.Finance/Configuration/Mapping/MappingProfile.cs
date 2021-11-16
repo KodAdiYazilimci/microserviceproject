@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 
+using Communication.Http.Department.Finance.Models;
+
 using Infrastructure.Transaction.Recovery;
+
 using Services.Business.Departments.Finance.Entities.Sql;
-using Services.Model.Department.Finance;
 
 namespace Services.Business.Departments.Finance.Configuration.Mapping
 {
@@ -19,6 +21,7 @@ namespace Services.Business.Departments.Finance.Configuration.Mapping
             // Model => Entity
 
             CreateMap<DecidedCostModel, DecidedCostEntity>();
+            CreateMap<ProductionRequestModel, ProductionRequestEntity>();
 
             CreateMap<RollbackModel, RollbackEntity>();
             CreateMap<RollbackItemModel, RollbackItemEntity>();
@@ -26,6 +29,7 @@ namespace Services.Business.Departments.Finance.Configuration.Mapping
             // Entity => Model
 
             CreateMap<DecidedCostEntity, DecidedCostModel>();
+            CreateMap<ProductionRequestEntity, ProductionRequestModel>();
 
             CreateMap<RollbackEntity, RollbackModel>();
             CreateMap<RollbackItemEntity, RollbackItemModel>();

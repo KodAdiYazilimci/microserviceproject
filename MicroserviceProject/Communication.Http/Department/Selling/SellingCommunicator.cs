@@ -59,6 +59,7 @@ namespace Communication.Http.Department.Selling
                 cancellationTokenSource: cancellationTokenSource);
         }
 
+
         /// <summary>
         /// Satış departmanına yeni satış kaydı oluşturur
         /// </summary>
@@ -70,6 +71,22 @@ namespace Communication.Http.Department.Selling
             return await _serviceCommunicator.Call<int>(
                 serviceName: _routeNameProvider.Selling_CreateSelling,
                 postData: sellModel,
+                queryParameters: null,
+                headers: null,
+                cancellationTokenSource: cancellationTokenSource);
+        }
+
+        /// <summary>
+        /// Satış departmanına üretim onayının sonucunu iletir
+        /// </summary>
+        /// <param name="productionRequestModel">Üretim onay sonucu modeli</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<ServiceResultModel<int>> NotifyProductionRequest(ProductionRequestModel productionRequestModel, CancellationTokenSource cancellationTokenSource)
+        {
+            return await _serviceCommunicator.Call<int>(
+                serviceName: _routeNameProvider.Selling_NotifyProductionRequest,
+                postData: productionRequestModel,
                 queryParameters: null,
                 headers: null,
                 cancellationTokenSource: cancellationTokenSource);

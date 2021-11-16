@@ -60,6 +60,23 @@ namespace Communication.Http.Department.Finance
                 cancellationTokenSource: cancellationTokenSource);
         }
 
+
+        /// <summary>
+        /// Finans departmanı için ürün üretim kararı oluşturur
+        /// </summary>
+        /// <param name="productionRequest">Ürün üretim kararı modeli</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<ServiceResultModel<int>> CreateProductionRequestAsync(ProductionRequestModel productionRequest, CancellationTokenSource cancellationTokenSource)
+        {
+            return await _serviceCommunicator.Call<int>(
+                serviceName: _routeNameProvider.Finance_CreateProductionRequest,
+                postData: productionRequest,
+                queryParameters: null,
+                headers: null,
+                cancellationTokenSource: cancellationTokenSource);
+        }
+
         /// <summary>
         /// Finans departmanındaki karar verilen masrafları verir
         /// </summary>

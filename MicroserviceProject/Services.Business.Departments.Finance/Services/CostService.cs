@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
 
-using Infrastructure.Caching.Redis;
-using Infrastructure.Communication.Broker;
 using Communication.Mq.Rabbit.Publisher.Department.Buying;
-using Infrastructure.Localization.Providers;
-using Infrastructure.Routing.Providers;
+
+using Infrastructure.Caching.Redis;
 using Infrastructure.Communication.Http.Wrapper;
+using Infrastructure.Localization.Providers;
 using Infrastructure.Transaction.Recovery;
 using Infrastructure.Transaction.UnitOfWork.Sql;
 
@@ -44,7 +43,7 @@ namespace Services.Business.Departments.Finance.Services
         /// <summary>
         /// Önbelleğe alınan karar verilen masrafların önbellekteki adı
         /// </summary>
-        private const string CACHED_DECIDED_COSTS_KEY = "Services.Business.Departments.Buying.InventoryRequests";
+        private const string CACHED_DECIDED_COSTS_KEY = "Services.Business.Departments.Finance.DecidedCosts";
 
         /// <summary>
         /// Rediste tutulan önbellek yönetimini sağlayan sınıf

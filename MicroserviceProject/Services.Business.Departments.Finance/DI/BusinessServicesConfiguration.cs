@@ -17,6 +17,7 @@ namespace Services.Business.Departments.Finance.DI
         public static IServiceCollection RegisterBusinessServices(this IServiceCollection services)
         {
             services.AddScoped<CostService>();
+            services.AddScoped<ProductionRequestService>();
 
             return services;
         }

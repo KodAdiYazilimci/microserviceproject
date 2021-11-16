@@ -29,6 +29,7 @@ namespace Communication.Mq.Rabbit.Publisher.Department.DI
             services.AddSingleton<ITInformInventoryRequestPublisher>();
             services.AddSingleton<NotifyCostApprovementPublisher>();
             services.AddSingleton<InventoryRequestPublisher>();
+            services.AddSingleton<ProductionRequestPublisher>();
             services.AddSingleton<DescendProductStockPublisher>();
 
             return services;
