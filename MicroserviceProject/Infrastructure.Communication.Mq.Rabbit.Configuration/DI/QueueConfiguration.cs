@@ -3,6 +3,9 @@ using Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Accounting
 using Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Buying;
 using Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Finance;
 using Infrastructure.Communication.Mq.Rabbit.Configuration.Department.IT;
+using Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Production;
+using Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Selling;
+using Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Storage;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,13 +24,19 @@ namespace Infrastructure.Communication.Mq.Rabbit.Configuration.DI
         public static IServiceCollection RegisterQueues(this IServiceCollection services)
         {
             services.AddSingleton<AAAssignInventoryToWorkerRabbitConfiguration>();
-            services.AddSingleton<ITAssignInventoryToWorkerRabbitConfiguration>();
+            services.AddSingleton<AAInformInventoryRequestRabbitConfiguration>();
             services.AddSingleton<CreateBankAccountRabbitConfiguration>();
             services.AddSingleton<CreateInventoryRequestRabbitConfiguration>();
-            services.AddSingleton<AAInformInventoryRequestRabbitConfiguration>();
+            services.AddSingleton<CreateProductRequestRabbitConfiguration>();
+            services.AddSingleton<DescendProductStockRabbitConfiguration>();
+            services.AddSingleton<IncreaseProductStockRabbitConfiguration>();
+            services.AddSingleton<InventoryRequestRabbitConfiguration>();
+            services.AddSingleton<ITAssignInventoryToWorkerRabbitConfiguration>();
             services.AddSingleton<ITInformInventoryRequestRabbitConfiguration>();
             services.AddSingleton<NotifyCostApprovementRabbitConfiguration>();
-            services.AddSingleton<InventoryRequestRabbitConfiguration>();
+            services.AddSingleton<NotifyProductionRequestApprovementRabbitConfiguration>();
+            services.AddSingleton<ProductionProduceRabbitConfiguration>();
+            services.AddSingleton<ProductionRequestRabbitConfiguration>();
 
             return services;
         }

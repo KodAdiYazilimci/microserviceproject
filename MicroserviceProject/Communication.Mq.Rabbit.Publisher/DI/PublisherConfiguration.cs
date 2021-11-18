@@ -3,6 +3,8 @@ using Communication.Mq.Rabbit.Publisher.Department.Accounting;
 using Communication.Mq.Rabbit.Publisher.Department.Buying;
 using Communication.Mq.Rabbit.Publisher.Department.Finance;
 using Communication.Mq.Rabbit.Publisher.Department.IT;
+using Communication.Mq.Rabbit.Publisher.Department.Production;
+using Communication.Mq.Rabbit.Publisher.Department.Selling;
 using Communication.Mq.Rabbit.Publisher.Department.Storage;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -22,15 +24,19 @@ namespace Communication.Mq.Rabbit.Publisher.Department.DI
         public static IServiceCollection RegisterPublishers(this IServiceCollection services)
         {
             services.AddSingleton<AAAssignInventoryToWorkerPublisher>();
-            services.AddSingleton<ITAssignInventoryToWorkerPublisher>();
+            services.AddSingleton<AAInformInventoryRequestPublisher>();
             services.AddSingleton<CreateBankAccountPublisher>();
             services.AddSingleton<CreateInventoryRequestPublisher>();
-            services.AddSingleton<AAInformInventoryRequestPublisher>();
+            services.AddSingleton<CreateProductRequestPublisher>();
+            services.AddSingleton<DescendProductStockPublisher>();
+            services.AddSingleton<IncreaseProductStockPublisher>();
+            services.AddSingleton<InventoryRequestPublisher>();
+            services.AddSingleton<ITAssignInventoryToWorkerPublisher>();
             services.AddSingleton<ITInformInventoryRequestPublisher>();
             services.AddSingleton<NotifyCostApprovementPublisher>();
-            services.AddSingleton<InventoryRequestPublisher>();
+            services.AddSingleton<NotifyProductionRequestApprovementPublisher>();
+            services.AddSingleton<ProductionProducePublisher>();
             services.AddSingleton<ProductionRequestPublisher>();
-            services.AddSingleton<DescendProductStockPublisher>();
 
             return services;
         }

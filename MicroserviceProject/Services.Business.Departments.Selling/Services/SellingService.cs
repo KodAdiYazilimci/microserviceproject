@@ -91,7 +91,7 @@ namespace Services.Business.Departments.Selling.Services
         /// <summary>
         /// Üretilecek ürünler için kuyruk sınıfı
         /// </summary>
-        private readonly ProductionProducePublisherPublisher _productionProducePublisherPublisher;
+        private readonly ProductionProducePublisher _productionProducePublisherPublisher;
 
         /// <summary>
         /// Üretilecek ürünler için finans departmanına üretim talebi iletir
@@ -120,7 +120,7 @@ namespace Services.Business.Departments.Selling.Services
             TransactionItemRepository transactionItemRepository,
             SellRepository sellRepository,
             StorageCommunicator storageCommunicator,
-            ProductionProducePublisherPublisher productionProducePublisherPublisher,
+            ProductionProducePublisher productionProducePublisherPublisher,
             ProductionRequestPublisher productionRequestPublisher)
         {
             _mapper = mapper;

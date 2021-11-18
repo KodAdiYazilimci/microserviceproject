@@ -8,7 +8,7 @@ namespace Communication.Mq.Rabbit.Publisher.Department.Production
     /// <summary>
     /// Üretilecek ürünlerin rabbit kuyruğuna yeni bir kayıt ekler
     /// </summary>
-    public class ProductionProducePublisherPublisher : BasePublisher<ProduceModel>, IDisposable
+    public class ProductionProducePublisher : BasePublisher<ProduceModel>, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -19,7 +19,7 @@ namespace Communication.Mq.Rabbit.Publisher.Department.Production
         /// Üretilecek ürünlerin rabbit kuyruğuna yeni bir kayıt ekler
         /// </summary>
         /// <param name="rabbitConfiguration">Kuyruk ayarlarını verece configuration nesnesi</param>
-        public ProductionProducePublisherPublisher(
+        public ProductionProducePublisher(
             ProductionProduceRabbitConfiguration rabbitConfiguration)
             : base(rabbitConfiguration)
         {
