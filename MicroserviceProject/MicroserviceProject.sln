@@ -181,7 +181,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.MQ.Production", "S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.MQ.Storage", "Services.MQ.Storage\Services.MQ.Storage.csproj", "{4FDA08BC-2E2F-4154-B8F6-7C9C98737935}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.MQ.Selling", "Services.MQ.Selling\Services.MQ.Selling.csproj", "{9C2B5E3A-B0D6-4C52-BECD-5BBD2A7723EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.MQ.Selling", "Services.MQ.Selling\Services.MQ.Selling.csproj", "{9C2B5E3A-B0D6-4C52-BECD-5BBD2A7723EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation.UI.Web", "Presentation.UI.Web\Presentation.UI.Web.csproj", "{423D5949-DB92-4517-B746-0CF96997BA9B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -461,6 +463,10 @@ Global
 		{9C2B5E3A-B0D6-4C52-BECD-5BBD2A7723EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C2B5E3A-B0D6-4C52-BECD-5BBD2A7723EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C2B5E3A-B0D6-4C52-BECD-5BBD2A7723EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{423D5949-DB92-4517-B746-0CF96997BA9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{423D5949-DB92-4517-B746-0CF96997BA9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{423D5949-DB92-4517-B746-0CF96997BA9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{423D5949-DB92-4517-B746-0CF96997BA9B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -534,6 +540,7 @@ Global
 		{A72E5FFA-B2F7-4096-BB92-4FD64079C633} = {001D6284-AEF9-4902-9985-58CC694EFE61}
 		{4FDA08BC-2E2F-4154-B8F6-7C9C98737935} = {001D6284-AEF9-4902-9985-58CC694EFE61}
 		{9C2B5E3A-B0D6-4C52-BECD-5BBD2A7723EE} = {001D6284-AEF9-4902-9985-58CC694EFE61}
+		{423D5949-DB92-4517-B746-0CF96997BA9B} = {EAA4E6BD-4F68-4FFD-B41C-57D4ABD81A5C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5FD68A04-D16D-49EC-9D04-25E6B952DA89}

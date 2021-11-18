@@ -1,0 +1,45 @@
+﻿@model CredentialModel
+@{
+    ViewData["Title"] = "Login";
+    //Layout = null;
+}
+
+@using (Html.BeginForm(FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <table>
+        <tbody>
+            <tr>
+                <td>
+                    @Html.LabelFor(x => x.Email)
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.Email) @Html.ValidationMessageFor(x => x.Email)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(x => x.Password)
+                </td>
+                <td>
+                    @Html.PasswordFor(x => x.Password) @Html.ValidationMessageFor(x => x.Password)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(x => x.PasswordRepeat)
+                </td>
+                <td>
+                    @Html.PasswordFor(x => x.PasswordRepeat) @Html.ValidationMessageFor(x => x.PasswordRepeat)
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>
+                    <input type="submit" value="Login" />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+}
