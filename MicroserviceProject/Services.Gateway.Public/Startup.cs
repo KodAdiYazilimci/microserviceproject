@@ -1,16 +1,17 @@
 
+using Communication.Http.DI;
+using Communication.Mq.Rabbit.Publisher.Department.DI;
+
 using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Caching.Redis.DI;
 using Infrastructure.Communication.Broker.DI;
 using Infrastructure.Communication.Http.Broker.Models;
 using Infrastructure.Communication.Mq.Rabbit.Configuration.DI;
-using Communication.Mq.Rabbit.Publisher.Department.DI;
 using Infrastructure.Localization.DI;
 using Infrastructure.Logging.Logger.RequestResponseLogger.DI;
 using Infrastructure.Routing.Persistence.DI;
 using Infrastructure.Routing.Providers.DI;
 using Infrastructure.Security.Authentication.BasicToken.DI;
-using Infrastructure.Security.Authentication.JWT.DI;
 using Infrastructure.Util.DI;
 
 using Microsoft.AspNetCore.Builder;
@@ -26,7 +27,6 @@ using Newtonsoft.Json;
 using Services.Gateway.Public.Configuration.Services;
 
 using System.Net;
-using Communication.Http.DI;
 
 namespace Services.Gateway.Public
 {
@@ -43,6 +43,7 @@ namespace Services.Gateway.Public
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.RegisterAuthentication();
             services.AddMemoryCache();
             services.RegisterRedisCaching();
             services.RegisterCommunicators();
@@ -58,8 +59,8 @@ namespace Services.Gateway.Public
             services.RegisterServiceCommunicator();
             services.RegisterRepositories();
             services.RegisterServices();
-            services.RegisterJWTProviders();
-            services.RegisterJWT();
+            //services.RegisterJWTProviders();
+            //services.RegisterJWT();
             services.RegisterSwagger();
         }
 

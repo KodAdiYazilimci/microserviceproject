@@ -23,6 +23,13 @@ namespace Services.Gateway.Public.Controllers
         }
 
         [HttpGet]
+        [Route(nameof(Index))]
+        public IActionResult Index()
+        {
+            return Ok();
+        }
+
+        [HttpGet]
         [Route(nameof(GetDepartments))]
         public async Task<IActionResult> GetDepartments(CancellationTokenSource cancellationTokenSource)
         {
