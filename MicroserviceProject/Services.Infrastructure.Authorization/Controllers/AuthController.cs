@@ -58,6 +58,14 @@ namespace Services.Infrastructure.Authorization.Controllers
                     ErrorModel = new ErrorModel() { Description = unf.ToString() }
                 });
             }
+            catch (UndefinedGrantTypeException ugtex)
+            {
+                return Unauthorized(new ServiceResultModel()
+                {
+                    IsSuccess = false,
+                    ErrorModel = new ErrorModel() { Description = ugtex.ToString() }
+                });
+            }
             catch (Exception ex)
             {
                 return BadRequest(new ServiceResultModel()
@@ -87,6 +95,14 @@ namespace Services.Infrastructure.Authorization.Controllers
                 {
                     IsSuccess = false,
                     ErrorModel = new ErrorModel() { Description = unf.ToString() }
+                });
+            }
+            catch (UndefinedGrantTypeException ugtex)
+            {
+                return Unauthorized(new ServiceResultModel()
+                {
+                    IsSuccess = false,
+                    ErrorModel = new ErrorModel() { Description = ugtex.ToString() }
                 });
             }
             catch (SessionNotFoundException snf)

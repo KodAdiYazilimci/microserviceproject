@@ -1,9 +1,8 @@
 ﻿using Communication.Http.Authorization;
+using Communication.Http.Authorization.Models;
 
 using Infrastructure.Caching.InMemory;
-using Infrastructure.Communication.Broker;
 using Infrastructure.Communication.Http.Broker.Models;
-using Infrastructure.Routing.Providers;
 using Infrastructure.Security.Authentication.SignalR.Requirements;
 using Infrastructure.Security.Model;
 
@@ -80,7 +79,7 @@ namespace Infrastructure.Security.Authentication.SignalR.Handlers
             {
                 if (!string.IsNullOrEmpty(token))
                 {
-                    ServiceResultModel<global::Communication.Http.Authorization.Models.UserModel> serviceResult = await _authorizationCommunicator.GetUserAsync(token, cancellationTokenSource);
+                    ServiceResultModel<UserModel> serviceResult = await _authorizationCommunicator.GetUserAsync(token, cancellationTokenSource);
 
                     if (serviceResult.IsSuccess && serviceResult.Data != null)
                     {
@@ -94,7 +93,9 @@ namespace Infrastructure.Security.Authentication.SignalR.Handlers
                             Token = serviceResult.Data.Token != null ? new AuthenticationToken()
                             {
                                 TokenKey = serviceResult.Data.Token.TokenKey,
-                                ValidTo = serviceResult.Data.Token.ValidTo
+                                ValidTo = serviceResult.Data.Token.ValidTo,
+                                RefreshToken = serviceResult.Data.Token.RefreshToken,
+                                Scope = serviceResult.Data.Token.Scope
                             } : null
                         };
 

@@ -22,10 +22,25 @@ namespace Services.Infrastructure.Authorization.Entities.EntityFramework
         /// </summary>
         public string Region { get; set; }
 
+        public int? BeforeSessionId { get; set; }
+
         /// <summary>
         /// Oturum özel anahtarı
         /// </summary>
         public string Token { get; set; }
+
+        /// <summary>
+        /// Yenileme anahtarı
+        /// </summary>
+        public string RefreshToken { get; set; }
+
+        /// <summary>
+        /// Yenileme indeksi
+        /// </summary>
+        public int RefreshIndex { get; set; }
+
+        public string GrantType { get; set; }
+        public string Scope { get; set; }
 
         /// <summary>
         /// Oturumun agent bilgisi

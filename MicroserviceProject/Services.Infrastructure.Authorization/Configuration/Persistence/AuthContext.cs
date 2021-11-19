@@ -125,6 +125,14 @@ namespace Services.Infrastructure.Authorization.Configuration.Persistence
             modelBuilder.Entity<Session>().Property(x => x.Region).HasColumnName("REGION");
             modelBuilder.Entity<Session>().Property(x => x.Region).HasColumnType("NVARCHAR(50)");
             modelBuilder.Entity<Session>().Property(x => x.ValidTo).HasColumnName("VALIDTO");
+            modelBuilder.Entity<Session>().Property(x => x.RefreshIndex).HasColumnName("REFRESHINDEX");
+            modelBuilder.Entity<Session>().Property(x => x.RefreshToken).HasColumnName("REFRESHTOKEN");
+            modelBuilder.Entity<Session>().Property(x => x.RefreshToken).HasColumnType("NVARCHAR(50)");
+            modelBuilder.Entity<Session>().Property(x => x.GrantType).HasColumnName("GRANTTYPE");
+            modelBuilder.Entity<Session>().Property(x => x.GrantType).HasColumnType("NVARCHAR(50)");
+            modelBuilder.Entity<Session>().Property(x => x.Scope).HasColumnName("SCOPE");
+            modelBuilder.Entity<Session>().Property(x => x.Scope).HasColumnType("NVARCHAR(50)");
+            modelBuilder.Entity<Session>().Property(x => x.BeforeSessionId).HasColumnName("BEFORESESSIONID");
             modelBuilder.Entity<Session>().HasOne(x => x.User);
 
             modelBuilder.Entity<User>().ToTable("USERS");

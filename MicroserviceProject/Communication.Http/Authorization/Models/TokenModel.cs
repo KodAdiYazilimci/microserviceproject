@@ -16,5 +16,7 @@ namespace Communication.Http.Authorization.Models
         /// Son geçerlilik tarihi
         /// </summary>
         public DateTime ValidTo { get; set; }
+        public string RefreshToken { get; set; }
+        public string Scope { get; set; }
     }
 }

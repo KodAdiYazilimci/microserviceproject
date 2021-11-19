@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Services.Infrastructure.Authorization.Configuration.Persistence;
 
 namespace Services.Infrastructure.Authorization.Migrations
 {
     [DbContext(typeof(AuthContext))]
-    partial class AuthContextModelSnapshot : ModelSnapshot
+    [Migration("20211119183604_update4")]
+    partial class update4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -192,8 +194,7 @@ namespace Services.Infrastructure.Authorization.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("BeforeSessionId")
-                        .HasColumnType("int")
-                        .HasColumnName("BEFORESESSIONID");
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("CreateDate")
                         .HasColumnType("DATETIME")

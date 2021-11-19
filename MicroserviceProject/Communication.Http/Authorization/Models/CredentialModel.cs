@@ -29,5 +29,21 @@
         /// Kullanıcının bölge seçimi
         /// </summary>
         public string Region { get; set; } = string.Empty;
+
+
+        /// <summary>
+        /// Yenileme anahtarı
+        /// </summary>
+        public string RefreshToken { get; set; }
+
+        /// <summary>
+        /// Token talep tipi
+        /// </summary>
+        public string GrantType { get; set; }
+
+        /// <summary>
+        /// Kapsam
+        /// </summary>
+        public string Scope { get; set; }
     }
 }

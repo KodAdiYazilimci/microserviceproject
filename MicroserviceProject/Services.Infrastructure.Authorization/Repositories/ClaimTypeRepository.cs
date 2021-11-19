@@ -1,5 +1,4 @@
-﻿using Infrastructure.Transaction.Recovery;
-
+﻿
 using Microsoft.EntityFrameworkCore;
 
 using Services.Infrastructure.Authorization.Configuration.Persistence;
@@ -11,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Services.Infrastructure.Authorization.Repositories
 {
-    public class ClaimTypeRepository : BaseRepository<AuthContext, ClaimType>, IRollbackableDataAsync<int>, IAsyncDisposable
+    public class ClaimTypeRepository : BaseRepository<AuthContext, ClaimType>, IAsyncDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -48,53 +47,7 @@ namespace Services.Infrastructure.Authorization.Repositories
             await base.DeleteAsync(id, cancellationTokenSource);
 
             return id;
-        }
-
-        /// <summary>
-        /// Bir nitelik tipi kaydındaki bir kolon değerini değiştirir
-        /// </summary>
-        /// <param name="id">Değeri değiştirilecek nitelik tipinin Id değeri</param>
-        /// <param name="name">Değeri değiştirilecek kolonun adı</param>
-        /// <param name="value">Yeni değer</param>
-        /// <param name="cancellationTokenSource">İptal tokenı</param>
-        /// <returns></returns>
-        public async Task<int> SetAsync(int id, string name, object value, CancellationTokenSource cancellationTokenSource)
-        {
-            ClaimType claimType = await _context.ClaimTypes.FirstOrDefaultAsync(x => x.Id == id, cancellationTokenSource.Token);
-
-            if (claimType != null)
-            {
-                claimType.GetType().GetProperty(name).SetValue(claimType, value);
-            }
-            else
-            {
-                throw new Exception("Nitelik tipi kaydı bulunamadı");
-            }
-
-            return id;
-        }
-
-        /// <summary>
-        /// Silindi olarak işaretlenmiş bir nitelik tipinin kaydının işaretini kaldırır
-        /// </summary>
-        /// <param name="id">Silindi işareti kaldırılacak nitelik tipinin kaydının Id değeri</param>
-        /// <param name="cancellationTokenSource">İptal tokenı</param>
-        /// <returns></returns>
-        public async Task<int> UnDeleteAsync(int id, CancellationTokenSource cancellationTokenSource)
-        {
-            ClaimType claimType = await _context.ClaimTypes.FirstOrDefaultAsync(x => x.Id == id);
-
-            if (claimType != null)
-            {
-                claimType.DeleteDate = null;
-            }
-            else
-            {
-                throw new Exception("Nitelik tipi kaydı bulunamadı");
-            }
-
-            return id;
-        }
+        }   
 
         public override async Task UpdateAsync(int id, ClaimType entity, CancellationTokenSource cancellationTokenSource)
         {

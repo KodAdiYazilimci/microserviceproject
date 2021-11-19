@@ -139,7 +139,13 @@ namespace Infrastructure.Security.Authentication.Cookie.Providers
                 await _authorizationCommunicator.GetTokenAsync(new CredentialModel
                 {
                     Email = credential.Email,
-                    Password = credential.Password
+                    Password = credential.Password,
+                    GrantType = credential.GrantType,
+                    RefreshToken = credential.RefreshToken,
+                    Scope = credential.Scope,
+                    IpAddress = credential.IpAddress,
+                    Region = credential.Region,
+                    UserAgent = credential.UserAgent
                 }, cancellationTokenSource);
 
             if (tokenServiceResult.IsSuccess)
@@ -157,7 +163,9 @@ namespace Infrastructure.Security.Authentication.Cookie.Providers
                         Token = new Model.AuthenticationToken()
                         {
                             TokenKey = tokenServiceResult.Data.TokenKey,
-                            ValidTo = tokenServiceResult.Data.ValidTo
+                            ValidTo = tokenServiceResult.Data.ValidTo,
+                            RefreshToken = tokenServiceResult.Data.RefreshToken,
+                            Scope = tokenServiceResult.Data.Scope
                         },
                         Claims = userServiceResult.Data.Claims.Select(x => new UserClaim()
                         {
@@ -204,8 +212,19 @@ namespace Infrastructure.Security.Authentication.Cookie.Providers
                         Token = new Model.AuthenticationToken()
                         {
                             TokenKey = userServiceResult.Data.Token.TokenKey,
-                            ValidTo = userServiceResult.Data.Token.ValidTo
-                        }
+                            ValidTo = userServiceResult.Data.Token.ValidTo,
+                            RefreshToken = userServiceResult.Data.Token.RefreshToken,
+                            Scope = userServiceResult.Data.Token.Scope
+                        },
+                        Claims = userServiceResult.Data.Claims.Select(x => new UserClaim()
+                        {
+                            Name = x.Name,
+                            Value = x.Value
+                        }).ToList(),
+                        Roles = userServiceResult.Data.Roles.Select(x => new UserRole()
+                        {
+                            Name = x.Name
+                        }).ToList()
                     };
 
                     SetToCache(authenticatedUser);

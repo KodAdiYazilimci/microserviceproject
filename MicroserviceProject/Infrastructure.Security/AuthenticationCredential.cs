@@ -18,16 +18,19 @@
         /// <summary>
         /// Http user agent değeri
         /// </summary>
-        public string UserAgent { get; set; } = string.Empty;
+        public string UserAgent { get; set; }
 
         /// <summary>
         /// Kullanıcının IP adresi
         /// </summary>
-        public string IpAddress { get; set; } = string.Empty;
+        public string IpAddress { get; set; }
 
         /// <summary>
         /// Kullanıcının bölge seçimi
         /// </summary>
-        public string Region { get; set; } = string.Empty;
+        public string Region { get; set; }
+        public string GrantType { get; set; }
+        public string RefreshToken { get; set; }
+        public string Scope { get; set; }
     }
 }

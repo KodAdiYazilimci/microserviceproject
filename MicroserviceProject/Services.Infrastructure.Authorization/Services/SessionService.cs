@@ -11,11 +11,14 @@ using Infrastructure.Transaction.UnitOfWork.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 
 using Services.Infrastructure.Authorization.Configuration.Persistence;
+using Services.Infrastructure.Authorization.Constants;
 using Services.Infrastructure.Authorization.Entities.EntityFramework;
 using Services.Infrastructure.Authorization.Persistence.Sql.Exceptions;
 using Services.Infrastructure.Authorization.Repositories;
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -78,50 +81,106 @@ namespace Services.Infrastructure.Authorization.Business.Services
         /// <returns></returns>
         public async Task<TokenModel> GetTokenAsync(CredentialModel credential, CancellationTokenSource cancellationTokenSource)
         {
-            string passwordHash = SHA256Cryptography.Crypt(credential.Password);
-
-            User user =
-                await
-                _unitOfWork
-                .Context
-                .Users
-                .FirstOrDefaultAsync(x =>
-                                        x.DeleteDate == null
-                                        &&
-                                        x.Email == credential.Email
-                                        &&
-                                        x.Password == passwordHash, cancellationTokenSource.Token);
-
-            if (user != null)
+            if (string.IsNullOrEmpty(credential.GrantType) || credential.GrantType.ToLower() == GrantType.Password)
             {
-                //TODO: Önceki oturumlar silinecek.
+                string passwordHash = SHA256Cryptography.Crypt(credential.Password);
 
-                string token = Guid.NewGuid().ToString();
+                User user =
+                    await
+                    _unitOfWork
+                    .Context
+                    .Users
+                    .FirstOrDefaultAsync(x =>
+                                            x.DeleteDate == null
+                                            &&
+                                            x.Email == credential.Email
+                                            &&
+                                            x.Password == passwordHash, cancellationTokenSource.Token);
 
-                DateTime validTo = DateTime.Now.AddMinutes(60);
-
-                _unitOfWork.Context.Sessions.Add(new Session()
+                if (user != null)
                 {
-                    UserId = user.Id,
-                    Token = token,
-                    ValidTo = validTo,
-                    IsValid = true,
-                    IpAddress = credential.IpAddress,
-                    UserAgent = credential.UserAgent,
-                    Region = credential.Region
-                });
+                    List<Session> oldSessions = await _unitOfWork.Context.Sessions.Where(x => x.DeleteDate == null && x.IsValid && x.UserId == user.Id).ToListAsync();
 
-                await _unitOfWork.SaveAsync(cancellationTokenSource);
+                    foreach (Session session in oldSessions)
+                    {
+                        session.IsValid = false;
+                    }
 
-                return new TokenModel()
+                    Session newSession = new Session()
+                    {
+                        UserId = user.Id,
+                        Token = Guid.NewGuid().ToString(),
+                        ValidTo = DateTime.Now.AddMinutes(60),
+                        IsValid = true,
+                        IpAddress = credential.IpAddress,
+                        UserAgent = credential.UserAgent,
+                        Region = credential.Region,
+                        GrantType = "password",
+                        Scope = credential.Scope,
+                        RefreshIndex = 0,
+                        RefreshToken = Guid.NewGuid().ToString(),
+                    };
+
+                    _unitOfWork.Context.Sessions.Add(newSession);
+
+                    await _unitOfWork.SaveAsync(cancellationTokenSource);
+
+                    return new TokenModel()
+                    {
+                        TokenKey = newSession.Token,
+                        ValidTo = newSession.ValidTo,
+                        RefreshToken = newSession.RefreshToken,
+                        Scope = newSession.Scope
+                    };
+                }
+                else
                 {
-                    TokenKey = token,
-                    ValidTo = validTo
-                };
+                    throw new UserNotFoundException("Kullanıcı adı veya şifre yanlış!");
+                }
+            }
+            else if (credential.GrantType.ToLower() == GrantType.RefreshToken)
+            {
+                Session oldSession =
+                    await _unitOfWork.Context.Sessions.FirstOrDefaultAsync(x => x.DeleteDate == null && x.RefreshToken == credential.RefreshToken && x.IsValid);
+
+                if (oldSession != null)
+                {
+                    Session newSession = new Session();
+                    newSession.BeforeSessionId = oldSession.Id;
+                    newSession.GrantType = "refresh_token";
+                    newSession.IpAddress = oldSession.IpAddress;
+                    newSession.IsValid = true;
+                    newSession.RefreshIndex = oldSession.RefreshIndex + 1;
+                    newSession.RefreshToken = Guid.NewGuid().ToString();
+                    newSession.Region = oldSession.Region;
+                    newSession.Scope = oldSession.Scope;
+                    newSession.Token = Guid.NewGuid().ToString();
+                    newSession.UserAgent = oldSession.UserAgent;
+                    newSession.UserId = oldSession.UserId;
+                    newSession.ValidTo = DateTime.Now.AddMinutes(60);
+
+                    _unitOfWork.Context.Sessions.Add(newSession);
+
+                    oldSession.IsValid = false;
+
+                    await _unitOfWork.SaveAsync(cancellationTokenSource);
+
+                    return new TokenModel()
+                    {
+                        TokenKey = newSession.Token,
+                        ValidTo = newSession.ValidTo,
+                        RefreshToken = newSession.RefreshToken,
+                        Scope = newSession.Scope
+                    };
+                }
+                else
+                {
+                    throw new SessionNotFoundException();
+                }
             }
             else
             {
-                throw new UserNotFoundException("Kullanıcı adı veya şifre yanlış!");
+                throw new UndefinedGrantTypeException();
             }
         }
 
