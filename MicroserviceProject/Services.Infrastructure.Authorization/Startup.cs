@@ -1,14 +1,9 @@
-using Communication.Http.DI;
 
 using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Caching.Redis.DI;
-using Infrastructure.Communication.Broker.DI;
 using Infrastructure.Communication.Http.Broker.Models;
 using Infrastructure.Localization.DI;
 using Infrastructure.Logging.Logger.RequestResponseLogger.DI;
-using Infrastructure.Routing.Persistence.DI;
-using Infrastructure.Routing.Providers.DI;
-using Infrastructure.Security.Authentication.DI;
 using Infrastructure.Util.DI;
 
 using Microsoft.AspNetCore.Builder;
