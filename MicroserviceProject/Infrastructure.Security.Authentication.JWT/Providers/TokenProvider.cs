@@ -1,11 +1,11 @@
-﻿using Infrastructure.Security.Authentication.Persistence;
-using Infrastructure.Security.Model;
+﻿using Infrastructure.Security.Model;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 
 namespace Infrastructure.Security.Authentication.JWT.Providers
@@ -65,7 +65,7 @@ namespace Infrastructure.Security.Authentication.JWT.Providers
 
             var tokenDescriptor = new SecurityTokenDescriptor()
             {
-                Subject = new ClaimsIdentity(ClaimProvider.GetClaims(user)),
+                Subject = new ClaimsIdentity(user.Claims.Select(x => new Claim(x.Name, x.Value)).ToList()),
                 Expires = expiration,
                 SigningCredentials = new SigningCredentials(
                     key: new SymmetricSecurityKey(secretProvider.Bytes),

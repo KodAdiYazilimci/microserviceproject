@@ -5,7 +5,7 @@ namespace Communication.Http.Authorization.Models
     /// <summary>
     /// Oturumun token modeli
     /// </summary>
-    public class Token
+    public class TokenModel
     {
         /// <summary>
         /// Token anahtarı

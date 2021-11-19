@@ -1,30 +1,75 @@
-﻿using Infrastructure.Cryptography.Ciphers;
-using Infrastructure.Security.Model;
+﻿using Communication.Http.Authorization.Models;
+
+using Infrastructure.Caching.Redis;
+using Infrastructure.Communication.Http.Wrapper;
+using Infrastructure.Communication.Http.Wrapper.Disposing;
+using Infrastructure.Cryptography.Ciphers;
+using Infrastructure.Localization.Providers;
+using Infrastructure.Transaction.UnitOfWork.EntityFramework;
+
+using Microsoft.EntityFrameworkCore;
+
+using Services.Infrastructure.Authorization.Configuration.Persistence;
+using Services.Infrastructure.Authorization.Entities.EntityFramework;
 using Services.Infrastructure.Authorization.Persistence.Sql.Exceptions;
-using Services.Infrastructure.Authorization.Persistence.Sql.Repositories;
+using Services.Infrastructure.Authorization.Repositories;
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Services.Infrastructure.Authorization.Business.Services
 {
-    public class UserService : IDisposable
+    public class UserService : BaseService, IAsyncDisposable, IDisposableInjectionsAsync
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
         private bool disposed = false;
 
+        /// <summary>
+        /// İçerisinde çalışılan servisin adı
+        /// </summary>
+        public override string ServiceName => "Services.Infrastructure.Authorization.Business.Services.UserService";
+
+        /// <summary>
+        /// Servisin ait olduğu api servisinin adı
+        /// </summary>
+        public override string ApiServiceName => "Services.Infrastructure.Authorization";
+
+        /// <summary>
+        /// Rediste tutulan önbellek yönetimini sağlayan sınıf
+        /// </summary>
+        private readonly RedisCacheDataProvider _redisCacheDataProvider;
+
+        /// <summary>
+        /// Veritabanı iş birimi nesnesi
+        /// </summary>
+        private readonly IUnitOfWork<AuthContext> _unitOfWork;
+
         private readonly SessionRepository _sessionRepository;
         private readonly UserRepository _userRepository;
 
+        /// <summary>
+        /// Dil çeviri sağlayıcısı sınıf
+        /// </summary>
+        private readonly TranslationProvider _translationProvider;
+
         public UserService(
             SessionRepository sessionRepository,
-            UserRepository userRepository)
+            UserRepository userRepository,
+            RedisCacheDataProvider redisCacheDataProvider,
+            IUnitOfWork<AuthContext> unitOfWork,
+            TranslationProvider translationProvider)
         {
             _sessionRepository = sessionRepository;
             _userRepository = userRepository;
+            _redisCacheDataProvider = redisCacheDataProvider;
+            _unitOfWork = unitOfWork;
+            _translationProvider = translationProvider;
         }
 
         /// <summary>
@@ -33,33 +78,52 @@ namespace Services.Infrastructure.Authorization.Business.Services
         /// <param name="token">Kullanıcının token değeri</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<AuthenticatedUser> GetUserAsync(string token, CancellationTokenSource cancellationTokenSource)
+        public async Task<UserModel> GetUserAsync(string token, CancellationTokenSource cancellationTokenSource)
         {
-            AuthenticationSession session =
-                await
-                _sessionRepository
-                .GetValidSessionAsync(token, cancellationTokenSource);
+            Session session =
+                _unitOfWork.Context.Sessions.FirstOrDefault(x => x.DeleteDate == null && x.IsValid && x.Token == token && x.ValidTo > DateTime.Now);
 
             if (session != null)
             {
-                AuthenticatedUser user = await _userRepository.GetUserAsync(session.UserId, cancellationTokenSource);
+                //User user = await _userRepository.GetUserAsync(session.UserId, cancellationTokenSource);
+
+                UserModel user = await (from usr in _unitOfWork.Context.Users
+                                        where usr.DeleteDate == null && usr.Id == session.UserId
+                                        select new UserModel()
+                                        {
+                                            Id = usr.Id,
+                                            Email = usr.Email,
+                                            Region = session.Region,
+                                            Claims = (from c in _unitOfWork.Context.Claims
+                                                      join ct in _unitOfWork.Context.ClaimTypes
+                                                      on c.ClaimTypeId equals ct.Id
+                                                      where c.DeleteDate == null && ct.DeleteDate == null && c.UserId == usr.Id
+                                                      select new ClaimModel()
+                                                      {
+                                                          Name = ct.Name,
+                                                          Value = c.Value
+                                                      }).ToList(),
+                                            Roles = (from r in _unitOfWork.Context.Roles
+                                                     join ur in _unitOfWork.Context.UserRoles
+                                                      on r.Id equals ur.RoleId
+                                                     where r.DeleteDate == null && ur.DeleteDate == null && ur.UserId == usr.Id
+                                                     select new RoleModel()
+                                                     {
+                                                         Name = r.Name
+                                                     }).ToList(),
+                                            SessionId = session.Id,
+                                            Token = new TokenModel()
+                                            {
+                                                TokenKey = session.Token,
+                                                ValidTo = session.ValidTo
+                                            }
+                                        }).FirstOrDefaultAsync();
 
                 if (user != null)
                 {
-                    return new AuthenticatedUser()
-                    {
-                        Id = user.Id,
-                        Name = user.Name,
-                        Email = user.Email,
-                        IsAdmin = user.IsAdmin,
-                        Region = user.Region,
-                        Token = new AuthenticationToken()
-                        {
-                            TokenKey = session.Token,
-                            ValidTo = session.ValidTo
-                        },
-                        SessionId = session.Id
-                    };
+                    user.Claims.Add(new ClaimModel() { Name = ClaimTypes.UserData, Value = user.Token.TokenKey });
+
+                    return user;
                 }
                 else
                 {
@@ -80,7 +144,7 @@ namespace Services.Infrastructure.Authorization.Business.Services
         /// <returns></returns>
         public async Task<bool> CheckUserAsync(string email, CancellationTokenSource cancellationTokenSource)
         {
-            return await _userRepository.CheckUserAsync(email, cancellationTokenSource);
+            return await _unitOfWork.Context.Users.AnyAsync(x => x.DeleteDate == null && x.Email == email);
         }
 
         /// <summary>
@@ -89,37 +153,52 @@ namespace Services.Infrastructure.Authorization.Business.Services
         /// <param name="credential">Kullanıcının kimlik bilgileri</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task RegisterUserAsync(AuthenticationCredential credential, CancellationTokenSource cancellationTokenSource)
+        public async Task RegisterUserAsync(CredentialModel credential, CancellationTokenSource cancellationTokenSource)
         {
             string passwordHash = SHA256Cryptography.Crypt(credential.Password);
 
-            await _userRepository.RegisterAsync(credential.Email, passwordHash, cancellationTokenSource);
+            _unitOfWork.Context.Users.Add(new User()
+            {
+                Email = credential.Email,
+                Password = passwordHash
+            });
+
+            await _unitOfWork.SaveAsync(cancellationTokenSource);
+        }
+
+        public async Task DisposeInjectionsAsync()
+        {
+            _redisCacheDataProvider.Dispose();
+            await _sessionRepository.DisposeAsync();
+            await _userRepository.DisposeAsync();
+            await _unitOfWork.DisposeAsync();
+            _translationProvider.Dispose();
         }
 
         /// <summary>
         /// Kaynakları serbest bırakır
         /// </summary>
-        public void Dispose()
+        /// <returns></returns>
+        public ValueTask DisposeAsync()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+
+            return ValueTask.CompletedTask;
         }
 
         /// <summary>
         /// Kaynakları serbest bırakır
         /// </summary>
         /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
-        public void Dispose(bool disposing)
+        public override void Dispose(bool disposing)
         {
             if (disposing)
             {
                 if (!disposed)
                 {
-                    _sessionRepository.Dispose();
-                    _userRepository.Dispose();
+                    disposed = true;
                 }
-
-                disposed = true;
             }
         }
     }

@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 
 namespace Presentation.UI.Web.Controllers
 {
-    [Authorize]
     public class HomeController : Controller
     {
         private readonly SessionProvider sessionProvider;
@@ -24,6 +23,7 @@ namespace Presentation.UI.Web.Controllers
             this.sessionProvider = sessionProvider;
         }
 
+        [Authorize(Roles = "StandardUser")]
         public async Task<IActionResult> Index(CancellationTokenSource cancellationTokenSource)
         {
             AuthenticatedUser user = await sessionProvider.GetLoggedInUserAsyc(cancellationTokenSource);
@@ -32,6 +32,13 @@ namespace Presentation.UI.Web.Controllers
         }
 
         public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [Route(nameof(Yetkisiz))]
+        public IActionResult Yetkisiz()
         {
             return View();
         }

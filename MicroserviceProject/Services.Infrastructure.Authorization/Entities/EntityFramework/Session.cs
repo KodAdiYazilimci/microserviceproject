@@ -1,17 +1,12 @@
 ﻿using System;
 
-namespace Communication.Http.Authorization.Models
+namespace Services.Infrastructure.Authorization.Entities.EntityFramework
 {
     /// <summary>
     /// Kullanıcı oturumları modeli
     /// </summary>
-    public class Session
+    public class Session : BaseEntity
     {
-        /// <summary>
-        /// Oturumun Id değeri
-        /// </summary>
-        public int Id { get; set; }
-
         /// <summary>
         /// Oturumun IP adresi
         /// </summary>
@@ -21,6 +16,11 @@ namespace Communication.Http.Authorization.Models
         /// Oturumun geçerlilik durumu
         /// </summary>
         public bool IsValid { get; set; }
+
+        /// <summary>
+        /// Kullanıcının oturum bölgesi
+        /// </summary>
+        public string Region { get; set; }
 
         /// <summary>
         /// Oturum özel anahtarı
@@ -41,5 +41,7 @@ namespace Communication.Http.Authorization.Models
         /// Oturumun son geçerlilik tarihi
         /// </summary>
         public DateTime ValidTo { get; set; }
+
+        public virtual User User { get; set; }
     }
 }

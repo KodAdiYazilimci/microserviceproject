@@ -1,4 +1,6 @@
-﻿using Infrastructure.Communication.Http.Broker.Models;
+﻿using Communication.Http.Authorization.Models;
+
+using Infrastructure.Communication.Http.Broker.Models;
 using Infrastructure.Security.Model;
 
 using Microsoft.AspNetCore.Mvc;
@@ -29,7 +31,7 @@ namespace Services.Infrastructure.Authorization.Controllers
 
         [Route("GetToken")]
         [HttpPost]
-        public async Task<IActionResult> GetToken([FromBody] AuthenticationCredential credential, CancellationTokenSource cancellationTokenSource)
+        public async Task<IActionResult> GetToken([FromBody] CredentialModel credential, CancellationTokenSource cancellationTokenSource)
         {
             try
             {
@@ -42,7 +44,7 @@ namespace Services.Infrastructure.Authorization.Controllers
 
                 var token = await _sessionService.GetTokenAsync(credential, new CancellationTokenSource());
 
-                return Ok(new ServiceResultModel<AuthenticationToken>()
+                return Ok(new ServiceResultModel<TokenModel>()
                 {
                     IsSuccess = true,
                     Data = token
@@ -72,9 +74,9 @@ namespace Services.Infrastructure.Authorization.Controllers
         {
             try
             {
-                AuthenticatedUser user = await _userService.GetUserAsync(token, new CancellationTokenSource());
+                UserModel user = await _userService.GetUserAsync(token, new CancellationTokenSource());
 
-                return Ok(new ServiceResultModel<AuthenticatedUser>()
+                return Ok(new ServiceResultModel<UserModel>()
                 {
                     Data = user
                 });
@@ -120,7 +122,7 @@ namespace Services.Infrastructure.Authorization.Controllers
 
         [Route("RegisterUser")]
         [HttpPost]
-        public async Task<IActionResult> RegisterUser([FromBody] AuthenticationCredential credential)
+        public async Task<IActionResult> RegisterUser([FromBody] CredentialModel credential)
         {
             try
             {

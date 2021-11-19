@@ -4,7 +4,6 @@ using Communication.Http.Authorization.Models;
 using Infrastructure.Caching.InMemory;
 using Infrastructure.Communication.Http.Broker.Exceptions;
 using Infrastructure.Communication.Http.Broker.Models;
-using Infrastructure.Security.Authentication.Persistence;
 using Infrastructure.Security.Model;
 
 using Microsoft.AspNetCore.Authentication;
@@ -68,10 +67,9 @@ namespace Infrastructure.Security.Authentication.Cookie.Providers
 
             if (authenticatedUser != null)
             {
-                ClaimsIdentity claimsIdentity = new ClaimsIdentity(new List<Claim>()
-                {
-                    new Claim(ClaimTypes.UserData,authenticatedUser.Token.TokenKey)
-                }, CookieAuthenticationDefaults.AuthenticationScheme);
+                ClaimsIdentity claimsIdentity = new ClaimsIdentity(
+                    claims: authenticatedUser.Claims.Select(x => new Claim(x.Name, x.Value)).ToList(),
+                    authenticationType: CookieAuthenticationDefaults.AuthenticationScheme);
 
                 ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
@@ -137,8 +135,8 @@ namespace Infrastructure.Security.Authentication.Cookie.Providers
         /// <returns></returns>
         private async Task<AuthenticatedUser> GetUserAsync(AuthenticationCredential credential, CancellationTokenSource cancellationTokenSource)
         {
-            ServiceResultModel<Token> tokenServiceResult =
-                await _authorizationCommunicator.GetTokenAsync(new Credential
+            ServiceResultModel<TokenModel> tokenServiceResult =
+                await _authorizationCommunicator.GetTokenAsync(new CredentialModel
                 {
                     Email = credential.Email,
                     Password = credential.Password
@@ -146,7 +144,7 @@ namespace Infrastructure.Security.Authentication.Cookie.Providers
 
             if (tokenServiceResult.IsSuccess)
             {
-                ServiceResultModel<User> userServiceResult = await _authorizationCommunicator.GetUserAsync(tokenServiceResult.Data.TokenKey, cancellationTokenSource);
+                ServiceResultModel<UserModel> userServiceResult = await _authorizationCommunicator.GetUserAsync(tokenServiceResult.Data.TokenKey, cancellationTokenSource);
 
                 if (userServiceResult.IsSuccess)
                 {
@@ -154,15 +152,22 @@ namespace Infrastructure.Security.Authentication.Cookie.Providers
                     {
                         Email = userServiceResult.Data.Email,
                         Id = userServiceResult.Data.Id,
-                        IsAdmin = userServiceResult.Data.IsAdmin,
-                        Name = userServiceResult.Data.Name,
                         Region = userServiceResult.Data.Region,
                         SessionId = userServiceResult.Data.SessionId,
                         Token = new Model.AuthenticationToken()
                         {
                             TokenKey = tokenServiceResult.Data.TokenKey,
                             ValidTo = tokenServiceResult.Data.ValidTo
-                        }
+                        },
+                        Claims = userServiceResult.Data.Claims.Select(x => new UserClaim()
+                        {
+                            Name = x.Name,
+                            Value = x.Value,
+                        }).ToList(),
+                        Roles = userServiceResult.Data.Roles.Select(x => new UserRole()
+                        {
+                            Name = x.Name
+                        }).ToList()
                     };
                 }
                 else
@@ -184,7 +189,7 @@ namespace Infrastructure.Security.Authentication.Cookie.Providers
                 return authenticatedUser;
             }
 
-            ServiceResultModel<User> userServiceResult = await _authorizationCommunicator.GetUserAsync(token, cancellationTokenSource);
+            ServiceResultModel<UserModel> userServiceResult = await _authorizationCommunicator.GetUserAsync(token, cancellationTokenSource);
 
             if (userServiceResult.IsSuccess)
             {
@@ -194,8 +199,6 @@ namespace Infrastructure.Security.Authentication.Cookie.Providers
                     {
                         Email = userServiceResult.Data.Email,
                         Id = userServiceResult.Data.Id,
-                        IsAdmin = userServiceResult.Data.IsAdmin,
-                        Name = userServiceResult.Data.Name,
                         Region = userServiceResult.Data.Region,
                         SessionId = userServiceResult.Data.SessionId,
                         Token = new Model.AuthenticationToken()

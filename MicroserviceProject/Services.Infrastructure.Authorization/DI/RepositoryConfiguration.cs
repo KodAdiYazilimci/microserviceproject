@@ -1,9 +1,9 @@
-﻿using Services.Infrastructure.Authorization.Persistence.Sql.Repositories;
-
-using Microsoft.Extensions.Configuration;
+﻿
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Services.Infrastructure.Authorization.Configuration.Services
+using Services.Infrastructure.Authorization.Repositories;
+
+namespace Services.Infrastructure.Authorization.DI
 {
     /// <summary>
     /// Repository DI sınıfı
@@ -16,10 +16,16 @@ namespace Services.Infrastructure.Authorization.Configuration.Services
         /// <param name="services">DI servisleri nesnesi</param>
         /// <param name="configuration">Configuration nesnesi</param>
         /// <returns></returns>
-        public static IServiceCollection RegisterRepositories(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection RegisterRepositories(this IServiceCollection services)
         {
+            services.AddScoped<ClaimRepository>();
+            services.AddScoped<ClaimTypeRepository>();
+            services.AddScoped<PolicyRepository>();
+            services.AddScoped<PolicyRoleRepository>();
+            services.AddScoped<RoleRepository>();
             services.AddScoped<SessionRepository>();
             services.AddScoped<UserRepository>();
+            services.AddScoped<UserRoleRepository>();
 
             return services;
         }

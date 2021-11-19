@@ -37,7 +37,7 @@ namespace Presentation.UI.Web
 
             services.RegisterCredentialProvider();
             services.RegisterCommunicators();
-            services.RegisterCookieAuthentication("/Login");
+            services.RegisterCookieAuthentication("/Login", "/Yetkisiz");
             services.RegisterInMemoryCaching();
             services.RegisterRouteProvider();
             services.RegisterRouteRepositories();

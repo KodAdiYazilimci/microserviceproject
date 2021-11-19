@@ -17,8 +17,8 @@ namespace Infrastructure.Localization.DI
         /// <returns></returns>
         public static IServiceCollection RegisterLocalizationProviders(this IServiceCollection services)
         {
-            services.AddSingleton<TranslationHelper>();
-            services.AddSingleton<TranslationProvider>();
+            services.AddScoped<TranslationHelper>();
+            services.AddScoped<TranslationProvider>();
 
             return services;
         }

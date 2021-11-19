@@ -3,7 +3,7 @@
     /// <summary>
     /// Kimlik doğrulama modeli
     /// </summary>
-    public class Credential
+    public class CredentialModel
     {
         /// <summary>
         /// Kullanıcının e-posta adresi

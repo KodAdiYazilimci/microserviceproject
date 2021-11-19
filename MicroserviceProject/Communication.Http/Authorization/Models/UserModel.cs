@@ -1,9 +1,11 @@
-﻿namespace Communication.Http.Authorization.Models
+﻿using System.Collections.Generic;
+
+namespace Communication.Http.Authorization.Models
 {
     /// <summary>
     /// Kullanıcının modeli
     /// </summary>
-    public class User
+    public class UserModel
     {
         /// <summary>
         /// Kullanılacak bölge kodu
@@ -16,9 +18,14 @@
         public int Id { get; set; }
 
         /// <summary>
-        /// Kullanıcının adı
+        /// Kullanıcının e-posta adresi
         /// </summary>
-        public string Name { get; set; }
+        public string Email { get; set; }
+
+        /// <summary>
+        /// Kullanıcının parolası
+        /// </summary>
+        public string Password { get; set; }
 
         /// <summary>
         /// Kullanıcının oturum kimliği
@@ -28,14 +35,16 @@
         /// <summary>
         /// Kullanıcının geçerli oturum anahtarı
         /// </summary>
-        public Token Token { get; set; }
+        public TokenModel Token { get; set; }
 
         /// <summary>
-        /// Kullanıcının e-posta adresi
+        /// Kullanıcı nitelikleri
         /// </summary>
-        public string Email { get; set; }
+        public List<ClaimModel> Claims { get; set; } = new List<ClaimModel>();
 
-        public bool IsAdmin { get; set; }
-        public string Password { get; set; }
+        /// <summary>
+        /// Kullanıcı rolleri
+        /// </summary>
+        public List<RoleModel> Roles { get; set; } = new List<RoleModel>();
     }
 }

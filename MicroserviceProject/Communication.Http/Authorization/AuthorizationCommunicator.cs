@@ -50,10 +50,10 @@ namespace Communication.Http.Authorization
         /// <param name="credential">Kullanıcı bilgileri</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<Token>> GetTokenAsync(Credential credential, CancellationTokenSource cancellationTokenSource)
+        public async Task<ServiceResultModel<TokenModel>> GetTokenAsync(CredentialModel credential, CancellationTokenSource cancellationTokenSource)
         {
-            ServiceResultModel<Token> tokenResult =
-                   await _serviceCommunicator.Call<Token>(
+            ServiceResultModel<TokenModel> tokenResult =
+                   await _serviceCommunicator.Call<TokenModel>(
                        serviceName: _routeNameProvider.Auth_GetToken,
                        postData: credential,
                        queryParameters: null,
@@ -69,11 +69,11 @@ namespace Communication.Http.Authorization
         /// <param name="headerToken">Token bilgisi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<User>> GetUserAsync(string headerToken, CancellationTokenSource cancellationTokenSource)
+        public async Task<ServiceResultModel<UserModel>> GetUserAsync(string headerToken, CancellationTokenSource cancellationTokenSource)
         {
-            ServiceResultModel<User> serviceResult =
+            ServiceResultModel<UserModel> serviceResult =
                     await
-                    _serviceCommunicator.Call<User>(
+                    _serviceCommunicator.Call<UserModel>(
                         serviceName: _routeNameProvider.Auth_GetUser,
                         postData: null,
                         queryParameters: new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("token", headerToken) },

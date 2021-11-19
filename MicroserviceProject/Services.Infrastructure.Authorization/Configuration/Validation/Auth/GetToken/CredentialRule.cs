@@ -1,13 +1,13 @@
-﻿using FluentValidation;
+﻿using Communication.Http.Authorization.Models;
 
-using Infrastructure.Security.Model;
+using FluentValidation;
 
 namespace Services.Infrastructure.Authorization.Configuration.Validation.Auth.GetToken
 {
     /// <summary>
     /// Auth/GetToken endpoint için validasyon kuralı
     /// </summary>
-    public class CredentialRule : AbstractValidator<AuthenticationCredential>
+    public class CredentialRule : AbstractValidator<CredentialModel>
     {
         public CredentialRule()
         {

@@ -21,7 +21,9 @@ using Microsoft.Extensions.Hosting;
 
 using Newtonsoft.Json;
 
-using Services.Infrastructure.Authorization.Configuration.Services;
+using Services.Infrastructure.Authorization.Configuration.Persistence;
+using Services.Infrastructure.Authorization.DI;
+using Services.UnitOfWork.EntityFramework.DI;
 
 using System.Net;
 
@@ -40,19 +42,16 @@ namespace Services.Infrastructure.Authorization
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMemoryCache();
-            services.RegisterCommunicators();
-            services.RegisterCredentialProvider();
+            services.RegisterBusinessServices();
             services.RegisterInMemoryCaching();
             services.RegisterLocalizationPersistence();
             services.RegisterLocalizationProviders();
             services.RegisterLogger();
+            services.RegisterPersistence();
             services.RegisterRedisCaching();
-            services.RegisterRepositories(Configuration);
-            services.RegisterRouteProvider();
-            services.RegisterRouteRepositories();
-            services.RegisterServiceCommunicator();
-            services.RegisterServices();
+            services.RegisterRepositories();
             services.RegisterSwagger();
+            services.RegisterUnitOfWork<AuthContext>();
 
             services.AddControllers();
         }

@@ -23,6 +23,7 @@ namespace Services.Gateway.Public.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "StandardUser")]
         [Route(nameof(Index))]
         public IActionResult Index()
         {

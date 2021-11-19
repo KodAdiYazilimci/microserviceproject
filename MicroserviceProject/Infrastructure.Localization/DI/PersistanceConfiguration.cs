@@ -31,9 +31,9 @@ namespace Infrastructure.Localization.DI
 
                 optionBuilder.EnableSensitiveDataLogging();
                 optionBuilder.EnableDetailedErrors();
-            }, ServiceLifetime.Singleton);
+            }, ServiceLifetime.Scoped);
 
-            services.AddSingleton<TranslationRepository>();
+            services.AddScoped<TranslationRepository>();
 
             return services;
         }

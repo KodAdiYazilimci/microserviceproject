@@ -4,21 +4,14 @@ using Microsoft.EntityFrameworkCore;
 
 using Services.Infrastructure.Authorization.Configuration.Persistence;
 using Services.Infrastructure.Authorization.Entities.EntityFramework;
-using Services.Infrastructure.Authorization.Repositories;
 
 using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Services.Infrastructure.Authorization.Repositories
 {
-    /// <summary>
-    /// Kullanıcı repository sınıfı
-    /// </summary>
-    public class UserRepository : BaseRepository<AuthContext, User>, IRollbackableDataAsync<int>, IAsyncDisposable
+    public class ClaimRepository : BaseRepository<AuthContext, Claim>, IRollbackableDataAsync<int>, IAsyncDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -28,7 +21,7 @@ namespace Services.Infrastructure.Authorization.Repositories
         /// <summary>
         /// Repositorynin ait olduğu tablonun adı
         /// </summary>
-        public const string TABLE_NAME = "[dbo].[USERS]";
+        public const string TABLE_NAME = "[dbo].[CLAIMS]";
 
         /// <summary>
         /// Veritabanı bağlantı nesnesi
@@ -36,18 +29,18 @@ namespace Services.Infrastructure.Authorization.Repositories
         private readonly AuthContext _context;
 
         /// <summary>
-        /// Kullanıcı repository sınıfı
+        /// Nitelik repository sınıfı
         /// </summary>
         /// <param name="context">Veritabanı bağlantı nesnesi</param>
-        public UserRepository(AuthContext context) : base(context)
+        public ClaimRepository(AuthContext context) : base(context)
         {
             _context = context;
         }
 
         /// <summary>
-        /// Bir kullanıcıyı siler
+        /// Bir niteliği siler
         /// </summary>
-        /// <param name="id">Silinecek kullanıcının Id değeri</param>
+        /// <param name="id">Silinecek niteliğin Id değeri</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
         public new async Task<int> DeleteAsync(int id, CancellationTokenSource cancellationTokenSource)
@@ -58,63 +51,64 @@ namespace Services.Infrastructure.Authorization.Repositories
         }
 
         /// <summary>
-        /// Bir kullanıcı kaydındaki bir kolon değerini değiştirir
+        /// Bir nitelik kaydındaki bir kolon değerini değiştirir
         /// </summary>
-        /// <param name="id">Değeri değiştirilecek kullanıcının Id değeri</param>
+        /// <param name="id">Değeri değiştirilecek niteliğin Id değeri</param>
         /// <param name="name">Değeri değiştirilecek kolonun adı</param>
         /// <param name="value">Yeni değer</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
         public async Task<int> SetAsync(int id, string name, object value, CancellationTokenSource cancellationTokenSource)
         {
-            User user = await _context.Users.FirstOrDefaultAsync(x => x.Id == id, cancellationTokenSource.Token);
+            Claim claim = await _context.Claims.FirstOrDefaultAsync(x => x.Id == id, cancellationTokenSource.Token);
 
-            if (user != null)
+            if (claim != null)
             {
-                user.GetType().GetProperty(name).SetValue(user, value);
+                claim.GetType().GetProperty(name).SetValue(claim, value);
             }
             else
             {
-                throw new Exception("Kullanıcı kaydı bulunamadı");
+                throw new Exception("Nitelik kaydı bulunamadı");
             }
 
             return id;
         }
 
         /// <summary>
-        /// Silindi olarak işaretlenmiş bir kullanıcı kaydının işaretini kaldırır
+        /// Silindi olarak işaretlenmiş bir nitelik kaydının işaretini kaldırır
         /// </summary>
-        /// <param name="id">Silindi işareti kaldırılacak kullanıcı kaydının Id değeri</param>
+        /// <param name="id">Silindi işareti kaldırılacak nitelik kaydının Id değeri</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
         public async Task<int> UnDeleteAsync(int id, CancellationTokenSource cancellationTokenSource)
         {
-            User user = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
+            Claim claim = await _context.Claims.FirstOrDefaultAsync(x => x.Id == id);
 
-            if (user != null)
+            if (claim != null)
             {
-                user.DeleteDate = null;
+                claim.DeleteDate = null;
             }
             else
             {
-                throw new Exception("Kullanıcı kaydı bulunamadı");
+                throw new Exception("Nitelik kaydı bulunamadı");
             }
 
             return id;
         }
 
-        public override async Task UpdateAsync(int id, User entity, CancellationTokenSource cancellationTokenSource)
+        public override async Task UpdateAsync(int id, Claim entity, CancellationTokenSource cancellationTokenSource)
         {
-            User user = await _context.Users.FirstOrDefaultAsync(x => x.Id == id, cancellationTokenSource.Token);
+            Claim claim = await _context.Claims.FirstOrDefaultAsync(x => x.Id == id, cancellationTokenSource.Token);
 
-            if (user != null)
+            if (claim != null)
             {
-                user.Email = entity.Email;
-                user.Password = entity.Password;
+                claim.ClaimTypeId = entity.ClaimTypeId;
+                claim.UserId = entity.UserId;
+                claim.Value = entity.Value;
             }
             else
             {
-                throw new Exception("Kullanıcı kaydı bulunamadı");
+                throw new Exception("Nitelik kaydı bulunamadı");
             }
         }
 

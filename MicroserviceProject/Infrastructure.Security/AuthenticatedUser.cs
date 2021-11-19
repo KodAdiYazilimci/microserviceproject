@@ -1,4 +1,6 @@
-﻿namespace Infrastructure.Security.Model
+﻿using System.Collections.Generic;
+
+namespace Infrastructure.Security.Model
 {
     /// <summary>
     /// Oturumda bulunan kullanıcının modeli
@@ -16,9 +18,14 @@
         public int Id { get; set; }
 
         /// <summary>
-        /// Kullanıcının adı
+        /// Kullanıcının e-posta adresi
         /// </summary>
-        public string Name { get; set; }
+        public string Email { get; set; }
+
+        /// <summary>
+        /// Kullanıcının parolası
+        /// </summary>
+        public string Password { get; set; }
 
         /// <summary>
         /// Kullanıcının oturum kimliği
@@ -31,11 +38,13 @@
         public AuthenticationToken Token { get; set; }
 
         /// <summary>
-        /// Kullanıcının e-posta adresi
+        /// Kullanıcı nitelikleri
         /// </summary>
-        public string Email { get; set; }
+        public List<UserClaim> Claims { get; set; } = new List<UserClaim>();
 
-        public bool IsAdmin { get; set; }
-        public string Password { get; set; }
+        /// <summary>
+        /// Kullanıcı rolleri
+        /// </summary>
+        public List<UserRole> Roles { get; set; } = new List<UserRole>();
     }
 }

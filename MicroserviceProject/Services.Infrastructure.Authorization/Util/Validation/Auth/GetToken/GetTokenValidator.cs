@@ -1,8 +1,11 @@
-﻿using FluentValidation.Results;
+﻿using Communication.Http.Authorization.Models;
+
+using FluentValidation.Results;
 
 using Infrastructure.Communication.Http.Broker.Models;
-using Infrastructure.Security.Model;
 using Infrastructure.Validation.Models;
+
+using Services.Infrastructure.Authorization.Configuration.Validation.Auth.GetToken;
 
 using System.Collections.Generic;
 using System.Linq;
@@ -22,9 +25,9 @@ namespace Services.Infrastructure.Authorization.Util.Validation.Auth.GetToken
         /// <param name="credential">Doğrulanacak nesne</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public static async Task<ServiceResultModel> ValidateAsync(AuthenticationCredential credential, CancellationTokenSource cancellationTokenSource)
+        public static async Task<ServiceResultModel> ValidateAsync(CredentialModel credential, CancellationTokenSource cancellationTokenSource)
         {
-            Configuration.Validation.Auth.GetToken.CredentialRule validationRules = new Configuration.Validation.Auth.GetToken.CredentialRule();
+            CredentialRule validationRules = new CredentialRule();
 
             if (credential != null)
             {

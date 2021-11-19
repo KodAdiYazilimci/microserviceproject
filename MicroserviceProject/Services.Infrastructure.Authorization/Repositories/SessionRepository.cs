@@ -1,7 +1,12 @@
 ﻿
 using Infrastructure.Security.Model;
+using Infrastructure.Transaction.Recovery;
 
-using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+
+using Services.Infrastructure.Authorization.Configuration.Persistence;
+using Services.Infrastructure.Authorization.Entities.EntityFramework;
+using Services.Infrastructure.Authorization.Repositories;
 
 using System;
 using System.Data;
@@ -9,12 +14,12 @@ using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Services.Infrastructure.Authorization.Persistence.Sql.Repositories
+namespace Services.Infrastructure.Authorization.Repositories
 {
     /// <summary>
     /// Oturum repository sınıfı
     /// </summary>
-    public class SessionRepository : BaseRepository, IDisposable
+    public class SessionRepository : BaseRepository<AuthContext, Session>, IRollbackableDataAsync<int>, IAsyncDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -22,182 +27,126 @@ namespace Services.Infrastructure.Authorization.Persistence.Sql.Repositories
         private bool disposed = false;
 
         /// <summary>
+        /// Repositorynin ait olduğu tablonun adı
+        /// </summary>
+        public const string TABLE_NAME = "[dbo].[SESSIONS]";
+
+        /// <summary>
+        /// Veritabanı bağlantı nesnesi
+        /// </summary>
+        private readonly AuthContext _context;
+
+        /// <summary>
         /// Oturum repository sınıfı
         /// </summary>
-        /// <param name="connectionString">Veritabanı bağlantı cümlesini getirecek configuration nesnesi</param>
-        public SessionRepository(IConfiguration configuration) : base(configuration)
+        /// <param name="context">Veritabanı bağlantı nesnesi</param>
+        public SessionRepository(AuthContext context) : base(context)
         {
-
+            _context = context;
         }
 
         /// <summary>
-        /// Oturum bilgisini kaydeder ve oturumun kimliğini verir
+        /// Bir oturumu siler
         /// </summary>
-        /// <param name="userId">Sorgulanacak kullanıcının Id değeri</param>
+        /// <param name="id">Silinecek oturumun Id değeri</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<int> InsertSessionAsync(int userId, string token, DateTime validTo, string ipAddress, string userAgent, CancellationTokenSource cancellationTokenSource)
+        public new async Task<int> DeleteAsync(int id, CancellationTokenSource cancellationTokenSource)
         {
-            int generatedSessionId = 0;
-            Exception exception = null;
+            await base.DeleteAsync(id, cancellationTokenSource);
 
-            DateTime currentDate = DateTime.Now;
-
-            SqlConnection sqlConnection = new SqlConnection(AuthorizationConnectionString);
-
-            try
-            {
-                SqlCommand sqlCommand =
-                    new SqlCommand($@"
-                                    INSERT INTO SESSIONS
-                                    (
-                                        CREATEDATE,
-                                        UPDATEDATE,
-                                        IPADDRESS,
-                                        ISVALID,
-                                        TOKEN,
-                                        USERAGENT,
-                                        USERID,
-                                        VALIDTO
-                                    )
-                                    VALUES
-                                    (
-                                        @CREATEDATE,
-                                        @UPDATEDATE,
-                                        @IPADDRESS,
-                                        @ISVALID,
-                                        @TOKEN,
-                                        @USERAGENT,
-                                        @USERID,
-                                        @VALIDTO
-                                    )", sqlConnection);
-
-                sqlCommand.Parameters.AddWithValue("@CREATEDATE", currentDate);
-                sqlCommand.Parameters.AddWithValue("@UPDATEDATE", currentDate);
-                sqlCommand.Parameters.AddWithValue("@IPADDRESS", ipAddress);
-                sqlCommand.Parameters.AddWithValue("@ISVALID", true);
-                sqlCommand.Parameters.AddWithValue("@TOKEN", token);
-                sqlCommand.Parameters.AddWithValue("@USERAGENT", userAgent);
-                sqlCommand.Parameters.AddWithValue("@USERID", userId);
-                sqlCommand.Parameters.AddWithValue("@VALIDTO", validTo);
-
-                if (sqlConnection.State != ConnectionState.Open)
-                {
-                    await sqlConnection.OpenAsync(cancellationTokenSource.Token);
-                }
-
-                generatedSessionId = await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
-            }
-            catch (Exception ex)
-            {
-                exception = ex;
-            }
-            finally
-            {
-                if (sqlConnection.State != ConnectionState.Closed)
-                {
-                    await sqlConnection.CloseAsync();
-                }
-            }
-
-            if (exception != null)
-            {
-                throw exception;
-            }
-
-            return generatedSessionId;
+            return id;
         }
 
         /// <summary>
-        /// Token bilgisine göre halen devam eden oturum bilgisini verir, zamanaşımına uğramışsa null döner.
+        /// Bir oturum kaydındaki bir kolon değerini değiştirir
         /// </summary>
-        /// <param name="token">Oturumun token anahtarı</param>
+        /// <param name="id">Değeri değiştirilecek oturumun Id değeri</param>
+        /// <param name="name">Değeri değiştirilecek kolonun adı</param>
+        /// <param name="value">Yeni değer</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<AuthenticationSession> GetValidSessionAsync(string token, CancellationTokenSource cancellationTokenSource)
+        public async Task<int> SetAsync(int id, string name, object value, CancellationTokenSource cancellationTokenSource)
         {
-            AuthenticationSession session = null;
+            Session session = await _context.Sessions.FirstOrDefaultAsync(x => x.Id == id, cancellationTokenSource.Token);
 
-            Exception exception = null;
-
-            SqlConnection sqlConnection = new SqlConnection(AuthorizationConnectionString);
-
-            try
+            if (session != null)
             {
-                using (SqlCommand sqlCommand =
-                       new SqlCommand(@"
-                                    SELECT [ID]
-                                          ,[IPADDRESS]
-                                          ,[TOKEN]
-                                          ,[USERAGENT]
-                                          ,[USERID]
-                                          ,[VALIDTO]
-                                      FROM [dbo].[SESSIONS]
-                                      WHERE 
-                                      TOKEN = @TOKEN 
-                                      AND 
-                                      VALIDTO > GETDATE()
-                                      AND
-                                      DELETE_DATE IS NULL
-                                      AND
-                                      ISVALID = 1", sqlConnection))
-                {
-                    sqlCommand.Parameters.AddWithValue("@TOKEN", token);
-
-                    if (sqlConnection.State != ConnectionState.Open)
-                    {
-                        await sqlConnection.OpenAsync(cancellationTokenSource.Token);
-                    }
-
-                    using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationTokenSource.Token))
-                    {
-                        if (sqlDataReader.HasRows)
-                        {
-                            while (await sqlDataReader.ReadAsync(cancellationTokenSource.Token))
-                            {
-                                session = new AuthenticationSession
-                                {
-                                    Id = Convert.ToInt32(sqlDataReader["ID"])
-                                };
-
-                                session.Token = sqlDataReader["TOKEN"].ToString();
-                                session.UserAgent = sqlDataReader["USERAGENT"].ToString();
-                                session.UserId = Convert.ToInt32(sqlDataReader["USERID"]);
-                                session.ValidTo = Convert.ToDateTime(sqlDataReader["VALIDTO"]);
-                            }
-                        }
-                    }
-                }
+                session.GetType().GetProperty(name).SetValue(session, value);
             }
-            catch (Exception ex)
+            else
             {
-                exception = ex;
-            }
-            finally
-            {
-                if (sqlConnection.State != ConnectionState.Closed)
-                {
-                    await sqlConnection.CloseAsync();
-                }
+                throw new Exception("Oturum kaydı bulunamadı");
             }
 
-            if (exception != null)
-            {
-                throw exception;
-            }
-
-            return session;
+            return id;
         }
 
+        /// <summary>
+        /// Silindi olarak işaretlenmiş bir oturum kaydının işaretini kaldırır
+        /// </summary>
+        /// <param name="id">Silindi işareti kaldırılacak oturum kaydının Id değeri</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<int> UnDeleteAsync(int id, CancellationTokenSource cancellationTokenSource)
+        {
+            Session session = await _context.Sessions.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (session != null)
+            {
+                session.DeleteDate = null;
+            }
+            else
+            {
+                throw new Exception("Oturum kaydı bulunamadı");
+            }
+
+            return id;
+        }
+
+        public override async Task UpdateAsync(int id, Session entity, CancellationTokenSource cancellationTokenSource)
+        {
+            Session session = await _context.Sessions.FirstOrDefaultAsync(x => x.Id == id, cancellationTokenSource.Token);
+
+            if (session != null)
+            {
+                session.IpAddress = entity.IpAddress;
+                session.IsValid = entity.IsValid;
+                session.Token = entity.Token;
+                session.UserAgent = entity.UserAgent;
+                session.UserId = entity.UserId;
+                session.ValidTo = entity.ValidTo;
+                session.Region = entity.Region;
+            }
+            else
+            {
+                throw new Exception("Oturum kaydı bulunamadı");
+            }
+        }
+
+        /// <summary>
+        /// Kaynakları serbest bırakır
+        /// </summary>
+        /// <returns></returns>
+        public override async ValueTask DisposeAsync()
+        {
+            await DisposeAsync(true);
+
+            GC.SuppressFinalize(this);
+        }
 
         /// <summary>
         /// Kaynakları serbest bırakır
         /// </summary>
         /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
-        public override void Dispose(bool disposing)
+        public override async Task DisposeAsync(bool disposing)
         {
             if (disposing)
             {
                 if (!disposed)
                 {
+                    await _context.DisposeAsync();
+
                     disposed = true;
                 }
             }

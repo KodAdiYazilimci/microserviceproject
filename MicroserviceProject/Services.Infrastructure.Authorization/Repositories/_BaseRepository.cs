@@ -1,13 +1,19 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
+
+using Services.Infrastructure.Authorization.Entities.EntityFramework;
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace Services.Infrastructure.Authorization.Persistence.Sql.Repositories
+namespace Services.Infrastructure.Authorization.Repositories
 {
     /// <summary>
-    /// Repository sınıfların temel sınıfı
+    /// Repository sınıfları için temel sınıf
     /// </summary>
-    public abstract class BaseRepository : IDisposable
+    public abstract class BaseRepository<TContext, TEntity> : IAsyncDisposable where TContext : DbContext where TEntity : BaseEntity, new()
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -15,42 +21,60 @@ namespace Services.Infrastructure.Authorization.Persistence.Sql.Repositories
         private bool disposed = false;
 
         /// <summary>
-        /// Veritabanı bağlantı cümlesini getirecek configuration nesnesi
+        /// Veritabanı bağlantı nesnesi
         /// </summary>
-        private readonly IConfiguration _configuration;
+        private readonly TContext context;
 
         /// <summary>
-        /// Repository sınıfların temel sınıfı
+        /// Repository sınıfları için temel sınıf
         /// </summary>
-        /// <param name="configuration">Veritabanı bağlantı cümlesini getirecek configuration nesnesi</param>
-        public BaseRepository(IConfiguration configuration)
+        /// <param name="context">Veritabanı bağlantı nesnesi</param>
+        public BaseRepository(TContext context)
         {
-            _configuration = configuration;
+            this.context = context;
         }
 
-
-        /// <summary>
-        /// Yetki altyapısı için kullanılacak veritabanı bağlantı cümlesini verir
-        /// </summary>
-        /// <returns></returns>
-        protected string AuthorizationConnectionString
+        public async Task CreateAsync(TEntity entity, CancellationTokenSource cancellationTokenSource)
         {
-            get
+            if (!cancellationTokenSource.IsCancellationRequested)
             {
-                return
-                    _configuration
-                    .GetSection("Configuration")
-                    .GetSection("Authorization")
-                    .GetSection("DataSource")["ConnectionString"];
+                await context.Set<TEntity>().AddAsync(entity, cancellationTokenSource.Token);
             }
+        }
+
+        public abstract Task UpdateAsync(int id, TEntity entity, CancellationTokenSource cancellationTokenSource);
+
+        public async Task DeleteAsync(int id, CancellationTokenSource cancellationTokenSource)
+        {
+            if (!cancellationTokenSource.IsCancellationRequested)
+            {
+                TEntity entity = await context.Set<TEntity>().FirstOrDefaultAsync(x => x.Id == id, cancellationTokenSource.Token);
+
+                context.Set<TEntity>().Remove(entity);
+            }
+        }
+
+        public virtual async Task<TEntity> GetAsync(int id, CancellationTokenSource cancellationTokenSource)
+        {
+            return await GetAsQueryable().FirstOrDefaultAsync(x => x.Id == id, cancellationTokenSource.Token);
+        }
+
+        public virtual async Task<List<TEntity>> GetListAsync(CancellationTokenSource cancellationTokenSource)
+        {
+            return await GetAsQueryable().ToListAsync(cancellationTokenSource.Token);
+        }
+
+        public virtual IQueryable<TEntity> GetAsQueryable()
+        {
+            return context.Set<TEntity>().Where(x => x.DeleteDate == null);
         }
 
         /// <summary>
         /// Kaynakları serbest bırakır
         /// </summary>
-        public void Dispose()
+        public virtual async ValueTask DisposeAsync()
         {
-            Dispose(true);
+            await DisposeAsync(true);
             GC.SuppressFinalize(this);
         }
 
@@ -58,13 +82,13 @@ namespace Services.Infrastructure.Authorization.Persistence.Sql.Repositories
         /// Kaynakları serbest bırakır
         /// </summary>
         /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
-        public virtual void Dispose(bool disposing)
+        public virtual async Task DisposeAsync(bool disposing)
         {
             if (disposing)
             {
                 if (!disposed)
                 {
-
+                    await context.DisposeAsync();
                 }
 
                 disposed = true;

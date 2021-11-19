@@ -1,20 +1,21 @@
-﻿using Services.Infrastructure.Authorization.Business.Services;
-
+﻿
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Services.Infrastructure.Authorization.Configuration.Services
+using Services.Infrastructure.Authorization.Business.Services;
+
+namespace Services.Infrastructure.Authorization.DI
 {
     /// <summary>
-    /// Servislerin DI sınıfı
+    /// İş mantığı servisleri DI sınıfı
     /// </summary>
-    public static class ServiceConfiguration
+    public static class BusinessServicesConfiguration
     {
         /// <summary>
-        /// Servisleri enjekte eder
+        /// İş mantığı servislerini enjekte eder
         /// </summary>
         /// <param name="services">DI servisleri nesnesi</param>
         /// <returns></returns>
-        public static IServiceCollection RegisterServices(this IServiceCollection services)
+        public static IServiceCollection RegisterBusinessServices(this IServiceCollection services)
         {
             services.AddScoped<SessionService>();
             services.AddScoped<UserService>();

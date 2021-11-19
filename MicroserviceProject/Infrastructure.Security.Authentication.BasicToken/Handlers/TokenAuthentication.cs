@@ -1,9 +1,9 @@
 ﻿using Communication.Http.Authorization;
+using Communication.Http.Authorization.Models;
 
 using Infrastructure.Caching.InMemory;
 using Infrastructure.Communication.Http.Broker.Models;
 using Infrastructure.Security.Authentication.BasicToken.Schemes;
-using Infrastructure.Security.Authentication.Persistence;
 using Infrastructure.Security.Model;
 
 using Microsoft.AspNetCore.Authentication;
@@ -74,7 +74,11 @@ namespace Infrastructure.Security.Authentication.BasicToken.Handlers
 
             if (await GetUserAsync(cancellationTokenSource) != null)
             {
-                ClaimsIdentity claimsIdentity = new ClaimsIdentity(ClaimProvider.GetClaims(await GetUserAsync(cancellationTokenSource)), Default.DefaultScheme);
+                AuthenticatedUser authenticatedUser = await GetUserAsync(cancellationTokenSource);
+
+                ClaimsIdentity claimsIdentity = new ClaimsIdentity(
+                    claims: authenticatedUser.Claims.Select(x => new Claim(x.Name, x.Value)).ToList(),
+                     authenticationType: Default.DefaultScheme);
 
                 ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
@@ -100,7 +104,7 @@ namespace Infrastructure.Security.Authentication.BasicToken.Handlers
                     return user;
                 }
 
-                ServiceResultModel<global::Communication.Http.Authorization.Models.User> serviceResult = await _authorizationCommunicator.GetUserAsync(headerToken, cancellationTokenSource);
+                ServiceResultModel<UserModel> serviceResult = await _authorizationCommunicator.GetUserAsync(headerToken, cancellationTokenSource);
 
                 if (serviceResult.Data != null)
                 {
@@ -108,8 +112,6 @@ namespace Infrastructure.Security.Authentication.BasicToken.Handlers
                     {
                         Email = serviceResult.Data.Email,
                         Id = serviceResult.Data.Id,
-                        IsAdmin = serviceResult.Data.IsAdmin,
-                        Name = serviceResult.Data.Name,
                         Password = serviceResult.Data.Password,
                         Region = serviceResult.Data.Region,
                         SessionId = serviceResult.Data.SessionId,
@@ -117,7 +119,16 @@ namespace Infrastructure.Security.Authentication.BasicToken.Handlers
                         {
                             TokenKey = serviceResult.Data.Token.TokenKey,
                             ValidTo = serviceResult.Data.Token.ValidTo
-                        } : null
+                        } : null,
+                        Claims = serviceResult.Data.Claims.Select(x => new UserClaim()
+                        {
+                            Name = x.Name,
+                            Value = x.Value,
+                        }).ToList(),
+                        Roles = serviceResult.Data.Roles.Select(x => new UserRole()
+                        {
+                            Name = x.Name
+                        }).ToList()
                     };
 
                     if (serviceResult.IsSuccess)

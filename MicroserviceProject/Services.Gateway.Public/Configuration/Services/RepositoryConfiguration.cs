@@ -17,8 +17,6 @@ namespace Services.Gateway.Public.Configuration.Services
         /// <returns></returns>
         public static IServiceCollection RegisterRepositories(this IServiceCollection services)
         {
-            services.AddScoped<UserRepository>();
-
             return services;
         }
     }

@@ -24,7 +24,7 @@ namespace Infrastructure.Localization.Configuration
 
         }
 
-        public TranslationDbContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
+        public TranslationDbContext(DbContextOptions<TranslationDbContext> dbContextOptions) : base(dbContextOptions)
         {
 
         }

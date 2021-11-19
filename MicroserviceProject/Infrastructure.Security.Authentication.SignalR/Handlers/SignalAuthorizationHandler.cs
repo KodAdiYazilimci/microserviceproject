@@ -80,7 +80,7 @@ namespace Infrastructure.Security.Authentication.SignalR.Handlers
             {
                 if (!string.IsNullOrEmpty(token))
                 {
-                    ServiceResultModel<global::Communication.Http.Authorization.Models.User> serviceResult = await _authorizationCommunicator.GetUserAsync(token, cancellationTokenSource);
+                    ServiceResultModel<global::Communication.Http.Authorization.Models.UserModel> serviceResult = await _authorizationCommunicator.GetUserAsync(token, cancellationTokenSource);
 
                     if (serviceResult.IsSuccess && serviceResult.Data != null)
                     {
@@ -88,8 +88,6 @@ namespace Infrastructure.Security.Authentication.SignalR.Handlers
                         {
                             Email = serviceResult.Data.Email,
                             Id = serviceResult.Data.Id,
-                            IsAdmin = serviceResult.Data.IsAdmin,
-                            Name = serviceResult.Data.Name,
                             Password = serviceResult.Data.Password,
                             Region = serviceResult.Data.Region,
                             SessionId = serviceResult.Data.SessionId,
