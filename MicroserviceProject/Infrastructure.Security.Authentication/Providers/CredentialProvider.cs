@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Infrastructure.Security.Providers
+namespace Infrastructure.Security.Authentication.Providers
 {
     /// <summary>
     /// Servis iletişimindeki yetki denetimi için kullanıcı bilgilerini sağlayan sınıf

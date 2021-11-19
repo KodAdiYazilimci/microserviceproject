@@ -18,7 +18,6 @@
     <ProjectReference Include="..\Infrastructure.Localization\Infrastructure.Localization.csproj" />
     <ProjectReference Include="..\Infrastructure.Routing.Persistence\Infrastructure.Routing.Persistence.csproj" />
     <ProjectReference Include="..\Infrastructure.Routing.Providers\Infrastructure.Routing.Providers.csproj" />
-    <ProjectReference Include="..\Infrastructure.Security.Providers\Infrastructure.Security.Providers.csproj" />
     <ProjectReference Include="..\Infrastructure.Sockets.Persistence\Infrastructure.Sockets.Persistence.csproj" />
     <ProjectReference Include="..\Infrastructure.Sockets.Providers\Infrastructure.Sockets.Providers.csproj" />
     <ProjectReference Include="..\Infrastructure.Transaction.UnitOfWork.Sql\Infrastructure.Transaction.UnitOfWork.Sql.csproj" />

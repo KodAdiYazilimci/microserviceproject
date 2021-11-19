@@ -5,7 +5,7 @@ namespace Infrastructure.Security.Model
     /// <summary>
     /// Oturumun token modeli
     /// </summary>
-    public class Token
+    public class AuthenticationToken
     {
         /// <summary>
         /// Token anahtarı

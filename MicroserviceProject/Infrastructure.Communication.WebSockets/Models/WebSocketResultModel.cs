@@ -10,7 +10,7 @@ namespace Infrastructure.Communication.WebSockets.Models
         /// <summary>
         /// Gelen verinin dağıtıcı sahibi kullanıcı
         /// </summary>
-        public User Sender { get; set; }
+        public AuthenticatedUser Sender { get; set; }
 
         /// <summary>
         /// Gelen verinin içeriği

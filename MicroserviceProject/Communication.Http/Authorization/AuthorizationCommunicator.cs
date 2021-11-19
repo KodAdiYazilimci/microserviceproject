@@ -45,6 +45,25 @@ namespace Communication.Http.Authorization
         }
 
         /// <summary>
+        /// Kullanıcı bilgilerine göre token bilgisini verir
+        /// </summary>
+        /// <param name="credential">Kullanıcı bilgileri</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<ServiceResultModel<Token>> GetTokenAsync(Credential credential, CancellationTokenSource cancellationTokenSource)
+        {
+            ServiceResultModel<Token> tokenResult =
+                   await _serviceCommunicator.Call<Token>(
+                       serviceName: _routeNameProvider.Auth_GetToken,
+                       postData: credential,
+                       queryParameters: null,
+                       headers: null,
+                       cancellationTokenSource: cancellationTokenSource);
+
+            return tokenResult;
+        }
+
+        /// <summary>
         /// Token bilgisine göre kullanıcı bilgisini verir
         /// </summary>
         /// <param name="headerToken">Token bilgisi</param>

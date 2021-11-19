@@ -51,7 +51,7 @@ namespace Infrastructure.Security.Authentication.JWT.Providers
         /// </summary>
         /// <param name="user">JWT token alacak kullanıcının nesnesi</param>
         /// <returns></returns>
-        public Token GetSecurityToken(User user)
+        public AuthenticationToken GetSecurityToken(AuthenticatedUser user)
         {
             DateTime expiration =
                 DateTime.Now.AddMinutes(
@@ -78,7 +78,7 @@ namespace Infrastructure.Security.Authentication.JWT.Providers
 
             string tokenKey = tokenHandler.WriteToken(token);
 
-            return new Token
+            return new AuthenticationToken
             {
                 TokenKey = tokenKey,
                 ValidTo = expiration

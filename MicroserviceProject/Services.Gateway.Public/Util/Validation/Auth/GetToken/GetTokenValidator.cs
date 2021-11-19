@@ -24,7 +24,7 @@ namespace Services.Gateway.Public.Util.Validation.Auth.GetToken
         /// <param name="credential">Doğrulanacak nesne</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public static async Task<ServiceResultModel> ValidateAsync(Credential credential, CancellationTokenSource cancellationTokenSource)
+        public static async Task<ServiceResultModel> ValidateAsync(AuthenticationCredential credential, CancellationTokenSource cancellationTokenSource)
         {
             CredentialRule validationRules = new CredentialRule();
 

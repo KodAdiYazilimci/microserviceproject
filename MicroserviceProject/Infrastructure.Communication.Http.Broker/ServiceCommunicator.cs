@@ -4,8 +4,8 @@ using Infrastructure.Routing.Models;
 using Infrastructure.Routing.Persistence.Repositories.Sql;
 using Infrastructure.Routing.Providers;
 using Infrastructure.Security.Authentication.Exceptions;
+using Infrastructure.Security.Authentication.Providers;
 using Infrastructure.Security.Model;
-using Infrastructure.Security.Providers;
 
 using Newtonsoft.Json;
 
@@ -93,7 +93,7 @@ namespace Infrastructure.Communication.Broker
             List<KeyValuePair<string, string>> headers,
             CancellationTokenSource cancellationTokenSource)
         {
-            Token takenTokenForThisService = _cacheProvider.Get<Token>(TAKENTOKENFORTHISSERVICE);
+            AuthenticationToken takenTokenForThisService = _cacheProvider.Get<AuthenticationToken>(TAKENTOKENFORTHISSERVICE);
 
             if (string.IsNullOrWhiteSpace(takenTokenForThisService?.TokenKey)
                 ||
@@ -104,10 +104,10 @@ namespace Infrastructure.Communication.Broker
                 {
                     return await GetServiceAsync(serviceName, cancellationTokenSource);
                 };
-                ServiceResultModel<Token> tokenResult =
-                    await serviceTokenCaller.Call<Token>(
+                ServiceResultModel<AuthenticationToken> tokenResult =
+                    await serviceTokenCaller.Call<AuthenticationToken>(
                         serviceName: _routeNameProvider.Auth_GetToken,
-                        postData: new Credential()
+                        postData: new AuthenticationCredential()
                         {
                             Email = _credentialProvider.GetEmail,
                             Password = _credentialProvider.GetPassword
@@ -119,7 +119,7 @@ namespace Infrastructure.Communication.Broker
                 if (tokenResult.IsSuccess && tokenResult.Data != null)
                 {
                     takenTokenForThisService = tokenResult.Data;
-                    _cacheProvider.Set<Token>(TAKENTOKENFORTHISSERVICE, tokenResult.Data);
+                    _cacheProvider.Set<AuthenticationToken>(TAKENTOKENFORTHISSERVICE, tokenResult.Data);
                 }
                 else
                 {
@@ -159,7 +159,7 @@ namespace Infrastructure.Communication.Broker
             List<KeyValuePair<string, string>> headers,
             CancellationTokenSource cancellationTokenSource)
         {
-            Token takenTokenForThisService = _cacheProvider.Get<Token>(TAKENTOKENFORTHISSERVICE);
+            AuthenticationToken takenTokenForThisService = _cacheProvider.Get<AuthenticationToken>(TAKENTOKENFORTHISSERVICE);
 
             if (string.IsNullOrWhiteSpace(takenTokenForThisService?.TokenKey)
                 ||
@@ -170,10 +170,10 @@ namespace Infrastructure.Communication.Broker
                 {
                     return await GetServiceAsync(serviceName, cancellationTokenSource);
                 };
-                ServiceResultModel<Token> tokenResult =
-                    await serviceTokenCaller.Call<Token>(
+                ServiceResultModel<AuthenticationToken> tokenResult =
+                    await serviceTokenCaller.Call<AuthenticationToken>(
                         serviceName: _routeNameProvider.Auth_GetToken,
-                        postData: new Credential()
+                        postData: new AuthenticationCredential()
                         {
                             Email = _credentialProvider.GetEmail,
                             Password = _credentialProvider.GetPassword
@@ -185,7 +185,7 @@ namespace Infrastructure.Communication.Broker
                 if (tokenResult.IsSuccess && tokenResult.Data != null)
                 {
                     takenTokenForThisService = tokenResult.Data;
-                    _cacheProvider.Set<Token>(TAKENTOKENFORTHISSERVICE, tokenResult.Data);
+                    _cacheProvider.Set<AuthenticationToken>(TAKENTOKENFORTHISSERVICE, tokenResult.Data);
                 }
                 else
                 {

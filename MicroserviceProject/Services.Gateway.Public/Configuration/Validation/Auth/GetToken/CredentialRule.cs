@@ -7,7 +7,7 @@ namespace Services.Gateway.Public.Validation.Auth.GetToken
     /// <summary>
     /// Auth/GetToken endpoint için validasyon kuralı
     /// </summary>
-    public class CredentialRule : AbstractValidator<Credential>
+    public class CredentialRule : AbstractValidator<AuthenticationCredential>
     {
         /// <summary>
         /// Auth/GetToken endpoint için validasyon kuralı

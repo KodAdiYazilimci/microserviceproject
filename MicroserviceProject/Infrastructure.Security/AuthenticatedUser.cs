@@ -1,9 +1,9 @@
 ﻿namespace Infrastructure.Security.Model
 {
     /// <summary>
-    /// Kullanıcının modeli
+    /// Oturumda bulunan kullanıcının modeli
     /// </summary>
-    public class User
+    public class AuthenticatedUser
     {
         /// <summary>
         /// Kullanılacak bölge kodu
@@ -28,7 +28,7 @@
         /// <summary>
         /// Kullanıcının geçerli oturum anahtarı
         /// </summary>
-        public Token Token { get; set; }
+        public AuthenticationToken Token { get; set; }
 
         /// <summary>
         /// Kullanıcının e-posta adresi

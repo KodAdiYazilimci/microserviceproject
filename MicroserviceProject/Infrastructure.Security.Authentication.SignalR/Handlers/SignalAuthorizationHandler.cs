@@ -21,7 +21,7 @@ namespace Infrastructure.Security.Authentication.SignalR.Handlers
     /// <summary>
     /// Varsayılan kimlik denetimi yapan sınıf
     /// </summary>
-    public class DefaultAuthorizationHandler : AuthorizationHandler<DefaultAuthorizationRequirement>, IDisposable
+    public class SignalAuthorizationHandler : AuthorizationHandler<DefaultAuthorizationRequirement>, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -54,7 +54,7 @@ namespace Infrastructure.Security.Authentication.SignalR.Handlers
         /// <param name="httpContextAccessor">Http üst öğelerine erişim sağlayacak nesne</param>
         /// <param name="cacheProvider">Oturum bilgilerinin saklanacağı önbellek nesnesi</param>
         /// <param name="authorizationCommunicator">Kimlik denetimi servisi iletişimcisi</param>
-        public DefaultAuthorizationHandler(
+        public SignalAuthorizationHandler(
             IHttpContextAccessor httpContextAccessor,
             InMemoryCacheDataProvider cacheProvider,
             AuthorizationCommunicator authorizationCommunicator)
@@ -70,7 +70,7 @@ namespace Infrastructure.Security.Authentication.SignalR.Handlers
 
             string token = _httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString();
 
-            User user = GetUserFromCache(token);
+            AuthenticatedUser user = GetUserFromCache(token);
 
             if (user != null)
             {
@@ -84,7 +84,7 @@ namespace Infrastructure.Security.Authentication.SignalR.Handlers
 
                     if (serviceResult.IsSuccess && serviceResult.Data != null)
                     {
-                        User userData = new User
+                        AuthenticatedUser userData = new AuthenticatedUser
                         {
                             Email = serviceResult.Data.Email,
                             Id = serviceResult.Data.Id,
@@ -93,7 +93,7 @@ namespace Infrastructure.Security.Authentication.SignalR.Handlers
                             Password = serviceResult.Data.Password,
                             Region = serviceResult.Data.Region,
                             SessionId = serviceResult.Data.SessionId,
-                            Token = serviceResult.Data.Token != null ? new Token()
+                            Token = serviceResult.Data.Token != null ? new AuthenticationToken()
                             {
                                 TokenKey = serviceResult.Data.Token.TokenKey,
                                 ValidTo = serviceResult.Data.Token.ValidTo
@@ -118,9 +118,9 @@ namespace Infrastructure.Security.Authentication.SignalR.Handlers
         /// Token bazlı kullanıcı oturumunu önbellekte saklar
         /// </summary>
         /// <param name="userModel">Kullanıcının model nesnesi</param>
-        private void SetToCache(User userModel)
+        private void SetToCache(AuthenticatedUser userModel)
         {
-            if (_cacheProvider.TryGetValue(CACHEDTOKENBASEDSESSIONS, out List<User> cachedUsers) && cachedUsers != default(List<User>))
+            if (_cacheProvider.TryGetValue(CACHEDTOKENBASEDSESSIONS, out List<AuthenticatedUser> cachedUsers) && cachedUsers != default(List<AuthenticatedUser>))
             {
                 cachedUsers.RemoveAll(x => x == null || x.Token == null || x.Token.ValidTo < DateTime.Now);
 
@@ -130,7 +130,7 @@ namespace Infrastructure.Security.Authentication.SignalR.Handlers
             }
             else
             {
-                List<User> userModels = new List<User>
+                List<AuthenticatedUser> userModels = new List<AuthenticatedUser>
                 {
                     userModel
                 };
@@ -144,9 +144,9 @@ namespace Infrastructure.Security.Authentication.SignalR.Handlers
         /// </summary>
         /// <param name="token">Kullanıcının oturum anahtarı</param>
         /// <returns></returns>
-        private User GetUserFromCache(string token)
+        private AuthenticatedUser GetUserFromCache(string token)
         {
-            if (_cacheProvider.TryGetValue(CACHEDTOKENBASEDSESSIONS, out List<User> cachedUsers) && cachedUsers != default(List<User>))
+            if (_cacheProvider.TryGetValue(CACHEDTOKENBASEDSESSIONS, out List<AuthenticatedUser> cachedUsers) && cachedUsers != default(List<AuthenticatedUser>))
             {
                 if (cachedUsers.RemoveAll(x => x == null || x.Token == null || x.Token.ValidTo < DateTime.Now) > 0)
                 {

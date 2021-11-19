@@ -8,7 +8,7 @@ using Infrastructure.Localization.DI;
 using Infrastructure.Logging.Logger.RequestResponseLogger.DI;
 using Infrastructure.Routing.Persistence.DI;
 using Infrastructure.Routing.Providers.DI;
-using Infrastructure.Security.Authentication.BasicToken.DI;
+using Infrastructure.Security.Authentication.DI;
 using Infrastructure.Util.DI;
 
 using Microsoft.AspNetCore.Builder;

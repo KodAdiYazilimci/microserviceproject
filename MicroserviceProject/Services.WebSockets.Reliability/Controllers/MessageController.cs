@@ -27,13 +27,13 @@ namespace Services.WebSockets.Reliability.Controllers
         [HttpPost]
         public async Task<IActionResult> SendErrorNofication([FromBody] WebSocketContentModel webSocketMessage)
         {
-            User user = null;
+            AuthenticatedUser user = null;
 
             foreach (var claim in this.User.Claims)
             {
                 if (claim.Value != "User")
                 {
-                    user = JsonConvert.DeserializeObject<User>(claim.Value);
+                    user = JsonConvert.DeserializeObject<AuthenticatedUser>(claim.Value);
                     break;
                 }
             }

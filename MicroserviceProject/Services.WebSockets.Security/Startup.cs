@@ -6,6 +6,7 @@ using Infrastructure.Communication.Http.Broker.Models;
 using Infrastructure.Routing.Persistence.DI;
 using Infrastructure.Routing.Providers.DI;
 using Infrastructure.Security.Authentication.BasicToken.DI;
+using Infrastructure.Security.Authentication.DI;
 using Infrastructure.Security.Authentication.SignalR.DI;
 
 using Microsoft.AspNetCore.Builder;
@@ -35,13 +36,13 @@ namespace Services.WebSockets.Security
             services.AddSingleton<TokensHub>();
             services.RegisterCommunicators();
             services.RegisterInMemoryCaching();
-            services.RegisterAuthentication();
+            services.RegisterBasicTokenAuthentication();
             services.RegisterCredentialProvider();
             services.RegisterRouteRepositories();
             services.RegisterRouteProvider();
             services.RegisterServiceCommunicator();
             services.RegisterCredentialProvider();
-            services.RegisterSignalRSecurity(policyName: "TokensPolicy");
+            services.RegisterSignalRAuthentication(policyName: "TokensPolicy");
 
             services.AddControllers();
         }

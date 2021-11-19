@@ -11,13 +11,13 @@ using Infrastructure.Logging.Logger.RequestResponseLogger.DI;
 using Infrastructure.Routing.Persistence.DI;
 using Infrastructure.Routing.Providers.DI;
 using Infrastructure.Security.Authentication.BasicToken.DI;
+using Infrastructure.Security.Authentication.DI;
 using Infrastructure.Util.DI;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -46,7 +46,7 @@ namespace Services.Business.Departments.Selling
         {
             services.AddControllers();
             services.AddMemoryCache();
-            services.RegisterAuthentication();
+            services.RegisterBasicTokenAuthentication();
             services.RegisterBusinessServices();
             services.RegisterCommunicators();
             services.RegisterRedisCaching();

@@ -1,4 +1,5 @@
-﻿using Infrastructure.Security.Providers;
+﻿
+using Infrastructure.Security.Authentication.Providers;
 
 using Microsoft.Extensions.Configuration;
 

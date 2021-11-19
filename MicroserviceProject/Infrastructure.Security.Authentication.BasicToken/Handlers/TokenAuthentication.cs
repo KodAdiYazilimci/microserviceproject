@@ -24,7 +24,7 @@ namespace Infrastructure.Security.Authentication.BasicToken.Handlers
     /// <summary>
     /// Kimlik doğrulama denetimi yapacak sınıf
     /// </summary>
-    public class MasterAuthentication : AuthenticationHandler<AuthenticationSchemeOptions>, IDisposable
+    public class TokenAuthentication : AuthenticationHandler<AuthenticationSchemeOptions>, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -51,7 +51,8 @@ namespace Infrastructure.Security.Authentication.BasicToken.Handlers
         /// <param name="urlEncoder"></param>
         /// <param name="systemClock"></param>
         /// <param name="authorizationCommunicator">Kimlik denetimi servisi iletişimcisi</param>
-        public MasterAuthentication(
+        /// <param name="cacheProvider">Önbellek sağlayıcısı sınıf</param>
+        public TokenAuthentication(
             IOptionsMonitor<AuthenticationSchemeOptions> options,
             ILoggerFactory loggerFactory,
             UrlEncoder urlEncoder,
@@ -88,11 +89,11 @@ namespace Infrastructure.Security.Authentication.BasicToken.Handlers
         /// <summary>
         /// Oturumda bulunan kullanıcı
         /// </summary>
-        protected async Task<User> GetUserAsync(CancellationTokenSource cancellationTokenSource)
+        protected async Task<AuthenticatedUser> GetUserAsync(CancellationTokenSource cancellationTokenSource)
         {
             if (Request.Headers.TryGetValue("Authorization", out StringValues headerToken) && headerToken.Any(x => x.Length > 0))
             {
-                User user = GetUserFromCache(headerToken);
+                AuthenticatedUser user = GetUserFromCache(headerToken);
 
                 if (user != null)
                 {
@@ -103,7 +104,7 @@ namespace Infrastructure.Security.Authentication.BasicToken.Handlers
 
                 if (serviceResult.Data != null)
                 {
-                    User userData = new User
+                    AuthenticatedUser userData = new AuthenticatedUser
                     {
                         Email = serviceResult.Data.Email,
                         Id = serviceResult.Data.Id,
@@ -112,7 +113,7 @@ namespace Infrastructure.Security.Authentication.BasicToken.Handlers
                         Password = serviceResult.Data.Password,
                         Region = serviceResult.Data.Region,
                         SessionId = serviceResult.Data.SessionId,
-                        Token = serviceResult.Data.Token != null ? new Token()
+                        Token = serviceResult.Data.Token != null ? new Model.AuthenticationToken()
                         {
                             TokenKey = serviceResult.Data.Token.TokenKey,
                             ValidTo = serviceResult.Data.Token.ValidTo
@@ -136,9 +137,9 @@ namespace Infrastructure.Security.Authentication.BasicToken.Handlers
         /// Token bazlı kullanıcı oturumunu önbellekte saklar
         /// </summary>
         /// <param name="userModel">Kullanıcının model nesnesi</param>
-        private void SetToCache(User userModel)
+        private void SetToCache(AuthenticatedUser userModel)
         {
-            if (_cacheProvider.TryGetValue(CACHEDTOKENBASEDSESSIONS, out List<User> cachedUsers) && cachedUsers != default(List<User>))
+            if (_cacheProvider.TryGetValue(CACHEDTOKENBASEDSESSIONS, out List<AuthenticatedUser> cachedUsers) && cachedUsers != default(List<AuthenticatedUser>))
             {
                 cachedUsers.RemoveAll(x => x == null || x.Token == null || x.Token.ValidTo < DateTime.Now);
 
@@ -148,7 +149,7 @@ namespace Infrastructure.Security.Authentication.BasicToken.Handlers
             }
             else
             {
-                List<User> userModels = new List<User>
+                List<AuthenticatedUser> userModels = new List<AuthenticatedUser>
                 {
                     userModel
                 };
@@ -162,9 +163,9 @@ namespace Infrastructure.Security.Authentication.BasicToken.Handlers
         /// </summary>
         /// <param name="token">Kullanıcının oturum anahtarı</param>
         /// <returns></returns>
-        private User GetUserFromCache(string token)
+        private AuthenticatedUser GetUserFromCache(string token)
         {
-            if (_cacheProvider.TryGetValue(CACHEDTOKENBASEDSESSIONS, out List<User> cachedUsers) && cachedUsers != default(List<User>))
+            if (_cacheProvider.TryGetValue(CACHEDTOKENBASEDSESSIONS, out List<AuthenticatedUser> cachedUsers) && cachedUsers != default(List<AuthenticatedUser>))
             {
                 if (cachedUsers.RemoveAll(x => x == null || x.Token == null || x.Token.ValidTo < DateTime.Now) > 0)
                 {

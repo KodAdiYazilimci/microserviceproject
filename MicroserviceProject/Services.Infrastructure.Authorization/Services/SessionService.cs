@@ -46,11 +46,11 @@ namespace Services.Infrastructure.Authorization.Business.Services
         /// <param name="credential">Kullanıcının kimlik bilgleri</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<Token> GetTokenAsync(Credential credential, CancellationTokenSource cancellationTokenSource)
+        public async Task<AuthenticationToken> GetTokenAsync(AuthenticationCredential credential, CancellationTokenSource cancellationTokenSource)
         {
             string passwordHash = SHA256Cryptography.Crypt(credential.Password);
 
-            User user =
+            AuthenticatedUser user =
                 await
                 _userRepository.GetUserAsync(credential.Email, passwordHash, cancellationTokenSource);
 
@@ -72,7 +72,7 @@ namespace Services.Infrastructure.Authorization.Business.Services
                         credential.UserAgent,
                         cancellationTokenSource);
 
-                return new Token()
+                return new AuthenticationToken()
                 {
                     TokenKey = token,
                     ValidTo = validTo

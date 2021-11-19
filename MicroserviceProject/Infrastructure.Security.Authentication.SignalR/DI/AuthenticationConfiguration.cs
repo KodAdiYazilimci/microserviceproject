@@ -18,10 +18,10 @@ namespace Infrastructure.Security.Authentication.SignalR.DI
         /// <param name="services">DI sınıfları nesnesi</param>
         /// <param name="policyName">Güvenlik politikasının adı</param>
         /// <returns></returns>
-        public static IServiceCollection RegisterSignalRSecurity(this IServiceCollection services, string policyName)
+        public static IServiceCollection RegisterSignalRAuthentication(this IServiceCollection services, string policyName)
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton<IAuthorizationHandler, DefaultAuthorizationHandler>();
+            services.AddSingleton<IAuthorizationHandler, SignalAuthorizationHandler>();
 
             services.AddAuthorizationCore(options =>
             {

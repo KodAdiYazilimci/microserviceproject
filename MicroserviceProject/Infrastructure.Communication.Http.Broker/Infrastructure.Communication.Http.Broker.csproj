@@ -17,7 +17,6 @@
     <ProjectReference Include="..\Infrastructure.Routing.Providers\Infrastructure.Routing.Providers.csproj" />
     <ProjectReference Include="..\Infrastructure.Routing\Infrastructure.Routing.csproj" />
     <ProjectReference Include="..\Infrastructure.Security.Authentication\Infrastructure.Security.Authentication.csproj" />
-    <ProjectReference Include="..\Infrastructure.Security.Providers\Infrastructure.Security.Providers.csproj" />
     <ProjectReference Include="..\Infrastructure.Validation\Infrastructure.Validation.csproj" />
   </ItemGroup>
 

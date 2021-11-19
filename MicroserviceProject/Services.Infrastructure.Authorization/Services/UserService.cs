@@ -33,27 +33,27 @@ namespace Services.Infrastructure.Authorization.Business.Services
         /// <param name="token">Kullanıcının token değeri</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<User> GetUserAsync(string token, CancellationTokenSource cancellationTokenSource)
+        public async Task<AuthenticatedUser> GetUserAsync(string token, CancellationTokenSource cancellationTokenSource)
         {
-            Session session =
+            AuthenticationSession session =
                 await
                 _sessionRepository
                 .GetValidSessionAsync(token, cancellationTokenSource);
 
             if (session != null)
             {
-                User user = await _userRepository.GetUserAsync(session.UserId, cancellationTokenSource);
+                AuthenticatedUser user = await _userRepository.GetUserAsync(session.UserId, cancellationTokenSource);
 
                 if (user != null)
                 {
-                    return new User()
+                    return new AuthenticatedUser()
                     {
                         Id = user.Id,
                         Name = user.Name,
                         Email = user.Email,
                         IsAdmin = user.IsAdmin,
                         Region = user.Region,
-                        Token = new Token()
+                        Token = new AuthenticationToken()
                         {
                             TokenKey = session.Token,
                             ValidTo = session.ValidTo
@@ -89,7 +89,7 @@ namespace Services.Infrastructure.Authorization.Business.Services
         /// <param name="credential">Kullanıcının kimlik bilgileri</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task RegisterUserAsync(Credential credential, CancellationTokenSource cancellationTokenSource)
+        public async Task RegisterUserAsync(AuthenticationCredential credential, CancellationTokenSource cancellationTokenSource)
         {
             string passwordHash = SHA256Cryptography.Crypt(credential.Password);
 

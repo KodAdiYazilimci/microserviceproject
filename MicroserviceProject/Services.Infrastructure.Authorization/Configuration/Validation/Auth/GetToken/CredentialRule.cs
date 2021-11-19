@@ -7,7 +7,7 @@ namespace Services.Infrastructure.Authorization.Configuration.Validation.Auth.Ge
     /// <summary>
     /// Auth/GetToken endpoint için validasyon kuralı
     /// </summary>
-    public class CredentialRule : AbstractValidator<Credential>
+    public class CredentialRule : AbstractValidator<AuthenticationCredential>
     {
         public CredentialRule()
         {

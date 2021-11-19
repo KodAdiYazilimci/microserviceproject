@@ -1,9 +1,9 @@
 ﻿
-using Infrastructure.Security.Providers;
+using Infrastructure.Security.Authentication.Providers;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Infrastructure.Security.Authentication.BasicToken.DI
+namespace Infrastructure.Security.Authentication.DI
 {
     /// <summary>
     /// Servis kimliği sağlayıcısı DI sınıfı

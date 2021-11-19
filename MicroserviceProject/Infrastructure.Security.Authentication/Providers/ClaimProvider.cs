@@ -18,7 +18,7 @@ namespace Infrastructure.Security.Authentication.Persistence
         /// </summary>
         /// <param name="user">Kimlik bilgisi getirilecek kullanıcı</param>
         /// <returns></returns>
-        public static IEnumerable<Claim> GetClaims(User user)
+        public static IEnumerable<Claim> GetClaims(AuthenticatedUser user)
         {
             return new List<Claim>()
             {

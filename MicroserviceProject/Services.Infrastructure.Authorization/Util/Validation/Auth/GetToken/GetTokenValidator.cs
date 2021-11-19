@@ -22,7 +22,7 @@ namespace Services.Infrastructure.Authorization.Util.Validation.Auth.GetToken
         /// <param name="credential">Doğrulanacak nesne</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public static async Task<ServiceResultModel> ValidateAsync(Credential credential, CancellationTokenSource cancellationTokenSource)
+        public static async Task<ServiceResultModel> ValidateAsync(AuthenticationCredential credential, CancellationTokenSource cancellationTokenSource)
         {
             Configuration.Validation.Auth.GetToken.CredentialRule validationRules = new Configuration.Validation.Auth.GetToken.CredentialRule();
 

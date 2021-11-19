@@ -5,7 +5,7 @@ namespace Infrastructure.Security.Model
     /// <summary>
     /// Kullanıcı oturumları modeli
     /// </summary>
-    public class Session
+    public class AuthenticationSession
     {
         /// <summary>
         /// Oturumun Id değeri

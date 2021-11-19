@@ -12,6 +12,7 @@ using Infrastructure.Logging.Logger.RequestResponseLogger.DI;
 using Infrastructure.Routing.Persistence.DI;
 using Infrastructure.Routing.Providers.DI;
 using Infrastructure.Security.Authentication.BasicToken.DI;
+using Infrastructure.Security.Authentication.DI;
 using Infrastructure.Util.DI;
 
 using Microsoft.AspNetCore.Builder;
@@ -43,7 +44,7 @@ namespace Services.Gateway.Public
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.RegisterAuthentication();
+            services.RegisterBasicTokenAuthentication();
             services.AddMemoryCache();
             services.RegisterRedisCaching();
             services.RegisterCommunicators();

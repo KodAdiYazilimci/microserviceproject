@@ -7,7 +7,7 @@ using Infrastructure.Communication.Http.Broker.Models;
 using Infrastructure.Localization.DI;
 using Infrastructure.Routing.Persistence.DI;
 using Infrastructure.Routing.Providers.DI;
-using Infrastructure.Security.Authentication.BasicToken.DI;
+using Infrastructure.Security.Authentication.DI;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;

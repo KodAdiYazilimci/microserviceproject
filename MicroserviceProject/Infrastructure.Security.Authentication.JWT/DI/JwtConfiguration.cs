@@ -16,7 +16,7 @@ namespace Infrastructure.Security.Authentication.JWT.DI
         /// </summary>
         /// <param name="services">DI sınıfları nesnesi</param>
         /// <returns></returns>
-        public static IServiceCollection RegisterJWT(this IServiceCollection services)
+        public static IServiceCollection RegisterJWTAuthentication(this IServiceCollection services)
         {
             services.AddAuthentication(config =>
             {

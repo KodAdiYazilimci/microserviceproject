@@ -112,9 +112,9 @@ namespace Services.Infrastructure.Authorization.Persistence.Sql.Repositories
         /// </summary>
         /// <param name="token">Oturumun token anahtarı</param>
         /// <returns></returns>
-        public async Task<Session> GetValidSessionAsync(string token, CancellationTokenSource cancellationTokenSource)
+        public async Task<AuthenticationSession> GetValidSessionAsync(string token, CancellationTokenSource cancellationTokenSource)
         {
-            Session session = null;
+            AuthenticationSession session = null;
 
             Exception exception = null;
 
@@ -153,7 +153,7 @@ namespace Services.Infrastructure.Authorization.Persistence.Sql.Repositories
                         {
                             while (await sqlDataReader.ReadAsync(cancellationTokenSource.Token))
                             {
-                                session = new Session
+                                session = new AuthenticationSession
                                 {
                                     Id = Convert.ToInt32(sqlDataReader["ID"])
                                 };

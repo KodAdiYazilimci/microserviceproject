@@ -20,7 +20,7 @@ namespace Services.WebSockets.Reliability.Hubs
         /// <param name="user">Sokete gönderilen mesajın sahibi</param>
         /// <param name="webSocketMessage">Soket mesajın içeriği</param>
         /// <returns></returns>
-        public async Task SendAsync(User user, WebSocketContentModel webSocketMessage)
+        public async Task SendAsync(AuthenticatedUser user, WebSocketContentModel webSocketMessage)
         {
             WebSocketResultModel webSocketResultModel = new WebSocketResultModel()
             {

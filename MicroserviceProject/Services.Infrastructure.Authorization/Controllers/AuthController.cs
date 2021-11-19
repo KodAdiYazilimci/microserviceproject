@@ -29,7 +29,7 @@ namespace Services.Infrastructure.Authorization.Controllers
 
         [Route("GetToken")]
         [HttpPost]
-        public async Task<IActionResult> GetToken([FromBody] Credential credential, CancellationTokenSource cancellationTokenSource)
+        public async Task<IActionResult> GetToken([FromBody] AuthenticationCredential credential, CancellationTokenSource cancellationTokenSource)
         {
             try
             {
@@ -42,7 +42,7 @@ namespace Services.Infrastructure.Authorization.Controllers
 
                 var token = await _sessionService.GetTokenAsync(credential, new CancellationTokenSource());
 
-                return Ok(new ServiceResultModel<Token>()
+                return Ok(new ServiceResultModel<AuthenticationToken>()
                 {
                     IsSuccess = true,
                     Data = token
@@ -72,9 +72,9 @@ namespace Services.Infrastructure.Authorization.Controllers
         {
             try
             {
-                User user = await _userService.GetUserAsync(token, new CancellationTokenSource());
+                AuthenticatedUser user = await _userService.GetUserAsync(token, new CancellationTokenSource());
 
-                return Ok(new ServiceResultModel<User>()
+                return Ok(new ServiceResultModel<AuthenticatedUser>()
                 {
                     Data = user
                 });
@@ -120,7 +120,7 @@ namespace Services.Infrastructure.Authorization.Controllers
 
         [Route("RegisterUser")]
         [HttpPost]
-        public async Task<IActionResult> RegisterUser([FromBody] Credential credential)
+        public async Task<IActionResult> RegisterUser([FromBody] AuthenticationCredential credential)
         {
             try
             {

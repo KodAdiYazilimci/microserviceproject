@@ -17,11 +17,11 @@ namespace Infrastructure.Security.Authentication.BasicToken.DI
         /// </summary>
         /// <param name="services">DI servisleri nesnesi</param>
         /// <returns></returns>
-        public static IServiceCollection RegisterAuthentication(this IServiceCollection services)
+        public static IServiceCollection RegisterBasicTokenAuthentication(this IServiceCollection services)
         {
             services
                 .AddAuthentication(Default.DefaultScheme)
-                .AddScheme<AuthenticationSchemeOptions, MasterAuthentication>(Default.DefaultScheme, null);
+                .AddScheme<AuthenticationSchemeOptions, TokenAuthentication>(Default.DefaultScheme, null);
 
             return services;
         }

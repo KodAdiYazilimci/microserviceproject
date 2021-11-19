@@ -7,8 +7,8 @@ using Infrastructure.Routing.Models;
 using Infrastructure.Routing.Persistence.Repositories.Sql;
 using Infrastructure.Routing.Providers;
 using Infrastructure.Security.Authentication.Exceptions;
+using Infrastructure.Security.Authentication.Providers;
 using Infrastructure.Security.Model;
-using Infrastructure.Security.Providers;
 using Infrastructure.Sockets.Exceptions;
 using Infrastructure.Sockets.Models;
 using Infrastructure.Sockets.Persistence.Repositories.Sql;
@@ -125,7 +125,7 @@ namespace Infrastructure.Communication.WebSockets
         /// <returns></returns>
         public async Task ListenAsync(string socketName, CancellationTokenSource cancellationTokenSource)
         {
-            Token takenTokenForThisService = _cacheProvider.Get<Token>(TAKENTOKENFORTHISSERVICE);
+            AuthenticationToken takenTokenForThisService = _cacheProvider.Get<AuthenticationToken>(TAKENTOKENFORTHISSERVICE);
 
             if (string.IsNullOrWhiteSpace(takenTokenForThisService?.TokenKey)
                 ||
@@ -137,10 +137,10 @@ namespace Infrastructure.Communication.WebSockets
                     return await GetServiceAsync(serviceName, cancellationTokenSource);
                 };
 
-                ServiceResultModel<Token> tokenResult =
-                    await serviceTokenCaller.Call<Token>(
+                ServiceResultModel<AuthenticationToken> tokenResult =
+                    await serviceTokenCaller.Call<AuthenticationToken>(
                         serviceName: _routeNameProvider.Auth_GetToken,
-                        postData: new Credential()
+                        postData: new AuthenticationCredential()
                         {
                             Email = _credentialProvider.GetEmail,
                             Password = _credentialProvider.GetPassword
@@ -152,7 +152,7 @@ namespace Infrastructure.Communication.WebSockets
                 if (tokenResult.IsSuccess && tokenResult.Data != null)
                 {
                     takenTokenForThisService = tokenResult.Data;
-                    _cacheProvider.Set<Token>(TAKENTOKENFORTHISSERVICE, tokenResult.Data);
+                    _cacheProvider.Set<AuthenticationToken>(TAKENTOKENFORTHISSERVICE, tokenResult.Data);
                 }
                 else
                 {

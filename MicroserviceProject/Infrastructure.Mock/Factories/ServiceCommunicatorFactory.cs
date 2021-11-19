@@ -2,7 +2,7 @@
 using Infrastructure.Communication.Broker;
 using Infrastructure.Routing.Persistence.Repositories.Sql;
 using Infrastructure.Routing.Providers;
-using Infrastructure.Security.Providers;
+using Infrastructure.Security.Authentication.Providers;
 
 namespace Infrastructure.Mock.Factories
 {

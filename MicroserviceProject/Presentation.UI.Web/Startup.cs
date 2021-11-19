@@ -1,6 +1,17 @@
 
+using Communication.Http.DI;
+
+using Infrastructure.Caching.InMemory.DI;
+using Infrastructure.Communication.Broker.DI;
+using Infrastructure.Routing.Persistence.DI;
+using Infrastructure.Routing.Providers.DI;
+using Infrastructure.Security.Authentication.Cookie.DI;
+using Infrastructure.Security.Authentication.DI;
+
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -20,6 +31,17 @@ namespace Presentation.UI.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddHttpContextAccessor();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddMemoryCache();
+
+            services.RegisterCredentialProvider();
+            services.RegisterCommunicators();
+            services.RegisterCookieAuthentication("/Login");
+            services.RegisterInMemoryCaching();
+            services.RegisterRouteProvider();
+            services.RegisterRouteRepositories();
+            services.RegisterServiceCommunicator();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

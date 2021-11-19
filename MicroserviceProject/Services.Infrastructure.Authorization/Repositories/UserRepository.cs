@@ -35,9 +35,9 @@ namespace Services.Infrastructure.Authorization.Persistence.Sql.Repositories
         /// Kullanıcıların listesini verir
         /// </summary>
         /// <returns></returns>
-        public async Task<List<User>> GetUsersAsync(CancellationTokenSource cancellationTokenSource)
+        public async Task<List<AuthenticatedUser>> GetUsersAsync(CancellationTokenSource cancellationTokenSource)
         {
-            List<User> users = new List<User>();
+            List<AuthenticatedUser> users = new List<AuthenticatedUser>();
 
             Exception exception = null;
 
@@ -62,7 +62,7 @@ namespace Services.Infrastructure.Authorization.Persistence.Sql.Repositories
                         {
                             while (await sqlDataReader.ReadAsync(cancellationTokenSource.Token))
                             {
-                                User user = new User
+                                AuthenticatedUser user = new AuthenticatedUser
                                 {
                                     Id = Convert.ToInt32(sqlDataReader["ID"])
                                 };
@@ -100,9 +100,9 @@ namespace Services.Infrastructure.Authorization.Persistence.Sql.Repositories
         /// </summary>
         /// <param name="userId">Getirilecek kullanıcının Id değeri</param>
         /// <returns></returns>
-        public async Task<User> GetUserAsync(int userId, CancellationTokenSource cancellationTokenSource)
+        public async Task<AuthenticatedUser> GetUserAsync(int userId, CancellationTokenSource cancellationTokenSource)
         {
-            User user = null;
+            AuthenticatedUser user = null;
 
             Exception exception = null;
 
@@ -125,7 +125,7 @@ namespace Services.Infrastructure.Authorization.Persistence.Sql.Repositories
                         {
                             while (await sqlDataReader.ReadAsync(cancellationTokenSource.Token))
                             {
-                                user = new User
+                                user = new AuthenticatedUser
                                 {
                                     Id = Convert.ToInt32(sqlDataReader["ID"])
                                 };
@@ -163,9 +163,9 @@ namespace Services.Infrastructure.Authorization.Persistence.Sql.Repositories
         /// <param name="email">Kullanıcının e-posta adresi</param>
         /// <param name="password">Kullanıcının parolası</param>
         /// <returns></returns>
-        public async Task<User> GetUserAsync(string email, string password, CancellationTokenSource cancellationTokenSource)
+        public async Task<AuthenticatedUser> GetUserAsync(string email, string password, CancellationTokenSource cancellationTokenSource)
         {
-            User user = null;
+            AuthenticatedUser user = null;
 
             Exception exception = null;
 
@@ -189,7 +189,7 @@ namespace Services.Infrastructure.Authorization.Persistence.Sql.Repositories
                         {
                             while (await sqlDataReader.ReadAsync(cancellationTokenSource.Token))
                             {
-                                user = new User
+                                user = new AuthenticatedUser
                                 {
                                     Id = Convert.ToInt32(sqlDataReader["ID"])
                                 };

@@ -70,7 +70,7 @@ namespace Infrastructure.Security.Authentication.BasicToken.Handlers
 
             if (requirementTokens.Any(x => x == "Admin")
                 &&
-                JsonConvert.DeserializeObject<User>(context.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.UserData).Value).IsAdmin)
+                JsonConvert.DeserializeObject<AuthenticatedUser>(context.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.UserData).Value).IsAdmin)
             {
                 StateHandler.Succeed(context, requirement.Identifier);
                 return Task.CompletedTask;

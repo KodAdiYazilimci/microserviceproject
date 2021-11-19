@@ -2,7 +2,7 @@
 
 namespace Presentation.UI.Web.Models
 {
-    public class CredentialModel
+    public class SignUpModel
     {
         [Display(Name = "E-posta:")]
         [Required(ErrorMessage = "E-posta adresi gerekli")]
