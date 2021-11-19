@@ -1,8 +1,9 @@
-﻿using Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Buying;
-using Services.MQ.Buying.Util.Consumers.Cost;
-using Services.MQ.Buying.Util.Consumers.Request;
+﻿using Communication.Mq.Rabbit.Configuration.Department.Buying;
 
 using Microsoft.Extensions.DependencyInjection;
+
+using Services.MQ.Buying.Util.Consumers.Cost;
+using Services.MQ.Buying.Util.Consumers.Request;
 
 namespace Services.MQ.Buying.DI
 {

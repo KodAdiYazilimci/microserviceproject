@@ -31,7 +31,7 @@ namespace Infrastructure.Mock.Providers.Configuration
         /// <summary>
         /// Configuration düğümü
         /// </summary>
-        public ConfigurationSection ConfigurationSection { get; set; } = new ConfigurationSection();
+        public Sections.ConfigurationSection ConfigurationSection { get; set; } = new Sections.ConfigurationSection();
 
         /// <summary>
         /// Persistence düğümü

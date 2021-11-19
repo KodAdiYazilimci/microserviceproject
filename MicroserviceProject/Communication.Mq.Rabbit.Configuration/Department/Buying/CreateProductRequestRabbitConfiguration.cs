@@ -3,12 +3,12 @@ using Microsoft.Extensions.Configuration;
 
 using System;
 
-namespace Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Buying
+namespace Communication.Mq.Rabbit.Configuration.Department.Buying
 {
     /// <summary>
-    /// Satınalma departmanına alınması istenilen envanter talepleri için yapılandırma sınıfı
+    /// Satınalma departmanına alınması istenilen ürün talepleri için yapılandırma sınıfı
     /// </summary>
-    public class CreateInventoryRequestRabbitConfiguration : BaseConfiguration, IDisposable
+    public class CreateProductRequestRabbitConfiguration : BaseConfiguration, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -16,11 +16,11 @@ namespace Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Buying
         private bool disposed = false;
 
         /// <summary>
-        /// Satınalma departmanına alınması istenilen envanter talepleri için yapılandırma sınıfı
+        /// Satınalma departmanına alınması istenilen ürün talepleri için yapılandırma sınıfı
         /// <paramref name="configuration">Ayarların okunacağı configuration nesnesi</paramref>
         /// </summary>
         /// <param name="configuration"></param>
-        public CreateInventoryRequestRabbitConfiguration(IConfiguration configuration)
+        public CreateProductRequestRabbitConfiguration(IConfiguration configuration)
             : base(configuration)
         {
             QueueName =
@@ -29,7 +29,7 @@ namespace Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Buying
                 .GetSection("RabbitQueues")
                 .GetSection("Services")
                 .GetSection("Buying")
-                .GetSection("QueueNames")["CreateInventoryRequest"];
+                .GetSection("QueueNames")["CreateProductRequest"];
         }
 
         /// <summary>

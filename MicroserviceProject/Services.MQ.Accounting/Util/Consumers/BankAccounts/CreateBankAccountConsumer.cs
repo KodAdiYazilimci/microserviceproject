@@ -1,15 +1,13 @@
-﻿using Infrastructure.Communication.Broker;
-using Infrastructure.Communication.Mq.Rabbit;
-using Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Accounting;
+﻿using Communication.Http.Department.Accounting;
+using Communication.Mq.Rabbit.Configuration.Department.Accounting;
 using Communication.Mq.Rabbit.Publisher.Department.Accounting.Models;
-using Infrastructure.Routing.Providers;
+
+using Infrastructure.Communication.Mq.Rabbit;
 
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Communication.Http.Department.Accounting;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Services.MQ.Accounting.Util.Consumers.Inventory
 {

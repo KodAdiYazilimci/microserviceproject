@@ -1,12 +1,12 @@
 
 using Communication.Http.DI;
+using Communication.Mq.Rabbit.Configuration.DI;
 using Communication.Mq.Rabbit.Publisher.Department.DI;
 
 using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Caching.Redis.DI;
 using Infrastructure.Communication.Broker.DI;
 using Infrastructure.Communication.Http.Broker.Models;
-using Infrastructure.Communication.Mq.Rabbit.Configuration.DI;
 using Infrastructure.Localization.DI;
 using Infrastructure.Logging.Logger.RequestResponseLogger.DI;
 using Infrastructure.Routing.Persistence.DI;

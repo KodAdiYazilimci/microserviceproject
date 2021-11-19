@@ -3,12 +3,12 @@ using Microsoft.Extensions.Configuration;
 
 using System;
 
-namespace Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Production
+namespace Communication.Mq.Rabbit.Configuration.Department.Finance
 {
     /// <summary>
-    /// Üretilecek ürünlerin rabbit kuyruğu için yapılandırma sınıfı
+    /// Satınalma departmanından alınması istenilen envanter talepleri için yapılandırma sınıfı
     /// </summary>
-    public class ProductionProduceRabbitConfiguration : BaseConfiguration, IDisposable
+    public class InventoryRequestRabbitConfiguration : BaseConfiguration, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -16,11 +16,11 @@ namespace Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Produc
         private bool disposed = false;
 
         /// <summary>
-        /// Üretilecek ürünlerin rabbit kuyruğu için yapılandırma sınıfı
+        /// Satınalma departmanından alınması istenilen envanter talepleri için yapılandırma sınıfı
         /// <paramref name="configuration">Ayarların okunacağı configuration nesnesi</paramref>
         /// </summary>
         /// <param name="configuration"></param>
-        public ProductionProduceRabbitConfiguration(IConfiguration configuration)
+        public InventoryRequestRabbitConfiguration(IConfiguration configuration)
             : base(configuration)
         {
             QueueName =
@@ -28,8 +28,8 @@ namespace Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Produc
                 .GetSection("Configuration")
                 .GetSection("RabbitQueues")
                 .GetSection("Services")
-                .GetSection("Production")
-                .GetSection("QueueNames")["Produce"];
+                .GetSection("Finance")
+                .GetSection("QueueNames")["InventoryRequest"];
         }
 
         /// <summary>

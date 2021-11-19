@@ -3,12 +3,12 @@ using Microsoft.Extensions.Configuration;
 
 using System;
 
-namespace Infrastructure.Communication.Mq.Rabbit.Configuration.Department.AA
+namespace Communication.Mq.Rabbit.Configuration.Department.Accounting
 {
     /// <summary>
-    /// Envanter talebiyle ilgili satınalma sonucunu rabbit kuyruğundan almak için yapılandırma sınıfı
+    /// Çalışana maaş hesabı açan rabbit kuyruğu için yapılandırma sınıfı
     /// </summary>
-    public class AAInformInventoryRequestRabbitConfiguration : BaseConfiguration, IDisposable
+    public class CreateBankAccountRabbitConfiguration : BaseConfiguration, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -16,11 +16,11 @@ namespace Infrastructure.Communication.Mq.Rabbit.Configuration.Department.AA
         private bool disposed = false;
 
         /// <summary>
-        /// Envanter talebiyle ilgili satınalma sonucunu rabbit kuyruğundan almak için yapılandırma sınıfı
+        /// Çalışana maaş hesabı açan rabbit kuyruğu için yapılandırma sınıfı
         /// <paramref name="configuration">Ayarların okunacağı configuration nesnesi</paramref>
         /// </summary>
         /// <param name="configuration"></param>
-        public AAInformInventoryRequestRabbitConfiguration(IConfiguration configuration)
+        public CreateBankAccountRabbitConfiguration(IConfiguration configuration)
             : base(configuration)
         {
             QueueName =
@@ -28,8 +28,8 @@ namespace Infrastructure.Communication.Mq.Rabbit.Configuration.Department.AA
                 .GetSection("Configuration")
                 .GetSection("RabbitQueues")
                 .GetSection("Services")
-                .GetSection("AA")
-                .GetSection("QueueNames")["InformInventoryRequest"];
+                .GetSection("Accounting")
+                .GetSection("QueueNames")["CreateBankAccount"];
         }
 
         /// <summary>

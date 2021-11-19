@@ -1,15 +1,15 @@
-﻿using Infrastructure.Communication.Mq.Rabbit.Configuration.Department.AA;
-using Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Accounting;
-using Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Buying;
-using Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Finance;
-using Infrastructure.Communication.Mq.Rabbit.Configuration.Department.IT;
-using Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Production;
-using Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Selling;
-using Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Storage;
+﻿using Communication.Mq.Rabbit.Configuration.Department.AA;
+using Communication.Mq.Rabbit.Configuration.Department.Accounting;
+using Communication.Mq.Rabbit.Configuration.Department.Buying;
+using Communication.Mq.Rabbit.Configuration.Department.Finance;
+using Communication.Mq.Rabbit.Configuration.Department.IT;
+using Communication.Mq.Rabbit.Configuration.Department.Production;
+using Communication.Mq.Rabbit.Configuration.Department.Selling;
+using Communication.Mq.Rabbit.Configuration.Department.Storage;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Infrastructure.Communication.Mq.Rabbit.Configuration.DI
+namespace Communication.Mq.Rabbit.Configuration.DI
 {
     /// <summary>
     /// Kuyrukların DI sınıfı

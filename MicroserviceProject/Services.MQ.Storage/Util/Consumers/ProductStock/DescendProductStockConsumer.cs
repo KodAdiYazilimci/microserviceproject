@@ -1,9 +1,9 @@
 ﻿using Communication.Http.Department.Storage;
 using Communication.Http.Department.Storage.Models;
+using Communication.Mq.Rabbit.Configuration.Department.Storage;
 using Communication.Mq.Rabbit.Publisher.Department.Storage.Models;
 
 using Infrastructure.Communication.Mq.Rabbit;
-using Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Storage;
 
 using System;
 using System.Threading;

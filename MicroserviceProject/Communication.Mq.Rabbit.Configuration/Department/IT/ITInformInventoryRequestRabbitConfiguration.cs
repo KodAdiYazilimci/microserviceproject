@@ -3,12 +3,12 @@ using Microsoft.Extensions.Configuration;
 
 using System;
 
-namespace Infrastructure.Communication.Mq.Rabbit.Configuration.Department.IT
+namespace Communication.Mq.Rabbit.Configuration.Department.IT
 {
     /// <summary>
-    /// Çalışana envanter ekleyecek rabbit kuyruğu için yapılandırma sınıfı
+    /// Envanter talebiyle ilgili satınalma sonucunu rabbit kuyruğundan almak için yapılandırma sınıfı
     /// </summary>
-    public class ITAssignInventoryToWorkerRabbitConfiguration : BaseConfiguration, IDisposable
+    public class ITInformInventoryRequestRabbitConfiguration : BaseConfiguration, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -16,11 +16,11 @@ namespace Infrastructure.Communication.Mq.Rabbit.Configuration.Department.IT
         private bool disposed = false;
 
         /// <summary>
-        /// Çalışana envanter ekleyecek rabbit kuyruğu için yapılandırma sınıfı
+        /// Envanter talebiyle ilgili satınalma sonucunu rabbit kuyruğundan almak için yapılandırma sınıfı
         /// <paramref name="configuration">Ayarların okunacağı configuration nesnesi</paramref>
         /// </summary>
         /// <param name="configuration"></param>
-        public ITAssignInventoryToWorkerRabbitConfiguration(IConfiguration configuration)
+        public ITInformInventoryRequestRabbitConfiguration(IConfiguration configuration)
             : base(configuration)
         {
             QueueName =
@@ -29,7 +29,7 @@ namespace Infrastructure.Communication.Mq.Rabbit.Configuration.Department.IT
                 .GetSection("RabbitQueues")
                 .GetSection("Services")
                 .GetSection("IT")
-                .GetSection("QueueNames")["AssignInventoryToWorker"];
+                .GetSection("QueueNames")["InformInventoryRequest"];
         }
 
         /// <summary>

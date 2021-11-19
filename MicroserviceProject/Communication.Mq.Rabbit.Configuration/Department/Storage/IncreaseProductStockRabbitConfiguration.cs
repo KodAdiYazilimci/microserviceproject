@@ -3,12 +3,12 @@ using Microsoft.Extensions.Configuration;
 
 using System;
 
-namespace Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Storage
+namespace Communication.Mq.Rabbit.Configuration.Department.Storage
 {
     /// <summary>
-    /// Depolama departmanına bir ürünün stoğunun düşürülmesi için yapılandırma sınıfı
+    /// Depolama departmanına bir ürünün stoğunun artırılması için yapılandırma sınıfı
     /// </summary>
-    public class DescendProductStockRabbitConfiguration : BaseConfiguration, IDisposable
+    public class IncreaseProductStockRabbitConfiguration : BaseConfiguration, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -16,11 +16,11 @@ namespace Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Storag
         private bool disposed = false;
 
         /// <summary>
-        /// Depolama departmanına bir ürünün stoğunun düşürülmesi için yapılandırma sınıfı
+        /// Depolama departmanına bir ürünün stoğunun artırılması için yapılandırma sınıfı
         /// <paramref name="configuration">Ayarların okunacağı configuration nesnesi</paramref>
         /// </summary>
         /// <param name="configuration"></param>
-        public DescendProductStockRabbitConfiguration(IConfiguration configuration)
+        public IncreaseProductStockRabbitConfiguration(IConfiguration configuration)
             : base(configuration)
         {
             QueueName =
@@ -29,7 +29,7 @@ namespace Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Storag
                 .GetSection("RabbitQueues")
                 .GetSection("Services")
                 .GetSection("Storage")
-                .GetSection("QueueNames")["DescendProductStock"];
+                .GetSection("QueueNames")["IncreaseProductStock"];
         }
 
         /// <summary>

@@ -3,12 +3,12 @@ using Microsoft.Extensions.Configuration;
 
 using System;
 
-namespace Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Accounting
+namespace Communication.Mq.Rabbit.Configuration.Department.Selling
 {
     /// <summary>
-    /// Çalışana maaş hesabı açan rabbit kuyruğu için yapılandırma sınıfı
+    /// Üretilmesi talep edilmiş ürünlerin onay sonuçlarını kuyruğa eklemesi için yapılandırma sınıfı
     /// </summary>
-    public class CreateBankAccountRabbitConfiguration : BaseConfiguration, IDisposable
+    public class NotifyProductionRequestApprovementRabbitConfiguration : BaseConfiguration, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -16,11 +16,11 @@ namespace Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Accoun
         private bool disposed = false;
 
         /// <summary>
-        /// Çalışana maaş hesabı açan rabbit kuyruğu için yapılandırma sınıfı
+        /// Üretilmesi talep edilmiş ürünlerin onay sonuçlarını kuyruğa eklemesi için yapılandırma sınıfı
         /// <paramref name="configuration">Ayarların okunacağı configuration nesnesi</paramref>
         /// </summary>
         /// <param name="configuration"></param>
-        public CreateBankAccountRabbitConfiguration(IConfiguration configuration)
+        public NotifyProductionRequestApprovementRabbitConfiguration(IConfiguration configuration)
             : base(configuration)
         {
             QueueName =
@@ -28,8 +28,8 @@ namespace Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Accoun
                 .GetSection("Configuration")
                 .GetSection("RabbitQueues")
                 .GetSection("Services")
-                .GetSection("Accounting")
-                .GetSection("QueueNames")["CreateBankAccount"];
+                .GetSection("Selling")
+                .GetSection("QueueNames")["NotifyProductionRequestApprovement"];
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-﻿using Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Finance;
+﻿using Communication.Mq.Rabbit.Configuration.Department.Finance;
 using Communication.Mq.Rabbit.Publisher.Department.Finance.Models;
 
 using System;

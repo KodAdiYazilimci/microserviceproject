@@ -1,9 +1,11 @@
 ﻿
+using Infrastructure.Communication.Mq.Rabbit;
+
 using Microsoft.Extensions.Configuration;
 
 using System;
 
-namespace Infrastructure.Communication.Mq.Rabbit.Configuration
+namespace Communication.Mq.Rabbit.Configuration
 {
     /// <summary>
     /// Rabbit kuyrukları için temel yapılandırma sınıfı

@@ -1,8 +1,8 @@
 ﻿using Communication.Http.Department.Buying;
+using Communication.Mq.Rabbit.Configuration.Department.Buying;
 using Communication.Mq.Rabbit.Publisher.Department.Buying.Models;
 
 using Infrastructure.Communication.Mq.Rabbit;
-using Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Buying;
 
 using System;
 using System.Threading;

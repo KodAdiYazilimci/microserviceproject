@@ -1,4 +1,4 @@
-﻿using Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Buying;
+﻿using Communication.Mq.Rabbit.Configuration.Department.Buying;
 using Communication.Mq.Rabbit.Publisher.Department.Buying.Models;
 
 using System;

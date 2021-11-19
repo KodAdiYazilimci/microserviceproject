@@ -3,12 +3,12 @@ using Microsoft.Extensions.Configuration;
 
 using System;
 
-namespace Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Finance
+namespace Communication.Mq.Rabbit.Configuration.Department.Storage
 {
     /// <summary>
-    /// Satınalma departmanından alınması istenilen envanter talepleri için yapılandırma sınıfı
+    /// Depolama departmanına bir ürünün stoğunun düşürülmesi için yapılandırma sınıfı
     /// </summary>
-    public class InventoryRequestRabbitConfiguration : BaseConfiguration, IDisposable
+    public class DescendProductStockRabbitConfiguration : BaseConfiguration, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -16,11 +16,11 @@ namespace Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Financ
         private bool disposed = false;
 
         /// <summary>
-        /// Satınalma departmanından alınması istenilen envanter talepleri için yapılandırma sınıfı
+        /// Depolama departmanına bir ürünün stoğunun düşürülmesi için yapılandırma sınıfı
         /// <paramref name="configuration">Ayarların okunacağı configuration nesnesi</paramref>
         /// </summary>
         /// <param name="configuration"></param>
-        public InventoryRequestRabbitConfiguration(IConfiguration configuration)
+        public DescendProductStockRabbitConfiguration(IConfiguration configuration)
             : base(configuration)
         {
             QueueName =
@@ -28,8 +28,8 @@ namespace Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Financ
                 .GetSection("Configuration")
                 .GetSection("RabbitQueues")
                 .GetSection("Services")
-                .GetSection("Finance")
-                .GetSection("QueueNames")["InventoryRequest"];
+                .GetSection("Storage")
+                .GetSection("QueueNames")["DescendProductStock"];
         }
 
         /// <summary>

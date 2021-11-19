@@ -3,12 +3,12 @@ using Microsoft.Extensions.Configuration;
 
 using System;
 
-namespace Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Buying
+namespace Communication.Mq.Rabbit.Configuration.Department.AA
 {
     /// <summary>
-    /// Satın alınması planlanan envanterlere ait bütçenin sonuçlandırılması için yapılandırma sınıfı
+    /// Envanter talebiyle ilgili satınalma sonucunu rabbit kuyruğundan almak için yapılandırma sınıfı
     /// </summary>
-    public class NotifyCostApprovementRabbitConfiguration : BaseConfiguration, IDisposable
+    public class AAInformInventoryRequestRabbitConfiguration : BaseConfiguration, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -16,11 +16,11 @@ namespace Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Buying
         private bool disposed = false;
 
         /// <summary>
-        /// Satın alınması planlanan envanterlere ait bütçenin sonuçlandırılması için yapılandırma sınıfı
+        /// Envanter talebiyle ilgili satınalma sonucunu rabbit kuyruğundan almak için yapılandırma sınıfı
         /// <paramref name="configuration">Ayarların okunacağı configuration nesnesi</paramref>
         /// </summary>
         /// <param name="configuration"></param>
-        public NotifyCostApprovementRabbitConfiguration(IConfiguration configuration)
+        public AAInformInventoryRequestRabbitConfiguration(IConfiguration configuration)
             : base(configuration)
         {
             QueueName =
@@ -28,8 +28,8 @@ namespace Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Buying
                 .GetSection("Configuration")
                 .GetSection("RabbitQueues")
                 .GetSection("Services")
-                .GetSection("Buying")
-                .GetSection("QueueNames")["NotifyCostApprovement"];
+                .GetSection("AA")
+                .GetSection("QueueNames")["InformInventoryRequest"];
         }
 
         /// <summary>

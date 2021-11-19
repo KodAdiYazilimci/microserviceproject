@@ -1,13 +1,12 @@
-﻿using Infrastructure.Communication.Broker;
-using Infrastructure.Communication.Mq.Rabbit;
-using Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Finance;
+﻿using Communication.Http.Department.Finance;
+using Communication.Mq.Rabbit.Configuration.Department.Finance;
 using Communication.Mq.Rabbit.Publisher.Department.Finance.Models;
-using Infrastructure.Routing.Providers;
+
+using Infrastructure.Communication.Mq.Rabbit;
 
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Communication.Http.Department.Finance;
 
 namespace Services.MQ.Finance.Util.Consumers.Request
 {

@@ -1,6 +1,5 @@
-﻿using Communication.Mq.Rabbit.Publisher.Department.Selling.Models;
-
-using Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Selling;
+﻿using Communication.Mq.Rabbit.Configuration.Department.Selling;
+using Communication.Mq.Rabbit.Publisher.Department.Selling.Models;
 
 using System;
 

@@ -1,12 +1,15 @@
+using Communication.Http.DI;
+using Communication.Mq.Rabbit.Configuration.DI;
+using Communication.Mq.Rabbit.Publisher.Department.DI;
+
 using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Caching.Redis.DI;
 using Infrastructure.Communication.Broker.DI;
 using Infrastructure.Communication.Http.Broker.Models;
-using Infrastructure.Communication.Mq.Rabbit.Configuration.DI;
-using Communication.Mq.Rabbit.Publisher.Department.DI;
 using Infrastructure.Routing.Persistence.DI;
 using Infrastructure.Routing.Providers.DI;
 using Infrastructure.Security.Authentication.BasicToken.DI;
+using Infrastructure.Security.Authentication.DI;
 using Infrastructure.Util.DI;
 
 using Microsoft.AspNetCore.Builder;
@@ -24,8 +27,6 @@ using Services.Infrastructure.Logging.DI;
 using Services.UnitOfWork.Sql.DI;
 
 using System.Net;
-using Communication.Http.DI;
-using Infrastructure.Security.Authentication.DI;
 
 namespace Services.Infrastructure.Logging
 {

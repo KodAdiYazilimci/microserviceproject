@@ -1,8 +1,9 @@
-﻿using Infrastructure.Communication.Mq.Rabbit.Configuration.Department.AA;
-using Services.MQ.AA.Util.Consumers.Inventory;
-using Services.MQ.AA.Util.Consumers.Request;
+﻿using Communication.Mq.Rabbit.Configuration.Department.AA;
 
 using Microsoft.Extensions.DependencyInjection;
+
+using Services.MQ.AA.Util.Consumers.Inventory;
+using Services.MQ.AA.Util.Consumers.Request;
 
 namespace Services.MQ.AA.DI
 {

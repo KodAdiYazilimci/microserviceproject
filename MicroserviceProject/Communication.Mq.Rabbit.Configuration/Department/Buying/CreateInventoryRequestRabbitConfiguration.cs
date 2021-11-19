@@ -3,12 +3,12 @@ using Microsoft.Extensions.Configuration;
 
 using System;
 
-namespace Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Selling
+namespace Communication.Mq.Rabbit.Configuration.Department.Buying
 {
     /// <summary>
-    /// Üretilmesi talep edilmiş ürünlerin onay sonuçlarını kuyruğa eklemesi için yapılandırma sınıfı
+    /// Satınalma departmanına alınması istenilen envanter talepleri için yapılandırma sınıfı
     /// </summary>
-    public class NotifyProductionRequestApprovementRabbitConfiguration : BaseConfiguration, IDisposable
+    public class CreateInventoryRequestRabbitConfiguration : BaseConfiguration, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -16,11 +16,11 @@ namespace Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Sellin
         private bool disposed = false;
 
         /// <summary>
-        /// Üretilmesi talep edilmiş ürünlerin onay sonuçlarını kuyruğa eklemesi için yapılandırma sınıfı
+        /// Satınalma departmanına alınması istenilen envanter talepleri için yapılandırma sınıfı
         /// <paramref name="configuration">Ayarların okunacağı configuration nesnesi</paramref>
         /// </summary>
         /// <param name="configuration"></param>
-        public NotifyProductionRequestApprovementRabbitConfiguration(IConfiguration configuration)
+        public CreateInventoryRequestRabbitConfiguration(IConfiguration configuration)
             : base(configuration)
         {
             QueueName =
@@ -28,8 +28,8 @@ namespace Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Sellin
                 .GetSection("Configuration")
                 .GetSection("RabbitQueues")
                 .GetSection("Services")
-                .GetSection("Selling")
-                .GetSection("QueueNames")["NotifyProductionRequestApprovement"];
+                .GetSection("Buying")
+                .GetSection("QueueNames")["CreateInventoryRequest"];
         }
 
         /// <summary>

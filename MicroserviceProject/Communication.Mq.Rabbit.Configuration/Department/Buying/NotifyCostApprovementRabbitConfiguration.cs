@@ -3,12 +3,12 @@ using Microsoft.Extensions.Configuration;
 
 using System;
 
-namespace Infrastructure.Communication.Mq.Rabbit.Configuration.Department.AA
+namespace Communication.Mq.Rabbit.Configuration.Department.Buying
 {
     /// <summary>
-    /// Çalışana envanter ekleyecek rabbit kuyruğu için yapılandırma sınıfı
+    /// Satın alınması planlanan envanterlere ait bütçenin sonuçlandırılması için yapılandırma sınıfı
     /// </summary>
-    public class AAAssignInventoryToWorkerRabbitConfiguration : BaseConfiguration, IDisposable
+    public class NotifyCostApprovementRabbitConfiguration : BaseConfiguration, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -16,11 +16,11 @@ namespace Infrastructure.Communication.Mq.Rabbit.Configuration.Department.AA
         private bool disposed = false;
 
         /// <summary>
-        /// Çalışana envanter ekleyecek rabbit kuyruğu için yapılandırma sınıfı
+        /// Satın alınması planlanan envanterlere ait bütçenin sonuçlandırılması için yapılandırma sınıfı
         /// <paramref name="configuration">Ayarların okunacağı configuration nesnesi</paramref>
         /// </summary>
         /// <param name="configuration"></param>
-        public AAAssignInventoryToWorkerRabbitConfiguration(IConfiguration configuration)
+        public NotifyCostApprovementRabbitConfiguration(IConfiguration configuration)
             : base(configuration)
         {
             QueueName =
@@ -28,8 +28,8 @@ namespace Infrastructure.Communication.Mq.Rabbit.Configuration.Department.AA
                 .GetSection("Configuration")
                 .GetSection("RabbitQueues")
                 .GetSection("Services")
-                .GetSection("AA")
-                .GetSection("QueueNames")["AssignInventoryToWorker"];
+                .GetSection("Buying")
+                .GetSection("QueueNames")["NotifyCostApprovement"];
         }
 
         /// <summary>

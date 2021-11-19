@@ -1,14 +1,13 @@
-﻿using Infrastructure.Communication.Broker;
-using Infrastructure.Communication.Mq.Rabbit;
-using Infrastructure.Communication.Mq.Rabbit.Configuration.Department.AA;
+﻿using Communication.Http.Department.AA;
+using Communication.Mq.Rabbit.Configuration.Department.AA;
 using Communication.Mq.Rabbit.Publisher.Department.AA.Models;
-using Infrastructure.Routing.Providers;
+
+using Infrastructure.Communication.Mq.Rabbit;
 
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Communication.Http.Department.AA;
-using System.Linq;
 
 namespace Services.MQ.AA.Util.Consumers.Inventory
 {

@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Infrastructure.Communication.Mq.Rabbit.Configuration\Infrastructure.Communication.Mq.Rabbit.Configuration.csproj" />
+    <ProjectReference Include="..\Communication.Mq.Rabbit.Configuration\Communication.Mq.Rabbit.Configuration.csproj" />
   </ItemGroup>
 
 </Project>

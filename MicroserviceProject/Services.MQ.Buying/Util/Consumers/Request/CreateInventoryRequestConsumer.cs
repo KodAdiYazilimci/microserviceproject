@@ -1,13 +1,12 @@
-﻿using Infrastructure.Communication.Broker;
-using Infrastructure.Communication.Mq.Rabbit;
-using Infrastructure.Communication.Mq.Rabbit.Configuration.Department.Buying;
+﻿using Communication.Http.Department.Buying;
+using Communication.Mq.Rabbit.Configuration.Department.Buying;
 using Communication.Mq.Rabbit.Publisher.Department.Buying.Models;
-using Infrastructure.Routing.Providers;
+
+using Infrastructure.Communication.Mq.Rabbit;
 
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Communication.Http.Department.Buying;
 
 namespace Services.MQ.Buying.Util.Consumers.Request
 {
