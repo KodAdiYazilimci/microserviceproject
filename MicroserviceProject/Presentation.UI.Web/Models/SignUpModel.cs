@@ -2,7 +2,7 @@
 
 namespace Presentation.UI.Web.Models
 {
-    public class SignUpModel
+    public class SignInModel
     {
         [Display(Name = "E-posta:")]
         [Required(ErrorMessage = "E-posta adresi gerekli")]
@@ -13,9 +13,9 @@ namespace Presentation.UI.Web.Models
         [Required(ErrorMessage = "Parola gerekli")]
         public string Password { get; set; }
 
-        [Display(Name = "Parola Tekrar:")]
-        [Required(ErrorMessage = "Parola tekrar etmeli")]
-        [Compare(nameof(Password), ErrorMessage = "Parola aynı olmalı")]
-        public string PasswordRepeat { get; set; }
+        //[Display(Name = "Parola Tekrar:")]
+        //[Required(ErrorMessage = "Parola tekrar etmeli")]
+        //[Compare(nameof(Password), ErrorMessage = "Parola aynı olmalı")]
+        //public string PasswordRepeat { get; set; }
     }
 }

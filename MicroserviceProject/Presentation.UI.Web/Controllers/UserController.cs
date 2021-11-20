@@ -31,14 +31,14 @@ namespace Presentation.UI.Web.Controllers
         [Route(nameof(Login))]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login([FromForm] SignUpModel signUpModel, CancellationTokenSource cancellationTokenSource)
+        public async Task<IActionResult> Login([FromForm] SignInModel signInModel, CancellationTokenSource cancellationTokenSource)
         {
             if (ModelState.IsValid)
             {
                 bool isLoggedIn = await sessionProvider.LoginAsync(new AuthenticationCredential()
                 {
-                    Email = signUpModel.Email,
-                    Password = signUpModel.Password
+                    Email = signInModel.Email,
+                    Password = signInModel.Password
                 }, cancellationTokenSource);
 
                 if (isLoggedIn)
