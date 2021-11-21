@@ -25,7 +25,7 @@ using Microsoft.Extensions.Hosting;
 
 using Newtonsoft.Json;
 
-using Services.Gateway.Public.Configuration.Services;
+using Services.Gateway.Public.DI;
 
 using System.Net;
 
@@ -58,7 +58,6 @@ namespace Services.Gateway.Public
             services.RegisterRouteProvider();
             services.RegisterRouteRepositories();
             services.RegisterServiceCommunicator();
-            services.RegisterRepositories();
             services.RegisterServices();
             //services.RegisterJWTProviders();
             //services.RegisterJWT();

@@ -735,7 +735,7 @@ namespace Infrastructure.Routing.Providers
                     .GetSection("Endpoints")
                     .GetSection("Selling")["NotifyProductionRequest"];
             }
-        }        
+        }
 
         public string Storage_GetStock
         {
@@ -815,6 +815,20 @@ namespace Infrastructure.Routing.Providers
                     .GetSection("Services")
                     .GetSection("Endpoints")
                     .GetSection("Identity")["Login"];
+            }
+        }
+
+
+        public string Gateway_Public_HR_GetDepartments
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Gateways")
+                    .GetSection("Endpoints")
+                    .GetSection("Public")
+                    .GetSection("HR")["GetDepartments"];
             }
         }
 

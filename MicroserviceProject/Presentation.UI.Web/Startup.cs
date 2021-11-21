@@ -16,6 +16,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+using Presentation.UI.Web.DI;
+
 namespace Presentation.UI.Web
 {
     public class Startup
@@ -39,6 +41,7 @@ namespace Presentation.UI.Web
             services.RegisterCommunicators();
             services.RegisterCookieAuthentication("/Login", "/Yetkisiz");
             services.RegisterInMemoryCaching();
+            services.RegisterMappings();
             services.RegisterRouteProvider();
             services.RegisterRouteRepositories();
             services.RegisterServiceCommunicator();

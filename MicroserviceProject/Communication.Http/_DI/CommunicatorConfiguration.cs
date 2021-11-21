@@ -37,6 +37,8 @@ namespace Communication.Http.DI
             services.AddSingleton<ProductionCommunicator>();
             services.AddSingleton<SellingCommunicator>();
             services.AddSingleton<StorageCommunicator>();
+
+            services.AddSingleton<Gateway.Public.HRCommunicator>();
             
             return services;
         }

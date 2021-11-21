@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Services.Gateway.Public.Services;
 
-namespace Services.Gateway.Public.Configuration.Services
+namespace Services.Gateway.Public.DI
 {
     /// <summary>
     /// Servislerin DI sınıfı

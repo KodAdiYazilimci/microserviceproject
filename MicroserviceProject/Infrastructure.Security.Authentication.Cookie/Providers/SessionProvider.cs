@@ -328,7 +328,7 @@ namespace Infrastructure.Security.Authentication.Cookie.Providers
                     _cacheProvider.Set(CACHEDCOOKIEBASEDSESSIONS, cachedUsers);
                 }
 
-                return cachedUsers.FirstOrDefault(x => x.Token.TokenKey == token);
+                return cachedUsers.FirstOrDefault(x => x.Token.TokenKey == token && x.Token.ValidTo > DateTime.Now);
             }
 
             return null;

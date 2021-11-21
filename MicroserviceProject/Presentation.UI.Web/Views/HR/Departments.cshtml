@@ -1,0 +1,37 @@
+﻿@model List<Presentation.UI.Web.Models.HR.DepartmentModel>
+@{
+    ViewData["Title"] = "Departments";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Departments</h1>
+
+<div class="col-lg-12 stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Departmanlar</h4>
+            @*<p class="card-description"> Add class <code>.table-{color}</code> </p>*@
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th> # </th>
+                        <th> ID </th>
+                        <th> İsim </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        @foreach (var department in Model)
+                        {
+                            <tr class="table-info">
+                                <td> @department.Id </td>
+                                <td> @department.Name </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
