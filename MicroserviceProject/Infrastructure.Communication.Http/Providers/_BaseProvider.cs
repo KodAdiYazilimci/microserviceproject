@@ -1,6 +1,8 @@
 ﻿
 using Infrastructure.Communication.Http.Models;
 
+using Microsoft.AspNetCore.Http.Extensions;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,29 +37,19 @@ namespace Infrastructure.Communication.Http.Providers
         /// <returns></returns>
         protected Uri GenerateUri(string url)
         {
-            Uri requestUri = new Uri(url);
-
             if (Queries != null && Queries.Any())
             {
+                QueryBuilder queryBuilder = new QueryBuilder();
+
                 foreach (var query in Queries)
                 {
-                    if (string.IsNullOrEmpty(requestUri.Query))
-                    {
-                        url += "?";
-                    }
-                    else
-                    {
-                        url += "&";
-                    }
-
-                    url += query.Key;
-                    url += "=";
-                    url += query.Value;
-                    requestUri = new Uri(url);
+                    queryBuilder.Add(query.Key, query.Value);
                 }
+
+                url += queryBuilder.ToQueryString().Value;
             }
 
-            return requestUri;
+            return new Uri(url);
         }
 
         /// <summary>
