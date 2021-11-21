@@ -13,7 +13,7 @@ namespace Test.Services.Business.Departments.AA.Factories.Infrastructure
             authorizationCredentialSection["email"] = "Services.Business.Departments.AA@service.service";
             authorizationCredentialSection["password"] = "1234";
 
-            return Configuration.GetConfiguration(authorizationCredentialSection, "D:\\Logs\\Services.Business.Departments.AA\\");
+            return Configuration.GetConfiguration(authorizationCredentialSection, "C:\\Logs\\Services.Business.Departments.AA\\");
         }
     }
 }
