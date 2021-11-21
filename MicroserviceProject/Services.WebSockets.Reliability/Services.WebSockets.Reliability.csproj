@@ -10,11 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure.Communication.Http.Broker\Infrastructure.Communication.Http.Broker.csproj" />
-    <ProjectReference Include="..\Infrastructure.Communication.Mq.Rabbit\Infrastructure.Communication.Mq.Rabbit.csproj" />
     <ProjectReference Include="..\Infrastructure.Communication.WebSockets\Infrastructure.Communication.WebSockets.csproj" />
-    <ProjectReference Include="..\Infrastructure.Security.Authentication.BasicToken\Infrastructure.Security.Authentication.BasicToken.csproj" />
-    <ProjectReference Include="..\Infrastructure.Security.Authentication.SignalR\Infrastructure.Security.Authentication.SignalR.csproj" />
-    <ProjectReference Include="..\Services.Security.BasicToken\Services.Security.BasicToken.csproj" />
     <ProjectReference Include="..\Services.Security.SignalR\Services.Security.SignalR.csproj" />
   </ItemGroup>
 

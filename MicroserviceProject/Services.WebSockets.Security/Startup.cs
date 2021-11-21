@@ -18,7 +18,6 @@ using Microsoft.Extensions.Hosting;
 
 using Newtonsoft.Json;
 
-using Services.Security.BasicToken.DI;
 using Services.Security.SignalR.DI;
 using Services.WebSockets.Security.Hubs;
 
@@ -37,7 +36,6 @@ namespace Services.WebSockets.Security
             services.AddSingleton<TokensHub>();
 
             services.RegisterAuthorizationCommunicators();
-            services.RegisterBasicTokenAuthentication();
             services.RegisterCredentialProvider();
             services.RegisterInMemoryCaching();
             services.RegisterRouteRepositories();

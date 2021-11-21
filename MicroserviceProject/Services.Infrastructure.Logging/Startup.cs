@@ -1,6 +1,4 @@
 using Communication.Http.Authorization.DI;
-using Communication.Mq.Rabbit.Configuration.DI;
-using Communication.Mq.Rabbit.Publisher.Department.DI;
 
 using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Caching.Redis.DI;
@@ -51,10 +49,7 @@ namespace Services.Infrastructure.Logging
             services.RegisterInMemoryCaching();
             services.RegisterRedisCaching();
             services.RegisterCredentialProvider();
-            //services.RegisterLogger();
             services.RegisterLoggers();
-            services.RegisterPublishers();
-            services.RegisterQueues();
             services.RegisterRouteProvider();
             services.RegisterRepositories();
             services.RegisterRouteRepositories();

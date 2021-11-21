@@ -8,9 +8,7 @@
     <ProjectReference Include="..\Communication.Http.Authorization\Communication.Http.Authorization.csproj" />
     <ProjectReference Include="..\Communication.Http.Department\Communication.Http.Department.csproj" />
     <ProjectReference Include="..\Communication.Mq.Rabbit.Publisher\Communication.Mq.Rabbit.Publisher.csproj" />
-    <ProjectReference Include="..\Infrastructure.Communication.Mq.Rabbit\Infrastructure.Communication.Mq.Rabbit.csproj" />
     <ProjectReference Include="..\Infrastructure.Localization\Infrastructure.Localization.csproj" />
-    <ProjectReference Include="..\Infrastructure.Logging.Logger.RequestResponseLogger\Infrastructure.Logging.Logger.RequestResponseLogger.csproj" />
     <ProjectReference Include="..\Infrastructure.Security.Authentication.BasicToken\Infrastructure.Security.Authentication.BasicToken.csproj" />
     <ProjectReference Include="..\Infrastructure.Util.DI\Infrastructure.Util.DI.csproj" />
   </ItemGroup>

@@ -1,8 +1,6 @@
 
 using Communication.Http.Authorization.DI;
 using Communication.Http.Department.DI;
-using Communication.Mq.Rabbit.Configuration.DI;
-using Communication.Mq.Rabbit.Publisher.Department.DI;
 
 using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Caching.Redis.DI;
@@ -57,8 +55,6 @@ namespace Services.Gateway.Public
             services.RegisterLocalizationPersistence();
             services.RegisterLocalizationProviders();
             services.RegisterLogger();
-            services.RegisterPublishers();
-            services.RegisterQueues();
             services.RegisterRouteProvider();
             services.RegisterRouteRepositories();
             services.RegisterServiceCommunicator();
