@@ -3,28 +3,21 @@ using Communication.Http.Authorization.Models;
 
 using Infrastructure.Caching.InMemory;
 using Infrastructure.Communication.Http.Broker.Models;
-using Infrastructure.Security.Authentication.BasicToken.Schemes;
+using Infrastructure.Security.Authentication.BasicToken.Abstracts;
 using Infrastructure.Security.Model;
 
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
-using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Security.Authentication.BasicToken.Handlers
+namespace Services.Security.BasicToken.Providers
 {
-    /// <summary>
-    /// Kimlik doğrulama denetimi yapacak sınıf
-    /// </summary>
-    public class TokenAuthentication : AuthenticationHandler<AuthenticationSchemeOptions>, IDisposable
+    public class DefaultIdentityProvider : IIdentityProvider
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -36,66 +29,33 @@ namespace Infrastructure.Security.Authentication.BasicToken.Handlers
         /// </summary>
         private const string CACHEDTOKENBASEDSESSIONS = "CACHED_TOKENBASED_SESSIONS";
 
-        private readonly InMemoryCacheDataProvider _cacheProvider;
-
         /// <summary>
         /// Kimlik denetimi servisi iletişimcisi
         /// </summary>
         private readonly AuthorizationCommunicator _authorizationCommunicator;
 
-        /// <summary>
-        /// Kimlik doğrulama denetimi yapacak sınıf
-        /// </summary>
-        /// <param name="options"></param>
-        /// <param name="loggerFactory"></param>
-        /// <param name="urlEncoder"></param>
-        /// <param name="systemClock"></param>
-        /// <param name="authorizationCommunicator">Kimlik denetimi servisi iletişimcisi</param>
-        /// <param name="cacheProvider">Önbellek sağlayıcısı sınıf</param>
-        public TokenAuthentication(
-            IOptionsMonitor<AuthenticationSchemeOptions> options,
-            ILoggerFactory loggerFactory,
-            UrlEncoder urlEncoder,
-            ISystemClock systemClock,
+        private readonly InMemoryCacheDataProvider _cacheProvider;
+
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public DefaultIdentityProvider(
+            AuthorizationCommunicator authorizationCommunicator,
             InMemoryCacheDataProvider cacheProvider,
-            AuthorizationCommunicator authorizationCommunicator) : base(options, loggerFactory, urlEncoder, systemClock)
+            IHttpContextAccessor httpContextAccessor)
         {
-            _cacheProvider = cacheProvider;
             _authorizationCommunicator = authorizationCommunicator;
+            _cacheProvider = cacheProvider;
+            _httpContextAccessor = httpContextAccessor;
         }
 
-        /// <summary>
-        /// Kimlik denetimini sağlar
-        /// </summary>
-        /// <returns></returns>
-        protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
-        {
-            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-
-            if (await GetUserAsync(cancellationTokenSource) != null)
-            {
-                AuthenticatedUser authenticatedUser = await GetUserAsync(cancellationTokenSource);
-
-                ClaimsIdentity claimsIdentity = new ClaimsIdentity(
-                    claims: authenticatedUser.Claims.Select(x => new Claim(x.Name, x.Value)).ToList(),
-                     authenticationType: Default.DefaultScheme);
-
-                ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-
-                return AuthenticateResult.Success(new AuthenticationTicket(claimsPrincipal, Default.DefaultScheme));
-            }
-            else
-            {
-                return AuthenticateResult.Fail("Lütfen tekrar oturum açın!");
-            }
-        }
+        public string AuthenticationFailMessage { get; set; } = "Lütfen tekrar oturum açın";
 
         /// <summary>
         /// Oturumda bulunan kullanıcı
         /// </summary>
-        protected async Task<AuthenticatedUser> GetUserAsync(CancellationTokenSource cancellationTokenSource)
+        public async Task<AuthenticatedUser> GetUserAsync(CancellationTokenSource cancellationTokenSource)
         {
-            if (Request.Headers.TryGetValue("Authorization", out StringValues headerToken) && headerToken.Any(x => x.Length > 0))
+            if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("Authorization", out StringValues headerToken) && headerToken.Any(x => x.Length > 0))
             {
                 AuthenticatedUser user = GetUserFromCache(headerToken);
 
@@ -115,7 +75,7 @@ namespace Infrastructure.Security.Authentication.BasicToken.Handlers
                         Password = serviceResult.Data.Password,
                         Region = serviceResult.Data.Region,
                         SessionId = serviceResult.Data.SessionId,
-                        Token = serviceResult.Data.Token != null ? new Model.AuthenticationToken()
+                        Token = serviceResult.Data.Token != null ? new AuthenticationToken()
                         {
                             TokenKey = serviceResult.Data.Token.TokenKey,
                             ValidTo = serviceResult.Data.Token.ValidTo
@@ -187,32 +147,6 @@ namespace Infrastructure.Security.Authentication.BasicToken.Handlers
             }
 
             return null;
-        }
-
-        /// <summary>
-        /// Kaynakları serbest bırakır
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// Kaynakları serbest bırakır
-        /// </summary>
-        /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
-        public void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (!disposed)
-                {
-                    _authorizationCommunicator.Dispose();
-                }
-
-                disposed = true;
-            }
         }
     }
 }

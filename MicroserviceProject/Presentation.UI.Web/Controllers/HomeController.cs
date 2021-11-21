@@ -1,4 +1,4 @@
-﻿using Infrastructure.Security.Authentication.Cookie.Providers;
+﻿using Infrastructure.Security.Authentication.Cookie.Handlers;
 using Infrastructure.Security.Model;
 
 using Microsoft.AspNetCore.Authorization;
@@ -11,9 +11,9 @@ namespace Presentation.UI.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly SessionProvider sessionProvider;
+        private readonly CookieHandler sessionProvider;
 
-        public HomeController(SessionProvider sessionProvider)
+        public HomeController(CookieHandler sessionProvider)
         {
             this.sessionProvider = sessionProvider;
         }

@@ -5,9 +5,7 @@ using Infrastructure.Communication.Broker.DI;
 using Infrastructure.Communication.Http.Broker.Models;
 using Infrastructure.Routing.Persistence.DI;
 using Infrastructure.Routing.Providers.DI;
-using Infrastructure.Security.Authentication.BasicToken.DI;
 using Infrastructure.Security.Authentication.DI;
-using Infrastructure.Security.Authentication.SignalR.DI;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -19,6 +17,8 @@ using Microsoft.Extensions.Hosting;
 
 using Newtonsoft.Json;
 
+using Services.Security.BasicToken.DI;
+using Services.Security.SignalR.DI;
 using Services.WebSockets.Reliability.Hubs;
 
 using System.Net;

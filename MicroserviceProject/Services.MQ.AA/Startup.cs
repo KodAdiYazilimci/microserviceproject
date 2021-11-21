@@ -33,16 +33,16 @@ namespace Services.MQ.AA
         {
             services.AddMemoryCache();
             services.RegisterAuthorizationCommunicators();
+            services.RegisterConsumers();
+            services.RegisterCredentialProvider();
             services.RegisterDepartmentCommunicators();
             services.RegisterInMemoryCaching();
-            services.RegisterRedisCaching();
-            services.RegisterRouteProvider();
-            services.RegisterCredentialProvider();
-            services.RegisterServiceCommunicator();
-            services.RegisterConsumers();
-            services.RegisterRouteRepositories();
             services.RegisterLocalizationPersistence();
             services.RegisterLocalizationProviders();
+            services.RegisterRedisCaching();
+            services.RegisterRouteProvider();
+            services.RegisterRouteRepositories();
+            services.RegisterServiceCommunicator();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

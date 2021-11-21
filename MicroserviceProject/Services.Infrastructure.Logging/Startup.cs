@@ -8,7 +8,6 @@ using Infrastructure.Communication.Broker.DI;
 using Infrastructure.Communication.Http.Broker.Models;
 using Infrastructure.Routing.Persistence.DI;
 using Infrastructure.Routing.Providers.DI;
-using Infrastructure.Security.Authentication.BasicToken.DI;
 using Infrastructure.Security.Authentication.DI;
 using Infrastructure.Util.DI;
 
@@ -24,6 +23,7 @@ using Newtonsoft.Json;
 
 using Services.Infrastructure.Logging.Configuration.Services.Repositories;
 using Services.Infrastructure.Logging.DI;
+using Services.Security.BasicToken.DI;
 using Services.UnitOfWork.Sql.DI;
 
 using System.Net;
@@ -42,6 +42,8 @@ namespace Services.Infrastructure.Logging
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpContextAccessor();
+
             services.AddControllers();
             services.AddMemoryCache();
             services.RegisterBasicTokenAuthentication();

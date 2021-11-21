@@ -6,9 +6,7 @@ using Infrastructure.Communication.Broker.DI;
 using Infrastructure.Communication.Http.Broker.Models;
 using Infrastructure.Routing.Persistence.DI;
 using Infrastructure.Routing.Providers.DI;
-using Infrastructure.Security.Authentication.BasicToken.DI;
 using Infrastructure.Security.Authentication.DI;
-using Infrastructure.Security.Authentication.SignalR.DI;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -20,6 +18,8 @@ using Microsoft.Extensions.Hosting;
 
 using Newtonsoft.Json;
 
+using Services.Security.BasicToken.DI;
+using Services.Security.SignalR.DI;
 using Services.WebSockets.Security.Hubs;
 
 using System.Net;
@@ -35,14 +35,14 @@ namespace Services.WebSockets.Security
             services.AddMemoryCache();
             services.AddSignalR();
             services.AddSingleton<TokensHub>();
+
             services.RegisterAuthorizationCommunicators();
-            services.RegisterInMemoryCaching();
             services.RegisterBasicTokenAuthentication();
             services.RegisterCredentialProvider();
+            services.RegisterInMemoryCaching();
             services.RegisterRouteRepositories();
             services.RegisterRouteProvider();
             services.RegisterServiceCommunicator();
-            services.RegisterCredentialProvider();
             services.RegisterSignalRAuthentication(policyName: "TokensPolicy");
 
             services.AddControllers();

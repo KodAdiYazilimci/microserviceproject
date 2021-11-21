@@ -11,7 +11,6 @@ using Infrastructure.Localization.DI;
 using Infrastructure.Logging.Logger.RequestResponseLogger.DI;
 using Infrastructure.Routing.Persistence.DI;
 using Infrastructure.Routing.Providers.DI;
-using Infrastructure.Security.Authentication.BasicToken.DI;
 using Infrastructure.Security.Authentication.DI;
 using Infrastructure.Util.DI;
 
@@ -26,6 +25,7 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 
 using Services.Business.Departments.HR.DI;
+using Services.Security.BasicToken.DI;
 using Services.UnitOfWork.Sql.DI;
 
 using System.Net;
@@ -44,6 +44,8 @@ namespace Services.Business.Departments.HR
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpContextAccessor();
+
             services.AddControllers();
             services.AddMemoryCache();
             services.RegisterBasicTokenAuthentication();

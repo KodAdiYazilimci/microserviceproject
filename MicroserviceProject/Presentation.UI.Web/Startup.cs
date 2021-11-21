@@ -6,7 +6,6 @@ using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Communication.Broker.DI;
 using Infrastructure.Routing.Persistence.DI;
 using Infrastructure.Routing.Providers.DI;
-using Infrastructure.Security.Authentication.Cookie.DI;
 using Infrastructure.Security.Authentication.DI;
 
 using Microsoft.AspNetCore.Builder;
@@ -17,6 +16,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 using Presentation.UI.Web.DI;
+
+using Services.Security.Cookie.DI;
 
 namespace Presentation.UI.Web
 {

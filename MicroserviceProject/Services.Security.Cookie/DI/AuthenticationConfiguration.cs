@@ -1,12 +1,15 @@
 ﻿
-using Infrastructure.Security.Authentication.Cookie.Providers;
+using Infrastructure.Security.Authentication.Cookie.Abstract;
+using Infrastructure.Security.Authentication.Cookie.Handlers;
 
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.DependencyInjection;
 
+using Services.Security.Cookie.Providers;
+
 using System.Threading.Tasks;
 
-namespace Infrastructure.Security.Authentication.Cookie.DI
+namespace Services.Security.Cookie.DI
 {
     /// <summary>
     /// Yetki DI sınıfı
@@ -20,6 +23,8 @@ namespace Infrastructure.Security.Authentication.Cookie.DI
         /// <returns></returns>
         public static IServiceCollection RegisterCookieAuthentication(this IServiceCollection services, string loginPath, string accessDeniedPath)
         {
+            services.AddScoped<IIdentityProvider, DefaultIdentityProvider>();
+
             services
                  .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                  .AddCookie(options =>
@@ -32,7 +37,7 @@ namespace Infrastructure.Security.Authentication.Cookie.DI
                       };
                  });
 
-            services.AddScoped<SessionProvider>();
+            services.AddScoped<CookieHandler>();
 
             return services;
         }

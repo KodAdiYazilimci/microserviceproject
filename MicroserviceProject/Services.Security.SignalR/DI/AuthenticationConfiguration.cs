@@ -1,11 +1,14 @@
-﻿using Infrastructure.Security.Authentication.SignalR.Handlers;
+﻿using Infrastructure.Security.Authentication.SignalR.Abstract;
+using Infrastructure.Security.Authentication.SignalR.Handlers;
 using Infrastructure.Security.Authentication.SignalR.Requirements;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Infrastructure.Security.Authentication.SignalR.DI
+using Services.Security.SignalR.Providers;
+
+namespace Services.Security.SignalR.DI
 {
     /// <summary>
     /// SignalR güvenliği DI sınıfı
@@ -21,7 +24,10 @@ namespace Infrastructure.Security.Authentication.SignalR.DI
         public static IServiceCollection RegisterSignalRAuthentication(this IServiceCollection services, string policyName)
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton<IAuthorizationHandler, SignalAuthorizationHandler>();
+
+            services.AddScoped<IIdentityProvider, DefaultIdentityProvider>();
+
+            services.AddSingleton<IAuthorizationHandler, SignalRHandler>();
 
             services.AddAuthorizationCore(options =>
             {

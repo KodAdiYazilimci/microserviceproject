@@ -1,11 +1,14 @@
 ﻿
+using Infrastructure.Security.Authentication.BasicToken.Abstracts;
 using Infrastructure.Security.Authentication.BasicToken.Handlers;
 using Infrastructure.Security.Authentication.BasicToken.Schemes;
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Infrastructure.Security.Authentication.BasicToken.DI
+using Services.Security.BasicToken.Providers;
+
+namespace Services.Security.BasicToken.DI
 {
     /// <summary>
     /// Yetki DI sınıfı
@@ -19,9 +22,11 @@ namespace Infrastructure.Security.Authentication.BasicToken.DI
         /// <returns></returns>
         public static IServiceCollection RegisterBasicTokenAuthentication(this IServiceCollection services)
         {
+            services.AddScoped<IIdentityProvider, DefaultIdentityProvider>();
+
             services
                 .AddAuthentication(Default.DefaultScheme)
-                .AddScheme<AuthenticationSchemeOptions, TokenAuthentication>(Default.DefaultScheme, null);
+                .AddScheme<AuthenticationSchemeOptions, TokenHandler>(Default.DefaultScheme, null);
 
             return services;
         }

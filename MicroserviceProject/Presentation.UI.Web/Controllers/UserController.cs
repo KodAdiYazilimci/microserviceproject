@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Communication.Broker;
 using Infrastructure.Routing.Models;
 using Infrastructure.Routing.Providers;
-using Infrastructure.Security.Authentication.Cookie.Providers;
+using Infrastructure.Security.Authentication.Cookie.Handlers;
 using Infrastructure.Security.Model;
 
 using Microsoft.AspNetCore.Authorization;
@@ -24,14 +24,14 @@ namespace Presentation.UI.Web.Controllers
     {
         private readonly RouteNameProvider _routeNameProvider;
         private readonly ServiceCommunicator _serviceCommunicator;
-        private readonly SessionProvider _sessionProvider;
+        private readonly CookieHandler _sessionProvider;
         private readonly IConfiguration _configuration;
 
         public UserController(
             IConfiguration configuration,
             RouteNameProvider routeNameProvider,
             ServiceCommunicator serviceCommunicator,
-            SessionProvider sessionProvider)
+            CookieHandler sessionProvider)
         {
             _configuration = configuration;
             _routeNameProvider = routeNameProvider;
@@ -105,9 +105,7 @@ namespace Presentation.UI.Web.Controllers
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            AuthenticatedUser authenticatedUser = await _sessionProvider.GetUserAsync(token, cancellationTokenSource);
-
-            if (await _sessionProvider.LoginAsync(authenticatedUser.Token.TokenKey, cancellationTokenSource))
+            if (await _sessionProvider.LoginAsync(token, cancellationTokenSource))
             {
                 return Redirect("/Home/Index");
             }
