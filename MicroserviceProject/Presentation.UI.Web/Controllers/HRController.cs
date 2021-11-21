@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 
 using Communication.Http.Gateway.Public;
+using Communication.Http.Gateway.Public.Models;
 
 using Infrastructure.Communication.Http.Broker.Models;
 
@@ -35,7 +36,7 @@ namespace Presentation.UI.Web.Controllers
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            ServiceResultModel<List<Communication.Http.Department.HR.Models.DepartmentModel>> departmentsServiceResult = 
+            ServiceResultModel<List<DepartmentModel>> departmentsServiceResult = 
                 await _hRCommunicator.GetDepartmentsAsync(
                     transactionIdentity: Guid.NewGuid().ToString(),
                     cancellationTokenSource: cancellationTokenSource);
@@ -43,7 +44,7 @@ namespace Presentation.UI.Web.Controllers
             if (departmentsServiceResult.IsSuccess)
             {
                 List<Models.HR.DepartmentModel> departmentModels = 
-                    _mapper.Map<List<Communication.Http.Department.HR.Models.DepartmentModel>, List<Models.HR.DepartmentModel>>(departmentsServiceResult.Data);
+                    _mapper.Map<List<DepartmentModel>, List<Models.HR.DepartmentModel>>(departmentsServiceResult.Data);
 
                 return View(departmentModels);
             }

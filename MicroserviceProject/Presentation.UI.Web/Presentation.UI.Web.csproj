@@ -17,6 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Communication.Http.Authorization\Communication.Http.Authorization.csproj" />
+    <ProjectReference Include="..\Communication.Http.Gateway\Communication.Http.Gateway.csproj" />
     <ProjectReference Include="..\Infrastructure.Routing.Persistence\Infrastructure.Routing.Persistence.csproj" />
     <ProjectReference Include="..\Infrastructure.Routing.Providers\Infrastructure.Routing.Providers.csproj" />
     <ProjectReference Include="..\Infrastructure.Routing\Infrastructure.Routing.csproj" />

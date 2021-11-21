@@ -1,4 +1,4 @@
-using Communication.Http.DI;
+using Communication.Http.Authorization.DI;
 
 using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Communication.Broker.DI;
@@ -29,7 +29,7 @@ namespace Presentation.UI.Web.Identity
             services.AddControllersWithViews();
 
             services.RegisterCredentialProvider();
-            services.RegisterCommunicators();
+            services.RegisterAuthorizationCommunicators();
             services.RegisterInMemoryCaching();
             services.RegisterRouteProvider();
             services.RegisterRouteRepositories();

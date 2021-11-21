@@ -13,7 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Communication.Http\Communication.Http.csproj" />
+    <ProjectReference Include="..\Communication.Http.Authorization\Communication.Http.Authorization.csproj" />
+    <ProjectReference Include="..\Communication.Http.Department\Communication.Http.Department.csproj" />
     <ProjectReference Include="..\Communication.Mq.Rabbit.Publisher\Communication.Mq.Rabbit.Publisher.csproj" />
     <ProjectReference Include="..\Infrastructure.Caching.InMemory\Infrastructure.Caching.InMemory.csproj" />
     <ProjectReference Include="..\Infrastructure.Caching.Redis\Infrastructure.Caching.Redis.csproj" />

@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Communication.Http\Communication.Http.csproj" />
+    <ProjectReference Include="..\Communication.Http.Authorization\Communication.Http.Authorization.csproj" />
     <ProjectReference Include="..\Infrastructure.Caching.InMemory\Infrastructure.Caching.InMemory.csproj" />
     <ProjectReference Include="..\Infrastructure.Cryptography\Infrastructure.Cryptography.csproj" />
     <ProjectReference Include="..\Infrastructure.Localization\Infrastructure.Localization.csproj" />

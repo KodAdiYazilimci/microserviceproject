@@ -1,4 +1,5 @@
-using Communication.Http.DI;
+
+using Communication.Http.Authorization.DI;
 
 using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Communication.Broker.DI;
@@ -34,7 +35,7 @@ namespace Services.WebSockets.Security
             services.AddMemoryCache();
             services.AddSignalR();
             services.AddSingleton<TokensHub>();
-            services.RegisterCommunicators();
+            services.RegisterAuthorizationCommunicators();
             services.RegisterInMemoryCaching();
             services.RegisterBasicTokenAuthentication();
             services.RegisterCredentialProvider();

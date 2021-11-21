@@ -1,5 +1,6 @@
 
-using Communication.Http.DI;
+using Communication.Http.Authorization.DI;
+using Communication.Http.Gateway.DI;
 
 using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Communication.Broker.DI;
@@ -8,7 +9,6 @@ using Infrastructure.Routing.Providers.DI;
 using Infrastructure.Security.Authentication.Cookie.DI;
 using Infrastructure.Security.Authentication.DI;
 
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -38,7 +38,8 @@ namespace Presentation.UI.Web
             services.AddMemoryCache();
 
             services.RegisterCredentialProvider();
-            services.RegisterCommunicators();
+            services.RegisterAuthorizationCommunicators();
+            services.RegisterGatewayCommunicators();
             services.RegisterCookieAuthentication("/Login", "/Yetkisiz");
             services.RegisterInMemoryCaching();
             services.RegisterMappings();

@@ -1,4 +1,4 @@
-using Communication.Http.DI;
+using Communication.Http.Authorization.DI;
 using Communication.Mq.Rabbit.Configuration.DI;
 using Communication.Mq.Rabbit.Publisher.Department.DI;
 
@@ -45,7 +45,7 @@ namespace Services.Infrastructure.Logging
             services.AddControllers();
             services.AddMemoryCache();
             services.RegisterBasicTokenAuthentication();
-            services.RegisterCommunicators();
+            services.RegisterAuthorizationCommunicators();
             services.RegisterInMemoryCaching();
             services.RegisterRedisCaching();
             services.RegisterCredentialProvider();

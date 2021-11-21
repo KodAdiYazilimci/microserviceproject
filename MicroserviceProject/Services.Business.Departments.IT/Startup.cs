@@ -1,4 +1,5 @@
-using Communication.Http.DI;
+using Communication.Http.Authorization.DI;
+using Communication.Http.Department.DI;
 using Communication.Mq.Rabbit.Configuration.DI;
 using Communication.Mq.Rabbit.Publisher.Department.DI;
 
@@ -48,7 +49,8 @@ namespace Services.Business.Departments.IT
             services.RegisterBasicTokenAuthentication();
             services.RegisterBusinessServices();
             services.RegisterRedisCaching();
-            services.RegisterCommunicators();
+            services.RegisterAuthorizationCommunicators();
+            services.RegisterDepartmentCommunicators();
             services.RegisterCredentialProvider();
             services.RegisterInMemoryCaching();
             services.RegisterLocalizationPersistence();

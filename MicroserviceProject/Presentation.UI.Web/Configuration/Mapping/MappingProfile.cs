@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 
+using Communication.Http.Gateway.Public.Models;
+
 namespace Presentation.UI.Web.Configuration.Mapping
 {
     /// <summary>
@@ -14,7 +16,7 @@ namespace Presentation.UI.Web.Configuration.Mapping
         {
             // Gateway Model => Local Model
 
-            CreateMap<Communication.Http.Department.HR.Models.DepartmentModel, Models.HR.DepartmentModel>();
+            CreateMap<DepartmentModel, Models.HR.DepartmentModel>();
         }
     }
 }

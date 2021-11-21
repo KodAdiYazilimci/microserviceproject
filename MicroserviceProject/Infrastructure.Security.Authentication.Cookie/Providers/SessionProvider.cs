@@ -4,6 +4,7 @@ using Communication.Http.Authorization.Models;
 using Infrastructure.Caching.InMemory;
 using Infrastructure.Communication.Http.Broker.Exceptions;
 using Infrastructure.Communication.Http.Broker.Models;
+using Infrastructure.Security.Authentication.Exceptions;
 using Infrastructure.Security.Model;
 
 using Microsoft.AspNetCore.Authentication;
@@ -13,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
@@ -78,7 +80,7 @@ namespace Infrastructure.Security.Authentication.Cookie.Providers
                     claimsPrincipal,
                     new AuthenticationProperties()
                     {
-                        ExpiresUtc = authenticatedUser.Token.ValidTo.ToUniversalTime()
+                        ExpiresUtc = new DateTimeOffset(authenticatedUser.Token.ValidTo.ToUniversalTime())
                     });
 
                 SetToCache(authenticatedUser);
@@ -271,7 +273,14 @@ namespace Infrastructure.Security.Authentication.Cookie.Providers
                     return null;
             }
             else
-                throw new CallException(userServiceResult.ErrorModel.Description, userServiceResult.SourceApiService);
+            {
+                if (userServiceResult.ErrorModel.Code == ((int)HttpStatusCode.Unauthorized).ToString())
+                {
+                    throw new SessionNotFoundOrExpiredException();
+                }
+                else
+                    throw new CallException(userServiceResult.ErrorModel.Description, userServiceResult.SourceApiService);
+            }
         }
 
         /// <summary>
