@@ -3,7 +3,6 @@ using Infrastructure.Security.Model;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,13 +13,14 @@ namespace Presentation.UI.Web.Controllers
     {
         private readonly SessionProvider sessionProvider;
 
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger,
-            SessionProvider sessionProvider)
+        public HomeController(SessionProvider sessionProvider)
         {
-            _logger = logger;
             this.sessionProvider = sessionProvider;
+        }
+
+        public IActionResult Hata()
+        {
+            return View();
         }
 
         [Authorize(Roles = "StandardUser")]
@@ -28,11 +28,6 @@ namespace Presentation.UI.Web.Controllers
         {
             AuthenticatedUser user = await sessionProvider.GetLoggedInUserAsyc(cancellationTokenSource);
 
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
             return View();
         }
 

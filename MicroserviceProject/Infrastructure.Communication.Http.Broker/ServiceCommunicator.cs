@@ -215,7 +215,7 @@ namespace Infrastructure.Communication.Broker
         /// <param name="serviceName">Bilgisi getirilecek servisin adı</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        private async Task<string> GetServiceAsync(string serviceName, CancellationTokenSource cancellationTokenSource)
+        public async Task<string> GetServiceAsync(string serviceName, CancellationTokenSource cancellationTokenSource)
         {
             List<ServiceRouteModel> serviceRoutes = _cacheProvider.Get<List<ServiceRouteModel>>(CACHEDSERVICEROUTES);
 

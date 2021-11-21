@@ -16,6 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.Routing.Persistence\Infrastructure.Routing.Persistence.csproj" />
+    <ProjectReference Include="..\Infrastructure.Routing.Providers\Infrastructure.Routing.Providers.csproj" />
+    <ProjectReference Include="..\Infrastructure.Routing\Infrastructure.Routing.csproj" />
     <ProjectReference Include="..\Infrastructure.Security.Authentication.Cookie\Infrastructure.Security.Authentication.Cookie.csproj" />
   </ItemGroup>
 

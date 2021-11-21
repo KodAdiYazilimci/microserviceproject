@@ -804,6 +804,21 @@ namespace Infrastructure.Routing.Providers
         }
 
         /// <summary>
+        /// Kimlik sunucusuna oturum açma isteğini yönlendirir
+        /// </summary>
+        public string Identity_Login
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("Identity")["Login"];
+            }
+        }
+
+        /// <summary>
         /// Kaynakları serbest bırakır
         /// </summary>
         public void Dispose()

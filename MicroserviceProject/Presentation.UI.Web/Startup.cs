@@ -53,7 +53,7 @@ namespace Presentation.UI.Web
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Home/Hata");
             }
             app.UseStaticFiles();
 

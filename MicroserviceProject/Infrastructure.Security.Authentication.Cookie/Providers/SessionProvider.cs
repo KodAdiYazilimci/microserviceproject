@@ -89,6 +89,42 @@ namespace Infrastructure.Security.Authentication.Cookie.Providers
             return false;
         }
 
+
+        /// <summary>
+        /// Token bilgisine göre kullanıcıyı oturuma dahil eder
+        /// </summary>
+        /// <param name="httpContext">HttpContext nesnesi</param>
+        /// <param name="token">Token bilgisi</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<bool> LoginAsync(string token, CancellationTokenSource cancellationTokenSource)
+        {
+            AuthenticatedUser authenticatedUser = await GetUserAsync(token, cancellationTokenSource);
+
+            if (authenticatedUser != null)
+            {
+                ClaimsIdentity claimsIdentity = new ClaimsIdentity(
+                    claims: authenticatedUser.Claims.Select(x => new Claim(x.Name, x.Value)).ToList(),
+                    authenticationType: CookieAuthenticationDefaults.AuthenticationScheme);
+
+                ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
+                await _httpContextAccessor.HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    claimsPrincipal,
+                    new AuthenticationProperties()
+                    {
+                        ExpiresUtc = authenticatedUser.Token.ValidTo.ToUniversalTime()
+                    });
+
+                SetToCache(authenticatedUser);
+
+                return true;
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Kullanıcı oturumunu sonlandırır
         /// </summary>
@@ -188,7 +224,7 @@ namespace Infrastructure.Security.Authentication.Cookie.Providers
         /// <summary>
         /// Token bilgisine göre oturumda bulunan kullanıcıyı verir
         /// </summary>
-        private async Task<AuthenticatedUser> GetUserAsync(string token, CancellationTokenSource cancellationTokenSource)
+        public async Task<AuthenticatedUser> GetUserAsync(string token, CancellationTokenSource cancellationTokenSource)
         {
             AuthenticatedUser authenticatedUser = GetUserFromCache(token);
 

@@ -1,7 +1,6 @@
 ﻿using Communication.Http.Authorization.Models;
 
 using Infrastructure.Communication.Http.Broker.Models;
-using Infrastructure.Security.Model;
 
 using Microsoft.AspNetCore.Mvc;
 
