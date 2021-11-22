@@ -1,6 +1,6 @@
-﻿using Communication.Http.Department.AA;
-using Communication.Mq.Rabbit.Configuration.Department.AA;
-using Communication.Mq.Rabbit.Publisher.Department.AA.Models;
+﻿using Services.Communication.Http.Broker.Department.AA;
+using Services.Communication.Mq.Rabbit.Configuration.Department.AA;
+using Services.Communication.Mq.Rabbit.Publisher.Department.AA.Models;
 
 using Infrastructure.Communication.Mq.Rabbit;
 
@@ -49,7 +49,7 @@ namespace Services.MQ.AA.Util.Consumers.Request
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            Communication.Http.Department.AA.Models.InventoryRequestModel inventoryRequestModel = new Communication.Http.Department.AA.Models.InventoryRequestModel
+            Services.Communication.Http.Broker.Department.AA.Models.InventoryRequestModel inventoryRequestModel = new Services.Communication.Http.Broker.Department.AA.Models.InventoryRequestModel
             {
                 Amount = data.Amount,
                 Done = data.Done,

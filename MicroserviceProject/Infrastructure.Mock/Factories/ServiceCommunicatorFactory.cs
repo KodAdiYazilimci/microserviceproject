@@ -1,8 +1,9 @@
 ﻿using Infrastructure.Caching.InMemory;
-using Infrastructure.Communication.Broker;
 using Infrastructure.Routing.Persistence.Repositories.Sql;
 using Infrastructure.Routing.Providers;
 using Infrastructure.Security.Authentication.Providers;
+
+using Services.Communication.Http.Broker;
 
 namespace Infrastructure.Mock.Factories
 {

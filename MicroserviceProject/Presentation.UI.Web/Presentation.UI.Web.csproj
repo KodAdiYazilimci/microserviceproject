@@ -17,12 +17,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Communication.Http.Authorization\Communication.Http.Authorization.csproj" />
-    <ProjectReference Include="..\Communication.Http.Gateway\Communication.Http.Gateway.csproj" />
     <ProjectReference Include="..\Infrastructure.Routing.Persistence\Infrastructure.Routing.Persistence.csproj" />
     <ProjectReference Include="..\Infrastructure.Routing.Providers\Infrastructure.Routing.Providers.csproj" />
     <ProjectReference Include="..\Infrastructure.Routing\Infrastructure.Routing.csproj" />
     <ProjectReference Include="..\Infrastructure.Security.Authentication.Cookie\Infrastructure.Security.Authentication.Cookie.csproj" />
+    <ProjectReference Include="..\Services.Communication.Http.Broker.Gateway\Services.Communication.Http.Broker.Gateway.csproj" />
     <ProjectReference Include="..\Services.Security.Cookie\Services.Security.Cookie.csproj" />
   </ItemGroup>
 

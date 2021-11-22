@@ -1,6 +1,6 @@
-﻿using Communication.Http.Department.Finance;
-using Communication.Mq.Rabbit.Configuration.Department.Finance;
-using Communication.Mq.Rabbit.Publisher.Department.Finance.Models;
+﻿using Services.Communication.Http.Broker.Department.Finance;
+using Services.Communication.Mq.Rabbit.Configuration.Department.Finance;
+using Services.Communication.Mq.Rabbit.Publisher.Department.Finance.Models;
 
 using Infrastructure.Communication.Mq.Rabbit;
 
@@ -48,7 +48,7 @@ namespace Services.MQ.Finance.Util.Consumers.Request
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            Communication.Http.Department.Finance.Models.ProductionRequestModel productionRequest = new Communication.Http.Department.Finance.Models.ProductionRequestModel
+            Services.Communication.Http.Broker.Department.Finance.Models.ProductionRequestModel productionRequest = new Services.Communication.Http.Broker.Department.Finance.Models.ProductionRequestModel
             {
                 Amount = data.Amount,
                 DepartmentId = data.DepartmentId,

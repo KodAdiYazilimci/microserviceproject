@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-using Communication.Http.Gateway.Public.Models;
+using Services.Communication.Http.Broker.Gateway.Public.Models;
 
 namespace Presentation.UI.Web.Configuration.Mapping
 {

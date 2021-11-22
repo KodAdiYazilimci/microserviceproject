@@ -1,9 +1,8 @@
 
-using Communication.Http.Authorization.DI;
-using Communication.Http.Gateway.DI;
+using Services.Communication.Http.Broker.Authorization.DI;
+using Services.Communication.Http.Broker.Gateway.DI;
 
 using Infrastructure.Caching.InMemory.DI;
-using Infrastructure.Communication.Broker.DI;
 using Infrastructure.Routing.Persistence.DI;
 using Infrastructure.Routing.Providers.DI;
 using Infrastructure.Security.Authentication.DI;
@@ -17,6 +16,7 @@ using Microsoft.Extensions.Hosting;
 
 using Presentation.UI.Web.DI;
 
+using Services.Communication.Http.Broker.DI;
 using Services.Security.Cookie.DI;
 
 namespace Presentation.UI.Web

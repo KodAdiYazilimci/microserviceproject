@@ -1,5 +1,4 @@
-﻿using Communication.Http.Department.HR.Models;
-
+﻿
 using Infrastructure.Communication.Http.Wrapper;
 
 using Microsoft.AspNetCore.Authorization;
@@ -9,6 +8,7 @@ using Services.Business.Departments.HR.Services;
 using Services.Business.Departments.HR.Util.Validation.Person.CreatePerson;
 using Services.Business.Departments.HR.Util.Validation.Person.CreateTitle;
 using Services.Business.Departments.HR.Util.Validation.Person.CreateWorker;
+using Services.Communication.Http.Broker.Department.HR.Models;
 
 using System.Collections.Generic;
 using System.Threading;

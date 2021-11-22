@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 
-using Communication.Http.Department.IT.Models;
-using Communication.Mq.Rabbit.Publisher.Department.Buying;
+using Services.Communication.Http.Broker.Department.IT.Models;
+using Services.Communication.Mq.Rabbit.Publisher.Department.Buying;
 
 using Infrastructure.Caching.Redis;
 using Infrastructure.Communication.Http.Wrapper;

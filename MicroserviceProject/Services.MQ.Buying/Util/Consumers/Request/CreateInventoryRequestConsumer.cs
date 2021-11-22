@@ -1,6 +1,6 @@
-﻿using Communication.Http.Department.Buying;
-using Communication.Mq.Rabbit.Configuration.Department.Buying;
-using Communication.Mq.Rabbit.Publisher.Department.Buying.Models;
+﻿using Services.Communication.Http.Broker.Department.Buying;
+using Services.Communication.Mq.Rabbit.Configuration.Department.Buying;
+using Services.Communication.Mq.Rabbit.Publisher.Department.Buying.Models;
 
 using Infrastructure.Communication.Mq.Rabbit;
 
@@ -49,12 +49,13 @@ namespace Services.MQ.Buying.Util.Consumers.Request
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            Communication.Http.Department.Buying.Models.InventoryRequestModel inventoryRequestModel = new Communication.Http.Department.Buying.Models.InventoryRequestModel
-            {
-                Amount = data.Amount,
-                DepartmentId = data.DepartmentId,
-                InventoryId = data.InventoryId
-            };
+            Services.Communication.Http.Broker.Department.Buying.Models.InventoryRequestModel inventoryRequestModel =
+                new Services.Communication.Http.Broker.Department.Buying.Models.InventoryRequestModel
+                {
+                    Amount = data.Amount,
+                    DepartmentId = data.DepartmentId,
+                    InventoryId = data.InventoryId
+                };
 
             await _buyingCommunicator.CreateInventoryRequestAsync(inventoryRequestModel, cancellationTokenSource);
         }

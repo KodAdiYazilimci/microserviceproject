@@ -1,4 +1,4 @@
-﻿using Communication.Mq.Rabbit.Configuration.Department.Finance;
+﻿using Services.Communication.Mq.Rabbit.Configuration.Department.Finance;
 using Services.MQ.Finance.Util.Consumers.Request;
 
 using Microsoft.Extensions.DependencyInjection;

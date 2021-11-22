@@ -1,7 +1,6 @@
-using Communication.Http.Authorization.DI;
+using Services.Communication.Http.Broker.Authorization.DI;
 
 using Infrastructure.Caching.InMemory.DI;
-using Infrastructure.Communication.Broker.DI;
 using Infrastructure.Routing.Persistence.DI;
 using Infrastructure.Routing.Providers.DI;
 using Infrastructure.Security.Authentication.DI;
@@ -11,6 +10,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+
+using Services.Communication.Http.Broker.DI;
 
 namespace Presentation.UI.Web.Identity
 {

@@ -1,10 +1,10 @@
-﻿using Communication.Http.Authorization.Models;
-
+﻿
 using FluentValidation.Results;
 
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Validation.Models;
 
+using Services.Communication.Http.Broker.Authorization.Models;
 using Services.Infrastructure.Authorization.Configuration.Validation.Auth.GetToken;
 
 using System.Collections.Generic;

@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure.Mock.Data\Infrastructure.Mock.Data.csproj" />
-    <ProjectReference Include="..\Services.Business.Departments.IT\Services.Business.Departments.IT.csproj" />
+    <ProjectReference Include="..\Services.Business.Departments.IT\Services.Api.Business.Departments.IT.csproj" />
   </ItemGroup>
 
 </Project>

@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Services.Monitoring.Security.Console
+namespace Presentation.Monitoring.Security.Console
 {
     class Program
     {

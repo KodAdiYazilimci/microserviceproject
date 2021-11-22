@@ -1,5 +1,4 @@
-﻿using Communication.Http.Authorization.Models;
-
+﻿
 using Infrastructure.Caching.Redis;
 using Infrastructure.Communication.Http.Wrapper;
 using Infrastructure.Communication.Http.Wrapper.Disposing;
@@ -9,6 +8,7 @@ using Infrastructure.Transaction.UnitOfWork.EntityFramework;
 
 using Microsoft.EntityFrameworkCore;
 
+using Services.Communication.Http.Broker.Authorization.Models;
 using Services.Infrastructure.Authorization.Configuration.Persistence;
 using Services.Infrastructure.Authorization.Entities.EntityFramework;
 using Services.Infrastructure.Authorization.Persistence.Sql.Exceptions;

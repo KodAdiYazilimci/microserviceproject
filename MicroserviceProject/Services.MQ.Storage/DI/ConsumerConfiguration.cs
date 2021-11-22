@@ -1,4 +1,4 @@
-﻿using Communication.Mq.Rabbit.Configuration.Department.Storage;
+﻿using Services.Communication.Mq.Rabbit.Configuration.Department.Storage;
 
 using Microsoft.Extensions.DependencyInjection;
 

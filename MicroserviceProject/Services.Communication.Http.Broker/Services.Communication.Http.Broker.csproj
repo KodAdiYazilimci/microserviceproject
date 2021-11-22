@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.Caching.InMemory\Infrastructure.Caching.InMemory.csproj" />
+    <ProjectReference Include="..\Infrastructure.Communication.Http\Infrastructure.Communication.Http.csproj" />
+    <ProjectReference Include="..\Infrastructure.Routing.Persistence\Infrastructure.Routing.Persistence.csproj" />
+    <ProjectReference Include="..\Infrastructure.Routing.Providers\Infrastructure.Routing.Providers.csproj" />
+    <ProjectReference Include="..\Infrastructure.Routing\Infrastructure.Routing.csproj" />
+    <ProjectReference Include="..\Infrastructure.Security.Authentication\Infrastructure.Security.Authentication.csproj" />
+  </ItemGroup>
+
+</Project>

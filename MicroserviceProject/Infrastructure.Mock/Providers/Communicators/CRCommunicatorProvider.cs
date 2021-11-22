@@ -1,7 +1,8 @@
-﻿using Communication.Http.Department.CR;
+﻿using Services.Communication.Http.Broker.Department.CR;
 
-using Infrastructure.Communication.Broker;
 using Infrastructure.Routing.Providers;
+
+using Services.Communication.Http.Broker;
 
 namespace Infrastructure.Mock.Providers.Communicators
 {

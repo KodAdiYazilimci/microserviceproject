@@ -1,8 +1,7 @@
-using Communication.Http.Authorization.DI;
+using Services.Communication.Http.Broker.Authorization.DI;
 
 using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Caching.Redis.DI;
-using Infrastructure.Communication.Broker.DI;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Routing.Persistence.DI;
 using Infrastructure.Routing.Providers.DI;
@@ -19,6 +18,7 @@ using Microsoft.Extensions.Hosting;
 
 using Newtonsoft.Json;
 
+using Services.Communication.Http.Broker.DI;
 using Services.Infrastructure.Logging.Configuration.Services.Repositories;
 using Services.Infrastructure.Logging.DI;
 using Services.Security.BasicToken.DI;

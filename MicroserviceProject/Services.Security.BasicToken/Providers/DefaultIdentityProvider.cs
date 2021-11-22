@@ -1,6 +1,4 @@
-﻿using Communication.Http.Authorization;
-using Communication.Http.Authorization.Models;
-
+﻿
 using Infrastructure.Caching.InMemory;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Security.Authentication.BasicToken.Abstracts;
@@ -8,6 +6,9 @@ using Infrastructure.Security.Model;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
+
+using Services.Communication.Http.Broker.Authorization;
+using Services.Communication.Http.Broker.Authorization.Models;
 
 using System;
 using System.Collections.Generic;

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-using Communication.Http.Department.Accounting.Models;
+using Services.Communication.Http.Broker.Department.Accounting.Models;
 
 using Infrastructure.Caching.Redis;
 using Infrastructure.Communication.Http.Wrapper;

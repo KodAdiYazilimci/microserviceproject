@@ -1,7 +1,4 @@
-﻿using Communication.Http.Department.HR.Models;
-
-using Infrastructure.Communication.Broker;
-using Infrastructure.Communication.Http.Models;
+﻿using Infrastructure.Communication.Http.Models;
 using Infrastructure.Mock.Factories;
 using Infrastructure.Routing.Providers;
 
@@ -9,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Services.Business.Departments.HR.Controllers;
+using Services.Communication.Http.Broker;
+using Services.Communication.Http.Broker.Department.HR.Models;
 
 using System;
 using System.Collections.Generic;

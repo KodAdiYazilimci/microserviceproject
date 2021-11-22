@@ -1,6 +1,6 @@
-﻿using Communication.Http.Department.IT;
-using Communication.Mq.Rabbit.Configuration.Department.IT;
-using Communication.Mq.Rabbit.Publisher.Department.IT.Models;
+﻿using Services.Communication.Http.Broker.Department.IT;
+using Services.Communication.Mq.Rabbit.Configuration.Department.IT;
+using Services.Communication.Mq.Rabbit.Publisher.Department.IT.Models;
 
 using Infrastructure.Communication.Mq.Rabbit;
 
@@ -49,10 +49,10 @@ namespace Services.MQ.IT.Util.Consumers.Inventory
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            Communication.Http.Department.IT.Models.WorkerModel workerModel = new Communication.Http.Department.IT.Models.WorkerModel
+            Services.Communication.Http.Broker.Department.IT.Models.WorkerModel workerModel = new Services.Communication.Http.Broker.Department.IT.Models.WorkerModel
             {
                 Id = data.Id,
-                ITInventories = data.Inventories.Select(x => new Communication.Http.Department.IT.Models.InventoryModel
+                ITInventories = data.Inventories.Select(x => new Services.Communication.Http.Broker.Department.IT.Models.InventoryModel
                 {
                     Id = x.Id,
                     FromDate = x.FromDate,

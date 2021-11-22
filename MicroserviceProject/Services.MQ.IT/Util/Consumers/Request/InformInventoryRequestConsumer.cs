@@ -1,8 +1,7 @@
-﻿using Communication.Http.Department.IT;
-using Communication.Mq.Rabbit.Configuration.Department.IT;
-using Communication.Mq.Rabbit.Publisher.Department.IT.Models;
+﻿using Infrastructure.Communication.Mq.Rabbit;
 
-using Infrastructure.Communication.Mq.Rabbit;
+using Services.Communication.Http.Broker.Department.IT;
+using Services.Communication.Mq.Rabbit.Configuration.Department.IT;
 
 using System;
 using System.Threading;
@@ -23,7 +22,7 @@ namespace Services.MQ.IT.Util.Consumers.Inventory
         /// <summary>
         /// Rabbit kuyruğuyla iletişim kuracak tüketici sınıf
         /// </summary>
-        private readonly Consumer<InventoryRequestModel> _consumer;
+        private readonly Consumer<Communication.Http.Broker.Department.IT.Models.InventoryRequestModel> _consumer;
 
         /// <summary>
         /// IT departmanı servis iletişimcisi
@@ -40,15 +39,15 @@ namespace Services.MQ.IT.Util.Consumers.Inventory
             ITCommunicator itCommunicator)
         {
             _itCommunicator = itCommunicator;
-            _consumer = new Consumer<InventoryRequestModel>(rabbitConfiguration);
+            _consumer = new Consumer<Communication.Http.Broker.Department.IT.Models.InventoryRequestModel>(rabbitConfiguration);
             _consumer.OnConsumed += Consumer_OnConsumed;
         }
 
-        private async Task Consumer_OnConsumed(InventoryRequestModel data)
+        private async Task Consumer_OnConsumed(Communication.Http.Broker.Department.IT.Models.InventoryRequestModel data)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            Communication.Http.Department.IT.Models.InventoryRequestModel inventoryRequestModel = new Communication.Http.Department.IT.Models.InventoryRequestModel
+            Communication.Http.Broker.Department.IT.Models.InventoryRequestModel inventoryRequestModel = new Communication.Http.Broker.Department.IT.Models.InventoryRequestModel
             {
                 Amount = data.Amount,
                 Done = data.Done,

@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="FluentValidation" Version="10.1.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.1.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.Caching.Redis\Infrastructure.Caching.Redis.csproj" />
+    <ProjectReference Include="..\Infrastructure.Localization\Infrastructure.Localization.csproj" />
+    <ProjectReference Include="..\Infrastructure.Logging.Logger.RequestResponseLogger\Infrastructure.Logging.Logger.RequestResponseLogger.csproj" />
+    <ProjectReference Include="..\Infrastructure.Communication.Http.Wrapper\Infrastructure.Communication.Http.Wrapper.csproj" />
+    <ProjectReference Include="..\Infrastructure.Transaction.Recovery\Infrastructure.Transaction.Recovery.csproj" />
+    <ProjectReference Include="..\Infrastructure.Transaction.UnitOfWork.Sql\Infrastructure.Transaction.UnitOfWork.Sql.csproj" />
+    <ProjectReference Include="..\Infrastructure.Util.DI\Infrastructure.Util.DI.csproj" />
+    <ProjectReference Include="..\Services.Communication.Http.Broker.Authorization\Services.Communication.Http.Broker.Authorization.csproj" />
+    <ProjectReference Include="..\Services.Communication.Http.Broker.Department\Services.Communication.Http.Broker.Department.csproj" />
+    <ProjectReference Include="..\Services.Communication.Mq.Rabbit.Publisher\Services.Communication.Mq.Rabbit.Publisher.csproj" />
+    <ProjectReference Include="..\Services.Security.BasicToken\Services.Security.BasicToken.csproj" />
+  </ItemGroup>
+
+</Project>

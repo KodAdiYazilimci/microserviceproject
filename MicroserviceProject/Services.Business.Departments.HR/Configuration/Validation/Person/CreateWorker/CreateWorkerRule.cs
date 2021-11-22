@@ -1,6 +1,7 @@
-﻿using Communication.Http.Department.HR.Models;
-
+﻿
 using FluentValidation;
+
+using Services.Communication.Http.Broker.Department.HR.Models;
 
 namespace Services.Business.Departments.HR.Configuration.Validation.Person.CreateWorker
 {

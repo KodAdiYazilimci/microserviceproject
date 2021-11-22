@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Services.Monitoring.Reliability.Console
+namespace Presentation.Monitoring.Reliability.Console
 {
     class Program
     {

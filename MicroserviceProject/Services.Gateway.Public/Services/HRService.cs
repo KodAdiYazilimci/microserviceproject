@@ -1,9 +1,9 @@
-﻿using Communication.Http.Department.HR;
-using Communication.Http.Department.HR.Models;
-
-using Infrastructure.Communication.Http.Exceptions;
+﻿using Infrastructure.Communication.Http.Exceptions;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Communication.Http.Wrapper;
+
+using Services.Communication.Http.Broker.Department.HR;
+using Services.Communication.Http.Broker.Department.HR.Models;
 
 using System;
 using System.Collections.Generic;

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-using Communication.Http.Department.Finance.Models;
+using Services.Communication.Http.Broker.Department.Finance.Models;
 
 using Infrastructure.Transaction.Recovery;
 

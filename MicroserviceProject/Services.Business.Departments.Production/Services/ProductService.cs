@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-using Communication.Http.Department.Production.Models;
+using Services.Communication.Http.Broker.Department.Production.Models;
 
 using Infrastructure.Caching.Redis;
 using Infrastructure.Communication.Http.Wrapper;

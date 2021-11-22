@@ -1,7 +1,9 @@
-﻿using Communication.Http.Department.Storage;
+﻿using Services.Communication.Http.Broker.Department.Storage.Models;
 
-using Infrastructure.Communication.Broker;
 using Infrastructure.Routing.Providers;
+
+using Services.Communication.Http.Broker;
+using Services.Communication.Http.Broker.Department.Storage;
 
 namespace Infrastructure.Mock.Providers.Communicators
 {

@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 
-using Communication.Http.Department.AA;
-using Communication.Http.Department.Accounting;
-using Communication.Http.Department.HR.Models;
-using Communication.Http.Department.IT;
-using Communication.Mq.Rabbit.Publisher.Department.AA;
-using Communication.Mq.Rabbit.Publisher.Department.Accounting;
-using Communication.Mq.Rabbit.Publisher.Department.IT;
+using Services.Communication.Http.Broker.Department.AA;
+using Services.Communication.Http.Broker.Department.Accounting;
+using Services.Communication.Http.Broker.Department.HR.Models;
+using Services.Communication.Http.Broker.Department.IT;
+using Services.Communication.Mq.Rabbit.Publisher.Department.AA;
+using Services.Communication.Mq.Rabbit.Publisher.Department.Accounting;
+using Services.Communication.Mq.Rabbit.Publisher.Department.IT;
 
 using Infrastructure.Caching.Redis;
 using Infrastructure.Communication.Http.Exceptions;
@@ -18,6 +18,7 @@ using Infrastructure.Transaction.UnitOfWork.Sql;
 
 using Services.Business.Departments.HR.Entities.Sql;
 using Services.Business.Departments.HR.Repositories.Sql;
+using Services.Communication.Http.Broker.Department.HR.Models;
 
 using System;
 using System.Collections.Generic;
@@ -357,7 +358,7 @@ namespace Services.Business.Departments.HR.Services
 
             foreach (var worker in workerModels)
             {
-                ServiceResultModel<List<Communication.Http.Department.Accounting.Models.BankAccountModel>> bankAccountsServiceResult =
+                ServiceResultModel<List<Communication.Http.Broker.Department.Accounting.Models.BankAccountModel>> bankAccountsServiceResult =
                     await _accountingCommunicator.GetBankAccountsOfWorkerAsync(worker.Id, TransactionIdentity, cancellationTokenSource);
 
                 if (bankAccountsServiceResult.IsSuccess)
@@ -457,7 +458,7 @@ namespace Services.Business.Departments.HR.Services
 
             if (!worker.AAInventories.Any())
             {
-                ServiceResultModel<List<Communication.Http.Department.AA.Models.InventoryModel>> defaultInventoriesServiceResult =
+                ServiceResultModel<List<Communication.Http.Broker.Department.AA.Models.InventoryModel>> defaultInventoriesServiceResult =
                     await _aaCommunicator.GetInventoriesForNewWorkerAsync(TransactionIdentity, cancellationTokenSource);
 
                 if (defaultInventoriesServiceResult.IsSuccess)
@@ -506,7 +507,7 @@ namespace Services.Business.Departments.HR.Services
 
             if (!worker.ITInventories.Any())
             {
-                ServiceResultModel<List<Communication.Http.Department.IT.Models.InventoryModel>> defaultInventoriesServiceResult =
+                ServiceResultModel<List<Communication.Http.Broker.Department.IT.Models.InventoryModel>> defaultInventoriesServiceResult =
                     await _itCommunicator.GetInventoriesForNewWorkerAsync(TransactionIdentity, cancellationTokenSource);
 
                 if (defaultInventoriesServiceResult.IsSuccess)

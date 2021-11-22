@@ -1,11 +1,11 @@
-using Communication.Http.Authorization.DI;
-using Communication.Http.Department.DI;
-using Communication.Mq.Rabbit.Configuration.DI;
-using Communication.Mq.Rabbit.Publisher.Department.DI;
+using Services.Communication.Http.Broker.Authorization.DI;
+using Services.Communication.Http.Broker.Department.DI;
+using Services.Communication.Mq.Rabbit.Configuration.DI;
+using Services.Communication.Mq.Rabbit.Publisher.Department.DI;
 
 using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Caching.Redis.DI;
-using Infrastructure.Communication.Broker.DI;
+using Services.Communication.Http.Broker.DI;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Localization.DI;
 using Infrastructure.Logging.Logger.RequestResponseLogger.DI;

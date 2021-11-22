@@ -1,4 +1,4 @@
-﻿using Communication.Http.Department.Buying.Models;
+﻿using Services.Communication.Http.Broker.Department.Buying.Models;
 
 using FluentValidation.Results;
 

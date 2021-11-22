@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-using Communication.Http.Department.Storage.Models;
+using Services.Communication.Http.Broker.Department.Storage.Models;
 
 using Services.Business.Departments.Storage.Entities.EntityFramework;
 

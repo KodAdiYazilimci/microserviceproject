@@ -11,12 +11,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Communication.Http.Authorization\Communication.Http.Authorization.csproj" />
-    <ProjectReference Include="..\Communication.Http.Department\Communication.Http.Department.csproj" />
-    <ProjectReference Include="..\Communication.Mq.Rabbit.Publisher\Communication.Mq.Rabbit.Publisher.csproj" />
     <ProjectReference Include="..\Infrastructure.Localization\Infrastructure.Localization.csproj" />
     <ProjectReference Include="..\Infrastructure.Security.Authentication.BasicToken\Infrastructure.Security.Authentication.BasicToken.csproj" />
     <ProjectReference Include="..\Infrastructure.Util.DI\Infrastructure.Util.DI.csproj" />
+    <ProjectReference Include="..\Services.Communication.Http.Broker.Authorization\Services.Communication.Http.Broker.Authorization.csproj" />
+    <ProjectReference Include="..\Services.Communication.Http.Broker.Department\Services.Communication.Http.Broker.Department.csproj" />
+    <ProjectReference Include="..\Services.Communication.Mq.Rabbit.Configuration\Services.Communication.Mq.Rabbit.Configuration.csproj" />
+    <ProjectReference Include="..\Services.Communication.Mq.Rabbit.Publisher\Services.Communication.Mq.Rabbit.Publisher.csproj" />
   </ItemGroup>
 
 </Project>

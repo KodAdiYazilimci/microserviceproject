@@ -1,9 +1,9 @@
-﻿using Communication.Http.Authorization.Models;
-
+﻿
 using Infrastructure.Communication.Http.Models;
 
 using Microsoft.AspNetCore.Mvc;
 
+using Services.Communication.Http.Broker.Authorization.Models;
 using Services.Infrastructure.Authorization.Business.Services;
 using Services.Infrastructure.Authorization.Persistence.Sql.Exceptions;
 using Services.Infrastructure.Authorization.Util.Validation.Auth.GetToken;

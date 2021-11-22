@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 
-using Communication.Http.Department.Production.Models;
-using Communication.Http.Department.Storage;
-using Communication.Http.Department.Storage.Models;
-using Communication.Mq.Rabbit.Publisher.Department.Buying;
-using Communication.Mq.Rabbit.Publisher.Department.Buying.Models;
-using Communication.Mq.Rabbit.Publisher.Department.Storage;
-using Communication.Mq.Rabbit.Publisher.Department.Storage.Models;
+using Services.Communication.Http.Broker.Department.Production.Models;
+using Services.Communication.Http.Broker.Department.Storage.Models;
+using Services.Communication.Http.Broker.Department.Storage.Models;
+using Services.Communication.Mq.Rabbit.Publisher.Department.Buying;
+using Services.Communication.Mq.Rabbit.Publisher.Department.Buying.Models;
+using Services.Communication.Mq.Rabbit.Publisher.Department.Storage;
+using Services.Communication.Mq.Rabbit.Publisher.Department.Storage.Models;
 
 using Infrastructure.Caching.Redis;
 using Infrastructure.Communication.Http.Exceptions;
@@ -29,6 +29,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Services.Communication.Http.Broker.Department.Storage;
 
 namespace Services.Business.Departments.Production.Services
 {

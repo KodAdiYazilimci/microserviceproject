@@ -1,6 +1,6 @@
-﻿using Communication.Http.Department.Selling;
-using Communication.Mq.Rabbit.Configuration.Department.Selling;
-using Communication.Mq.Rabbit.Publisher.Department.Finance.Models;
+﻿using Services.Communication.Http.Broker.Department.Selling;
+using Services.Communication.Mq.Rabbit.Configuration.Department.Selling;
+using Services.Communication.Mq.Rabbit.Publisher.Department.Finance.Models;
 
 using Infrastructure.Communication.Mq.Rabbit;
 
@@ -49,7 +49,7 @@ namespace Services.MQ.Buying.Util.Consumers.Cost
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            Communication.Http.Department.Selling.Models.ProductionRequestModel productionRequestModel = new Communication.Http.Department.Selling.Models.ProductionRequestModel
+            Services.Communication.Http.Broker.Department.Selling.Models.ProductionRequestModel productionRequestModel = new Services.Communication.Http.Broker.Department.Selling.Models.ProductionRequestModel
             {
                 Approved = data.Approved,
                 Amount = data.Amount,

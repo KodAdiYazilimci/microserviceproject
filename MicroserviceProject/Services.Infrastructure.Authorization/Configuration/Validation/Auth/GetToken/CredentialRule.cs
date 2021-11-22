@@ -1,6 +1,7 @@
-﻿using Communication.Http.Authorization.Models;
-
+﻿
 using FluentValidation;
+
+using Services.Communication.Http.Broker.Authorization.Models;
 
 namespace Services.Infrastructure.Authorization.Configuration.Validation.Auth.GetToken
 {

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 
-using Communication.Http.Gateway.Public;
-using Communication.Http.Gateway.Public.Models;
+using Services.Communication.Http.Broker.Gateway.Public;
+using Services.Communication.Http.Broker.Gateway.Public.Models;
 
 using Infrastructure.Communication.Http.Models;
 

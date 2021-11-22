@@ -1,6 +1,7 @@
-﻿using Communication.Http.Department.IT.Models;
-
+﻿
 using FluentValidation;
+
+using Services.Communication.Http.Broker.Department.IT.Models;
 
 using System.Linq;
 

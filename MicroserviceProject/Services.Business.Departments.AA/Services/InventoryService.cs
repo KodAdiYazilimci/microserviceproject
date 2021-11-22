@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 
-using Communication.Http.Department.AA.Models;
-using Communication.Mq.Rabbit.Publisher.Department.Buying;
+using Services.Communication.Http.Broker.Department.AA.Models;
+using Services.Communication.Mq.Rabbit.Publisher.Department.Buying;
 
 using Infrastructure.Caching.Redis;
 using Infrastructure.Communication.Http.Wrapper;
@@ -11,6 +11,7 @@ using Infrastructure.Transaction.UnitOfWork.Sql;
 
 using Services.Business.Departments.AA.Entities.Sql;
 using Services.Business.Departments.AA.Repositories.Sql;
+using Services.Communication.Http.Broker.Department.AA.Models;
 
 using System;
 using System.Collections.Generic;

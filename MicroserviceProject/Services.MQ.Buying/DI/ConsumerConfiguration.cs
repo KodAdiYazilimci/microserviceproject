@@ -1,4 +1,4 @@
-﻿using Communication.Mq.Rabbit.Configuration.Department.Buying;
+﻿using Services.Communication.Mq.Rabbit.Configuration.Department.Buying;
 
 using Microsoft.Extensions.DependencyInjection;
 

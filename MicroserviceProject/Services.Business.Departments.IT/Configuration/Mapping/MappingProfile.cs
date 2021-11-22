@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-using Communication.Http.Department.IT.Models;
+using Services.Communication.Http.Broker.Department.IT.Models;
 
 using Services.Business.Departments.IT.Entities.Sql;
 

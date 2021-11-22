@@ -1,7 +1,7 @@
-using Communication.Http.Authorization.DI;
+using Services.Communication.Http.Broker.Authorization.DI;
 
 using Infrastructure.Caching.InMemory.DI;
-using Infrastructure.Communication.Broker.DI;
+using Services.Communication.Http.Broker.DI;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Routing.Persistence.DI;
 using Infrastructure.Routing.Providers.DI;

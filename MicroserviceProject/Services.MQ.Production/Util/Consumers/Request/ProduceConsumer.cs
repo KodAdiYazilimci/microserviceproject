@@ -1,6 +1,6 @@
-﻿using Communication.Http.Department.Production;
-using Communication.Mq.Rabbit.Configuration.Department.Production;
-using Communication.Mq.Rabbit.Publisher.Department.Production.Models;
+﻿using Services.Communication.Http.Broker.Department.Production;
+using Services.Communication.Mq.Rabbit.Configuration.Department.Production;
+using Services.Communication.Mq.Rabbit.Publisher.Department.Production.Models;
 
 using Infrastructure.Communication.Mq.Rabbit;
 
@@ -49,7 +49,7 @@ namespace Services.MQ.Production.Util.Consumers.Request
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            await _productionCommunicator.ProduceProductAsync(new Communication.Http.Department.Production.Models.ProduceModel()
+            await _productionCommunicator.ProduceProductAsync(new Services.Communication.Http.Broker.Department.Production.Models.ProduceModel()
             {
                 ProductId = data.ProductId,
                 Amount = data.Amount,

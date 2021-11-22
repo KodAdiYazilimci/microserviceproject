@@ -1,4 +1,4 @@
-﻿using Communication.Mq.Rabbit.Configuration.Department.Accounting;
+﻿using Services.Communication.Mq.Rabbit.Configuration.Department.Accounting;
 using Services.MQ.Accounting.Util.Consumers.Inventory;
 
 using Microsoft.Extensions.DependencyInjection;

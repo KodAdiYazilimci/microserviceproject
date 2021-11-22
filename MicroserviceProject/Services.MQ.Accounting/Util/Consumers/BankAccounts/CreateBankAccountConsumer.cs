@@ -1,8 +1,7 @@
-﻿using Communication.Http.Department.Accounting;
-using Communication.Mq.Rabbit.Configuration.Department.Accounting;
-using Communication.Mq.Rabbit.Publisher.Department.Accounting.Models;
+﻿using Infrastructure.Communication.Mq.Rabbit;
 
-using Infrastructure.Communication.Mq.Rabbit;
+using Services.Communication.Http.Broker.Department.Accounting;
+using Services.Communication.Mq.Rabbit.Configuration.Department.Accounting;
 
 using System;
 using System.Linq;
@@ -24,7 +23,7 @@ namespace Services.MQ.Accounting.Util.Consumers.Inventory
         /// <summary>
         /// Rabbit kuyruğuyla iletişim kuracak tüketici sınıf
         /// </summary>
-        private readonly Consumer<WorkerModel> _consumer;
+        private readonly Consumer<Communication.Http.Broker.Department.Accounting.Models.WorkerModel> _consumer;
 
         /// <summary>
         /// Muhasebe departmanı servis iletişimcisi
@@ -42,18 +41,18 @@ namespace Services.MQ.Accounting.Util.Consumers.Inventory
         {
             _accountingCommunicator = accountingCommunicator;
 
-            _consumer = new Consumer<WorkerModel>(rabbitConfiguration);
+            _consumer = new Consumer<Communication.Http.Broker.Department.Accounting.Models.WorkerModel>(rabbitConfiguration);
             _consumer.OnConsumed += Consumer_OnConsumed;
         }
 
-        private async Task Consumer_OnConsumed(WorkerModel data)
+        private async Task Consumer_OnConsumed(Communication.Http.Broker.Department.Accounting.Models.WorkerModel data)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            Communication.Http.Department.Accounting.Models.WorkerModel workerModel = new Communication.Http.Department.Accounting.Models.WorkerModel
+            Services.Communication.Http.Broker.Department.Accounting.Models.WorkerModel workerModel = new Services.Communication.Http.Broker.Department.Accounting.Models.WorkerModel
             {
                 Id = data.Id,
-                BankAccounts = data.BankAccounts.Select(x => new Communication.Http.Department.Accounting.Models.BankAccountModel()
+                BankAccounts = data.BankAccounts.Select(x => new Services.Communication.Http.Broker.Department.Accounting.Models.BankAccountModel()
                 {
                     IBAN = x.IBAN
                 }).ToList()

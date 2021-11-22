@@ -1,9 +1,8 @@
-using Communication.Http.Authorization.DI;
-using Communication.Http.Department.DI;
+using Services.Communication.Http.Broker.Authorization.DI;
+using Services.Communication.Http.Broker.Department.DI;
 
 using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Caching.Redis.DI;
-using Infrastructure.Communication.Broker.DI;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Localization.DI;
 using Infrastructure.Routing.Persistence.DI;
@@ -19,6 +18,7 @@ using Microsoft.Extensions.Hosting;
 
 using Newtonsoft.Json;
 
+using Services.Communication.Http.Broker.DI;
 using Services.MQ.Selling.DI;
 
 using System.Net;

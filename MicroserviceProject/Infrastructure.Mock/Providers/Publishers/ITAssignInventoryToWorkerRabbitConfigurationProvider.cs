@@ -1,4 +1,4 @@
-﻿using Communication.Mq.Rabbit.Configuration.Department.IT;
+﻿using Services.Communication.Mq.Rabbit.Configuration.Department.IT;
 
 using Microsoft.Extensions.Configuration;
 

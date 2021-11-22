@@ -1,6 +1,4 @@
-﻿using Communication.Http.Authorization;
-using Communication.Http.Authorization.Models;
-
+﻿
 using Infrastructure.Communication.Http.Models;
 
 using Microsoft.AspNetCore.Http;
@@ -8,6 +6,9 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 using Presentation.UI.Web.Identity.Models;
+
+using Services.Communication.Http.Broker.Authorization;
+using Services.Communication.Http.Broker.Authorization.Models;
 
 using System;
 using System.Threading;

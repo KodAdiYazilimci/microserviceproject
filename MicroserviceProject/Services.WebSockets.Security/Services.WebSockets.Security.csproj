@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Infrastructure.Communication.Http.Broker\Infrastructure.Communication.Http.Broker.csproj" />
     <ProjectReference Include="..\Infrastructure.Communication.WebSockets\Infrastructure.Communication.WebSockets.csproj" />
     <ProjectReference Include="..\Services.Security.SignalR\Services.Security.SignalR.csproj" />
   </ItemGroup>

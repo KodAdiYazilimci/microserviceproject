@@ -1,5 +1,5 @@
-﻿using Communication.Mq.Rabbit.Configuration.Department.Buying;
-using Communication.Mq.Rabbit.Publisher.Department.Buying;
+﻿using Services.Communication.Mq.Rabbit.Configuration.Department.Buying;
+using Services.Communication.Mq.Rabbit.Publisher.Department.Buying;
 
 namespace Infrastructure.Mock.Providers.Publishers
 {

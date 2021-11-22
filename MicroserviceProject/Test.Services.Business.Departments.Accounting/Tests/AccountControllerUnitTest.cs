@@ -1,6 +1,5 @@
-﻿using Communication.Http.Department.Accounting.Models;
+﻿using Services.Communication.Http.Broker.Department.Accounting.Models;
 
-using Infrastructure.Communication.Broker;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Mock.Factories;
 using Infrastructure.Routing.Providers;
@@ -9,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Services.Business.Departments.Accounting.Controllers;
+using Services.Communication.Http.Broker;
 
 using System;
 using System.Collections.Generic;

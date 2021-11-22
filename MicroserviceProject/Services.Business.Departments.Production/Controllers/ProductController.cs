@@ -1,4 +1,4 @@
-﻿using Communication.Http.Department.Production.Models;
+﻿using Services.Communication.Http.Broker.Department.Production.Models;
 
 using Infrastructure.Communication.Http.Wrapper;
 

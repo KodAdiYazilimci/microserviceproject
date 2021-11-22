@@ -11,15 +11,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Communication.Http.Department\Communication.Http.Department.csproj" />
-    <ProjectReference Include="..\Communication.Mq.Rabbit.Publisher\Communication.Mq.Rabbit.Publisher.csproj" />
     <ProjectReference Include="..\Infrastructure.Caching.InMemory\Infrastructure.Caching.InMemory.csproj" />
-    <ProjectReference Include="..\Infrastructure.Communication.Http.Broker\Infrastructure.Communication.Http.Broker.csproj" />
     <ProjectReference Include="..\Infrastructure.Localization\Infrastructure.Localization.csproj" />
     <ProjectReference Include="..\Infrastructure.Routing.Persistence\Infrastructure.Routing.Persistence.csproj" />
+    <ProjectReference Include="..\Infrastructure.Routing.Providers\Infrastructure.Routing.Providers.csproj" />
+    <ProjectReference Include="..\Infrastructure.Security.Authentication\Infrastructure.Security.Authentication.csproj" />
     <ProjectReference Include="..\Infrastructure.Sockets.Persistence\Infrastructure.Sockets.Persistence.csproj" />
     <ProjectReference Include="..\Infrastructure.Sockets.Providers\Infrastructure.Sockets.Providers.csproj" />
     <ProjectReference Include="..\Infrastructure.Transaction.UnitOfWork.Sql\Infrastructure.Transaction.UnitOfWork.Sql.csproj" />
+    <ProjectReference Include="..\Services.Communication.Http.Broker.Department\Services.Communication.Http.Broker.Department.csproj" />
+    <ProjectReference Include="..\Services.Communication.Mq.Rabbit.Configuration\Services.Communication.Mq.Rabbit.Configuration.csproj" />
+    <ProjectReference Include="..\Services.Communication.Mq.Rabbit.Publisher\Services.Communication.Mq.Rabbit.Publisher.csproj" />
   </ItemGroup>
 
 </Project>
