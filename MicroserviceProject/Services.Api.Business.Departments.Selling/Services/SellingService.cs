@@ -1,11 +1,5 @@
 ﻿using AutoMapper;
 
-using Services.Communication.Http.Broker.Department.Selling.Models;
-using Services.Communication.Http.Broker.Department.Storage.Models;
-using Services.Communication.Http.Broker.Department.Storage.Models;
-using Services.Communication.Mq.Rabbit.Publisher.Department.Finance;
-using Services.Communication.Mq.Rabbit.Publisher.Department.Production;
-
 using Infrastructure.Caching.Redis;
 using Infrastructure.Communication.Http.Exceptions;
 using Infrastructure.Communication.Http.Models;
@@ -19,13 +13,18 @@ using Services.Api.Business.Departments.Selling.Configuration.Persistence;
 using Services.Api.Business.Departments.Selling.Constants;
 using Services.Api.Business.Departments.Selling.Entities.EntityFramework;
 using Services.Api.Business.Departments.Selling.Repositories.EntityFramework;
+using Services.Communication.Http.Broker.Department.Selling.Models;
+using Services.Communication.Http.Broker.Department.Storage;
+using Services.Communication.Http.Broker.Department.Storage.Models;
+using Services.Communication.Mq.Rabbit.Department.Models.Production;
+using Services.Communication.Mq.Rabbit.Publisher.Department.Finance;
+using Services.Communication.Mq.Rabbit.Publisher.Department.Production;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Services.Communication.Http.Broker.Department.Storage;
 
 namespace Services.Api.Business.Departments.Selling.Services
 {
@@ -251,7 +250,7 @@ namespace Services.Api.Business.Departments.Selling.Services
             {
                 if (stockServiceResult.Data.Amount < sellModel.Quantity)
                 {
-                    _productionRequestPublisher.AddToBuffer(new Communication.Mq.Rabbit.Publisher.Department.Finance.Models.ProductionRequestModel()
+                    _productionRequestPublisher.AddToBuffer(new  Communication.Mq.Rabbit.Department.Models.Finance.ProductionRequestQueueModel
                     {
                         Amount = sellModel.Quantity,
                         DepartmentId = (int)Constants.Departments.Selling,
@@ -350,7 +349,7 @@ namespace Services.Api.Business.Departments.Selling.Services
 
                 await _unitOfWork.SaveAsync(cancellationTokenSource);
 
-                await _productionProducePublisherPublisher.PublishAsync(new Communication.Mq.Rabbit.Publisher.Department.Production.Models.ProduceModel()
+                await _productionProducePublisherPublisher.PublishAsync(new ProduceQueueModel
                 {
                     ProductId = sellEntity.ProductId,
                     Amount = sellEntity.Quantity,

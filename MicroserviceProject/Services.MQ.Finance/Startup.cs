@@ -18,7 +18,7 @@ using Newtonsoft.Json;
 using Services.Communication.Http.Broker.Authorization.DI;
 using Services.Communication.Http.Broker.Department.DI;
 using Services.Communication.Http.Broker.DI;
-using Services.MQ.Finance.DI;
+using Services.Communication.Mq.Rabbit.Consumer.DI;
 
 using System.Net;
 

@@ -1,5 +1,5 @@
 ﻿using Services.Communication.Mq.Rabbit.Configuration.Department.Buying;
-using Services.Communication.Mq.Rabbit.Publisher.Department.Buying.Models;
+using Services.Communication.Mq.Rabbit.Department.Models.Buying;
 
 using System;
 
@@ -8,7 +8,7 @@ namespace Services.Communication.Mq.Rabbit.Publisher.Department.Buying
     /// <summary>
     /// Satın alınması istenilen envanterlere ait kararları rabbit kuyruğuna ekler
     /// </summary>
-    public class NotifyCostApprovementPublisher : BasePublisher<DecidedCostModel>, IDisposable
+    public class NotifyCostApprovementPublisher : BasePublisher<DecidedCostQueueModel>, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi

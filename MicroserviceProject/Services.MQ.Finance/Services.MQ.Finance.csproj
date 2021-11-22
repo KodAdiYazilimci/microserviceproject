@@ -18,7 +18,7 @@
     <ProjectReference Include="..\Services.Communication.Http.Broker.Authorization\Services.Communication.Http.Broker.Authorization.csproj" />
     <ProjectReference Include="..\Services.Communication.Http.Broker.Department\Services.Communication.Http.Broker.Department.csproj" />
     <ProjectReference Include="..\Services.Communication.Mq.Rabbit.Configuration\Services.Communication.Mq.Rabbit.Configuration.csproj" />
-    <ProjectReference Include="..\Services.Communication.Mq.Rabbit.Publisher\Services.Communication.Mq.Rabbit.Publisher.csproj" />
+    <ProjectReference Include="..\Services.Communication.Mq.Rabbit.Consumer\Services.Communication.Mq.Rabbit.Consumer.csproj" />
   </ItemGroup>
 
 </Project>

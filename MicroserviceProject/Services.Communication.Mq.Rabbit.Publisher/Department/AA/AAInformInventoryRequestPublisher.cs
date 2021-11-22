@@ -1,5 +1,5 @@
 ﻿using Services.Communication.Mq.Rabbit.Configuration.Department.AA;
-using Services.Communication.Mq.Rabbit.Publisher.Department.AA.Models;
+using Services.Communication.Mq.Rabbit.Department.Models.AA;
 
 using System;
 
@@ -8,7 +8,7 @@ namespace Services.Communication.Mq.Rabbit.Publisher.Department.AA
     /// <summary>
     /// İdari işler departmanına satın alımla ilgili olumlu veya olumsuz dönüş verisini rabbit kuyruğuna ekler
     /// </summary>
-    public class AAInformInventoryRequestPublisher : BasePublisher<InventoryRequestModel>, IDisposable
+    public class AAInformInventoryRequestPublisher : BasePublisher<InventoryRequestQueueModel>, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi

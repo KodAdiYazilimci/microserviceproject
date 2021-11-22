@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Services.Communication.Mq.Rabbit.Department.Models.Finance;
 
 namespace Services.Business.Departments.Finance.Services
 {
@@ -238,7 +239,7 @@ namespace Services.Business.Departments.Finance.Services
                 cancellationTokenSource: cancellationTokenSource);
 
             _notifyProductionRequesApprovementPublisher.AddToBuffer(
-                model: new Communication.Mq.Rabbit.Publisher.Department.Selling.Models.ProductionRequestModel
+                model: new Communication.Mq.Rabbit.Department.Models.Selling.ProductionRequestQueueModel
                 {
                     Approved = true,
                     Amount = productionRequestEntity.Amount,
@@ -304,7 +305,7 @@ namespace Services.Business.Departments.Finance.Services
                 cancellationTokenSource: cancellationTokenSource);
 
             _notifyProductionRequesApprovementPublisher.AddToBuffer(
-                model: new Communication.Mq.Rabbit.Publisher.Department.Selling.Models.ProductionRequestModel
+                model: new Communication.Mq.Rabbit.Department.Models.Selling.ProductionRequestQueueModel
                 {
                     Approved = false,
                     Amount = productionRequestEntity.Amount,

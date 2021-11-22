@@ -1,7 +1,8 @@
-using Services.MQ.Accounting.Util.Consumers.Inventory;
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+
+using Services.Communication.Mq.Rabbit.Consumer.Department.Accounting;
 
 namespace Services.MQ.Accounting
 {

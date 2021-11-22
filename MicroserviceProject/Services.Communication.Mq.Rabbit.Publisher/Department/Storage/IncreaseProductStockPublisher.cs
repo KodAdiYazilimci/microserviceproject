@@ -1,6 +1,6 @@
-﻿using Services.Communication.Mq.Rabbit.Publisher.Department.Storage.Models;
-
+﻿
 using Services.Communication.Mq.Rabbit.Configuration.Department.Storage;
+using Services.Communication.Mq.Rabbit.Department.Models.Storage;
 
 using System;
 
@@ -9,7 +9,7 @@ namespace Services.Communication.Mq.Rabbit.Publisher.Department.Storage
     /// <summary>
     /// Depolama departmanına bir ürünün stoğunun artırılması için kayıt açar
     /// </summary>
-    public class IncreaseProductStockPublisher : BasePublisher<ProductStockModel>, IDisposable
+    public class IncreaseProductStockPublisher : BasePublisher<ProductStockQueueModel>, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi

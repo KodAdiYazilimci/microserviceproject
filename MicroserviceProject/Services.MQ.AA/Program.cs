@@ -1,8 +1,8 @@
-using Services.MQ.AA.Util.Consumers.Inventory;
-using Services.MQ.AA.Util.Consumers.Request;
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+
+using Services.Communication.Mq.Rabbit.Consumer.Department.AA;
 
 namespace Services.MQ.AA
 {

@@ -1,13 +1,5 @@
 ﻿using AutoMapper;
 
-using Services.Communication.Http.Broker.Department.Production.Models;
-using Services.Communication.Http.Broker.Department.Storage.Models;
-using Services.Communication.Http.Broker.Department.Storage.Models;
-using Services.Communication.Mq.Rabbit.Publisher.Department.Buying;
-using Services.Communication.Mq.Rabbit.Publisher.Department.Buying.Models;
-using Services.Communication.Mq.Rabbit.Publisher.Department.Storage;
-using Services.Communication.Mq.Rabbit.Publisher.Department.Storage.Models;
-
 using Infrastructure.Caching.Redis;
 using Infrastructure.Communication.Http.Exceptions;
 using Infrastructure.Communication.Http.Models;
@@ -23,13 +15,19 @@ using Services.Api.Business.Departments.Production.Configuration.Persistence;
 using Services.Api.Business.Departments.Production.Constants;
 using Services.Api.Business.Departments.Production.Entities.EntityFramework;
 using Services.Api.Business.Departments.Production.Repositories.EntityFramework;
+using Services.Communication.Http.Broker.Department.Production.Models;
+using Services.Communication.Http.Broker.Department.Storage;
+using Services.Communication.Http.Broker.Department.Storage.Models;
+using Services.Communication.Mq.Rabbit.Department.Models.Buying;
+using Services.Communication.Mq.Rabbit.Department.Models.Storage;
+using Services.Communication.Mq.Rabbit.Publisher.Department.Buying;
+using Services.Communication.Mq.Rabbit.Publisher.Department.Storage;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Services.Communication.Http.Broker.Department.Storage;
 
 namespace Services.Api.Business.Departments.Production.Services
 {
@@ -310,7 +308,7 @@ namespace Services.Api.Business.Departments.Production.Services
                             productionItem.StatusId = (int)ProductionStatus.WaitingDependency;
                             production.StatusId = (int)ProductionStatus.WaitingDependency;
 
-                            _createProductRequestPublisher.AddToBuffer(new ProductRequestModel()
+                            _createProductRequestPublisher.AddToBuffer(new ProductRequestQueueModel()
                             {
                                 Amount = dependedProduct.Amount * produceModel.Amount,
                                 ProductId = dependedProduct.DependedProductId,
@@ -321,7 +319,7 @@ namespace Services.Api.Business.Departments.Production.Services
                         {
                             productionItem.StatusId = (int)ProductionStatus.ReadyToProduce;
 
-                            _descendProductStockPublisher.AddToBuffer(new ProductStockModel()
+                            _descendProductStockPublisher.AddToBuffer(new ProductStockQueueModel()
                             {
                                 Amount = dependedProduct.Amount * produceModel.Amount,
                                 ProductId = dependedProduct.DependedProductId
@@ -388,7 +386,7 @@ namespace Services.Api.Business.Departments.Production.Services
 
                 if (production.ProductionStatus == ProductionStatus.ReadyToProduce)
                 {
-                    _increaseProductStockPublisher.AddToBuffer(new ProductStockModel()
+                    _increaseProductStockPublisher.AddToBuffer(new ProductStockQueueModel()
                     {
                         ProductId = production.ProductId,
                         Amount = production.RequestedAmount
@@ -448,7 +446,7 @@ namespace Services.Api.Business.Departments.Production.Services
                     {
                         if (stocksServiceResult.Data.Amount >= productionItem.RequiredAmount)
                         {
-                            _descendProductStockPublisher.AddToBuffer(new ProductStockModel()
+                            _descendProductStockPublisher.AddToBuffer(new ProductStockQueueModel()
                             {
                                 Amount = productionItem.RequiredAmount,
                                 ProductId = productionItem.DependedProductId
@@ -480,7 +478,7 @@ namespace Services.Api.Business.Departments.Production.Services
 
                 if (production.StatusId == (int)ProductionStatus.ReadyToProduce)
                 {
-                    _increaseProductStockPublisher.AddToBuffer(new ProductStockModel()
+                    _increaseProductStockPublisher.AddToBuffer(new ProductStockQueueModel()
                     {
                         Amount = production.RequestedAmount,
                         ProductId = production.ProductId

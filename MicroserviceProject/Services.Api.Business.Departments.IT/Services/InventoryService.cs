@@ -377,7 +377,7 @@ namespace Services.Api.Business.Departments.IT.Services
 
                 if (inventoryEntity.CurrentStockCount <= 0)
                 {
-                    _createInventoryRequestPublisher.AddToBuffer(new  Communication.Mq.Rabbit.Publisher.Department.Buying.Models.InventoryRequestModel()
+                    _createInventoryRequestPublisher.AddToBuffer(new Communication.Mq.Rabbit.Department.Models.Buying.InventoryRequestQueueModel
                     {
                         Amount = 3,
                         DepartmentId = (int)Constants.Departments.InformationTechnologies,
@@ -573,8 +573,8 @@ namespace Services.Api.Business.Departments.IT.Services
                             await _inventoryDefaultsRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationTokenSource);
                         }
                         else
-                           throw new Exception(
-                                await _translationProvider.TranslateAsync("Tanimsiz.Geri.Alma", Region, cancellationToken: cancellationTokenSource.Token));
+                            throw new Exception(
+                                 await _translationProvider.TranslateAsync("Tanimsiz.Geri.Alma", Region, cancellationToken: cancellationTokenSource.Token));
                         break;
                     case WorkerInventoryRepository.TABLE_NAME:
                         if (rollbackItem.RollbackType == RollbackType.Delete)

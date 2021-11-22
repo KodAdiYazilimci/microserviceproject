@@ -1,5 +1,5 @@
 ﻿using Services.Communication.Mq.Rabbit.Configuration.Department.Finance;
-using Services.Communication.Mq.Rabbit.Publisher.Department.Finance.Models;
+using Services.Communication.Mq.Rabbit.Department.Models.Finance;
 
 using System;
 
@@ -8,7 +8,7 @@ namespace Services.Communication.Mq.Rabbit.Publisher.Department.Finance
     /// <summary>
     /// Finans departmanına üretilmesi istenilen ürünler için talep açar
     /// </summary>
-    public class ProductionRequestPublisher : BasePublisher<ProductionRequestModel>, IDisposable
+    public class ProductionRequestPublisher : BasePublisher<ProductionRequestQueueModel>, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi

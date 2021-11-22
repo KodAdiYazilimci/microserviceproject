@@ -1,5 +1,5 @@
 ﻿using Services.Communication.Mq.Rabbit.Configuration.Department.IT;
-using Services.Communication.Mq.Rabbit.Publisher.Department.IT.Models;
+using Services.Communication.Mq.Rabbit.Department.Models.IT;
 
 using System;
 
@@ -8,7 +8,7 @@ namespace Services.Communication.Mq.Rabbit.Publisher.Department.IT
     /// <summary>
     /// Çalışana envanter ekleyecek rabbit kuyruğuna yeni bir kayıt ekler
     /// </summary>
-    public class ITAssignInventoryToWorkerPublisher : BasePublisher<WorkerModel>, IDisposable
+    public class ITAssignInventoryToWorkerPublisher : BasePublisher<WorkerQueueModel>, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi

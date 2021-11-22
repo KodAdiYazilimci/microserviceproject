@@ -239,7 +239,7 @@ namespace Services.Business.Departments.Finance.Services
                 cancellationTokenSource: cancellationTokenSource);
 
             _notifyCostApprovementPublisher.AddToBuffer(
-                model: new Communication.Mq.Rabbit.Publisher.Department.Buying.Models.DecidedCostModel
+                model: new Communication.Mq.Rabbit.Department.Models.Buying.DecidedCostQueueModel
                 {
                     Approved = true,
                     InventoryRequestId = decidedCostEntity.InventoryRequestId,
@@ -303,7 +303,7 @@ namespace Services.Business.Departments.Finance.Services
                 cancellationTokenSource: cancellationTokenSource);
 
             _notifyCostApprovementPublisher.AddToBuffer(
-                model: new Communication.Mq.Rabbit.Publisher.Department.Buying.Models.DecidedCostModel
+                model: new Communication.Mq.Rabbit.Department.Models.Buying.DecidedCostQueueModel
                 {
                     Approved = false,
                     InventoryRequestId = decidedCostEntity.InventoryRequestId,

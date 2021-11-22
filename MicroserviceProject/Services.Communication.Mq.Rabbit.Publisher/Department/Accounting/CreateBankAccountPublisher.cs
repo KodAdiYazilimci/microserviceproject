@@ -1,5 +1,5 @@
 ﻿using Services.Communication.Mq.Rabbit.Configuration.Department.Accounting;
-using Services.Communication.Mq.Rabbit.Publisher.Department.Accounting.Models;
+using Services.Communication.Mq.Rabbit.Department.Models.Accounting;
 
 using System;
 
@@ -8,7 +8,7 @@ namespace Services.Communication.Mq.Rabbit.Publisher.Department.Accounting
     /// <summary>
     /// Çalışana maaş hesabı açan rabbit kuyruğuna yeni bir kayıt ekler
     /// </summary>
-    public class CreateBankAccountPublisher : BasePublisher<BankAccountModel>, IDisposable
+    public class CreateBankAccountPublisher : BasePublisher<BankAccountQueueModel>, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi

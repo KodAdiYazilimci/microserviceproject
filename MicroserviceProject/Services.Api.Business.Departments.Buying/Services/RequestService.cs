@@ -21,6 +21,7 @@ using Services.Communication.Mq.Rabbit.Publisher.Department.IT;
 using Services.Communication.Http.Broker.Department.AA;
 using Services.Communication.Http.Broker.Department.IT;
 using Services.Communication.Http.Broker.Department.Buying.Models;
+using Services.Communication.Mq.Rabbit.Department.Models.Buying;
 
 namespace Services.Api.Business.Departments.Buying.Services
 {
@@ -184,7 +185,7 @@ namespace Services.Api.Business.Departments.Buying.Services
                 aaInventories = await GetAAInventoriesAsync(cancellationTokenSource);
             }
 
-           List<Communication.Http.Broker.Department.IT.Models.InventoryModel> itInventories = new List<Communication.Http.Broker.Department.IT.Models.InventoryModel>();
+            List<Communication.Http.Broker.Department.IT.Models.InventoryModel> itInventories = new List<Communication.Http.Broker.Department.IT.Models.InventoryModel>();
 
             if (mappedInventoryRequests.Any(x => x.DepartmentId == (int)Constants.Departments.AdministrativeAffairs))
             {
@@ -300,7 +301,7 @@ namespace Services.Api.Business.Departments.Buying.Services
 
             if (mappedInventoryRequest.DepartmentId == (int)Constants.Departments.AdministrativeAffairs)
             {
-               List<Communication.Http.Broker.Department.AA.Models.InventoryModel> aaInventories = await GetAAInventoriesAsync(cancellationTokenSource);
+                List<Communication.Http.Broker.Department.AA.Models.InventoryModel> aaInventories = await GetAAInventoriesAsync(cancellationTokenSource);
 
                 if (!aaInventories.Any(x => x.Id == mappedInventoryRequest.InventoryId))
                 {
@@ -309,7 +310,7 @@ namespace Services.Api.Business.Departments.Buying.Services
             }
             else if (mappedInventoryRequest.DepartmentId == (int)Constants.Departments.InformationTechnologies)
             {
-               List<Communication.Http.Broker.Department.IT.Models.InventoryModel> itInventories = await GetITInventoriesAsync(cancellationTokenSource);
+                List<Communication.Http.Broker.Department.IT.Models.InventoryModel> itInventories = await GetITInventoriesAsync(cancellationTokenSource);
 
                 if (!itInventories.Any(x => x.Id == mappedInventoryRequest.InventoryId))
                 {
@@ -340,7 +341,7 @@ namespace Services.Api.Business.Departments.Buying.Services
                 cancellationTokenSource: cancellationTokenSource);
 
             _inventoryRequestPublisher.AddToBuffer(
-                model: new Communication.Mq.Rabbit.Publisher.Department.Finance.Models.DecidedCostModel
+                model: new Communication.Mq.Rabbit.Department.Models.Finance.DecidedCostQueueModel
                 {
                     InventoryRequestId = createdInventoryRequestId
                 });
@@ -454,7 +455,7 @@ namespace Services.Api.Business.Departments.Buying.Services
             if (inventoryRequestEntity.DepartmentId == (int)Constants.Departments.AdministrativeAffairs)
             {
                 _AAInformInventoryRequestPublisher.AddToBuffer(
-                    model: new Communication.Mq.Rabbit.Publisher.Department.AA.Models.InventoryRequestModel
+                    model: new Communication.Mq.Rabbit.Department.Models.AA.InventoryRequestQueueModel
                     {
                         InventoryId = inventoryRequestEntity.InventoryId,
                         Amount = inventoryRequestEntity.Amount,
@@ -465,7 +466,7 @@ namespace Services.Api.Business.Departments.Buying.Services
             else if (inventoryRequestEntity.DepartmentId == (int)Constants.Departments.InformationTechnologies)
             {
                 _ITInformInventoryRequestPublisher.AddToBuffer(
-                    model: new Communication.Mq.Rabbit.Publisher.Department.IT.Models.InventoryRequestModel
+                    model: new Communication.Mq.Rabbit.Department.Models.IT.InventoryRequestQueueModel
                     {
                         InventoryId = inventoryRequestEntity.InventoryId,
                         Amount = inventoryRequestEntity.Amount,

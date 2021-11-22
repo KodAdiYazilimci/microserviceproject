@@ -1,8 +1,8 @@
 
-using Services.MQ.Finance.Util.Consumers.Request;
-
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+
+using Services.Communication.Mq.Rabbit.Consumer.Department.Finance;
 
 namespace Services.MQ.Finance
 {

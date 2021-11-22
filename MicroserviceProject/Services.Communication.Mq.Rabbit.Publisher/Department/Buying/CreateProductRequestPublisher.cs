@@ -1,6 +1,6 @@
-﻿using Services.Communication.Mq.Rabbit.Publisher.Department.Buying.Models;
-
+﻿
 using Services.Communication.Mq.Rabbit.Configuration.Department.Buying;
+using Services.Communication.Mq.Rabbit.Department.Models.Buying;
 
 using System;
 
@@ -9,7 +9,7 @@ namespace Services.Communication.Mq.Rabbit.Publisher.Department.Buying
     /// <summary>
     /// Satınalma departmanına alınması istenilen ürün talepleri için kayıt açar
     /// </summary>
-    public class CreateProductRequestPublisher : BasePublisher<ProductRequestModel>, IDisposable
+    public class CreateProductRequestPublisher : BasePublisher<ProductRequestQueueModel>, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi

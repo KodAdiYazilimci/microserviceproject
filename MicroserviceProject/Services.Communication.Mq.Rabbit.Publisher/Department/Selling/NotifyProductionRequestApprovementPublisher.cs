@@ -1,5 +1,5 @@
 ﻿using Services.Communication.Mq.Rabbit.Configuration.Department.Selling;
-using Services.Communication.Mq.Rabbit.Publisher.Department.Selling.Models;
+using Services.Communication.Mq.Rabbit.Department.Models.Selling;
 
 using System;
 
@@ -8,7 +8,7 @@ namespace Services.Communication.Mq.Rabbit.Publisher.Department.Selling
     /// <summary>
     /// Üretilmesi talep edilmiş ürünlerin onay sonuçlarını kuyruğa ekler
     /// </summary>
-    public class NotifyProductionRequestApprovementPublisher : BasePublisher<ProductionRequestModel>, IDisposable
+    public class NotifyProductionRequestApprovementPublisher : BasePublisher<ProductionRequestQueueModel>, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi

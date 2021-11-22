@@ -1,9 +1,8 @@
 
-using Services.MQ.Buying.Util.Consumers.Cost;
-using Services.MQ.Buying.Util.Consumers.Request;
-
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+
+using Services.Communication.Mq.Rabbit.Consumer.Department.Buying;
 
 namespace Services.MQ.Buying
 {

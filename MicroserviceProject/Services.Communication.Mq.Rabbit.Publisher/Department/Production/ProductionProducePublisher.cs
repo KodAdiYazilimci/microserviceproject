@@ -1,5 +1,5 @@
 ﻿using Services.Communication.Mq.Rabbit.Configuration.Department.Production;
-using Services.Communication.Mq.Rabbit.Publisher.Department.Production.Models;
+using Services.Communication.Mq.Rabbit.Department.Models.Production;
 
 using System;
 
@@ -8,7 +8,7 @@ namespace Services.Communication.Mq.Rabbit.Publisher.Department.Production
     /// <summary>
     /// Üretilecek ürünlerin rabbit kuyruğuna yeni bir kayıt ekler
     /// </summary>
-    public class ProductionProducePublisher : BasePublisher<ProduceModel>, IDisposable
+    public class ProductionProducePublisher : BasePublisher<ProduceQueueModel>, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi

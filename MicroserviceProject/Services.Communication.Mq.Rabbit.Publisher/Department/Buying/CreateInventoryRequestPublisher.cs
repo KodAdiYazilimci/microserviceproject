@@ -1,5 +1,5 @@
 ﻿using Services.Communication.Mq.Rabbit.Configuration.Department.Buying;
-using Services.Communication.Mq.Rabbit.Publisher.Department.Buying.Models;
+using Services.Communication.Mq.Rabbit.Department.Models.Buying;
 
 using System;
 
@@ -8,7 +8,7 @@ namespace Services.Communication.Mq.Rabbit.Publisher.Department.Buying
     /// <summary>
     /// Satınalma departmanına alınması istenilen envanter talepleri için kayıt açar
     /// </summary>
-    public class CreateInventoryRequestPublisher : BasePublisher<InventoryRequestModel>, IDisposable
+    public class CreateInventoryRequestPublisher : BasePublisher<InventoryRequestQueueModel>, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
