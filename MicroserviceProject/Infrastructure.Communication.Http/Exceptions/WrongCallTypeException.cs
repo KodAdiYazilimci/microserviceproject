@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Infrastructure.Communication.Http.Broker.Exceptions
+namespace Infrastructure.Communication.Http.Exceptions
 {
     /// <summary>
     /// Yanlış çağrı tipi durumunda fırlatılacak istisnai durum

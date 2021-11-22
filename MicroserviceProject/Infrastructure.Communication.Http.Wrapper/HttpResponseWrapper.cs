@@ -1,5 +1,5 @@
-﻿using Infrastructure.Communication.Http.Broker.Exceptions;
-using Infrastructure.Communication.Http.Broker.Models;
+﻿using Infrastructure.Communication.Http.Exceptions;
+using Infrastructure.Communication.Http.Models;
 using Infrastructure.Validation.Exceptions;
 
 using Microsoft.AspNetCore.Mvc;

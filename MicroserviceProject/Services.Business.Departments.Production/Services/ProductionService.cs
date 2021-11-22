@@ -9,8 +9,8 @@ using Communication.Mq.Rabbit.Publisher.Department.Storage;
 using Communication.Mq.Rabbit.Publisher.Department.Storage.Models;
 
 using Infrastructure.Caching.Redis;
-using Infrastructure.Communication.Http.Broker.Exceptions;
-using Infrastructure.Communication.Http.Broker.Models;
+using Infrastructure.Communication.Http.Exceptions;
+using Infrastructure.Communication.Http.Models;
 using Infrastructure.Communication.Http.Wrapper;
 using Infrastructure.Communication.Http.Wrapper.Disposing;
 using Infrastructure.Localization.Providers;

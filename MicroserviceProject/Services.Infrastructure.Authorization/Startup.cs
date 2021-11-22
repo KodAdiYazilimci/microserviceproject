@@ -1,7 +1,7 @@
 
 using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Caching.Redis.DI;
-using Infrastructure.Communication.Http.Broker.Models;
+using Infrastructure.Communication.Http.Models;
 using Infrastructure.Localization.DI;
 using Infrastructure.Logging.Logger.RequestResponseLogger.DI;
 using Infrastructure.Util.DI;

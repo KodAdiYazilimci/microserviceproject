@@ -1,8 +1,8 @@
 ﻿using Communication.Http.Department.HR;
 using Communication.Http.Department.HR.Models;
 
-using Infrastructure.Communication.Http.Broker.Exceptions;
-using Infrastructure.Communication.Http.Broker.Models;
+using Infrastructure.Communication.Http.Exceptions;
+using Infrastructure.Communication.Http.Models;
 using Infrastructure.Communication.Http.Wrapper;
 
 using System;

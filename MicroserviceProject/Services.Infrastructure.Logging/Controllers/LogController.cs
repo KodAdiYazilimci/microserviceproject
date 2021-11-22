@@ -1,4 +1,4 @@
-﻿using Infrastructure.Communication.Http.Broker.Models;
+﻿using Infrastructure.Communication.Http.Models;
 using Infrastructure.Logging.Logger.RequestResponseLogger;
 using Infrastructure.Logging.Logger.RequestResponseLogger.Persistence;
 

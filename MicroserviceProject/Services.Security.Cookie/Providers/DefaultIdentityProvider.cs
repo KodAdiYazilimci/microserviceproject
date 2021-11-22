@@ -2,8 +2,8 @@
 using Communication.Http.Authorization.Models;
 
 using Infrastructure.Caching.InMemory;
-using Infrastructure.Communication.Http.Broker.Exceptions;
-using Infrastructure.Communication.Http.Broker.Models;
+using Infrastructure.Communication.Http.Exceptions;
+using Infrastructure.Communication.Http.Models;
 using Infrastructure.Security.Authentication.Cookie.Abstract;
 using Infrastructure.Security.Authentication.Exceptions;
 using Infrastructure.Security.Model;

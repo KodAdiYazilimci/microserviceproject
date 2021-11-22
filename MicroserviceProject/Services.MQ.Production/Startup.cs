@@ -4,7 +4,7 @@ using Communication.Http.Department.DI;
 using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Caching.Redis.DI;
 using Infrastructure.Communication.Broker.DI;
-using Infrastructure.Communication.Http.Broker.Models;
+using Infrastructure.Communication.Http.Models;
 using Infrastructure.Localization.DI;
 using Infrastructure.Routing.Persistence.DI;
 using Infrastructure.Routing.Providers.DI;

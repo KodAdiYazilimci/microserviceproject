@@ -2,7 +2,7 @@
 using Communication.Http.Authorization.Models;
 
 using Infrastructure.Caching.InMemory;
-using Infrastructure.Communication.Http.Broker.Models;
+using Infrastructure.Communication.Http.Models;
 using Infrastructure.Security.Authentication.SignalR.Abstract;
 using Infrastructure.Security.Model;
 

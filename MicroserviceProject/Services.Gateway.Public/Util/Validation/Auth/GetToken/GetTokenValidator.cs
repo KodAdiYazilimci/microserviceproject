@@ -1,6 +1,6 @@
 ﻿using FluentValidation.Results;
 
-using Infrastructure.Communication.Http.Broker.Models;
+using Infrastructure.Communication.Http.Models;
 using Infrastructure.Security.Model;
 using Infrastructure.Validation.Models;
 

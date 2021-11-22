@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Validation.Models;
 
-namespace Infrastructure.Communication.Http.Broker.Models
+namespace Infrastructure.Communication.Http.Models
 {
     /// <summary>
     /// Bir servisten dönen yanıt

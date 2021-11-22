@@ -1,7 +1,7 @@
 ﻿using Communication.Http.Department.HR.Models;
 
 using Infrastructure.Communication.Broker;
-using Infrastructure.Communication.Http.Broker.Models;
+using Infrastructure.Communication.Http.Models;
 using Infrastructure.Mock.Factories;
 using Infrastructure.Routing.Providers;
 

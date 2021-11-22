@@ -2,7 +2,7 @@
 
 using FluentValidation.Results;
 
-using Infrastructure.Communication.Http.Broker.Models;
+using Infrastructure.Communication.Http.Models;
 using Infrastructure.Validation.Models;
 
 using Services.Infrastructure.Authorization.Configuration.Validation.Auth.GetToken;

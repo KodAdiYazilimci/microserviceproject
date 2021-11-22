@@ -1,7 +1,7 @@
 ﻿
 using Communication.Http.Department.HR.Models;
 
-using Infrastructure.Communication.Http.Broker.Models;
+using Infrastructure.Communication.Http.Models;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

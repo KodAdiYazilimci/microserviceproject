@@ -3,7 +3,7 @@
 using Communication.Http.Gateway.Public;
 using Communication.Http.Gateway.Public.Models;
 
-using Infrastructure.Communication.Http.Broker.Models;
+using Infrastructure.Communication.Http.Models;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

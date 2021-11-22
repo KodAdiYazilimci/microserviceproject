@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Communication.Http.Broker.Models
+﻿namespace Infrastructure.Communication.Http.Models
 {
     /// <summary>
     /// Servisten dönen hata

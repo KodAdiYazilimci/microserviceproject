@@ -1,5 +1,5 @@
 ﻿using Infrastructure.Caching.InMemory;
-using Infrastructure.Communication.Http.Broker.Models;
+using Infrastructure.Communication.Http.Models;
 using Infrastructure.Routing.Models;
 using Infrastructure.Routing.Persistence.Repositories.Sql;
 using Infrastructure.Routing.Providers;
