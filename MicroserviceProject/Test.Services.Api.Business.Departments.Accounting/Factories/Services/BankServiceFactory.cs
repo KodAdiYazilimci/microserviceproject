@@ -1,4 +1,4 @@
-﻿using Infrastructure.Localization.Repositories;
+﻿using Infrastructure.Localization.Translation.Persistence.EntityFramework.Repositories;
 using Infrastructure.Mock.Factories;
 
 using Microsoft.Extensions.Configuration;

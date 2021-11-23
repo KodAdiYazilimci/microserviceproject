@@ -1,17 +1,16 @@
 ﻿using AutoMapper;
 
-using Services.Communication.Http.Broker.Department.Production.Models;
-
 using Infrastructure.Caching.Redis;
 using Infrastructure.Communication.Http.Wrapper;
 using Infrastructure.Communication.Http.Wrapper.Disposing;
-using Infrastructure.Localization.Providers;
+using Infrastructure.Localization.Translation.Provider;
 using Infrastructure.Transaction.Recovery;
 using Infrastructure.Transaction.UnitOfWork.EntityFramework;
 
 using Services.Api.Business.Departments.Production.Configuration.Persistence;
 using Services.Api.Business.Departments.Production.Entities.EntityFramework;
 using Services.Api.Business.Departments.Production.Repositories.EntityFramework;
+using Services.Communication.Http.Broker.Department.Production.Models;
 
 using System;
 using System.Collections.Generic;

@@ -1,4 +1,4 @@
-﻿using Infrastructure.Localization.Helpers;
+﻿using Infrastructure.Localization.Translation.Provider.Helpers;
 
 namespace Infrastructure.Mock.Factories
 {

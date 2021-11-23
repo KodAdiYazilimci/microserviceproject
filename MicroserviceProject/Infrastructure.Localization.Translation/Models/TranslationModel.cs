@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Localization.Models
+﻿namespace Infrastructure.Localization.Translation.Models
 {
     /// <summary>
     /// Dil çevirilerinin modeli

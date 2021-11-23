@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Caching.Redis;
-using Infrastructure.Localization.Helpers;
-using Infrastructure.Localization.Providers;
-using Infrastructure.Localization.Repositories;
+using Infrastructure.Localization.Translation.Persistence.EntityFramework.Repositories;
+using Infrastructure.Localization.Translation.Provider;
+using Infrastructure.Localization.Translation.Provider.Helpers;
 
 using Microsoft.Extensions.Configuration;
 

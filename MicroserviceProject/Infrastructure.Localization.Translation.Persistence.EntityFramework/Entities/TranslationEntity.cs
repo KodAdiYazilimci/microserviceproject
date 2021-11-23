@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Infrastructure.Localization.Entities
+namespace Infrastructure.Localization.Translation.Persistence.EntityFramework.Entities
 {
     /// <summary>
     /// Dil çevirileri entity sınıfı

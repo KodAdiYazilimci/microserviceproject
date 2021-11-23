@@ -5,7 +5,7 @@ using Infrastructure.Communication.Http.Exceptions;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Communication.Http.Wrapper;
 using Infrastructure.Communication.Http.Wrapper.Disposing;
-using Infrastructure.Localization.Providers;
+using Infrastructure.Localization.Translation.Provider;
 using Infrastructure.Transaction.Recovery;
 using Infrastructure.Transaction.UnitOfWork.EntityFramework;
 

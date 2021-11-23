@@ -1,16 +1,15 @@
 ﻿using AutoMapper;
 
-using Services.Communication.Http.Broker.Department.IT.Models;
-using Services.Communication.Mq.Rabbit.Publisher.Department.Buying;
-
 using Infrastructure.Caching.Redis;
 using Infrastructure.Communication.Http.Wrapper;
-using Infrastructure.Localization.Providers;
+using Infrastructure.Localization.Translation.Provider;
 using Infrastructure.Transaction.Recovery;
 using Infrastructure.Transaction.UnitOfWork.Sql;
 
 using Services.Api.Business.Departments.IT.Entities.Sql;
 using Services.Api.Business.Departments.IT.Repositories.Sql;
+using Services.Communication.Http.Broker.Department.IT.Models;
+using Services.Communication.Mq.Rabbit.Publisher.Department.Buying;
 
 using System;
 using System.Collections.Generic;

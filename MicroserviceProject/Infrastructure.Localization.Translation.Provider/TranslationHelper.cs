@@ -1,11 +1,10 @@
-﻿
-using Infrastructure.Localization.Models;
+﻿using Infrastructure.Localization.Translation.Models;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Infrastructure.Localization.Helpers
+namespace Infrastructure.Localization.Translation.Provider.Helpers
 {
     /// <summary>
     /// Çeviri yardımcısı sınıf

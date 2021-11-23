@@ -1,6 +1,6 @@
-﻿
-using Infrastructure.Localization.Configuration;
-using Infrastructure.Localization.Entities;
+﻿using Infrastructure.Localization.Translation.Models;
+using Infrastructure.Localization.Translation.Persistence.Abstract;
+using Infrastructure.Localization.Translation.Persistence.EntityFramework.Persistence;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -10,12 +10,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Localization.Repositories
+namespace Infrastructure.Localization.Translation.Persistence.EntityFramework.Repositories
 {
     /// <summary>
     /// Dil çeviri repository sınıfı
     /// </summary>
-    public class TranslationRepository : IDisposable
+    public class TranslationRepository : ITranslationRepository, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -40,12 +40,18 @@ namespace Infrastructure.Localization.Repositories
         /// Dil çevirilerini verir
         /// </summary>
         /// <returns></returns>
-        public List<TranslationEntity> GetTranslations()
+        public List<TranslationModel> GetTranslations()
         {
             return
                 translationDbContext
                 .Translations
                 .Where(x => x.DeleteDate == null)
+                .Select(x => new TranslationModel()
+                {
+                    Key = x.Key,
+                    LanguageCode = x.LanguageCode,
+                    Text = x.Text
+                })
                 .ToList();
         }
 
@@ -53,13 +59,19 @@ namespace Infrastructure.Localization.Repositories
         /// Dil çevirilerini verir
         /// </summary>
         /// <returns></returns>
-        public async Task<List<TranslationEntity>> GetTranslationsAsync(CancellationToken cancellationToken)
+        public async Task<List<TranslationModel>> GetTranslationsAsync(CancellationToken cancellationToken)
         {
             return
                 await
                 translationDbContext
                 .Translations
                 .Where(x => x.DeleteDate == null)
+                .Select(x => new TranslationModel()
+                {
+                    Key = x.Key,
+                    Text = x.Text,
+                    LanguageCode = x.LanguageCode
+                })
                 .ToListAsync(cancellationToken);
         }
 

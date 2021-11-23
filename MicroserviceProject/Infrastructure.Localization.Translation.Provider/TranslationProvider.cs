@@ -1,8 +1,7 @@
 ﻿using Infrastructure.Caching.Redis;
-using Infrastructure.Localization.Entities;
-using Infrastructure.Localization.Helpers;
-using Infrastructure.Localization.Models;
-using Infrastructure.Localization.Repositories;
+using Infrastructure.Localization.Translation.Models;
+using Infrastructure.Localization.Translation.Persistence.EntityFramework.Repositories;
+using Infrastructure.Localization.Translation.Provider.Helpers;
 
 using Microsoft.Extensions.Configuration;
 
@@ -13,7 +12,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Localization.Providers
+namespace Infrastructure.Localization.Translation.Provider
 {
     /// <summary>
     /// Dil çeviri sağlayıcısı sınıf
@@ -86,7 +85,7 @@ namespace Infrastructure.Localization.Providers
             {
                 if (!translations.Any())
                 {
-                    List<TranslationEntity> translationEntities = translationRepository.GetTranslations();
+                    List<TranslationModel> translationEntities = translationRepository.GetTranslations();
 
                     if (translationEntities.Any())
                     {
@@ -127,7 +126,7 @@ namespace Infrastructure.Localization.Providers
             {
                 if (translations == null || !translations.Any())
                 {
-                    List<TranslationEntity> translationEntities = await translationRepository.GetTranslationsAsync(cancellationToken);
+                    List<TranslationModel> translationEntities = await translationRepository.GetTranslationsAsync(cancellationToken);
 
                     if (translationEntities.Any())
                     {

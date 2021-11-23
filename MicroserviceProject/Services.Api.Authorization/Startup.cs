@@ -1,7 +1,7 @@
 
 using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Communication.Http.Models;
-using Infrastructure.Localization.DI;
+using Infrastructure.Localization.Translation.Provider.DI;
 using Infrastructure.Util.DI;
 
 using Microsoft.AspNetCore.Builder;

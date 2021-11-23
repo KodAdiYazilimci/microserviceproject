@@ -3,17 +3,17 @@ using Infrastructure.Caching.Redis;
 using Infrastructure.Communication.Http.Wrapper;
 using Infrastructure.Communication.Http.Wrapper.Disposing;
 using Infrastructure.Cryptography.Ciphers;
-using Infrastructure.Localization.Providers;
+using Infrastructure.Localization.Translation.Provider;
 using Infrastructure.Transaction.UnitOfWork.EntityFramework;
 
 using Microsoft.EntityFrameworkCore;
 
-using Services.Communication.Http.Broker.Authorization.Models;
 using Services.Api.Infrastructure.Authorization.Configuration.Persistence;
 using Services.Api.Infrastructure.Authorization.Constants;
 using Services.Api.Infrastructure.Authorization.Entities.EntityFramework;
 using Services.Api.Infrastructure.Authorization.Persistence.Sql.Exceptions;
 using Services.Api.Infrastructure.Authorization.Repositories;
+using Services.Communication.Http.Broker.Authorization.Models;
 
 using System;
 using System.Collections.Generic;

@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
 
-using Services.Communication.Http.Broker.Department.Storage.Models;
-
 using Infrastructure.Caching.Redis;
 using Infrastructure.Communication.Http.Wrapper;
 using Infrastructure.Communication.Http.Wrapper.Disposing;
-using Infrastructure.Localization.Providers;
+using Infrastructure.Localization.Translation.Provider;
 using Infrastructure.Transaction.Recovery;
 using Infrastructure.Transaction.UnitOfWork.EntityFramework;
 
@@ -14,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Services.Api.Business.Departments.Storage.Configuration.Persistence;
 using Services.Api.Business.Departments.Storage.Entities.EntityFramework;
 using Services.Api.Business.Departments.Storage.Repositories.EntityFramework;
+using Services.Communication.Http.Broker.Department.Storage.Models;
 
 using System;
 using System.Collections.Generic;

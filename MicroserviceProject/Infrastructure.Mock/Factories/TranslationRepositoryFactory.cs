@@ -1,5 +1,5 @@
-﻿using Infrastructure.Localization.Configuration;
-using Infrastructure.Localization.Repositories;
+﻿using Infrastructure.Localization.Translation.Persistence.EntityFramework.Persistence;
+using Infrastructure.Localization.Translation.Persistence.EntityFramework.Repositories;
 
 namespace Infrastructure.Mock.Factories
 {

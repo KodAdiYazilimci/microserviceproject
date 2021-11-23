@@ -1,32 +1,24 @@
-﻿using Infrastructure.Caching.Redis.DI;
-using Infrastructure.Localization.Configuration;
-using Infrastructure.Localization.Helpers;
-using Infrastructure.Localization.Providers;
-using Infrastructure.Localization.Repositories;
+﻿using Infrastructure.Localization.Translation.Persistence.EntityFramework.Persistence;
+using Infrastructure.Localization.Translation.Persistence.EntityFramework.Repositories;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Infrastructure.Localization.DI
+namespace Infrastructure.Localization.Translation.Persistence.EntityFramework.DI
 {
     /// <summary>
     /// Bölgesel ayarlar sağlayıcılarının DI sınıfı
     /// </summary>
-    public static class ProviderConfiguration
+    public static class PersistenceConfiguration
     {
         /// <summary>
         /// Bölgesel ayarlar sağlayıcılarını enjekte eder
         /// </summary>
         /// <param name="services">DI servisleri nesnesi</param>
         /// <returns></returns>
-        public static IServiceCollection RegisterLocalizationProviders(this IServiceCollection services)
+        public static IServiceCollection RegisterEntityFrameworkLocalizationPersistence(this IServiceCollection services)
         {
-            services.RegisterRedisCaching();
-
-            services.AddScoped<TranslationHelper>();
-            services.AddScoped<TranslationProvider>();
-
             IConfiguration configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
 
             services.AddDbContext<TranslationDbContext>(optionBuilder =>

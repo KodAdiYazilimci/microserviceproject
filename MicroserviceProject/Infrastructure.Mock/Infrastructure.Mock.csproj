@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Infrastructure.Localization\Infrastructure.Localization.csproj" />
+    <ProjectReference Include="..\Infrastructure.Localization.Translation.Provider\Infrastructure.Localization.Translation.Provider.csproj" />
     <ProjectReference Include="..\Infrastructure.Sockets.Persistence\Infrastructure.Sockets.Persistence.csproj" />
     <ProjectReference Include="..\Infrastructure.Sockets.Providers\Infrastructure.Sockets.Providers.csproj" />
     <ProjectReference Include="..\Infrastructure.Transaction.UnitOfWork.Sql\Infrastructure.Transaction.UnitOfWork.Sql.csproj" />

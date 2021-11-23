@@ -1,4 +1,4 @@
-﻿using Infrastructure.Localization.Configuration;
+﻿using Infrastructure.Localization.Translation.Persistence.EntityFramework.Persistence;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

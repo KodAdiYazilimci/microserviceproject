@@ -4,24 +4,23 @@ using Infrastructure.Caching.Redis;
 using Infrastructure.Communication.Http.Exceptions;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Communication.Http.Wrapper;
-using Infrastructure.Localization.Providers;
+using Infrastructure.Localization.Translation.Provider;
 using Infrastructure.Transaction.Recovery;
 using Infrastructure.Transaction.UnitOfWork.Sql;
 
 using Services.Api.Business.Departments.Buying.Entities.Sql;
 using Services.Api.Business.Departments.Buying.Repositories.Sql;
+using Services.Communication.Http.Broker.Department.AA;
+using Services.Communication.Http.Broker.Department.Buying.Models;
+using Services.Communication.Http.Broker.Department.IT;
+using Services.Communication.Mq.Rabbit.Publisher.Department.AA;
+using Services.Communication.Mq.Rabbit.Publisher.Department.IT;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Services.Communication.Mq.Rabbit.Publisher.Department.AA;
-using Services.Communication.Mq.Rabbit.Publisher.Department.IT;
-using Services.Communication.Http.Broker.Department.AA;
-using Services.Communication.Http.Broker.Department.IT;
-using Services.Communication.Http.Broker.Department.Buying.Models;
-using Services.Communication.Mq.Rabbit.Department.Models.Buying;
 
 namespace Services.Api.Business.Departments.Buying.Services
 {

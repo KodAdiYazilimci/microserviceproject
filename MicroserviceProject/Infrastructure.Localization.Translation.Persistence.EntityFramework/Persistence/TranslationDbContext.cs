@@ -1,11 +1,11 @@
-﻿using Infrastructure.Localization.Entities;
+﻿using Infrastructure.Localization.Translation.Persistence.EntityFramework.Entities;
 
 using Microsoft.EntityFrameworkCore;
 
 using System;
 using System.Linq;
 
-namespace Infrastructure.Localization.Configuration
+namespace Infrastructure.Localization.Translation.Persistence.EntityFramework.Persistence
 {
     /// <summary>
     /// Dil çevirilerine ait veritabanı bağlantısı context sınıfı
