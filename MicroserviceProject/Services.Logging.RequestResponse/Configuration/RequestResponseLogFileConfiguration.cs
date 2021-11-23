@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Text;
 
-namespace Infrastructure.Logging.Logger.RequestResponseLogger.Configuration
+namespace Services.Logging.RequestResponse.Configuration
 {
     /// <summary>
     /// Request-response logları için dosya yapılandırma ayarları

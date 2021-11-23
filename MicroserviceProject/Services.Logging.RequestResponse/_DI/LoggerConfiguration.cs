@@ -1,7 +1,7 @@
 ﻿
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Infrastructure.Logging.Logger.RequestResponseLogger.DI
+namespace Services.Logging.RequestResponse.DI
 {
     /// <summary>
     /// Loggerların DI sınıfı

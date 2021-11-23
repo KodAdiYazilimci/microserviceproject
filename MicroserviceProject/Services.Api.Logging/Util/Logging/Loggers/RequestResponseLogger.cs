@@ -1,11 +1,12 @@
 ﻿using Infrastructure.Logging.Abstraction;
 using Infrastructure.Logging.File.Loggers;
-using Infrastructure.Logging.Logger.RequestResponseLogger;
 using Infrastructure.Logging.Managers;
 using Infrastructure.Logging.MongoDb.Loggers;
-using Services.Api.Infrastructure.Logging.Configuration.Logging;
 
 using Microsoft.Extensions.Configuration;
+
+using Services.Api.Infrastructure.Logging.Configuration.Logging;
+using Services.Logging.RequestResponse.Configuration;
 
 using System;
 using System.Collections.Generic;
@@ -39,7 +40,7 @@ namespace Services.Api.Infrastructure.Logging.Util.Logging.Loggers
 
             JsonFileLogger<RequestResponseLogModel> jsonFileLogger =
                 new JsonFileLogger<RequestResponseLogModel>(
-                    new RequestResponseLogFileConfiguration(configuration));
+                    new Configuration.Logging.RequestResponseLogFileConfiguration(configuration));
 
             loggers.Add(jsonFileLogger);
 

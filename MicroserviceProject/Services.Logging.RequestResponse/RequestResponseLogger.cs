@@ -1,17 +1,18 @@
 ﻿using Infrastructure.Logging.Abstraction;
 using Infrastructure.Logging.File.Loggers;
-using Infrastructure.Logging.Logger.RequestResponseLogger.Configuration;
 using Infrastructure.Logging.Managers;
 using Infrastructure.Logging.RabbitMq.Producers;
 
 using Microsoft.Extensions.Configuration;
+
+using Services.Logging.RequestResponse.Configuration;
 
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Logging.Logger.RequestResponseLogger
+namespace Services.Logging.RequestResponse
 {
     /// <summary>
     /// Request-response loglarını yazan sınıf

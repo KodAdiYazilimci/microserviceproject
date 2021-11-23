@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Logging.Model;
 
-namespace Infrastructure.Logging.Logger.RequestResponseLogger
+namespace Services.Logging.RequestResponse.Configuration
 {
     /// <summary>
     /// Request-response log modeli

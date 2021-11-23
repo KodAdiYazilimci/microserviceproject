@@ -11,9 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.Communication.Mq.Rabbit\Infrastructure.Communication.Mq.Rabbit.csproj" />
     <ProjectReference Include="..\Infrastructure.Logging.File\Infrastructure.Logging.File.csproj" />
     <ProjectReference Include="..\Infrastructure.Logging.RabbitMq\Infrastructure.Logging.RabbitMq.csproj" />
-    <ProjectReference Include="..\Infrastructure.Logging\Infrastructure.Logging.csproj" />
   </ItemGroup>
 
 </Project>

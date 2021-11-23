@@ -1,7 +1,7 @@
 ﻿
-using Infrastructure.Logging.Logger.RequestResponseLogger.Persistence;
-
 using Microsoft.Extensions.DependencyInjection;
+
+using Services.Logging.RequestResponse.Persistence;
 
 namespace Services.Api.Infrastructure.Logging.Configuration.Services.Repositories
 {

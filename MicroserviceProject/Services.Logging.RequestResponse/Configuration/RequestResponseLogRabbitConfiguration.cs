@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 
 using System;
 
-namespace Infrastructure.Logging.Logger.RequestResponseLogger.Configuration
+namespace Services.Logging.RequestResponse.Configuration
 {
     /// <summary>
     /// Request-response logları için rabbit sunucusunun yapılandırma ayarları

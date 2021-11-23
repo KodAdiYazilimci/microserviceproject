@@ -1,13 +1,15 @@
 ﻿
 using Microsoft.Extensions.Configuration;
 
+using Services.Logging.RequestResponse.Configuration;
+
 using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Logging.Logger.RequestResponseLogger.Persistence
+namespace Services.Logging.RequestResponse.Persistence
 {
     /// <summary>
     /// Request-Response logları repository sınıfı

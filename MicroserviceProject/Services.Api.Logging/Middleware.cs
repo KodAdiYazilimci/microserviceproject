@@ -1,8 +1,8 @@
-﻿using Infrastructure.Logging.Logger.RequestResponseLogger;
-using Services.Api.Infrastructure.Logging.Util.Logging.Loggers;
-
+﻿
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+
+using Services.Logging.RequestResponse.Configuration;
 
 using System;
 using System.Diagnostics;

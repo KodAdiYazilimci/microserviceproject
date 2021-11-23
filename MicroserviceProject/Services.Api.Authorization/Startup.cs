@@ -2,7 +2,6 @@
 using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Localization.DI;
-using Infrastructure.Logging.Logger.RequestResponseLogger.DI;
 using Infrastructure.Util.DI;
 
 using Microsoft.AspNetCore.Builder;
@@ -17,6 +16,7 @@ using Newtonsoft.Json;
 
 using Services.Api.Infrastructure.Authorization.Configuration.Persistence;
 using Services.Api.Infrastructure.Authorization.DI;
+using Services.Logging.RequestResponse.DI;
 using Services.UnitOfWork.EntityFramework.DI;
 
 using System.Net;

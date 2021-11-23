@@ -1,11 +1,11 @@
 ﻿using Infrastructure.Communication.Http.Models;
-using Infrastructure.Logging.Logger.RequestResponseLogger;
-using Infrastructure.Logging.Logger.RequestResponseLogger.Persistence;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Services.Api.Infrastructure.Logging.Util.Validation.Logging.WriteRequestResponseLog;
+using Services.Logging.RequestResponse.Configuration;
+using Services.Logging.RequestResponse.Persistence;
 
 using System;
 using System.Threading;

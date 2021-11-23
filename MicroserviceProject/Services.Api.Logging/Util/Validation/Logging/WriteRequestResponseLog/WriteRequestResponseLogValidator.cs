@@ -1,8 +1,9 @@
 ﻿using FluentValidation.Results;
 
 using Infrastructure.Communication.Http.Models;
-using Infrastructure.Logging.Logger.RequestResponseLogger;
 using Infrastructure.Validation.Models;
+
+using Services.Logging.RequestResponse.Configuration;
 
 using System.Collections.Generic;
 using System.Linq;

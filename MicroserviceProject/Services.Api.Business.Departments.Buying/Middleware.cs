@@ -1,11 +1,10 @@
 ﻿
-using Infrastructure.Communication.Http.Wrapper;
-using Infrastructure.Logging.Logger.RequestResponseLogger;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 
 using Services.Api.Business.Departments.Buying.Services;
+using Services.Logging.RequestResponse;
+using Services.Logging.RequestResponse.Configuration;
 
 using System;
 using System.Diagnostics;

@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-using Infrastructure.Logging.Logger.RequestResponseLogger;
+using Services.Logging.RequestResponse.Configuration;
 
 namespace Services.Api.Infrastructure.Logging.Configuration.Validation.Logging.WriteRequestResponseLog
 {

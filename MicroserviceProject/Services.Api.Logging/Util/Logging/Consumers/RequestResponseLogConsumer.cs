@@ -1,9 +1,9 @@
-﻿using Infrastructure.Logging.Logger.RequestResponseLogger;
-using Infrastructure.Logging.Logger.RequestResponseLogger.Persistence;
-using Infrastructure.Logging.RabbitMq.Consumers;
-using Services.Api.Infrastructure.Logging.Configuration.Logging;
+﻿using Infrastructure.Logging.RabbitMq.Consumers;
 
 using Microsoft.Extensions.Configuration;
+
+using Services.Logging.RequestResponse.Configuration;
+using Services.Logging.RequestResponse.Persistence;
 
 using System;
 using System.Threading;
@@ -36,7 +36,7 @@ namespace Services.Api.Infrastructure.Logging.Util.Logging.Consumers
         {
             _defaultLogProducer =
                 new DefaultLogConsumer<RequestResponseLogModel>(
-                    new RequestResponseLogRabbitConfiguration(configuration));
+                    new Configuration.Logging.RequestResponseLogRabbitConfiguration(configuration));
 
             _defaultLogProducer.OnConsumed += _defaultLogProducer_OnConsumed;
 

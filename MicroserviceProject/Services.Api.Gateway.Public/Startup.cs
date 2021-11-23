@@ -1,6 +1,5 @@
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Localization.DI;
-using Infrastructure.Logging.Logger.RequestResponseLogger.DI;
 using Infrastructure.Util.DI;
 
 using Microsoft.AspNetCore.Builder;
@@ -15,6 +14,7 @@ using Newtonsoft.Json;
 
 using Services.Api.Gateway.Public.DI;
 using Services.Communication.Http.Broker.Department.DI;
+using Services.Logging.RequestResponse.DI;
 using Services.Security.BasicToken.DI;
 
 using System.Net;
