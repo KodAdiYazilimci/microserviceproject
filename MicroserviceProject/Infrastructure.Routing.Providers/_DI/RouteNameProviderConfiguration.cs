@@ -14,7 +14,7 @@ namespace Infrastructure.Routing.Providers.DI
         /// <param name="services">DI servisleri nesnesi</param>
         /// <param name="configuration">Configuration nesnesi</param>
         /// <returns></returns>
-        public static IServiceCollection RegisterRouteProvider(this IServiceCollection services)
+        public static IServiceCollection RegisterHttpRouteProvider(this IServiceCollection services)
         {
             services.AddSingleton<RouteNameProvider>();
 

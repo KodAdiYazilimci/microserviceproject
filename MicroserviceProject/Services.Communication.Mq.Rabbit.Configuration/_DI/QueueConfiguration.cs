@@ -21,7 +21,7 @@ namespace Services.Communication.Mq.Rabbit.Configuration.DI
         /// </summary>
         /// <param name="services">DI servisleri nesnesi</param>
         /// <returns></returns>
-        public static IServiceCollection RegisterQueues(this IServiceCollection services)
+        public static IServiceCollection RegisterQueueConfigurations(this IServiceCollection services)
         {
             services.AddSingleton<AAAssignInventoryToWorkerRabbitConfiguration>();
             services.AddSingleton<AAInformInventoryRequestRabbitConfiguration>();

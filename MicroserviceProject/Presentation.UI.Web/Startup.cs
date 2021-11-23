@@ -39,14 +39,14 @@ namespace Presentation.UI.Web
             services.AddMemoryCache();
 
             services.RegisterCredentialProvider();
-            services.RegisterAuthorizationCommunicators();
-            services.RegisterGatewayCommunicators();
+            services.RegisterHttpAuthorizationCommunicators();
+            services.RegisterHttpGatewayCommunicators();
             services.RegisterCookieAuthentication("/Login", "/Yetkisiz");
             services.RegisterInMemoryCaching();
             services.RegisterMappings();
-            services.RegisterRouteProvider();
-            services.RegisterRouteRepositories();
-            services.RegisterServiceCommunicator();
+            services.RegisterHttpRouteProvider();
+            services.RegisterHttpRouteRepositories();
+            services.RegisterHttpServiceCommunicator();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -37,6 +37,10 @@ namespace Infrastructure.Security.Authentication.JWT.DI
                 };
             });
 
+            services.AddSingleton<IssuerProvider>();
+            services.AddSingleton<SecretProvider>();
+            services.AddSingleton<TokenProvider>();
+
             return services;
         }
     }

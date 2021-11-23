@@ -1,17 +1,6 @@
-using Services.Communication.Http.Broker.Authorization.DI;
-using Services.Communication.Http.Broker.Department.DI;
-using Services.Communication.Mq.Rabbit.Configuration.DI;
-using Services.Communication.Mq.Rabbit.Publisher.Department.DI;
-
-using Infrastructure.Caching.InMemory.DI;
-using Infrastructure.Caching.Redis.DI;
-using Services.Communication.Http.Broker.DI;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Localization.DI;
 using Infrastructure.Logging.Logger.RequestResponseLogger.DI;
-using Infrastructure.Routing.Persistence.DI;
-using Infrastructure.Routing.Providers.DI;
-using Infrastructure.Security.Authentication.DI;
 using Infrastructure.Util.DI;
 
 using Microsoft.AspNetCore.Builder;
@@ -26,6 +15,8 @@ using Newtonsoft.Json;
 
 using Services.Api.Business.Departments.CR.Configuration.Persistence;
 using Services.Api.Business.Departments.CR.DI;
+using Services.Communication.Http.Broker.Department.DI;
+using Services.Communication.Mq.Rabbit.Publisher.Department.DI;
 using Services.Security.BasicToken.DI;
 using Services.UnitOfWork.EntityFramework.DI;
 
@@ -45,30 +36,20 @@ namespace Services.Api.Business.Departments.CR
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddHttpContextAccessor();
-
             services.AddControllers();
-            services.AddMemoryCache();
-            services.RegisterBasicTokenAuthentication();
+
             services.RegisterBusinessServices();
-            services.RegisterAuthorizationCommunicators();
-            services.RegisterDepartmentCommunicators();
-            services.RegisterRedisCaching();
-            services.RegisterCredentialProvider();
-            services.RegisterInMemoryCaching();
-            services.RegisterLocalizationPersistence();
-            services.RegisterLocalizationProviders();
-            services.RegisterLogger();
             services.RegisterMappings();
             services.RegisterPersistence();
-            services.RegisterPublishers();
-            services.RegisterQueues();
-            services.RegisterRouteProvider();
             services.RegisterRepositories();
-            services.RegisterRouteRepositories();
-            services.RegisterServiceCommunicator();
+
+            services.RegisterBasicTokenAuthentication();
+            services.RegisterHttpDepartmentCommunicators();
+            services.RegisterLocalizationProviders();
+            services.RegisterRequestResponseLogger();
+            services.RegisterQueuePublishers();
             services.RegisterSwagger();
-            services.RegisterUnitOfWork<CRContext>();
+            services.RegisterEntityFrameworkUnitOfWork<CRContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

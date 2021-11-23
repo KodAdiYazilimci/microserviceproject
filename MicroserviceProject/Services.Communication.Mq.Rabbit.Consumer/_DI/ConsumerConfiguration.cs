@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
+using Services.Communication.Http.Broker.Department.DI;
 using Services.Communication.Mq.Rabbit.Configuration.Department.AA;
 using Services.Communication.Mq.Rabbit.Configuration.Department.Accounting;
 using Services.Communication.Mq.Rabbit.Configuration.Department.Buying;
@@ -8,6 +9,7 @@ using Services.Communication.Mq.Rabbit.Configuration.Department.IT;
 using Services.Communication.Mq.Rabbit.Configuration.Department.Production;
 using Services.Communication.Mq.Rabbit.Configuration.Department.Selling;
 using Services.Communication.Mq.Rabbit.Configuration.Department.Storage;
+using Services.Communication.Mq.Rabbit.Configuration.DI;
 using Services.Communication.Mq.Rabbit.Consumer.Department.AA;
 using Services.Communication.Mq.Rabbit.Consumer.Department.Accounting;
 using Services.Communication.Mq.Rabbit.Consumer.Department.Buying;
@@ -28,8 +30,10 @@ namespace Services.Communication.Mq.Rabbit.Consumer.DI
         /// </summary>
         /// <param name="services">DI sınıfları nesnesi</param>
         /// <returns></returns>
-        public static IServiceCollection RegisterConsumers(this IServiceCollection services)
+        public static IServiceCollection RegisterQueueConsumers(this IServiceCollection services)
         {
+            services.RegisterHttpDepartmentCommunicators();
+            services.RegisterQueueConfigurations();            
 
             services.AddSingleton<AAAssignInventoryToWorkerRabbitConfiguration>();
             services.AddSingleton<AssignInventoryToWorkerConsumer>();

@@ -1,9 +1,8 @@
-﻿using Infrastructure.Transaction.UnitOfWork.EntityFramework;
+﻿using Infrastructure.Transaction.UnitOfWork.Sql;
 
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Services.UnitOfWork.EntityFramework.DI
+namespace Services.UnitOfWork.Sql.DI
 {
     /// <summary>
     /// İş birimi DI sınıfı
@@ -15,9 +14,9 @@ namespace Services.UnitOfWork.EntityFramework.DI
         /// </summary>
         /// <param name="services">DI servisleri nesnesi</param>
         /// <returns></returns>
-        public static IServiceCollection RegisterUnitOfWork<TContext>(this IServiceCollection services) where TContext:DbContext
+        public static IServiceCollection RegisterSqlUnitOfWork(this IServiceCollection services)
         {
-            services.AddScoped<IUnitOfWork<TContext>, UnitOfWork<TContext>>();
+            services.AddScoped<IUnitOfWork, Infrastructure.Transaction.UnitOfWork.Sql.UnitOfWork>();
 
             return services;
         }

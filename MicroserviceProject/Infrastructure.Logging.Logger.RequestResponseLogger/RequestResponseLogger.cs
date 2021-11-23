@@ -16,7 +16,7 @@ namespace Infrastructure.Logging.Logger.RequestResponseLogger
     /// <summary>
     /// Request-response loglarını yazan sınıf
     /// </summary>
-    public class Logger : IDisposable
+    public class RequestResponseLogger : IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -32,7 +32,7 @@ namespace Infrastructure.Logging.Logger.RequestResponseLogger
         /// Request-response loglarını yazan sınıf
         /// </summary>
         /// <param name="configuration">Request-response log ayarlarının çekileceği configuration</param>
-        public Logger(IConfiguration configuration)
+        public RequestResponseLogger(IConfiguration configuration)
         {
             List<ILogger<RequestResponseLogModel>> loggers = new List<ILogger<RequestResponseLogModel>>();
 

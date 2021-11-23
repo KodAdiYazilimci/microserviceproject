@@ -1,15 +1,6 @@
-
-using Services.Communication.Http.Broker.Authorization.DI;
-using Services.Communication.Http.Broker.Department.DI;
-
-using Infrastructure.Caching.InMemory.DI;
-using Infrastructure.Caching.Redis.DI;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Localization.DI;
 using Infrastructure.Logging.Logger.RequestResponseLogger.DI;
-using Infrastructure.Routing.Persistence.DI;
-using Infrastructure.Routing.Providers.DI;
-using Infrastructure.Security.Authentication.DI;
 using Infrastructure.Util.DI;
 
 using Microsoft.AspNetCore.Builder;
@@ -22,8 +13,8 @@ using Microsoft.Extensions.Hosting;
 
 using Newtonsoft.Json;
 
-using Services.Communication.Http.Broker.DI;
 using Services.Api.Gateway.Public.DI;
+using Services.Communication.Http.Broker.Department.DI;
 using Services.Security.BasicToken.DI;
 
 using System.Net;
@@ -42,23 +33,14 @@ namespace Services.Api.Gateway.Public
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddHttpContextAccessor();
-
             services.AddControllers();
-            services.RegisterBasicTokenAuthentication();
-            services.AddMemoryCache();
-            services.RegisterRedisCaching();
-            services.RegisterAuthorizationCommunicators();
-            services.RegisterDepartmentCommunicators();
-            services.RegisterCredentialProvider();
-            services.RegisterInMemoryCaching();
-            services.RegisterLocalizationPersistence();
-            services.RegisterLocalizationProviders();
-            services.RegisterLogger();
-            services.RegisterRouteProvider();
-            services.RegisterRouteRepositories();
-            services.RegisterServiceCommunicator();
+
             services.RegisterServices();
+
+            services.RegisterBasicTokenAuthentication();
+            services.RegisterHttpDepartmentCommunicators();
+            services.RegisterLocalizationProviders();
+            services.RegisterRequestResponseLogger();
             //services.RegisterJWTProviders();
             //services.RegisterJWT();
             services.RegisterSwagger();

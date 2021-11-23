@@ -10,6 +10,8 @@ using Services.Communication.Http.Broker.Department.Selling;
 using Services.Communication.Http.Broker.Department.Storage;
 
 using Microsoft.Extensions.DependencyInjection;
+using Infrastructure.Routing.Providers.DI;
+using Services.Communication.Http.Broker.DI;
 
 namespace Services.Communication.Http.Broker.Department.DI
 {
@@ -23,8 +25,11 @@ namespace Services.Communication.Http.Broker.Department.DI
         /// </summary>
         /// <param name="services">DI servisleri nesnesi</param>
         /// <returns></returns>
-        public static IServiceCollection RegisterDepartmentCommunicators(this IServiceCollection services)
+        public static IServiceCollection RegisterHttpDepartmentCommunicators(this IServiceCollection services)
         {
+            services.RegisterHttpRouteProvider();
+            services.RegisterHttpServiceCommunicator();
+
             services.AddSingleton<AACommunicator>();
             services.AddSingleton<AccountingCommunicator>();
             services.AddSingleton<BuyingCommunicator>();

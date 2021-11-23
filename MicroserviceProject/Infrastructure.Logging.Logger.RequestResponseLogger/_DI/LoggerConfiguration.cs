@@ -13,9 +13,9 @@ namespace Infrastructure.Logging.Logger.RequestResponseLogger.DI
         /// </summary>
         /// <param name="services">DI servisleri nesnesi</param>
         /// <returns></returns>
-        public static IServiceCollection RegisterLogger(this IServiceCollection services)
+        public static IServiceCollection RegisterRequestResponseLogger(this IServiceCollection services)
         {
-            services.AddSingleton<Logger>();
+            services.AddSingleton<RequestResponseLogger>();
 
             return services;
         }

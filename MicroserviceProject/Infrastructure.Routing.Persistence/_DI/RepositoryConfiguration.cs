@@ -15,7 +15,7 @@ namespace Infrastructure.Routing.Persistence.DI
         /// </summary>
         /// <param name="services">DI servisleri nesnesi</param>
         /// <returns></returns>
-        public static IServiceCollection RegisterRouteRepositories(this IServiceCollection services)
+        public static IServiceCollection RegisterHttpRouteRepositories(this IServiceCollection services)
         {
             services.AddSingleton<ServiceRouteRepository>();
 

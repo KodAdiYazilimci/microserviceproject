@@ -28,7 +28,7 @@ namespace Services.Scheduling.Departments.Finance
                 .UseDefaultTypeSerializer()
                 .UseMemoryStorage();
             });
-            services.AddMemoryCache();
+
             services.RegisterInMemoryCaching();
 
             services.AddHangfireServer();

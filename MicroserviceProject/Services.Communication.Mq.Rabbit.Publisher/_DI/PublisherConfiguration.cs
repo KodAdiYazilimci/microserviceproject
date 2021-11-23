@@ -1,4 +1,7 @@
-﻿using Services.Communication.Mq.Rabbit.Publisher.Department.AA;
+﻿using Microsoft.Extensions.DependencyInjection;
+
+using Services.Communication.Mq.Rabbit.Configuration.DI;
+using Services.Communication.Mq.Rabbit.Publisher.Department.AA;
 using Services.Communication.Mq.Rabbit.Publisher.Department.Accounting;
 using Services.Communication.Mq.Rabbit.Publisher.Department.Buying;
 using Services.Communication.Mq.Rabbit.Publisher.Department.Finance;
@@ -6,8 +9,6 @@ using Services.Communication.Mq.Rabbit.Publisher.Department.IT;
 using Services.Communication.Mq.Rabbit.Publisher.Department.Production;
 using Services.Communication.Mq.Rabbit.Publisher.Department.Selling;
 using Services.Communication.Mq.Rabbit.Publisher.Department.Storage;
-
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Services.Communication.Mq.Rabbit.Publisher.Department.DI
 {
@@ -21,8 +22,10 @@ namespace Services.Communication.Mq.Rabbit.Publisher.Department.DI
         /// </summary>
         /// <param name="services">DI servisleri nesnesi</param>
         /// <returns></returns>
-        public static IServiceCollection RegisterPublishers(this IServiceCollection services)
+        public static IServiceCollection RegisterQueuePublishers(this IServiceCollection services)
         {
+            services.RegisterQueueConfigurations();
+
             services.AddSingleton<AAAssignInventoryToWorkerPublisher>();
             services.AddSingleton<AAInformInventoryRequestPublisher>();
             services.AddSingleton<CreateBankAccountPublisher>();

@@ -30,11 +30,11 @@ namespace Presentation.UI.Web.Identity
             services.AddControllersWithViews();
 
             services.RegisterCredentialProvider();
-            services.RegisterAuthorizationCommunicators();
+            services.RegisterHttpAuthorizationCommunicators();
             services.RegisterInMemoryCaching();
-            services.RegisterRouteProvider();
-            services.RegisterRouteRepositories();
-            services.RegisterServiceCommunicator();
+            services.RegisterHttpRouteProvider();
+            services.RegisterHttpRouteRepositories();
+            services.RegisterHttpServiceCommunicator();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

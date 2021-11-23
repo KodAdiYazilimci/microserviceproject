@@ -1,10 +1,5 @@
-using Infrastructure.Caching.InMemory.DI;
-using Infrastructure.Caching.Redis.DI;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Localization.DI;
-using Infrastructure.Routing.Persistence.DI;
-using Infrastructure.Routing.Providers.DI;
-using Infrastructure.Security.Authentication.DI;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -30,18 +25,11 @@ namespace Services.MQ.IT
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMemoryCache();
-            services.RegisterAuthorizationCommunicators();
-            services.RegisterDepartmentCommunicators();
-            services.RegisterInMemoryCaching();
-            services.RegisterRedisCaching();
-            services.RegisterRouteProvider();
-            services.RegisterCredentialProvider();
-            services.RegisterServiceCommunicator();
-            services.RegisterConsumers();
-            services.RegisterRouteRepositories();
-            services.RegisterLocalizationPersistence();
+            services.RegisterHttpAuthorizationCommunicators();
+            services.RegisterQueueConsumers();
+            services.RegisterHttpDepartmentCommunicators();
             services.RegisterLocalizationProviders();
+            services.RegisterHttpServiceCommunicator();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

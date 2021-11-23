@@ -15,6 +15,7 @@ namespace Infrastructure.Caching.InMemory.DI
         /// <returns></returns>
         public static IServiceCollection RegisterInMemoryCaching(this IServiceCollection services)
         {
+            services.AddMemoryCache();
             services.AddSingleton<InMemoryCacheDataProvider>();
 
             return services;

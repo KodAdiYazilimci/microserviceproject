@@ -1,12 +1,5 @@
 
-using Services.Communication.Http.Broker.Authorization.DI;
-
-using Infrastructure.Caching.InMemory.DI;
-using Services.Communication.Http.Broker.DI;
 using Infrastructure.Communication.Http.Models;
-using Infrastructure.Routing.Persistence.DI;
-using Infrastructure.Routing.Providers.DI;
-using Infrastructure.Security.Authentication.DI;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -18,6 +11,8 @@ using Microsoft.Extensions.Hosting;
 
 using Newtonsoft.Json;
 
+using Services.Communication.Http.Broker.Authorization.DI;
+using Services.Communication.Http.Broker.DI;
 using Services.Security.SignalR.DI;
 using Services.WebSockets.Security.Hubs;
 
@@ -31,16 +26,11 @@ namespace Services.WebSockets.Security
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMemoryCache();
             services.AddSignalR();
             services.AddSingleton<TokensHub>();
 
-            services.RegisterAuthorizationCommunicators();
-            services.RegisterCredentialProvider();
-            services.RegisterInMemoryCaching();
-            services.RegisterRouteRepositories();
-            services.RegisterRouteProvider();
-            services.RegisterServiceCommunicator();
+            services.RegisterHttpAuthorizationCommunicators();
+            services.RegisterHttpServiceCommunicator();
             services.RegisterSignalRAuthentication(policyName: "TokensPolicy");
 
             services.AddControllers();

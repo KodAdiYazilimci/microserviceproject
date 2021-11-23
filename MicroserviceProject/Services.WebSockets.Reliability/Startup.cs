@@ -1,11 +1,4 @@
-using Services.Communication.Http.Broker.Authorization.DI;
-
-using Infrastructure.Caching.InMemory.DI;
-using Services.Communication.Http.Broker.DI;
 using Infrastructure.Communication.Http.Models;
-using Infrastructure.Routing.Persistence.DI;
-using Infrastructure.Routing.Providers.DI;
-using Infrastructure.Security.Authentication.DI;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -17,6 +10,8 @@ using Microsoft.Extensions.Hosting;
 
 using Newtonsoft.Json;
 
+using Services.Communication.Http.Broker.Authorization.DI;
+using Services.Communication.Http.Broker.DI;
 using Services.Security.SignalR.DI;
 using Services.WebSockets.Reliability.Hubs;
 
@@ -30,16 +25,11 @@ namespace Services.WebSockets.Reliability
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMemoryCache();
             services.AddSignalR();
             services.AddSingleton<ErrorHub>();
-            services.RegisterAuthorizationCommunicators();
-            services.RegisterInMemoryCaching();
-            services.RegisterCredentialProvider();
-            services.RegisterRouteRepositories();
-            services.RegisterRouteProvider();
-            services.RegisterServiceCommunicator();
-            services.RegisterCredentialProvider();
+
+            services.RegisterHttpAuthorizationCommunicators();
+            services.RegisterHttpServiceCommunicator();
             services.RegisterSignalRAuthentication(policyName: "ErrorPolicy");
 
             services.AddControllers();

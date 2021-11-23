@@ -1,11 +1,5 @@
-using Services.Communication.Http.Broker.Authorization.DI;
-
-using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Caching.Redis.DI;
 using Infrastructure.Communication.Http.Models;
-using Infrastructure.Routing.Persistence.DI;
-using Infrastructure.Routing.Providers.DI;
-using Infrastructure.Security.Authentication.DI;
 using Infrastructure.Util.DI;
 
 using Microsoft.AspNetCore.Builder;
@@ -18,9 +12,9 @@ using Microsoft.Extensions.Hosting;
 
 using Newtonsoft.Json;
 
-using Services.Communication.Http.Broker.DI;
 using Services.Api.Infrastructure.Logging.Configuration.Services.Repositories;
 using Services.Api.Infrastructure.Logging.DI;
+using Services.Communication.Http.Broker.DI;
 using Services.Security.BasicToken.DI;
 using Services.UnitOfWork.Sql.DI;
 
@@ -40,22 +34,15 @@ namespace Services.Api.Infrastructure.Logging
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddHttpContextAccessor();
-
             services.AddControllers();
-            services.AddMemoryCache();
+
             services.RegisterBasicTokenAuthentication();
-            services.RegisterAuthorizationCommunicators();
-            services.RegisterInMemoryCaching();
             services.RegisterRedisCaching();
-            services.RegisterCredentialProvider();
             services.RegisterLoggers();
-            services.RegisterRouteProvider();
             services.RegisterRepositories();
-            services.RegisterRouteRepositories();
-            services.RegisterServiceCommunicator();
+            services.RegisterHttpServiceCommunicator();
             services.RegisterSwagger();
-            services.RegisterUnitOfWork();
+            services.RegisterSqlUnitOfWork();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

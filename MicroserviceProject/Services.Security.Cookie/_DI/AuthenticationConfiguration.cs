@@ -1,10 +1,12 @@
 ﻿
+using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Security.Authentication.Cookie.Abstract;
 using Infrastructure.Security.Authentication.Cookie.Handlers;
 
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.DependencyInjection;
 
+using Services.Communication.Http.Broker.Authorization.DI;
 using Services.Security.Cookie.Providers;
 
 using System.Threading.Tasks;
@@ -23,6 +25,9 @@ namespace Services.Security.Cookie.DI
         /// <returns></returns>
         public static IServiceCollection RegisterCookieAuthentication(this IServiceCollection services, string loginPath, string accessDeniedPath)
         {
+            services.RegisterHttpAuthorizationCommunicators();
+            services.RegisterInMemoryCaching();
+
             services.AddScoped<IIdentityProvider, DefaultIdentityProvider>();
 
             services

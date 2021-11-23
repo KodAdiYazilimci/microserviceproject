@@ -37,7 +37,7 @@ namespace Services.Api.Infrastructure.Logging
             _next = next;
         }
 
-        public async Task Invoke(HttpContext httpContext, RequestResponseLogger requestResponseLogger)
+        public async Task Invoke(HttpContext httpContext, Util.Logging.Loggers.RequestResponseLogger requestResponseLogger)
         {
             var httpRequestTimeFeature = new HttpRequestTimeFeature();
             httpContext.Features.Set<IHttpRequestTimeFeature>(httpRequestTimeFeature);

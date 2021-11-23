@@ -37,7 +37,7 @@ namespace Services.Api.Infrastructure.Authorization
             _next = next;
         }
 
-        public async Task Invoke(HttpContext httpContext, Logger requestResponseLogger)
+        public async Task Invoke(HttpContext httpContext, RequestResponseLogger requestResponseLogger)
         {
             var httpRequestTimeFeature = new HttpRequestTimeFeature();
             httpContext.Features.Set<IHttpRequestTimeFeature>(httpRequestTimeFeature);

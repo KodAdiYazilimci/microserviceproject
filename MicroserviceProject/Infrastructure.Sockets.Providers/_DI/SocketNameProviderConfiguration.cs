@@ -13,7 +13,7 @@ namespace Infrastructure.Sockets.Providers.DI
         /// </summary>
         /// <param name="services">DI servisleri nesnesi</param>
         /// <returns></returns>
-        public static IServiceCollection RegisterRouteProvider(this IServiceCollection services)
+        public static IServiceCollection RegisterSocketRouteNameProvider(this IServiceCollection services)
         {
             services.AddSingleton<SocketNameProvider>();
 

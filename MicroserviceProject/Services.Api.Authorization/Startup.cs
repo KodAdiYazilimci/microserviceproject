@@ -1,6 +1,5 @@
 
 using Infrastructure.Caching.InMemory.DI;
-using Infrastructure.Caching.Redis.DI;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Localization.DI;
 using Infrastructure.Logging.Logger.RequestResponseLogger.DI;
@@ -36,17 +35,14 @@ namespace Services.Api.Infrastructure.Authorization
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMemoryCache();
             services.RegisterBusinessServices();
             services.RegisterInMemoryCaching();
-            services.RegisterLocalizationPersistence();
             services.RegisterLocalizationProviders();
-            services.RegisterLogger();
+            services.RegisterRequestResponseLogger();
             services.RegisterPersistence();
-            services.RegisterRedisCaching();
             services.RegisterRepositories();
             services.RegisterSwagger();
-            services.RegisterUnitOfWork<AuthContext>();
+            services.RegisterEntityFrameworkUnitOfWork<AuthContext>();
 
             services.AddControllers();
         }

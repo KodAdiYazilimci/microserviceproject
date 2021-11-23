@@ -40,7 +40,7 @@ namespace Services.Api.Business.Departments.Buying
             _next = next;
         }
 
-        public async Task Invoke(HttpContext httpContext, Logger requestResponseLogger, IServiceProvider serviceProvider)
+        public async Task Invoke(HttpContext httpContext, RequestResponseLogger requestResponseLogger, IServiceProvider serviceProvider)
         {
             var httpRequestTimeFeature = new HttpRequestTimeFeature();
             httpContext.Features.Set<IHttpRequestTimeFeature>(httpRequestTimeFeature);

@@ -1,4 +1,5 @@
-﻿using Infrastructure.Security.Authentication.SignalR.Abstract;
+﻿using Infrastructure.Caching.InMemory.DI;
+using Infrastructure.Security.Authentication.SignalR.Abstract;
 using Infrastructure.Security.Authentication.SignalR.Handlers;
 using Infrastructure.Security.Authentication.SignalR.Requirements;
 
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
+using Services.Communication.Http.Broker.Authorization.DI;
 using Services.Security.SignalR.Providers;
 
 namespace Services.Security.SignalR.DI
@@ -23,6 +25,9 @@ namespace Services.Security.SignalR.DI
         /// <returns></returns>
         public static IServiceCollection RegisterSignalRAuthentication(this IServiceCollection services, string policyName)
         {
+            services.RegisterHttpAuthorizationCommunicators();
+            services.RegisterInMemoryCaching();
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddScoped<IIdentityProvider, DefaultIdentityProvider>();
