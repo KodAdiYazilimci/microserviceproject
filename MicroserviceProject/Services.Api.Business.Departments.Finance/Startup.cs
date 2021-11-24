@@ -4,6 +4,7 @@ using Infrastructure.Util.DI;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -16,10 +17,12 @@ using Services.Api.Business.Departments.Buying.DI;
 using Services.Business.Departments.Finance.DI;
 using Services.Communication.Http.Broker.Department.DI;
 using Services.Communication.Mq.Rabbit.Publisher.Department.DI;
+using Services.Diagnostics.HealthCheck.DI;
 using Services.Logging.RequestResponse.DI;
 using Services.Security.BasicToken.DI;
 using Services.UnitOfWork.Sql.DI;
 
+using System.Collections.Generic;
 using System.Net;
 
 namespace Services.Api.Business.Departments.Buying
@@ -47,6 +50,8 @@ namespace Services.Api.Business.Departments.Buying
             services.RegisterLocalizationProviders();
             services.RegisterRequestResponseLogger();
             services.RegisterQueuePublishers();
+            services.RegisterSqlHealthChecking(
+                connectionStrings: new List<string>() { Configuration.GetSection("Persistence")["DataSource"] });
             services.RegisterSwagger();
             services.RegisterSqlUnitOfWork();
         }
@@ -87,6 +92,10 @@ namespace Services.Api.Business.Departments.Buying
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHealthChecks("/health", new HealthCheckOptions()
+                {
+                    ResponseWriter = Diagnostics.HealthCheck.Util.HttpResponse.WriteHealthResponse,
+                });
             });
 
             app.UseSwagger();

@@ -4,6 +4,7 @@ using Infrastructure.Util.DI;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -16,10 +17,12 @@ using Services.Api.Business.Departments.CR.Configuration.Persistence;
 using Services.Api.Business.Departments.CR.DI;
 using Services.Communication.Http.Broker.Department.DI;
 using Services.Communication.Mq.Rabbit.Publisher.Department.DI;
+using Services.Diagnostics.HealthCheck.DI;
 using Services.Logging.RequestResponse.DI;
 using Services.Security.BasicToken.DI;
 using Services.UnitOfWork.EntityFramework.DI;
 
+using System.Collections.Generic;
 using System.Net;
 
 namespace Services.Api.Business.Departments.CR
@@ -49,6 +52,8 @@ namespace Services.Api.Business.Departments.CR
             services.RegisterRequestResponseLogger();
             services.RegisterQueuePublishers();
             services.RegisterSwagger();
+            services.RegisterSqlHealthChecking(
+                connectionStrings: new List<string>() { Configuration.GetSection("Persistence")["DataSource"] });
             services.RegisterEntityFrameworkUnitOfWork<CRContext>();
         }
 
@@ -88,6 +93,10 @@ namespace Services.Api.Business.Departments.CR
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHealthChecks("/health", new HealthCheckOptions()
+                {
+                    ResponseWriter = Diagnostics.HealthCheck.Util.HttpResponse.WriteHealthResponse,
+                });
             });
 
             app.UseSwagger();

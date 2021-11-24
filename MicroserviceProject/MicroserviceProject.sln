@@ -197,15 +197,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Mq.R
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Mq.Rabbit", "Services.Communication.Mq.Rabbit\Services.Communication.Mq.Rabbit.csproj", "{E043A4AE-1049-4E45-9212-81CE20710ACB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Logging.RequestResponse", "Services.Logging.RequestResponse\Services.Logging.RequestResponse.csproj", "{BC5D505C-9BFB-45DA-8886-BBF436F38F74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Logging.RequestResponse", "Services.Logging.RequestResponse\Services.Logging.RequestResponse.csproj", "{BC5D505C-9BFB-45DA-8886-BBF436F38F74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Localization.Translation.Persistence.EntityFramework", "Infrastructure.Localization.Translation.Persistence.EntityFramework\Infrastructure.Localization.Translation.Persistence.EntityFramework.csproj", "{F33284EE-FFAE-4485-9484-4EC87A80584A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Localization.Translation.Persistence.EntityFramework", "Infrastructure.Localization.Translation.Persistence.EntityFramework\Infrastructure.Localization.Translation.Persistence.EntityFramework.csproj", "{F33284EE-FFAE-4485-9484-4EC87A80584A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Localization.Translation.Persistence", "Infrastructure.Localization.Translation.Persistence\Infrastructure.Localization.Translation.Persistence.csproj", "{4D362B5F-3C08-40E4-AA63-5398F79F6AEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Localization.Translation.Persistence", "Infrastructure.Localization.Translation.Persistence\Infrastructure.Localization.Translation.Persistence.csproj", "{4D362B5F-3C08-40E4-AA63-5398F79F6AEF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Localization.Translation", "Infrastructure.Localization.Translation\Infrastructure.Localization.Translation.csproj", "{C207D970-F2E7-4E47-A385-3366D68D7F80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Localization.Translation", "Infrastructure.Localization.Translation\Infrastructure.Localization.Translation.csproj", "{C207D970-F2E7-4E47-A385-3366D68D7F80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Localization.Translation.Provider", "Infrastructure.Localization.Translation.Provider\Infrastructure.Localization.Translation.Provider.csproj", "{CAFC0EA1-9247-4DCA-8DE1-908F11BCFB04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Localization.Translation.Provider", "Infrastructure.Localization.Translation.Provider\Infrastructure.Localization.Translation.Provider.csproj", "{CAFC0EA1-9247-4DCA-8DE1-908F11BCFB04}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Diagnostics.HealthCheck", "Services.Diagnostics.HealthCheck\Services.Diagnostics.HealthCheck.csproj", "{6DFE9DAA-761B-4FE5-83F5-27B3B251027C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -529,6 +531,10 @@ Global
 		{CAFC0EA1-9247-4DCA-8DE1-908F11BCFB04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CAFC0EA1-9247-4DCA-8DE1-908F11BCFB04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CAFC0EA1-9247-4DCA-8DE1-908F11BCFB04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DFE9DAA-761B-4FE5-83F5-27B3B251027C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DFE9DAA-761B-4FE5-83F5-27B3B251027C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DFE9DAA-761B-4FE5-83F5-27B3B251027C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DFE9DAA-761B-4FE5-83F5-27B3B251027C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -625,6 +631,7 @@ Global
 		{4D362B5F-3C08-40E4-AA63-5398F79F6AEF} = {3D28514C-A51F-40F4-9370-9610BAEFF451}
 		{C207D970-F2E7-4E47-A385-3366D68D7F80} = {3D28514C-A51F-40F4-9370-9610BAEFF451}
 		{CAFC0EA1-9247-4DCA-8DE1-908F11BCFB04} = {3D28514C-A51F-40F4-9370-9610BAEFF451}
+		{6DFE9DAA-761B-4FE5-83F5-27B3B251027C} = {2EE70AFD-E3E7-49A0-9A36-5C36844C0EA0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5FD68A04-D16D-49EC-9D04-25E6B952DA89}

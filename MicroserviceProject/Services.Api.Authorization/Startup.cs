@@ -6,6 +6,7 @@ using Infrastructure.Util.DI;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -16,9 +17,11 @@ using Newtonsoft.Json;
 
 using Services.Api.Infrastructure.Authorization.Configuration.Persistence;
 using Services.Api.Infrastructure.Authorization.DI;
+using Services.Diagnostics.HealthCheck.DI;
 using Services.Logging.RequestResponse.DI;
 using Services.UnitOfWork.EntityFramework.DI;
 
+using System.Collections.Generic;
 using System.Net;
 
 namespace Services.Api.Infrastructure.Authorization
@@ -41,6 +44,8 @@ namespace Services.Api.Infrastructure.Authorization
             services.RegisterRequestResponseLogger();
             services.RegisterPersistence();
             services.RegisterRepositories();
+            services.RegisterSqlHealthChecking(
+                connectionStrings: new List<string>() { Configuration.GetSection("Persistence")["DataSource"] });
             services.RegisterSwagger();
             services.RegisterEntityFrameworkUnitOfWork<AuthContext>();
 
@@ -89,6 +94,10 @@ namespace Services.Api.Infrastructure.Authorization
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHealthChecks("/health", new HealthCheckOptions()
+                {
+                    ResponseWriter = Diagnostics.HealthCheck.Util.HttpResponse.WriteHealthResponse,
+                });
             });
 
             app.UseSwagger();
