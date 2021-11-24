@@ -1,4 +1,4 @@
-﻿namespace Services.Diagnostics.HealthCheck.Model
+﻿namespace Infrastructure.Diagnostics.HealthCheck.Util.Model
 {
     /// <summary>
     /// Sağlık denetimi modeli

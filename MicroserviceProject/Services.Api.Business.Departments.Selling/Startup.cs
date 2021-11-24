@@ -1,4 +1,5 @@
 using Infrastructure.Communication.Http.Models;
+using Infrastructure.Diagnostics.HealthCheck.Util;
 using Infrastructure.Localization.Translation.Provider.DI;
 using Infrastructure.Util.DI;
 
@@ -95,7 +96,7 @@ namespace Services.Api.Business.Departments.Selling
                 endpoints.MapControllers();
                 endpoints.MapHealthChecks("/health", new HealthCheckOptions()
                 {
-                    ResponseWriter = Diagnostics.HealthCheck.Util.HttpResponse.WriteHealthResponse,
+                    ResponseWriter = HealthHttpResponse.WriteHealthResponse,
                 });
             });
 

@@ -1,5 +1,6 @@
 using Infrastructure.Caching.Redis.DI;
 using Infrastructure.Communication.Http.Models;
+using Infrastructure.Diagnostics.HealthCheck.Util;
 using Infrastructure.Util.DI;
 
 using Microsoft.AspNetCore.Builder;
@@ -88,7 +89,7 @@ namespace Services.Api.Infrastructure.Logging
                 endpoints.MapControllers();
                 endpoints.MapHealthChecks("/health", new HealthCheckOptions()
                 {
-                    ResponseWriter = Diagnostics.HealthCheck.Util.HttpResponse.WriteHealthResponse,
+                    ResponseWriter = HealthHttpResponse.WriteHealthResponse,
                 });
             });
 

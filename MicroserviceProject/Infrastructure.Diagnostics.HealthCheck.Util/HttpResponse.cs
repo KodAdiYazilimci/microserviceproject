@@ -1,22 +1,21 @@
 ﻿using Infrastructure.Communication.Http.Models;
+using Infrastructure.Diagnostics.HealthCheck.Util.Model;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 using Newtonsoft.Json;
 
-using Services.Diagnostics.HealthCheck.Model;
-
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Services.Diagnostics.HealthCheck.Util
+namespace Infrastructure.Diagnostics.HealthCheck.Util
 {
     /// <summary>
     /// Sağlık denetimi sonrasında yazılacak response sınıfı
     /// </summary>
-    public class HttpResponse
+    public class HealthHttpResponse
     {
         /// <summary>
         /// Sağlık sonucunu yazdırır

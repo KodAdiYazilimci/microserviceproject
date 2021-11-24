@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Services.Diagnostics.HealthCheck.Actions
+namespace Infrastructure.Diagnostics.HealthCheck.Actions
 {
     /// <summary>
     /// Veritabanı bağlantılarının sağlıklı çalıştığını kontrol eden sınıf

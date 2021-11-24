@@ -1,7 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
+﻿using Infrastructure.Diagnostics.HealthCheck.Actions;
 
-using Services.Diagnostics.HealthCheck.Actions;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 using System.Collections.Generic;
 
