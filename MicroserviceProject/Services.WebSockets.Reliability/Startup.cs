@@ -11,7 +11,6 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 
 using Services.Communication.Http.Broker.Authorization.DI;
-using Services.Communication.Http.Broker.DI;
 using Services.Security.SignalR.DI;
 using Services.WebSockets.Reliability.Hubs;
 
@@ -29,7 +28,6 @@ namespace Services.WebSockets.Reliability
             services.AddSingleton<ErrorHub>();
 
             services.RegisterHttpAuthorizationCommunicators();
-            services.RegisterHttpServiceCommunicator();
             services.RegisterSignalRAuthentication(policyName: "ErrorPolicy");
 
             services.AddControllers();

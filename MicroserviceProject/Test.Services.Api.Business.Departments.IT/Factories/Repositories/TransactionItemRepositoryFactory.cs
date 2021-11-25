@@ -1,5 +1,5 @@
-﻿using Infrastructure.Mock.Factories;
-using Infrastructure.Transaction.UnitOfWork.Sql;
+﻿using Infrastructure.Transaction.UnitOfWork.Sql;
+using Infrastructure.Transaction.UnitOfWork.Sql.Mock;
 
 using Microsoft.Extensions.Configuration;
 

@@ -1,4 +1,8 @@
-﻿using Services.Communication.Http.Broker.Department.AA;
+﻿using Infrastructure.Communication.Http.Broker.DI;
+
+using Microsoft.Extensions.DependencyInjection;
+
+using Services.Communication.Http.Broker.Department.AA;
 using Services.Communication.Http.Broker.Department.Accounting;
 using Services.Communication.Http.Broker.Department.Buying;
 using Services.Communication.Http.Broker.Department.CR;
@@ -8,10 +12,6 @@ using Services.Communication.Http.Broker.Department.IT;
 using Services.Communication.Http.Broker.Department.Production;
 using Services.Communication.Http.Broker.Department.Selling;
 using Services.Communication.Http.Broker.Department.Storage;
-
-using Microsoft.Extensions.DependencyInjection;
-using Infrastructure.Routing.Providers.DI;
-using Services.Communication.Http.Broker.DI;
 
 namespace Services.Communication.Http.Broker.Department.DI
 {
@@ -27,7 +27,6 @@ namespace Services.Communication.Http.Broker.Department.DI
         /// <returns></returns>
         public static IServiceCollection RegisterHttpDepartmentCommunicators(this IServiceCollection services)
         {
-            services.RegisterHttpRouteProvider();
             services.RegisterHttpServiceCommunicator();
 
             services.AddSingleton<AACommunicator>();

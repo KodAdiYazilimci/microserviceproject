@@ -1,4 +1,5 @@
 ﻿
+using Infrastructure.Communication.Http.Broker;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Routing.Providers;
 

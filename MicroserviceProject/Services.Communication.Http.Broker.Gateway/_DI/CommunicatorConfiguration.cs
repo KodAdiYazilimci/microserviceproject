@@ -1,9 +1,9 @@
 ﻿
+using Infrastructure.Communication.Http.Broker.DI;
 using Infrastructure.Routing.Providers.DI;
 
 using Microsoft.Extensions.DependencyInjection;
 
-using Services.Communication.Http.Broker.DI;
 using Services.Communication.Http.Broker.Gateway.Public;
 
 namespace Services.Communication.Http.Broker.Gateway.DI

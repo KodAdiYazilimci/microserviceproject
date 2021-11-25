@@ -12,7 +12,6 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 
 using Services.Communication.Http.Broker.Authorization.DI;
-using Services.Communication.Http.Broker.DI;
 using Services.Security.SignalR.DI;
 using Services.WebSockets.Security.Hubs;
 
@@ -30,7 +29,6 @@ namespace Services.WebSockets.Security
             services.AddSingleton<TokensHub>();
 
             services.RegisterHttpAuthorizationCommunicators();
-            services.RegisterHttpServiceCommunicator();
             services.RegisterSignalRAuthentication(policyName: "TokensPolicy");
 
             services.AddControllers();

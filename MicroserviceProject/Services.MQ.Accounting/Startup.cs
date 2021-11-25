@@ -12,7 +12,6 @@ using Newtonsoft.Json;
 
 using Services.Communication.Http.Broker.Authorization.DI;
 using Services.Communication.Http.Broker.Department.DI;
-using Services.Communication.Http.Broker.DI;
 using Services.Communication.Mq.Rabbit.Consumer.DI;
 
 using System.Net;
@@ -29,7 +28,6 @@ namespace Services.MQ.Accounting
             services.RegisterQueueConsumers();
             services.RegisterHttpDepartmentCommunicators();
             services.RegisterLocalizationProviders();
-            services.RegisterHttpServiceCommunicator();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,6 +1,11 @@
-﻿using Infrastructure.Communication.WebSockets;
+﻿using Infrastructure.Caching.InMemory.Mock;
+using Infrastructure.Communication.WebSockets;
 using Infrastructure.Communication.WebSockets.Models;
-using Infrastructure.Mock.Factories;
+using Infrastructure.Routing.Persistence.Mock;
+using Infrastructure.Routing.Providers.Mock;
+using Infrastructure.Security.Authentication.Mock;
+using Infrastructure.Sockets.Persistence.Mock;
+using Infrastructure.Sockets.Providers.Mock;
 
 using Microsoft.Extensions.Configuration;
 

@@ -15,8 +15,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.Caching.InMemory.Mock\Infrastructure.Caching.InMemory.Mock.csproj" />
     <ProjectReference Include="..\Infrastructure.Communication.WebSockets\Infrastructure.Communication.WebSockets.csproj" />
     <ProjectReference Include="..\Infrastructure.Mock\Infrastructure.Mock.csproj" />
+    <ProjectReference Include="..\Infrastructure.Routing.Persistence.Mock\Infrastructure.Routing.Persistence.Mock.csproj" />
+    <ProjectReference Include="..\Infrastructure.Routing.Providers.Mock\Infrastructure.Routing.Providers.Mock.csproj" />
+    <ProjectReference Include="..\Infrastructure.Security.Authentication.Mock\Infrastructure.Security.Authentication.Mock.csproj" />
+    <ProjectReference Include="..\Infrastructure.Sockets.Persistence.Mock\Infrastructure.Sockets.Persistence.Mock.csproj" />
+    <ProjectReference Include="..\Infrastructure.Sockets.Providers.Mock\Infrastructure.Sockets.Providers.Mock.csproj" />
   </ItemGroup>
 
   <ItemGroup>

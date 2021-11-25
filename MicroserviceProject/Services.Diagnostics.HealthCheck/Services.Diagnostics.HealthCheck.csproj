@@ -10,7 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Infrastructure.Communication.Http\Infrastructure.Communication.Http.csproj" />
     <ProjectReference Include="..\Infrastructure.Diagnostics.HealthCheck.Actions\Infrastructure.Diagnostics.HealthCheck.Actions.csproj" />
   </ItemGroup>
 

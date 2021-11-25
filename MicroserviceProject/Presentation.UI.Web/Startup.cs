@@ -1,22 +1,17 @@
 
-using Services.Communication.Http.Broker.Authorization.DI;
-using Services.Communication.Http.Broker.Gateway.DI;
-
 using Infrastructure.Caching.InMemory.DI;
-using Infrastructure.Routing.Persistence.DI;
-using Infrastructure.Routing.Providers.DI;
 using Infrastructure.Security.Authentication.DI;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 using Presentation.UI.Web.DI;
 
-using Services.Communication.Http.Broker.DI;
+using Services.Communication.Http.Broker.Authorization.DI;
+using Services.Communication.Http.Broker.Gateway.DI;
 using Services.Security.Cookie.DI;
 
 namespace Presentation.UI.Web
@@ -34,9 +29,6 @@ namespace Presentation.UI.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddHttpContextAccessor();
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddMemoryCache();
 
             services.RegisterCredentialProvider();
             services.RegisterHttpAuthorizationCommunicators();
@@ -44,9 +36,6 @@ namespace Presentation.UI.Web
             services.RegisterCookieAuthentication("/Login", "/Yetkisiz");
             services.RegisterInMemoryCaching();
             services.RegisterMappings();
-            services.RegisterHttpRouteProvider();
-            services.RegisterHttpRouteRepositories();
-            services.RegisterHttpServiceCommunicator();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

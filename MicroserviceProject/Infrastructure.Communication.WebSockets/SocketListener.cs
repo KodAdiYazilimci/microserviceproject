@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Caching.InMemory;
+using Infrastructure.Communication.Http.Broker;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Communication.WebSockets.Models;
 using Infrastructure.Routing.Exceptions;
@@ -16,8 +17,6 @@ using Infrastructure.Sockets.Providers;
 using Microsoft.AspNetCore.SignalR.Client;
 
 using Newtonsoft.Json;
-
-using Services.Communication.Http.Broker;
 
 using System;
 using System.Collections.Generic;

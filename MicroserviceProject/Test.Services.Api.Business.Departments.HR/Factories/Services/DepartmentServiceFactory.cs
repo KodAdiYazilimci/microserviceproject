@@ -1,5 +1,9 @@
-﻿using Infrastructure.Localization.Translation.Persistence.EntityFramework.Repositories;
+﻿using Infrastructure.Caching.Redis.Mock;
+using Infrastructure.Localization.Translation.Persistence.EntityFramework.Repositories;
+using Infrastructure.Localization.Translation.Persistence.Mock.EntityFramework.Persistence;
+using Infrastructure.Localization.Translation.Provider.Mock;
 using Infrastructure.Mock.Factories;
+using Infrastructure.Transaction.UnitOfWork.Sql.Mock;
 
 using Microsoft.Extensions.Configuration;
 

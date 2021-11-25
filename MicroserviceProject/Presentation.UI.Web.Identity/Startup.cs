@@ -1,8 +1,4 @@
-using Services.Communication.Http.Broker.Authorization.DI;
-
 using Infrastructure.Caching.InMemory.DI;
-using Infrastructure.Routing.Persistence.DI;
-using Infrastructure.Routing.Providers.DI;
 using Infrastructure.Security.Authentication.DI;
 
 using Microsoft.AspNetCore.Builder;
@@ -11,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using Services.Communication.Http.Broker.DI;
+using Services.Communication.Http.Broker.Authorization.DI;
 
 namespace Presentation.UI.Web.Identity
 {
@@ -32,9 +28,6 @@ namespace Presentation.UI.Web.Identity
             services.RegisterCredentialProvider();
             services.RegisterHttpAuthorizationCommunicators();
             services.RegisterInMemoryCaching();
-            services.RegisterHttpRouteProvider();
-            services.RegisterHttpRouteRepositories();
-            services.RegisterHttpServiceCommunicator();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

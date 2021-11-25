@@ -4,6 +4,7 @@ using Infrastructure.Security.Authentication.Cookie.Abstract;
 using Infrastructure.Security.Authentication.Cookie.Handlers;
 
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
 using Services.Communication.Http.Broker.Authorization.DI;
@@ -25,6 +26,9 @@ namespace Services.Security.Cookie.DI
         /// <returns></returns>
         public static IServiceCollection RegisterCookieAuthentication(this IServiceCollection services, string loginPath, string accessDeniedPath)
         {
+            services.AddHttpContextAccessor();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.RegisterHttpAuthorizationCommunicators();
             services.RegisterInMemoryCaching();
 

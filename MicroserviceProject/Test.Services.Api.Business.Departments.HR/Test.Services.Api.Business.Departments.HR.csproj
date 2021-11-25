@@ -14,8 +14,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.Caching.InMemory.Mock\Infrastructure.Caching.InMemory.Mock.csproj" />
+    <ProjectReference Include="..\Infrastructure.Caching.Redis.Mock\Infrastructure.Caching.Redis.Mock.csproj" />
+    <ProjectReference Include="..\Infrastructure.Communication.Http.Broker.Mock\Infrastructure.Communication.Http.Broker.Mock.csproj" />
+    <ProjectReference Include="..\Infrastructure.Localization.Translation.Persistence.Mock\Infrastructure.Localization.Translation.Persistence.Mock.csproj" />
+    <ProjectReference Include="..\Infrastructure.Localization.Translation.Provider.Mock\Infrastructure.Localization.Translation.Provider.Mock.csproj" />
     <ProjectReference Include="..\Infrastructure.Mock.Data\Infrastructure.Mock.Data.csproj" />
+    <ProjectReference Include="..\Infrastructure.Routing.Persistence.Mock\Infrastructure.Routing.Persistence.Mock.csproj" />
+    <ProjectReference Include="..\Infrastructure.Routing.Providers.Mock\Infrastructure.Routing.Providers.Mock.csproj" />
+    <ProjectReference Include="..\Infrastructure.Security.Authentication.Mock\Infrastructure.Security.Authentication.Mock.csproj" />
+    <ProjectReference Include="..\Infrastructure.Transaction.UnitOfWork.Sql.Mock\Infrastructure.Transaction.UnitOfWork.Sql.Mock.csproj" />
     <ProjectReference Include="..\Services.Api.Business.Departments.HR\Services.Api.Business.Departments.HR.csproj" />
+    <ProjectReference Include="..\Services.Communication.Http.Broker.Department.Mock\Services.Communication.Http.Broker.Department.Mock.csproj" />
+    <ProjectReference Include="..\Services.Communication.Mq.Rabbit.Publisher.Mock\Services.Communication.Mq.Rabbit.Publisher.Mock.csproj" />
   </ItemGroup>
 
 </Project>

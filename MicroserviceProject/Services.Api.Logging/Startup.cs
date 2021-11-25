@@ -1,4 +1,5 @@
 using Infrastructure.Caching.Redis.DI;
+using Infrastructure.Communication.Http.Broker.DI;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Diagnostics.HealthCheck.Util;
 using Infrastructure.Util.DI;
@@ -16,7 +17,6 @@ using Newtonsoft.Json;
 
 using Services.Api.Infrastructure.Logging.Configuration.Services.Repositories;
 using Services.Api.Infrastructure.Logging.DI;
-using Services.Communication.Http.Broker.DI;
 using Services.Diagnostics.HealthCheck.DI;
 using Services.Security.BasicToken.DI;
 using Services.UnitOfWork.Sql.DI;
