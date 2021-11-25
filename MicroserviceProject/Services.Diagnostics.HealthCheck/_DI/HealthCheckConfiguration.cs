@@ -30,5 +30,24 @@ namespace Services.Diagnostics.HealthCheck.DI
 
             return services;
         }
+
+        /// <summary>
+        /// Http bağlantılarının sağlığını denetleyecek mekanizmayı enjekte eder
+        /// </summary>
+        /// <param name="services">DI servisleri nesnesi</param>
+        /// <param name="connectionStrings">Denetlenecek http bağlantıları</param>
+        /// <returns></returns>
+        public static IServiceCollection RegisterHttpHealthChecking(this IServiceCollection services, List<string> urls)
+        {
+            services
+                .AddHealthChecks()
+                .AddTypeActivatedCheck<HttpCheck>(
+                    name: nameof(HttpCheck),
+                    failureStatus: HealthStatus.Unhealthy,
+                    tags: new string[] { "http" },
+                    args: new object[] { urls });
+
+            return services;
+        }
     }
 }

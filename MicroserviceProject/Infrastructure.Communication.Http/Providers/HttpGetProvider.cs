@@ -22,6 +22,30 @@ namespace Infrastructure.Communication.Http.Providers
         /// Http get isteği gönderir
         /// </summary>
         /// <param name="url">Http isteği atılacak adres</param>
+        /// <param name="cancellationToken">İsteğin iptal tokenı</param>
+        /// <returns></returns>
+        public virtual async Task<string> GetAsync(string url)
+        {
+            Uri requestUri = GenerateUri(url);
+
+            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(requestUri);
+            webRequest.Method = "GET";
+            webRequest.ContentType = "application/json; charset=UTF-8";
+
+            AppendHeaders(webRequest);
+
+            HttpWebResponse webResponse = (HttpWebResponse)await webRequest.GetResponseAsync();
+
+            using (StreamReader streamReader = new StreamReader(webResponse.GetResponseStream()))
+            {
+                return await streamReader.ReadToEndAsync();
+            }
+        }
+
+        /// <summary>
+        /// Http get isteği gönderir
+        /// </summary>
+        /// <param name="url">Http isteği atılacak adres</param>
         /// <param name="cancellationTokenSource">İsteğin iptal tokenı</param>
         /// <returns></returns>
         public virtual async Task<string> GetAsync(string url, CancellationTokenSource cancellationTokenSource)

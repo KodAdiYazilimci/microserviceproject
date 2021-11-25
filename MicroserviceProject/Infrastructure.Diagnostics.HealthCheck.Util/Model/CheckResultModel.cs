@@ -8,11 +8,11 @@
         /// <summary>
         /// Kontrolün sonucu
         /// </summary>
-        public string Status { get; internal set; }
+        public string Status { get; set; }
 
         /// <summary>
         /// Kontrole dair açıklama
         /// </summary>
-        public string Description { get; internal set; }
+        public string Description { get; set; }
     }
 }

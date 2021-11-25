@@ -215,6 +215,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Diagnostics.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Diagnostics.HealthCheck.Util", "Infrastructure.Diagnostics.HealthCheck.Util\Infrastructure.Diagnostics.HealthCheck.Util.csproj", "{2DFABEEF-8E6B-405F-887C-322E0952010E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Scheduling.Diagnostics.HealthCheck", "Services.Scheduling.Diagnostics.HealthCheck\Services.Scheduling.Diagnostics.HealthCheck.csproj", "{CC3AAA51-94E2-4003-BDC0-338A688D470F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -549,6 +551,10 @@ Global
 		{2DFABEEF-8E6B-405F-887C-322E0952010E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2DFABEEF-8E6B-405F-887C-322E0952010E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2DFABEEF-8E6B-405F-887C-322E0952010E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC3AAA51-94E2-4003-BDC0-338A688D470F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC3AAA51-94E2-4003-BDC0-338A688D470F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC3AAA51-94E2-4003-BDC0-338A688D470F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC3AAA51-94E2-4003-BDC0-338A688D470F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -649,6 +655,7 @@ Global
 		{7DC8E27D-3756-441C-AA86-B8C93537A2A8} = {B29D6F56-F461-4BE8-80D8-6F92897F9EAA}
 		{4D766D8C-4004-41E3-A4B1-BD659EA56C42} = {7DC8E27D-3756-441C-AA86-B8C93537A2A8}
 		{2DFABEEF-8E6B-405F-887C-322E0952010E} = {7DC8E27D-3756-441C-AA86-B8C93537A2A8}
+		{CC3AAA51-94E2-4003-BDC0-338A688D470F} = {32D31FE2-B682-4C42-B238-0DCA002DB0ED}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5FD68A04-D16D-49EC-9D04-25E6B952DA89}
