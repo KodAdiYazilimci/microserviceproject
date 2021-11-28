@@ -38,7 +38,7 @@ namespace Services.Communication.Mq.Rabbit.Consumer.Department.AA
         /// <param name="aaCommunicator">İdari işler servis iletişimcisi</param>
         public AssignInventoryToWorkerConsumer(
             AACommunicator aaCommunicator,
-            AAAssignInventoryToWorkerRabbitConfiguration rabbitConfiguration)
+            AssignInventoryToWorkerRabbitConfiguration rabbitConfiguration)
         {
             _aaCommunicator = aaCommunicator;
 

@@ -11,18 +11,18 @@ namespace Services.Communication.Mq.Rabbit.Publisher.Mock
         /// <summary>
         /// Çalışana envanter atayan idari işler yayıncısı
         /// </summary>
-        private static AAAssignInventoryToWorkerPublisher publisher = null;
+        private static AssignInventoryToWorkerPublisher publisher = null;
 
         /// <summary>
         /// Çalışana envanter atayan idari işler yayıncısını verir
         /// </summary>
         /// <param name="configuration">Yapılandırma araüyüz nesnesi</param>
         /// <returns></returns>
-        public static AAAssignInventoryToWorkerPublisher GetPublisher(AAAssignInventoryToWorkerRabbitConfiguration configuration)
+        public static AssignInventoryToWorkerPublisher GetPublisher(AssignInventoryToWorkerRabbitConfiguration configuration)
         {
             if (publisher == null)
             {
-                publisher = new AAAssignInventoryToWorkerPublisher(configuration);
+                publisher = new AssignInventoryToWorkerPublisher(configuration);
             }
 
             return publisher;

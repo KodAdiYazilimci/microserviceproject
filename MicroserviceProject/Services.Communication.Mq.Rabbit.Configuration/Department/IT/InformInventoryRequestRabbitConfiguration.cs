@@ -6,9 +6,9 @@ using System;
 namespace Services.Communication.Mq.Rabbit.Configuration.Department.IT
 {
     /// <summary>
-    /// Çalışana envanter ekleyecek rabbit kuyruğu için yapılandırma sınıfı
+    /// Envanter talebiyle ilgili satınalma sonucunu rabbit kuyruğundan almak için yapılandırma sınıfı
     /// </summary>
-    public class ITAssignInventoryToWorkerRabbitConfiguration : BaseConfiguration, IDisposable
+    public class InformInventoryRequestRabbitConfiguration : BaseConfiguration, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -16,11 +16,11 @@ namespace Services.Communication.Mq.Rabbit.Configuration.Department.IT
         private bool disposed = false;
 
         /// <summary>
-        /// Çalışana envanter ekleyecek rabbit kuyruğu için yapılandırma sınıfı
+        /// Envanter talebiyle ilgili satınalma sonucunu rabbit kuyruğundan almak için yapılandırma sınıfı
         /// <paramref name="configuration">Ayarların okunacağı configuration nesnesi</paramref>
         /// </summary>
         /// <param name="configuration"></param>
-        public ITAssignInventoryToWorkerRabbitConfiguration(IConfiguration configuration)
+        public InformInventoryRequestRabbitConfiguration(IConfiguration configuration)
             : base(configuration)
         {
             QueueName =
@@ -29,7 +29,7 @@ namespace Services.Communication.Mq.Rabbit.Configuration.Department.IT
                 .GetSection("RabbitQueues")
                 .GetSection("Services")
                 .GetSection("IT")
-                .GetSection("QueueNames")["AssignInventoryToWorker"];
+                .GetSection("QueueNames")["InformInventoryRequest"];
         }
 
         /// <summary>

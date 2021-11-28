@@ -97,12 +97,12 @@ namespace Services.Api.Business.Departments.Buying.Services
         /// <summary>
         /// İdari işler departmanına satın alımla ilgili olumlu veya olumsuz dönüş verisini rabbit kuyruğuna ekleyecek nesne
         /// </summary>
-        private readonly AAInformInventoryRequestPublisher _AAInformInventoryRequestPublisher;
+        private readonly Communication.Mq.Rabbit.Publisher.Department.AA.InformInventoryRequestPublisher _AAInformInventoryRequestPublisher;
 
         /// <summary>
         /// Bilgi teknolojileri departmanına satın alımla ilgili olumlu veya olumsuz dönüş verisini rabbit kuyruğuna ekleyecek nesne
         /// </summary>
-        private readonly ITInformInventoryRequestPublisher _ITInformInventoryRequestPublisher;
+        private readonly Communication.Mq.Rabbit.Publisher.Department.IT.InformInventoryRequestPublisher _ITInformInventoryRequestPublisher;
 
         /// <summary>
         /// Satınalma departmanından alınması istenilen envanter talepleri için kayıt açan nesne
@@ -136,8 +136,8 @@ namespace Services.Api.Business.Departments.Buying.Services
             InventoryRequestRepository inventoryRequestRepository,
             AACommunicator aaCommunicator,
             ITCommunicator itCommunicator,
-            AAInformInventoryRequestPublisher aaInformInventoryRequestPublisher,
-            ITInformInventoryRequestPublisher itInformInventoryRequestPublisher,
+            Communication.Mq.Rabbit.Publisher.Department.AA.InformInventoryRequestPublisher aaInformInventoryRequestPublisher,
+            Communication.Mq.Rabbit.Publisher.Department.IT.InformInventoryRequestPublisher itInformInventoryRequestPublisher,
             Communication.Mq.Rabbit.Publisher.Department.Finance.InventoryRequestPublisher inventoryRequestPublisher)
         {
             _mapper = mapper;

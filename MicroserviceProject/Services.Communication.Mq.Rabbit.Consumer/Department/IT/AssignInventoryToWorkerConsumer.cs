@@ -37,7 +37,7 @@ namespace Services.Communication.Mq.Rabbit.Consumer.Department.IT
         /// <param name="rabbitConfiguration">Kuyruk ayarlarının alınacağın configuration nesnesi</param>
         /// <param name="itCommunicator">IT departmanı servis iletişimcisi</param>
         public AssignInventoryToWorkerConsumer(
-            ITAssignInventoryToWorkerRabbitConfiguration rabbitConfiguration,
+            AssignInventoryToWorkerRabbitConfiguration rabbitConfiguration,
             ITCommunicator itCommunicator)
         {
             _itCommunicator = itCommunicator;

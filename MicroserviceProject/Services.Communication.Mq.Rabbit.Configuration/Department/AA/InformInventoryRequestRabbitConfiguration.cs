@@ -3,12 +3,12 @@ using Microsoft.Extensions.Configuration;
 
 using System;
 
-namespace Services.Communication.Mq.Rabbit.Configuration.Department.IT
+namespace Services.Communication.Mq.Rabbit.Configuration.Department.AA
 {
     /// <summary>
     /// Envanter talebiyle ilgili satınalma sonucunu rabbit kuyruğundan almak için yapılandırma sınıfı
     /// </summary>
-    public class ITInformInventoryRequestRabbitConfiguration : BaseConfiguration, IDisposable
+    public class InformInventoryRequestRabbitConfiguration : BaseConfiguration, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -20,7 +20,7 @@ namespace Services.Communication.Mq.Rabbit.Configuration.Department.IT
         /// <paramref name="configuration">Ayarların okunacağı configuration nesnesi</paramref>
         /// </summary>
         /// <param name="configuration"></param>
-        public ITInformInventoryRequestRabbitConfiguration(IConfiguration configuration)
+        public InformInventoryRequestRabbitConfiguration(IConfiguration configuration)
             : base(configuration)
         {
             QueueName =
@@ -28,7 +28,7 @@ namespace Services.Communication.Mq.Rabbit.Configuration.Department.IT
                 .GetSection("Configuration")
                 .GetSection("RabbitQueues")
                 .GetSection("Services")
-                .GetSection("IT")
+                .GetSection("AA")
                 .GetSection("QueueNames")["InformInventoryRequest"];
         }
 

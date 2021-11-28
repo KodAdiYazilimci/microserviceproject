@@ -8,7 +8,7 @@ namespace Services.Communication.Mq.Rabbit.Publisher.Department.AA
     /// <summary>
     /// Çalışana envanter ekleyecek rabbit kuyruğuna yeni bir kayıt ekler
     /// </summary>
-    public class AAAssignInventoryToWorkerPublisher : BasePublisher<WorkerQueueModel>, IDisposable
+    public class AssignInventoryToWorkerPublisher : BasePublisher<WorkerQueueModel>, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -19,8 +19,8 @@ namespace Services.Communication.Mq.Rabbit.Publisher.Department.AA
         /// Çalışana envanter ekleyecek rabbit kuyruğuna yeni bir kayıt ekler
         /// </summary>
         /// <param name="rabbitConfiguration">Kuyruk ayarlarını verece configuration nesnesi</param>
-        public AAAssignInventoryToWorkerPublisher(
-            AAAssignInventoryToWorkerRabbitConfiguration rabbitConfiguration)
+        public AssignInventoryToWorkerPublisher(
+            AssignInventoryToWorkerRabbitConfiguration rabbitConfiguration)
             : base(rabbitConfiguration)
         {
 

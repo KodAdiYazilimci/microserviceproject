@@ -12,18 +12,18 @@ namespace Services.Communication.Mq.Rabbit.Publisher.Mock
         /// <summary>
         /// Çalışana envanter atayan idari işler yayıncı yapılandırması
         /// </summary>
-        private static AAAssignInventoryToWorkerRabbitConfiguration rabbitConfiguration = null;
+        private static AssignInventoryToWorkerRabbitConfiguration rabbitConfiguration = null;
 
         /// <summary>
         /// Çalışana envanter atayan idari işler yayıncı yapılandırmasını verir
         /// </summary>
         /// <param name="configuration">Yapılandırma arayüzü nesnesi</param>
         /// <returns></returns>
-        public static AAAssignInventoryToWorkerRabbitConfiguration GetConfiguration(IConfiguration configuration)
+        public static AssignInventoryToWorkerRabbitConfiguration GetConfiguration(IConfiguration configuration)
         {
             if (rabbitConfiguration == null)
             {
-                rabbitConfiguration = new AAAssignInventoryToWorkerRabbitConfiguration(configuration);
+                rabbitConfiguration = new AssignInventoryToWorkerRabbitConfiguration(configuration);
             }
 
             return rabbitConfiguration;

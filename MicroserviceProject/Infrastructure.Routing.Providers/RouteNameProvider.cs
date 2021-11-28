@@ -270,6 +270,21 @@ namespace Infrastructure.Routing.Providers
         }
 
         /// <summary>
+        /// İptal edilmesi istenilen bir session ın düşürülmesi talebini iletir
+        /// </summary>
+        public string Accounting_RemoveSessionIfExistsInCache
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("Accounting")["RemoveSessionIfExistsInCache"];
+            }
+        }
+
+        /// <summary>
         /// IT envanterlerini verir
         /// </summary>
         public string IT_GetInventories
@@ -436,6 +451,21 @@ namespace Infrastructure.Routing.Providers
         }
 
         /// <summary>
+        /// İptal edilmesi istenilen bir session ın düşürülmesi talebini iletir
+        /// </summary>
+        public string AA_RemoveSessionIfExistsInCache
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("AA")["RemoveSessionIfExistsInCache"];
+            }
+        }
+
+        /// <summary>
         /// Bilgi teknolojileri departmanının bekleyen satın alımları için bilgilendirme yapar
         /// </summary>
         public string IT_InformInventoryRequest
@@ -496,6 +526,21 @@ namespace Infrastructure.Routing.Providers
         }
 
         /// <summary>
+        /// İptal edilmesi istenilen bir session ın düşürülmesi talebini iletir
+        /// </summary>
+        public string HR_RemoveSessionIfExistsInCache
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("HR")["RemoveSessionIfExistsInCache"];
+            }
+        }
+
+        /// <summary>
         /// İşlemi geri alır
         /// </summary>
         public string IT_RollbackTransaction
@@ -507,6 +552,21 @@ namespace Infrastructure.Routing.Providers
                     .GetSection("Services")
                     .GetSection("Endpoints")
                     .GetSection("IT")["RollbackTransaction"];
+            }
+        }
+
+        /// <summary>
+        /// İptal edilmesi istenilen bir session ın düşürülmesi talebini iletir
+        /// </summary>
+        public string IT_RemoveSessionIfExistsInCache
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("IT")["RemoveSessionIfExistsInCache"];
             }
         }
 
@@ -571,6 +631,21 @@ namespace Infrastructure.Routing.Providers
         }
 
         /// <summary>
+        /// İptal edilmesi istenilen bir session ın düşürülmesi talebini iletir
+        /// </summary>
+        public string Buying_RemoveSessionIfExistsInCache
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("Buying")["RemoveSessionIfExistsInCache"];
+            }
+        }
+
+        /// <summary>
         /// Finans departmanındaki karar verilen masrafları verir
         /// </summary>
         public string Finance_GetDecidedCosts
@@ -630,6 +705,21 @@ namespace Infrastructure.Routing.Providers
             }
         }
 
+        /// <summary>
+        /// İptal edilmesi istenilen bir session ın düşürülmesi talebini iletir
+        /// </summary>
+        public string Finance_RemoveSessionIfExistsInCache
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("Finance")["RemoveSessionIfExistsInCache"];
+            }
+        }
+
         public string CR_GetCustomers
         {
             get
@@ -650,6 +740,21 @@ namespace Infrastructure.Routing.Providers
                     .GetSection("Services")
                     .GetSection("Endpoints")
                     .GetSection("CR")["CreateCustomer"];
+            }
+        }
+
+        /// <summary>
+        /// İptal edilmesi istenilen bir session ın düşürülmesi talebini iletir
+        /// </summary>
+        public string CR_RemoveSessionIfExistsInCache
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("CR")["RemoveSessionIfExistsInCache"];
             }
         }
 
@@ -737,6 +842,21 @@ namespace Infrastructure.Routing.Providers
             }
         }
 
+        /// <summary>
+        /// İptal edilmesi istenilen bir session ın düşürülmesi talebini iletir
+        /// </summary>
+        public string Selling_RemoveSessionIfExistsInCache
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("Selling")["RemoveSessionIfExistsInCache"];
+            }
+        }
+
         public string Storage_GetStock
         {
             get
@@ -761,6 +881,21 @@ namespace Infrastructure.Routing.Providers
             }
         }
 
+        /// <summary>
+        /// İptal edilmesi istenilen bir session ın düşürülmesi talebini iletir
+        /// </summary>
+        public string Production_RemoveSessionIfExistsInCache
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("Production")["RemoveSessionIfExistsInCache"];
+            }
+        }
+
         public string Storage_CreateStock
         {
             get
@@ -770,6 +905,21 @@ namespace Infrastructure.Routing.Providers
                     .GetSection("Services")
                     .GetSection("Endpoints")
                     .GetSection("Storage")["CreateStock"];
+            }
+        }
+
+        /// <summary>
+        /// İptal edilmesi istenilen bir session ın düşürülmesi talebini iletir
+        /// </summary>
+        public string Storage_RemoveSessionIfExistsInCache
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Services")
+                    .GetSection("Endpoints")
+                    .GetSection("Storage")["RemoveSessionIfExistsInCache"];
             }
         }
 
@@ -829,6 +979,22 @@ namespace Infrastructure.Routing.Providers
                     .GetSection("Endpoints")
                     .GetSection("Public")
                     .GetSection("HR")["GetDepartments"];
+            }
+        }
+
+        /// <summary>
+        /// İptal edilmesi istenilen bir session ın düşürülmesi talebini iletir
+        /// </summary>
+        public string Gateway_Public_Identity_RemoveSessionIfExistsInCache
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Gateways")
+                    .GetSection("Endpoints")
+                    .GetSection("Public")
+                    .GetSection("Identity")["RemoveSessionIfExistsInCache"];
             }
         }
 

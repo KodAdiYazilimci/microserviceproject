@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.Localization.Translation.Provider\Infrastructure.Localization.Translation.Provider.csproj" />
+    <ProjectReference Include="..\Infrastructure.Security.Authentication.BasicToken\Infrastructure.Security.Authentication.BasicToken.csproj" />
+    <ProjectReference Include="..\Infrastructure.Util.DI\Infrastructure.Util.DI.csproj" />
+    <ProjectReference Include="..\Services.Communication.Http.Broker.Authorization\Services.Communication.Http.Broker.Authorization.csproj" />
+    <ProjectReference Include="..\Services.Communication.Http.Broker.Department\Services.Communication.Http.Broker.Department.csproj" />
+    <ProjectReference Include="..\Services.Communication.Mq.Rabbit.Consumer\Services.Communication.Mq.Rabbit.Consumer.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -18,6 +18,7 @@ using Newtonsoft.Json;
 
 using Services.Api.Infrastructure.Authorization.Configuration.Persistence;
 using Services.Api.Infrastructure.Authorization.DI;
+using Services.Communication.Mq.Rabbit.Publisher.Department.DI;
 using Services.Diagnostics.HealthCheck.DI;
 using Services.Logging.RequestResponse.DI;
 using Services.UnitOfWork.EntityFramework.DI;
@@ -44,6 +45,7 @@ namespace Services.Api.Infrastructure.Authorization
             services.RegisterLocalizationProviders();
             services.RegisterRequestResponseLogger();
             services.RegisterPersistence();
+            services.RegisterQueuePublishers();
             services.RegisterRepositories();
             services.RegisterSqlHealthChecking(
                 connectionStrings: new List<string>() { Configuration.GetSection("Persistence")["DataSource"] });

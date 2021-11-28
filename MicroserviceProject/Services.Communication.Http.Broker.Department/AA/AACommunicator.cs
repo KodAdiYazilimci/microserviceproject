@@ -105,6 +105,28 @@ namespace Services.Communication.Http.Broker.Department.AA
         }
 
         /// <summary>
+        /// İptal edilmesi istenilen bir session ın düşürülmesi talebini iletir
+        /// </summary>
+        /// <param name="tokenKey">Düşürülecek session a ait token</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<ServiceResultModel> RemoveSessionIfExistsInCacheAsync(string tokenKey, CancellationTokenSource cancellationTokenSource)
+        {
+            ServiceResultModel serviceResult =
+                await _serviceCommunicator.Call(
+                    serviceName: _routeNameProvider.AA_RemoveSessionIfExistsInCache,
+                    postData: null,
+                    queryParameters: new List<KeyValuePair<string, string>>()
+                    {
+                        new KeyValuePair<string, string>("tokenKey",tokenKey)
+                    },
+                    headers: null,
+                    cancellationTokenSource);
+
+            return serviceResult;
+        }
+
+        /// <summary>
         /// Çalışana idari işler envanteri ataması yapar
         /// </summary>
         /// <param name="workerModel">Çalışanın modeli</param>
@@ -142,7 +164,7 @@ namespace Services.Communication.Http.Broker.Department.AA
         /// <param name="inventoryModel">Envanter modeli</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<InventoryModel>> CreateDefaultInventoryForNewWorkerAsync(InventoryModel inventoryModel,CancellationTokenSource cancellationTokenSource)
+        public async Task<ServiceResultModel<InventoryModel>> CreateDefaultInventoryForNewWorkerAsync(InventoryModel inventoryModel, CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call<InventoryModel>(
                 serviceName: _routeNameProvider.AA_CreateDefaultInventoryForNewWorker,

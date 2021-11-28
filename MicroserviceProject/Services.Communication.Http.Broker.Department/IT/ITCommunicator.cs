@@ -166,6 +166,28 @@ namespace Services.Communication.Http.Broker.Department.IT
         }
 
         /// <summary>
+        /// İptal edilmesi istenilen bir session ın düşürülmesi talebini iletir
+        /// </summary>
+        /// <param name="tokenKey">Düşürülecek session a ait token</param>
+        /// <param name="cancellationTokenSource">İptal tokenı</param>
+        /// <returns></returns>
+        public async Task<ServiceResultModel> RemoveSessionIfExistsInCacheAsync(string tokenKey, CancellationTokenSource cancellationTokenSource)
+        {
+            ServiceResultModel serviceResult =
+                await _serviceCommunicator.Call(
+                    serviceName: _routeNameProvider.IT_RemoveSessionIfExistsInCache,
+                    postData: null,
+                    queryParameters: new List<KeyValuePair<string, string>>()
+                    {
+                        new KeyValuePair<string, string>("tokenKey",tokenKey)
+                    },
+                    headers: null,
+                    cancellationTokenSource);
+
+            return serviceResult;
+        }
+
+        /// <summary>
         /// Kaynakları serbest bırakır
         /// </summary>
         public void Dispose()

@@ -14,6 +14,8 @@ using Services.Api.Infrastructure.Authorization.Entities.EntityFramework;
 using Services.Api.Infrastructure.Authorization.Persistence.Sql.Exceptions;
 using Services.Api.Infrastructure.Authorization.Repositories;
 using Services.Communication.Http.Broker.Authorization.Models;
+using Services.Communication.Mq.Rabbit.Models.Authorization;
+using Services.Communication.Mq.Rabbit.Publisher.Authorization;
 
 using System;
 using System.Collections.Generic;
@@ -58,18 +60,22 @@ namespace Services.Api.Infrastructure.Authorization.Business.Services
         /// </summary>
         private readonly TranslationProvider _translationProvider;
 
+        private readonly InformInvalidTokenPublisher _informInvalidTokenPublisher;
+
         public SessionService(
             SessionRepository sessionRepository,
             UserRepository userRepository,
             RedisCacheDataProvider redisCacheDataProvider,
             IUnitOfWork<AuthContext> unitOfWork,
-            TranslationProvider translationProvider)
+            TranslationProvider translationProvider,
+            InformInvalidTokenPublisher informInvalidTokenPublisher)
         {
             _sessionRepository = sessionRepository;
             _userRepository = userRepository;
             _redisCacheDataProvider = redisCacheDataProvider;
             _unitOfWork = unitOfWork;
             _translationProvider = translationProvider;
+            _informInvalidTokenPublisher = informInvalidTokenPublisher;
         }
 
         /// <summary>
@@ -103,6 +109,11 @@ namespace Services.Api.Infrastructure.Authorization.Business.Services
                     foreach (Session session in oldSessions)
                     {
                         session.IsValid = false;
+
+                        _informInvalidTokenPublisher.AddToBuffer(new InvalidTokenQueueModel()
+                        {
+                            TokenKey = session.Token
+                        });
                     }
 
                     Session newSession = new Session()
@@ -123,6 +134,8 @@ namespace Services.Api.Infrastructure.Authorization.Business.Services
                     _unitOfWork.Context.Sessions.Add(newSession);
 
                     await _unitOfWork.SaveAsync(cancellationTokenSource);
+
+                    await _informInvalidTokenPublisher.PublishBufferAsync(cancellationTokenSource);
 
                     return new TokenModel()
                     {

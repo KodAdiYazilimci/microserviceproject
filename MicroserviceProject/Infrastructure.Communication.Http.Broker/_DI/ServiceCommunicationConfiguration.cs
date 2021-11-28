@@ -21,9 +21,9 @@ namespace Infrastructure.Communication.Http.Broker.DI
         public static IServiceCollection RegisterHttpServiceCommunicator(this IServiceCollection services)
         {
             services.RegisterCredentialProvider();
-            services.RegisterInMemoryCaching();
             services.RegisterHttpRouteProvider();
             services.RegisterHttpRouteRepositories();
+            services.RegisterInMemoryCaching();
 
             services.AddSingleton<ServiceCommunicator>();
 

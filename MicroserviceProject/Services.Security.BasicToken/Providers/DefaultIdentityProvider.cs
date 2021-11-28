@@ -28,7 +28,7 @@ namespace Services.Security.BasicToken.Providers
         /// <summary>
         /// Önbellekte tutulacak token bazlı kullanıcı oturumları için önbellek anahtarı
         /// </summary>
-        private const string CACHEDTOKENBASEDSESSIONS = "CACHED_TOKENBASED_SESSIONS";
+        public const string CACHEDTOKENBASEDSESSIONS = "CACHED_TOKENBASED_SESSIONS";
 
         /// <summary>
         /// Kimlik denetimi servisi iletişimcisi

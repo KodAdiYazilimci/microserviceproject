@@ -1,4 +1,7 @@
-﻿using Services.Communication.Mq.Rabbit.Configuration.Department.AA;
+﻿using Microsoft.Extensions.DependencyInjection;
+
+using Services.Communication.Mq.Rabbit.Configuration.Authorization;
+using Services.Communication.Mq.Rabbit.Configuration.Department.AA;
 using Services.Communication.Mq.Rabbit.Configuration.Department.Accounting;
 using Services.Communication.Mq.Rabbit.Configuration.Department.Buying;
 using Services.Communication.Mq.Rabbit.Configuration.Department.Finance;
@@ -6,8 +9,6 @@ using Services.Communication.Mq.Rabbit.Configuration.Department.IT;
 using Services.Communication.Mq.Rabbit.Configuration.Department.Production;
 using Services.Communication.Mq.Rabbit.Configuration.Department.Selling;
 using Services.Communication.Mq.Rabbit.Configuration.Department.Storage;
-
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Services.Communication.Mq.Rabbit.Configuration.DI
 {
@@ -23,16 +24,18 @@ namespace Services.Communication.Mq.Rabbit.Configuration.DI
         /// <returns></returns>
         public static IServiceCollection RegisterQueueConfigurations(this IServiceCollection services)
         {
-            services.AddSingleton<AAAssignInventoryToWorkerRabbitConfiguration>();
-            services.AddSingleton<AAInformInventoryRequestRabbitConfiguration>();
+            services.AddSingleton<InformInvalidTokenRabbitConfiguration>();
+
+            services.AddSingleton<Department.AA.AssignInventoryToWorkerRabbitConfiguration>();
+            services.AddSingleton<Department.AA.InformInventoryRequestRabbitConfiguration>();
             services.AddSingleton<CreateBankAccountRabbitConfiguration>();
             services.AddSingleton<CreateInventoryRequestRabbitConfiguration>();
             services.AddSingleton<CreateProductRequestRabbitConfiguration>();
             services.AddSingleton<DescendProductStockRabbitConfiguration>();
             services.AddSingleton<IncreaseProductStockRabbitConfiguration>();
             services.AddSingleton<InventoryRequestRabbitConfiguration>();
-            services.AddSingleton<ITAssignInventoryToWorkerRabbitConfiguration>();
-            services.AddSingleton<ITInformInventoryRequestRabbitConfiguration>();
+            services.AddSingleton<Department.IT.AssignInventoryToWorkerRabbitConfiguration>();
+            services.AddSingleton<Department.IT.InformInventoryRequestRabbitConfiguration>();
             services.AddSingleton<NotifyCostApprovementRabbitConfiguration>();
             services.AddSingleton<NotifyProductionRequestApprovementRabbitConfiguration>();
             services.AddSingleton<ProductionProduceRabbitConfiguration>();

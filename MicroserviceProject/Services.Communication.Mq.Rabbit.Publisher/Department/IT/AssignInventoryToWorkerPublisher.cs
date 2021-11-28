@@ -6,9 +6,9 @@ using System;
 namespace Services.Communication.Mq.Rabbit.Publisher.Department.IT
 {
     /// <summary>
-    /// Bilgi teknolojileri departmanına satın alımla ilgili olumlu veya olumsuz dönüş verisini rabbit kuyruğuna ekler
+    /// Çalışana envanter ekleyecek rabbit kuyruğuna yeni bir kayıt ekler
     /// </summary>
-    public class ITInformInventoryRequestPublisher : BasePublisher<InventoryRequestQueueModel>, IDisposable
+    public class AssignInventoryToWorkerPublisher : BasePublisher<WorkerQueueModel>, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -16,11 +16,11 @@ namespace Services.Communication.Mq.Rabbit.Publisher.Department.IT
         private bool disposed = false;
 
         /// <summary>
-        /// Bilgi teknolojileri departmanına satın alımla ilgili olumlu veya olumsuz dönüş verisini rabbit kuyruğuna ekler
+        /// Çalışana envanter ekleyecek rabbit kuyruğuna yeni bir kayıt ekler
         /// </summary>
         /// <param name="rabbitConfiguration">Kuyruk ayarlarını verece configuration nesnesi</param>
-        public ITInformInventoryRequestPublisher(
-            ITInformInventoryRequestRabbitConfiguration rabbitConfiguration)
+        public AssignInventoryToWorkerPublisher(
+            AssignInventoryToWorkerRabbitConfiguration rabbitConfiguration)
             : base(rabbitConfiguration)
         {
 

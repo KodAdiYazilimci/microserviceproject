@@ -128,12 +128,12 @@ namespace Services.Api.Business.Departments.HR.Services
         /// İdari işler tarafından yeni çalışana varsayılan envanter ataması yapacak kuyruğa
         /// kayıt ekleyecek nesne
         /// </summary>
-        private readonly AAAssignInventoryToWorkerPublisher _AAassignInventoryToWorkerPublisher;
+        private readonly Communication.Mq.Rabbit.Publisher.Department.AA.AssignInventoryToWorkerPublisher _AAassignInventoryToWorkerPublisher;
 
         /// <summary>
         /// IT tarafından yeni çalışana varsayılan envanter ataması yapacak kuyruğa kayıt ekleyecek nesne
         /// </summary>
-        private readonly ITAssignInventoryToWorkerPublisher _ITAssignInventoryToWorkerPublisher;
+        private readonly Communication.Mq.Rabbit.Publisher.Department.IT.AssignInventoryToWorkerPublisher _ITAssignInventoryToWorkerPublisher;
 
         /// <summary>
         /// Muhasebe tarafından yeni çalışana maaş hesabı açacak kuyruğa kayıt ekleyecek nesne
@@ -166,8 +166,8 @@ namespace Services.Api.Business.Departments.HR.Services
             AACommunicator aACommunicator,
             AccountingCommunicator accountingCommunicator,
             ITCommunicator itCommunicator,
-            AAAssignInventoryToWorkerPublisher AAassignInventoryToWorkerPublisher,
-            ITAssignInventoryToWorkerPublisher ITassignInventoryToWorkerPublisher,
+            Communication.Mq.Rabbit.Publisher.Department.AA.AssignInventoryToWorkerPublisher AAassignInventoryToWorkerPublisher,
+            Communication.Mq.Rabbit.Publisher.Department.IT.AssignInventoryToWorkerPublisher ITassignInventoryToWorkerPublisher,
             CreateBankAccountPublisher createBankAccountPublisher,
             IUnitOfWork unitOfWork,
             TranslationProvider translationProvider,

@@ -1,16 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
 using Services.Communication.Http.Broker.Department.DI;
-using Services.Communication.Mq.Rabbit.Configuration.Department.AA;
-using Services.Communication.Mq.Rabbit.Configuration.Department.Accounting;
-using Services.Communication.Mq.Rabbit.Configuration.Department.Buying;
-using Services.Communication.Mq.Rabbit.Configuration.Department.Finance;
-using Services.Communication.Mq.Rabbit.Configuration.Department.IT;
-using Services.Communication.Mq.Rabbit.Configuration.Department.Production;
-using Services.Communication.Mq.Rabbit.Configuration.Department.Selling;
-using Services.Communication.Mq.Rabbit.Configuration.Department.Storage;
 using Services.Communication.Mq.Rabbit.Configuration.DI;
-using Services.Communication.Mq.Rabbit.Consumer.Department.AA;
+using Services.Communication.Mq.Rabbit.Consumer.Authorization;
 using Services.Communication.Mq.Rabbit.Consumer.Department.Accounting;
 using Services.Communication.Mq.Rabbit.Consumer.Department.Buying;
 using Services.Communication.Mq.Rabbit.Consumer.Department.Finance;
@@ -33,44 +25,22 @@ namespace Services.Communication.Mq.Rabbit.Consumer.DI
         public static IServiceCollection RegisterQueueConsumers(this IServiceCollection services)
         {
             services.RegisterHttpDepartmentCommunicators();
-            services.RegisterQueueConfigurations();            
+            services.RegisterQueueConfigurations();
 
-            services.AddSingleton<AAAssignInventoryToWorkerRabbitConfiguration>();
-            services.AddSingleton<AssignInventoryToWorkerConsumer>();
+            services.AddSingleton<InformInvalidTokenConsumer>();
 
-            services.AddSingleton<AAInformInventoryRequestRabbitConfiguration>();
-            services.AddSingleton<InformInventoryRequestConsumer>();
-
-            services.AddSingleton<CreateBankAccountRabbitConfiguration>();
+            services.AddSingleton<Department.AA.AssignInventoryToWorkerConsumer>();
+            services.AddSingleton<Department.AA.InformInventoryRequestConsumer>();
             services.AddSingleton<CreateBankAccountConsumer>();
-
-            services.AddSingleton<CreateInventoryRequestRabbitConfiguration>();
             services.AddSingleton<CreateInventoryRequestConsumer>();
-
-            services.AddSingleton<NotifyCostApprovementRabbitConfiguration>();
-            services.AddSingleton<NotifyCostApprovementConsumer>();
-
-            services.AddSingleton<InventoryRequestRabbitConfiguration>();
-            services.AddSingleton<InventoryRequestConsumer>();
-
-            services.AddSingleton<ProductionRequestRabbitConfiguration>();
-            services.AddSingleton<ProductionRequestConsumer>();
-
-            services.AddSingleton<ITAssignInventoryToWorkerRabbitConfiguration>();
-            services.AddSingleton<AssignInventoryToWorkerConsumer>();
-
-            services.AddSingleton<ITInformInventoryRequestRabbitConfiguration>();
-            services.AddSingleton<InformInventoryRequestConsumer>();
-
-            services.AddSingleton<ProductionProduceRabbitConfiguration>();
-            services.AddSingleton<ProduceConsumer>();
-
-            services.AddSingleton<NotifyProductionRequestApprovementRabbitConfiguration>();
-            services.AddSingleton<NotifyProductionRequestApprovementConsumer>();
-
-
-            services.AddSingleton<DescendProductStockRabbitConfiguration>();
             services.AddSingleton<DescendProductStockConsumer>();
+            services.AddSingleton<InventoryRequestConsumer>();
+            services.AddSingleton<NotifyCostApprovementConsumer>();
+            services.AddSingleton<NotifyProductionRequestApprovementConsumer>();
+            services.AddSingleton<ProductionRequestConsumer>();
+            services.AddSingleton<Department.IT.InformInventoryRequestConsumer>();
+            services.AddSingleton<Department.IT.AssignInventoryToWorkerConsumer>();
+            services.AddSingleton<ProduceConsumer>();
 
             return services;
         }
