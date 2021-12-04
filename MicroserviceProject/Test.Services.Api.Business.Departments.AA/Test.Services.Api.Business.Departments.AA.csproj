@@ -25,7 +25,6 @@
     <ProjectReference Include="..\Infrastructure.Security.Authentication.Mock\Infrastructure.Security.Authentication.Mock.csproj" />
     <ProjectReference Include="..\Infrastructure.Transaction.UnitOfWork.Sql.Mock\Infrastructure.Transaction.UnitOfWork.Sql.Mock.csproj" />
     <ProjectReference Include="..\Services.Api.Business.Departments.AA\Services.Api.Business.Departments.AA.csproj" />
-    <ProjectReference Include="..\Services.Communication.Http.Broker.Localization.Mock\Services.Communication.Http.Broker.Localization.Mock.csproj" />
     <ProjectReference Include="..\Services.Communication.Mq.Rabbit.Publisher.Mock\Services.Communication.Mq.Rabbit.Publisher.Mock.csproj" />
   </ItemGroup>
 

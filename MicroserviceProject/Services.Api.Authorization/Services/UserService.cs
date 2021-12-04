@@ -3,6 +3,7 @@ using Infrastructure.Caching.Redis;
 using Infrastructure.Communication.Http.Wrapper;
 using Infrastructure.Communication.Http.Wrapper.Disposing;
 using Infrastructure.Cryptography.Ciphers;
+using Infrastructure.Localization.Translation.Provider;
 using Infrastructure.Transaction.UnitOfWork.EntityFramework;
 
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +13,6 @@ using Services.Api.Infrastructure.Authorization.Entities.EntityFramework;
 using Services.Api.Infrastructure.Authorization.Persistence.Sql.Exceptions;
 using Services.Api.Infrastructure.Authorization.Repositories;
 using Services.Communication.Http.Broker.Authorization.Models;
-using Services.Communication.Http.Broker.Localization;
 
 using System;
 using System.Collections.Generic;
@@ -53,20 +53,23 @@ namespace Services.Api.Infrastructure.Authorization.Business.Services
         private readonly SessionRepository _sessionRepository;
         private readonly UserRepository _userRepository;
 
-        private readonly LocalizationCommunicator _localizationCommunicator;
+        /// <summary>
+        /// Dil çeviri sağlayıcısı sınıf
+        /// </summary>
+        private readonly TranslationProvider _translationProvider;
 
         public UserService(
             SessionRepository sessionRepository,
             UserRepository userRepository,
             RedisCacheDataProvider redisCacheDataProvider,
-            IUnitOfWork<AuthContext> unitOfWork, 
-            LocalizationCommunicator localizationCommunicator)
+            IUnitOfWork<AuthContext> unitOfWork,
+            TranslationProvider translationProvider)
         {
             _sessionRepository = sessionRepository;
             _userRepository = userRepository;
             _redisCacheDataProvider = redisCacheDataProvider;
             _unitOfWork = unitOfWork;
-            _localizationCommunicator = localizationCommunicator;
+            _translationProvider = translationProvider;
         }
 
         /// <summary>
@@ -169,7 +172,7 @@ namespace Services.Api.Infrastructure.Authorization.Business.Services
             await _sessionRepository.DisposeAsync();
             await _userRepository.DisposeAsync();
             await _unitOfWork.DisposeAsync();
-            _localizationCommunicator.Dispose();
+            _translationProvider.Dispose();
         }
 
         /// <summary>

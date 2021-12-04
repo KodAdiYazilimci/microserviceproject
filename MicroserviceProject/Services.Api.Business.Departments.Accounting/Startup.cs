@@ -1,6 +1,6 @@
-using Infrastructure.Caching.Redis.DI;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Diagnostics.HealthCheck.Util;
+using Infrastructure.Localization.Translation.Provider.DI;
 using Infrastructure.Util.DI;
 
 using Microsoft.AspNetCore.Builder;
@@ -17,7 +17,6 @@ using Newtonsoft.Json;
 using Services.Api.Business.Departments.Accounting.DI;
 using Services.Api.Business.Departments.HR.DI;
 using Services.Communication.Http.Broker.Department.DI;
-using Services.Communication.Http.Broker.Localization.DI;
 using Services.Communication.Mq.Rabbit.Publisher.Department.DI;
 using Services.Diagnostics.HealthCheck.DI;
 using Services.Logging.RequestResponse.DI;
@@ -45,11 +44,11 @@ namespace Services.Api.Business.Departments.Accounting
 
             services.RegisterBusinessServices();
             services.RegisterMappings();
-            services.RegisterRedisCaching();
             services.RegisterRepositories();
+
             services.RegisterBasicTokenAuthentication();
             services.RegisterHttpDepartmentCommunicators();
-            services.RegisterHttpLocalizationCommunicators();
+            services.RegisterLocalizationProviders();
             services.RegisterRequestResponseLogger();
             services.RegisterQueuePublishers();
             services.RegisterSqlHealthChecking(

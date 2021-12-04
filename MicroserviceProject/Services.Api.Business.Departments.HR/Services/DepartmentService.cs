@@ -1,16 +1,14 @@
 ﻿using AutoMapper;
 
 using Infrastructure.Caching.Redis;
-using Infrastructure.Communication.Http.Models;
 using Infrastructure.Communication.Http.Wrapper;
+using Infrastructure.Localization.Translation.Provider;
 using Infrastructure.Transaction.Recovery;
 using Infrastructure.Transaction.UnitOfWork.Sql;
 
 using Services.Api.Business.Departments.HR.Entities.Sql;
 using Services.Api.Business.Departments.HR.Repositories.Sql;
 using Services.Communication.Http.Broker.Department.HR.Models;
-using Services.Communication.Http.Broker.Localization;
-using Services.Communication.Http.Broker.Localization.Models;
 
 using System;
 using System.Collections.Generic;
@@ -75,7 +73,7 @@ namespace Services.Api.Business.Departments.HR.Services
         /// </summary>
         private readonly IUnitOfWork _unitOfWork;
 
-        private readonly LocalizationCommunicator _localizationCommunicator;
+        private readonly TranslationProvider _translationProvider;
 
         /// <summary>
         /// Departman işlemleri iş mantığı sınıfı
@@ -87,21 +85,21 @@ namespace Services.Api.Business.Departments.HR.Services
         public DepartmentService(
             IMapper mapper,
             IUnitOfWork unitOfWork,
+            TranslationProvider translationProvider,
             RedisCacheDataProvider redisCacheDataProvider,
             TransactionRepository transactionRepository,
             TransactionItemRepository transactionItemRepository,
-            DepartmentRepository departmentRepository, 
-            LocalizationCommunicator localizationCommunicator)
+            DepartmentRepository departmentRepository)
         {
             _mapper = mapper;
             _redisCacheDataProvider = redisCacheDataProvider;
+            _translationProvider = translationProvider;
 
             _transactionRepository = transactionRepository;
             _transactionItemRepository = transactionItemRepository;
 
             _departmentRepository = departmentRepository;
             _unitOfWork = unitOfWork;
-            _localizationCommunicator = localizationCommunicator;
         }
 
         /// <summary>
@@ -235,19 +233,8 @@ namespace Services.Api.Business.Departments.HR.Services
                             await _departmentRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationTokenSource);
                         }
                         else
-                        {
-                            ServiceResultModel<TranslationModel> translationServiceResult =
-                                await _localizationCommunicator.TranslateAsync("Tanimsiz.Geri.Alma", Region, null, cancellationTokenSource: cancellationTokenSource);
-
-                            if (translationServiceResult.IsSuccess)
-                            {
-                                throw new Exception(translationServiceResult.Data.Text);
-                            }
-                            else
-                            {
-                                throw new Exception(translationServiceResult.ErrorModel.Description);
-                            }
-                        }
+                            throw new Exception(
+                                await _translationProvider.TranslateAsync("Tanimsiz.Geri.Alma", Region, cancellationToken: cancellationTokenSource.Token));
                         break;
                     default:
                         break;
@@ -267,7 +254,7 @@ namespace Services.Api.Business.Departments.HR.Services
             _departmentRepository.Dispose();
             _transactionItemRepository.Dispose();
             _transactionRepository.Dispose();
-            _localizationCommunicator.Dispose();
+            _translationProvider.Dispose();
             _unitOfWork.Dispose();
         }
     }

@@ -243,13 +243,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Transaction.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Communication.WebSockets", "Infrastructure.Communication.WebSockets\Infrastructure.Communication.WebSockets.csproj", "{5C126CBA-0828-43F9-8E61-57915355C7D8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.MQ.Authorization", "Services.MQ.Authorization\Services.MQ.Authorization.csproj", "{9A152489-D99B-4101-B0B9-78396C9C9642}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Api.Localization", "Services.Api.Localization\Services.Api.Localization.csproj", "{1CA70A2D-890D-4DE0-B40A-63D1651FF612}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Http.Broker.Localization", "Services.Communication.Http.Broker.Localization\Services.Communication.Http.Broker.Localization.csproj", "{DE6D30C8-A6F5-4C7D-AD2B-A344D968C085}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Http.Broker.Localization.Mock", "Services.Communication.Http.Broker.Localization.Mock\Services.Communication.Http.Broker.Localization.Mock.csproj", "{EA71FFDE-2ACE-4DDD-AFB2-49CB84123B9C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.MQ.Authorization", "Services.MQ.Authorization\Services.MQ.Authorization.csproj", "{9A152489-D99B-4101-B0B9-78396C9C9642}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -645,18 +639,6 @@ Global
 		{9A152489-D99B-4101-B0B9-78396C9C9642}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A152489-D99B-4101-B0B9-78396C9C9642}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A152489-D99B-4101-B0B9-78396C9C9642}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1CA70A2D-890D-4DE0-B40A-63D1651FF612}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1CA70A2D-890D-4DE0-B40A-63D1651FF612}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1CA70A2D-890D-4DE0-B40A-63D1651FF612}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1CA70A2D-890D-4DE0-B40A-63D1651FF612}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DE6D30C8-A6F5-4C7D-AD2B-A344D968C085}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DE6D30C8-A6F5-4C7D-AD2B-A344D968C085}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DE6D30C8-A6F5-4C7D-AD2B-A344D968C085}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DE6D30C8-A6F5-4C7D-AD2B-A344D968C085}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EA71FFDE-2ACE-4DDD-AFB2-49CB84123B9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EA71FFDE-2ACE-4DDD-AFB2-49CB84123B9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EA71FFDE-2ACE-4DDD-AFB2-49CB84123B9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EA71FFDE-2ACE-4DDD-AFB2-49CB84123B9C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -772,9 +754,6 @@ Global
 		{516F8CAA-C075-4248-9CF8-ACD7AECCB609} = {E47E6E2E-1D2F-4FE0-8B97-4BF397015454}
 		{5C126CBA-0828-43F9-8E61-57915355C7D8} = {0785BF07-F570-4362-BF9C-87B069DD06D7}
 		{9A152489-D99B-4101-B0B9-78396C9C9642} = {001D6284-AEF9-4902-9985-58CC694EFE61}
-		{1CA70A2D-890D-4DE0-B40A-63D1651FF612} = {1B7B3E01-E070-44FD-9E87-9B6072018B09}
-		{DE6D30C8-A6F5-4C7D-AD2B-A344D968C085} = {2EE70AFD-E3E7-49A0-9A36-5C36844C0EA0}
-		{EA71FFDE-2ACE-4DDD-AFB2-49CB84123B9C} = {2EE70AFD-E3E7-49A0-9A36-5C36844C0EA0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5FD68A04-D16D-49EC-9D04-25E6B952DA89}

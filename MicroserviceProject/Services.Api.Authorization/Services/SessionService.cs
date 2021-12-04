@@ -3,6 +3,7 @@ using Infrastructure.Caching.Redis;
 using Infrastructure.Communication.Http.Wrapper;
 using Infrastructure.Communication.Http.Wrapper.Disposing;
 using Infrastructure.Cryptography.Ciphers;
+using Infrastructure.Localization.Translation.Provider;
 using Infrastructure.Transaction.UnitOfWork.EntityFramework;
 
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +14,6 @@ using Services.Api.Infrastructure.Authorization.Entities.EntityFramework;
 using Services.Api.Infrastructure.Authorization.Persistence.Sql.Exceptions;
 using Services.Api.Infrastructure.Authorization.Repositories;
 using Services.Communication.Http.Broker.Authorization.Models;
-using Services.Communication.Http.Broker.Localization;
 using Services.Communication.Mq.Rabbit.Models.Authorization;
 using Services.Communication.Mq.Rabbit.Publisher.Authorization;
 
@@ -55,24 +55,27 @@ namespace Services.Api.Infrastructure.Authorization.Business.Services
         private readonly SessionRepository _sessionRepository;
         private readonly UserRepository _userRepository;
 
-        private readonly InformInvalidTokenPublisher _informInvalidTokenPublisher;
+        /// <summary>
+        /// Dil çeviri sağlayıcısı sınıf
+        /// </summary>
+        private readonly TranslationProvider _translationProvider;
 
-        private readonly LocalizationCommunicator _localizationCommunicator;
+        private readonly InformInvalidTokenPublisher _informInvalidTokenPublisher;
 
         public SessionService(
             SessionRepository sessionRepository,
             UserRepository userRepository,
             RedisCacheDataProvider redisCacheDataProvider,
             IUnitOfWork<AuthContext> unitOfWork,
-            InformInvalidTokenPublisher informInvalidTokenPublisher,
-            LocalizationCommunicator localizationCommunicator)
+            TranslationProvider translationProvider,
+            InformInvalidTokenPublisher informInvalidTokenPublisher)
         {
             _sessionRepository = sessionRepository;
             _userRepository = userRepository;
             _redisCacheDataProvider = redisCacheDataProvider;
             _unitOfWork = unitOfWork;
+            _translationProvider = translationProvider;
             _informInvalidTokenPublisher = informInvalidTokenPublisher;
-            _localizationCommunicator = localizationCommunicator;
         }
 
         /// <summary>
@@ -224,7 +227,7 @@ namespace Services.Api.Infrastructure.Authorization.Business.Services
         public async Task DisposeInjectionsAsync()
         {
             _redisCacheDataProvider.Dispose();
-            _localizationCommunicator.Dispose();
+            _translationProvider.Dispose();
             await _userRepository.DisposeAsync();
             await _sessionRepository.DisposeAsync();
             await _unitOfWork.DisposeAsync();

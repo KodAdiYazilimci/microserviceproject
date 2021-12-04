@@ -1,16 +1,14 @@
 ﻿using AutoMapper;
 
 using Infrastructure.Caching.Redis;
-using Infrastructure.Communication.Http.Models;
 using Infrastructure.Communication.Http.Wrapper;
+using Infrastructure.Localization.Translation.Provider;
 using Infrastructure.Transaction.Recovery;
 using Infrastructure.Transaction.UnitOfWork.Sql;
 
 using Services.Api.Business.Departments.Accounting.Entities.Sql;
 using Services.Api.Business.Departments.Accounting.Repositories.Sql;
 using Services.Communication.Http.Broker.Department.Accounting.Models;
-using Services.Communication.Http.Broker.Localization;
-using Services.Communication.Http.Broker.Localization.Models;
 
 using System;
 using System.Collections.Generic;
@@ -71,6 +69,11 @@ namespace Services.Api.Business.Departments.Accounting.Services
         private readonly IUnitOfWork _unitOfWork;
 
         /// <summary>
+        /// Dil çeviri sağlayıcısı sınıf
+        /// </summary>
+        private readonly TranslationProvider _translationProvider;
+
+        /// <summary>
         /// Banka hesapları repository sınıfı
         /// </summary>
         private readonly BankAccountRepository _bankAccountRepository;
@@ -85,8 +88,6 @@ namespace Services.Api.Business.Departments.Accounting.Services
         /// </summary>
         private readonly SalaryPaymentRepository _salaryPaymentRepository;
 
-        private readonly LocalizationCommunicator _localizationCommunicator;
-
         /// <summary>
         /// Banka hesapları iş mantığı sınıfı
         /// </summary>
@@ -100,17 +101,18 @@ namespace Services.Api.Business.Departments.Accounting.Services
         public BankService(
             IMapper mapper,
             IUnitOfWork unitOfWork,
+            TranslationProvider translationProvider,
             RedisCacheDataProvider redisCacheDataProvider,
             TransactionRepository transactionRepository,
             TransactionItemRepository transactionItemRepository,
             BankAccountRepository bankAccountRepository,
             CurrencyRepository currencyRepository,
-            SalaryPaymentRepository salaryPaymentRepository, 
-            LocalizationCommunicator localizationCommunicator)
+            SalaryPaymentRepository salaryPaymentRepository)
         {
             _mapper = mapper;
             _redisCacheDataProvider = redisCacheDataProvider;
             _unitOfWork = unitOfWork;
+            _translationProvider = translationProvider;
 
             _transactionRepository = transactionRepository;
             _transactionItemRepository = transactionItemRepository;
@@ -118,7 +120,6 @@ namespace Services.Api.Business.Departments.Accounting.Services
             _bankAccountRepository = bankAccountRepository;
             _currencyRepository = currencyRepository;
             _salaryPaymentRepository = salaryPaymentRepository;
-            _localizationCommunicator = localizationCommunicator;
         }
 
         /// <summary>
@@ -356,19 +357,8 @@ namespace Services.Api.Business.Departments.Accounting.Services
                             await _bankAccountRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationTokenSource);
                         }
                         else
-                        {
-                            ServiceResultModel<TranslationModel> translationServiceResult =
-                                await _localizationCommunicator.TranslateAsync("Tanimsiz.Geri.Alma", Region, null, cancellationTokenSource: cancellationTokenSource);
-
-                            if (translationServiceResult.IsSuccess)
-                            {
-                                throw new Exception(translationServiceResult.Data.Text);
-                            }
-                            else
-                            {
-                                throw new Exception(translationServiceResult.ErrorModel.Description);
-                            }
-                        }
+                            throw new Exception(
+                                await _translationProvider.TranslateAsync("Tanimsiz.Geri.Alma", Region, cancellationToken: cancellationTokenSource.Token));
                         break;
                     case CurrencyRepository.TABLE_NAME:
                         if (rollbackItem.RollbackType == RollbackType.Delete)
@@ -384,19 +374,8 @@ namespace Services.Api.Business.Departments.Accounting.Services
                             await _currencyRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationTokenSource);
                         }
                         else
-                        {
-                            ServiceResultModel<TranslationModel> translationServiceResult =
-                                await _localizationCommunicator.TranslateAsync("Tanimsiz.Geri.Alma", Region, null, cancellationTokenSource: cancellationTokenSource);
-
-                            if (translationServiceResult.IsSuccess)
-                            {
-                                throw new Exception(translationServiceResult.Data.Text);
-                            }
-                            else
-                            {
-                                throw new Exception(translationServiceResult.ErrorModel.Description);
-                            }
-                        }
+                            throw new Exception(
+                                await _translationProvider.TranslateAsync("Tanimsiz.Geri.Alma", Region, cancellationToken: cancellationTokenSource.Token));
                         break;
                     case SalaryPaymentRepository.TABLE_NAME:
                         if (rollbackItem.RollbackType == RollbackType.Delete)
@@ -412,19 +391,8 @@ namespace Services.Api.Business.Departments.Accounting.Services
                             await _salaryPaymentRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationTokenSource);
                         }
                         else
-                        {
-                            ServiceResultModel<TranslationModel> translationServiceResult =
-                                await _localizationCommunicator.TranslateAsync("Tanimsiz.Geri.Alma", Region, null, cancellationTokenSource: cancellationTokenSource);
-
-                            if (translationServiceResult.IsSuccess)
-                            {
-                                throw new Exception(translationServiceResult.Data.Text);
-                            }
-                            else
-                            {
-                                throw new Exception(translationServiceResult.ErrorModel.Description);
-                            }
-                        }
+                            throw new Exception(
+                                await _translationProvider.TranslateAsync("Tanimsiz.Geri.Alma", Region, cancellationToken: cancellationTokenSource.Token));
                         break;
                     default:
                         break;
@@ -446,7 +414,7 @@ namespace Services.Api.Business.Departments.Accounting.Services
             _salaryPaymentRepository.Dispose();
             _transactionItemRepository.Dispose();
             _transactionRepository.Dispose();
-            _localizationCommunicator.Dispose();
+            _translationProvider.Dispose();
             _unitOfWork.Dispose();
         }
     }

@@ -54,10 +54,10 @@ namespace Infrastructure.Security.Authentication.BasicToken.Handlers
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            AuthenticatedUser authenticatedUser = await _identityManager.GetUserAsync(cancellationTokenSource);
-
-            if (authenticatedUser != null)
+            if (await _identityManager.GetUserAsync(cancellationTokenSource) != null)
             {
+                AuthenticatedUser authenticatedUser = await _identityManager.GetUserAsync(cancellationTokenSource);
+
                 ClaimsIdentity claimsIdentity = new ClaimsIdentity(
                     claims: authenticatedUser.Claims.Select(x => new Claim(x.Name, x.Value)).ToList(),
                      authenticationType: Default.DefaultScheme);

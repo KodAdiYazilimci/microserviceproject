@@ -1,4 +1,5 @@
 using Infrastructure.Communication.Http.Models;
+using Infrastructure.Localization.Translation.Provider.DI;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -11,7 +12,6 @@ using Newtonsoft.Json;
 
 using Services.Communication.Http.Broker.Authorization.DI;
 using Services.Communication.Http.Broker.Department.DI;
-using Services.Communication.Http.Broker.Localization.DI;
 using Services.Communication.Mq.Rabbit.Consumer.DI;
 
 using System.Net;
@@ -27,7 +27,7 @@ namespace Services.MQ.IT
             services.RegisterHttpAuthorizationCommunicators();
             services.RegisterQueueConsumers();
             services.RegisterHttpDepartmentCommunicators();
-            services.RegisterHttpLocalizationCommunicators();
+            services.RegisterLocalizationProviders();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
