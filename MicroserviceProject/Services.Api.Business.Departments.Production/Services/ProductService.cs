@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 
 using Infrastructure.Caching.Redis;
+using Infrastructure.Communication.Http.Models;
 using Infrastructure.Communication.Http.Wrapper;
 using Infrastructure.Communication.Http.Wrapper.Disposing;
-using Infrastructure.Localization.Translation.Provider;
 using Infrastructure.Transaction.Recovery;
 using Infrastructure.Transaction.UnitOfWork.EntityFramework;
 
@@ -11,6 +11,8 @@ using Services.Api.Business.Departments.Production.Configuration.Persistence;
 using Services.Api.Business.Departments.Production.Entities.EntityFramework;
 using Services.Api.Business.Departments.Production.Repositories.EntityFramework;
 using Services.Communication.Http.Broker.Department.Production.Models;
+using Services.Communication.Http.Broker.Localization;
+using Services.Communication.Http.Broker.Localization.Models;
 
 using System;
 using System.Collections.Generic;
@@ -75,10 +77,7 @@ namespace Services.Api.Business.Departments.Production.Services
         /// </summary>
         private readonly ProductRepository _productRepository;
 
-        /// <summary>
-        /// Dil çeviri sağlayıcısı sınıf
-        /// </summary>
-        private readonly TranslationProvider _translationProvider;
+        private readonly LocalizationCommunicator _localizationCommunicator;
 
         /// <summary>
         /// Ürün işlemleri iş mantığı sınıfı
@@ -93,20 +92,20 @@ namespace Services.Api.Business.Departments.Production.Services
         public ProductService(
             IMapper mapper,
             IUnitOfWork<ProductionContext> unitOfWork,
-            TranslationProvider translationProvider,
             RedisCacheDataProvider redisCacheDataProvider,
             TransactionRepository transactionRepository,
             TransactionItemRepository transactionItemRepository,
-            ProductRepository productRepository)
+            ProductRepository productRepository, 
+            LocalizationCommunicator localizationCommunicator)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
-            _translationProvider = translationProvider;
             _redisCacheDataProvider = redisCacheDataProvider;
 
             _transactionRepository = transactionRepository;
             _transactionItemRepository = transactionItemRepository;
             _productRepository = productRepository;
+            _localizationCommunicator = localizationCommunicator;
         }
 
         /// <summary>
@@ -157,8 +156,19 @@ namespace Services.Api.Business.Departments.Production.Services
                             await _productRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationTokenSource);
                         }
                         else
-                            throw new Exception(
-                                await _translationProvider.TranslateAsync("Tanimsiz.Geri.Alma", Region, cancellationToken: cancellationTokenSource.Token));
+                        {
+                            ServiceResultModel<TranslationModel> translationServiceResult =
+                                await _localizationCommunicator.TranslateAsync("Tanimsiz.Geri.Alma", Region, null, cancellationTokenSource: cancellationTokenSource);
+
+                            if (translationServiceResult.IsSuccess)
+                            {
+                                throw new Exception(translationServiceResult.Data.Text);
+                            }
+                            else
+                            {
+                                throw new Exception(translationServiceResult.ErrorModel.Description);
+                            }
+                        }
                         break;
                     default:
                         break;
@@ -177,7 +187,7 @@ namespace Services.Api.Business.Departments.Production.Services
             await _transactionItemRepository.DisposeAsync();
             await _transactionRepository.DisposeAsync();
             await _unitOfWork.DisposeAsync();
-            _translationProvider.Dispose();
+            _localizationCommunicator.Dispose();
         }
 
         /// <summary>

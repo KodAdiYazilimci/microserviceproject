@@ -1,14 +1,16 @@
 ﻿using AutoMapper;
 
 using Infrastructure.Caching.Redis;
+using Infrastructure.Communication.Http.Models;
 using Infrastructure.Communication.Http.Wrapper;
-using Infrastructure.Localization.Translation.Provider;
 using Infrastructure.Transaction.Recovery;
 using Infrastructure.Transaction.UnitOfWork.Sql;
 
 using Services.Business.Departments.Finance.Entities.Sql;
 using Services.Business.Departments.Finance.Repositories.Sql;
 using Services.Communication.Http.Broker.Department.Finance.Models;
+using Services.Communication.Http.Broker.Localization;
+using Services.Communication.Http.Broker.Localization.Models;
 using Services.Communication.Mq.Rabbit.Publisher.Department.Selling;
 
 using System;
@@ -75,14 +77,11 @@ namespace Services.Business.Departments.Finance.Services
         private readonly IUnitOfWork _unitOfWork;
 
         /// <summary>
-        /// Dil çeviri sağlayıcısı sınıf
-        /// </summary>
-        private readonly TranslationProvider _translationProvider;
-
-        /// <summary>
         /// Üretilmesi talep edilen üretimlere ait kararları rabbit kuyruğuna ekleyen nesne
         /// </summary>
         private readonly NotifyProductionRequestApprovementPublisher _notifyProductionRequesApprovementPublisher;
+
+        private readonly LocalizationCommunicator _localizationCommunicator;
 
         /// <summary>
         /// Üretilmesi istenilen ürünler iş mantığı sınıfı
@@ -100,23 +99,23 @@ namespace Services.Business.Departments.Finance.Services
         public ProductionRequestService(
             IMapper mapper,
             IUnitOfWork unitOfWork,
-            TranslationProvider translationProvider,
             RedisCacheDataProvider redisCacheDataProvider,
             TransactionRepository transactionRepository,
             TransactionItemRepository transactionItemRepository,
             ProductionRequestRepository productionRequestRepository,
-            NotifyProductionRequestApprovementPublisher notifyProductionRequesApprovementPublisher)
+            NotifyProductionRequestApprovementPublisher notifyProductionRequesApprovementPublisher,
+            LocalizationCommunicator localizationCommunicator)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _redisCacheDataProvider = redisCacheDataProvider;
-            _translationProvider = translationProvider;
 
             _transactionRepository = transactionRepository;
             _transactionItemRepository = transactionItemRepository;
 
             _productionRequestRepository = productionRequestRepository;
             _notifyProductionRequesApprovementPublisher = notifyProductionRequesApprovementPublisher;
+            _localizationCommunicator = localizationCommunicator;
         }
 
         /// <summary>
@@ -384,8 +383,19 @@ namespace Services.Business.Departments.Finance.Services
                             await _productionRequestRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationTokenSource);
                         }
                         else
-                            throw new Exception(
-                                await _translationProvider.TranslateAsync("Tanimsiz.Geri.Alma", Region, cancellationToken: cancellationTokenSource.Token));
+                        {
+                            ServiceResultModel<TranslationModel> translationServiceResult =
+                                await _localizationCommunicator.TranslateAsync("Tanimsiz.Geri.Alma", Region, null, cancellationTokenSource: cancellationTokenSource);
+
+                            if (translationServiceResult.IsSuccess)
+                            {
+                                throw new Exception(translationServiceResult.Data.Text);
+                            }
+                            else
+                            {
+                                throw new Exception(translationServiceResult.ErrorModel.Description);
+                            }
+                        }
                         break;
                     default:
                         break;
@@ -406,7 +416,7 @@ namespace Services.Business.Departments.Finance.Services
             _transactionItemRepository.Dispose();
             _transactionRepository.Dispose();
             _unitOfWork.Dispose();
-            _translationProvider.Dispose();
+            _localizationCommunicator.Dispose();
         }
     }
 }

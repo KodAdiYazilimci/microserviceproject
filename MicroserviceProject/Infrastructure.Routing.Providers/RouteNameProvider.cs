@@ -58,6 +58,30 @@ namespace Infrastructure.Routing.Providers
             }
         }
 
+        public string Localization_GetTranslations
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Configuration")
+                    .GetSection("Localization")
+                    .GetSection("Endpoints")["GetTranslations"];
+            }
+        }
+
+        public string Localization_Translate
+        {
+            get
+            {
+                return
+                    _configuration
+                    .GetSection("Configuration")
+                    .GetSection("Localization")
+                    .GetSection("Endpoints")["Translate"];
+            }
+        }
+
         /// <summary>
         /// Departmanları verir
         /// </summary>

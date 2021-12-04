@@ -5,7 +5,6 @@ using Infrastructure.Communication.Http.Exceptions;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Communication.Http.Wrapper;
 using Infrastructure.Communication.Http.Wrapper.Disposing;
-using Infrastructure.Localization.Translation.Provider;
 using Infrastructure.Transaction.Recovery;
 using Infrastructure.Transaction.UnitOfWork.EntityFramework;
 
@@ -18,6 +17,8 @@ using Services.Api.Business.Departments.Production.Repositories.EntityFramework;
 using Services.Communication.Http.Broker.Department.Production.Models;
 using Services.Communication.Http.Broker.Department.Storage;
 using Services.Communication.Http.Broker.Department.Storage.Models;
+using Services.Communication.Http.Broker.Localization;
+using Services.Communication.Http.Broker.Localization.Models;
 using Services.Communication.Mq.Rabbit.Department.Models.Buying;
 using Services.Communication.Mq.Rabbit.Department.Models.Storage;
 using Services.Communication.Mq.Rabbit.Publisher.Department.Buying;
@@ -97,11 +98,6 @@ namespace Services.Api.Business.Departments.Production.Services
         private readonly ProductDependencyRepository _productDependencyRepository;
 
         /// <summary>
-        /// Dil çeviri sağlayıcısı sınıf
-        /// </summary>
-        private readonly TranslationProvider _translationProvider;
-
-        /// <summary>
         /// Stok servisi iletişim sağlayıcı sınıf
         /// </summary>
         private readonly StorageCommunicator _storageCommunicator;
@@ -120,6 +116,8 @@ namespace Services.Api.Business.Departments.Production.Services
         /// Depolama departmanına ürün stoğunu artıran kuyruğa kayıt atan sınıf
         /// </summary>
         private readonly IncreaseProductStockPublisher _increaseProductStockPublisher;
+
+        private readonly LocalizationCommunicator _localizationCommunicator;
 
         /// <summary>
         /// Ürün işlemleri iş mantığı sınıfı
@@ -141,7 +139,6 @@ namespace Services.Api.Business.Departments.Production.Services
         public ProductionService(
             IMapper mapper,
             IUnitOfWork<ProductionContext> unitOfWork,
-            TranslationProvider translationProvider,
             RedisCacheDataProvider redisCacheDataProvider,
             TransactionRepository transactionRepository,
             TransactionItemRepository transactionItemRepository,
@@ -152,11 +149,11 @@ namespace Services.Api.Business.Departments.Production.Services
             StorageCommunicator storageCommunicator,
             CreateProductRequestPublisher createProductRequestPublisher,
             DescendProductStockPublisher descendProductStockPublisher,
-            IncreaseProductStockPublisher increaseProductStockPublisher)
+            IncreaseProductStockPublisher increaseProductStockPublisher,
+            LocalizationCommunicator localizationCommunicator)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
-            _translationProvider = translationProvider;
             _redisCacheDataProvider = redisCacheDataProvider;
 
             _transactionRepository = transactionRepository;
@@ -169,6 +166,7 @@ namespace Services.Api.Business.Departments.Production.Services
             _descendProductStockPublisher = descendProductStockPublisher;
             _increaseProductStockPublisher = increaseProductStockPublisher;
             _productionItemRepository = productionItemRepository;
+            _localizationCommunicator = localizationCommunicator;
         }
 
         /// <summary>
@@ -219,8 +217,19 @@ namespace Services.Api.Business.Departments.Production.Services
                             await _productRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationTokenSource);
                         }
                         else
-                            throw new Exception(
-                                await _translationProvider.TranslateAsync("Tanimsiz.Geri.Alma", Region, cancellationToken: cancellationTokenSource.Token));
+                        {
+                            ServiceResultModel<TranslationModel> translationServiceResult =
+                                await _localizationCommunicator.TranslateAsync("Tanimsiz.Geri.Alma", Region, null, cancellationTokenSource: cancellationTokenSource);
+
+                            if (translationServiceResult.IsSuccess)
+                            {
+                                throw new Exception(translationServiceResult.Data.Text);
+                            }
+                            else
+                            {
+                                throw new Exception(translationServiceResult.ErrorModel.Description);
+                            }
+                        }
                         break;
                     default:
                         break;
@@ -239,7 +248,7 @@ namespace Services.Api.Business.Departments.Production.Services
             await _transactionItemRepository.DisposeAsync();
             await _transactionRepository.DisposeAsync();
             await _unitOfWork.DisposeAsync();
-            _translationProvider.Dispose();
+            _localizationCommunicator.Dispose();
         }
 
         /// <summary>

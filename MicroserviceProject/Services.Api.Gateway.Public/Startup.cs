@@ -1,5 +1,4 @@
 using Infrastructure.Communication.Http.Models;
-using Infrastructure.Localization.Translation.Provider.DI;
 using Infrastructure.Util.DI;
 
 using Microsoft.AspNetCore.Builder;
@@ -14,6 +13,7 @@ using Newtonsoft.Json;
 
 using Services.Api.Gateway.Public.DI;
 using Services.Communication.Http.Broker.Department.DI;
+using Services.Communication.Http.Broker.Localization.DI;
 using Services.Logging.RequestResponse.DI;
 using Services.Security.BasicToken.DI;
 
@@ -39,7 +39,7 @@ namespace Services.Api.Gateway.Public
 
             services.RegisterBasicTokenAuthentication();
             services.RegisterHttpDepartmentCommunicators();
-            services.RegisterLocalizationProviders();
+            services.RegisterHttpLocalizationCommunicators();
             services.RegisterRequestResponseLogger();
             //services.RegisterJWTProviders();
             //services.RegisterJWT();

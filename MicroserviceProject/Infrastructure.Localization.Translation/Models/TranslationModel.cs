@@ -1,4 +1,6 @@
-﻿namespace Infrastructure.Localization.Translation.Models
+﻿using System.Collections.Generic;
+
+namespace Infrastructure.Localization.Translation.Models
 {
     /// <summary>
     /// Dil çevirilerinin modeli
@@ -16,8 +18,9 @@
         public string Text { get; set; }
 
         /// <summary>
-        /// Çevirinin dil kodu
+        /// Çevirinin bölge kodu
         /// </summary>
-        public string LanguageCode { get; set; }
+        public string Region { get; set; }
+        public List<KeyValuePair<string, string>> Parameters { get; set; }
     }
 }

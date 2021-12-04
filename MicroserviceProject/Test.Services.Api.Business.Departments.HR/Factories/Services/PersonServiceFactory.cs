@@ -1,9 +1,6 @@
 ﻿using Infrastructure.Caching.InMemory.Mock;
 using Infrastructure.Caching.Redis.Mock;
 using Infrastructure.Communication.Http.Broker.Mock;
-using Infrastructure.Localization.Translation.Persistence.EntityFramework.Mock.Persistence;
-using Infrastructure.Localization.Translation.Persistence.Mock.EntityFramework.Persistence;
-using Infrastructure.Localization.Translation.Provider.Mock;
 using Infrastructure.Mock.Factories;
 using Infrastructure.Routing.Persistence.Mock;
 using Infrastructure.Routing.Providers.Mock;
@@ -15,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Services.Api.Business.Departments.HR.Configuration.Mapping;
 using Services.Api.Business.Departments.HR.Services;
 using Services.Communication.Http.Broker.Department.Mock;
+using Services.Communication.Http.Broker.Localization.Mock;
 using Services.Communication.Mq.Rabbit.Publisher.Mock;
 
 using Test.Services.Api.Business.Departments.HR.Factories.Infrastructure;
@@ -64,12 +62,6 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Services
                         createBankAccountPublisher: CreateBankAccountPublisherProvider.GetPublisher(
                             rabbitConfiguration: CreateBankAccountRabbitConfigurationProvider.GetConfiguration(configuration)),
                         unitOfWork: UnitOfWorkFactory.GetInstance(configuration),
-                        translationProvider: TranslationProviderFactory.GetTranslationProvider(
-                            configuration: configuration,
-                            cacheDataProvider: CacheDataProviderFactory.GetInstance(configuration),
-                            translationRepository: TranslationRepositoryFactory.GetTranslationRepository(
-                                translationDbContext: TranslationDbContextFactory.GetTranslationDbContext(configuration)),
-                            translationHelper: TranslationHelperFactory.Instance),
                         redisCacheDataProvider: CacheDataProviderFactory.GetInstance(configuration),
                         transactionRepository: TransactionRepositoryFactory.Instance,
                         transactionItemRepository: TransactionItemRepositoryFactory.Instance,
@@ -77,7 +69,14 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Services
                         personRepository: PersonRepositoryFactory.Instance,
                         titleRepository: TitleRepositoryFactory.Instance,
                         workerRepository: WorkerRepositoryFactory.Instance,
-                        workerRelationRepository: WorkerRelationRepositoryFactory.Instance);
+                        workerRelationRepository: WorkerRelationRepositoryFactory.Instance,
+                        localizationCommunicator: LocalizationCommunicatorProvider.GetLocalizationCommunicator(
+                            routeNameProvider: RouteNameProviderFactory.GetRouteNameProvider(configuration),
+                            serviceCommunicator: ServiceCommunicatorFactory.GetServiceCommunicator(
+                                cacheProvider: InMemoryCacheDataProviderFactory.Instance,
+                                credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),
+                                routeNameProvider: RouteNameProviderFactory.GetRouteNameProvider(configuration),
+                                serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration))));
                 }
 
                 return service;

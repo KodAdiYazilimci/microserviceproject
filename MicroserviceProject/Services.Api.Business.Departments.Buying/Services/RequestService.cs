@@ -4,7 +4,6 @@ using Infrastructure.Caching.Redis;
 using Infrastructure.Communication.Http.Exceptions;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Communication.Http.Wrapper;
-using Infrastructure.Localization.Translation.Provider;
 using Infrastructure.Transaction.Recovery;
 using Infrastructure.Transaction.UnitOfWork.Sql;
 
@@ -13,8 +12,8 @@ using Services.Api.Business.Departments.Buying.Repositories.Sql;
 using Services.Communication.Http.Broker.Department.AA;
 using Services.Communication.Http.Broker.Department.Buying.Models;
 using Services.Communication.Http.Broker.Department.IT;
-using Services.Communication.Mq.Rabbit.Publisher.Department.AA;
-using Services.Communication.Mq.Rabbit.Publisher.Department.IT;
+using Services.Communication.Http.Broker.Localization;
+using Services.Communication.Http.Broker.Localization.Models;
 
 using System;
 using System.Collections.Generic;
@@ -80,11 +79,6 @@ namespace Services.Api.Business.Departments.Buying.Services
         private readonly IUnitOfWork _unitOfWork;
 
         /// <summary>
-        /// Dil çeviri sağlayıcısı sınıf
-        /// </summary>
-        private readonly TranslationProvider _translationProvider;
-
-        /// <summary>
         /// İdari işler servis iletişimcisi
         /// </summary>
         private readonly Communication.Http.Broker.Department.AA.AACommunicator _aaCommunicator;
@@ -109,6 +103,8 @@ namespace Services.Api.Business.Departments.Buying.Services
         /// </summary>
         protected readonly Communication.Mq.Rabbit.Publisher.Department.Finance.InventoryRequestPublisher _inventoryRequestPublisher;
 
+        private readonly LocalizationCommunicator _localizationCommunicator;
+
         /// <summary>
         /// Talep işlemleri iş mantığı sınıfı
         /// </summary>
@@ -129,7 +125,6 @@ namespace Services.Api.Business.Departments.Buying.Services
         public RequestService(
             IMapper mapper,
             IUnitOfWork unitOfWork,
-            TranslationProvider translationProvider,
             RedisCacheDataProvider redisCacheDataProvider,
             TransactionRepository transactionRepository,
             TransactionItemRepository transactionItemRepository,
@@ -138,11 +133,11 @@ namespace Services.Api.Business.Departments.Buying.Services
             ITCommunicator itCommunicator,
             Communication.Mq.Rabbit.Publisher.Department.AA.InformInventoryRequestPublisher aaInformInventoryRequestPublisher,
             Communication.Mq.Rabbit.Publisher.Department.IT.InformInventoryRequestPublisher itInformInventoryRequestPublisher,
-            Communication.Mq.Rabbit.Publisher.Department.Finance.InventoryRequestPublisher inventoryRequestPublisher)
+            Communication.Mq.Rabbit.Publisher.Department.Finance.InventoryRequestPublisher inventoryRequestPublisher,
+            LocalizationCommunicator localizationCommunicator)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
-            _translationProvider = translationProvider;
             _redisCacheDataProvider = redisCacheDataProvider;
 
             _transactionRepository = transactionRepository;
@@ -156,6 +151,7 @@ namespace Services.Api.Business.Departments.Buying.Services
             _AAInformInventoryRequestPublisher = aaInformInventoryRequestPublisher;
             _ITInformInventoryRequestPublisher = itInformInventoryRequestPublisher;
             _inventoryRequestPublisher = inventoryRequestPublisher;
+            _localizationCommunicator = localizationCommunicator;
         }
 
         /// <summary>
@@ -548,8 +544,19 @@ namespace Services.Api.Business.Departments.Buying.Services
                             await _inventoryRequestRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationTokenSource);
                         }
                         else
-                            throw new Exception(
-                                await _translationProvider.TranslateAsync("Tanimsiz.Geri.Alma", Region, cancellationToken: cancellationTokenSource.Token));
+                        {
+                            ServiceResultModel<TranslationModel> translationServiceResult =
+                                await _localizationCommunicator.TranslateAsync("Tanimsiz.Geri.Alma", Region, null, cancellationTokenSource: cancellationTokenSource);
+
+                            if (translationServiceResult.IsSuccess)
+                            {
+                                throw new Exception(translationServiceResult.Data.Text);
+                            }
+                            else
+                            {
+                                throw new Exception(translationServiceResult.ErrorModel.Description);
+                            }
+                        }
                         break;
                     default:
                         break;
@@ -572,7 +579,7 @@ namespace Services.Api.Business.Departments.Buying.Services
             _unitOfWork.Dispose();
             _AAInformInventoryRequestPublisher.Dispose();
             _ITInformInventoryRequestPublisher.Dispose();
-            _translationProvider.Dispose();
+            _localizationCommunicator.Dispose();
             _aaCommunicator.Dispose();
             _itCommunicator.Dispose();
         }

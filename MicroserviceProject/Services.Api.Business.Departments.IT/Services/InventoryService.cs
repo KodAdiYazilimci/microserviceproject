@@ -1,14 +1,16 @@
 ﻿using AutoMapper;
 
 using Infrastructure.Caching.Redis;
+using Infrastructure.Communication.Http.Models;
 using Infrastructure.Communication.Http.Wrapper;
-using Infrastructure.Localization.Translation.Provider;
 using Infrastructure.Transaction.Recovery;
 using Infrastructure.Transaction.UnitOfWork.Sql;
 
 using Services.Api.Business.Departments.IT.Entities.Sql;
 using Services.Api.Business.Departments.IT.Repositories.Sql;
 using Services.Communication.Http.Broker.Department.IT.Models;
+using Services.Communication.Http.Broker.Localization;
+using Services.Communication.Http.Broker.Localization.Models;
 using Services.Communication.Mq.Rabbit.Publisher.Department.Buying;
 
 using System;
@@ -99,10 +101,7 @@ namespace Services.Api.Business.Departments.IT.Services
         /// </summary>
         private readonly IUnitOfWork _unitOfWork;
 
-        /// <summary>
-        /// Dil çeviri sağlayıcısı sınıf
-        /// </summary>
-        private readonly TranslationProvider _translationProvider;
+        private readonly LocalizationCommunicator _localizationCommunicator;
 
         /// <summary>
         /// Envanter işlemleri iş mantığı sınıfı
@@ -119,7 +118,6 @@ namespace Services.Api.Business.Departments.IT.Services
         public InventoryService(
             IMapper mapper,
             IUnitOfWork unitOfWork,
-            TranslationProvider translationProvider,
             RedisCacheDataProvider redisCacheDataProvider,
             CreateInventoryRequestPublisher createInventoryRequestPublisher,
             TransactionRepository transactionRepository,
@@ -127,12 +125,12 @@ namespace Services.Api.Business.Departments.IT.Services
             InventoryRepository inventoryRepository,
             InventoryDefaultsRepository inventoryDefaultsRepository,
             WorkerInventoryRepository workerInventoryRepository,
-            PendingWorkerInventoryRepository pendingWorkerInventoryRepository)
+            PendingWorkerInventoryRepository pendingWorkerInventoryRepository, 
+            LocalizationCommunicator localizationCommunicator)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _redisCacheDataProvider = redisCacheDataProvider;
-            _translationProvider = translationProvider;
 
             _createInventoryRequestPublisher = createInventoryRequestPublisher;
 
@@ -143,6 +141,7 @@ namespace Services.Api.Business.Departments.IT.Services
             _inventoryDefaultsRepository = inventoryDefaultsRepository;
             _workerInventoryRepository = workerInventoryRepository;
             _pendingWorkerInventoryRepository = pendingWorkerInventoryRepository;
+            _localizationCommunicator = localizationCommunicator;
         }
 
         /// <summary>
@@ -555,8 +554,19 @@ namespace Services.Api.Business.Departments.IT.Services
                             await _inventoryRepository.DescendStockCountAsync((int)rollbackItem.Identity, (int)rollbackItem.Difference, cancellationTokenSource);
                         }
                         else
-                            throw new Exception(
-                                await _translationProvider.TranslateAsync("Tanimsiz.Geri.Alma", Region, cancellationToken: cancellationTokenSource.Token));
+                        {
+                            ServiceResultModel<TranslationModel> translationServiceResult =
+                                await _localizationCommunicator.TranslateAsync("Tanimsiz.Geri.Alma", Region, null, cancellationTokenSource: cancellationTokenSource);
+
+                            if (translationServiceResult.IsSuccess)
+                            {
+                                throw new Exception(translationServiceResult.Data.Text);
+                            }
+                            else
+                            {
+                                throw new Exception(translationServiceResult.ErrorModel.Description);
+                            }
+                        }
                         break;
                     case InventoryDefaultsRepository.TABLE_NAME:
                         if (rollbackItem.RollbackType == RollbackType.Delete)
@@ -572,8 +582,19 @@ namespace Services.Api.Business.Departments.IT.Services
                             await _inventoryDefaultsRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationTokenSource);
                         }
                         else
-                            throw new Exception(
-                                 await _translationProvider.TranslateAsync("Tanimsiz.Geri.Alma", Region, cancellationToken: cancellationTokenSource.Token));
+                        {
+                            ServiceResultModel<TranslationModel> translationServiceResult =
+                                await _localizationCommunicator.TranslateAsync("Tanimsiz.Geri.Alma", Region, null, cancellationTokenSource: cancellationTokenSource);
+
+                            if (translationServiceResult.IsSuccess)
+                            {
+                                throw new Exception(translationServiceResult.Data.Text);
+                            }
+                            else
+                            {
+                                throw new Exception(translationServiceResult.ErrorModel.Description);
+                            }
+                        }
                         break;
                     case WorkerInventoryRepository.TABLE_NAME:
                         if (rollbackItem.RollbackType == RollbackType.Delete)
@@ -589,8 +610,19 @@ namespace Services.Api.Business.Departments.IT.Services
                             await _inventoryDefaultsRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationTokenSource);
                         }
                         else
-                            throw new Exception(
-                                await _translationProvider.TranslateAsync("Tanimsiz.Geri.Alma", Region, cancellationToken: cancellationTokenSource.Token));
+                        {
+                            ServiceResultModel<TranslationModel> translationServiceResult =
+                                await _localizationCommunicator.TranslateAsync("Tanimsiz.Geri.Alma", Region, null, cancellationTokenSource: cancellationTokenSource);
+
+                            if (translationServiceResult.IsSuccess)
+                            {
+                                throw new Exception(translationServiceResult.Data.Text);
+                            }
+                            else
+                            {
+                                throw new Exception(translationServiceResult.ErrorModel.Description);
+                            }
+                        }
                         break;
                     default:
                         break;
@@ -614,7 +646,7 @@ namespace Services.Api.Business.Departments.IT.Services
             _transactionRepository.Dispose();
             _workerInventoryRepository.Dispose();
             _unitOfWork.Dispose();
-            _translationProvider.Dispose();
+            _localizationCommunicator.Dispose();
         }
     }
 }

@@ -4,7 +4,6 @@ using Infrastructure.Caching.Redis;
 using Infrastructure.Communication.Http.Exceptions;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Communication.Http.Wrapper;
-using Infrastructure.Localization.Translation.Provider;
 using Infrastructure.Transaction.Recovery;
 using Infrastructure.Transaction.UnitOfWork.Sql;
 
@@ -14,10 +13,10 @@ using Services.Communication.Http.Broker.Department.AA;
 using Services.Communication.Http.Broker.Department.Accounting;
 using Services.Communication.Http.Broker.Department.HR.Models;
 using Services.Communication.Http.Broker.Department.IT;
+using Services.Communication.Http.Broker.Localization;
+using Services.Communication.Http.Broker.Localization.Models;
 using Services.Communication.Mq.Rabbit.Department.Models.Accounting;
-using Services.Communication.Mq.Rabbit.Publisher.Department.AA;
 using Services.Communication.Mq.Rabbit.Publisher.Department.Accounting;
-using Services.Communication.Mq.Rabbit.Publisher.Department.IT;
 
 using System;
 using System.Collections.Generic;
@@ -80,11 +79,6 @@ namespace Services.Api.Business.Departments.HR.Services
         private readonly IUnitOfWork _unitOfWork;
 
         /// <summary>
-        /// Dil çeviri sağlayıcısı sınıf
-        /// </summary>
-        private readonly TranslationProvider _translationProvider;
-
-        /// <summary>
         /// Departmanlar tablosu için repository sınıfı
         /// </summary>
         private readonly DepartmentRepository _departmentRepository;
@@ -140,6 +134,8 @@ namespace Services.Api.Business.Departments.HR.Services
         /// </summary>
         private readonly CreateBankAccountPublisher _createBankAccountPublisher;
 
+        private readonly LocalizationCommunicator _localizationCommunicator;
+
         /// <summary>
         /// Kişi işlemleri iş mantığı sınıfı
         /// </summary>
@@ -170,7 +166,6 @@ namespace Services.Api.Business.Departments.HR.Services
             Communication.Mq.Rabbit.Publisher.Department.IT.AssignInventoryToWorkerPublisher ITassignInventoryToWorkerPublisher,
             CreateBankAccountPublisher createBankAccountPublisher,
             IUnitOfWork unitOfWork,
-            TranslationProvider translationProvider,
             RedisCacheDataProvider redisCacheDataProvider,
             TransactionRepository transactionRepository,
             TransactionItemRepository transactionItemRepository,
@@ -178,7 +173,8 @@ namespace Services.Api.Business.Departments.HR.Services
             PersonRepository personRepository,
             TitleRepository titleRepository,
             WorkerRepository workerRepository,
-            WorkerRelationRepository workerRelationRepository)
+            WorkerRelationRepository workerRelationRepository,
+            LocalizationCommunicator localizationCommunicator)
         {
             _redisCacheDataProvider = redisCacheDataProvider;
             _AAassignInventoryToWorkerPublisher = AAassignInventoryToWorkerPublisher;
@@ -191,7 +187,6 @@ namespace Services.Api.Business.Departments.HR.Services
 
             _mapper = mapper;
             _unitOfWork = unitOfWork;
-            _translationProvider = translationProvider;
 
             _transactionRepository = transactionRepository;
             _transactionItemRepository = transactionItemRepository;
@@ -201,6 +196,7 @@ namespace Services.Api.Business.Departments.HR.Services
             _titleRepository = titleRepository;
             _workerRepository = workerRepository;
             _workerRelationRepository = workerRelationRepository;
+            _localizationCommunicator = localizationCommunicator;
         }
 
         /// <summary>
@@ -486,7 +482,7 @@ namespace Services.Api.Business.Departments.HR.Services
                 }
             }
 
-            _AAassignInventoryToWorkerPublisher.AddToBuffer(new  Communication.Mq.Rabbit.Department.Models.AA.WorkerQueueModel
+            _AAassignInventoryToWorkerPublisher.AddToBuffer(new Communication.Mq.Rabbit.Department.Models.AA.WorkerQueueModel
             {
                 Id = worker.Id,
                 Inventories = worker.AAInventories.Select(x => new Communication.Mq.Rabbit.Department.Models.AA.InventoryQueueModel()
@@ -631,8 +627,19 @@ namespace Services.Api.Business.Departments.HR.Services
                             await _departmentRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationTokenSource);
                         }
                         else
-                            throw new Exception(
-                                await _translationProvider.TranslateAsync("Tanimsiz.Geri.Alma", Region, cancellationToken: cancellationTokenSource.Token));
+                        {
+                            ServiceResultModel<TranslationModel> translationServiceResult =
+                                await _localizationCommunicator.TranslateAsync("Tanimsiz.Geri.Alma", Region, null, cancellationTokenSource: cancellationTokenSource);
+
+                            if (translationServiceResult.IsSuccess)
+                            {
+                                throw new Exception(translationServiceResult.Data.Text);
+                            }
+                            else
+                            {
+                                throw new Exception(translationServiceResult.ErrorModel.Description);
+                            }
+                        }
                         break;
                     case PersonRepository.TABLE_NAME:
                         if (rollbackItem.RollbackType == RollbackType.Delete)
@@ -648,8 +655,19 @@ namespace Services.Api.Business.Departments.HR.Services
                             await _personRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationTokenSource);
                         }
                         else
-                            throw new Exception(
-                                await _translationProvider.TranslateAsync("Tanimsiz.Geri.Alma", Region, cancellationToken: cancellationTokenSource.Token));
+                        {
+                            ServiceResultModel<TranslationModel> translationServiceResult =
+                                await _localizationCommunicator.TranslateAsync("Tanimsiz.Geri.Alma", Region, null, cancellationTokenSource: cancellationTokenSource);
+
+                            if (translationServiceResult.IsSuccess)
+                            {
+                                throw new Exception(translationServiceResult.Data.Text);
+                            }
+                            else
+                            {
+                                throw new Exception(translationServiceResult.ErrorModel.Description);
+                            }
+                        }
                         break;
                     case TitleRepository.TABLE_NAME:
                         if (rollbackItem.RollbackType == RollbackType.Delete)
@@ -665,8 +683,19 @@ namespace Services.Api.Business.Departments.HR.Services
                             await _titleRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationTokenSource);
                         }
                         else
-                            throw new Exception(
-                                await _translationProvider.TranslateAsync("Tanimsiz.Geri.Alma", Region, cancellationToken: cancellationTokenSource.Token));
+                        {
+                            ServiceResultModel<TranslationModel> translationServiceResult =
+                                await _localizationCommunicator.TranslateAsync("Tanimsiz.Geri.Alma", Region, null, cancellationTokenSource: cancellationTokenSource);
+
+                            if (translationServiceResult.IsSuccess)
+                            {
+                                throw new Exception(translationServiceResult.Data.Text);
+                            }
+                            else
+                            {
+                                throw new Exception(translationServiceResult.ErrorModel.Description);
+                            }
+                        }
                         break;
                     case WorkerRelationRepository.TABLE_NAME:
                         if (rollbackItem.RollbackType == RollbackType.Delete)
@@ -682,8 +711,19 @@ namespace Services.Api.Business.Departments.HR.Services
                             await _workerRelationRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationTokenSource);
                         }
                         else
-                            throw new Exception(
-                                await _translationProvider.TranslateAsync("Tanimsiz.Geri.Alma", Region, cancellationToken: cancellationTokenSource.Token));
+                        {
+                            ServiceResultModel<TranslationModel> translationServiceResult =
+                                await _localizationCommunicator.TranslateAsync("Tanimsiz.Geri.Alma", Region, null, cancellationTokenSource: cancellationTokenSource);
+
+                            if (translationServiceResult.IsSuccess)
+                            {
+                                throw new Exception(translationServiceResult.Data.Text);
+                            }
+                            else
+                            {
+                                throw new Exception(translationServiceResult.ErrorModel.Description);
+                            }
+                        }
                         break;
                     case WorkerRepository.TABLE_NAME:
                         if (rollbackItem.RollbackType == RollbackType.Delete)
@@ -699,8 +739,19 @@ namespace Services.Api.Business.Departments.HR.Services
                             await _workerRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationTokenSource);
                         }
                         else
-                            throw new Exception(
-                                await _translationProvider.TranslateAsync("Tanimsiz.Geri.Alma", Region, cancellationToken: cancellationTokenSource.Token));
+                        {
+                            ServiceResultModel<TranslationModel> translationServiceResult =
+                                await _localizationCommunicator.TranslateAsync("Tanimsiz.Geri.Alma", Region, null, cancellationTokenSource: cancellationTokenSource);
+
+                            if (translationServiceResult.IsSuccess)
+                            {
+                                throw new Exception(translationServiceResult.Data.Text);
+                            }
+                            else
+                            {
+                                throw new Exception(translationServiceResult.ErrorModel.Description);
+                            }
+                        }
                         break;
                     default:
                         break;
@@ -725,7 +776,7 @@ namespace Services.Api.Business.Departments.HR.Services
             _workerRelationRepository.Dispose();
             _workerRepository.Dispose();
             _unitOfWork.Dispose();
-            _translationProvider.Dispose();
+            _localizationCommunicator.Dispose();
             _aaCommunicator.Dispose();
             _accountingCommunicator.Dispose();
             _itCommunicator.Dispose();

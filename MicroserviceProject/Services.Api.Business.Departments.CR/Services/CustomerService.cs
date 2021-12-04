@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 
 using Infrastructure.Caching.Redis;
+using Infrastructure.Communication.Http.Models;
 using Infrastructure.Communication.Http.Wrapper;
 using Infrastructure.Communication.Http.Wrapper.Disposing;
-using Infrastructure.Localization.Translation.Provider;
 using Infrastructure.Transaction.Recovery;
 using Infrastructure.Transaction.UnitOfWork.EntityFramework;
 
@@ -11,6 +11,8 @@ using Services.Api.Business.Departments.CR.Configuration.Persistence;
 using Services.Api.Business.Departments.CR.Entities.EntityFramework;
 using Services.Api.Business.Departments.CR.Repositories.EntityFramework;
 using Services.Communication.Http.Broker.Department.CR.Models;
+using Services.Communication.Http.Broker.Localization;
+using Services.Communication.Http.Broker.Localization.Models;
 
 using System;
 using System.Collections.Generic;
@@ -75,10 +77,7 @@ namespace Services.Api.Business.Departments.CR.Services
         /// </summary>
         private readonly IUnitOfWork<CRContext> _unitOfWork;
 
-        /// <summary>
-        /// Dil çeviri sağlayıcısı sınıf
-        /// </summary>
-        private readonly TranslationProvider _translationProvider;
+        private readonly LocalizationCommunicator _localizationCommunicator;
 
         /// <summary>
         /// Müşteriler iş mantığı sınıfı
@@ -93,20 +92,20 @@ namespace Services.Api.Business.Departments.CR.Services
         public CustomerService(
             IMapper mapper,
             IUnitOfWork<CRContext> unitOfWork,
-            TranslationProvider translationProvider,
             RedisCacheDataProvider redisCacheDataProvider,
             TransactionRepository transactionRepository,
             TransactionItemRepository transactionItemRepository,
-            CustomerRepository customerRepository)
+            CustomerRepository customerRepository, 
+            LocalizationCommunicator localizationCommunicator)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
-            _translationProvider = translationProvider;
             _redisCacheDataProvider = redisCacheDataProvider;
 
             _transactionRepository = transactionRepository;
             _transactionItemRepository = transactionItemRepository;
             _customerRepository = customerRepository;
+            _localizationCommunicator = localizationCommunicator;
         }
 
         /// <summary>
@@ -226,8 +225,19 @@ namespace Services.Api.Business.Departments.CR.Services
                             await _customerRepository.SetAsync((int)rollbackItem.Identity, rollbackItem.Name, rollbackItem.OldValue, cancellationTokenSource);
                         }
                         else
-                            throw new Exception(
-                                await _translationProvider.TranslateAsync("Tanimsiz.Geri.Alma", Region, cancellationToken: cancellationTokenSource.Token));
+                        {
+                            ServiceResultModel<TranslationModel> translationServiceResult =
+                                await _localizationCommunicator.TranslateAsync("Tanimsiz.Geri.Alma", Region, null, cancellationTokenSource: cancellationTokenSource);
+
+                            if (translationServiceResult.IsSuccess)
+                            {
+                                throw new Exception(translationServiceResult.Data.Text);
+                            }
+                            else
+                            {
+                                throw new Exception(translationServiceResult.ErrorModel.Description);
+                            }
+                        }
                         break;
                     default:
                         break;
@@ -246,7 +256,7 @@ namespace Services.Api.Business.Departments.CR.Services
             await _transactionItemRepository.DisposeAsync();
             await _transactionRepository.DisposeAsync();
             await _unitOfWork.DisposeAsync();
-            _translationProvider.Dispose();
+            _localizationCommunicator.Dispose();
         }
 
         /// <summary>

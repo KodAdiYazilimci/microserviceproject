@@ -1,8 +1,8 @@
 
 using Infrastructure.Caching.InMemory.DI;
+using Infrastructure.Caching.Redis.DI;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Diagnostics.HealthCheck.Util;
-using Infrastructure.Localization.Translation.Provider.DI;
 using Infrastructure.Util.DI;
 
 using Microsoft.AspNetCore.Builder;
@@ -18,6 +18,7 @@ using Newtonsoft.Json;
 
 using Services.Api.Infrastructure.Authorization.Configuration.Persistence;
 using Services.Api.Infrastructure.Authorization.DI;
+using Services.Communication.Http.Broker.Localization.DI;
 using Services.Communication.Mq.Rabbit.Publisher.Department.DI;
 using Services.Diagnostics.HealthCheck.DI;
 using Services.Logging.RequestResponse.DI;
@@ -42,10 +43,11 @@ namespace Services.Api.Infrastructure.Authorization
         {
             services.RegisterBusinessServices();
             services.RegisterInMemoryCaching();
-            services.RegisterLocalizationProviders();
+            services.RegisterHttpLocalizationCommunicators();
             services.RegisterRequestResponseLogger();
             services.RegisterPersistence();
             services.RegisterQueuePublishers();
+            services.RegisterRedisCaching();
             services.RegisterRepositories();
             services.RegisterSqlHealthChecking(
                 connectionStrings: new List<string>() { Configuration.GetSection("Persistence")["DataSource"] });
