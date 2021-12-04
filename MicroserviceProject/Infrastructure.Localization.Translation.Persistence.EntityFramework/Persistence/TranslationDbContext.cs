@@ -34,39 +34,39 @@ namespace Infrastructure.Localization.Translation.Persistence.EntityFramework.Pe
 
         }
 
-        /////// <summary>
-        /////// Dil çevirilerine ait veritabanı bağlantısı context sınıfı
-        /////// </summary>
-        /////// <param name="configuration">Yapılandırma bilgilerinin alınacağı configuration nesnesi</param>
-        ////public TranslationDbContext(IConfiguration configuration)
-        ////{
-        ////    this.configuration = configuration;
-        ////}
-
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        ///// <summary>
+        ///// Dil çevirilerine ait veritabanı bağlantısı context sınıfı
+        ///// </summary>
+        ///// <param name="configuration">Yapılandırma bilgilerinin alınacağı configuration nesnesi</param>
+        //public TranslationDbContext(IConfiguration configuration)
         //{
-        //    optionsBuilder.UseSqlServer("server=localhost;DataBase=Microservice_Localization_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true");
-
-        //    //optionsBuilder.UseSqlServer(
-        //    //    configuration
-        //    //    .GetSection("Configuration")
-        //    //    .GetSection("Localization")["TranslationDbConnnectionString"]);
-
-        //    optionsBuilder.EnableSensitiveDataLogging();
-        //    optionsBuilder.EnableDetailedErrors();
-
-        //    base.OnConfiguring(optionsBuilder);
+        //    this.configuration = configuration;
         //}
 
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.Entity<TranslationEntity>(x =>
-        //    {
-        //        x.HasIndex(y => new { y.Key, y.LanguageCode }).IsUnique();
-        //    });
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer("server=localhost;DataBase=Microservice_Localization_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true");
 
-        //    base.OnModelCreating(modelBuilder);
-        //}
+            //optionsBuilder.UseSqlServer(
+            //    configuration
+            //    .GetSection("Configuration")
+            //    .GetSection("Localization")["TranslationDbConnnectionString"]);
+
+            optionsBuilder.EnableSensitiveDataLogging();
+            optionsBuilder.EnableDetailedErrors();
+
+            base.OnConfiguring(optionsBuilder);
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<TranslationEntity>(x =>
+            {
+                x.HasIndex(y => new { y.Key, y.LanguageCode }).IsUnique();
+            });
+
+            base.OnModelCreating(modelBuilder);
+        }
 
         public override int SaveChanges()
         {
