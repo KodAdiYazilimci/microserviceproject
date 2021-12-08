@@ -1,4 +1,6 @@
-﻿namespace Infrastructure.Communication.Http.Models
+﻿using System.Collections.Generic;
+
+namespace Infrastructure.Communication.Http.Models
 {
     /// <summary>
     /// Servisten dönen hata
@@ -14,5 +16,7 @@
         /// Hatanın açıklaması
         /// </summary>
         public string Description { get; set; }
+
+        public List<ErrorModel> InnerErrors { get; set; }
     }
 }

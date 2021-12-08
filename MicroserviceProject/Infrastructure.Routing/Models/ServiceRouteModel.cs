@@ -26,7 +26,7 @@ namespace Infrastructure.Routing.Models
         /// <summary>
         /// Bu servis endpoint ile başarısız iletişim kurulması halinde denenecek diğer endpointler
         /// </summary>
-        public List<ServiceRouteModel> AlternativeRoutes { get; set; }
+        public ServiceRouteModel AlternativeRoute { get; set; }
 
         /// <summary>
         /// Çağırılacak servisin query string parametreleri
