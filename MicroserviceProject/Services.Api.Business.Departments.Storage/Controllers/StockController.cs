@@ -1,19 +1,17 @@
-﻿using Services.Communication.Http.Broker.Department.Storage.Models;
-
-using Infrastructure.Communication.Http.Wrapper;
+﻿using Infrastructure.Communication.Http.Wrapper;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Services.Api.Business.Departments.Storage.Services;
 using Services.Api.Business.Departments.Storage.Util.Validation.Stock;
+using Services.Communication.Http.Broker.Department.Storage.Models;
 
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Services.Api.Business.Departments.Storage.Controllers
 {
-    [Authorize]
     [Route("Stock")]
     public class StockController : BaseController
     {
@@ -26,6 +24,7 @@ namespace Services.Api.Business.Departments.Storage.Controllers
 
         [HttpGet]
         [Route(nameof(GetStock))]
+        [Authorize(Roles = "ApiUser,GatewayUser")]
         public async Task<IActionResult> GetStock(int productId, CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync<StockModel>(async () =>
@@ -37,6 +36,7 @@ namespace Services.Api.Business.Departments.Storage.Controllers
 
         [HttpPost]
         [Route(nameof(CreateStock))]
+        [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> CreateStock([FromBody] StockModel stockModel, CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync<int>(async () =>
@@ -50,6 +50,7 @@ namespace Services.Api.Business.Departments.Storage.Controllers
 
         [HttpPost]
         [Route(nameof(DescendProductStock))]
+        [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> DescendProductStock([FromBody] StockModel stockModel,CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync<int>(async () =>

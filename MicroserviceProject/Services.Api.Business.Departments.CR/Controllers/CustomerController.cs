@@ -14,7 +14,6 @@ using System.Threading.Tasks;
 
 namespace Services.Api.Business.Departments.CR.Controllers
 {
-    [Authorize]
     [Route("Customers")]
     public class CustomerController : BaseController
     {
@@ -27,6 +26,7 @@ namespace Services.Api.Business.Departments.CR.Controllers
 
         [HttpGet]
         [Route(nameof(GetCustomers))]
+        [Authorize(Roles = "ApiUser,GatewayUser")]
         public async Task<IActionResult> GetCustomers(CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync<List<CustomerModel>>(async () =>
@@ -38,6 +38,7 @@ namespace Services.Api.Business.Departments.CR.Controllers
 
         [HttpPost]
         [Route(nameof(CreateCustomer))]
+        [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> CreateCustomer([FromBody] CustomerModel customerModel, CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync<int>(async () =>

@@ -1,6 +1,4 @@
-﻿using Services.Communication.Http.Broker.Department.Buying.Models;
-
-using Infrastructure.Communication.Http.Wrapper;
+﻿using Infrastructure.Communication.Http.Wrapper;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Services.Api.Business.Departments.Buying.Services;
 using Services.Api.Business.Departments.Buying.Util.Validation.Request.CreateInventoryRequest;
 using Services.Api.Business.Departments.Buying.Util.Validation.Request.ValidateCostInventory;
+using Services.Communication.Http.Broker.Department.Buying.Models;
 
 using System.Collections.Generic;
 using System.Threading;
@@ -15,7 +14,6 @@ using System.Threading.Tasks;
 
 namespace Services.Api.Business.Departments.Buying.Controllers
 {
-    [Authorize]
     [Route("Request")]
     public class RequestController : BaseController
     {
@@ -28,6 +26,7 @@ namespace Services.Api.Business.Departments.Buying.Controllers
 
         [HttpGet]
         [Route(nameof(GetInventoryRequests))]
+        [Authorize(Roles = "ApiUser,GatewayUser")]
         public async Task<IActionResult> GetInventoryRequests(CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync<List<InventoryRequestModel>>(async () =>
@@ -39,6 +38,7 @@ namespace Services.Api.Business.Departments.Buying.Controllers
 
         [HttpPost]
         [Route(nameof(CreateInventoryRequest))]
+        [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> CreateInventoryRequest([FromBody] InventoryRequestModel requestModel, CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync<int>(async () =>
@@ -52,6 +52,7 @@ namespace Services.Api.Business.Departments.Buying.Controllers
 
         [HttpPost]
         [Route(nameof(ValidateCostInventory))]
+        [Authorize(Roles = "ApiUser,QueueUser")]
         public async Task<IActionResult> ValidateCostInventory([FromBody] DecidedCostModel decidedCost, CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync<int>(async () =>

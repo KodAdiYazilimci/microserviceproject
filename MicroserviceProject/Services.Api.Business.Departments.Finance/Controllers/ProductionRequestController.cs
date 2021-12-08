@@ -1,12 +1,11 @@
-﻿using Services.Communication.Http.Broker.Department.Finance.Models;
-
-using Infrastructure.Communication.Http.Wrapper;
+﻿using Infrastructure.Communication.Http.Wrapper;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Services.Business.Departments.Finance.Services;
 using Services.Business.Departments.Finance.Util.Validation.Request.CreateProductionRequest;
+using Services.Communication.Http.Broker.Department.Finance.Models;
 
 using System.Collections.Generic;
 using System.Threading;
@@ -14,7 +13,6 @@ using System.Threading.Tasks;
 
 namespace Services.Business.Departments.Finance.Controllers
 {
-    [Authorize]
     [Route("ProductionRequest")]
     public class ProductionRequestController : BaseController
     {
@@ -27,6 +25,7 @@ namespace Services.Business.Departments.Finance.Controllers
 
         [HttpGet]
         [Route(nameof(GetProductionRequests))]
+        [Authorize(Roles = "ApiUser,GatewayUser")]
         public async Task<IActionResult> GetProductionRequests(CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync<List<ProductionRequestModel>>(async () =>
@@ -37,6 +36,7 @@ namespace Services.Business.Departments.Finance.Controllers
         }
 
         [Route(nameof(CreateProductionRequest))]
+        [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> CreateProductionRequest([FromBody] ProductionRequestModel productionRequest, CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync<int>(async () =>
@@ -51,6 +51,7 @@ namespace Services.Business.Departments.Finance.Controllers
 
         [HttpPost]
         [Route(nameof(DecideProductionRequest))]
+        [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> DecideProductionRequest([FromBody] ProductionRequestModel productionRequest, CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync<int>(async () =>

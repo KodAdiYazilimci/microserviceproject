@@ -1,6 +1,4 @@
-﻿using Services.Communication.Http.Broker.Department.AA.Models;
-
-using Infrastructure.Communication.Http.Wrapper;
+﻿using Infrastructure.Communication.Http.Wrapper;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +8,7 @@ using Services.Api.Business.Departments.AA.Util.Validation.Inventory.AssignInven
 using Services.Api.Business.Departments.AA.Util.Validation.Inventory.CreateDefaultInventoryForNewWorker;
 using Services.Api.Business.Departments.AA.Util.Validation.Inventory.CreateInventory;
 using Services.Api.Business.Departments.AA.Util.Validation.Inventory.InformInventoryRequest;
+using Services.Communication.Http.Broker.Department.AA.Models;
 
 using System.Collections.Generic;
 using System.Threading;
@@ -17,7 +16,6 @@ using System.Threading.Tasks;
 
 namespace Services.Api.Business.Departments.AA.Controllers
 {
-    [Authorize]
     [Route("Inventory")]
     public class InventoryController : BaseController
     {
@@ -30,6 +28,7 @@ namespace Services.Api.Business.Departments.AA.Controllers
 
         [HttpGet]
         [Route(nameof(GetInventories))]
+        [Authorize(Roles = "ApiUser,GatewayUser")]
         public async Task<IActionResult> GetInventories(CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync<List<InventoryModel>>(async () =>
@@ -41,6 +40,7 @@ namespace Services.Api.Business.Departments.AA.Controllers
 
         [HttpPost]
         [Route(nameof(CreateInventory))]
+        [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> CreateInventory([FromBody] InventoryModel inventory, CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync<int>(async () =>
@@ -54,6 +54,7 @@ namespace Services.Api.Business.Departments.AA.Controllers
 
         [HttpPost]
         [Route(nameof(AssignInventoryToWorker))]
+        [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> AssignInventoryToWorker([FromBody] WorkerModel worker, CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync<WorkerModel>(async () =>
@@ -67,6 +68,7 @@ namespace Services.Api.Business.Departments.AA.Controllers
 
         [HttpPost]
         [Route(nameof(CreateDefaultInventoryForNewWorker))]
+        [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> CreateDefaultInventoryForNewWorker([FromBody] InventoryModel inventory, CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync<InventoryModel>(async () =>
@@ -80,6 +82,7 @@ namespace Services.Api.Business.Departments.AA.Controllers
 
         [HttpGet]
         [Route(nameof(GetInventoriesForNewWorker))]
+        [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public IActionResult GetInventoriesForNewWorker(CancellationTokenSource cancellationTokenSource)
         {
             return HttpResponseWrapper.Wrap<List<InventoryModel>>(() =>
@@ -91,6 +94,7 @@ namespace Services.Api.Business.Departments.AA.Controllers
 
         [HttpPost]
         [Route(nameof(InformInventoryRequest))]
+        [Authorize(Roles = "ApiUser,QueueUser")]
         public async Task<IActionResult> InformInventoryRequest([FromBody] InventoryRequestModel inventoryRequest, CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync(async () =>

@@ -1,12 +1,11 @@
-﻿using Services.Communication.Http.Broker.Department.Accounting.Models;
-
-using Infrastructure.Communication.Http.Wrapper;
+﻿using Infrastructure.Communication.Http.Wrapper;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Services.Api.Business.Departments.Accounting.Services;
 using Services.Api.Business.Departments.Accounting.Util.Validation.Department.CreateDepartment;
+using Services.Communication.Http.Broker.Department.Accounting.Models;
 
 using System.Collections.Generic;
 using System.Threading;
@@ -14,7 +13,6 @@ using System.Threading.Tasks;
 
 namespace Services.Api.Business.Departments.Accounting.Controllers
 {
-    [Authorize]
     [Route("BankAccounts")]
     public class AccountController : BaseController
     {
@@ -27,6 +25,7 @@ namespace Services.Api.Business.Departments.Accounting.Controllers
 
         [HttpGet]
         [Route(nameof(GetBankAccountsOfWorker))]
+        [Authorize(Roles = "ApiUser,GatewayUser")]
         public async Task<IActionResult> GetBankAccountsOfWorker(int workerId, CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync<List<BankAccountModel>>(async () =>
@@ -38,6 +37,7 @@ namespace Services.Api.Business.Departments.Accounting.Controllers
 
         [HttpPost]
         [Route(nameof(CreateBankAccount))]
+        [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> CreateBankAccount([FromBody] BankAccountModel bankAccount, CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync<int>(async () =>
@@ -51,6 +51,7 @@ namespace Services.Api.Business.Departments.Accounting.Controllers
 
         [HttpGet]
         [Route(nameof(GetCurrencies))]
+        [Authorize(Roles = "ApiUser,GatewayUser")]
         public async Task<IActionResult> GetCurrencies(CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync<List<CurrencyModel>>(async () =>
@@ -62,6 +63,7 @@ namespace Services.Api.Business.Departments.Accounting.Controllers
 
         [HttpPost]
         [Route(nameof(CreateCurrency))]
+        [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> CreateCurrency([FromBody] CurrencyModel currency, CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync<int>(async () =>
@@ -75,6 +77,7 @@ namespace Services.Api.Business.Departments.Accounting.Controllers
 
         [HttpGet]
         [Route(nameof(GetSalaryPaymentsOfWorker))]
+        [Authorize(Roles = "ApiUser,GatewayUser")]
         public async Task<IActionResult> GetSalaryPaymentsOfWorker(int workerId, CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync<List<SalaryPaymentModel>>(async () =>
@@ -86,6 +89,7 @@ namespace Services.Api.Business.Departments.Accounting.Controllers
 
         [HttpPost]
         [Route(nameof(CreateSalaryPayment))]
+        [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> CreateSalaryPayment([FromBody] SalaryPaymentModel salaryPayment, CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync<int>(async () =>

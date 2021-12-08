@@ -1,12 +1,11 @@
-﻿using Services.Communication.Http.Broker.Department.Selling.Models;
-
-using Infrastructure.Communication.Http.Wrapper;
+﻿using Infrastructure.Communication.Http.Wrapper;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Services.Api.Business.Departments.Selling.Services;
 using Services.Api.Business.Departments.Selling.Util.Validation.Selling;
+using Services.Communication.Http.Broker.Department.Selling.Models;
 
 using System.Collections.Generic;
 using System.Threading;
@@ -14,7 +13,6 @@ using System.Threading.Tasks;
 
 namespace Services.Api.Business.Departments.Selling.Controllers
 {
-    [Authorize]
     [Route("Selling")]
     public class SellingController : BaseController
     {
@@ -27,6 +25,7 @@ namespace Services.Api.Business.Departments.Selling.Controllers
 
         [HttpGet]
         [Route(nameof(GetSolds))]
+        [Authorize(Roles = "ApiUser,GatewayUser")]
         public async Task<IActionResult> GetSolds(CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync<List<SellModel>>(async () =>
@@ -38,6 +37,7 @@ namespace Services.Api.Business.Departments.Selling.Controllers
 
         [HttpPost]
         [Route(nameof(CreateSelling))]
+        [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> CreateSelling([FromBody] SellModel sellModel, CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync<int>(async () =>
@@ -51,6 +51,7 @@ namespace Services.Api.Business.Departments.Selling.Controllers
 
         [HttpPost]
         [Route(nameof(NotifyProductionRequest))]
+        [Authorize(Roles = "ApiUser,QueueUser")]
         public async Task<IActionResult> NotifyProductionRequest([FromBody] ProductionRequestModel productionRequest, CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync<int>(async () =>

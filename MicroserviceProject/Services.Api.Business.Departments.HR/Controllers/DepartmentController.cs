@@ -1,12 +1,11 @@
-﻿using Services.Communication.Http.Broker.Department.HR.Models;
-
-using Infrastructure.Communication.Http.Wrapper;
+﻿using Infrastructure.Communication.Http.Wrapper;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Services.Api.Business.Departments.HR.Services;
 using Services.Api.Business.Departments.HR.Util.Validation.Department.CreateDepartment;
+using Services.Communication.Http.Broker.Department.HR.Models;
 
 using System.Collections.Generic;
 using System.Threading;
@@ -14,7 +13,6 @@ using System.Threading.Tasks;
 
 namespace Services.Api.Business.Departments.HR.Controllers
 {
-    [Authorize]
     [Route("Department")]
     public class DepartmentController : BaseController
     {
@@ -27,6 +25,7 @@ namespace Services.Api.Business.Departments.HR.Controllers
 
         [HttpGet]
         [Route(nameof(GetDepartments))]
+        [Authorize(Roles = "ApiUser,GatewayUser")]
         public async Task<IActionResult> GetDepartments(CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync<List<DepartmentModel>>(async () =>
@@ -38,6 +37,7 @@ namespace Services.Api.Business.Departments.HR.Controllers
 
         [HttpPost]
         [Route(nameof(CreateDepartment))]
+        [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> CreateDepartment([FromBody] DepartmentModel department, CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync<int>(async () =>

@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 
 namespace Services.Api.Gateway.Public.Controllers
 {
-    [Authorize]
     [Route("HR")]
     public class HumanResourcesController : Controller
     {
@@ -27,15 +26,8 @@ namespace Services.Api.Gateway.Public.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "StandardUser")]
-        [Route(nameof(Index))]
-        public IActionResult Index()
-        {
-            return Ok();
-        }
-
-        [HttpGet]
         [Route(nameof(GetDepartments))]
+        [Authorize(Roles = "WebPresentationUser")]
         public async Task<IActionResult> GetDepartments(CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync(async () =>

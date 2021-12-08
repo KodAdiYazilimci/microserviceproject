@@ -16,7 +16,6 @@ using System.Threading.Tasks;
 
 namespace Services.Api.Business.Departments.HR.Controllers
 {
-    [Authorize]
     [Route("Person")]
     public class PersonController : BaseController
     {
@@ -29,6 +28,7 @@ namespace Services.Api.Business.Departments.HR.Controllers
 
         [HttpGet]
         [Route(nameof(GetPeople))]
+        [Authorize(Roles = "ApiUser,GatewayUser")]
         public async Task<IActionResult> GetPeople(CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync<List<PersonModel>>(async () =>
@@ -40,6 +40,7 @@ namespace Services.Api.Business.Departments.HR.Controllers
 
         [HttpPost]
         [Route(nameof(CreatePerson))]
+        [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> CreatePerson([FromBody] PersonModel person, CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync<int>(async () =>
@@ -53,6 +54,7 @@ namespace Services.Api.Business.Departments.HR.Controllers
 
         [HttpGet]
         [Route(nameof(GetTitles))]
+        [Authorize(Roles = "ApiUser,GatewayUser")]
         public async Task<IActionResult> GetTitles(CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync<List<TitleModel>>(async () =>
@@ -64,6 +66,7 @@ namespace Services.Api.Business.Departments.HR.Controllers
 
         [HttpPost]
         [Route(nameof(CreateTitle))]
+        [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> CreateTitle([FromBody] TitleModel title, CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync<int>(async () =>
@@ -77,6 +80,7 @@ namespace Services.Api.Business.Departments.HR.Controllers
 
         [HttpGet]
         [Route(nameof(GetWorkers))]
+        [Authorize(Roles = "ApiUser,GatewayUser")]
         public async Task<IActionResult> GetWorkers(CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync<List<WorkerModel>>(async () =>
@@ -88,6 +92,7 @@ namespace Services.Api.Business.Departments.HR.Controllers
 
         [HttpPost]
         [Route(nameof(CreateWorker))]
+        [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> CreateWorker([FromBody] WorkerModel worker, CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync<int>(async () =>

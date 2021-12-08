@@ -13,7 +13,6 @@ using System.Threading.Tasks;
 namespace Services.WebSockets.Reliability.Controllers
 {
     [Route("")]
-    [Authorize]
     public class MessageController : Controller
     {
         private readonly ErrorHub _tokensHub;
@@ -25,6 +24,7 @@ namespace Services.WebSockets.Reliability.Controllers
 
         [Route(nameof(SendErrorNofication))]
         [HttpPost]
+        [Authorize(Roles = "ApiUser,GatewayUser,QueueUser,WebPresentationUser")]
         public async Task<IActionResult> SendErrorNofication([FromBody] WebSocketContentModel webSocketMessage)
         {
             AuthenticatedUser user = null;

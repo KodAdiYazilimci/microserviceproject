@@ -1,17 +1,17 @@
 ﻿using Infrastructure.Communication.Http.Wrapper;
 using Infrastructure.Transaction.Recovery;
-using Services.Api.Business.Departments.HR.Services;
-using Services.Api.Business.Departments.HR.Util.Validation.Transaction;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
+using Services.Api.Business.Departments.HR.Services;
+using Services.Api.Business.Departments.HR.Util.Validation.Transaction;
 
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Services.Api.Business.Departments.HR.Controllers
 {
-    [Authorize]
     [Route("Transaction")]
     public class TransactionController : BaseController
     {
@@ -28,6 +28,7 @@ namespace Services.Api.Business.Departments.HR.Controllers
 
         [HttpPost]
         [Route(nameof(RollbackTransaction))]
+        [Authorize(Roles = "ApiUser")]
         public async Task<IActionResult> RollbackTransaction([FromBody] RollbackModel rollbackModel, CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync<int>(async () =>

@@ -12,7 +12,6 @@ using System.Collections.Generic;
 
 namespace Services.Business.Departments.Finance.Controllers
 {
-    [Authorize]
     [Route("Identity")]
     public class IdentityController : BaseController
     {
@@ -24,6 +23,7 @@ namespace Services.Business.Departments.Finance.Controllers
         }
 
         [Route(nameof(RemoveSessionIfExistsInCache))]
+        [Authorize(Roles = "ApiUser")]
         public IActionResult RemoveSessionIfExistsInCache(string tokenKey)
         {
             return HttpResponseWrapper.Wrap(() =>
