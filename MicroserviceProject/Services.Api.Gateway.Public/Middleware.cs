@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 
-using Services.Api.Gateway.Public.Services;
+using Services.Api.Gateway.Public.Util.Communication;
 using Services.Logging.RequestResponse;
 using Services.Logging.RequestResponse.Configuration;
 
@@ -116,8 +116,8 @@ namespace Services.Api.Gateway.Public
         {
             if (!string.IsNullOrEmpty(httpContext.Request.Headers["TransactionIdentity"]))
             {
-                var hrService = serviceProvider.GetService(typeof(HRService));
-                (hrService as HRService).TransactionIdentity = httpContext.Request.Headers["TransactionIdentity"].ToString();
+                var apiBridge = serviceProvider.GetService(typeof(ApiBridge));
+                (apiBridge as ApiBridge).TransactionIdentity = httpContext.Request.Headers["TransactionIdentity"].ToString();
             }
         }
     }

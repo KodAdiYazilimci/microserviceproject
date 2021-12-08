@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 
 using Services.Api.Gateway.Public.DI;
+using Services.Api.Gateway.Public.Util.Communication;
 using Services.Communication.Http.Broker.Department.DI;
 using Services.Logging.RequestResponse.DI;
 using Services.Security.BasicToken.DI;
@@ -35,7 +36,7 @@ namespace Services.Api.Gateway.Public
         {
             services.AddControllers();
 
-            services.RegisterServices();
+            services.RegisterUtilities();
 
             services.RegisterBasicTokenAuthentication();
             services.RegisterHttpDepartmentCommunicators();

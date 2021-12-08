@@ -3,9 +3,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using Services.Api.Gateway.Public.Services;
+using Services.Api.Gateway.Public.Util.Communication;
+using Services.Communication.Http.Broker.Department.HR;
 
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,11 +15,15 @@ namespace Services.Api.Gateway.Public.Controllers
     [Route("HR")]
     public class HumanResourcesController : Controller
     {
-        private readonly HRService hrService;
+        private readonly ApiBridge _apiBridge;
+        private readonly HRCommunicator _hrCommunicator;
 
-        public HumanResourcesController(HRService hrService)
+        public HumanResourcesController(
+            ApiBridge apiBridge,
+            HRCommunicator hrCommunicator)
         {
-            this.hrService = hrService;
+            _apiBridge = apiBridge;
+            _hrCommunicator = hrCommunicator;
         }
 
         [HttpGet]
@@ -34,12 +38,13 @@ namespace Services.Api.Gateway.Public.Controllers
         [Route(nameof(GetDepartments))]
         public async Task<IActionResult> GetDepartments(CancellationTokenSource cancellationTokenSource)
         {
-            hrService.TransactionIdentity = Guid.NewGuid().ToString();
-
             return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await hrService.GetDepartmentsAsync(cancellationTokenSource);
-            }, hrService);
+                return await _apiBridge.CallAsync(async (transactionIdentity, cancellationTokenSource) =>
+                {
+                    return await _hrCommunicator.GetDepartmentsAsync(transactionIdentity, cancellationTokenSource);
+                }, cancellationTokenSource);
+            });
         }
     }
 }
