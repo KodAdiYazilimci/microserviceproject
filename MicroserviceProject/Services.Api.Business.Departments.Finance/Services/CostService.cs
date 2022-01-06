@@ -242,7 +242,9 @@ namespace Services.Business.Departments.Finance.Services
                 {
                     Approved = true,
                     InventoryRequestId = decidedCostEntity.InventoryRequestId,
-                    Done = true
+                    Done = true,
+                    TransactionIdentity = TransactionIdentity,
+                    GeneratedBy = ApiServiceName
                 });
 
             await _unitOfWork.SaveAsync(cancellationTokenSource);
@@ -306,7 +308,9 @@ namespace Services.Business.Departments.Finance.Services
                 {
                     Approved = false,
                     InventoryRequestId = decidedCostEntity.InventoryRequestId,
-                    Done = true
+                    Done = true,
+                    TransactionIdentity = TransactionIdentity,
+                    GeneratedBy = ApiServiceName
                 });
 
             await _unitOfWork.SaveAsync(cancellationTokenSource);

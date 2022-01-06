@@ -342,7 +342,9 @@ namespace Services.Api.Business.Departments.Buying.Services
             _inventoryRequestPublisher.AddToBuffer(
                 model: new Communication.Mq.Rabbit.Department.Models.Finance.DecidedCostQueueModel
                 {
-                    InventoryRequestId = createdInventoryRequestId
+                    InventoryRequestId = createdInventoryRequestId,
+                    TransactionIdentity = TransactionIdentity,
+                    GeneratedBy = ApiServiceName
                 });
 
             await _unitOfWork.SaveAsync(cancellationTokenSource);
@@ -459,7 +461,9 @@ namespace Services.Api.Business.Departments.Buying.Services
                         InventoryId = inventoryRequestEntity.InventoryId,
                         Amount = inventoryRequestEntity.Amount,
                         Revoked = decidedCost.Approved,
-                        Done = true
+                        Done = true,
+                        TransactionIdentity = TransactionIdentity,
+                        GeneratedBy = ApiServiceName
                     });
             }
             else if (inventoryRequestEntity.DepartmentId == (int)Constants.Departments.InformationTechnologies)
@@ -470,7 +474,9 @@ namespace Services.Api.Business.Departments.Buying.Services
                         InventoryId = inventoryRequestEntity.InventoryId,
                         Amount = inventoryRequestEntity.Amount,
                         Revoked = decidedCost.Approved,
-                        Done = true
+                        Done = true,
+                        TransactionIdentity = TransactionIdentity,
+                        GeneratedBy = ApiServiceName
                     });
             }
 

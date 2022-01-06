@@ -22,7 +22,7 @@ namespace Services.Communication.Mq.Rabbit.Consumer.Department.IT
         /// <summary>
         /// Rabbit kuyruğuyla iletişim kuracak tüketici sınıf
         /// </summary>
-        private readonly Consumer<Communication.Http.Broker.Department.IT.Models.InventoryRequestModel> _consumer;
+        private readonly Consumer<Communication.Mq.Rabbit.Department.Models.IT.InventoryRequestQueueModel> _consumer;
 
         /// <summary>
         /// IT departmanı servis iletişimcisi
@@ -39,11 +39,11 @@ namespace Services.Communication.Mq.Rabbit.Consumer.Department.IT
             ITCommunicator itCommunicator)
         {
             _itCommunicator = itCommunicator;
-            _consumer = new Consumer<Communication.Http.Broker.Department.IT.Models.InventoryRequestModel>(rabbitConfiguration);
+            _consumer = new Consumer<Communication.Mq.Rabbit.Department.Models.IT.InventoryRequestQueueModel>(rabbitConfiguration);
             _consumer.OnConsumed += Consumer_OnConsumed;
         }
 
-        private async Task Consumer_OnConsumed(Communication.Http.Broker.Department.IT.Models.InventoryRequestModel data)
+        private async Task Consumer_OnConsumed(Communication.Mq.Rabbit.Department.Models.IT.InventoryRequestQueueModel data)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
@@ -55,7 +55,7 @@ namespace Services.Communication.Mq.Rabbit.Consumer.Department.IT
                 Revoked = data.Revoked
             };
 
-            await _itCommunicator.InformInventoryRequestAsync(inventoryRequestModel, cancellationTokenSource);
+            await _itCommunicator.InformInventoryRequestAsync(inventoryRequestModel, data?.TransactionIdentity, cancellationTokenSource);
         }
 
         /// <summary>

@@ -3,7 +3,7 @@
     /// <summary>
     /// Envanter talep modeli
     /// </summary>
-    public class InventoryRequestQueueModel
+    public class InventoryRequestQueueModel : BaseQueueModel
     {
         public int InventoryId { get; set; }
         public int Amount { get; set; }

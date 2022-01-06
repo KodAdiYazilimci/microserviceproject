@@ -56,7 +56,7 @@ namespace Services.Communication.Mq.Rabbit.Consumer.Department.Finance
                 ReferenceNumber = data.ReferenceNumber
             };
 
-            await _financeCommunicator.CreateProductionRequestAsync(productionRequest, cancellationTokenSource);
+            await _financeCommunicator.CreateProductionRequestAsync(productionRequest, data?.TransactionIdentity, cancellationTokenSource);
         }
 
         /// <summary>

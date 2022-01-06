@@ -5,7 +5,7 @@ namespace Services.Communication.Mq.Rabbit.Department.Models.IT
     /// <summary>
     /// IT envanterleri
     /// </summary>
-    public class InventoryQueueModel
+    public class InventoryQueueModel : BaseQueueModel
     {
         public int Id { get; set; }
         public DateTime FromDate { get; set; }

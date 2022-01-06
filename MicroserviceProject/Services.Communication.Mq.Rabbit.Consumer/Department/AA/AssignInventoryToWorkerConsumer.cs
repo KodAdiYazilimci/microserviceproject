@@ -61,7 +61,7 @@ namespace Services.Communication.Mq.Rabbit.Consumer.Department.AA
                 }).ToList()
             };
 
-            await _aaCommunicator.AssignInventoryToWorkerAsync(workerModel, cancellationTokenSource);
+            await _aaCommunicator.AssignInventoryToWorkerAsync(workerModel, data?.TransactionIdentity, cancellationTokenSource);
         }
 
         /// <summary>

@@ -255,7 +255,9 @@ namespace Services.Api.Business.Departments.Selling.Services
                         Amount = sellModel.Quantity,
                         DepartmentId = (int)Constants.Departments.Selling,
                         ProductId = mappedSellEntity.ProductId,
-                        ReferenceNumber = sellModel.ReferenceNumber
+                        ReferenceNumber = sellModel.ReferenceNumber,
+                        TransactionIdentity = TransactionIdentity,
+                        GeneratedBy = ApiServiceName
                     });
 
                     mappedSellEntity.SellStatusId = (int)SellStatus.PendingFinanceApprovementToProduce;
@@ -354,7 +356,9 @@ namespace Services.Api.Business.Departments.Selling.Services
                     ProductId = sellEntity.ProductId,
                     Amount = sellEntity.Quantity,
                     DepartmentId = (int)Constants.Departments.Selling,
-                    ReferenceNumber = sellEntity.ReferenceNumber
+                    ReferenceNumber = sellEntity.ReferenceNumber,
+                    TransactionIdentity = TransactionIdentity,
+                    GeneratedBy = ApiServiceName
                 }, cancellationTokenSource);
 
                 return sellEntity.Id;

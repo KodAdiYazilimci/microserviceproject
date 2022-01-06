@@ -5,7 +5,7 @@ namespace Services.Communication.Mq.Rabbit.Department.Models.Accounting
     /// <summary>
     /// Çalışanlar
     /// </summary>
-    public class WorkerQueueModel
+    public class WorkerQueueModel : BaseQueueModel
     {
         public int Id { get; set; }
 

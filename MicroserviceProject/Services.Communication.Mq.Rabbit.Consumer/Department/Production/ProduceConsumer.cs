@@ -49,13 +49,16 @@ namespace Services.Communication.Mq.Rabbit.Consumer.Department.Production
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            await _productionCommunicator.ProduceProductAsync(new Services.Communication.Http.Broker.Department.Production.Models.ProduceModel()
-            {
-                ProductId = data.ProductId,
-                Amount = data.Amount,
-                DepartmentId = data.DepartmentId,
-                ReferenceNumber = data.ReferenceNumber
-            }, cancellationTokenSource);
+            await _productionCommunicator.ProduceProductAsync(
+                new Services.Communication.Http.Broker.Department.Production.Models.ProduceModel()
+                {
+                    ProductId = data.ProductId,
+                    Amount = data.Amount,
+                    DepartmentId = data.DepartmentId,
+                    ReferenceNumber = data.ReferenceNumber
+                },
+                data?.TransactionIdentity,
+                cancellationTokenSource);
         }
 
         /// <summary>

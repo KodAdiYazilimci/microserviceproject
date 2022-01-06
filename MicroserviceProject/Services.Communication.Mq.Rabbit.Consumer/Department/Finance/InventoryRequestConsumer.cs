@@ -23,7 +23,7 @@ namespace Services.Communication.Mq.Rabbit.Consumer.Department.Finance
         /// <summary>
         /// Rabbit kuyruğuyla iletişim kuracak tüketici sınıf
         /// </summary>
-        private readonly Consumer<DecidedCostModel> _consumer;
+        private readonly Consumer<Communication.Mq.Rabbit.Department.Models.Finance.DecidedCostQueueModel> _consumer;
 
         /// <summary>
         /// Finans departmanı servis iletişimcisi
@@ -40,11 +40,11 @@ namespace Services.Communication.Mq.Rabbit.Consumer.Department.Finance
             FinanceCommunicator financeCommunicator)
         {
             _financeCommunicator = financeCommunicator;
-            _consumer = new Consumer<DecidedCostModel>(rabbitConfiguration);
+            _consumer = new Consumer<Communication.Mq.Rabbit.Department.Models.Finance.DecidedCostQueueModel>(rabbitConfiguration);
             _consumer.OnConsumed += Consumer_OnConsumed;
         }
 
-        private async Task Consumer_OnConsumed(DecidedCostModel data)
+        private async Task Consumer_OnConsumed(Communication.Mq.Rabbit.Department.Models.Finance.DecidedCostQueueModel data)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
@@ -53,7 +53,7 @@ namespace Services.Communication.Mq.Rabbit.Consumer.Department.Finance
                 InventoryRequestId = data.InventoryRequestId
             };
 
-            await _financeCommunicator.CreateCostAsync(decidedCostModel, cancellationTokenSource);
+            await _financeCommunicator.CreateCostAsync(decidedCostModel, data?.TransactionIdentity, cancellationTokenSource);
         }
 
         /// <summary>

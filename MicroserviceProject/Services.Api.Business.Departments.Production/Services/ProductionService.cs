@@ -312,7 +312,9 @@ namespace Services.Api.Business.Departments.Production.Services
                             {
                                 Amount = dependedProduct.Amount * produceModel.Amount,
                                 ProductId = dependedProduct.DependedProductId,
-                                ReferenceNumber = production.Id
+                                ReferenceNumber = production.Id,
+                                TransactionIdentity = TransactionIdentity,
+                                GeneratedBy = ApiServiceName
                             });
                         }
                         else
@@ -322,7 +324,9 @@ namespace Services.Api.Business.Departments.Production.Services
                             _descendProductStockPublisher.AddToBuffer(new ProductStockQueueModel()
                             {
                                 Amount = dependedProduct.Amount * produceModel.Amount,
-                                ProductId = dependedProduct.DependedProductId
+                                ProductId = dependedProduct.DependedProductId,
+                                TransactionIdentity = TransactionIdentity,
+                                GeneratedBy = ApiServiceName
                             });
                         }
 
@@ -389,7 +393,9 @@ namespace Services.Api.Business.Departments.Production.Services
                     _increaseProductStockPublisher.AddToBuffer(new ProductStockQueueModel()
                     {
                         ProductId = production.ProductId,
-                        Amount = production.RequestedAmount
+                        Amount = production.RequestedAmount,
+                        TransactionIdentity = TransactionIdentity,
+                        GeneratedBy = ApiServiceName
                     });
                 }
 
@@ -449,7 +455,9 @@ namespace Services.Api.Business.Departments.Production.Services
                             _descendProductStockPublisher.AddToBuffer(new ProductStockQueueModel()
                             {
                                 Amount = productionItem.RequiredAmount,
-                                ProductId = productionItem.DependedProductId
+                                ProductId = productionItem.DependedProductId,
+                                TransactionIdentity = TransactionIdentity,
+                                GeneratedBy = ApiServiceName
                             });
 
                             productionItem.StatusId = (int)ProductionStatus.ReadyToProduce;
@@ -481,7 +489,9 @@ namespace Services.Api.Business.Departments.Production.Services
                     _increaseProductStockPublisher.AddToBuffer(new ProductStockQueueModel()
                     {
                         Amount = production.RequestedAmount,
-                        ProductId = production.ProductId
+                        ProductId = production.ProductId,
+                        TransactionIdentity = TransactionIdentity,
+                        GeneratedBy = ApiServiceName
                     });
 
                     production.StatusId = (int)ProductionStatus.Completed;

@@ -50,7 +50,9 @@ namespace Services.Communication.Http.Broker.Department.HR
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<List<DepartmentModel>>> GetDepartmentsAsync(string transactionIdentity, CancellationTokenSource cancellationTokenSource)
+        public async Task<ServiceResultModel<List<DepartmentModel>>> GetDepartmentsAsync(
+            string transactionIdentity,
+            CancellationTokenSource cancellationTokenSource)
         {
             ServiceResultModel<List<DepartmentModel>> departmentsServiceResult =
                     await
@@ -71,15 +73,22 @@ namespace Services.Communication.Http.Broker.Department.HR
         /// Yeni departman oluşturur
         /// </summary>
         /// <param name="departmentModel">Departman modeli</param>
+        /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource"></param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<int>> CreateDepartmentAsync(DepartmentModel departmentModel, CancellationTokenSource cancellationTokenSource)
+        public async Task<ServiceResultModel<int>> CreateDepartmentAsync(
+            DepartmentModel departmentModel,
+            string transactionIdentity,
+            CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call<int>(
                 serviceName: _routeNameProvider.HR_CreateDepartment,
                 postData: departmentModel,
                 queryParameters: null,
-                headers: null,
+                headers: new List<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("TransactionIdentity", transactionIdentity)
+                },
                 cancellationTokenSource: cancellationTokenSource);
         }
 
@@ -88,7 +97,8 @@ namespace Services.Communication.Http.Broker.Department.HR
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<List<PersonModel>>> GetPeopleAsync(CancellationTokenSource cancellationTokenSource)
+        public async Task<ServiceResultModel<List<PersonModel>>> GetPeopleAsync(
+            CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call<List<PersonModel>>(
                 serviceName: _routeNameProvider.HR_GetPeople,
@@ -102,15 +112,22 @@ namespace Services.Communication.Http.Broker.Department.HR
         /// Kişi oluşturur
         /// </summary>
         /// <param name="personModel">Kişi modeli</param>
+        /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<int>> CreatePersonAsync(PersonModel personModel, CancellationTokenSource cancellationTokenSource)
+        public async Task<ServiceResultModel<int>> CreatePersonAsync(
+            PersonModel personModel,
+            string transactionIdentity,
+            CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call<int>(
                 serviceName: _routeNameProvider.HR_CreatePerson,
                 postData: personModel,
                 queryParameters: null,
-                headers: null,
+                headers: new List<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("TransactionIdentity", transactionIdentity)
+                },
                 cancellationTokenSource: cancellationTokenSource);
         }
 
@@ -118,7 +135,8 @@ namespace Services.Communication.Http.Broker.Department.HR
         /// Ünvanları verir
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenu</param>
-        public async Task<ServiceResultModel<List<TitleModel>>> GetTitlesAsync(CancellationTokenSource cancellationTokenSource)
+        public async Task<ServiceResultModel<List<TitleModel>>> GetTitlesAsync(
+            CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call<List<TitleModel>>(
                 serviceName: _routeNameProvider.HR_GetTitles,
@@ -132,14 +150,21 @@ namespace Services.Communication.Http.Broker.Department.HR
         /// Yeni bir ünvan oluşturur
         /// </summary>
         /// <param name="titleModel">Ünvan modeli</param>
+        /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
-        public async Task<ServiceResultModel<int>> CreateTitleAsync(TitleModel titleModel, CancellationTokenSource cancellationTokenSource)
+        public async Task<ServiceResultModel<int>> CreateTitleAsync(
+            TitleModel titleModel,
+            string transactionIdentity,
+            CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call<int>(
                 serviceName: _routeNameProvider.HR_CreateTitle,
                 postData: titleModel,
                 queryParameters: null,
-                headers: null,
+                headers: new List<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("TransactionIdentity", transactionIdentity)
+                },
                 cancellationTokenSource: cancellationTokenSource);
         }
 
@@ -147,7 +172,8 @@ namespace Services.Communication.Http.Broker.Department.HR
         /// Çalışanları verir
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
-        public async Task<ServiceResultModel<List<WorkerModel>>> GetWorkersAsync(CancellationTokenSource cancellationTokenSource)
+        public async Task<ServiceResultModel<List<WorkerModel>>> GetWorkersAsync(
+            CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call<List<WorkerModel>>(
                 serviceName: _routeNameProvider.HR_GetWorkers,
@@ -161,14 +187,21 @@ namespace Services.Communication.Http.Broker.Department.HR
         /// Yeni bir çalışan oluşturur
         /// </summary>
         /// <param name="workerModel">Çalışan modeli</param>
+        /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
-        public async Task<ServiceResultModel<int>> CreateWorkerAsync(WorkerModel workerModel, CancellationTokenSource cancellationTokenSource)
+        public async Task<ServiceResultModel<int>> CreateWorkerAsync(
+            WorkerModel workerModel,
+            string transactionIdentity,
+            CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call<int>(
                 serviceName: _routeNameProvider.HR_CreateWorker,
                 postData: workerModel,
                 queryParameters: null,
-                headers: null,
+                headers: new List<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("TransactionIdentity", transactionIdentity)
+                },
                 cancellationTokenSource: cancellationTokenSource);
         }
 
@@ -178,7 +211,9 @@ namespace Services.Communication.Http.Broker.Department.HR
         /// <param name="tokenKey">Düşürülecek session a ait token</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel> RemoveSessionIfExistsInCacheAsync(string tokenKey, CancellationTokenSource cancellationTokenSource)
+        public async Task<ServiceResultModel> RemoveSessionIfExistsInCacheAsync(
+            string tokenKey,
+            CancellationTokenSource cancellationTokenSource)
         {
             ServiceResultModel serviceResult =
                 await _serviceCommunicator.Call(

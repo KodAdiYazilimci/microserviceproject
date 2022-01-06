@@ -49,7 +49,8 @@ namespace Services.Communication.Http.Broker.Department.Production
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<List<ProductModel>>> GetProductsAsync(CancellationTokenSource cancellationTokenSource)
+        public async Task<ServiceResultModel<List<ProductModel>>> GetProductsAsync(
+            CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call<List<ProductModel>>(
                 serviceName: _routeNameProvider.Production_GetProducts,
@@ -63,15 +64,22 @@ namespace Services.Communication.Http.Broker.Department.Production
         /// Üretim departmanına ürün üretme talebi iletir
         /// </summary>
         /// <param name="produceModel">Üretilecek ürünün talep modeli</param>
+        /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<int>> ProduceProductAsync(ProduceModel produceModel, CancellationTokenSource cancellationTokenSource)
+        public async Task<ServiceResultModel<int>> ProduceProductAsync(
+            ProduceModel produceModel,
+            string transactionIdentity,
+            CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call<int>(
                 serviceName: _routeNameProvider.Production_ProduceProduct,
                 postData: produceModel,
                 queryParameters: null,
-                headers: null,
+                headers: new List<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("TransactionIdentity", transactionIdentity)
+                },
                 cancellationTokenSource: cancellationTokenSource);
         }
 
@@ -79,15 +87,22 @@ namespace Services.Communication.Http.Broker.Department.Production
         /// Üretim departmanına yeni ürün kaydı oluşturur
         /// </summary>
         /// <param name="productModel">Ürün modeli</param>
+        /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<int>> CreateProductAsync(ProductModel productModel, CancellationTokenSource cancellationTokenSource)
+        public async Task<ServiceResultModel<int>> CreateProductAsync(
+            ProductModel productModel,
+            string transactionIdentity,
+            CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call<int>(
                 serviceName: _routeNameProvider.Production_CreateProduct,
                 postData: productModel,
                 queryParameters: null,
-                headers: null,
+                headers: new List<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("TransactionIdentity", transactionIdentity)
+                },
                 cancellationTokenSource: cancellationTokenSource);
         }
 
@@ -97,7 +112,9 @@ namespace Services.Communication.Http.Broker.Department.Production
         /// <param name="tokenKey">Düşürülecek session a ait token</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel> RemoveSessionIfExistsInCacheAsync(string tokenKey, CancellationTokenSource cancellationTokenSource)
+        public async Task<ServiceResultModel> RemoveSessionIfExistsInCacheAsync(
+            string tokenKey,
+            CancellationTokenSource cancellationTokenSource)
         {
             ServiceResultModel serviceResult =
                 await _serviceCommunicator.Call(

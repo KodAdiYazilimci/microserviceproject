@@ -57,7 +57,7 @@ namespace Services.Communication.Mq.Rabbit.Consumer.Department.AA
                 Revoked = data.Revoked
             };
 
-            await _aaCommunicator.InformInventoryRequestAsync(inventoryRequestModel, cancellationTokenSource);
+            await _aaCommunicator.InformInventoryRequestAsync(inventoryRequestModel, data?.TransactionIdentity, cancellationTokenSource);
         }
 
         /// <summary>

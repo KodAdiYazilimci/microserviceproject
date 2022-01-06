@@ -380,7 +380,9 @@ namespace Services.Api.Business.Departments.IT.Services
                     {
                         Amount = 3,
                         DepartmentId = (int)Constants.Departments.InformationTechnologies,
-                        InventoryId = inventoryId
+                        InventoryId = inventoryId,
+                        TransactionIdentity = TransactionIdentity,
+                        GeneratedBy = ApiServiceName
                     });
 
                     worker.ITInventories.FirstOrDefault(x => x.Id == inventoryId).CurrentStockCount = 0;

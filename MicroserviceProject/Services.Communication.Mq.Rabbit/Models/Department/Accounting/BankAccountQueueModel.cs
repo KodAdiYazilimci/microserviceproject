@@ -3,7 +3,7 @@
     /// <summary>
     /// Banka hesapları
     /// </summary>
-    public class BankAccountQueueModel
+    public class BankAccountQueueModel : BaseQueueModel
     {
         /// <summary>
         /// Hesabın IBAN numarası

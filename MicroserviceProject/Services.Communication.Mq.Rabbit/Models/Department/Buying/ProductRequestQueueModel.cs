@@ -1,6 +1,6 @@
 ﻿namespace Services.Communication.Mq.Rabbit.Department.Models.Buying
 {
-    public class ProductRequestQueueModel
+    public class ProductRequestQueueModel : BaseQueueModel
     {
         public int ProductId { get; set; }
         public int Amount { get; set; }

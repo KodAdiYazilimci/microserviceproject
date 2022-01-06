@@ -445,7 +445,9 @@ namespace Services.Api.Business.Departments.HR.Services
                 model: new BankAccountQueueModel
                 {
                     Worker = new WorkerQueueModel() { Id = worker.Id },
-                    IBAN = worker.BankAccounts.FirstOrDefault().IBAN
+                    IBAN = worker.BankAccounts.FirstOrDefault().IBAN,
+                    TransactionIdentity = TransactionIdentity,
+                    GeneratedBy = ApiServiceName
                 });
 
             #endregion
@@ -493,8 +495,12 @@ namespace Services.Api.Business.Departments.HR.Services
                 {
                     FromDate = x.FromDate,
                     Id = x.Id,
-                    ToDate = x.ToDate
-                }).ToList()
+                    ToDate = x.ToDate,
+                    TransactionIdentity = TransactionIdentity,
+                    GeneratedBy = ApiServiceName
+                }).ToList(),
+                TransactionIdentity = TransactionIdentity,
+                GeneratedBy = ApiServiceName
             });
 
             #endregion
@@ -542,8 +548,12 @@ namespace Services.Api.Business.Departments.HR.Services
                 {
                     FromDate = x.FromDate,
                     Id = x.Id,
-                    ToDate = x.ToDate
-                }).ToList()
+                    ToDate = x.ToDate,
+                    TransactionIdentity = TransactionIdentity,
+                    GeneratedBy = ApiServiceName
+                }).ToList(),
+                TransactionIdentity = TransactionIdentity,
+                GeneratedBy = ApiServiceName
             });
 
             #endregion

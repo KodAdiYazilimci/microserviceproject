@@ -23,7 +23,7 @@ namespace Services.Communication.Mq.Rabbit.Consumer.Department.Accounting
         /// <summary>
         /// Rabbit kuyruğuyla iletişim kuracak tüketici sınıf
         /// </summary>
-        private readonly Consumer<Communication.Http.Broker.Department.Accounting.Models.WorkerModel> _consumer;
+        private readonly Consumer<Communication.Mq.Rabbit.Department.Models.Accounting.WorkerQueueModel> _consumer;
 
         /// <summary>
         /// Muhasebe departmanı servis iletişimcisi
@@ -41,11 +41,11 @@ namespace Services.Communication.Mq.Rabbit.Consumer.Department.Accounting
         {
             _accountingCommunicator = accountingCommunicator;
 
-            _consumer = new Consumer<Communication.Http.Broker.Department.Accounting.Models.WorkerModel>(rabbitConfiguration);
+            _consumer = new Consumer<Communication.Mq.Rabbit.Department.Models.Accounting.WorkerQueueModel>(rabbitConfiguration);
             _consumer.OnConsumed += Consumer_OnConsumed;
         }
 
-        private async Task Consumer_OnConsumed(Communication.Http.Broker.Department.Accounting.Models.WorkerModel data)
+        private async Task Consumer_OnConsumed(Communication.Mq.Rabbit.Department.Models.Accounting.WorkerQueueModel data)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
@@ -58,7 +58,7 @@ namespace Services.Communication.Mq.Rabbit.Consumer.Department.Accounting
                 }).ToList()
             };
 
-            await _accountingCommunicator.CreateBankAccountAsync(workerModel, cancellationTokenSource);
+            await _accountingCommunicator.CreateBankAccountAsync(workerModel, data?.TransactionIdentity, cancellationTokenSource);
         }
 
         /// <summary>

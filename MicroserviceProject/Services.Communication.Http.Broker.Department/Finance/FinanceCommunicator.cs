@@ -48,32 +48,45 @@ namespace Services.Communication.Http.Broker.Department.Finance
         /// Finans departmanı için masraf kararı oluşturur
         /// </summary>
         /// <param name="decidedCostModel">Masraf kararı modeli</param>
+        /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<int>> CreateCostAsync(DecidedCostModel decidedCostModel, CancellationTokenSource cancellationTokenSource)
+        public async Task<ServiceResultModel<int>> CreateCostAsync(
+            DecidedCostModel decidedCostModel, 
+            string transactionIdentity,
+            CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call<int>(
                 serviceName: _routeNameProvider.Finance_CreateCost,
                 postData: decidedCostModel,
                 queryParameters: null,
-                headers: null,
+                headers: new List<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("TransactionIdentity", transactionIdentity)
+                },
                 cancellationTokenSource: cancellationTokenSource);
         }
-
 
         /// <summary>
         /// Finans departmanı için ürün üretim kararı oluşturur
         /// </summary>
         /// <param name="productionRequest">Ürün üretim kararı modeli</param>
+        /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<int>> CreateProductionRequestAsync(ProductionRequestModel productionRequest, CancellationTokenSource cancellationTokenSource)
+        public async Task<ServiceResultModel<int>> CreateProductionRequestAsync(
+            ProductionRequestModel productionRequest, 
+            string transactionIdentity,
+            CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call<int>(
                 serviceName: _routeNameProvider.Finance_CreateProductionRequest,
                 postData: productionRequest,
                 queryParameters: null,
-                headers: null,
+                headers: new List<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("TransactionIdentity", transactionIdentity)
+                },
                 cancellationTokenSource: cancellationTokenSource);
         }
 
@@ -82,7 +95,8 @@ namespace Services.Communication.Http.Broker.Department.Finance
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<List<DecidedCostModel>>> GetDecidedCostsAsync(CancellationTokenSource cancellationTokenSource)
+        public async Task<ServiceResultModel<List<DecidedCostModel>>> GetDecidedCostsAsync(
+            CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call<List<DecidedCostModel>>(
                 serviceName: _routeNameProvider.Finance_GetDecidedCosts,
@@ -96,15 +110,22 @@ namespace Services.Communication.Http.Broker.Department.Finance
         /// Finans departmanındaki masrafa onay veya red verir
         /// </summary>
         /// <param name="decidedCostModel">Masraf modeli</param>
+        /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<int>> DecideCostAsync(DecidedCostModel decidedCostModel, CancellationTokenSource cancellationTokenSource)
+        public async Task<ServiceResultModel<int>> DecideCostAsync(
+            DecidedCostModel decidedCostModel, 
+            string transactionIdentity,
+            CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call<int>(
                 serviceName: _routeNameProvider.Finance_DecideCost,
                 postData: decidedCostModel,
                 queryParameters: null,
-                headers: null,
+                headers: new List<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("TransactionIdentity", transactionIdentity)
+                },
                 cancellationTokenSource: cancellationTokenSource);
         }
 
@@ -114,7 +135,9 @@ namespace Services.Communication.Http.Broker.Department.Finance
         /// <param name="tokenKey">Düşürülecek session a ait token</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel> RemoveSessionIfExistsInCacheAsync(string tokenKey, CancellationTokenSource cancellationTokenSource)
+        public async Task<ServiceResultModel> RemoveSessionIfExistsInCacheAsync(
+            string tokenKey, 
+            CancellationTokenSource cancellationTokenSource)
         {
             ServiceResultModel serviceResult =
                 await _serviceCommunicator.Call(

@@ -441,7 +441,9 @@ namespace Services.Api.Business.Departments.AA.Services
                     {
                         Amount = 3,
                         DepartmentId = (int)Constants.Departments.AdministrativeAffairs,
-                        InventoryId = inventoryId
+                        InventoryId = inventoryId,
+                        TransactionIdentity = TransactionIdentity,
+                        GeneratedBy = ApiServiceName
                     });
 
                     worker.AAInventories.FirstOrDefault(x => x.Id == inventoryId).CurrentStockCount = 0;

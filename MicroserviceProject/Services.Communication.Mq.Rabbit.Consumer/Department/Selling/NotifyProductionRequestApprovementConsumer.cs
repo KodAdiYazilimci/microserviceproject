@@ -58,7 +58,7 @@ namespace Services.Communication.Mq.Rabbit.Consumer.Department.Selling
                 ReferenceNumber = data.ReferenceNumber
             };
 
-            await _sellingCommunicator.NotifyProductionRequest(productionRequestModel, cancellationTokenSource);
+            await _sellingCommunicator.NotifyProductionRequest(productionRequestModel, data?.TransactionIdentity, cancellationTokenSource);
         }
 
         /// <summary>

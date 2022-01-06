@@ -12,7 +12,7 @@ namespace Services.Communication.Mq.Rabbit.Publisher
     /// Rabbit kuyruğuna kayıt ekleyecek sınıfların temel sınıfı
     /// </summary>
     /// <typeparam name="TModel">Kuyruğa eklenecek kaydın tipi</typeparam>
-    public abstract class BasePublisher<TModel> : IDisposable
+    public abstract class BasePublisher<TModel> : IDisposable where TModel : BaseQueueModel, new()
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi

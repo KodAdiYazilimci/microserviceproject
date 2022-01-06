@@ -24,7 +24,7 @@ namespace Services.Communication.Mq.Rabbit.Consumer.Department.IT
         /// <summary>
         /// Rabbit kuyruğuyla iletişim kuracak tüketici sınıf
         /// </summary>
-        private readonly Consumer<WorkerModel> _consumer;
+        private readonly Consumer<Communication.Mq.Rabbit.Department.Models.IT.WorkerQueueModel> _consumer;
 
         /// <summary>
         /// IT departmanı servis iletişimcisi
@@ -41,18 +41,18 @@ namespace Services.Communication.Mq.Rabbit.Consumer.Department.IT
             ITCommunicator itCommunicator)
         {
             _itCommunicator = itCommunicator;
-            _consumer = new Consumer<WorkerModel>(rabbitConfiguration);
+            _consumer = new Consumer<Communication.Mq.Rabbit.Department.Models.IT.WorkerQueueModel>(rabbitConfiguration);
             _consumer.OnConsumed += Consumer_OnConsumed;
         }
 
-        private async Task Consumer_OnConsumed(WorkerModel data)
+        private async Task Consumer_OnConsumed(Communication.Mq.Rabbit.Department.Models.IT.WorkerQueueModel data)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
             WorkerModel workerModel = new WorkerModel
             {
                 Id = data.Id,
-                ITInventories = data.ITInventories.Select(x => new InventoryModel
+                ITInventories = data.Inventories.Select(x => new InventoryModel
                 {
                     Id = x.Id,
                     FromDate = x.FromDate,
@@ -60,7 +60,7 @@ namespace Services.Communication.Mq.Rabbit.Consumer.Department.IT
                 }).ToList()
             };
 
-            await _itCommunicator.AssignInventoryToWorkerAsync(workerModel, cancellationTokenSource);
+            await _itCommunicator.AssignInventoryToWorkerAsync(workerModel, data?.TransactionIdentity, cancellationTokenSource);
         }
 
         /// <summary>

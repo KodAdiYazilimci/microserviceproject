@@ -49,7 +49,9 @@ namespace Services.Communication.Http.Broker.Department.Storage
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<StockModel>> GetStockAsync(int productId, CancellationTokenSource cancellationTokenSource)
+        public async Task<ServiceResultModel<StockModel>> GetStockAsync(
+            int productId,
+            CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call<StockModel>(
                 serviceName: _routeNameProvider.Storage_GetStock,
@@ -63,15 +65,22 @@ namespace Services.Communication.Http.Broker.Department.Storage
         /// Stok departmanındaki bir ürünün stok değerini azaltır
         /// </summary>
         /// <param name="stockModel">Stoğu düşürecek model</param>
+        /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<int>> DescendStockAsync(StockModel stockModel, CancellationTokenSource cancellationTokenSource)
+        public async Task<ServiceResultModel<int>> DescendStockAsync(
+            StockModel stockModel,
+            string transactionIdentity,
+            CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call<int>(
                 serviceName: _routeNameProvider.Storage_DescendProductStock,
                 postData: stockModel,
                 queryParameters: null,
-                headers: null,
+                headers: new List<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("TransactionIdentity", transactionIdentity)
+                },
                 cancellationTokenSource: cancellationTokenSource);
         }
 
@@ -79,15 +88,22 @@ namespace Services.Communication.Http.Broker.Department.Storage
         /// Stok departmanına yeni bir stok kaydı oluşturur
         /// </summary>
         /// <param name="stockModel">Stok modeli</param>
+        /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<int>> CreateStockAsync(StockModel stockModel, CancellationTokenSource cancellationTokenSource)
+        public async Task<ServiceResultModel<int>> CreateStockAsync(
+            StockModel stockModel,
+            string transactionIdentity,
+            CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call<int>(
                 serviceName: _routeNameProvider.Storage_CreateStock,
                 postData: stockModel,
                 queryParameters: null,
-                headers: null,
+                headers: new List<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("TransactionIdentity", transactionIdentity)
+                },
                 cancellationTokenSource: cancellationTokenSource);
         }
 
@@ -97,7 +113,9 @@ namespace Services.Communication.Http.Broker.Department.Storage
         /// <param name="tokenKey">Düşürülecek session a ait token</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel> RemoveSessionIfExistsInCacheAsync(string tokenKey, CancellationTokenSource cancellationTokenSource)
+        public async Task<ServiceResultModel> RemoveSessionIfExistsInCacheAsync(
+            string tokenKey,
+            CancellationTokenSource cancellationTokenSource)
         {
             ServiceResultModel serviceResult =
                 await _serviceCommunicator.Call(

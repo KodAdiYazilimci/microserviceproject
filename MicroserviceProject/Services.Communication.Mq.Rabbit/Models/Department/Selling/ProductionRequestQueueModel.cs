@@ -3,7 +3,7 @@
     /// <summary>
     /// Ürün üretim talebi modeli
     /// </summary>
-    public class ProductionRequestQueueModel
+    public class ProductionRequestQueueModel : BaseQueueModel
     {
         public int ProductId { get; set; }
         public int Amount { get; set; }

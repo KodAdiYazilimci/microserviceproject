@@ -243,7 +243,9 @@ namespace Services.Business.Departments.Finance.Services
                     Amount = productionRequestEntity.Amount,
                     DepartmentId = productionRequestEntity.DepartmentId,
                     ProductId = productionRequestEntity.ProductId,
-                    ReferenceNumber = productionRequestEntity.ReferenceNumber
+                    ReferenceNumber = productionRequestEntity.ReferenceNumber,
+                    TransactionIdentity = TransactionIdentity,
+                    GeneratedBy = ApiServiceName
                 });
 
             await _unitOfWork.SaveAsync(cancellationTokenSource);
@@ -309,7 +311,8 @@ namespace Services.Business.Departments.Finance.Services
                     Amount = productionRequestEntity.Amount,
                     ReferenceNumber = productionRequestEntity.ReferenceNumber,
                     ProductId = productionRequestEntity.ProductId,
-                    DepartmentId = productionRequestEntity.DepartmentId
+                    DepartmentId = productionRequestEntity.DepartmentId,
+                    TransactionIdentity = TransactionIdentity
                 });
 
             await _unitOfWork.SaveAsync(cancellationTokenSource);

@@ -55,7 +55,7 @@ namespace Services.Communication.Mq.Rabbit.Consumer.Department.Storage
             stockModel.Amount = data.Amount;
             stockModel.ProductId = data.ProductId;
 
-            await _storageCommunicator.DescendStockAsync(stockModel, cancellationTokenSource);
+            await _storageCommunicator.DescendStockAsync(stockModel, data?.TransactionIdentity, cancellationTokenSource);
         }
 
         /// <summary>

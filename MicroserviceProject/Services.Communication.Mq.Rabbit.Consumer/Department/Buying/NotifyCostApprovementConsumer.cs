@@ -56,7 +56,7 @@ namespace Services.Communication.Mq.Rabbit.Consumer.Department.Buying
                 InventoryRequestId = data.InventoryRequestId
             };
 
-            await _buyingCommunicator.ValidateCostInventoryAsync(decidedCostModel, cancellationTokenSource);
+            await _buyingCommunicator.ValidateCostInventoryAsync(decidedCostModel, data?.TransactionIdentity, cancellationTokenSource);
         }
 
         /// <summary>
