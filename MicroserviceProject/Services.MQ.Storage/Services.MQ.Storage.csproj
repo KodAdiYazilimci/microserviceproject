@@ -10,7 +10,6 @@
     <ProjectReference Include="..\Infrastructure.Util.DI\Infrastructure.Util.DI.csproj" />
     <ProjectReference Include="..\Services.Communication.Http.Broker.Authorization\Services.Communication.Http.Broker.Authorization.csproj" />
     <ProjectReference Include="..\Services.Communication.Http.Broker.Department\Services.Communication.Http.Broker.Department.csproj" />
-    <ProjectReference Include="..\Services.Communication.Mq.Rabbit.Consumer\Services.Communication.Mq.Rabbit.Consumer.csproj" />
     <ProjectReference Include="..\Services.Communication.Mq.Rabbit.Queue.Storage\Services.Communication.Mq.Rabbit.Queue.Storage.csproj" />
   </ItemGroup>
 

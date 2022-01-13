@@ -29,7 +29,6 @@
     <ProjectReference Include="..\Infrastructure.Transaction.UnitOfWork.Sql.Mock\Infrastructure.Transaction.UnitOfWork.Sql.Mock.csproj" />
     <ProjectReference Include="..\Services.Api.Business.Departments.HR\Services.Api.Business.Departments.HR.csproj" />
     <ProjectReference Include="..\Services.Communication.Http.Broker.Department.Mock\Services.Communication.Http.Broker.Department.Mock.csproj" />
-    <ProjectReference Include="..\Services.Communication.Mq.Rabbit.Publisher.Mock\Services.Communication.Mq.Rabbit.Publisher.Mock.csproj" />
   </ItemGroup>
 
 </Project>
