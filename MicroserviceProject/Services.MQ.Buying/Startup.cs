@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 
 using Services.Communication.Http.Broker.Authorization.DI;
 using Services.Communication.Http.Broker.Department.DI;
-using Services.Communication.Mq.Rabbit.Consumer.DI;
+using Services.Communication.Mq.Rabbit.Queue.Buying.DI;
 
 using System.Net;
 
@@ -24,8 +24,8 @@ namespace Services.MQ.Buying
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.RegisterBuyingQueueConsumers();
             services.RegisterHttpAuthorizationCommunicators();
-            services.RegisterQueueConsumers();
             services.RegisterHttpDepartmentCommunicators();
             services.RegisterLocalizationProviders();
         }

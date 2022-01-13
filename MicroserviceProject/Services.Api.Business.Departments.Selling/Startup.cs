@@ -17,7 +17,8 @@ using Newtonsoft.Json;
 using Services.Api.Business.Departments.Selling.Configuration.Persistence;
 using Services.Api.Business.Departments.Selling.DI;
 using Services.Communication.Http.Broker.Department.DI;
-using Services.Communication.Mq.Rabbit.Publisher.Department.DI;
+using Services.Communication.Mq.Rabbit.Queue.Finance.DI;
+using Services.Communication.Mq.Rabbit.Queue.Production.DI;
 using Services.Diagnostics.HealthCheck.DI;
 using Services.Logging.RequestResponse.DI;
 using Services.Security.BasicToken.DI;
@@ -48,10 +49,11 @@ namespace Services.Api.Business.Departments.Selling
             services.RegisterRepositories();
 
             services.RegisterBasicTokenAuthentication();
+            services.RegisterFinanceQueuePublishers();
             services.RegisterHttpDepartmentCommunicators();
             services.RegisterLocalizationProviders();
+            services.RegisterProductionQueuePublishers();
             services.RegisterRequestResponseLogger();
-            services.RegisterQueuePublishers();
             services.RegisterSqlHealthChecking(
                 connectionStrings: new List<string>() { Configuration.GetSection("Persistence")["DataSource"] });
             services.RegisterSwagger();

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-using Services.Communication.Mq.Rabbit.Consumer.Department.Finance;
+using Services.Communication.Mq.Rabbit.Queue.Finance.Consumers;
 
 namespace Services.MQ.Finance
 {

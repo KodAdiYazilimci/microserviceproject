@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-using Services.Communication.Mq.Rabbit.Consumer.Department.AA;
+using Services.Communication.Mq.Rabbit.Queue.AA.Consumers;
 
 namespace Services.MQ.AA
 {

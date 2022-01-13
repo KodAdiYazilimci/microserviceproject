@@ -9,7 +9,8 @@ using Infrastructure.Transaction.UnitOfWork.Sql;
 using Services.Business.Departments.Finance.Entities.Sql;
 using Services.Business.Departments.Finance.Repositories.Sql;
 using Services.Communication.Http.Broker.Department.Finance.Models;
-using Services.Communication.Mq.Rabbit.Publisher.Department.Buying;
+using Services.Communication.Mq.Rabbit.Queue.Buying.Models;
+using Services.Communication.Mq.Rabbit.Queue.Buying.Publishers;
 
 using System;
 using System.Collections.Generic;
@@ -238,7 +239,7 @@ namespace Services.Business.Departments.Finance.Services
                 cancellationTokenSource: cancellationTokenSource);
 
             _notifyCostApprovementPublisher.AddToBuffer(
-                model: new Communication.Mq.Rabbit.Department.Models.Buying.DecidedCostQueueModel
+                model: new DecidedCostQueueModel
                 {
                     Approved = true,
                     InventoryRequestId = decidedCostEntity.InventoryRequestId,
@@ -304,7 +305,7 @@ namespace Services.Business.Departments.Finance.Services
                 cancellationTokenSource: cancellationTokenSource);
 
             _notifyCostApprovementPublisher.AddToBuffer(
-                model: new Communication.Mq.Rabbit.Department.Models.Buying.DecidedCostQueueModel
+                model: new DecidedCostQueueModel
                 {
                     Approved = false,
                     InventoryRequestId = decidedCostEntity.InventoryRequestId,

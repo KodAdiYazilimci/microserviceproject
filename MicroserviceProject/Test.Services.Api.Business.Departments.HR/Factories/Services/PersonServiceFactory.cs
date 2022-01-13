@@ -15,7 +15,12 @@ using Microsoft.Extensions.Configuration;
 using Services.Api.Business.Departments.HR.Configuration.Mapping;
 using Services.Api.Business.Departments.HR.Services;
 using Services.Communication.Http.Broker.Department.Mock;
-using Services.Communication.Mq.Rabbit.Publisher.Mock;
+using Services.Communication.Mq.Rabbit.Queue.AA.Configuration.Mock;
+using Services.Communication.Mq.Rabbit.Queue.AA.Publishers.Mock;
+using Services.Communication.Mq.Rabbit.Queue.Accounting.Configuration.Mock;
+using Services.Communication.Mq.Rabbit.Queue.Accounting.Publisher.Mock;
+using Services.Communication.Mq.Rabbit.Queue.IT.Configuration.Mock;
+using Services.Communication.Mq.Rabbit.Queue.IT.Publishers.Mock;
 
 using Test.Services.Api.Business.Departments.HR.Factories.Infrastructure;
 using Test.Services.Api.Business.Departments.HR.Factories.Repositories;

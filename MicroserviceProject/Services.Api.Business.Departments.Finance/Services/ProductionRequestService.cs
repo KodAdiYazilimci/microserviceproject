@@ -9,7 +9,8 @@ using Infrastructure.Transaction.UnitOfWork.Sql;
 using Services.Business.Departments.Finance.Entities.Sql;
 using Services.Business.Departments.Finance.Repositories.Sql;
 using Services.Communication.Http.Broker.Department.Finance.Models;
-using Services.Communication.Mq.Rabbit.Publisher.Department.Selling;
+using Services.Communication.Mq.Rabbit.Queue.Selling.Models;
+using Services.Communication.Mq.Rabbit.Queue.Selling.Publishers;
 
 using System;
 using System.Collections.Generic;
@@ -237,7 +238,7 @@ namespace Services.Business.Departments.Finance.Services
                 cancellationTokenSource: cancellationTokenSource);
 
             _notifyProductionRequesApprovementPublisher.AddToBuffer(
-                model: new Communication.Mq.Rabbit.Department.Models.Selling.ProductionRequestQueueModel
+                model: new ProductionRequestQueueModel
                 {
                     Approved = true,
                     Amount = productionRequestEntity.Amount,
@@ -305,7 +306,7 @@ namespace Services.Business.Departments.Finance.Services
                 cancellationTokenSource: cancellationTokenSource);
 
             _notifyProductionRequesApprovementPublisher.AddToBuffer(
-                model: new Communication.Mq.Rabbit.Department.Models.Selling.ProductionRequestQueueModel
+                model: new ProductionRequestQueueModel
                 {
                     Approved = false,
                     Amount = productionRequestEntity.Amount,

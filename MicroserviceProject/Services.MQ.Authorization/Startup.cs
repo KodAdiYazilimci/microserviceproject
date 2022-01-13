@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 
 using Services.Communication.Http.Broker.Authorization.DI;
 using Services.Communication.Http.Broker.Department.DI;
-using Services.Communication.Mq.Rabbit.Consumer.DI;
+using Services.Communication.Mq.Rabbit.Queue.Authorization.DI;
 
 using System.Net;
 
@@ -25,7 +25,7 @@ namespace Services.MQ.Authorization
         public void ConfigureServices(IServiceCollection services)
         {
             services.RegisterHttpAuthorizationCommunicators();
-            services.RegisterQueueConsumers();
+            services.RegisterAuthorizationQueueConsumers();
             services.RegisterHttpDepartmentCommunicators();
             services.RegisterLocalizationProviders();
         }

@@ -9,7 +9,7 @@ using Infrastructure.Transaction.UnitOfWork.Sql;
 using Services.Api.Business.Departments.IT.Entities.Sql;
 using Services.Api.Business.Departments.IT.Repositories.Sql;
 using Services.Communication.Http.Broker.Department.IT.Models;
-using Services.Communication.Mq.Rabbit.Publisher.Department.Buying;
+using Services.Communication.Mq.Rabbit.Queue.Buying.Publishers;
 
 using System;
 using System.Collections.Generic;
@@ -376,7 +376,7 @@ namespace Services.Api.Business.Departments.IT.Services
 
                 if (inventoryEntity.CurrentStockCount <= 0)
                 {
-                    _createInventoryRequestPublisher.AddToBuffer(new Communication.Mq.Rabbit.Department.Models.Buying.InventoryRequestQueueModel
+                    _createInventoryRequestPublisher.AddToBuffer(new Communication.Mq.Rabbit.Queue.Buying.Models.InventoryRequestQueueModel
                     {
                         Amount = 3,
                         DepartmentId = (int)Constants.Departments.InformationTechnologies,

@@ -9,7 +9,8 @@ using Microsoft.Extensions.Configuration;
 
 using Services.Api.Business.Departments.IT.Configuration.Mapping;
 using Services.Api.Business.Departments.IT.Services;
-using Services.Communication.Mq.Rabbit.Publisher.Mock;
+using Services.Communication.Mq.Rabbit.Queue.Buying.Configuration.Mock;
+using Services.Communication.Mq.Rabbit.Queue.Buying.Publishers.Mock;
 
 using Test.Services.Api.Business.Departments.IT.Factories.Infrastructure;
 using Test.Services.Api.Business.Departments.IT.Factories.Repositories;

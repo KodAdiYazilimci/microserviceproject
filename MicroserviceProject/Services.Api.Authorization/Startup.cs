@@ -18,7 +18,7 @@ using Newtonsoft.Json;
 
 using Services.Api.Infrastructure.Authorization.Configuration.Persistence;
 using Services.Api.Infrastructure.Authorization.DI;
-using Services.Communication.Mq.Rabbit.Publisher.Department.DI;
+using Services.Communication.Mq.Rabbit.Queue.Authorization.DI;
 using Services.Diagnostics.HealthCheck.DI;
 using Services.Logging.RequestResponse.DI;
 using Services.UnitOfWork.EntityFramework.DI;
@@ -40,17 +40,17 @@ namespace Services.Api.Infrastructure.Authorization
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.RegisterAuthorizationQueuePublishers();
             services.RegisterBusinessServices();
+            services.RegisterEntityFrameworkUnitOfWork<AuthContext>();
             services.RegisterInMemoryCaching();
             services.RegisterLocalizationProviders();
-            services.RegisterRequestResponseLogger();
             services.RegisterPersistence();
-            services.RegisterQueuePublishers();
             services.RegisterRepositories();
+            services.RegisterRequestResponseLogger();
             services.RegisterSqlHealthChecking(
                 connectionStrings: new List<string>() { Configuration.GetSection("Persistence")["DataSource"] });
             services.RegisterSwagger();
-            services.RegisterEntityFrameworkUnitOfWork<AuthContext>();
 
             services.AddControllers();
         }

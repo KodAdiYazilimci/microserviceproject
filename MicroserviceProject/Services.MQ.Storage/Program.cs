@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-using Services.Communication.Mq.Rabbit.Consumer.Department.Storage;
+using Services.Communication.Mq.Rabbit.Queue.Storage.Consumers;
 
 namespace Services.MQ.Storage
 {

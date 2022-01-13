@@ -18,10 +18,10 @@ using Services.Api.Business.Departments.Production.Repositories.EntityFramework;
 using Services.Communication.Http.Broker.Department.Production.Models;
 using Services.Communication.Http.Broker.Department.Storage;
 using Services.Communication.Http.Broker.Department.Storage.Models;
-using Services.Communication.Mq.Rabbit.Department.Models.Buying;
-using Services.Communication.Mq.Rabbit.Department.Models.Storage;
-using Services.Communication.Mq.Rabbit.Publisher.Department.Buying;
-using Services.Communication.Mq.Rabbit.Publisher.Department.Storage;
+using Services.Communication.Mq.Rabbit.Queue.Buying.Models;
+using Services.Communication.Mq.Rabbit.Queue.Buying.Publishers;
+using Services.Communication.Mq.Rabbit.Queue.Storage.Models;
+using Services.Communication.Mq.Rabbit.Queue.Storage.Publishers;
 
 using System;
 using System.Collections.Generic;

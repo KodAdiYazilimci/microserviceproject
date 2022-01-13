@@ -16,9 +16,9 @@ using Services.Api.Business.Departments.Selling.Repositories.EntityFramework;
 using Services.Communication.Http.Broker.Department.Selling.Models;
 using Services.Communication.Http.Broker.Department.Storage;
 using Services.Communication.Http.Broker.Department.Storage.Models;
-using Services.Communication.Mq.Rabbit.Department.Models.Production;
-using Services.Communication.Mq.Rabbit.Publisher.Department.Finance;
-using Services.Communication.Mq.Rabbit.Publisher.Department.Production;
+using Services.Communication.Mq.Rabbit.Queue.Finance.Publishers;
+using Services.Communication.Mq.Rabbit.Queue.Production.Models;
+using Services.Communication.Mq.Rabbit.Queue.Production.Publishers;
 
 using System;
 using System.Collections.Generic;
@@ -250,7 +250,7 @@ namespace Services.Api.Business.Departments.Selling.Services
             {
                 if (stockServiceResult.Data.Amount < sellModel.Quantity)
                 {
-                    _productionRequestPublisher.AddToBuffer(new  Communication.Mq.Rabbit.Department.Models.Finance.ProductionRequestQueueModel
+                    _productionRequestPublisher.AddToBuffer(new Communication.Mq.Rabbit.Queue.Finance.Models.ProductionRequestQueueModel
                     {
                         Amount = sellModel.Quantity,
                         DepartmentId = (int)Constants.Departments.Selling,

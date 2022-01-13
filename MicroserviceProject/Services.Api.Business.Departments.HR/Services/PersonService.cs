@@ -14,10 +14,9 @@ using Services.Communication.Http.Broker.Department.AA;
 using Services.Communication.Http.Broker.Department.Accounting;
 using Services.Communication.Http.Broker.Department.HR.Models;
 using Services.Communication.Http.Broker.Department.IT;
-using Services.Communication.Mq.Rabbit.Department.Models.Accounting;
-using Services.Communication.Mq.Rabbit.Publisher.Department.AA;
-using Services.Communication.Mq.Rabbit.Publisher.Department.Accounting;
-using Services.Communication.Mq.Rabbit.Publisher.Department.IT;
+using Services.Communication.Mq.Rabbit.Queue.AA.Models;
+using Services.Communication.Mq.Rabbit.Queue.Accounting.Models;
+using Services.Communication.Mq.Rabbit.Queue.Accounting.Publishers;
 
 using System;
 using System.Collections.Generic;
@@ -128,12 +127,12 @@ namespace Services.Api.Business.Departments.HR.Services
         /// İdari işler tarafından yeni çalışana varsayılan envanter ataması yapacak kuyruğa
         /// kayıt ekleyecek nesne
         /// </summary>
-        private readonly Communication.Mq.Rabbit.Publisher.Department.AA.AssignInventoryToWorkerPublisher _AAassignInventoryToWorkerPublisher;
+        private readonly Communication.Mq.Rabbit.Queue.AA.Publishers.AssignInventoryToWorkerPublisher _AAassignInventoryToWorkerPublisher;
 
         /// <summary>
         /// IT tarafından yeni çalışana varsayılan envanter ataması yapacak kuyruğa kayıt ekleyecek nesne
         /// </summary>
-        private readonly Communication.Mq.Rabbit.Publisher.Department.IT.AssignInventoryToWorkerPublisher _ITAssignInventoryToWorkerPublisher;
+        private readonly Communication.Mq.Rabbit.Queue.IT.Publishers.AssignInventoryToWorkerPublisher _ITAssignInventoryToWorkerPublisher;
 
         /// <summary>
         /// Muhasebe tarafından yeni çalışana maaş hesabı açacak kuyruğa kayıt ekleyecek nesne
@@ -166,8 +165,8 @@ namespace Services.Api.Business.Departments.HR.Services
             AACommunicator aACommunicator,
             AccountingCommunicator accountingCommunicator,
             ITCommunicator itCommunicator,
-            Communication.Mq.Rabbit.Publisher.Department.AA.AssignInventoryToWorkerPublisher AAassignInventoryToWorkerPublisher,
-            Communication.Mq.Rabbit.Publisher.Department.IT.AssignInventoryToWorkerPublisher ITassignInventoryToWorkerPublisher,
+            Communication.Mq.Rabbit.Queue.AA.Publishers.AssignInventoryToWorkerPublisher AAassignInventoryToWorkerPublisher,
+            Communication.Mq.Rabbit.Queue.IT.Publishers.AssignInventoryToWorkerPublisher ITassignInventoryToWorkerPublisher,
             CreateBankAccountPublisher createBankAccountPublisher,
             IUnitOfWork unitOfWork,
             TranslationProvider translationProvider,
@@ -444,7 +443,7 @@ namespace Services.Api.Business.Departments.HR.Services
             _createBankAccountPublisher.AddToBuffer(
                 model: new BankAccountQueueModel
                 {
-                    Worker = new WorkerQueueModel() { Id = worker.Id },
+                    Worker = new  Communication.Mq.Rabbit.Queue.Accounting.Models.WorkerQueueModel() { Id = worker.Id },
                     IBAN = worker.BankAccounts.FirstOrDefault().IBAN,
                     TransactionIdentity = TransactionIdentity,
                     GeneratedBy = ApiServiceName
@@ -488,10 +487,10 @@ namespace Services.Api.Business.Departments.HR.Services
                 }
             }
 
-            _AAassignInventoryToWorkerPublisher.AddToBuffer(new  Communication.Mq.Rabbit.Department.Models.AA.WorkerQueueModel
+            _AAassignInventoryToWorkerPublisher.AddToBuffer(new Communication.Mq.Rabbit.Queue.AA.Models.WorkerQueueModel
             {
                 Id = worker.Id,
-                Inventories = worker.AAInventories.Select(x => new Communication.Mq.Rabbit.Department.Models.AA.InventoryQueueModel()
+                Inventories = worker.AAInventories.Select(x => new InventoryQueueModel()
                 {
                     FromDate = x.FromDate,
                     Id = x.Id,
@@ -541,10 +540,10 @@ namespace Services.Api.Business.Departments.HR.Services
                 }
             }
 
-            _ITAssignInventoryToWorkerPublisher.AddToBuffer(new Communication.Mq.Rabbit.Department.Models.IT.WorkerQueueModel
+            _ITAssignInventoryToWorkerPublisher.AddToBuffer(new  Communication.Mq.Rabbit.Queue.IT.Models.WorkerQueueModel
             {
                 Id = worker.Id,
-                Inventories = worker.ITInventories.Select(x => new Communication.Mq.Rabbit.Department.Models.IT.InventoryQueueModel()
+                Inventories = worker.ITInventories.Select(x => new Communication.Mq.Rabbit.Queue.IT.Models.InventoryQueueModel()
                 {
                     FromDate = x.FromDate,
                     Id = x.Id,
