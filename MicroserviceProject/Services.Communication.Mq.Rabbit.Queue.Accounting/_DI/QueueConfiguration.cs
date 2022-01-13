@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-using Services.Communication.Http.Broker.Department.DI;
+using Services.Communication.Http.Broker.Department.Accounting.DI;
 using Services.Communication.Mq.Rabbit.Queue.Accounting.Configuration;
 using Services.Communication.Mq.Rabbit.Queue.Accounting.Consumers;
 using Services.Communication.Mq.Rabbit.Queue.Accounting.Publishers;
@@ -47,7 +47,7 @@ namespace Services.Communication.Mq.Rabbit.Queue.Accounting.DI
         {
             RegisterAccountingQueueConfigurations(services);
 
-            services.RegisterHttpDepartmentCommunicators();
+            services.RegisterHttpAccountingDepartmentCommunicators();
 
             services.AddSingleton<CreateBankAccountConsumer>();
 

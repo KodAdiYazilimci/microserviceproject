@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-using Services.Communication.Http.Broker.Department.DI;
+using Services.Communication.Http.Broker.Authorization.DI;
 using Services.Communication.Mq.Rabbit.Queue.Authorization.Configuration;
 using Services.Communication.Mq.Rabbit.Queue.Authorization.Consumers;
 using Services.Communication.Mq.Rabbit.Queue.Authorization.Publishers;
@@ -47,7 +47,7 @@ namespace Services.Communication.Mq.Rabbit.Queue.Authorization.DI
         {
             RegisterAuthorizationQueueConfigurations(services);
 
-            services.RegisterHttpDepartmentCommunicators();
+            services.RegisterHttpAuthorizationCommunicators();
 
             services.AddSingleton<InformInvalidTokenConsumer>();
 

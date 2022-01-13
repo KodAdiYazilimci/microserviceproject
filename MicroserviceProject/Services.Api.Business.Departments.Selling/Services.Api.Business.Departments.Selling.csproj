@@ -30,7 +30,8 @@
     <ProjectReference Include="..\Infrastructure.Transaction.Recovery\Infrastructure.Transaction.Recovery.csproj" />
     <ProjectReference Include="..\Infrastructure.Transaction.UnitOfWork.EntityFramework\Infrastructure.Transaction.UnitOfWork.EntityFramework.csproj" />
     <ProjectReference Include="..\Infrastructure.Util.DI\Infrastructure.Util.DI.csproj" />
-    <ProjectReference Include="..\Services.Communication.Http.Broker.Department\Services.Communication.Http.Broker.Department.csproj" />
+    <ProjectReference Include="..\Services.Communication.Http.Broker.Department.Selling\Services.Communication.Http.Broker.Department.Selling.csproj" />
+    <ProjectReference Include="..\Services.Communication.Http.Broker.Department.Storage\Services.Communication.Http.Broker.Department.Storage.csproj" />
     <ProjectReference Include="..\Services.Communication.Mq.Rabbit.Publisher\Services.Communication.Mq.Rabbit.Publisher.csproj" />
     <ProjectReference Include="..\Services.Communication.Mq.Rabbit.Queue.Finance\Services.Communication.Mq.Rabbit.Queue.Finance.csproj" />
     <ProjectReference Include="..\Services.Communication.Mq.Rabbit.Queue.Production\Services.Communication.Mq.Rabbit.Queue.Production.csproj" />

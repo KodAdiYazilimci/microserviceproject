@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
 
-using Services.Communication.Http.Broker.Department.Finance.Models;
-
 using Infrastructure.Transaction.Recovery;
 
 using Services.Business.Departments.Finance.Entities.Sql;
+using Services.Communication.Http.Broker.Department.Finance.Models;
 
 namespace Services.Business.Departments.Finance.Configuration.Mapping
 {

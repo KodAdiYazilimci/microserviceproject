@@ -1,6 +1,6 @@
-﻿using Services.Communication.Http.Broker.Department.Finance.Models;
+﻿using FluentValidation;
 
-using FluentValidation;
+using Services.Communication.Http.Broker.Department.Finance.Models;
 
 namespace Services.Business.Departments.Finance.Configuration.Validation.Request.CreateProductionRequest
 {

@@ -1,6 +1,6 @@
-﻿using Services.Communication.Http.Broker.Department.Buying.Models;
+﻿using FluentValidation;
 
-using FluentValidation;
+using Services.Communication.Http.Broker.Department.Buying.Models;
 
 namespace Services.Api.Business.Departments.Buying.Configuration.Validation.Request.CreateInventoryRequest
 {

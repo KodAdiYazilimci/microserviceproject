@@ -1,6 +1,6 @@
-﻿using Services.Communication.Http.Broker.Department.Production.Models;
+﻿using FluentValidation;
 
-using FluentValidation;
+using Services.Communication.Http.Broker.Department.Production.Models;
 
 namespace Services.Api.Business.Departments.Production.Configuration.Validation.Product
 {

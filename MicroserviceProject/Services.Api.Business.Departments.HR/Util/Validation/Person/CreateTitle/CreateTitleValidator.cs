@@ -1,11 +1,10 @@
-﻿using Services.Communication.Http.Broker.Department.HR.Models;
-
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
 
 using Infrastructure.Validation.Exceptions;
 using Infrastructure.Validation.Models;
 
 using Services.Api.Business.Departments.HR.Configuration.Validation.Person.CreateTitle;
+using Services.Communication.Http.Broker.Department.HR.Models;
 
 using System.Collections.Generic;
 using System.Linq;

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-using Services.Communication.Http.Broker.Department.DI;
+using Services.Communication.Http.Broker.Department.Buying.DI;
 using Services.Communication.Mq.Rabbit.Queue.Buying.Configuration;
 using Services.Communication.Mq.Rabbit.Queue.Buying.Consumers;
 using Services.Communication.Mq.Rabbit.Queue.Buying.Publishers;
@@ -51,7 +51,7 @@ namespace Services.Communication.Mq.Rabbit.Queue.Buying.DI
         {
             RegisterBuyingQueueConfigurations(services);
 
-            services.RegisterHttpDepartmentCommunicators();
+            services.RegisterHttpBuyingDepartmentCommunicators();
 
             services.AddSingleton<CreateInventoryRequestConsumer>();
             services.AddSingleton<NotifyCostApprovementConsumer>();

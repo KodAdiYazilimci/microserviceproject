@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-using Services.Communication.Http.Broker.Department.DI;
+using Services.Communication.Http.Broker.Department.IT.DI;
 using Services.Communication.Mq.Rabbit.Queue.IT.Configuration;
 using Services.Communication.Mq.Rabbit.Queue.IT.Consumers;
 using Services.Communication.Mq.Rabbit.Queue.IT.Publishers;
@@ -49,7 +49,7 @@ namespace Services.Communication.Mq.Rabbit.Queue.IT.DI
         {
             RegisterITQueueConfigurations(services);
 
-            services.RegisterHttpDepartmentCommunicators();
+            services.RegisterHttpITDepartmentCommunicators();
 
             services.AddSingleton<InformInventoryRequestConsumer>();
             services.AddSingleton<AssignInventoryToWorkerConsumer>();

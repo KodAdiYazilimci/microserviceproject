@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
 
-using Services.Communication.Http.Broker.Department.IT.Models;
-
 using Services.Api.Business.Departments.IT.Entities.Sql;
+using Services.Communication.Http.Broker.Department.IT.Models;
 
 namespace Services.Api.Business.Departments.IT.Configuration.Mapping
 {

@@ -13,8 +13,16 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 
 using Services.Api.Gateway.Public.DI;
-using Services.Api.Gateway.Public.Util.Communication;
-using Services.Communication.Http.Broker.Department.DI;
+using Services.Communication.Http.Broker.Department.AA.DI;
+using Services.Communication.Http.Broker.Department.Accounting.DI;
+using Services.Communication.Http.Broker.Department.Buying.DI;
+using Services.Communication.Http.Broker.Department.CR.DI;
+using Services.Communication.Http.Broker.Department.Finance.DI;
+using Services.Communication.Http.Broker.Department.HR.DI;
+using Services.Communication.Http.Broker.Department.IT.DI;
+using Services.Communication.Http.Broker.Department.Production.DI;
+using Services.Communication.Http.Broker.Department.Selling.DI;
+using Services.Communication.Http.Broker.Department.Storage.DI;
 using Services.Logging.RequestResponse.DI;
 using Services.Security.BasicToken.DI;
 
@@ -39,7 +47,16 @@ namespace Services.Api.Gateway.Public
             services.RegisterUtilities();
 
             services.RegisterBasicTokenAuthentication();
-            services.RegisterHttpDepartmentCommunicators();
+            services.RegisterHttpAADepartmentCommunicators();
+            services.RegisterHttpAccountingDepartmentCommunicators();
+            services.RegisterHttpBuyingDepartmentCommunicators();
+            services.RegisterHttpCRDepartmentCommunicators();
+            services.RegisterHttpFinanceDepartmentCommunicators();
+            services.RegisterHttpHRDepartmentCommunicators();
+            services.RegisterHttpITDepartmentCommunicators();
+            services.RegisterHttpProductionDepartmentCommunicators();
+            services.RegisterHttpSellingDepartmentCommunicators();
+            services.RegisterHttpStorageDepartmentCommunicators();
             services.RegisterLocalizationProviders();
             services.RegisterRequestResponseLogger();
             //services.RegisterJWTProviders();

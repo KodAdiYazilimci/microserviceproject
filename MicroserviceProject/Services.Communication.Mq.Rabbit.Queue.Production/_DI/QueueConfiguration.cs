@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-using Services.Communication.Http.Broker.Department.DI;
+using Services.Communication.Http.Broker.Department.Production.DI;
 using Services.Communication.Mq.Rabbit.Queue.Production.Configuration;
 using Services.Communication.Mq.Rabbit.Queue.Production.Consumers;
 using Services.Communication.Mq.Rabbit.Queue.Production.Publishers;
@@ -47,7 +47,7 @@ namespace Services.Communication.Mq.Rabbit.Queue.Production.DI
         {
             RegisterProductionQueueConfigurations(services);
 
-            services.RegisterHttpDepartmentCommunicators();
+            services.RegisterHttpProductionDepartmentCommunicators();
             
             services.AddSingleton<ProduceConsumer>();
 

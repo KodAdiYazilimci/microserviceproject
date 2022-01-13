@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-using Services.Communication.Http.Broker.Department.DI;
+using Services.Communication.Http.Broker.Department.Storage.DI;
 using Services.Communication.Mq.Rabbit.Queue.Storage.Configuration;
 using Services.Communication.Mq.Rabbit.Queue.Storage.Consumers;
 using Services.Communication.Mq.Rabbit.Queue.Storage.Publishers;
@@ -49,7 +49,7 @@ namespace Services.Communication.Mq.Rabbit.Configuration.DI
         {
             RegisterStorageQueueConfigurations(services);
 
-            services.RegisterHttpDepartmentCommunicators();
+            services.RegisterHttpStorageDepartmentCommunicators();
 
             services.AddSingleton<DescendProductStockConsumer>();
 

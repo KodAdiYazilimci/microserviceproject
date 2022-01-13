@@ -1,6 +1,6 @@
-﻿using Services.Communication.Http.Broker.Department.HR.Models;
+﻿using FluentValidation;
 
-using FluentValidation;
+using Services.Communication.Http.Broker.Department.HR.Models;
 
 namespace Services.Api.Business.Departments.HR.Configuration.Validation.Person.CreateTitle
 {

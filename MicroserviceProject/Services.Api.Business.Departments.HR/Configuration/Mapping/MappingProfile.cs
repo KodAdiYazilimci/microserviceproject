@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
 
-using Services.Communication.Http.Broker.Department.HR.Models;
-
 using Infrastructure.Transaction.Recovery;
 
 using Services.Api.Business.Departments.HR.Entities.Sql;
+using Services.Communication.Http.Broker.Department.HR.Models;
 
 namespace Services.Api.Business.Departments.HR.Configuration.Mapping
 {

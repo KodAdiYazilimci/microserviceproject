@@ -11,7 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 
 using Services.Communication.Http.Broker.Authorization.DI;
-using Services.Communication.Http.Broker.Department.DI;
+using Services.Communication.Http.Broker.Department.Selling.DI;
 
 using System.Net;
 
@@ -24,7 +24,7 @@ namespace Services.MQ.Selling
         public void ConfigureServices(IServiceCollection services)
         {
             services.RegisterHttpAuthorizationCommunicators();
-            services.RegisterHttpDepartmentCommunicators();
+            services.RegisterHttpSellingDepartmentCommunicators();
             services.RegisterLocalizationProviders();
         }
 

@@ -1,6 +1,6 @@
-﻿using Services.Communication.Http.Broker.Department.IT.Models;
+﻿using FluentValidation;
 
-using FluentValidation;
+using Services.Communication.Http.Broker.Department.IT.Models;
 
 namespace Services.Api.Business.Departments.IT.Configuration.Validation.Inventory.CreateDefaultInventoryForNewWorker
 {

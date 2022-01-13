@@ -16,7 +16,7 @@ using Newtonsoft.Json;
 
 using Services.Api.Business.Departments.Selling.Configuration.Persistence;
 using Services.Api.Business.Departments.Selling.DI;
-using Services.Communication.Http.Broker.Department.DI;
+using Services.Communication.Http.Broker.Department.Selling.DI;
 using Services.Communication.Mq.Rabbit.Queue.Finance.DI;
 using Services.Communication.Mq.Rabbit.Queue.Production.DI;
 using Services.Diagnostics.HealthCheck.DI;
@@ -50,7 +50,7 @@ namespace Services.Api.Business.Departments.Selling
 
             services.RegisterBasicTokenAuthentication();
             services.RegisterFinanceQueuePublishers();
-            services.RegisterHttpDepartmentCommunicators();
+            services.RegisterHttpSellingDepartmentCommunicators();
             services.RegisterLocalizationProviders();
             services.RegisterProductionQueuePublishers();
             services.RegisterRequestResponseLogger();

@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
 
-using Services.Communication.Http.Broker.Department.CR.Models;
-
 using Infrastructure.Transaction.Recovery;
 
 using Services.Api.Business.Departments.CR.Entities.EntityFramework;
+using Services.Communication.Http.Broker.Department.CR.Models;
 
 namespace Services.Api.Business.Departments.CR.Configuration.Mapping
 {

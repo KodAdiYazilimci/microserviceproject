@@ -1,11 +1,10 @@
-﻿using Services.Communication.Http.Broker.Department.Finance.Models;
-
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
 
 using Infrastructure.Validation.Exceptions;
 using Infrastructure.Validation.Models;
 
 using Services.Business.Departments.Finance.Configuration.Validation.Cost.DecideCost;
+using Services.Communication.Http.Broker.Department.Finance.Models;
 
 using System.Collections.Generic;
 using System.Linq;

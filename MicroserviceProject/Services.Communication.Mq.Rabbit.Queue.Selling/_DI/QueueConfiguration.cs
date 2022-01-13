@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-using Services.Communication.Http.Broker.Department.DI;
+using Services.Communication.Http.Broker.Department.Selling.DI;
 using Services.Communication.Mq.Rabbit.Queue.Selling.Configuration;
 using Services.Communication.Mq.Rabbit.Queue.Selling.Consumers;
 using Services.Communication.Mq.Rabbit.Queue.Selling.Publishers;
@@ -47,7 +47,7 @@ namespace Services.Communication.Mq.Rabbit.Queue.Selling.DI
         {
             RegisterSellingQueueConfigurations(services);
 
-            services.RegisterHttpDepartmentCommunicators();
+            services.RegisterHttpSellingDepartmentCommunicators();
 
             services.AddSingleton<NotifyProductionRequestApprovementConsumer>();
 

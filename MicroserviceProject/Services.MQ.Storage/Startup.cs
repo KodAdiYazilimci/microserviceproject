@@ -11,7 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 
 using Services.Communication.Http.Broker.Authorization.DI;
-using Services.Communication.Http.Broker.Department.DI;
+using Services.Communication.Http.Broker.Department.Storage.DI;
 using Services.Communication.Mq.Rabbit.Configuration.DI;
 
 using System.Net;
@@ -26,7 +26,7 @@ namespace Services.MQ.Storage
         {
             services.RegisterHttpAuthorizationCommunicators();
             services.RegisterStorageQueueConsumers();
-            services.RegisterHttpDepartmentCommunicators();
+            services.RegisterHttpStorageDepartmentCommunicators();
             services.RegisterLocalizationProviders();
         }
 

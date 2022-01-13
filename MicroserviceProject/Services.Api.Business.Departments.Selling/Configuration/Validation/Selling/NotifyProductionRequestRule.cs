@@ -1,6 +1,6 @@
-﻿using Services.Communication.Http.Broker.Department.Selling.Models;
+﻿using FluentValidation;
 
-using FluentValidation;
+using Services.Communication.Http.Broker.Department.Selling.Models;
 
 namespace Services.Api.Business.Departments.Selling.Configuration.Validation.Selling
 {

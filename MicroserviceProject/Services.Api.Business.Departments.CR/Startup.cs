@@ -16,7 +16,7 @@ using Newtonsoft.Json;
 
 using Services.Api.Business.Departments.CR.Configuration.Persistence;
 using Services.Api.Business.Departments.CR.DI;
-using Services.Communication.Http.Broker.Department.DI;
+using Services.Communication.Http.Broker.Department.CR.DI;
 using Services.Diagnostics.HealthCheck.DI;
 using Services.Logging.RequestResponse.DI;
 using Services.Security.BasicToken.DI;
@@ -47,7 +47,7 @@ namespace Services.Api.Business.Departments.CR
             services.RegisterRepositories();
 
             services.RegisterBasicTokenAuthentication();
-            services.RegisterHttpDepartmentCommunicators();
+            services.RegisterHttpCRDepartmentCommunicators();
             services.RegisterLocalizationProviders();
             services.RegisterRequestResponseLogger();
             services.RegisterSwagger();

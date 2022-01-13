@@ -21,7 +21,7 @@
     <ProjectReference Include="..\Infrastructure.Transaction.Recovery\Infrastructure.Transaction.Recovery.csproj" />
     <ProjectReference Include="..\Infrastructure.Transaction.UnitOfWork.Sql\Infrastructure.Transaction.UnitOfWork.Sql.csproj" />
     <ProjectReference Include="..\Infrastructure.Util.DI\Infrastructure.Util.DI.csproj" />
-    <ProjectReference Include="..\Services.Communication.Http.Broker.Department\Services.Communication.Http.Broker.Department.csproj" />
+    <ProjectReference Include="..\Services.Communication.Http.Broker.Department.HR\Services.Communication.Http.Broker.Department.HR.csproj" />
     <ProjectReference Include="..\Services.Communication.Mq.Rabbit.Publisher\Services.Communication.Mq.Rabbit.Publisher.csproj" />
     <ProjectReference Include="..\Services.Communication.Mq.Rabbit.Queue.AA\Services.Communication.Mq.Rabbit.Queue.AA.csproj" />
     <ProjectReference Include="..\Services.Communication.Mq.Rabbit.Queue.Accounting\Services.Communication.Mq.Rabbit.Queue.Accounting.csproj" />

@@ -19,7 +19,16 @@
     <ProjectReference Include="..\Infrastructure.Communication.Http.Wrapper\Infrastructure.Communication.Http.Wrapper.csproj" />
     <ProjectReference Include="..\Infrastructure.Localization.Translation.Provider\Infrastructure.Localization.Translation.Provider.csproj" />
     <ProjectReference Include="..\Infrastructure.Util.DI\Infrastructure.Util.DI.csproj" />
-    <ProjectReference Include="..\Services.Communication.Http.Broker.Department\Services.Communication.Http.Broker.Department.csproj" />
+    <ProjectReference Include="..\Services.Communication.Http.Broker.Department.AA\Services.Communication.Http.Broker.Department.AA.csproj" />
+    <ProjectReference Include="..\Services.Communication.Http.Broker.Department.Accounting\Services.Communication.Http.Broker.Department.Accounting.csproj" />
+    <ProjectReference Include="..\Services.Communication.Http.Broker.Department.Buying\Services.Communication.Http.Broker.Department.Buying.csproj" />
+    <ProjectReference Include="..\Services.Communication.Http.Broker.Department.CR\Services.Communication.Http.Broker.Department.CR.csproj" />
+    <ProjectReference Include="..\Services.Communication.Http.Broker.Department.Finance\Services.Communication.Http.Broker.Department.Finance.csproj" />
+    <ProjectReference Include="..\Services.Communication.Http.Broker.Department.HR\Services.Communication.Http.Broker.Department.HR.csproj" />
+    <ProjectReference Include="..\Services.Communication.Http.Broker.Department.IT\Services.Communication.Http.Broker.Department.IT.csproj" />
+    <ProjectReference Include="..\Services.Communication.Http.Broker.Department.Production\Services.Communication.Http.Broker.Department.Production.csproj" />
+    <ProjectReference Include="..\Services.Communication.Http.Broker.Department.Selling\Services.Communication.Http.Broker.Department.Selling.csproj" />
+    <ProjectReference Include="..\Services.Communication.Http.Broker.Department.Storage\Services.Communication.Http.Broker.Department.Storage.csproj" />
     <ProjectReference Include="..\Services.Logging.RequestResponse\Services.Logging.RequestResponse.csproj" />
     <ProjectReference Include="..\Services.Security.BasicToken\Services.Security.BasicToken.csproj" />
   </ItemGroup>

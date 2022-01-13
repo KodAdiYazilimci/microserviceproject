@@ -11,7 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 
 using Services.Communication.Http.Broker.Authorization.DI;
-using Services.Communication.Http.Broker.Department.DI;
+using Services.Communication.Http.Broker.Department.Finance.DI;
 using Services.Communication.Mq.Rabbit.Queue.Finance.DI;
 
 using System.Net;
@@ -26,7 +26,7 @@ namespace Services.MQ.Finance
         {
             services.RegisterFinanceQueueConsumers();
             services.RegisterHttpAuthorizationCommunicators();
-            services.RegisterHttpDepartmentCommunicators();
+            services.RegisterHttpFinanceDepartmentCommunicators();
             services.RegisterLocalizationProviders();
         }
 

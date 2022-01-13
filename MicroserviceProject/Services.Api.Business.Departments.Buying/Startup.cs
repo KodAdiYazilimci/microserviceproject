@@ -15,7 +15,7 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 
 using Services.Api.Business.Departments.Buying.DI;
-using Services.Communication.Http.Broker.Department.DI;
+using Services.Communication.Http.Broker.Department.Buying.DI;
 using Services.Communication.Mq.Rabbit.Queue.AA.DI;
 using Services.Communication.Mq.Rabbit.Queue.Finance.DI;
 using Services.Communication.Mq.Rabbit.Queue.IT.DI;
@@ -50,7 +50,7 @@ namespace Services.Api.Business.Departments.Buying
             services.RegisterAAQueuePublishers();
             services.RegisterBasicTokenAuthentication();
             services.RegisterFinanceQueuePublishers();
-            services.RegisterHttpDepartmentCommunicators();
+            services.RegisterHttpBuyingDepartmentCommunicators();
             services.RegisterITQueuePublishers();
             services.RegisterLocalizationProviders();
             services.RegisterRequestResponseLogger();

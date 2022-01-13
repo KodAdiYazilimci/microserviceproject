@@ -20,7 +20,7 @@
     <ProjectReference Include="..\Infrastructure.Transaction.Recovery\Infrastructure.Transaction.Recovery.csproj" />
     <ProjectReference Include="..\Infrastructure.Transaction.UnitOfWork.Sql\Infrastructure.Transaction.UnitOfWork.Sql.csproj" />
     <ProjectReference Include="..\Infrastructure.Util.DI\Infrastructure.Util.DI.csproj" />
-    <ProjectReference Include="..\Services.Communication.Http.Broker.Department\Services.Communication.Http.Broker.Department.csproj" />
+    <ProjectReference Include="..\Services.Communication.Http.Broker.Department.Finance\Services.Communication.Http.Broker.Department.Finance.csproj" />
     <ProjectReference Include="..\Services.Communication.Mq.Rabbit.Publisher\Services.Communication.Mq.Rabbit.Publisher.csproj" />
     <ProjectReference Include="..\Services.Communication.Mq.Rabbit.Queue.Buying\Services.Communication.Mq.Rabbit.Queue.Buying.csproj" />
     <ProjectReference Include="..\Services.Communication.Mq.Rabbit.Queue.Selling\Services.Communication.Mq.Rabbit.Queue.Selling.csproj" />

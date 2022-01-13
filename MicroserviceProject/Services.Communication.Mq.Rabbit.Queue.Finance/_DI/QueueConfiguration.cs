@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-using Services.Communication.Http.Broker.Department.DI;
+using Services.Communication.Http.Broker.Department.Finance.DI;
 using Services.Communication.Mq.Rabbit.Queue.Finance.Configuration;
 using Services.Communication.Mq.Rabbit.Queue.Finance.Consumers;
 using Services.Communication.Mq.Rabbit.Queue.Finance.Publishers;
@@ -49,7 +49,7 @@ namespace Services.Communication.Mq.Rabbit.Queue.Finance.DI
         {
             RegisterFinanceQueueConfigurations(services);
 
-            services.RegisterHttpDepartmentCommunicators();
+            services.RegisterHttpFinanceDepartmentCommunicators();
 
             services.AddSingleton<InventoryRequestConsumer>();
             services.AddSingleton<ProductionRequestConsumer>();

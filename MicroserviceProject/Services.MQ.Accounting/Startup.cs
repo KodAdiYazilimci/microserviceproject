@@ -11,7 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 
 using Services.Communication.Http.Broker.Authorization.DI;
-using Services.Communication.Http.Broker.Department.DI;
+using Services.Communication.Http.Broker.Department.Accounting.DI;
 using Services.Communication.Mq.Rabbit.Queue.Accounting.DI;
 
 using System.Net;
@@ -26,7 +26,7 @@ namespace Services.MQ.Accounting
         {
             services.RegisterAccountingQueueConsumers();
             services.RegisterHttpAuthorizationCommunicators();
-            services.RegisterHttpDepartmentCommunicators();
+            services.RegisterHttpAccountingDepartmentCommunicators();
             services.RegisterLocalizationProviders();
         }
 
