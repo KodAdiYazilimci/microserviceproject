@@ -3,6 +3,8 @@ using Infrastructure.Diagnostics.HealthCheck.Util;
 using Infrastructure.Localization.Translation.Provider.DI;
 using Infrastructure.Util.DI;
 
+using MediatR;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -14,6 +16,7 @@ using Microsoft.Extensions.Hosting;
 
 using Newtonsoft.Json;
 
+using Services.Api.Business.Departments.Storage.Configuration.CQRS.Handlers.QueryHandlers;
 using Services.Api.Business.Departments.Storage.Configuration.Persistence;
 using Services.Api.Business.Departments.Storage.DI;
 using Services.Communication.Http.Broker.Department.Storage.DI;
@@ -54,6 +57,8 @@ namespace Services.Api.Business.Departments.Storage
                 connectionStrings: new List<string>() { Configuration.GetSection("Persistence")["DataSource"] });
             services.RegisterSwagger();
             services.RegisterEntityFrameworkUnitOfWork<StorageContext>();
+
+            services.AddMediatR(typeof(Startup));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

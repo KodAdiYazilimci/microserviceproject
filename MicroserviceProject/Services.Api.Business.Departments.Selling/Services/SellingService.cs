@@ -15,7 +15,7 @@ using Services.Api.Business.Departments.Selling.Entities.EntityFramework;
 using Services.Api.Business.Departments.Selling.Repositories.EntityFramework;
 using Services.Communication.Http.Broker.Department.Selling.Models;
 using Services.Communication.Http.Broker.Department.Storage;
-using Services.Communication.Http.Broker.Department.Storage.Models;
+using Services.Communication.Http.Broker.Department.Storage.CQRS.Queries.Responses;
 using Services.Communication.Mq.Rabbit.Queue.Finance.Publishers;
 using Services.Communication.Mq.Rabbit.Queue.Production.Models;
 using Services.Communication.Mq.Rabbit.Queue.Production.Publishers;
@@ -244,11 +244,12 @@ namespace Services.Api.Business.Departments.Selling.Services
         {
             SellEntity mappedSellEntity = _mapper.Map<SellModel, SellEntity>(sellModel);
 
-            ServiceResultModel<StockModel> stockServiceResult = await _storageCommunicator.GetStockAsync(mappedSellEntity.ProductId, cancellationTokenSource);
+            ServiceResultModel<GetStockQueryResponse> stockServiceResult = 
+                await _storageCommunicator.GetStockAsync(mappedSellEntity.ProductId, cancellationTokenSource);
 
             if (stockServiceResult.IsSuccess)
             {
-                if (stockServiceResult.Data.Amount < sellModel.Quantity)
+                if (stockServiceResult.Data.Stock.Amount < sellModel.Quantity)
                 {
                     _productionRequestPublisher.AddToBuffer(new Communication.Mq.Rabbit.Queue.Finance.Models.ProductionRequestQueueModel
                     {

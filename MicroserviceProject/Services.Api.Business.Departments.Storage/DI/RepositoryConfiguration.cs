@@ -19,6 +19,8 @@ namespace Services.Api.Business.Departments.Storage.DI
         public static IServiceCollection RegisterRepositories(this IServiceCollection services)
         {
             services.AddScoped<StockRepository>();
+            services.AddScoped<TransactionRepository>();
+            services.AddScoped<TransactionItemRepository>();
 
             return services;
         }

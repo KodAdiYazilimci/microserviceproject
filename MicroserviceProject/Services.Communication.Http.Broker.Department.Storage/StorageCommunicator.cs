@@ -2,7 +2,9 @@
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Routing.Providers;
 
-using Services.Communication.Http.Broker.Department.Storage.Models;
+using Services.Communication.Http.Broker.Department.Storage.CQRS.Commands.Requests;
+using Services.Communication.Http.Broker.Department.Storage.CQRS.Commands.Responses;
+using Services.Communication.Http.Broker.Department.Storage.CQRS.Queries.Responses;
 
 namespace Services.Communication.Http.Broker.Department.Storage
 {
@@ -44,11 +46,11 @@ namespace Services.Communication.Http.Broker.Department.Storage
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<StockModel>> GetStockAsync(
+        public async Task<ServiceResultModel<GetStockQueryResponse>> GetStockAsync(
             int productId,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<StockModel>(
+            return await _serviceCommunicator.Call<GetStockQueryResponse>(
                 serviceName: _routeNameProvider.Storage_GetStock,
                 postData: null,
                 queryParameters: new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("productId", productId.ToString()) },
@@ -59,18 +61,18 @@ namespace Services.Communication.Http.Broker.Department.Storage
         /// <summary>
         /// Stok departmanındaki bir ürünün stok değerini azaltır
         /// </summary>
-        /// <param name="stockModel">Stoğu düşürecek model</param>
+        /// <param name="descendProductStockCommandRequest">Stoğu düşürecek model</param>
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
         public async Task<ServiceResultModel<int>> DescendStockAsync(
-            StockModel stockModel,
+            DescendProductStockCommandRequest descendProductStockCommandRequest,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call<int>(
                 serviceName: _routeNameProvider.Storage_DescendProductStock,
-                postData: stockModel,
+                postData: descendProductStockCommandRequest,
                 queryParameters: null,
                 headers: new List<KeyValuePair<string, string>>()
                 {
@@ -82,18 +84,18 @@ namespace Services.Communication.Http.Broker.Department.Storage
         /// <summary>
         /// Stok departmanına yeni bir stok kaydı oluşturur
         /// </summary>
-        /// <param name="stockModel">Stok modeli</param>
+        /// <param name="createStockCommandRequest">Stok modeli</param>
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<int>> CreateStockAsync(
-            StockModel stockModel,
+        public async Task<ServiceResultModel<CreateStockCommandResponse>> CreateStockAsync(
+            CreateStockCommandRequest createStockCommandRequest,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<int>(
+            return await _serviceCommunicator.Call<CreateStockCommandResponse>(
                 serviceName: _routeNameProvider.Storage_CreateStock,
-                postData: stockModel,
+                postData: createStockCommandRequest,
                 queryParameters: null,
                 headers: new List<KeyValuePair<string, string>>()
                 {

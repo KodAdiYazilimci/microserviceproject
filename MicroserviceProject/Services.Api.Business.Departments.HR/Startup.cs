@@ -15,7 +15,10 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 
 using Services.Api.Business.Departments.HR.DI;
+using Services.Communication.Http.Broker.Department.AA.DI;
+using Services.Communication.Http.Broker.Department.Accounting.DI;
 using Services.Communication.Http.Broker.Department.HR.DI;
+using Services.Communication.Http.Broker.Department.IT.DI;
 using Services.Communication.Mq.Rabbit.Queue.AA.DI;
 using Services.Communication.Mq.Rabbit.Queue.Accounting.DI;
 using Services.Communication.Mq.Rabbit.Queue.IT.DI;
@@ -50,7 +53,10 @@ namespace Services.Api.Business.Departments.HR
             services.RegisterAAQueuePublishers();
             services.RegisterAccountingQueuePublishers();
             services.RegisterBasicTokenAuthentication();
+            services.RegisterHttpAADepartmentCommunicators();
+            services.RegisterHttpAccountingDepartmentCommunicators();
             services.RegisterHttpHRDepartmentCommunicators();
+            services.RegisterHttpITDepartmentCommunicators();
             services.RegisterITQueuePublishers();
             services.RegisterLocalizationProviders();
             services.RegisterRequestResponseLogger();

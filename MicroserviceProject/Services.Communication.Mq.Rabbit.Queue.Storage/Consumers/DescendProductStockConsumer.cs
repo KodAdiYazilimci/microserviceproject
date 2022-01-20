@@ -1,6 +1,7 @@
 ﻿using Infrastructure.Communication.Mq.Rabbit;
 
 using Services.Communication.Http.Broker.Department.Storage;
+using Services.Communication.Http.Broker.Department.Storage.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.Storage.Models;
 using Services.Communication.Mq.Rabbit.Queue.Storage.Configuration;
 using Services.Communication.Mq.Rabbit.Queue.Storage.Models;
@@ -51,7 +52,10 @@ namespace Services.Communication.Mq.Rabbit.Queue.Storage.Consumers
             stockModel.Amount = data.Amount;
             stockModel.ProductId = data.ProductId;
 
-            await _storageCommunicator.DescendStockAsync(stockModel, data?.TransactionIdentity, cancellationTokenSource);
+            await _storageCommunicator.DescendStockAsync(new DescendProductStockCommandRequest()
+            {
+                Stock = stockModel,
+            }, data?.TransactionIdentity, cancellationTokenSource);
         }
 
         /// <summary>
