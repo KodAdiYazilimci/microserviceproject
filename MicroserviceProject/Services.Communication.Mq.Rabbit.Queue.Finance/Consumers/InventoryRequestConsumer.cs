@@ -1,6 +1,7 @@
 ﻿using Infrastructure.Communication.Mq.Rabbit;
 
 using Services.Communication.Http.Broker.Department.Finance;
+using Services.Communication.Http.Broker.Department.Finance.Models;
 using Services.Communication.Mq.Rabbit.Queue.Finance.Configuration;
 using Services.Communication.Mq.Rabbit.Queue.Finance.Models;
 
@@ -44,12 +45,15 @@ namespace Services.Communication.Mq.Rabbit.Queue.Finance.Consumers
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            Services.Communication.Http.Broker.Department.Finance.Models.DecidedCostModel decidedCostModel = new Services.Communication.Http.Broker.Department.Finance.Models.DecidedCostModel
+            DecidedCostModel decidedCostModel = new DecidedCostModel
             {
                 InventoryRequestId = data.InventoryRequestId
             };
 
-            await _financeCommunicator.CreateCostAsync(decidedCostModel, data?.TransactionIdentity, cancellationTokenSource);
+            await _financeCommunicator.CreateCostAsync(new Http.Broker.Department.Finance.CQRS.Commands.Requests.CreateCostCommandRequest()
+            {
+                Cost = decidedCostModel
+            }, data?.TransactionIdentity, cancellationTokenSource);
         }
 
         /// <summary>

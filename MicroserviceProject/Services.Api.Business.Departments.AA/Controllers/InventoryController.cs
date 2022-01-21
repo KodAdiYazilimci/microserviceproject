@@ -1,17 +1,16 @@
 ﻿using Infrastructure.Communication.Http.Wrapper;
 
+using MediatR;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Services.Api.Business.Departments.AA.Services;
-using Services.Api.Business.Departments.AA.Util.Validation.Inventory.AssignInventoryToWorker;
-using Services.Api.Business.Departments.AA.Util.Validation.Inventory.CreateDefaultInventoryForNewWorker;
-using Services.Api.Business.Departments.AA.Util.Validation.Inventory.CreateInventory;
-using Services.Api.Business.Departments.AA.Util.Validation.Inventory.InformInventoryRequest;
-using Services.Communication.Http.Broker.Department.AA.Models;
+using Services.Communication.Http.Broker.Department.AA.CQRS.Commands.Requests;
+using Services.Communication.Http.Broker.Department.AA.CQRS.Commands.Responses;
+using Services.Communication.Http.Broker.Department.AA.CQRS.Queries.Requests;
+using Services.Communication.Http.Broker.Department.AA.CQRS.Queries.Responses;
 
-using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Services.Api.Business.Departments.AA.Controllers
@@ -19,21 +18,25 @@ namespace Services.Api.Business.Departments.AA.Controllers
     [Route("Inventory")]
     public class InventoryController : BaseController
     {
+        private readonly IMediator _mediator;
         private readonly InventoryService _inventoryService;
 
-        public InventoryController(InventoryService inventoryService)
+        public InventoryController(
+            IMediator mediator,
+            InventoryService inventoryService)
         {
+            _mediator = mediator;
             _inventoryService = inventoryService;
         }
 
         [HttpGet]
         [Route(nameof(GetInventories))]
         [Authorize(Roles = "ApiUser,GatewayUser")]
-        public async Task<IActionResult> GetInventories(CancellationTokenSource cancellationTokenSource)
+        public async Task<IActionResult> GetInventories()
         {
-            return await HttpResponseWrapper.WrapAsync<List<InventoryModel>>(async () =>
+            return await HttpResponseWrapper.WrapAsync<GetInventoriesQueryResponse>(async () =>
             {
-                return await _inventoryService.GetInventoriesAsync(cancellationTokenSource);
+                return await _mediator.Send(new GetInventoriesQueryRequest());
             },
             services: _inventoryService);
         }
@@ -41,13 +44,11 @@ namespace Services.Api.Business.Departments.AA.Controllers
         [HttpPost]
         [Route(nameof(CreateInventory))]
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
-        public async Task<IActionResult> CreateInventory([FromBody] InventoryModel inventory, CancellationTokenSource cancellationTokenSource)
+        public async Task<IActionResult> CreateInventory([FromBody] CreateInventoryCommandRequest request)
         {
-            return await HttpResponseWrapper.WrapAsync<int>(async () =>
+            return await HttpResponseWrapper.WrapAsync<CreateInventoryCommandResponse>(async () =>
             {
-                await CreateInventoryValidator.ValidateAsync(inventory, cancellationTokenSource);
-
-                return await _inventoryService.CreateInventoryAsync(inventory, cancellationTokenSource);
+                return await _mediator.Send(request);
             },
             services: _inventoryService);
         }
@@ -55,13 +56,11 @@ namespace Services.Api.Business.Departments.AA.Controllers
         [HttpPost]
         [Route(nameof(AssignInventoryToWorker))]
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
-        public async Task<IActionResult> AssignInventoryToWorker([FromBody] WorkerModel worker, CancellationTokenSource cancellationTokenSource)
+        public async Task<IActionResult> AssignInventoryToWorker([FromBody] AssignInventoryToWorkerCommandRequest request)
         {
-            return await HttpResponseWrapper.WrapAsync<WorkerModel>(async () =>
+            return await HttpResponseWrapper.WrapAsync<AssignInventoryToWorkerCommandResponse>(async () =>
             {
-                await AssignInventoryToWorkerValidator.ValidateAsync(worker, cancellationTokenSource);
-
-                return await _inventoryService.AssignInventoryToWorkerAsync(worker, cancellationTokenSource);
+                return await _mediator.Send(request);
             },
             services: _inventoryService);
         }
@@ -69,13 +68,11 @@ namespace Services.Api.Business.Departments.AA.Controllers
         [HttpPost]
         [Route(nameof(CreateDefaultInventoryForNewWorker))]
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
-        public async Task<IActionResult> CreateDefaultInventoryForNewWorker([FromBody] InventoryModel inventory, CancellationTokenSource cancellationTokenSource)
+        public async Task<IActionResult> CreateDefaultInventoryForNewWorker([FromBody] CreateDefaultInventoryForNewWorkerCommandRequest request)
         {
-            return await HttpResponseWrapper.WrapAsync<InventoryModel>(async () =>
+            return await HttpResponseWrapper.WrapAsync<CreateDefaultInventoryForNewWorkerCommandResponse>(async () =>
             {
-                await CreateDefaultInventoryForNewWorkerValidator.ValidateAsync(inventory, cancellationTokenSource);
-
-                return await _inventoryService.CreateDefaultInventoryForNewWorkerAsync(inventory, cancellationTokenSource);
+                return await _mediator.Send(request);
             },
             services: _inventoryService);
         }
@@ -83,11 +80,11 @@ namespace Services.Api.Business.Departments.AA.Controllers
         [HttpGet]
         [Route(nameof(GetInventoriesForNewWorker))]
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
-        public IActionResult GetInventoriesForNewWorker(CancellationTokenSource cancellationTokenSource)
+        public IActionResult GetInventoriesForNewWorker()
         {
-            return HttpResponseWrapper.Wrap<List<InventoryModel>>(() =>
+            return HttpResponseWrapper.Wrap<GetInventoriesForNewWorkerQueryResponse>(() =>
             {
-                return _inventoryService.GetInventoriesForNewWorker(cancellationTokenSource);
+                return _mediator.Send(new GetInventoriesForNewWorkerQueryRequest()).Result;
             },
             services: _inventoryService);
         }
@@ -95,13 +92,11 @@ namespace Services.Api.Business.Departments.AA.Controllers
         [HttpPost]
         [Route(nameof(InformInventoryRequest))]
         [Authorize(Roles = "ApiUser,QueueUser")]
-        public async Task<IActionResult> InformInventoryRequest([FromBody] InventoryRequestModel inventoryRequest, CancellationTokenSource cancellationTokenSource)
+        public async Task<IActionResult> InformInventoryRequest([FromBody] InformInventoryRequestCommandRequest request)
         {
-            return await HttpResponseWrapper.WrapAsync(async () =>
+            return await HttpResponseWrapper.WrapAsync<InformInventoryRequestCommandResponse>(async () =>
             {
-                await InformInventoryRequestValidator.ValidateAsync(inventoryRequest, cancellationTokenSource);
-
-                await _inventoryService.InformInventoryRequestAsync(inventoryRequest, cancellationTokenSource);
+                return await _mediator.Send(request);
             },
             services: _inventoryService);
         }

@@ -10,7 +10,6 @@ using Services.Communication.Http.Broker.Department.Storage.CQRS.Commands.Reques
 using Services.Communication.Http.Broker.Department.Storage.CQRS.Commands.Responses;
 using Services.Communication.Http.Broker.Department.Storage.CQRS.Queries.Requests;
 using Services.Communication.Http.Broker.Department.Storage.CQRS.Queries.Responses;
-using Services.Communication.Http.Broker.Department.Storage.Models;
 
 using System.Threading.Tasks;
 

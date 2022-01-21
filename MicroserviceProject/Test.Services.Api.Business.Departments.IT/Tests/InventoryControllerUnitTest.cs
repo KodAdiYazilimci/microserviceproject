@@ -2,6 +2,7 @@
 using Infrastructure.Communication.Http.Broker;
 using Infrastructure.Communication.Http.Broker.Mock;
 using Infrastructure.Communication.Http.Models;
+using Infrastructure.Mock.Factories;
 using Infrastructure.Routing.Persistence.Mock;
 using Infrastructure.Routing.Providers;
 using Infrastructure.Routing.Providers.Mock;
@@ -10,6 +11,7 @@ using Infrastructure.Security.Authentication.Mock;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using Services.Api.Business.Departments.IT;
 using Services.Api.Business.Departments.IT.Controllers;
 using Services.Communication.Http.Broker.Department.IT.Models;
 
@@ -36,7 +38,7 @@ namespace Test.Services.Api.Business.Departments.IT.Tests
         public void Init()
         {
             cancellationTokenSource = new CancellationTokenSource();
-            inventoryController = new InventoryController(InventoryServiceFactory.Instance);
+            inventoryController = new InventoryController(MediatorFactory.GetInstance(typeof(Startup)), InventoryServiceFactory.Instance);
             routeNameProvider = RouteNameProviderFactory.GetRouteNameProvider(ConfigurationFactory.GetConfiguration());
 
             serviceCommunicator =
@@ -50,7 +52,7 @@ namespace Test.Services.Api.Business.Departments.IT.Tests
         [TestMethod]
         public async Task GetInventoriesTest()
         {
-            IActionResult inventoryResult = await inventoryController.GetInventories(cancellationTokenSource);
+            IActionResult inventoryResult = await inventoryController.GetInventories();
 
             Assert.IsInstanceOfType(inventoryResult, typeof(OkObjectResult));
         }
@@ -58,10 +60,14 @@ namespace Test.Services.Api.Business.Departments.IT.Tests
         [TestMethod]
         public async Task CreateInventoryTest()
         {
-            IActionResult createInventoryResult = await inventoryController.CreateInventory(new InventoryModel()
-            {
-                Name = new Random().Next(int.MaxValue / 2, int.MaxValue).ToString()
-            }, cancellationTokenSource);
+            IActionResult createInventoryResult = await inventoryController.CreateInventory(
+                new global::Services.Communication.Http.Broker.Department.IT.CQRS.Commands.Requests.CreateInventoryCommandRequest()
+                {
+                    Inventory = new InventoryModel()
+                    {
+                        Name = new Random().Next(int.MaxValue / 2, int.MaxValue).ToString()
+                    }
+                });
 
             Assert.IsInstanceOfType(createInventoryResult, typeof(OkObjectResult));
         }
@@ -79,8 +85,10 @@ namespace Test.Services.Api.Business.Departments.IT.Tests
 
             IActionResult assignInventoryResult =
                 await inventoryController.AssignInventoryToWorker(
-                    worker: workersResult.Data.ElementAt(new Random().Next(0, workersResult.Data.Count - 1)),
-                    cancellationTokenSource: cancellationTokenSource);
+                    request: new global::Services.Communication.Http.Broker.Department.IT.CQRS.Commands.Requests.AssignInventoryToWorkerCommandRequest()
+                    {
+                        Worker = workersResult.Data.ElementAt(new Random().Next(0, workersResult.Data.Count - 1))
+                    });
 
             Assert.IsInstanceOfType(assignInventoryResult, typeof(OkObjectResult));
         }
@@ -98,8 +106,10 @@ namespace Test.Services.Api.Business.Departments.IT.Tests
 
             IActionResult createResult =
                 await inventoryController.CreateDefaultInventoryForNewWorker(
-                    inventory: inventoriesResult.Data.ElementAt(new Random().Next(0, inventoriesResult.Data.Count - 1)),
-                    cancellationTokenSource: cancellationTokenSource);
+                    request: new global::Services.Communication.Http.Broker.Department.IT.CQRS.Commands.Requests.CreateDefaultInventoryForNewWorkerCommandRequest()
+                    {
+                        Inventory = inventoriesResult.Data.ElementAt(new Random().Next(0, inventoriesResult.Data.Count - 1))
+                    });
 
             Assert.IsInstanceOfType(createResult, typeof(OkObjectResult));
         }
@@ -107,7 +117,7 @@ namespace Test.Services.Api.Business.Departments.IT.Tests
         [TestMethod]
         public void GetInventoriesForNewWorkerTest()
         {
-            IActionResult getInventoriesResult = inventoryController.GetInventoriesForNewWorker(cancellationTokenSource);
+            IActionResult getInventoriesResult = inventoryController.GetInventoriesForNewWorker();
 
             Assert.IsInstanceOfType(getInventoriesResult, typeof(OkObjectResult));
         }
@@ -125,8 +135,10 @@ namespace Test.Services.Api.Business.Departments.IT.Tests
 
             IActionResult informInventoryResult =
                 await inventoryController.InformInventoryRequest(
-                    inventoryRequest: inventoryRequestsResult.Data.ElementAt(new Random().Next(0, inventoryRequestsResult.Data.Count - 1)),
-                    cancellationTokenSource: cancellationTokenSource);
+                    request: new global::Services.Communication.Http.Broker.Department.IT.CQRS.Commands.Requests.InformInventoryRequestCommandRequest()
+                    {
+                        InventoryRequest = inventoryRequestsResult.Data.ElementAt(new Random().Next(0, inventoryRequestsResult.Data.Count - 1))
+                    });
 
             Assert.IsInstanceOfType(informInventoryResult, typeof(OkObjectResult));
         }

@@ -2,7 +2,9 @@
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Routing.Providers;
 
-using Services.Communication.Http.Broker.Department.Production.Models;
+using Services.Communication.Http.Broker.Department.Production.CQRS.Commands.Requests;
+using Services.Communication.Http.Broker.Department.Production.CQRS.Commands.Responses;
+using Services.Communication.Http.Broker.Department.Production.CQRS.Queries.Responses;
 
 namespace Services.Communication.Http.Broker.Department.Production
 {
@@ -44,10 +46,10 @@ namespace Services.Communication.Http.Broker.Department.Production
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<List<ProductModel>>> GetProductsAsync(
+        public async Task<ServiceResultModel<GetProductsQueryResponse>> GetProductsAsync(
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<List<ProductModel>>(
+            return await _serviceCommunicator.Call<GetProductsQueryResponse>(
                 serviceName: _routeNameProvider.Production_GetProducts,
                 postData: null,
                 queryParameters: null,
@@ -58,18 +60,18 @@ namespace Services.Communication.Http.Broker.Department.Production
         /// <summary>
         /// Üretim departmanına ürün üretme talebi iletir
         /// </summary>
-        /// <param name="produceModel">Üretilecek ürünün talep modeli</param>
+        /// <param name="request">Üretilecek ürünün talep modeli</param>
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<int>> ProduceProductAsync(
-            ProduceModel produceModel,
+        public async Task<ServiceResultModel<ProduceProductCommandResponse>> ProduceProductAsync(
+            ProduceProductCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<int>(
+            return await _serviceCommunicator.Call<ProduceProductCommandResponse>(
                 serviceName: _routeNameProvider.Production_ProduceProduct,
-                postData: produceModel,
+                postData: request,
                 queryParameters: null,
                 headers: new List<KeyValuePair<string, string>>()
                 {
@@ -81,18 +83,18 @@ namespace Services.Communication.Http.Broker.Department.Production
         /// <summary>
         /// Üretim departmanına yeni ürün kaydı oluşturur
         /// </summary>
-        /// <param name="productModel">Ürün modeli</param>
+        /// <param name="request">Ürün modeli</param>
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<int>> CreateProductAsync(
-            ProductModel productModel,
+        public async Task<ServiceResultModel<CreateProductCommandResponse>> CreateProductAsync(
+            CreateProductCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<int>(
+            return await _serviceCommunicator.Call<CreateProductCommandResponse>(
                 serviceName: _routeNameProvider.Production_CreateProduct,
-                postData: productModel,
+                postData: request,
                 queryParameters: null,
                 headers: new List<KeyValuePair<string, string>>()
                 {
@@ -118,6 +120,24 @@ namespace Services.Communication.Http.Broker.Department.Production
                     queryParameters: new List<KeyValuePair<string, string>>()
                     {
                         new KeyValuePair<string, string>("tokenKey",tokenKey)
+                    },
+                    headers: null,
+                    cancellationTokenSource);
+
+            return serviceResult;
+        }
+
+        public async Task<ServiceResultModel<ReEvaluateProduceProductCommandResponse>> ReEvaluateProduceProductAsync(
+            int referenceNumber,
+            CancellationTokenSource cancellationTokenSource)
+        {
+            ServiceResultModel<ReEvaluateProduceProductCommandResponse> serviceResult =
+                await _serviceCommunicator.Call<ReEvaluateProduceProductCommandResponse>(
+                    serviceName: _routeNameProvider.Production_ReEvaluateProduceProduct,
+                    postData: null,
+                    queryParameters: new List<KeyValuePair<string, string>>()
+                    {
+                        new KeyValuePair<string, string>("referenceNumber",referenceNumber.ToString())
                     },
                     headers: null,
                     cancellationTokenSource);

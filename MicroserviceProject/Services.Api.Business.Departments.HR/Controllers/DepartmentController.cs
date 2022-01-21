@@ -1,14 +1,16 @@
 ﻿using Infrastructure.Communication.Http.Wrapper;
 
+using MediatR;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Services.Api.Business.Departments.HR.Services;
-using Services.Api.Business.Departments.HR.Util.Validation.Department.CreateDepartment;
-using Services.Communication.Http.Broker.Department.HR.Models;
+using Services.Communication.Http.Broker.Department.HR.CQRS.Commands.Requests;
+using Services.Communication.Http.Broker.Department.HR.CQRS.Commands.Responses;
+using Services.Communication.Http.Broker.Department.HR.CQRS.Queries.Requests;
+using Services.Communication.Http.Broker.Department.HR.CQRS.Queries.Responses;
 
-using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Services.Api.Business.Departments.HR.Controllers
@@ -16,21 +18,23 @@ namespace Services.Api.Business.Departments.HR.Controllers
     [Route("Department")]
     public class DepartmentController : BaseController
     {
+        private readonly IMediator _mediator;
         private readonly DepartmentService _departmentService;
 
-        public DepartmentController(DepartmentService departmentService)
+        public DepartmentController(IMediator mediator, DepartmentService departmentService)
         {
+            _mediator = mediator;
             _departmentService = departmentService;
         }
 
         [HttpGet]
         [Route(nameof(GetDepartments))]
         [Authorize(Roles = "ApiUser,GatewayUser")]
-        public async Task<IActionResult> GetDepartments(CancellationTokenSource cancellationTokenSource)
+        public async Task<IActionResult> GetDepartments()
         {
-            return await HttpResponseWrapper.WrapAsync<List<DepartmentModel>>(async () =>
+            return await HttpResponseWrapper.WrapAsync<GetDepartmentsQueryResponse>(async () =>
             {
-                return await _departmentService.GetDepartmentsAsync(cancellationTokenSource);
+                return await _mediator.Send(new GetDepartmentsQueryRequest());
             },
             services: _departmentService);
         }
@@ -38,13 +42,11 @@ namespace Services.Api.Business.Departments.HR.Controllers
         [HttpPost]
         [Route(nameof(CreateDepartment))]
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
-        public async Task<IActionResult> CreateDepartment([FromBody] DepartmentModel department, CancellationTokenSource cancellationTokenSource)
+        public async Task<IActionResult> CreateDepartment([FromBody] CreateDepartmentCommandRequest request)
         {
-            return await HttpResponseWrapper.WrapAsync<int>(async () =>
+            return await HttpResponseWrapper.WrapAsync<CreateDepartmentCommandResponse>(async () =>
             {
-                await CreateDepartmentValidator.ValidateAsync(department, cancellationTokenSource);
-
-                return await _departmentService.CreateDepartmentAsync(department, cancellationTokenSource);
+                return await _mediator.Send(request);
             },
             services: _departmentService);
         }

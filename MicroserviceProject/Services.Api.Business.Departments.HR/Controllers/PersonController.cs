@@ -1,17 +1,17 @@
 ﻿
 using Infrastructure.Communication.Http.Wrapper;
 
+using MediatR;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Services.Api.Business.Departments.HR.Services;
-using Services.Api.Business.Departments.HR.Util.Validation.Person.CreatePerson;
-using Services.Api.Business.Departments.HR.Util.Validation.Person.CreateTitle;
-using Services.Api.Business.Departments.HR.Util.Validation.Person.CreateWorker;
-using Services.Communication.Http.Broker.Department.HR.Models;
+using Services.Communication.Http.Broker.Department.HR.CQRS.Commands.Requests;
+using Services.Communication.Http.Broker.Department.HR.CQRS.Commands.Responses;
+using Services.Communication.Http.Broker.Department.HR.CQRS.Queries.Requests;
+using Services.Communication.Http.Broker.Department.HR.CQRS.Queries.Responses;
 
-using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Services.Api.Business.Departments.HR.Controllers
@@ -19,21 +19,23 @@ namespace Services.Api.Business.Departments.HR.Controllers
     [Route("Person")]
     public class PersonController : BaseController
     {
+        private readonly IMediator _mediator;
         private readonly PersonService _personService;
 
-        public PersonController(PersonService personService)
+        public PersonController(IMediator mediator, PersonService personService)
         {
+            _mediator = mediator;
             _personService = personService;
         }
 
         [HttpGet]
         [Route(nameof(GetPeople))]
         [Authorize(Roles = "ApiUser,GatewayUser")]
-        public async Task<IActionResult> GetPeople(CancellationTokenSource cancellationTokenSource)
+        public async Task<IActionResult> GetPeople()
         {
-            return await HttpResponseWrapper.WrapAsync<List<PersonModel>>(async () =>
+            return await HttpResponseWrapper.WrapAsync<GetPeopleQueryResponse>(async () =>
             {
-                return await _personService.GetPeopleAsync(cancellationTokenSource);
+                return await _mediator.Send(new GetPeopleQueryRequest());
             },
             services: _personService);
         }
@@ -41,13 +43,11 @@ namespace Services.Api.Business.Departments.HR.Controllers
         [HttpPost]
         [Route(nameof(CreatePerson))]
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
-        public async Task<IActionResult> CreatePerson([FromBody] PersonModel person, CancellationTokenSource cancellationTokenSource)
+        public async Task<IActionResult> CreatePerson([FromBody] CreatePersonCommandRequest request)
         {
-            return await HttpResponseWrapper.WrapAsync<int>(async () =>
+            return await HttpResponseWrapper.WrapAsync<CreatePersonCommandResponse>(async () =>
             {
-                await CreatePersonValidator.ValidateAsync(person, cancellationTokenSource);
-
-                return await _personService.CreatePersonAsync(person, cancellationTokenSource);
+                return await _mediator.Send(request);
             },
             services: _personService);
         }
@@ -55,11 +55,11 @@ namespace Services.Api.Business.Departments.HR.Controllers
         [HttpGet]
         [Route(nameof(GetTitles))]
         [Authorize(Roles = "ApiUser,GatewayUser")]
-        public async Task<IActionResult> GetTitles(CancellationTokenSource cancellationTokenSource)
+        public async Task<IActionResult> GetTitles()
         {
-            return await HttpResponseWrapper.WrapAsync<List<TitleModel>>(async () =>
+            return await HttpResponseWrapper.WrapAsync<GetTitlesQueryResponse>(async () =>
             {
-                return await _personService.GetTitlesAsync(cancellationTokenSource);
+                return await _mediator.Send(new GetTitlesQueryRequest());
             },
             services: _personService);
         }
@@ -67,13 +67,11 @@ namespace Services.Api.Business.Departments.HR.Controllers
         [HttpPost]
         [Route(nameof(CreateTitle))]
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
-        public async Task<IActionResult> CreateTitle([FromBody] TitleModel title, CancellationTokenSource cancellationTokenSource)
+        public async Task<IActionResult> CreateTitle([FromBody] CreateTitleCommandRequest request)
         {
-            return await HttpResponseWrapper.WrapAsync<int>(async () =>
+            return await HttpResponseWrapper.WrapAsync<CreateTitleCommandResponse>(async () =>
             {
-                await CreateTitleValidator.ValidateAsync(title, cancellationTokenSource);
-
-                return await _personService.CreateTitleAsync(title, cancellationTokenSource);
+                return await _mediator.Send(request);
             },
             services: _personService);
         }
@@ -81,11 +79,11 @@ namespace Services.Api.Business.Departments.HR.Controllers
         [HttpGet]
         [Route(nameof(GetWorkers))]
         [Authorize(Roles = "ApiUser,GatewayUser")]
-        public async Task<IActionResult> GetWorkers(CancellationTokenSource cancellationTokenSource)
+        public async Task<IActionResult> GetWorkers()
         {
-            return await HttpResponseWrapper.WrapAsync<List<WorkerModel>>(async () =>
+            return await HttpResponseWrapper.WrapAsync<GetWorkersQueryResponse>(async () =>
             {
-                return await _personService.GetWorkersAsync(cancellationTokenSource);
+                return await _mediator.Send(new GetWorkersQueryRequest());
             },
             services: _personService);
         }
@@ -93,13 +91,11 @@ namespace Services.Api.Business.Departments.HR.Controllers
         [HttpPost]
         [Route(nameof(CreateWorker))]
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
-        public async Task<IActionResult> CreateWorker([FromBody] WorkerModel worker, CancellationTokenSource cancellationTokenSource)
+        public async Task<IActionResult> CreateWorker([FromBody] CreateWorkerCommandRequest request)
         {
-            return await HttpResponseWrapper.WrapAsync<int>(async () =>
+            return await HttpResponseWrapper.WrapAsync<CreateWorkerCommandResponse>(async () =>
             {
-                await CreateWorkerValidator.ValidateAsync(worker, cancellationTokenSource);
-
-                return await _personService.CreateWorkerAsync(worker, cancellationTokenSource);
+                return await _mediator.Send(request);
             },
             services: _personService);
         }

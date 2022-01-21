@@ -1,14 +1,16 @@
 ﻿using Infrastructure.Communication.Http.Wrapper;
 
+using MediatR;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Services.Business.Departments.Finance.Services;
-using Services.Business.Departments.Finance.Util.Validation.Request.CreateProductionRequest;
-using Services.Communication.Http.Broker.Department.Finance.Models;
+using Services.Communication.Http.Broker.Department.Finance.CQRS.Commands.Requests;
+using Services.Communication.Http.Broker.Department.Finance.CQRS.Commands.Responses;
+using Services.Communication.Http.Broker.Department.Finance.CQRS.Queries.Requests;
+using Services.Communication.Http.Broker.Department.Finance.CQRS.Queries.Responses;
 
-using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Services.Business.Departments.Finance.Controllers
@@ -16,34 +18,36 @@ namespace Services.Business.Departments.Finance.Controllers
     [Route("ProductionRequest")]
     public class ProductionRequestController : BaseController
     {
+        private readonly IMediator _mediator;
         private readonly ProductionRequestService _productionRequestService;
 
-        public ProductionRequestController(ProductionRequestService productionRequestService)
+        public ProductionRequestController(
+            IMediator mediator,
+            ProductionRequestService productionRequestService)
         {
+            _mediator = mediator;
             _productionRequestService = productionRequestService;
         }
 
         [HttpGet]
         [Route(nameof(GetProductionRequests))]
         [Authorize(Roles = "ApiUser,GatewayUser")]
-        public async Task<IActionResult> GetProductionRequests(CancellationTokenSource cancellationTokenSource)
+        public async Task<IActionResult> GetProductionRequests()
         {
-            return await HttpResponseWrapper.WrapAsync<List<ProductionRequestModel>>(async () =>
+            return await HttpResponseWrapper.WrapAsync<GetProductionRequestsQueryResponse>(async () =>
             {
-                return await _productionRequestService.GetProductionRequestsAsync(cancellationTokenSource);
+                return await _mediator.Send(new GetProductionRequestsQueryRequest());
             },
             services: _productionRequestService);
         }
 
         [Route(nameof(CreateProductionRequest))]
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
-        public async Task<IActionResult> CreateProductionRequest([FromBody] ProductionRequestModel productionRequest, CancellationTokenSource cancellationTokenSource)
+        public async Task<IActionResult> CreateProductionRequest([FromBody] CreateProductionRequestCommandRequest request)
         {
-            return await HttpResponseWrapper.WrapAsync<int>(async () =>
+            return await HttpResponseWrapper.WrapAsync<CreateProductionRequestCommandResponse>(async () =>
             {
-                await CreateProductionRequestValidator.ValidateAsync(productionRequest, cancellationTokenSource);
-
-                return await _productionRequestService.CreateProductionRequestAsync(productionRequest, cancellationTokenSource);
+                return await _mediator.Send(request);
             },
             services: _productionRequestService);
         }
@@ -52,16 +56,11 @@ namespace Services.Business.Departments.Finance.Controllers
         [HttpPost]
         [Route(nameof(DecideProductionRequest))]
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
-        public async Task<IActionResult> DecideProductionRequest([FromBody] ProductionRequestModel productionRequest, CancellationTokenSource cancellationTokenSource)
+        public async Task<IActionResult> DecideProductionRequest([FromBody] DecideProductionRequestCommandRequest request)
         {
-            return await HttpResponseWrapper.WrapAsync<int>(async () =>
+            return await HttpResponseWrapper.WrapAsync<DecideProductionRequestCommandResponse>(async () =>
             {
-                await DecideProductionRequestValidator.ValidateAsync(productionRequest, cancellationTokenSource);
-
-                if (productionRequest.Approved)
-                    return await _productionRequestService.ApproveProductionRequestAsync(productionRequest.Id, cancellationTokenSource);
-                else
-                    return await _productionRequestService.RejectProductionRequestAsync(productionRequest.Id, cancellationTokenSource);
+                return await _mediator.Send(request);
             },
             services: _productionRequestService);
         }

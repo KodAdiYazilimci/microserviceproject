@@ -1,15 +1,16 @@
 ﻿using Infrastructure.Communication.Http.Wrapper;
 
+using MediatR;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Services.Api.Business.Departments.Buying.Services;
-using Services.Api.Business.Departments.Buying.Util.Validation.Request.CreateInventoryRequest;
-using Services.Api.Business.Departments.Buying.Util.Validation.Request.ValidateCostInventory;
-using Services.Communication.Http.Broker.Department.Buying.Models;
+using Services.Communication.Http.Broker.Department.Buying.CQRS.Commands.Requests;
+using Services.Communication.Http.Broker.Department.Buying.CQRS.Commands.Responses;
+using Services.Communication.Http.Broker.Department.Buying.CQRS.Queries.Requests;
+using Services.Communication.Http.Broker.Department.Buying.CQRS.Queries.Responses;
 
-using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Services.Api.Business.Departments.Buying.Controllers
@@ -17,6 +18,7 @@ namespace Services.Api.Business.Departments.Buying.Controllers
     [Route("Request")]
     public class RequestController : BaseController
     {
+        private readonly IMediator _mediator;
         private readonly RequestService _requestService;
 
         public RequestController(RequestService requestService)
@@ -27,11 +29,11 @@ namespace Services.Api.Business.Departments.Buying.Controllers
         [HttpGet]
         [Route(nameof(GetInventoryRequests))]
         [Authorize(Roles = "ApiUser,GatewayUser")]
-        public async Task<IActionResult> GetInventoryRequests(CancellationTokenSource cancellationTokenSource)
+        public async Task<IActionResult> GetInventoryRequests()
         {
-            return await HttpResponseWrapper.WrapAsync<List<InventoryRequestModel>>(async () =>
+            return await HttpResponseWrapper.WrapAsync<GetInventoryRequestsQueryResponse>(async () =>
             {
-                return await _requestService.GetInventoryRequestsAsync(cancellationTokenSource);
+                return await _mediator.Send(new GetInventoryRequestsQueryRequest());
             },
             services: _requestService);
         }
@@ -39,13 +41,11 @@ namespace Services.Api.Business.Departments.Buying.Controllers
         [HttpPost]
         [Route(nameof(CreateInventoryRequest))]
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
-        public async Task<IActionResult> CreateInventoryRequest([FromBody] InventoryRequestModel requestModel, CancellationTokenSource cancellationTokenSource)
+        public async Task<IActionResult> CreateInventoryRequest([FromBody] CreateInventoryRequestCommandRequest request)
         {
-            return await HttpResponseWrapper.WrapAsync<int>(async () =>
+            return await HttpResponseWrapper.WrapAsync<CreateInventoryRequestCommandResponse>(async () =>
             {
-                await CreateInventoryRequestValidator.ValidateAsync(requestModel, cancellationTokenSource);
-
-                return await _requestService.CreateInventoryRequestAsync(requestModel, cancellationTokenSource);
+                return await _mediator.Send(request);
             },
             services: _requestService);
         }
@@ -53,13 +53,11 @@ namespace Services.Api.Business.Departments.Buying.Controllers
         [HttpPost]
         [Route(nameof(ValidateCostInventory))]
         [Authorize(Roles = "ApiUser,QueueUser")]
-        public async Task<IActionResult> ValidateCostInventory([FromBody] DecidedCostModel decidedCost, CancellationTokenSource cancellationTokenSource)
+        public async Task<IActionResult> ValidateCostInventory([FromBody] ValidateCostInventoryCommandRequest request)
         {
-            return await HttpResponseWrapper.WrapAsync<int>(async () =>
+            return await HttpResponseWrapper.WrapAsync<ValidateCostInventoryCommandResponse>(async () =>
             {
-                await ValidateCostInventoryValidator.ValidateAsync(decidedCost, cancellationTokenSource);
-
-                return await _requestService.ValidateCostInventoryAsync(decidedCost, cancellationTokenSource);
+                return await _mediator.Send(request);
             },
             services: _requestService);
         }

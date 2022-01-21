@@ -1,6 +1,8 @@
 ﻿using Infrastructure.Communication.Mq.Rabbit;
 
 using Services.Communication.Http.Broker.Department.Production;
+using Services.Communication.Http.Broker.Department.Production.CQRS.Commands.Requests;
+using Services.Communication.Http.Broker.Department.Production.Models;
 using Services.Communication.Mq.Rabbit.Queue.Production.Configuration;
 using Services.Communication.Mq.Rabbit.Queue.Production.Models;
 
@@ -46,12 +48,15 @@ namespace Services.Communication.Mq.Rabbit.Queue.Production.Consumers
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
             await _productionCommunicator.ProduceProductAsync(
-                new Services.Communication.Http.Broker.Department.Production.Models.ProduceModel()
+                new ProduceProductCommandRequest()
                 {
-                    ProductId = data.ProductId,
-                    Amount = data.Amount,
-                    DepartmentId = data.DepartmentId,
-                    ReferenceNumber = data.ReferenceNumber
+                    Produce = new ProduceModel()
+                    {
+                        ProductId = data.ProductId,
+                        Amount = data.Amount,
+                        DepartmentId = data.DepartmentId,
+                        ReferenceNumber = data.ReferenceNumber
+                    }
                 },
                 data?.TransactionIdentity,
                 cancellationTokenSource);

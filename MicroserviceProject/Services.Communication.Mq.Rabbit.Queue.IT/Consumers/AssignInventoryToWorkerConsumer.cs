@@ -1,6 +1,7 @@
 ﻿using Infrastructure.Communication.Mq.Rabbit;
 
 using Services.Communication.Http.Broker.Department.IT;
+using Services.Communication.Http.Broker.Department.IT.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.IT.Models;
 using Services.Communication.Mq.Rabbit.Queue.IT.Configuration;
 using Services.Communication.Mq.Rabbit.Queue.IT.Models;
@@ -56,7 +57,10 @@ namespace Services.Communication.Mq.Rabbit.Queue.IT.Consumers
                 }).ToList()
             };
 
-            await _itCommunicator.AssignInventoryToWorkerAsync(workerModel, data?.TransactionIdentity, cancellationTokenSource);
+            await _itCommunicator.AssignInventoryToWorkerAsync(new AssignInventoryToWorkerCommandRequest()
+            {
+                Worker = workerModel
+            }, data?.TransactionIdentity, cancellationTokenSource);
         }
 
         /// <summary>

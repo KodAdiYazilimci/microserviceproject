@@ -2,7 +2,9 @@
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Routing.Providers;
 
-using Services.Communication.Http.Broker.Department.Selling.Models;
+using Services.Communication.Http.Broker.Department.Selling.CQRS.Commands.Requests;
+using Services.Communication.Http.Broker.Department.Selling.CQRS.Commands.Responses;
+using Services.Communication.Http.Broker.Department.Selling.CQRS.Queries.Responses;
 
 namespace Services.Communication.Http.Broker.Department.Selling
 {
@@ -44,10 +46,10 @@ namespace Services.Communication.Http.Broker.Department.Selling
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<List<SellModel>>> GetSoldsAsync(
+        public async Task<ServiceResultModel<GetSoldsQueryResponse>> GetSoldsAsync(
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<List<SellModel>>(
+            return await _serviceCommunicator.Call<GetSoldsQueryResponse>(
                 serviceName: _routeNameProvider.Selling_GetSolds,
                 postData: null,
                 queryParameters: null,
@@ -58,18 +60,18 @@ namespace Services.Communication.Http.Broker.Department.Selling
         /// <summary>
         /// Satış departmanına yeni satış kaydı oluşturur
         /// </summary>
-        /// <param name="sellModel">Satış modeli</param>
+        /// <param name="createSellingCommandRequest">Satış modeli</param>
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<int>> CreateSellingAsync(
-            SellModel sellModel,
+        public async Task<ServiceResultModel<CreateSellingCommandResponse>> CreateSellingAsync(
+            CreateSellingCommandRequest createSellingCommandRequest,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<int>(
+            return await _serviceCommunicator.Call<CreateSellingCommandResponse>(
                 serviceName: _routeNameProvider.Selling_CreateSelling,
-                postData: sellModel,
+                postData: createSellingCommandRequest,
                 queryParameters: null,
                 headers: new List<KeyValuePair<string, string>>()
                 {
@@ -81,18 +83,18 @@ namespace Services.Communication.Http.Broker.Department.Selling
         /// <summary>
         /// Satış departmanına üretim onayının sonucunu iletir
         /// </summary>
-        /// <param name="productionRequestModel">Üretim onay sonucu modeli</param>
+        /// <param name="notifyProductionRequestCommandRequest">Üretim onay sonucu modeli</param>
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<int>> NotifyProductionRequest(
-            ProductionRequestModel productionRequestModel,
+        public async Task<ServiceResultModel<NotifyProductionRequestCommandResponse>> NotifyProductionRequest(
+            NotifyProductionRequestCommandRequest notifyProductionRequestCommandRequest,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<int>(
+            return await _serviceCommunicator.Call<NotifyProductionRequestCommandResponse>(
                 serviceName: _routeNameProvider.Selling_NotifyProductionRequest,
-                postData: productionRequestModel,
+                postData: notifyProductionRequestCommandRequest,
                 queryParameters: null,
                 headers: new List<KeyValuePair<string, string>>()
                 {

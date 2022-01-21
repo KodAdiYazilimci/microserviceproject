@@ -2,7 +2,9 @@
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Routing.Providers;
 
-using Services.Communication.Http.Broker.Department.Buying.Models;
+using Services.Communication.Http.Broker.Department.Buying.CQRS.Commands.Requests;
+using Services.Communication.Http.Broker.Department.Buying.CQRS.Commands.Responses;
+using Services.Communication.Http.Broker.Department.Buying.CQRS.Queries.Responses;
 
 namespace Services.Communication.Http.Broker.Department.Buying
 {
@@ -44,10 +46,10 @@ namespace Services.Communication.Http.Broker.Department.Buying
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<List<InventoryRequestModel>>> GetInventoryRequests(
+        public async Task<ServiceResultModel<GetInventoryRequestsQueryResponse>> GetInventoryRequests(
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<List<InventoryRequestModel>>(
+            return await _serviceCommunicator.Call<GetInventoryRequestsQueryResponse>(
                 serviceName: _routeNameProvider.Buying_GetInventoryRequests,
                 postData: null,
                 queryParameters: null,
@@ -58,18 +60,18 @@ namespace Services.Communication.Http.Broker.Department.Buying
         /// <summary>
         /// Satın alınması planlanan envantere ait masrafın sonuçlandırılmasını sağlar
         /// </summary>
-        /// <param name="decidedCostModel">Masraf modeli</param>
+        /// <param name="request">Masraf modeli</param>
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<int>> ValidateCostInventoryAsync(
-            DecidedCostModel decidedCostModel,
+        public async Task<ServiceResultModel<ValidateCostInventoryCommandResponse>> ValidateCostInventoryAsync(
+            ValidateCostInventoryCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<int>(
+            return await _serviceCommunicator.Call<ValidateCostInventoryCommandResponse>(
                  serviceName: _routeNameProvider.Buying_ValidateCostInventory,
-                 postData: decidedCostModel,
+                 postData: request,
                  queryParameters: null,
                  headers: new List<KeyValuePair<string, string>>()
                  {
@@ -81,18 +83,18 @@ namespace Services.Communication.Http.Broker.Department.Buying
         /// <summary>
         /// Satınalma departmanına envanter talebi oluşturur
         /// </summary>
-        /// <param name="inventoryRequestModel">Envanter talep modeli</param>
+        /// <param name="request">Envanter talep modeli</param>
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<int>> CreateInventoryRequestAsync(
-            InventoryRequestModel inventoryRequestModel,
+        public async Task<ServiceResultModel<CreateInventoryRequestCommandResponse>> CreateInventoryRequestAsync(
+            CreateInventoryRequestCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<int>(
+            return await _serviceCommunicator.Call<CreateInventoryRequestCommandResponse>(
                 serviceName: _routeNameProvider.Buying_CreateInventoryRequest,
-                postData: inventoryRequestModel,
+                postData: request,
                 queryParameters: null,
                 headers: new List<KeyValuePair<string, string>>()
                 {

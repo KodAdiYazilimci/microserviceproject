@@ -1,6 +1,8 @@
 ﻿using Infrastructure.Communication.Mq.Rabbit;
 
 using Services.Communication.Http.Broker.Department.Selling;
+using Services.Communication.Http.Broker.Department.Selling.CQRS.Commands.Requests;
+using Services.Communication.Http.Broker.Department.Selling.Models;
 using Services.Communication.Mq.Rabbit.Queue.Selling.Configuration;
 using Services.Communication.Mq.Rabbit.Queue.Selling.Models;
 
@@ -45,7 +47,7 @@ namespace Services.Communication.Mq.Rabbit.Queue.Selling.Consumers
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            Services.Communication.Http.Broker.Department.Selling.Models.ProductionRequestModel productionRequestModel = new Services.Communication.Http.Broker.Department.Selling.Models.ProductionRequestModel
+            ProductionRequestModel productionRequestModel = new ProductionRequestModel
             {
                 Approved = data.Approved,
                 Amount = data.Amount,
@@ -54,7 +56,11 @@ namespace Services.Communication.Mq.Rabbit.Queue.Selling.Consumers
                 ReferenceNumber = data.ReferenceNumber
             };
 
-            await _sellingCommunicator.NotifyProductionRequest(productionRequestModel, data?.TransactionIdentity, cancellationTokenSource);
+            await _sellingCommunicator.NotifyProductionRequest(
+                new NotifyProductionRequestCommandRequest()
+                {
+                    ProductionRequest = productionRequestModel
+                }, data?.TransactionIdentity, cancellationTokenSource);
         }
 
         /// <summary>

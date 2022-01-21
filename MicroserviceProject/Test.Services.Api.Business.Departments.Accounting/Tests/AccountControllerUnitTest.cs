@@ -2,6 +2,7 @@
 using Infrastructure.Communication.Http.Broker;
 using Infrastructure.Communication.Http.Broker.Mock;
 using Infrastructure.Communication.Http.Models;
+using Infrastructure.Mock.Factories;
 using Infrastructure.Routing.Persistence.Mock;
 using Infrastructure.Routing.Providers;
 using Infrastructure.Routing.Providers.Mock;
@@ -10,6 +11,7 @@ using Infrastructure.Security.Authentication.Mock;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using Services.Api.Business.Departments.Accounting;
 using Services.Api.Business.Departments.Accounting.Controllers;
 using Services.Communication.Http.Broker.Department.Accounting.Models;
 
@@ -36,7 +38,7 @@ namespace Test.Services.Api.Business.Departments.Accounting.Tests
         public void Init()
         {
             cancellationTokenSource = new CancellationTokenSource();
-            accountController = new AccountController(BankServiceFactory.Instance);
+            accountController = new AccountController(MediatorFactory.GetInstance(typeof(Startup)), BankServiceFactory.Instance);
             routeNameProvider = RouteNameProviderFactory.GetRouteNameProvider(ConfigurationFactory.GetConfiguration());
 
             serviceCommunicator =
@@ -60,8 +62,7 @@ namespace Test.Services.Api.Business.Departments.Accounting.Tests
 
             IActionResult getBankAccountsOfWorkerResult =
                 await accountController.GetBankAccountsOfWorker(
-                    workerId: workersResult.Data.ElementAt(new Random().Next(0, workersResult.Data.Count - 1)).Id,
-                    cancellationTokenSource: cancellationTokenSource);
+                    workerId: workersResult.Data.ElementAt(new Random().Next(0, workersResult.Data.Count - 1)).Id);
 
             Assert.IsInstanceOfType(getBankAccountsOfWorkerResult, typeof(OkObjectResult));
         }
@@ -79,15 +80,17 @@ namespace Test.Services.Api.Business.Departments.Accounting.Tests
 
             IActionResult createBankAccountResult =
                 await accountController.CreateBankAccount(
-                    bankAccount: new BankAccountModel
+                    new global::Services.Communication.Http.Broker.Department.Accounting.CQRS.Commands.Requests.CreateBankAccountCommandRequest()
                     {
-                        IBAN = new Random().Next(int.MaxValue - 100, int.MaxValue).ToString(),
-                        Worker = new WorkerModel()
+                        BankAccount = new BankAccountModel
                         {
-                            Id = workersResult.Data.ElementAt(new Random().Next(0, workersResult.Data.Count - 1)).Id
+                            IBAN = new Random().Next(int.MaxValue - 100, int.MaxValue).ToString(),
+                            Worker = new WorkerModel()
+                            {
+                                Id = workersResult.Data.ElementAt(new Random().Next(0, workersResult.Data.Count - 1)).Id
+                            }
                         }
-                    },
-                    cancellationTokenSource: cancellationTokenSource);
+                    });
 
             Assert.IsInstanceOfType(createBankAccountResult, typeof(OkObjectResult));
         }
@@ -95,7 +98,7 @@ namespace Test.Services.Api.Business.Departments.Accounting.Tests
         public async Task GetCurrenciesTest()
         {
             IActionResult getCurrenciesResult =
-                await accountController.GetCurrencies(cancellationTokenSource);
+                await accountController.GetCurrencies();
 
             Assert.IsInstanceOfType(getCurrenciesResult, typeof(OkObjectResult));
         }
@@ -105,12 +108,14 @@ namespace Test.Services.Api.Business.Departments.Accounting.Tests
         {
             IActionResult createCurrencyResult =
                 await accountController.CreateCurrency(
-                    currency: new CurrencyModel()
+                    new global::Services.Communication.Http.Broker.Department.Accounting.CQRS.Commands.Requests.CreateCurrencyCommandRequest()
                     {
-                        Name = new Random().Next(int.MaxValue / 2, int.MaxValue).ToString(),
-                        ShortName = new Random().Next(int.MaxValue / 2, int.MaxValue).ToString()
-                    },
-                    cancellationTokenSource: cancellationTokenSource);
+                        Currency = new CurrencyModel()
+                        {
+                            Name = new Random().Next(int.MaxValue / 2, int.MaxValue).ToString(),
+                            ShortName = new Random().Next(int.MaxValue / 2, int.MaxValue).ToString()
+                        }
+                    });
 
             Assert.IsInstanceOfType(createCurrencyResult, typeof(OkObjectResult));
         }
@@ -128,8 +133,7 @@ namespace Test.Services.Api.Business.Departments.Accounting.Tests
 
             IActionResult getSalaryPaymentsOfWorkerResult =
                 await accountController.GetSalaryPaymentsOfWorker(
-                    workerId: workersResult.Data.ElementAt(new Random().Next(0, workersResult.Data.Count - 1)).Id,
-                    cancellationTokenSource: cancellationTokenSource);
+                    workerId: workersResult.Data.ElementAt(new Random().Next(0, workersResult.Data.Count - 1)).Id);
 
             Assert.IsInstanceOfType(getSalaryPaymentsOfWorkerResult, typeof(OkObjectResult));
         }
@@ -168,14 +172,16 @@ namespace Test.Services.Api.Business.Departments.Accounting.Tests
 
             IActionResult createSalaryPayment =
                 await accountController.CreateSalaryPayment(
-                    salaryPayment: new SalaryPaymentModel()
+                    new global::Services.Communication.Http.Broker.Department.Accounting.CQRS.Commands.Requests.CreateSalaryPaymentCommandRequest()
                     {
-                        Amount = new Random().Next(1, short.MaxValue),
-                        Date = DateTime.Now,
-                        BankAccount = getBankAccountsTask.Result.Data.ElementAt(new Random().Next(0, getBankAccountsTask.Result.Data.Count - 1)),
-                        Currency = getCurrenciesTask.Result.Data.ElementAt(new Random().Next(0, getCurrenciesTask.Result.Data.Count - 1))
-                    },
-                    cancellationTokenSource: cancellationTokenSource);
+                        SalaryPayment = new SalaryPaymentModel()
+                        {
+                            Amount = new Random().Next(1, short.MaxValue),
+                            Date = DateTime.Now,
+                            BankAccount = getBankAccountsTask.Result.Data.ElementAt(new Random().Next(0, getBankAccountsTask.Result.Data.Count - 1)),
+                            Currency = getCurrenciesTask.Result.Data.ElementAt(new Random().Next(0, getCurrenciesTask.Result.Data.Count - 1))
+                        }
+                    });
 
             Assert.IsInstanceOfType(createSalaryPayment, typeof(OkObjectResult));
         }

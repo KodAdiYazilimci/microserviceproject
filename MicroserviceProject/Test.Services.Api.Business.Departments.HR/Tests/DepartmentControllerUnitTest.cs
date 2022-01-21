@@ -2,6 +2,7 @@
 using Infrastructure.Communication.Http.Broker;
 using Infrastructure.Communication.Http.Broker.Mock;
 using Infrastructure.Communication.Http.Models;
+using Infrastructure.Mock.Factories;
 using Infrastructure.Routing.Persistence.Mock;
 using Infrastructure.Routing.Providers;
 using Infrastructure.Routing.Providers.Mock;
@@ -10,6 +11,7 @@ using Infrastructure.Security.Authentication.Mock;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using Services.Api.Business.Departments.HR;
 using Services.Api.Business.Departments.HR.Controllers;
 using Services.Communication.Http.Broker.Department.HR.Models;
 
@@ -35,7 +37,7 @@ namespace Test.Services.Api.Business.Departments.HR.Tests
         public void Init()
         {
             cancellationTokenSource = new CancellationTokenSource();
-            departmentController = new DepartmentController(DepartmentServiceFactory.Instance);
+            departmentController = new DepartmentController(MediatorFactory.GetInstance(typeof(Startup)), DepartmentServiceFactory.Instance);
             routeNameProvider = RouteNameProviderFactory.GetRouteNameProvider(ConfigurationFactory.GetConfiguration());
 
             serviceCommunicator =
@@ -49,7 +51,7 @@ namespace Test.Services.Api.Business.Departments.HR.Tests
         [TestMethod]
         public async Task GetDepartmentsTest()
         {
-            IActionResult departmentResult = await departmentController.GetDepartments(cancellationTokenSource);
+            IActionResult departmentResult = await departmentController.GetDepartments();
 
             Assert.IsInstanceOfType(departmentResult, typeof(OkObjectResult));
         }
@@ -73,10 +75,14 @@ namespace Test.Services.Api.Business.Departments.HR.Tests
         [TestMethod]
         public async Task CreateDepartmentTask()
         {
-            IActionResult createDepartmentResult = await departmentController.CreateDepartment(new DepartmentModel()
-            {
-                Name = new Random().Next(0, int.MaxValue).ToString()
-            }, cancellationTokenSource);
+            IActionResult createDepartmentResult = await departmentController.CreateDepartment(
+                new global::Services.Communication.Http.Broker.Department.HR.CQRS.Commands.Requests.CreateDepartmentCommandRequest()
+                {
+                    Department = new DepartmentModel()
+                    {
+                        Name = new Random().Next(0, int.MaxValue).ToString()
+                    }
+                });
 
             Assert.IsInstanceOfType(createDepartmentResult, typeof(OkObjectResult));
         }

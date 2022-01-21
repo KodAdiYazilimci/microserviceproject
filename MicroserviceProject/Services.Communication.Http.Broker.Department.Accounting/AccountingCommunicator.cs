@@ -2,7 +2,9 @@
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Routing.Providers;
 
-using Services.Communication.Http.Broker.Department.Accounting.Models;
+using Services.Communication.Http.Broker.Department.Accounting.CQRS.Commands.Requests;
+using Services.Communication.Http.Broker.Department.Accounting.CQRS.Commands.Responses;
+using Services.Communication.Http.Broker.Department.Accounting.CQRS.Queries.Responses;
 
 namespace Services.Communication.Http.Broker.Department.Accounting
 {
@@ -46,13 +48,13 @@ namespace Services.Communication.Http.Broker.Department.Accounting
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<List<BankAccountModel>>> GetBankAccountsOfWorkerAsync(
+        public async Task<ServiceResultModel<GetBankAccountsOfWorkerQueryResponse>> GetBankAccountsOfWorkerAsync(
             int workerId,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            ServiceResultModel<List<BankAccountModel>> bankAccountsServiceResult =
-                 await _serviceCommunicator.Call<List<BankAccountModel>>(
+            ServiceResultModel<GetBankAccountsOfWorkerQueryResponse> bankAccountsServiceResult =
+                 await _serviceCommunicator.Call<GetBankAccountsOfWorkerQueryResponse>(
                      serviceName: _routeNameProvider.Accounting_GetBankAccountsOfWorker,
                      postData: null,
                      queryParameters: new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("workerId", workerId.ToString()) },
@@ -68,18 +70,18 @@ namespace Services.Communication.Http.Broker.Department.Accounting
         /// <summary>
         /// Çalışan için banka hesabı oluşturur
         /// </summary>
-        /// <param name="workerModel">Çalışan modeli</param>
+        /// <param name="request">Çalışan modeli</param>
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<int>> CreateBankAccountAsync(
-            WorkerModel workerModel,
+        public async Task<ServiceResultModel<CreateBankAccountCommandResponse>> CreateBankAccountAsync(
+            CreateBankAccountCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<int>(
+            return await _serviceCommunicator.Call<CreateBankAccountCommandResponse>(
                serviceName: _routeNameProvider.Accounting_CreateBankAccount,
-               postData: workerModel,
+               postData: request,
                queryParameters: null,
                headers: new List<KeyValuePair<string, string>>()
                {
@@ -93,10 +95,10 @@ namespace Services.Communication.Http.Broker.Department.Accounting
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<List<CurrencyModel>>> GetCurrenciesAsync(
+        public async Task<ServiceResultModel<GetCurrenciesQueryResponse>> GetCurrenciesAsync(
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<List<CurrencyModel>>(
+            return await _serviceCommunicator.Call<GetCurrenciesQueryResponse>(
                 serviceName: _routeNameProvider.Accounting_GetCurrencies,
                 postData: null,
                 queryParameters: null,
@@ -107,18 +109,18 @@ namespace Services.Communication.Http.Broker.Department.Accounting
         /// <summary>
         /// Para birimi oluşturur
         /// </summary>
-        /// <param name="currencyModel">Para birimi modeli</param>
+        /// <param name="request">Para birimi modeli</param>
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<int>> CreateCurrencyAsync(
-            CurrencyModel currencyModel,
+        public async Task<ServiceResultModel<CreateCurrencyCommandResponse>> CreateCurrencyAsync(
+            CreateCurrencyCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<int>(
+            return await _serviceCommunicator.Call<CreateCurrencyCommandResponse>(
                 serviceName: _routeNameProvider.Accounting_CreateCurrency,
-                postData: currencyModel,
+                postData: request,
                 queryParameters: null,
                 headers: new List<KeyValuePair<string, string>>()
                 {
@@ -133,11 +135,11 @@ namespace Services.Communication.Http.Broker.Department.Accounting
         /// <param name="workerId">Maaş bilgileri getirilecek çalışanın Id değeri</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<List<SalaryPaymentModel>>> GetSalaryPaymentsOfWorker(
+        public async Task<ServiceResultModel<GetSalaryPaymentsOfWorkerQueryResponse>> GetSalaryPaymentsOfWorker(
             int workerId,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<List<SalaryPaymentModel>>(
+            return await _serviceCommunicator.Call<GetSalaryPaymentsOfWorkerQueryResponse>(
                 serviceName: _routeNameProvider.Accounting_GetSalaryPaymentsOfWorker,
                 postData: null,
                 queryParameters: new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("workerId", workerId.ToString()) },
@@ -148,18 +150,18 @@ namespace Services.Communication.Http.Broker.Department.Accounting
         /// <summary>
         /// Çalışana maaş ödemesi oluşturur
         /// </summary>
-        /// <param name="salaryPaymentModel">Maaş ödeme modeli</param>
+        /// <param name="request">Maaş ödeme modeli</param>
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<int>> CreateSalaryPayment(
-            SalaryPaymentModel salaryPaymentModel,
+        public async Task<ServiceResultModel<CreateSalaryPaymentCommandResponse>> CreateSalaryPayment(
+            CreateSalaryPaymentCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<int>(
+            return await _serviceCommunicator.Call<CreateSalaryPaymentCommandResponse>(
                 serviceName: _routeNameProvider.Accounting_CreateSalaryPayment,
-                postData: salaryPaymentModel,
+                postData: request,
                 queryParameters: null,
                 headers: new List<KeyValuePair<string, string>>()
                 {

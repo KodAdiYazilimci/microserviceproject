@@ -1,6 +1,7 @@
 ﻿using Infrastructure.Communication.Mq.Rabbit;
 
 using Services.Communication.Http.Broker.Department.Buying;
+using Services.Communication.Http.Broker.Department.Buying.CQRS.Commands.Requests;
 using Services.Communication.Mq.Rabbit.Queue.Buying.Configuration;
 using Services.Communication.Mq.Rabbit.Queue.Buying.Models;
 
@@ -53,7 +54,10 @@ namespace Services.Communication.Mq.Rabbit.Queue.Buying.Consumers
                     InventoryId = data.InventoryId
                 };
 
-            await _buyingCommunicator.CreateInventoryRequestAsync(inventoryRequestModel, data?.TransactionIdentity, cancellationTokenSource);
+            await _buyingCommunicator.CreateInventoryRequestAsync(new CreateInventoryRequestCommandRequest()
+            {
+                InventoryRequest = inventoryRequestModel
+            }, data?.TransactionIdentity, cancellationTokenSource);
         }
 
         /// <summary>

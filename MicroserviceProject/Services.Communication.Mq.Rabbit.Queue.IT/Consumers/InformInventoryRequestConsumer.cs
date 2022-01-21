@@ -1,6 +1,8 @@
 ﻿using Infrastructure.Communication.Mq.Rabbit;
 
 using Services.Communication.Http.Broker.Department.IT;
+using Services.Communication.Http.Broker.Department.IT.CQRS.Commands.Requests;
+using Services.Communication.Http.Broker.Department.IT.Models;
 using Services.Communication.Mq.Rabbit.Queue.IT.Configuration;
 using Services.Communication.Mq.Rabbit.Queue.IT.Models;
 
@@ -44,7 +46,7 @@ namespace Services.Communication.Mq.Rabbit.Queue.IT.Consumers
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            Communication.Http.Broker.Department.IT.Models.InventoryRequestModel inventoryRequestModel = new Communication.Http.Broker.Department.IT.Models.InventoryRequestModel
+            InventoryRequestModel inventoryRequestModel = new InventoryRequestModel
             {
                 Amount = data.Amount,
                 Done = data.Done,
@@ -52,7 +54,10 @@ namespace Services.Communication.Mq.Rabbit.Queue.IT.Consumers
                 Revoked = data.Revoked
             };
 
-            await _itCommunicator.InformInventoryRequestAsync(inventoryRequestModel, data?.TransactionIdentity, cancellationTokenSource);
+            await _itCommunicator.InformInventoryRequestAsync(new InformInventoryRequestCommandRequest()
+            {
+                InventoryRequest = inventoryRequestModel
+            }, data?.TransactionIdentity, cancellationTokenSource);
         }
 
         /// <summary>

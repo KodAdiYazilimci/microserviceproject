@@ -1,6 +1,8 @@
 ﻿using Infrastructure.Communication.Mq.Rabbit;
 
 using Services.Communication.Http.Broker.Department.Finance;
+using Services.Communication.Http.Broker.Department.Finance.CQRS.Commands.Requests;
+using Services.Communication.Http.Broker.Department.Finance.Models;
 using Services.Communication.Mq.Rabbit.Queue.Finance.Configuration;
 using Services.Communication.Mq.Rabbit.Queue.Finance.Models;
 
@@ -44,7 +46,7 @@ namespace Services.Communication.Mq.Rabbit.Queue.Finance.Consumers
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            Services.Communication.Http.Broker.Department.Finance.Models.ProductionRequestModel productionRequest = new Services.Communication.Http.Broker.Department.Finance.Models.ProductionRequestModel
+            ProductionRequestModel productionRequest = new ProductionRequestModel
             {
                 Amount = data.Amount,
                 DepartmentId = data.DepartmentId,
@@ -52,7 +54,10 @@ namespace Services.Communication.Mq.Rabbit.Queue.Finance.Consumers
                 ReferenceNumber = data.ReferenceNumber
             };
 
-            await _financeCommunicator.CreateProductionRequestAsync(productionRequest, data?.TransactionIdentity, cancellationTokenSource);
+            await _financeCommunicator.CreateProductionRequestAsync(new CreateProductionRequestCommandRequest()
+            {
+                 ProductionRequest = productionRequest,
+            }, data?.TransactionIdentity, cancellationTokenSource);
         }
 
         /// <summary>

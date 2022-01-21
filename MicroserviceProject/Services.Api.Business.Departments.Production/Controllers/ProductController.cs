@@ -1,13 +1,16 @@
 ﻿using Infrastructure.Communication.Http.Wrapper;
 
+using MediatR;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Services.Api.Business.Departments.Production.Services;
-using Services.Api.Business.Departments.Production.Util.Validation.Product;
-using Services.Communication.Http.Broker.Department.Production.Models;
+using Services.Communication.Http.Broker.Department.Production.CQRS.Commands.Requests;
+using Services.Communication.Http.Broker.Department.Production.CQRS.Commands.Responses;
+using Services.Communication.Http.Broker.Department.Production.CQRS.Queries.Requests;
+using Services.Communication.Http.Broker.Department.Production.CQRS.Queries.Responses;
 
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,21 +19,25 @@ namespace Services.Api.Business.Departments.Production.Controllers
     [Route("Product")]
     public class ProductController : BaseController
     {
+        private readonly IMediator _mediator;
         private readonly ProductService _productService;
 
-        public ProductController(ProductService productService)
+        public ProductController(
+            IMediator mediator,
+            ProductService productService)
         {
+            _mediator = mediator;
             _productService = productService;
         }
 
         [HttpGet]
         [Route(nameof(GetProducts))]
         [Authorize(Roles = "ApiUser,GatewayUser")]
-        public async Task<IActionResult> GetProducts(CancellationTokenSource cancellationTokenSource)
+        public async Task<IActionResult> GetProducts()
         {
-            return await HttpResponseWrapper.WrapAsync<List<ProductModel>>(async () =>
+            return await HttpResponseWrapper.WrapAsync<GetProductsQueryResponse>(async () =>
             {
-                return await _productService.GetProductsAsync(cancellationTokenSource);
+                return await _mediator.Send(new GetProductsQueryRequest());
             },
             services: _productService);
         }
@@ -38,13 +45,11 @@ namespace Services.Api.Business.Departments.Production.Controllers
         [HttpPost]
         [Route(nameof(CreateProduct))]
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
-        public async Task<IActionResult> CreateProduct([FromBody] ProductModel productModel, CancellationTokenSource cancellationTokenSource)
+        public async Task<IActionResult> CreateProduct([FromBody] CreateProductCommandRequest request, CancellationTokenSource cancellationTokenSource)
         {
-            return await HttpResponseWrapper.WrapAsync<int>(async () =>
+            return await HttpResponseWrapper.WrapAsync<CreateProductCommandResponse>(async () =>
             {
-                await CreateProductValidator.ValidateAsync(productModel, cancellationTokenSource);
-
-                return await _productService.CreateProductAsync(productModel, cancellationTokenSource);
+                return await _mediator.Send(request);
             },
             services: _productService);
         }

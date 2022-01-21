@@ -1,13 +1,14 @@
 ﻿using Infrastructure.Communication.Http.Wrapper;
-using Infrastructure.Transaction.Recovery;
+
+using MediatR;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Services.Api.Business.Departments.Buying.Services;
-using Services.Api.Business.Departments.Buying.Util.Validation.Transaction;
+using Services.Communication.Http.Broker.Department.Buying.CQRS.Commands.Requests;
+using Services.Communication.Http.Broker.Department.Buying.CQRS.Commands.Responses;
 
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Services.Api.Business.Departments.Buying.Controllers
@@ -15,30 +16,25 @@ namespace Services.Api.Business.Departments.Buying.Controllers
     [Route("Transaction")]
     public class TransactionController : BaseController
     {
+        private readonly IMediator _mediator;
         private readonly RequestService _inventoryService;
 
-        public TransactionController(RequestService inventoryService)
+        public TransactionController(
+            IMediator mediator,
+            RequestService inventoryService)
         {
+            _mediator = mediator;
             _inventoryService = inventoryService;
         }
 
         [HttpPost]
         [Route(nameof(RollbackTransaction))]
         [Authorize(Roles = "ApiUser")]
-        public async Task<IActionResult> RollbackTransaction([FromBody] RollbackModel rollbackModel, CancellationTokenSource cancellationTokenSource)
+        public async Task<IActionResult> RollbackTransaction([FromBody] RollbackTransactionCommandRequest request)
         {
-            return await HttpResponseWrapper.WrapAsync<int>(async () =>
+            return await HttpResponseWrapper.WrapAsync<RollbackTransactionCommandResponse>(async () =>
             {
-                await RollbackTransactionValidator.ValidateAsync(rollbackModel, cancellationTokenSource);
-
-                int rollbackResult = 0;
-
-                if (rollbackModel.Modules.Contains(_inventoryService.ServiceName))
-                {
-                    rollbackResult = await _inventoryService.RollbackTransactionAsync(rollbackModel, cancellationTokenSource);
-                }
-
-                return rollbackResult;
+                return await _mediator.Send(request);
             },
             services: _inventoryService);
         }

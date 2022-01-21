@@ -1,11 +1,13 @@
 ﻿using Infrastructure.Communication.Http.Wrapper;
 
+using MediatR;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Services.Api.Business.Departments.Production.Services;
-using Services.Api.Business.Departments.Production.Util.Validation.Production;
-using Services.Communication.Http.Broker.Department.Production.Models;
+using Services.Communication.Http.Broker.Department.Production.CQRS.Commands.Requests;
+using Services.Communication.Http.Broker.Department.Production.CQRS.Commands.Responses;
 
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,23 +17,23 @@ namespace Services.Api.Business.Departments.Production.Controllers
     [Route("Production")]
     public class ProductionController : BaseController
     {
+        private readonly IMediator _mediator;
         private readonly ProductionService _productionService;
 
-        public ProductionController(ProductionService productionService)
+        public ProductionController(IMediator mediator, ProductionService productionService)
         {
+            _mediator = mediator;
             _productionService = productionService;
         }
 
         [HttpPost]
         [Route(nameof(ProduceProduct))]
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
-        public async Task<IActionResult> ProduceProduct([FromBody] ProduceModel produceModel, CancellationTokenSource cancellationTokenSource)
+        public async Task<IActionResult> ProduceProduct([FromBody] ProduceProductCommandRequest request, CancellationTokenSource cancellationTokenSource)
         {
-            return await HttpResponseWrapper.WrapAsync<int>(async () =>
+            return await HttpResponseWrapper.WrapAsync<ProduceProductCommandResponse>(async () =>
             {
-                await ProduceProductValidator.ValidateAsync(produceModel, cancellationTokenSource);
-
-                return await _productionService.ProduceProductAsync(produceModel, cancellationTokenSource);
+                return await _mediator.Send(request);
             },
             services: _productionService);
         }
@@ -41,11 +43,9 @@ namespace Services.Api.Business.Departments.Production.Controllers
         [Authorize(Roles = "ApiUser,QueueUser")]
         public async Task<IActionResult> ReEvaluateProduceProduct(int referenceNumber, CancellationTokenSource cancellationTokenSource)
         {
-            return await HttpResponseWrapper.WrapAsync<int>(async () =>
+            return await HttpResponseWrapper.WrapAsync<ReEvaluateProduceProductCommandResponse>(async () =>
             {
-                await ReEvaluateProduceProductValidator.ValidateAsync(referenceNumber, cancellationTokenSource);
-
-                return await _productionService.ReEvaluateProduceProductAsync(referenceNumber, cancellationTokenSource);
+                return await _mediator.Send(new ReEvaluateProduceProductCommandRequest() { ReferenceNumber = referenceNumber });
             },
            services: _productionService);
         }

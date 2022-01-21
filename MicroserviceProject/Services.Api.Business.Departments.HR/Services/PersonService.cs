@@ -12,6 +12,7 @@ using Services.Api.Business.Departments.HR.Entities.Sql;
 using Services.Api.Business.Departments.HR.Repositories.Sql;
 using Services.Communication.Http.Broker.Department.AA;
 using Services.Communication.Http.Broker.Department.Accounting;
+using Services.Communication.Http.Broker.Department.Accounting.CQRS.Queries.Responses;
 using Services.Communication.Http.Broker.Department.HR.Models;
 using Services.Communication.Http.Broker.Department.IT;
 using Services.Communication.Mq.Rabbit.Queue.AA.Models;
@@ -356,12 +357,12 @@ namespace Services.Api.Business.Departments.HR.Services
 
             foreach (var worker in workerModels)
             {
-                ServiceResultModel<List<Communication.Http.Broker.Department.Accounting.Models.BankAccountModel>> bankAccountsServiceResult =
+                ServiceResultModel<GetBankAccountsOfWorkerQueryResponse> bankAccountsServiceResult =
                     await _accountingCommunicator.GetBankAccountsOfWorkerAsync(worker.Id, TransactionIdentity, cancellationTokenSource);
 
                 if (bankAccountsServiceResult.IsSuccess)
                 {
-                    worker.BankAccounts = bankAccountsServiceResult.Data.Select(x => new BankAccountModel()
+                    worker.BankAccounts = bankAccountsServiceResult.Data.BankAccounts.Select(x => new BankAccountModel()
                     {
                         IBAN = x.IBAN,
                         Worker = new WorkerModel()
@@ -443,7 +444,7 @@ namespace Services.Api.Business.Departments.HR.Services
             _createBankAccountPublisher.AddToBuffer(
                 model: new BankAccountQueueModel
                 {
-                    Worker = new  Communication.Mq.Rabbit.Queue.Accounting.Models.WorkerQueueModel() { Id = worker.Id },
+                    Worker = new Communication.Mq.Rabbit.Queue.Accounting.Models.WorkerQueueModel() { Id = worker.Id },
                     IBAN = worker.BankAccounts.FirstOrDefault().IBAN,
                     TransactionIdentity = TransactionIdentity,
                     GeneratedBy = ApiServiceName
@@ -458,12 +459,12 @@ namespace Services.Api.Business.Departments.HR.Services
 
             if (!worker.AAInventories.Any())
             {
-                ServiceResultModel<List<Communication.Http.Broker.Department.AA.Models.InventoryModel>> defaultInventoriesServiceResult =
+                ServiceResultModel<Communication.Http.Broker.Department.AA.CQRS.Queries.Responses.GetInventoriesForNewWorkerQueryResponse> defaultInventoriesServiceResult =
                     await _aaCommunicator.GetInventoriesForNewWorkerAsync(TransactionIdentity, cancellationTokenSource);
 
                 if (defaultInventoriesServiceResult.IsSuccess)
                 {
-                    worker.AAInventories.AddRange(defaultInventoriesServiceResult.Data.Select(x => new InventoryModel()
+                    worker.AAInventories.AddRange(defaultInventoriesServiceResult.Data.Inventories.Select(x => new InventoryModel()
                     {
                         CurrentStockCount = x.CurrentStockCount,
                         FromDate = x.FromDate,
@@ -511,12 +512,12 @@ namespace Services.Api.Business.Departments.HR.Services
 
             if (!worker.ITInventories.Any())
             {
-                ServiceResultModel<List<Communication.Http.Broker.Department.IT.Models.InventoryModel>> defaultInventoriesServiceResult =
+                ServiceResultModel<Communication.Http.Broker.Department.IT.CQRS.Queries.Responses.GetInventoriesForNewWorkerQueryResponse> defaultInventoriesServiceResult =
                     await _itCommunicator.GetInventoriesForNewWorkerAsync(TransactionIdentity, cancellationTokenSource);
 
                 if (defaultInventoriesServiceResult.IsSuccess)
                 {
-                    worker.ITInventories.AddRange(defaultInventoriesServiceResult.Data.Select(x => new InventoryModel()
+                    worker.ITInventories.AddRange(defaultInventoriesServiceResult.Data.Inventories.Select(x => new InventoryModel()
                     {
                         CurrentStockCount = x.CurrentStockCount,
                         FromDate = x.FromDate,
@@ -540,7 +541,7 @@ namespace Services.Api.Business.Departments.HR.Services
                 }
             }
 
-            _ITAssignInventoryToWorkerPublisher.AddToBuffer(new  Communication.Mq.Rabbit.Queue.IT.Models.WorkerQueueModel
+            _ITAssignInventoryToWorkerPublisher.AddToBuffer(new Communication.Mq.Rabbit.Queue.IT.Models.WorkerQueueModel
             {
                 Id = worker.Id,
                 Inventories = worker.ITInventories.Select(x => new Communication.Mq.Rabbit.Queue.IT.Models.InventoryQueueModel()

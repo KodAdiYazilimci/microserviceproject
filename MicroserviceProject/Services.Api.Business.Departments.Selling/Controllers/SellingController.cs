@@ -1,14 +1,16 @@
 ﻿using Infrastructure.Communication.Http.Wrapper;
 
+using MediatR;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Services.Api.Business.Departments.Selling.Services;
-using Services.Api.Business.Departments.Selling.Util.Validation.Selling;
-using Services.Communication.Http.Broker.Department.Selling.Models;
+using Services.Communication.Http.Broker.Department.Selling.CQRS.Commands.Requests;
+using Services.Communication.Http.Broker.Department.Selling.CQRS.Commands.Responses;
+using Services.Communication.Http.Broker.Department.Selling.CQRS.Queries.Requests;
+using Services.Communication.Http.Broker.Department.Selling.CQRS.Queries.Responses;
 
-using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Services.Api.Business.Departments.Selling.Controllers
@@ -16,21 +18,25 @@ namespace Services.Api.Business.Departments.Selling.Controllers
     [Route("Selling")]
     public class SellingController : BaseController
     {
+        private readonly IMediator _mediator;
         private readonly SellingService _sellingService;
 
-        public SellingController(SellingService sellingService)
+        public SellingController(
+            IMediator mediator,
+            SellingService sellingService)
         {
             _sellingService = sellingService;
+            _mediator = mediator;
         }
 
         [HttpGet]
         [Route(nameof(GetSolds))]
         [Authorize(Roles = "ApiUser,GatewayUser")]
-        public async Task<IActionResult> GetSolds(CancellationTokenSource cancellationTokenSource)
+        public async Task<IActionResult> GetSolds()
         {
-            return await HttpResponseWrapper.WrapAsync<List<SellModel>>(async () =>
+            return await HttpResponseWrapper.WrapAsync<GetSoldsQueryResponse>(async () =>
             {
-                return await _sellingService.GetSoldsAsync(cancellationTokenSource);
+                return await _mediator.Send(new GetSoldsQueryRequest());
             },
             services: _sellingService);
         }
@@ -38,13 +44,11 @@ namespace Services.Api.Business.Departments.Selling.Controllers
         [HttpPost]
         [Route(nameof(CreateSelling))]
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
-        public async Task<IActionResult> CreateSelling([FromBody] SellModel sellModel, CancellationTokenSource cancellationTokenSource)
+        public async Task<IActionResult> CreateSelling([FromBody] CreateSellingCommandRequest createSellingCommandRequest)
         {
-            return await HttpResponseWrapper.WrapAsync<int>(async () =>
+            return await HttpResponseWrapper.WrapAsync<CreateSellingCommandResponse>(async () =>
             {
-                await CreateSellingValidator.ValidateAsync(sellModel, cancellationTokenSource);
-
-                return await _sellingService.CreateSellingAsync(sellModel, cancellationTokenSource);
+                return await _mediator.Send(createSellingCommandRequest);
             },
             services: _sellingService);
         }
@@ -52,13 +56,11 @@ namespace Services.Api.Business.Departments.Selling.Controllers
         [HttpPost]
         [Route(nameof(NotifyProductionRequest))]
         [Authorize(Roles = "ApiUser,QueueUser")]
-        public async Task<IActionResult> NotifyProductionRequest([FromBody] ProductionRequestModel productionRequest, CancellationTokenSource cancellationTokenSource)
+        public async Task<IActionResult> NotifyProductionRequest([FromBody] NotifyProductionRequestCommandRequest productionRequest)
         {
-            return await HttpResponseWrapper.WrapAsync<int>(async () =>
+            return await HttpResponseWrapper.WrapAsync<NotifyProductionRequestCommandResponse>(async () =>
             {
-                await NotifyProductionRequestValidator.ValidateAsync(productionRequest, cancellationTokenSource);
-
-                return await _sellingService.NotifyProductionRequestAsync(productionRequest, cancellationTokenSource);
+                return await _mediator.Send(productionRequest);
             },
             services: _sellingService);
         }

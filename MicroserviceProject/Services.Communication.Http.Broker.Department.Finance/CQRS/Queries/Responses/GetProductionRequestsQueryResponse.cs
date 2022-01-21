@@ -1,0 +1,9 @@
+﻿using Services.Communication.Http.Broker.Department.Finance.Models;
+
+namespace Services.Communication.Http.Broker.Department.Finance.CQRS.Queries.Responses
+{
+    public class GetProductionRequestsQueryResponse
+    {
+        public List<ProductionRequestModel> ProductionRequests { get; set; }
+    }
+}

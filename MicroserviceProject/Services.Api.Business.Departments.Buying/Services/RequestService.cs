@@ -241,7 +241,7 @@ namespace Services.Api.Business.Departments.Buying.Services
         /// <returns></returns>
         private async Task<List<Communication.Http.Broker.Department.AA.Models.InventoryModel>> GetAAInventoriesAsync(CancellationTokenSource cancellationTokenSource)
         {
-            ServiceResultModel<List<Communication.Http.Broker.Department.AA.Models.InventoryModel>> serviceResult =
+            ServiceResultModel<Communication.Http.Broker.Department.AA.CQRS.Queries.Responses.GetInventoriesQueryResponse> serviceResult =
                 await _aaCommunicator.GetInventoriesAsync(TransactionIdentity, cancellationTokenSource);
 
             if (!serviceResult.IsSuccess)
@@ -258,7 +258,7 @@ namespace Services.Api.Business.Departments.Buying.Services
                         validation: serviceResult.Validation);
             }
 
-            return serviceResult.Data;
+            return serviceResult.Data.Inventories;
         }
 
         /// <summary>
@@ -268,7 +268,7 @@ namespace Services.Api.Business.Departments.Buying.Services
         /// <returns></returns>
         private async Task<List<Communication.Http.Broker.Department.IT.Models.InventoryModel>> GetITInventoriesAsync(CancellationTokenSource cancellationTokenSource)
         {
-            ServiceResultModel<List<Communication.Http.Broker.Department.IT.Models.InventoryModel>> serviceResult =
+            ServiceResultModel<Communication.Http.Broker.Department.IT.CQRS.Queries.Responses.GetInventoriesQueryResponse> serviceResult =
                 await _itCommunicator.GetInventoriesAsync(TransactionIdentity, cancellationTokenSource);
 
             if (!serviceResult.IsSuccess)
@@ -285,7 +285,7 @@ namespace Services.Api.Business.Departments.Buying.Services
                         validation: serviceResult.Validation);
             }
 
-            return serviceResult.Data;
+            return serviceResult.Data.Inventories;
         }
 
         /// <summary>

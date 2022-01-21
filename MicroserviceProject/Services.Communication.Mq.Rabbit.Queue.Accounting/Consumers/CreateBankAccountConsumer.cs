@@ -54,7 +54,10 @@ namespace Services.Communication.Mq.Rabbit.Queue.Accounting.Consumers
                 }).ToList()
             };
 
-            await _accountingCommunicator.CreateBankAccountAsync(workerModel, data?.TransactionIdentity, cancellationTokenSource);
+            await _accountingCommunicator.CreateBankAccountAsync(new Http.Broker.Department.Accounting.CQRS.Commands.Requests.CreateBankAccountCommandRequest()
+            {
+                BankAccount = workerModel.BankAccounts.FirstOrDefault()
+            }, data?.TransactionIdentity, cancellationTokenSource);
         }
 
         /// <summary>

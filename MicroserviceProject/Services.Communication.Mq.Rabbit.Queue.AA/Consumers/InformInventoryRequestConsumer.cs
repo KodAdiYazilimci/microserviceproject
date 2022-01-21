@@ -1,6 +1,7 @@
 ﻿using Infrastructure.Communication.Mq.Rabbit;
 
 using Services.Communication.Http.Broker.Department.AA;
+using Services.Communication.Http.Broker.Department.AA.CQRS.Commands.Requests;
 using Services.Communication.Mq.Rabbit.Queue.AA.Configuration;
 using Services.Communication.Mq.Rabbit.Queue.AA.Models;
 
@@ -53,7 +54,10 @@ namespace Services.Communication.Mq.Rabbit.Queue.AA.Consumers
                 Revoked = data.Revoked
             };
 
-            await _aaCommunicator.InformInventoryRequestAsync(inventoryRequestModel, data?.TransactionIdentity, cancellationTokenSource);
+            await _aaCommunicator.InformInventoryRequestAsync(new InformInventoryRequestCommandRequest()
+            {
+                InventoryRequest = inventoryRequestModel
+            }, data?.TransactionIdentity, cancellationTokenSource);
         }
 
         /// <summary>

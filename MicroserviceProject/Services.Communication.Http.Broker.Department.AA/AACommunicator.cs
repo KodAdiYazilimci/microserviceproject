@@ -2,7 +2,9 @@
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Routing.Providers;
 
-using Services.Communication.Http.Broker.Department.AA.Models;
+using Services.Communication.Http.Broker.Department.AA.CQRS.Commands.Requests;
+using Services.Communication.Http.Broker.Department.AA.CQRS.Commands.Responses;
+using Services.Communication.Http.Broker.Department.AA.CQRS.Queries.Responses;
 
 namespace Services.Communication.Http.Broker.Department.AA
 {
@@ -45,13 +47,13 @@ namespace Services.Communication.Http.Broker.Department.AA
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<List<InventoryModel>>> GetInventoriesAsync(
+        public async Task<ServiceResultModel<GetInventoriesQueryResponse>> GetInventoriesAsync(
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            ServiceResultModel<List<InventoryModel>> serviceResult =
+            ServiceResultModel<GetInventoriesQueryResponse> serviceResult =
                     await
-                    _serviceCommunicator.Call<List<InventoryModel>>(
+                    _serviceCommunicator.Call<GetInventoriesQueryResponse>(
                             serviceName: _routeNameProvider.AA_GetInventories,
                             postData: null,
                             queryParameters: null,
@@ -67,17 +69,17 @@ namespace Services.Communication.Http.Broker.Department.AA
         /// <summary>
         /// İdari işler envanteri oluşturur
         /// </summary>
-        /// <param name="inventoryModel">Envanterin modeli</param>
+        /// <param name="request">Envanterin modeli</param>
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
-        public async Task<ServiceResultModel<int>> CreateInventoryAsync(
-            InventoryModel inventoryModel,
+        public async Task<ServiceResultModel<CreateInventoryCommandResponse>> CreateInventoryAsync(
+            CreateInventoryCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<int>(
+            return await _serviceCommunicator.Call<CreateInventoryCommandResponse>(
                 serviceName: _routeNameProvider.AA_CreateInventory,
-                postData: inventoryModel,
+                postData: request,
                 queryParameters: null,
                 headers: new List<KeyValuePair<string, string>>()
                 {
@@ -92,12 +94,12 @@ namespace Services.Communication.Http.Broker.Department.AA
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<List<InventoryModel>>> GetInventoriesForNewWorkerAsync(
+        public async Task<ServiceResultModel<GetInventoriesForNewWorkerQueryResponse>> GetInventoriesForNewWorkerAsync(
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            ServiceResultModel<List<InventoryModel>> defaultInventoriesServiceResult =
-                    await _serviceCommunicator.Call<List<InventoryModel>>(
+            ServiceResultModel<GetInventoriesForNewWorkerQueryResponse> defaultInventoriesServiceResult =
+                    await _serviceCommunicator.Call<GetInventoriesForNewWorkerQueryResponse>(
                         serviceName: _routeNameProvider.AA_GetInventoriesForNewWorker,
                         postData: null,
                         queryParameters: null,
@@ -137,18 +139,18 @@ namespace Services.Communication.Http.Broker.Department.AA
         /// <summary>
         /// Çalışana idari işler envanteri ataması yapar
         /// </summary>
-        /// <param name="workerModel">Çalışanın modeli</param>
+        /// <param name="request">Çalışanın modeli</param>
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<int>> AssignInventoryToWorkerAsync(
-            WorkerModel workerModel,
+        public async Task<ServiceResultModel<AssignInventoryToWorkerCommandResponse>> AssignInventoryToWorkerAsync(
+            AssignInventoryToWorkerCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<int>(
+            return await _serviceCommunicator.Call<AssignInventoryToWorkerCommandResponse>(
                 serviceName: _routeNameProvider.AA_AssignInventoryToWorker,
-                postData: workerModel,
+                postData: request,
                 queryParameters: null,
                 headers: new List<KeyValuePair<string, string>>()
                 {
@@ -160,18 +162,18 @@ namespace Services.Communication.Http.Broker.Department.AA
         /// <summary>
         /// İdari işlerin bekleyen satın alımları için bilgilendirme yapar
         /// </summary>
-        /// <param name="inventoryRequestModel">Bekleyen satın alım modeli</param>
+        /// <param name="request">Bekleyen satın alım modeli</param>
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<int>> InformInventoryRequestAsync(
-            InventoryRequestModel inventoryRequestModel,
+        public async Task<ServiceResultModel<InformInventoryRequestCommandResponse>> InformInventoryRequestAsync(
+            InformInventoryRequestCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<int>(
+            return await _serviceCommunicator.Call<InformInventoryRequestCommandResponse>(
                 serviceName: _routeNameProvider.AA_InformInventoryRequest,
-                postData: inventoryRequestModel,
+                postData: request,
                 queryParameters: null,
                 headers: new List<KeyValuePair<string, string>>()
                 {
@@ -183,18 +185,18 @@ namespace Services.Communication.Http.Broker.Department.AA
         /// <summary>
         /// Yeni çalışan için varsayılan idari işler envanteri ataması yapar
         /// </summary>
-        /// <param name="inventoryModel">Envanter modeli</param>
+        /// <param name="request">Envanter modeli</param>
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<InventoryModel>> CreateDefaultInventoryForNewWorkerAsync(
-            InventoryModel inventoryModel,
+        public async Task<ServiceResultModel<CreateDefaultInventoryForNewWorkerCommandResponse>> CreateDefaultInventoryForNewWorkerAsync(
+            CreateDefaultInventoryForNewWorkerCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<InventoryModel>(
+            return await _serviceCommunicator.Call<CreateDefaultInventoryForNewWorkerCommandResponse>(
                 serviceName: _routeNameProvider.AA_CreateDefaultInventoryForNewWorker,
-                postData: inventoryModel,
+                postData: request,
                 queryParameters: null,
                 headers: new List<KeyValuePair<string, string>>()
                 {

@@ -2,7 +2,9 @@
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Routing.Providers;
 
-using Services.Communication.Http.Broker.Department.CR.Models;
+using Services.Communication.Http.Broker.Department.CR.CQRS.Commands.Requests;
+using Services.Communication.Http.Broker.Department.CR.CQRS.Commands.Responses;
+using Services.Communication.Http.Broker.Department.CR.CQRS.Queries.Responses;
 
 namespace Services.Communication.Http.Broker.Department.CR
 {
@@ -44,10 +46,10 @@ namespace Services.Communication.Http.Broker.Department.CR
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<List<CustomerModel>>> GetCustomersAsync(
+        public async Task<ServiceResultModel<GetCustomersQueryResponse>> GetCustomersAsync(
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<List<CustomerModel>>(
+            return await _serviceCommunicator.Call<GetCustomersQueryResponse>(
                 serviceName: _routeNameProvider.CR_GetCustomers,
                 postData: null,
                 queryParameters: null,
@@ -58,18 +60,18 @@ namespace Services.Communication.Http.Broker.Department.CR
         /// <summary>
         /// Müşteri ilişkileri departmanına yeni müşteri kaydı oluşturur
         /// </summary>
-        /// <param name="customerModel">Müşteri modeli</param>
+        /// <param name="request">Müşteri modeli</param>
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<int>> CreateCustomerAsync(
-            CustomerModel customerModel,
+        public async Task<ServiceResultModel<CreateCustomerCommandResponse>> CreateCustomerAsync(
+            CreateCustomerCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<int>(
+            return await _serviceCommunicator.Call<CreateCustomerCommandResponse>(
                 serviceName: _routeNameProvider.CR_CreateCustomer,
-                postData: customerModel,
+                postData: request,
                 queryParameters: null,
                 headers: new List<KeyValuePair<string, string>>()
                 {
@@ -86,7 +88,7 @@ namespace Services.Communication.Http.Broker.Department.CR
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
         public async Task<ServiceResultModel> RemoveSessionIfExistsInCacheAsync(
-            string tokenKey, 
+            string tokenKey,
             CancellationTokenSource cancellationTokenSource)
         {
             ServiceResultModel serviceResult =
