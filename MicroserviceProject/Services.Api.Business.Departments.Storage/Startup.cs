@@ -21,6 +21,7 @@ using Services.Api.Business.Departments.Storage.Configuration.Persistence;
 using Services.Api.Business.Departments.Storage.DI;
 using Services.Communication.Http.Broker.Department.Storage.DI;
 using Services.Diagnostics.HealthCheck.DI;
+using Services.Logging.Aspect.DI;
 using Services.Logging.RequestResponse.DI;
 using Services.Security.BasicToken.DI;
 using Services.UnitOfWork.EntityFramework.DI;
@@ -53,6 +54,7 @@ namespace Services.Api.Business.Departments.Storage
             services.RegisterHttpStorageDepartmentCommunicators();
             services.RegisterLocalizationProviders();
             services.RegisterRequestResponseLogger();
+            services.RegisterRuntimeLogger();
             services.RegisterSqlHealthChecking(
                 connectionStrings: new List<string>() { Configuration.GetSection("Persistence")["DataSource"] });
             services.RegisterSwagger();

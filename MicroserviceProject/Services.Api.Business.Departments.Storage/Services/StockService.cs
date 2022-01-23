@@ -13,6 +13,7 @@ using Services.Api.Business.Departments.Storage.Configuration.Persistence;
 using Services.Api.Business.Departments.Storage.Entities.EntityFramework;
 using Services.Api.Business.Departments.Storage.Repositories.EntityFramework;
 using Services.Communication.Http.Broker.Department.Storage.Models;
+using Services.Logging.Aspect.Attributes;
 
 using System;
 using System.Collections.Generic;
@@ -209,6 +210,7 @@ namespace Services.Api.Business.Departments.Storage.Services
             }
         }
 
+        [LogRuntimeAttr(nameof(GetStockAsync))]
         public async Task<StockModel> GetStockAsync(int productId, CancellationTokenSource cancellationTokenSource)
         {
             if (_redisCacheDataProvider.TryGetValue(CACHED_STOCKS_KEY, out List<StockModel> cachedStocks)

@@ -253,27 +253,33 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Mq.R
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Mq.Rabbit.Queue.Storage", "Services.Communication.Mq.Rabbit.Queue.Storage\Services.Communication.Mq.Rabbit.Queue.Storage.csproj", "{B5D254BC-C602-4B1D-9B46-5A841240FAD6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Mq.Rabbit.Queue.Authorization", "Services.Communication.Mq.Rabbit.Queue.Authorization\Services.Communication.Mq.Rabbit.Queue.Authorization.csproj", "{EBB7FAF4-5B15-49DB-BC8F-621E650B270D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Mq.Rabbit.Queue.Authorization", "Services.Communication.Mq.Rabbit.Queue.Authorization\Services.Communication.Mq.Rabbit.Queue.Authorization.csproj", "{EBB7FAF4-5B15-49DB-BC8F-621E650B270D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Http.Broker.Department.AA", "Services.Communication.Http.Broker.Department.AA\Services.Communication.Http.Broker.Department.AA.csproj", "{9E05E9E3-D02E-4955-9A2E-EAC8B2E6B824}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Http.Broker.Department.AA", "Services.Communication.Http.Broker.Department.AA\Services.Communication.Http.Broker.Department.AA.csproj", "{9E05E9E3-D02E-4955-9A2E-EAC8B2E6B824}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Http.Broker.Department.Accounting", "Services.Communication.Http.Broker.Department.Accounting\Services.Communication.Http.Broker.Department.Accounting.csproj", "{802DE9F6-B5AD-4002-BB10-7F8F602964EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Http.Broker.Department.Accounting", "Services.Communication.Http.Broker.Department.Accounting\Services.Communication.Http.Broker.Department.Accounting.csproj", "{802DE9F6-B5AD-4002-BB10-7F8F602964EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Http.Broker.Department.Buying", "Services.Communication.Http.Broker.Department.Buying\Services.Communication.Http.Broker.Department.Buying.csproj", "{369AEC3C-671C-48A1-B7E9-75FC121EE09E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Http.Broker.Department.Buying", "Services.Communication.Http.Broker.Department.Buying\Services.Communication.Http.Broker.Department.Buying.csproj", "{369AEC3C-671C-48A1-B7E9-75FC121EE09E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Http.Broker.Department.CR", "Services.Communication.Http.Broker.Department.CR\Services.Communication.Http.Broker.Department.CR.csproj", "{7294BD7A-0A52-4724-9005-EFA12B9E7B97}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Http.Broker.Department.CR", "Services.Communication.Http.Broker.Department.CR\Services.Communication.Http.Broker.Department.CR.csproj", "{7294BD7A-0A52-4724-9005-EFA12B9E7B97}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Http.Broker.Department.Finance", "Services.Communication.Http.Broker.Department.Finance\Services.Communication.Http.Broker.Department.Finance.csproj", "{ADD415CA-36A4-4ADC-8E23-54565BBEF29D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Http.Broker.Department.Finance", "Services.Communication.Http.Broker.Department.Finance\Services.Communication.Http.Broker.Department.Finance.csproj", "{ADD415CA-36A4-4ADC-8E23-54565BBEF29D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Http.Broker.Department.HR", "Services.Communication.Http.Broker.Department.HR\Services.Communication.Http.Broker.Department.HR.csproj", "{175F73E8-AD15-4E73-B5E1-0D3F3342223E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Http.Broker.Department.HR", "Services.Communication.Http.Broker.Department.HR\Services.Communication.Http.Broker.Department.HR.csproj", "{175F73E8-AD15-4E73-B5E1-0D3F3342223E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Http.Broker.Department.IT", "Services.Communication.Http.Broker.Department.IT\Services.Communication.Http.Broker.Department.IT.csproj", "{26E943AA-1149-4089-92EB-C0D6A40962B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Http.Broker.Department.IT", "Services.Communication.Http.Broker.Department.IT\Services.Communication.Http.Broker.Department.IT.csproj", "{26E943AA-1149-4089-92EB-C0D6A40962B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Http.Broker.Department.Production", "Services.Communication.Http.Broker.Department.Production\Services.Communication.Http.Broker.Department.Production.csproj", "{99B75D76-507C-44A4-AF56-BE5F5A7D7293}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Http.Broker.Department.Production", "Services.Communication.Http.Broker.Department.Production\Services.Communication.Http.Broker.Department.Production.csproj", "{99B75D76-507C-44A4-AF56-BE5F5A7D7293}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Http.Broker.Department.Selling", "Services.Communication.Http.Broker.Department.Selling\Services.Communication.Http.Broker.Department.Selling.csproj", "{0B542DF4-3B8F-4E37-907B-B6D574CA109D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Http.Broker.Department.Selling", "Services.Communication.Http.Broker.Department.Selling\Services.Communication.Http.Broker.Department.Selling.csproj", "{0B542DF4-3B8F-4E37-907B-B6D574CA109D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Http.Broker.Department.Storage", "Services.Communication.Http.Broker.Department.Storage\Services.Communication.Http.Broker.Department.Storage.csproj", "{88ACEA4D-1CF5-44D2-A691-0A1EC5FD2275}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Http.Broker.Department.Storage", "Services.Communication.Http.Broker.Department.Storage\Services.Communication.Http.Broker.Department.Storage.csproj", "{88ACEA4D-1CF5-44D2-A691-0A1EC5FD2275}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure.Runtime", "Infrastructure.Runtime", "{97642B72-C1E8-495F-A5FF-A8AA5D8DBBB2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Runtime", "Infrastructure.Runtime\Infrastructure.Runtime.csproj", "{4FB3433C-2D29-49FA-AE0A-25600F84196F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Logging.Aspect", "Services.Logging.Aspect\Services.Logging.Aspect.csproj", "{7F8D47E3-2754-41E2-BB66-F5ACF9613301}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -729,6 +735,14 @@ Global
 		{88ACEA4D-1CF5-44D2-A691-0A1EC5FD2275}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88ACEA4D-1CF5-44D2-A691-0A1EC5FD2275}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88ACEA4D-1CF5-44D2-A691-0A1EC5FD2275}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FB3433C-2D29-49FA-AE0A-25600F84196F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FB3433C-2D29-49FA-AE0A-25600F84196F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FB3433C-2D29-49FA-AE0A-25600F84196F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FB3433C-2D29-49FA-AE0A-25600F84196F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F8D47E3-2754-41E2-BB66-F5ACF9613301}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F8D47E3-2754-41E2-BB66-F5ACF9613301}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F8D47E3-2754-41E2-BB66-F5ACF9613301}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F8D47E3-2754-41E2-BB66-F5ACF9613301}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -859,6 +873,9 @@ Global
 		{99B75D76-507C-44A4-AF56-BE5F5A7D7293} = {2EE70AFD-E3E7-49A0-9A36-5C36844C0EA0}
 		{0B542DF4-3B8F-4E37-907B-B6D574CA109D} = {2EE70AFD-E3E7-49A0-9A36-5C36844C0EA0}
 		{88ACEA4D-1CF5-44D2-A691-0A1EC5FD2275} = {2EE70AFD-E3E7-49A0-9A36-5C36844C0EA0}
+		{97642B72-C1E8-495F-A5FF-A8AA5D8DBBB2} = {B29D6F56-F461-4BE8-80D8-6F92897F9EAA}
+		{4FB3433C-2D29-49FA-AE0A-25600F84196F} = {97642B72-C1E8-495F-A5FF-A8AA5D8DBBB2}
+		{7F8D47E3-2754-41E2-BB66-F5ACF9613301} = {2EE70AFD-E3E7-49A0-9A36-5C36844C0EA0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5FD68A04-D16D-49EC-9D04-25E6B952DA89}
