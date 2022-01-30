@@ -19,7 +19,7 @@ namespace Services.Logging.Aspect.Handlers
             _runtimeLogger = runtimeLogger;
         }
 
-        public override void HandleAfterInvoke(MethodInfo methodInfo, Type methodExecutionAttr, object executionResult, params object[] passedParameters)
+        public override void HandleAfterInvoke(object instance, MethodInfo methodInfo, Type methodExecutionAttr, object executionResult, params object[] passedParameters)
         {
             if (methodExecutionAttr == typeof(LogAfterRuntimeAttr))
             {
@@ -37,7 +37,7 @@ namespace Services.Logging.Aspect.Handlers
             }
         }
 
-        public override void HandleBeforeInvoke(MethodInfo methodInfo, Type methodExecutionAttr, params object[] passedParameters)
+        public override void HandleBeforeInvoke(object instance, MethodInfo methodInfo, Type methodExecutionAttr, params object[] passedParameters)
         {
             if (methodExecutionAttr == typeof(LogBeforeRuntimeAttr))
             {

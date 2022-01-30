@@ -6,95 +6,132 @@ namespace Infrastructure.Runtime.Handlers
 {
     public abstract class AspectRuntimeHandlerBase
     {
+        private static Dictionary<Type, MethodInfo[]> resolvedMethods = new Dictionary<Type, MethodInfo[]>();
+        private static Dictionary<MethodInfo, object[]> resolvedMethodAttributes = new Dictionary<MethodInfo, object[]>();
+
         public void ExecuteMethod(object instance, string methodName, params object[] parameters)
         {
-            Type classInfo = instance.GetType();
-
-            var methods = classInfo.GetMethods();
+            MethodInfo[] methods =
+                resolvedMethods.ContainsKey(instance.GetType())
+                ?
+                resolvedMethods[instance.GetType()]
+                : instance.GetType().GetMethods();
 
             foreach (var m in methods)
             {
                 if (m.Name == methodName && m.GetParameters().Count() == parameters.Count())
                 {
-                    ExecuteBeforeInvoke(m, parameters);
+                    ExecuteBeforeInvoke(instance, m, parameters);
 
                     m.Invoke(instance, parameters);
 
-                    ExecuteAfterInvoke(m, null, parameters);
+                    ExecuteAfterInvoke(instance, m, null, parameters);
 
                     break;
                 }
             }
+
+            resolvedMethods[instance.GetType()] = methods;
         }
 
         public void ExecuteStaticMethod(Type classType, string methodName, params object[] parameters)
         {
-            var methods = classType.GetMethods();
+            MethodInfo[] methods =
+                      resolvedMethods.ContainsKey(classType)
+                      ?
+                      resolvedMethods[classType]
+                      : classType.GetMethods();
 
             foreach (var m in methods)
             {
                 if (m.Name == methodName && m.GetParameters().Count() == parameters.Count() && m.IsStatic)
                 {
-                    ExecuteBeforeInvoke(m, parameters);
+                    ExecuteBeforeInvoke(null, m, parameters);
 
                     m.Invoke(null, parameters);
 
-                    ExecuteAfterInvoke(m, null, parameters);
+                    ExecuteAfterInvoke(null, m, null, parameters);
 
                     break;
                 }
             }
+
+            resolvedMethods[classType] = methods;
         }
 
         public T ExecuteResultMethod<T>(object instance, string methodName, params object[] parameters)
         {
-            Type classInfo = instance.GetType();
+            MethodInfo[] methods =
+                      resolvedMethods.ContainsKey(instance.GetType())
+                      ?
+                      resolvedMethods[instance.GetType()]
+                      : instance.GetType().GetMethods();
 
-            var methods = classInfo.GetMethods();
+            T result = default(T);
+
+            bool foundResult = false;
 
             foreach (var m in methods)
             {
                 if (m.Name == methodName && m.GetParameters().Count() == parameters.Count())
                 {
-                    ExecuteBeforeInvoke(m, parameters);
+                    ExecuteBeforeInvoke(instance, m, parameters);
 
-                    T result = (T)m.Invoke(instance, parameters);
+                    result = (T)m.Invoke(instance, parameters);
+                    foundResult = true;
 
-                    ExecuteAfterInvoke(m, null, parameters);
+                    ExecuteAfterInvoke(instance, m, null, parameters);
 
-                    return result;
+                    break;
                 }
             }
 
-            throw new Exception("Method bulunamadı");
+            resolvedMethods[instance.GetType()] = methods;
+
+            return foundResult ? result : throw new Exception("Method bulunamadı");
         }
 
         public T ExecuteResultMethod<T>(Func<T> method, params object[] parameters)
         {
-            Type classInfo = method.Method.DeclaringType;
+            MethodInfo[] methods =
+                      resolvedMethods.ContainsKey(method.Method.DeclaringType)
+                      ?
+                      resolvedMethods[method.Method.DeclaringType]
+                      : method.Method.DeclaringType.GetMethods();
 
-            var methods = classInfo.GetMethods();
+            T result = default(T);
+
+            bool foundResult = false;
 
             foreach (var m in methods)
             {
                 if (m.Name == method.Method.Name && m.GetParameters().Count() == parameters.Count())
                 {
-                    ExecuteBeforeInvoke(m, parameters);
+                    ExecuteBeforeInvoke(null, m, parameters);
 
-                    T result = (T)m.Invoke(method.Target, parameters);
+                    result = (T)m.Invoke(method.Target, parameters);
 
-                    ExecuteAfterInvoke(m, null, parameters);
+                    foundResult = true;
+
+                    ExecuteAfterInvoke(null, m, null, parameters);
 
                     return result;
                 }
             }
 
-            throw new Exception("Method bulunamadı");
+            resolvedMethods[method.Method.DeclaringType] = methods;
+
+            return foundResult ? result : throw new Exception("Method bulunamadı");
         }
 
-        private void ExecuteBeforeInvoke(MethodInfo method, params object[] parameters)
+        private void ExecuteBeforeInvoke(object instance, MethodInfo method, params object[] parameters)
         {
-            object[] attributes = (method as MethodInfo).GetCustomAttributes(false);
+            object[] attributes =
+                resolvedMethodAttributes.ContainsKey(method)
+                ?
+                resolvedMethodAttributes[method]
+                :
+                (method as MethodInfo).GetCustomAttributes(false);
 
             foreach (object attribute in attributes)
             {
@@ -102,15 +139,22 @@ namespace Infrastructure.Runtime.Handlers
                 {
                     if ((attribute as IExecutionTime).ExecutionType == ExecutionType.Before)
                     {
-                        HandleBeforeInvoke(method, attribute.GetType(), parameters);
+                        HandleBeforeInvoke(instance, method, attribute.GetType(), parameters);
                     }
                 }
             }
+
+            resolvedMethodAttributes[method] = attributes;
         }
 
-        private void ExecuteAfterInvoke(MethodInfo method, object executionResult, params object[] parameters)
+        private void ExecuteAfterInvoke(object instance, MethodInfo method, object executionResult, params object[] parameters)
         {
-            object[] attributes = (method as MethodInfo).GetCustomAttributes(false);
+            object[] attributes =
+                resolvedMethodAttributes.ContainsKey(method)
+                ?
+                resolvedMethodAttributes[method]
+                :
+                (method as MethodInfo).GetCustomAttributes(false);
 
             foreach (object attribute in attributes)
             {
@@ -118,13 +162,15 @@ namespace Infrastructure.Runtime.Handlers
                 {
                     if ((attribute as IExecutionTime).ExecutionType == ExecutionType.After)
                     {
-                        HandleAfterInvoke(method, attribute.GetType(), parameters);
+                        HandleAfterInvoke(instance, method, attribute.GetType(), executionResult, parameters);
                     }
                 }
             }
+
+            resolvedMethodAttributes[method] = attributes;
         }
 
-        public abstract void HandleBeforeInvoke(MethodInfo methodInfo, Type methodExecutionAttr, params object[] passedParameters);
-        public abstract void HandleAfterInvoke(MethodInfo methodInfo, Type methodExecutionAttr, object executionResult, params object[] passedParameters);
+        public abstract void HandleBeforeInvoke(object instance, MethodInfo methodInfo, Type methodExecutionAttr, params object[] passedParameters);
+        public abstract void HandleAfterInvoke(object instance, MethodInfo methodInfo, Type methodExecutionAttr, object executionResult, params object[] passedParameters);
     }
 }
