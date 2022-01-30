@@ -1,33 +1,75 @@
-﻿using Infrastructure.Runtime.Attributes;
+﻿using Infrastructure.Runtime.Timing;
 
 using System.Reflection;
 
 namespace Infrastructure.Runtime.Handlers
 {
-    public abstract class AspectRuntimeHandlerBase<TAttribute> where TAttribute : Attribute
+    public abstract class AspectRuntimeHandlerBase
     {
-        public void ExecuteMethod(Action method, params object[] parameters)
+        public void ExecuteMethod(object instance, string methodName, params object[] parameters)
         {
-            Type classInfo = method.Method.DeclaringType;
+            Type classInfo = instance.GetType();
 
             var methods = classInfo.GetMethods();
 
             foreach (var m in methods)
             {
-                if (m.Name == method.Method.Name && m.GetParameters().Count() == parameters.Count())
+                if (m.Name == methodName && m.GetParameters().Count() == parameters.Count())
                 {
-                    ExecuteBeforeInvoke<TAttribute>(method.Method, parameters);
+                    ExecuteBeforeInvoke(m, parameters);
 
-                    m.Invoke(method.Target, parameters);
+                    m.Invoke(instance, parameters);
 
-                    ExecuteAfterInvoke<TAttribute>(method.Method, null, parameters);
+                    ExecuteAfterInvoke(m, null, parameters);
 
                     break;
                 }
             }
         }
 
-        public T ExecuteMethod<T>(Func<T> method, params object[] parameters)
+        public void ExecuteStaticMethod(Type classType, string methodName, params object[] parameters)
+        {
+            var methods = classType.GetMethods();
+
+            foreach (var m in methods)
+            {
+                if (m.Name == methodName && m.GetParameters().Count() == parameters.Count() && m.IsStatic)
+                {
+                    ExecuteBeforeInvoke(m, parameters);
+
+                    m.Invoke(null, parameters);
+
+                    ExecuteAfterInvoke(m, null, parameters);
+
+                    break;
+                }
+            }
+        }
+
+        public T ExecuteResultMethod<T>(object instance, string methodName, params object[] parameters)
+        {
+            Type classInfo = instance.GetType();
+
+            var methods = classInfo.GetMethods();
+
+            foreach (var m in methods)
+            {
+                if (m.Name == methodName && m.GetParameters().Count() == parameters.Count())
+                {
+                    ExecuteBeforeInvoke(m, parameters);
+
+                    T result = (T)m.Invoke(instance, parameters);
+
+                    ExecuteAfterInvoke(m, null, parameters);
+
+                    return result;
+                }
+            }
+
+            throw new Exception("Method bulunamadı");
+        }
+
+        public T ExecuteResultMethod<T>(Func<T> method, params object[] parameters)
         {
             Type classInfo = method.Method.DeclaringType;
 
@@ -37,11 +79,11 @@ namespace Infrastructure.Runtime.Handlers
             {
                 if (m.Name == method.Method.Name && m.GetParameters().Count() == parameters.Count())
                 {
-                    ExecuteBeforeInvoke<TAttribute>(method.Method, parameters);
+                    ExecuteBeforeInvoke(m, parameters);
 
                     T result = (T)m.Invoke(method.Target, parameters);
 
-                    ExecuteAfterInvoke<TAttribute>(method.Method, result, parameters);
+                    ExecuteAfterInvoke(m, null, parameters);
 
                     return result;
                 }
@@ -50,64 +92,39 @@ namespace Infrastructure.Runtime.Handlers
             throw new Exception("Method bulunamadı");
         }
 
-        public TResult ExecuteMethod<TParameter, TParameter2, TResult>(Func<TParameter, TParameter2, TResult> method, params object[] parameters)
-        {
-            Type classInfo = method.Method.DeclaringType;
-
-            var methods = classInfo.GetMethods();
-
-            foreach (var m in methods)
-            {
-                if (m.Name == method.Method.Name && m.GetParameters().Count() == parameters.Count())
-                {
-                    ExecuteBeforeInvoke<TAttribute>(method.Method, parameters);
-
-                    TResult result = (TResult)m.Invoke(method.Target, parameters);
-
-                    ExecuteAfterInvoke<TAttribute>(method.Method, result, parameters);
-
-                    return result;
-                }
-            }
-
-            throw new Exception("Method bulunamadı");
-        }
-
-        private void ExecuteBeforeInvoke<T>(object method, params object[] passedParameters) where T : TAttribute
+        private void ExecuteBeforeInvoke(MethodInfo method, params object[] parameters)
         {
             object[] attributes = (method as MethodInfo).GetCustomAttributes(false);
 
             foreach (object attribute in attributes)
             {
-                if (attribute is MethodExecutionAttr)
+                if (attribute is IExecutionTime)
                 {
-                    T executionAttr = (T)attribute;
-
-                    HandleBeforeInvoke(executionAttr, passedParameters);
-
-                    break;
+                    if ((attribute as IExecutionTime).ExecutionType == ExecutionType.Before)
+                    {
+                        HandleBeforeInvoke(method, attribute.GetType(), parameters);
+                    }
                 }
             }
         }
 
-        private void ExecuteAfterInvoke<T>(object method, object executionResult, params object[] passedParameters) where T : TAttribute
+        private void ExecuteAfterInvoke(MethodInfo method, object executionResult, params object[] parameters)
         {
             object[] attributes = (method as MethodInfo).GetCustomAttributes(false);
 
             foreach (object attribute in attributes)
             {
-                if (attribute is MethodExecutionAttr)
+                if (attribute is IExecutionTime)
                 {
-                    T executionAttr = (T)attribute;
-
-                    HandleAfterInvoke(executionAttr, executionResult, passedParameters);
-
-                    break;
+                    if ((attribute as IExecutionTime).ExecutionType == ExecutionType.After)
+                    {
+                        HandleAfterInvoke(method, attribute.GetType(), parameters);
+                    }
                 }
             }
         }
 
-        public abstract void HandleBeforeInvoke(TAttribute methodExecutionAttr, params object[] passedParameters);
-        public abstract void HandleAfterInvoke(TAttribute methodExecutionAttr, object executionResult, params object[] passedParameters);
+        public abstract void HandleBeforeInvoke(MethodInfo methodInfo, Type methodExecutionAttr, params object[] passedParameters);
+        public abstract void HandleAfterInvoke(MethodInfo methodInfo, Type methodExecutionAttr, object executionResult, params object[] passedParameters);
     }
 }

@@ -6,19 +6,19 @@ using Services.Logging.Aspect.Handlers;
 namespace Services.Logging.Aspect.DI
 {
     /// <summary>
-    /// Loggerların DI sınıfı
+    /// Çalışma zamanı DI sınıfı
     /// </summary>
-    public static class LoggerConfiguration
+    public static class RuntimeConfiguration
     {
         /// <summary>
-        /// Loggerları enjekte eder
+        /// Çalışma zamanlarını enjekte eder
         /// </summary>
         /// <param name="services">DI servisleri nesnesi</param>
         /// <returns></returns>
-        public static IServiceCollection RegisterRuntimeLogger(this IServiceCollection services)
+        public static IServiceCollection RegisterRuntimeHandlers(this IServiceCollection services)
         {
             services.AddSingleton<RuntimeLogger>();
-            services.AddSingleton<RuntimeLogHandler>();
+            services.AddSingleton<RuntimeHandler>();
 
             return services;
         }

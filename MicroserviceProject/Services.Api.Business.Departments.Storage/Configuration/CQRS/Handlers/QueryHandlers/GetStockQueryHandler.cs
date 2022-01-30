@@ -14,10 +14,10 @@ namespace Services.Api.Business.Departments.Storage.Configuration.CQRS.Handlers.
     public class GetStockQueryHandler : IRequestHandler<GetStockQueryRequest, GetStockQueryResponse>
     {
         private readonly StockService _stockService;
-        private readonly RuntimeLogHandler _runtimeLogHandler;
+        private readonly RuntimeHandler _runtimeLogHandler;
 
         public GetStockQueryHandler(
-            RuntimeLogHandler runtimeLogHandler,
+            RuntimeHandler runtimeLogHandler,
             StockService stockService)
         {
             _runtimeLogHandler = runtimeLogHandler;
@@ -26,8 +26,9 @@ namespace Services.Api.Business.Departments.Storage.Configuration.CQRS.Handlers.
 
         public async Task<GetStockQueryResponse> Handle(GetStockQueryRequest request, CancellationToken cancellationToken)
         {
-            StockModel stock = await _runtimeLogHandler.ExecuteMethod<int, CancellationTokenSource, Task<StockModel>>(
-                _stockService.GetStockAsync,
+            StockModel stock = await _runtimeLogHandler.ExecuteResultMethod<Task<StockModel>>(
+                _stockService,
+                nameof(_stockService.GetStockAsync),
                 new object[] { request.ProductId, new CancellationTokenSource() });
 
             //StockModel stock = await _stockService.GetStockAsync(request.ProductId, new CancellationTokenSource());

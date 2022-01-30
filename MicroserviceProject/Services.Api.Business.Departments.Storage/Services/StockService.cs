@@ -210,7 +210,8 @@ namespace Services.Api.Business.Departments.Storage.Services
             }
         }
 
-        [LogRuntimeAttr(nameof(GetStockAsync))]
+        [LogBeforeRuntimeAttr(nameof(GetStockAsync))]
+        [LogAfterRuntimeAttr(nameof(GetStockAsync))]
         public async Task<StockModel> GetStockAsync(int productId, CancellationTokenSource cancellationTokenSource)
         {
             if (_redisCacheDataProvider.TryGetValue(CACHED_STOCKS_KEY, out List<StockModel> cachedStocks)

@@ -54,7 +54,7 @@ namespace Services.Api.Business.Departments.Storage
             services.RegisterHttpStorageDepartmentCommunicators();
             services.RegisterLocalizationProviders();
             services.RegisterRequestResponseLogger();
-            services.RegisterRuntimeLogger();
+            services.RegisterRuntimeHandlers();
             services.RegisterSqlHealthChecking(
                 connectionStrings: new List<string>() { Configuration.GetSection("Persistence")["DataSource"] });
             services.RegisterSwagger();
