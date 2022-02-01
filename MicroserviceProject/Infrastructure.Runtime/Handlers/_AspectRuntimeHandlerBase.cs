@@ -4,11 +4,27 @@ using System.Reflection;
 
 namespace Infrastructure.Runtime.Handlers
 {
+    /// <summary>
+    /// Çalışma zamanı denetim sağlayıcı sınıfların temeli
+    /// </summary>
     public abstract class AspectRuntimeHandlerBase
     {
+        /// <summary>
+        /// Çözümlenen metotlar
+        /// </summary>
         private static Dictionary<Type, MethodInfo[]> resolvedMethods = new Dictionary<Type, MethodInfo[]>();
+
+        /// <summary>
+        /// Çözümlenen metot öznitelikleri
+        /// </summary>
         private static Dictionary<MethodInfo, object[]> resolvedMethodAttributes = new Dictionary<MethodInfo, object[]>();
 
+        /// <summary>
+        /// Bir methodu çalıştırır
+        /// </summary>
+        /// <param name="instance">Methodun sınıf örneği</param>
+        /// <param name="methodName">Methodun adı</param>
+        /// <param name="parameters">Methoda verilecek parametreler</param>
         public void ExecuteMethod(object instance, string methodName, params object[] parameters)
         {
             MethodInfo[] methods =
@@ -34,6 +50,12 @@ namespace Infrastructure.Runtime.Handlers
             resolvedMethods[instance.GetType()] = methods;
         }
 
+        /// <summary>
+        /// Statik bir methodu çalıştırır
+        /// </summary>
+        /// <param name="classType">Methodun ait olduğu sınıfın tipi</param>
+        /// <param name="methodName">Methodun adı</param>
+        /// <param name="parameters">Methoda verilecek parametreler</param>
         public void ExecuteStaticMethod(Type classType, string methodName, params object[] parameters)
         {
             MethodInfo[] methods =
@@ -59,6 +81,14 @@ namespace Infrastructure.Runtime.Handlers
             resolvedMethods[classType] = methods;
         }
 
+        /// <summary>
+        /// Sonuç döndüren bir methodu çalıştırır
+        /// </summary>
+        /// <typeparam name="T">Methodun dönüş tipi</typeparam>
+        /// <param name="instance">Methodun sınıf örneği</param>
+        /// <param name="methodName">Methodun adı</param>
+        /// <param name="parameters">Methoda verilecek parametreler</param>
+        /// <returns></returns>
         public T ExecuteResultMethod<T>(object instance, string methodName, params object[] parameters)
         {
             MethodInfo[] methods =
@@ -91,6 +121,13 @@ namespace Infrastructure.Runtime.Handlers
             return foundResult ? result : throw new Exception("Method bulunamadı");
         }
 
+        /// <summary>
+        /// Sonuç döndüren bir methodu çalıştırır
+        /// </summary>
+        /// <typeparam name="T">Methodun dönüş tipi</typeparam>
+        /// <param name="method">Çalıştırılacak method</param>
+        /// <param name="parameters">Methoda verilecek parametreler</param>
+        /// <returns></returns>
         public T ExecuteResultMethod<T>(Func<T> method, params object[] parameters)
         {
             MethodInfo[] methods =
@@ -124,6 +161,12 @@ namespace Infrastructure.Runtime.Handlers
             return foundResult ? result : throw new Exception("Method bulunamadı");
         }
 
+        /// <summary>
+        /// Çalıştırılmadan önce tetiklenecek method
+        /// </summary>
+        /// <param name="instance">Methodun sınıf örneği</param>
+        /// <param name="method">Çalıştırılacak hedef methodun bilgisi</param>
+        /// <param name="parameters">Çalıştırılan methoda verilen parametreler</param>
         private void ExecuteBeforeInvoke(object instance, MethodInfo method, params object[] parameters)
         {
             object[] attributes =
@@ -147,14 +190,21 @@ namespace Infrastructure.Runtime.Handlers
             resolvedMethodAttributes[method] = attributes;
         }
 
-        private void ExecuteAfterInvoke(object instance, MethodInfo method, object executionResult, params object[] parameters)
+        /// <summary>
+        /// Çalıştırıldıktan sonra tetiklenecek method
+        /// </summary>
+        /// <param name="instance">Methodun sınıf örneği</param>
+        /// <param name="methodInfo">Çalıştırılacak hedef methodun bilgisi</param>
+        /// <param name="executionResult">Çalıştırılma sonrası hedef methodun dönüş değeri</param>
+        /// <param name="parameters">Çalıştırılan methoda verilen parametreler</param>
+        private void ExecuteAfterInvoke(object instance, MethodInfo methodInfo, object executionResult, params object[] parameters)
         {
             object[] attributes =
-                resolvedMethodAttributes.ContainsKey(method)
+                resolvedMethodAttributes.ContainsKey(methodInfo)
                 ?
-                resolvedMethodAttributes[method]
+                resolvedMethodAttributes[methodInfo]
                 :
-                (method as MethodInfo).GetCustomAttributes(false);
+                (methodInfo as MethodInfo).GetCustomAttributes(false);
 
             foreach (object attribute in attributes)
             {
@@ -162,15 +212,31 @@ namespace Infrastructure.Runtime.Handlers
                 {
                     if ((attribute as IExecutionTime).ExecutionType == ExecutionType.After)
                     {
-                        HandleAfterInvoke(instance, method, attribute.GetType(), executionResult, parameters);
+                        HandleAfterInvoke(instance, methodInfo, attribute.GetType(), executionResult, parameters);
                     }
                 }
             }
 
-            resolvedMethodAttributes[method] = attributes;
+            resolvedMethodAttributes[methodInfo] = attributes;
         }
 
+        /// <summary>
+        /// Method çalıştırma öncesinde çağrılacak method
+        /// </summary>
+        /// <param name="instance">Methodun sınıf örneği</param>
+        /// <param name="methodInfo">Çalıştırılacak hedef methodun bilgisi</param>
+        /// <param name="methodExecutionAttr">Çalıştırılacak methoda atanmış öznitelik</param>
+        /// <param name="parameters">Çalıştırılacak methoda verilen parametreler</param>
         public abstract void HandleBeforeInvoke(object instance, MethodInfo methodInfo, Type methodExecutionAttr, params object[] passedParameters);
+
+        /// <summary>
+        /// Method çalıştırma sonrasında çağrılan method
+        /// </summary>
+        /// <param name="instance">Methodun sınıf örneği</param>
+        /// <param name="methodInfo">Çalıştırılacak hedef methodun bilgisi</param>
+        /// <param name="methodExecutionAttr">Çalıştırılan methoda atanmış öznitelik</param>
+        /// <param name="executionResult">Çalıştırılma sonrası hedef methodun dönüş değeri</param>
+        /// <param name="parameters">Çalıştırılan methoda verilen parametreler</param>
         public abstract void HandleAfterInvoke(object instance, MethodInfo methodInfo, Type methodExecutionAttr, object executionResult, params object[] passedParameters);
     }
 }
