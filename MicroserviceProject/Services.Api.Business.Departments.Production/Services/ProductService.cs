@@ -11,6 +11,7 @@ using Services.Api.Business.Departments.Production.Configuration.Persistence;
 using Services.Api.Business.Departments.Production.Entities.EntityFramework;
 using Services.Api.Business.Departments.Production.Repositories.EntityFramework;
 using Services.Communication.Http.Broker.Department.Production.Models;
+using Services.Logging.Aspect.Attributes;
 
 using System;
 using System.Collections.Generic;
@@ -115,6 +116,8 @@ namespace Services.Api.Business.Departments.Production.Services
         /// <param name="rollback">İşlemin yedekleme noktası nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
+        [LogBeforeRuntimeAttr(nameof(CreateCheckpointAsync))]
+        [LogAfterRuntimeAttr(nameof(CreateCheckpointAsync))]
         public async Task CreateCheckpointAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
         {
             RollbackEntity rollbackEntity = _mapper.Map<RollbackModel, RollbackEntity>(rollback);
@@ -137,6 +140,8 @@ namespace Services.Api.Business.Departments.Production.Services
         /// <param name="rollback">Geri alınacak işlemin yedekleme noktası nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
+        [LogBeforeRuntimeAttr(nameof(RollbackTransactionAsync))]
+        [LogAfterRuntimeAttr(nameof(RollbackTransactionAsync))]
         public async Task RollbackTransactionAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
         {
             foreach (var rollbackItem in rollback.RollbackItems)
@@ -207,6 +212,8 @@ namespace Services.Api.Business.Departments.Production.Services
             }
         }
 
+        [LogBeforeRuntimeAttr(nameof(GetProductsAsync))]
+        [LogAfterRuntimeAttr(nameof(GetProductsAsync))]
         public async Task<List<ProductModel>> GetProductsAsync(CancellationTokenSource cancellationTokenSource)
         {
             if (_redisCacheDataProvider.TryGetValue(CACHED_PRODUCTS_KEY, out List<ProductModel> cachedProducts)
@@ -225,7 +232,8 @@ namespace Services.Api.Business.Departments.Production.Services
             return mappedProducts;
         }
 
-
+        [LogBeforeRuntimeAttr(nameof(CreateProductAsync))]
+        [LogAfterRuntimeAttr(nameof(CreateProductAsync))]
         public async Task<int> CreateProductAsync(ProductModel productModel, CancellationTokenSource cancellationTokenSource)
         {
             ProductEntity mappedProductEntity = _mapper.Map<ProductModel, ProductEntity>(productModel);

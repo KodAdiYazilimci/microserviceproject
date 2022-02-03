@@ -3,7 +3,10 @@
 using Services.Api.Business.Departments.HR.Services;
 using Services.Communication.Http.Broker.Department.HR.CQRS.Queries.Requests;
 using Services.Communication.Http.Broker.Department.HR.CQRS.Queries.Responses;
+using Services.Communication.Http.Broker.Department.HR.Models;
+using Services.Logging.Aspect.Handlers;
 
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,10 +14,14 @@ namespace Services.Api.Business.Departments.HR.Configuration.CQRS.Handlers.Query
 {
     public class GetPeopleQueryHandler : IRequestHandler<GetPeopleQueryRequest, GetPeopleQueryResponse>
     {
+        private readonly RuntimeHandler _runtimeHandler;
         private readonly PersonService _personService;
 
-        public GetPeopleQueryHandler(PersonService personService)
+        public GetPeopleQueryHandler(
+            RuntimeHandler runtimeHandler,
+            PersonService personService)
         {
+            _runtimeHandler = runtimeHandler;
             _personService = personService;
         }
 
@@ -22,7 +29,12 @@ namespace Services.Api.Business.Departments.HR.Configuration.CQRS.Handlers.Query
         {
             return new GetPeopleQueryResponse()
             {
-                People = await _personService.GetPeopleAsync(new CancellationTokenSource())
+                People =
+                await
+                _runtimeHandler.ExecuteResultMethod<Task<List<PersonModel>>>(
+                    _personService,
+                    nameof(_personService.GetPeopleAsync),
+                    new object[] { new CancellationTokenSource() })
             };
         }
     }

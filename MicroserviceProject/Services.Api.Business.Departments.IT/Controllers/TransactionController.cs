@@ -35,7 +35,7 @@ namespace Services.Api.Business.Departments.IT.Controllers
 
                 if (rollbackModel.Modules.Contains(_inventoryService.ServiceName))
                 {
-                    rollbackResult = await _inventoryService.RollbackTransactionAsync(rollbackModel, cancellationTokenSource);
+                    rollbackResult = await _inventoryService.GetProductionRequestsAsync(rollbackModel, cancellationTokenSource);
                 }
 
                 return rollbackResult;

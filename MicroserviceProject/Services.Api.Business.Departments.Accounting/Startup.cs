@@ -20,6 +20,7 @@ using Services.Api.Business.Departments.Accounting.DI;
 using Services.Api.Business.Departments.HR.DI;
 using Services.Communication.Http.Broker.Department.Accounting.DI;
 using Services.Diagnostics.HealthCheck.DI;
+using Services.Logging.Aspect.DI;
 using Services.Logging.RequestResponse.DI;
 using Services.Security.BasicToken.DI;
 using Services.UnitOfWork.Sql.DI;
@@ -51,6 +52,7 @@ namespace Services.Api.Business.Departments.Accounting
             services.RegisterHttpAccountingDepartmentCommunicators();
             services.RegisterLocalizationProviders();
             services.RegisterRequestResponseLogger();
+            services.RegisterRuntimeHandlers();
             services.RegisterSqlHealthChecking(
                 connectionStrings: new List<string>() { Configuration.GetSection("Persistence")["DataSource"] });
             services.RegisterSwagger();

@@ -4,6 +4,7 @@ using Services.Api.Business.Departments.AA.Services;
 using Services.Api.Business.Departments.AA.Util.Validation.Inventory.CreateInventory;
 using Services.Communication.Http.Broker.Department.AA.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.AA.CQRS.Commands.Responses;
+using Services.Logging.Aspect.Handlers;
 
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,10 +13,14 @@ namespace Services.Api.Business.Departments.AA.Configuration.CQRS.Handlers.Comma
 {
     public class CreateInventoryCommandHandler : IRequestHandler<CreateInventoryCommandRequest, CreateInventoryCommandResponse>
     {
+        private readonly RuntimeHandler _runtimeHandler;
         private readonly InventoryService _inventoryService;
 
-        public CreateInventoryCommandHandler(InventoryService inventoryService)
+        public CreateInventoryCommandHandler(
+            RuntimeHandler runtimeHandler,
+            InventoryService inventoryService)
         {
+            _runtimeHandler = runtimeHandler;
             _inventoryService = inventoryService;
         }
 
@@ -27,7 +32,12 @@ namespace Services.Api.Business.Departments.AA.Configuration.CQRS.Handlers.Comma
 
             return new CreateInventoryCommandResponse()
             {
-                CreatedInventoryId = await _inventoryService.CreateInventoryAsync(request.Inventory, cancellationTokenSource)
+                CreatedInventoryId =
+                await
+                _runtimeHandler.ExecuteResultMethod<Task<int>>(
+                    _inventoryService,
+                    nameof(_inventoryService.CreateInventoryAsync),
+                    new object[] { request.Inventory, cancellationTokenSource })
             };
         }
     }

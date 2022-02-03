@@ -4,6 +4,7 @@ using Services.Api.Business.Departments.Buying.Services;
 using Services.Api.Business.Departments.Buying.Util.Validation.Request.ValidateCostInventory;
 using Services.Communication.Http.Broker.Department.Buying.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.Buying.CQRS.Commands.Responses;
+using Services.Logging.Aspect.Handlers;
 
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,10 +13,14 @@ namespace Services.Api.Business.Departments.Buying.Configuration.CQRS.Handlers.C
 {
     public class ValidateCostInventoryCommandHandler : IRequestHandler<ValidateCostInventoryCommandRequest, ValidateCostInventoryCommandResponse>
     {
+        private readonly RuntimeHandler _runtimeHandler;
         private readonly RequestService _requestService;
 
-        public ValidateCostInventoryCommandHandler(RequestService requestService)
+        public ValidateCostInventoryCommandHandler(
+            RuntimeHandler runtimeHandler,
+            RequestService requestService)
         {
+            _runtimeHandler = runtimeHandler;
             _requestService = requestService;
         }
 
@@ -27,7 +32,12 @@ namespace Services.Api.Business.Departments.Buying.Configuration.CQRS.Handlers.C
 
             return new ValidateCostInventoryCommandResponse()
             {
-                Result = await _requestService.ValidateCostInventoryAsync(request.DecidedCost, cancellationTokenSource)
+                Result =
+                await
+                _runtimeHandler.ExecuteResultMethod<Task<int>>(
+                    _requestService,
+                    nameof(_requestService.ValidateCostInventoryAsync),
+                    new object[] { request.DecidedCost, cancellationTokenSource })
             };
         }
     }

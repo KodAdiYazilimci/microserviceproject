@@ -118,6 +118,8 @@ namespace Services.Api.Business.Departments.Storage.Services
         /// <param name="rollback">İşlemin yedekleme noktası nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
+        [LogBeforeRuntimeAttr(nameof(CreateCheckpointAsync))]
+        [LogAfterRuntimeAttr(nameof(CreateCheckpointAsync))]
         public async Task CreateCheckpointAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
         {
             RollbackEntity rollbackEntity = _mapper.Map<RollbackModel, RollbackEntity>(rollback);
@@ -140,6 +142,8 @@ namespace Services.Api.Business.Departments.Storage.Services
         /// <param name="rollback">Geri alınacak işlemin yedekleme noktası nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
+        [LogBeforeRuntimeAttr(nameof(RollbackTransactionAsync))]
+        [LogAfterRuntimeAttr(nameof(RollbackTransactionAsync))]
         public async Task RollbackTransactionAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
         {
             foreach (var rollbackItem in rollback.RollbackItems)
@@ -230,6 +234,8 @@ namespace Services.Api.Business.Departments.Storage.Services
             return mappedStocks.FirstOrDefault(x => x.ProductId == productId);
         }
 
+        [LogBeforeRuntimeAttr(nameof(CreateStockAsync))]
+        [LogAfterRuntimeAttr(nameof(CreateStockAsync))]
         public async Task<int> CreateStockAsync(StockModel stockModel, CancellationTokenSource cancellationTokenSource)
         {
             StockEntity existingStock = await _stockRepository.GetAsQueryable().FirstOrDefaultAsync(x => x.ProductId == stockModel.ProductId);
@@ -308,6 +314,8 @@ namespace Services.Api.Business.Departments.Storage.Services
             }
         }
 
+        [LogBeforeRuntimeAttr(nameof(DescendProductStockAsync))]
+        [LogAfterRuntimeAttr(nameof(DescendProductStockAsync))]
         public async Task<int> DescendProductStockAsync(StockModel stockModel, CancellationTokenSource cancellationTokenSource)
         {
             StockEntity mappedStockEntity = _mapper.Map<StockModel, StockEntity>(stockModel);

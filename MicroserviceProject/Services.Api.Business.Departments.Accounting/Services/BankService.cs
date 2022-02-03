@@ -9,6 +9,7 @@ using Infrastructure.Transaction.UnitOfWork.Sql;
 using Services.Api.Business.Departments.Accounting.Entities.Sql;
 using Services.Api.Business.Departments.Accounting.Repositories.Sql;
 using Services.Communication.Http.Broker.Department.Accounting.Models;
+using Services.Logging.Aspect.Attributes;
 
 using System;
 using System.Collections.Generic;
@@ -128,6 +129,8 @@ namespace Services.Api.Business.Departments.Accounting.Services
         /// <param name="workerId">Çalışanın Id si</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
+        [LogBeforeRuntimeAttr(nameof(GetBankAccounts))]
+        [LogAfterRuntimeAttr(nameof(GetBankAccounts))]
         public async Task<List<BankAccountModel>> GetBankAccounts(int workerId, CancellationTokenSource cancellationTokenSource)
         {
             List<BankAccountEntity> bankAccounts =
@@ -145,6 +148,8 @@ namespace Services.Api.Business.Departments.Accounting.Services
         /// <param name="bankAccount">Oluşturulacak banka hesabı nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
+        [LogBeforeRuntimeAttr(nameof(CreateBankAccountAsync))]
+        [LogAfterRuntimeAttr(nameof(CreateBankAccountAsync))]
         public async Task<int> CreateBankAccountAsync(BankAccountModel bankAccount, CancellationTokenSource cancellationTokenSource)
         {
             BankAccountEntity mappedBankAccount = _mapper.Map<BankAccountModel, BankAccountEntity>(bankAccount);
@@ -179,6 +184,8 @@ namespace Services.Api.Business.Departments.Accounting.Services
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
+        [LogBeforeRuntimeAttr(nameof(GetCurrenciesAsync))]
+        [LogAfterRuntimeAttr(nameof(GetCurrenciesAsync))]
         public async Task<List<CurrencyModel>> GetCurrenciesAsync(CancellationTokenSource cancellationTokenSource)
         {
             if (_redisCacheDataProvider.TryGetValue(CACHED_CURRENCIES_KEY, out List<CurrencyModel> cureencies)
@@ -204,6 +211,8 @@ namespace Services.Api.Business.Departments.Accounting.Services
         /// <param name="currency">Oluşturulacak para birimi nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
+        [LogBeforeRuntimeAttr(nameof(CreateCurrencyAsync))]
+        [LogAfterRuntimeAttr(nameof(CreateCurrencyAsync))]
         public async Task<int> CreateCurrencyAsync(CurrencyModel currency, CancellationTokenSource cancellationTokenSource)
         {
             CurrencyEntity mappedCurrency = _mapper.Map<CurrencyModel, CurrencyEntity>(currency);
@@ -248,6 +257,8 @@ namespace Services.Api.Business.Departments.Accounting.Services
         /// <param name="workerId">Çalışanın Id si</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
+        [LogBeforeRuntimeAttr(nameof(GetSalaryPaymentsOfWorkerAsync))]
+        [LogAfterRuntimeAttr(nameof(GetSalaryPaymentsOfWorkerAsync))]
         public async Task<List<SalaryPaymentModel>> GetSalaryPaymentsOfWorkerAsync(int workerId, CancellationTokenSource cancellationTokenSource)
         {
             List<SalaryPaymentEntity> bankAccounts =
@@ -265,6 +276,8 @@ namespace Services.Api.Business.Departments.Accounting.Services
         /// <param name="salaryPayment">Oluşturulacak maaş ödemesinin nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
+        [LogBeforeRuntimeAttr(nameof(CreateSalaryPaymentAsync))]
+        [LogAfterRuntimeAttr(nameof(CreateSalaryPaymentAsync))]
         public async Task<int> CreateSalaryPaymentAsync(SalaryPaymentModel salaryPayment, CancellationTokenSource cancellationTokenSource)
         {
             SalaryPaymentEntity mappedBankAccount = _mapper.Map<SalaryPaymentModel, SalaryPaymentEntity>(salaryPayment);
@@ -315,6 +328,8 @@ namespace Services.Api.Business.Departments.Accounting.Services
         /// <param name="rollback">İşlemin yedekleme noktası nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
+        [LogBeforeRuntimeAttr(nameof(CreateCheckpointAsync))]
+        [LogAfterRuntimeAttr(nameof(CreateCheckpointAsync))]
         public async Task<int> CreateCheckpointAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
         {
             RollbackEntity rollbackEntity = _mapper.Map<RollbackModel, RollbackEntity>(rollback);
@@ -337,7 +352,9 @@ namespace Services.Api.Business.Departments.Accounting.Services
         /// <param name="rollback">Geri alınacak işlemin yedekleme noktası nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
-        public async Task<int> RollbackTransactionAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
+        [LogBeforeRuntimeAttr(nameof(GetProductionRequestsAsync))]
+        [LogAfterRuntimeAttr(nameof(GetProductionRequestsAsync))]
+        public async Task<int> GetProductionRequestsAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
         {
             foreach (var rollbackItem in rollback.RollbackItems)
             {

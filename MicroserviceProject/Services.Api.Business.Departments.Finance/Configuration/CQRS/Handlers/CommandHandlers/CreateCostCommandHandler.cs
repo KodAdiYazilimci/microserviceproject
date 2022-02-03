@@ -4,6 +4,7 @@ using Services.Business.Departments.Finance.Services;
 using Services.Business.Departments.Finance.Util.Validation.Cost.CreateCost;
 using Services.Communication.Http.Broker.Department.Finance.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.Finance.CQRS.Commands.Responses;
+using Services.Logging.Aspect.Handlers;
 
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,10 +13,14 @@ namespace Services.Api.Business.Departments.Finance.Configuration.CQRS.Handlers.
 {
     public class CreateCostCommandHandler : IRequestHandler<CreateCostCommandRequest, CreateCostCommandResponse>
     {
+        private readonly RuntimeHandler _runtimeHandler;
         private readonly CostService _costService;
 
-        public CreateCostCommandHandler(CostService costService)
+        public CreateCostCommandHandler(
+            RuntimeHandler runtimeHandler,
+            CostService costService)
         {
+            _runtimeHandler = runtimeHandler;
             _costService = costService;
         }
 
@@ -27,7 +32,12 @@ namespace Services.Api.Business.Departments.Finance.Configuration.CQRS.Handlers.
 
             return new CreateCostCommandResponse()
             {
-                CreatedDecidecCostId = await _costService.CreateDecidedCostAsync(request.Cost, cancellationTokenSource)
+                CreatedDecidecCostId =
+                await
+                _runtimeHandler.ExecuteResultMethod<Task<int>>(
+                    _costService,
+                    nameof(_costService.CreateDecidedCostAsync),
+                    new object[] { request.Cost, cancellationTokenSource })
             };
         }
     }

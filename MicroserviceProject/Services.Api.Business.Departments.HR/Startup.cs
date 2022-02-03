@@ -25,6 +25,7 @@ using Services.Communication.Mq.Rabbit.Queue.AA.DI;
 using Services.Communication.Mq.Rabbit.Queue.Accounting.DI;
 using Services.Communication.Mq.Rabbit.Queue.IT.DI;
 using Services.Diagnostics.HealthCheck.DI;
+using Services.Logging.Aspect.DI;
 using Services.Logging.RequestResponse.DI;
 using Services.Security.BasicToken.DI;
 using Services.UnitOfWork.Sql.DI;
@@ -62,6 +63,7 @@ namespace Services.Api.Business.Departments.HR
             services.RegisterITQueuePublishers();
             services.RegisterLocalizationProviders();
             services.RegisterRequestResponseLogger();
+            services.RegisterRuntimeHandlers();
             services.RegisterSqlHealthChecking(
                 connectionStrings: new List<string>() { Configuration.GetSection("Persistence")["DataSource"] });
             services.RegisterSwagger();

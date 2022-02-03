@@ -11,6 +11,7 @@ using Services.Api.Business.Departments.CR.Configuration.Persistence;
 using Services.Api.Business.Departments.CR.Entities.EntityFramework;
 using Services.Api.Business.Departments.CR.Repositories.EntityFramework;
 using Services.Communication.Http.Broker.Department.CR.Models;
+using Services.Logging.Aspect.Attributes;
 
 using System;
 using System.Collections.Generic;
@@ -114,6 +115,8 @@ namespace Services.Api.Business.Departments.CR.Services
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
+        [LogBeforeRuntimeAttr(nameof(GetCustomersAsync))]
+        [LogAfterRuntimeAttr(nameof(GetCustomersAsync))]
         public async Task<List<CustomerModel>> GetCustomersAsync(CancellationTokenSource cancellationTokenSource)
         {
             if (_redisCacheDataProvider.TryGetValue(CACHED_CUSTOMERS_KEY, out List<CustomerModel> cachedCustomers)
@@ -138,6 +141,8 @@ namespace Services.Api.Business.Departments.CR.Services
         /// <param name="customerModel">Oluşturulacak müşteri modeli</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
+        [LogBeforeRuntimeAttr(nameof(CreateCustomerAsync))]
+        [LogAfterRuntimeAttr(nameof(CreateCustomerAsync))]
         public async Task<int> CreateCustomerAsync(CustomerModel customerModel, CancellationTokenSource cancellationTokenSource)
         {
             CustomerEntity mappedCustomerEntity = _mapper.Map<CustomerModel, CustomerEntity>(customerModel);
@@ -184,6 +189,8 @@ namespace Services.Api.Business.Departments.CR.Services
         /// <param name="rollback">İşlemin yedekleme noktası nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
+        [LogBeforeRuntimeAttr(nameof(CreateCheckpointAsync))]
+        [LogAfterRuntimeAttr(nameof(CreateCheckpointAsync))]
         public async Task CreateCheckpointAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
         {
             RollbackEntity rollbackEntity = _mapper.Map<RollbackModel, RollbackEntity>(rollback);
@@ -206,6 +213,8 @@ namespace Services.Api.Business.Departments.CR.Services
         /// <param name="rollback">Geri alınacak işlemin yedekleme noktası nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
+        [LogBeforeRuntimeAttr(nameof(RollbackTransactionAsync))]
+        [LogAfterRuntimeAttr(nameof(RollbackTransactionAsync))]
         public async Task RollbackTransactionAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
         {
             foreach (var rollbackItem in rollback.RollbackItems)

@@ -31,6 +31,7 @@
     <ProjectReference Include="..\Services.Communication.Mq.Rabbit.Queue.IT\Services.Communication.Mq.Rabbit.Queue.IT.csproj" />
     <ProjectReference Include="..\Services.Diagnostics.HealthCheck\Services.Diagnostics.HealthCheck.csproj" />
     <ProjectReference Include="..\Services.Logging.RequestResponse\Services.Logging.RequestResponse.csproj" />
+    <ProjectReference Include="..\Services.Runtime.Aspect\Services.Runtime.Aspect.csproj" />
     <ProjectReference Include="..\Services.Security.BasicToken\Services.Security.BasicToken.csproj" />
   </ItemGroup>
 

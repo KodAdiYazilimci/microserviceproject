@@ -4,6 +4,7 @@ using Services.Api.Business.Departments.Selling.Services;
 using Services.Api.Business.Departments.Selling.Util.Validation.Selling;
 using Services.Communication.Http.Broker.Department.Selling.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.Selling.CQRS.Commands.Responses;
+using Services.Logging.Aspect.Handlers;
 
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,10 +13,14 @@ namespace Services.Api.Business.Departments.Selling.Configuration.CQRS.Handlers.
 {
     public class NotifyProductionRequestCommandHandler : IRequestHandler<NotifyProductionRequestCommandRequest, NotifyProductionRequestCommandResponse>
     {
+        private readonly RuntimeHandler _runtimeHandler;
         private readonly SellingService _sellingService;
 
-        public NotifyProductionRequestCommandHandler(SellingService sellingService)
+        public NotifyProductionRequestCommandHandler(
+            RuntimeHandler runtimeHandler,
+            SellingService sellingService)
         {
+            _runtimeHandler = runtimeHandler;
             _sellingService = sellingService;
         }
 
@@ -27,7 +32,12 @@ namespace Services.Api.Business.Departments.Selling.Configuration.CQRS.Handlers.
 
             return new NotifyProductionRequestCommandResponse()
             {
-                SellingId = await _sellingService.NotifyProductionRequestAsync(request.ProductionRequest, cancellationTokenSource)
+                SellingId =
+                await
+                _runtimeHandler.ExecuteResultMethod<Task<int>>(
+                    _sellingService,
+                    nameof(_sellingService.NotifyProductionRequestAsync),
+                    new object[] { request.ProductionRequest, cancellationTokenSource })
             };
         }
     }

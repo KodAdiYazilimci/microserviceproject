@@ -4,6 +4,7 @@ using Services.Business.Departments.Finance.Services;
 using Services.Business.Departments.Finance.Util.Validation.Cost.DecideCost;
 using Services.Communication.Http.Broker.Department.Finance.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.Finance.CQRS.Commands.Responses;
+using Services.Logging.Aspect.Handlers;
 
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,10 +13,14 @@ namespace Services.Api.Business.Departments.Finance.Configuration.CQRS.Handlers.
 {
     public class DecideCostCommandHandler : IRequestHandler<DecideCostCommandRequest, DecideCostCommandResponse>
     {
+        private readonly RuntimeHandler _runtimeHandler;
         private readonly CostService _costService;
 
-        public DecideCostCommandHandler(CostService costService)
+        public DecideCostCommandHandler(
+            RuntimeHandler runtimeHandler,
+            CostService costService)
         {
+            _runtimeHandler = runtimeHandler;
             _costService = costService;
         }
 
@@ -26,15 +31,29 @@ namespace Services.Api.Business.Departments.Finance.Configuration.CQRS.Handlers.
             await DecideCostValidator.ValidateAsync(request.Cost, cancellationTokenSource);
 
             if (request.Cost.Approved)
+            {
                 return new DecideCostCommandResponse()
                 {
-                    Result = await _costService.ApproveCostAsync(request.Cost.Id, cancellationTokenSource)
+                    Result =
+                    await
+                    _runtimeHandler.ExecuteResultMethod<Task<int>>(
+                        _costService,
+                        nameof(_costService.ApproveCostAsync),
+                        new object[] { request.Cost.Id, cancellationTokenSource })
                 };
+            }
             else
+            {
                 return new DecideCostCommandResponse()
                 {
-                    Result = await _costService.RejectCostAsync(request.Cost.Id, cancellationTokenSource)
+                    Result =
+                    await
+                    _runtimeHandler.ExecuteResultMethod<Task<int>>(
+                        _costService,
+                        nameof(_costService.RejectCostAsync),
+                        new object[] { request.Cost.Id, cancellationTokenSource })
                 };
+            }
         }
     }
 }

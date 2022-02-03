@@ -4,6 +4,7 @@ using Services.Api.Business.Departments.Accounting.Services;
 using Services.Api.Business.Departments.Accounting.Util.Validation.Transaction;
 using Services.Communication.Http.Broker.Department.Accounting.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.Accounting.CQRS.Commands.Responses;
+using Services.Logging.Aspect.Handlers;
 
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,10 +13,14 @@ namespace Services.Api.Business.Departments.Accounting.Configuration.CQRS.Handle
 {
     public class RollbackTransactionCommandHandler : IRequestHandler<RollbackTransactionCommandRequest, RollbackTransactionCommandResponse>
     {
+        private readonly RuntimeHandler _runtimeHandler;
         private readonly BankService _bankService;
 
-        public RollbackTransactionCommandHandler(BankService bankService)
+        public RollbackTransactionCommandHandler(
+            RuntimeHandler runtimeHandler,
+            BankService bankService)
         {
+            _runtimeHandler = runtimeHandler;
             _bankService = bankService;
         }
 
@@ -29,7 +34,12 @@ namespace Services.Api.Business.Departments.Accounting.Configuration.CQRS.Handle
 
             if (request.Rollback.Modules.Contains(_bankService.ServiceName))
             {
-                rollbackResult = await _bankService.RollbackTransactionAsync(request.Rollback, cancellationTokenSource);
+                rollbackResult =
+                    await
+                    _runtimeHandler.ExecuteResultMethod<Task<int>>(
+                        _bankService,
+                        nameof(_bankService.GetProductionRequestsAsync),
+                        new object[] { request.Rollback, cancellationTokenSource });
             }
 
             return new RollbackTransactionCommandResponse() { Result = rollbackResult };

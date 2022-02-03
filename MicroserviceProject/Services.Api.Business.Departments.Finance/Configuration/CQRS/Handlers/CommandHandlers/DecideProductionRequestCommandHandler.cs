@@ -4,6 +4,7 @@ using Services.Business.Departments.Finance.Services;
 using Services.Business.Departments.Finance.Util.Validation.Request.CreateProductionRequest;
 using Services.Communication.Http.Broker.Department.Finance.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.Finance.CQRS.Commands.Responses;
+using Services.Logging.Aspect.Handlers;
 
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,10 +13,14 @@ namespace Services.Api.Business.Departments.Finance.Configuration.CQRS.Handlers.
 {
     public class DecideProductionRequestCommandHandler : IRequestHandler<DecideProductionRequestCommandRequest, DecideProductionRequestCommandResponse>
     {
+        private readonly RuntimeHandler _runtimeHandler;
         private readonly ProductionRequestService _productionRequestService;
 
-        public DecideProductionRequestCommandHandler(ProductionRequestService productionRequestService)
+        public DecideProductionRequestCommandHandler(
+            RuntimeHandler runtimeHandler,
+            ProductionRequestService productionRequestService)
         {
+            _runtimeHandler = runtimeHandler;
             _productionRequestService = productionRequestService;
         }
 
@@ -26,15 +31,29 @@ namespace Services.Api.Business.Departments.Finance.Configuration.CQRS.Handlers.
             await DecideProductionRequestValidator.ValidateAsync(request.ProductionRequest, cancellationTokenSource);
 
             if (request.ProductionRequest.Approved)
+            {
                 return new DecideProductionRequestCommandResponse()
                 {
-                    ProductionRequestId = await _productionRequestService.ApproveProductionRequestAsync(request.ProductionRequest.Id, cancellationTokenSource)
+                    ProductionRequestId =
+                    await
+                    _runtimeHandler.ExecuteResultMethod<Task<int>>(
+                        _productionRequestService,
+                        nameof(_productionRequestService.ApproveProductionRequestAsync),
+                        new object[] { request.ProductionRequest.Id, cancellationTokenSource })
                 };
+            }
             else
+            {
                 return new DecideProductionRequestCommandResponse()
                 {
-                    ProductionRequestId = await _productionRequestService.RejectProductionRequestAsync(request.ProductionRequest.Id, cancellationTokenSource)
+                    ProductionRequestId =
+                    await
+                    _runtimeHandler.ExecuteResultMethod<Task<int>>(
+                        _productionRequestService,
+                        nameof(_productionRequestService.RejectProductionRequestAsync),
+                        new object[] { request.ProductionRequest.Id, cancellationTokenSource })
                 };
+            }
         }
     }
 }

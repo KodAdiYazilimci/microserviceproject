@@ -4,6 +4,7 @@ using Services.Api.Business.Departments.CR.Services;
 using Services.Api.Business.Departments.CR.Util.Validation.Customer.CreateCustomer;
 using Services.Communication.Http.Broker.Department.CR.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.CR.CQRS.Commands.Responses;
+using Services.Logging.Aspect.Handlers;
 
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,10 +13,14 @@ namespace Services.Api.Business.Departments.CR.Configuration.CQRS.Handlers.Comma
 {
     public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerCommandRequest, CreateCustomerCommandResponse>
     {
+        private readonly RuntimeHandler _runtimeHandler;
         private readonly CustomerService _customerService;
 
-        public CreateCustomerCommandHandler(CustomerService customerService)
+        public CreateCustomerCommandHandler(
+            RuntimeHandler runtimeHandler,
+            CustomerService customerService)
         {
+            _runtimeHandler = runtimeHandler;
             _customerService = customerService;
         }
 
@@ -27,7 +32,12 @@ namespace Services.Api.Business.Departments.CR.Configuration.CQRS.Handlers.Comma
 
             return new CreateCustomerCommandResponse()
             {
-                CreatedCustomerId = await _customerService.CreateCustomerAsync(request.Customer, cancellationTokenSource)
+                CreatedCustomerId =
+                await
+                _runtimeHandler.ExecuteResultMethod<Task<int>>(
+                    _customerService,
+                    nameof(_customerService.CreateCustomerAsync),
+                    new object[] { request.Customer, cancellationTokenSource })
             };
         }
     }

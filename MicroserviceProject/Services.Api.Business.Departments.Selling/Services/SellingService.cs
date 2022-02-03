@@ -19,6 +19,7 @@ using Services.Communication.Http.Broker.Department.Storage.CQRS.Queries.Respons
 using Services.Communication.Mq.Rabbit.Queue.Finance.Publishers;
 using Services.Communication.Mq.Rabbit.Queue.Production.Models;
 using Services.Communication.Mq.Rabbit.Queue.Production.Publishers;
+using Services.Logging.Aspect.Attributes;
 
 using System;
 using System.Collections.Generic;
@@ -142,6 +143,8 @@ namespace Services.Api.Business.Departments.Selling.Services
         /// <param name="rollback">İşlemin yedekleme noktası nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
+        [LogBeforeRuntimeAttr(nameof(CreateCheckpointAsync))]
+        [LogAfterRuntimeAttr(nameof(CreateCheckpointAsync))]
         public async Task CreateCheckpointAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
         {
             RollbackEntity rollbackEntity = _mapper.Map<RollbackModel, RollbackEntity>(rollback);
@@ -164,6 +167,8 @@ namespace Services.Api.Business.Departments.Selling.Services
         /// <param name="rollback">Geri alınacak işlemin yedekleme noktası nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
+        [LogBeforeRuntimeAttr(nameof(RollbackTransactionAsync))]
+        [LogAfterRuntimeAttr(nameof(RollbackTransactionAsync))]
         public async Task RollbackTransactionAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
         {
             foreach (var rollbackItem in rollback.RollbackItems)
@@ -240,6 +245,8 @@ namespace Services.Api.Business.Departments.Selling.Services
         /// <param name="sellModel">Satış modeli</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
+        [LogBeforeRuntimeAttr(nameof(CreateSellingAsync))]
+        [LogAfterRuntimeAttr(nameof(CreateSellingAsync))]
         public async Task<int> CreateSellingAsync(SellModel sellModel, CancellationTokenSource cancellationTokenSource)
         {
             SellEntity mappedSellEntity = _mapper.Map<SellModel, SellEntity>(sellModel);
@@ -319,6 +326,8 @@ namespace Services.Api.Business.Departments.Selling.Services
         /// <param name="productionRequest">Üretim onayı nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
+        [LogBeforeRuntimeAttr(nameof(NotifyProductionRequestAsync))]
+        [LogAfterRuntimeAttr(nameof(NotifyProductionRequestAsync))]
         public async Task<int> NotifyProductionRequestAsync(ProductionRequestModel productionRequest, CancellationTokenSource cancellationTokenSource)
         {
             if (productionRequest.Approved)
@@ -373,6 +382,8 @@ namespace Services.Api.Business.Departments.Selling.Services
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
+        [LogBeforeRuntimeAttr(nameof(GetSoldsAsync))]
+        [LogAfterRuntimeAttr(nameof(GetSoldsAsync))]
         public async Task<List<SellModel>> GetSoldsAsync(CancellationTokenSource cancellationTokenSource)
         {
             List<SellEntity> sells = await _sellRepository.GetListAsync(cancellationTokenSource);

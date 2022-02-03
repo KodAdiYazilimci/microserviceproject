@@ -11,6 +11,7 @@ using Services.Business.Departments.Finance.Repositories.Sql;
 using Services.Communication.Http.Broker.Department.Finance.Models;
 using Services.Communication.Mq.Rabbit.Queue.Buying.Models;
 using Services.Communication.Mq.Rabbit.Queue.Buying.Publishers;
+using Services.Logging.Aspect.Attributes;
 
 using System;
 using System.Collections.Generic;
@@ -126,6 +127,8 @@ namespace Services.Business.Departments.Finance.Services
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
+        [LogBeforeRuntimeAttr(nameof(GetProductionRequestsAsync))]
+        [LogAfterRuntimeAttr(nameof(GetProductionRequestsAsync))]
         public async Task<List<DecidedCostModel>> GetDecidedCostsAsync(CancellationTokenSource cancellationTokenSource)
         {
             if (_redisCacheDataProvider.TryGetValue(CACHED_DECIDED_COSTS_KEY, out List<DecidedCostModel> cachedDecidedCosts)
@@ -151,6 +154,8 @@ namespace Services.Business.Departments.Finance.Services
         /// <param name="decidedCost">Oluşturulacak masraf kaydı nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
+        [LogBeforeRuntimeAttr(nameof(CreateDecidedCostAsync))]
+        [LogAfterRuntimeAttr(nameof(CreateDecidedCostAsync))]
         public async Task<int> CreateDecidedCostAsync(DecidedCostModel decidedCost, CancellationTokenSource cancellationTokenSource)
         {
             DecidedCostEntity mappedDecidedCost = _mapper.Map<DecidedCostModel, DecidedCostEntity>(decidedCost);
@@ -197,6 +202,8 @@ namespace Services.Business.Departments.Finance.Services
         /// <param name="costId">Onaylanacak masrafın Id değeri</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
+        [LogBeforeRuntimeAttr(nameof(ApproveCostAsync))]
+        [LogAfterRuntimeAttr(nameof(ApproveCostAsync))]
         public async Task<int> ApproveCostAsync(int costId, CancellationTokenSource cancellationTokenSource)
         {
             int result = await _decidedCostRepository.ApproveAsync(costId, cancellationTokenSource);
@@ -263,6 +270,8 @@ namespace Services.Business.Departments.Finance.Services
         /// <param name="costId">Reddedilecek masrafın Id değeri</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
+        [LogBeforeRuntimeAttr(nameof(RejectCostAsync))]
+        [LogAfterRuntimeAttr(nameof(RejectCostAsync))]
         public async Task<int> RejectCostAsync(int costId, CancellationTokenSource cancellationTokenSource)
         {
             int result = await _decidedCostRepository.RejectAsync(costId, cancellationTokenSource);
@@ -344,6 +353,8 @@ namespace Services.Business.Departments.Finance.Services
         /// <param name="rollback">İşlemin yedekleme noktası nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
+        [LogBeforeRuntimeAttr(nameof(CreateCheckpointAsync))]
+        [LogAfterRuntimeAttr(nameof(CreateCheckpointAsync))]
         public async Task<int> CreateCheckpointAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
         {
             RollbackEntity rollbackEntity = _mapper.Map<RollbackModel, RollbackEntity>(rollback);
@@ -366,7 +377,9 @@ namespace Services.Business.Departments.Finance.Services
         /// <param name="rollback">Geri alınacak işlemin yedekleme noktası nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
-        public async Task<int> RollbackTransactionAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
+        [LogBeforeRuntimeAttr(nameof(GetProductionRequestsAsync))]
+        [LogAfterRuntimeAttr(nameof(GetProductionRequestsAsync))]
+        public async Task<int> GetProductionRequestsAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
         {
             foreach (var rollbackItem in rollback.RollbackItems)
             {

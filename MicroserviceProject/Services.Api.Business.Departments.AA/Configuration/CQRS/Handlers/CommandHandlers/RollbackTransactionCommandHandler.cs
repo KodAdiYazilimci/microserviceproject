@@ -4,6 +4,7 @@ using Services.Api.Business.Departments.AA.Services;
 using Services.Api.Business.Departments.AA.Util.Validation.Transaction;
 using Services.Communication.Http.Broker.Department.AA.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.AA.CQRS.Commands.Responses;
+using Services.Logging.Aspect.Handlers;
 
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,10 +13,14 @@ namespace Services.Api.Business.Departments.AA.Configuration.CQRS.Handlers.Comma
 {
     public class RollbackTransactionCommandHandler : IRequestHandler<RollbackTransactionCommandRequest, RollbackTransactionCommandResponse>
     {
+        private readonly RuntimeHandler _runtimeHandler;
         private readonly InventoryService _inventoryService;
 
-        public RollbackTransactionCommandHandler(InventoryService inventoryService)
+        public RollbackTransactionCommandHandler(
+            RuntimeHandler runtimeHandler,
+            InventoryService inventoryService)
         {
+            _runtimeHandler = runtimeHandler;
             _inventoryService = inventoryService;
         }
 
@@ -29,7 +34,12 @@ namespace Services.Api.Business.Departments.AA.Configuration.CQRS.Handlers.Comma
 
             if (request.Rollback.Modules.Contains(_inventoryService.ServiceName))
             {
-                rollbackResult = await _inventoryService.RollbackTransactionAsync(request.Rollback, cancellationTokenSource);
+                rollbackResult =
+                    await
+                    _runtimeHandler.ExecuteResultMethod<Task<int>>(
+                        _inventoryService,
+                        nameof(_inventoryService.GetProductionRequestsAsync),
+                        new object[] { request.Rollback, cancellationTokenSource });
             }
 
             return new RollbackTransactionCommandResponse() { Result = rollbackResult };

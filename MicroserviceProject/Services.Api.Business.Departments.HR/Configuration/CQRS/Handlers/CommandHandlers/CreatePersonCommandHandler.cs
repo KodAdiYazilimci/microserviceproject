@@ -4,6 +4,7 @@ using Services.Api.Business.Departments.HR.Services;
 using Services.Api.Business.Departments.HR.Util.Validation.Person.CreatePerson;
 using Services.Communication.Http.Broker.Department.HR.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.HR.CQRS.Commands.Responses;
+using Services.Logging.Aspect.Handlers;
 
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,10 +13,14 @@ namespace Services.Api.Business.Departments.HR.Configuration.CQRS.Handlers.Comma
 {
     public class CreatePersonCommandHandler : IRequestHandler<CreatePersonCommandRequest, CreatePersonCommandResponse>
     {
+        private readonly RuntimeHandler _runtimeHandler;
         private readonly PersonService _personService;
 
-        public CreatePersonCommandHandler(PersonService personService)
+        public CreatePersonCommandHandler(
+            RuntimeHandler runtimeHandler,
+            PersonService personService)
         {
+            _runtimeHandler = runtimeHandler;
             _personService = personService;
         }
 
@@ -27,7 +32,12 @@ namespace Services.Api.Business.Departments.HR.Configuration.CQRS.Handlers.Comma
 
             return new CreatePersonCommandResponse()
             {
-                CreatedPersonId = await _personService.CreatePersonAsync(request.Person, cancellationTokenSource)
+                CreatedPersonId =
+                await
+                _runtimeHandler.ExecuteResultMethod<Task<int>>(
+                    _personService,
+                    nameof(_personService.CreatePersonAsync),
+                    new object[] { request.Person, cancellationTokenSource })
             };
         }
     }

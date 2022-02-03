@@ -3,7 +3,10 @@
 using Services.Api.Business.Departments.HR.Services;
 using Services.Communication.Http.Broker.Department.HR.CQRS.Queries.Requests;
 using Services.Communication.Http.Broker.Department.HR.CQRS.Queries.Responses;
+using Services.Communication.Http.Broker.Department.HR.Models;
+using Services.Logging.Aspect.Handlers;
 
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,10 +14,14 @@ namespace Services.Api.Business.Departments.HR.Configuration.CQRS.Handlers.Query
 {
     public class GetDepartmentsQueryHandler : IRequestHandler<GetDepartmentsQueryRequest, GetDepartmentsQueryResponse>
     {
+        private readonly RuntimeHandler _runtimeHandler;
         private readonly DepartmentService _departmentService;
 
-        public GetDepartmentsQueryHandler(DepartmentService departmentService)
+        public GetDepartmentsQueryHandler(
+            RuntimeHandler runtimeHandler,
+            DepartmentService departmentService)
         {
+            _runtimeHandler = runtimeHandler;
             _departmentService = departmentService;
         }
 
@@ -22,7 +29,12 @@ namespace Services.Api.Business.Departments.HR.Configuration.CQRS.Handlers.Query
         {
             return new GetDepartmentsQueryResponse()
             {
-                Departments = await _departmentService.GetDepartmentsAsync(new CancellationTokenSource())
+                Departments =
+                await
+                _runtimeHandler.ExecuteResultMethod<Task<List<DepartmentModel>>>(
+                    _departmentService,
+                    nameof(_departmentService.GetDepartmentsAsync),
+                    new object[] { new CancellationTokenSource() })
             };
         }
     }

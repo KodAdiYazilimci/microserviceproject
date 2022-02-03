@@ -22,6 +22,7 @@ using Services.Communication.Mq.Rabbit.Queue.Buying.Models;
 using Services.Communication.Mq.Rabbit.Queue.Buying.Publishers;
 using Services.Communication.Mq.Rabbit.Queue.Storage.Models;
 using Services.Communication.Mq.Rabbit.Queue.Storage.Publishers;
+using Services.Logging.Aspect.Attributes;
 
 using System;
 using System.Collections.Generic;
@@ -177,6 +178,8 @@ namespace Services.Api.Business.Departments.Production.Services
         /// <param name="rollback">İşlemin yedekleme noktası nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
+        [LogBeforeRuntimeAttr(nameof(CreateCheckpointAsync))]
+        [LogAfterRuntimeAttr(nameof(CreateCheckpointAsync))]
         public async Task CreateCheckpointAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
         {
             RollbackEntity rollbackEntity = _mapper.Map<RollbackModel, RollbackEntity>(rollback);
@@ -199,6 +202,8 @@ namespace Services.Api.Business.Departments.Production.Services
         /// <param name="rollback">Geri alınacak işlemin yedekleme noktası nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
+        [LogBeforeRuntimeAttr(nameof(RollbackTransactionAsync))]
+        [LogAfterRuntimeAttr(nameof(RollbackTransactionAsync))]
         public async Task RollbackTransactionAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
         {
             foreach (var rollbackItem in rollback.RollbackItems)
@@ -275,6 +280,8 @@ namespace Services.Api.Business.Departments.Production.Services
         /// <param name="produceModel">Üretilecek ürün modeli nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
+        [LogBeforeRuntimeAttr(nameof(ProduceProductAsync))]
+        [LogAfterRuntimeAttr(nameof(ProduceProductAsync))]
         public async Task<int> ProduceProductAsync(ProduceModel produceModel, CancellationTokenSource cancellationTokenSource)
         {
             ProductEntity product = await _productRepository.GetAsync(produceModel.ProductId, cancellationTokenSource);
@@ -417,6 +424,8 @@ namespace Services.Api.Business.Departments.Production.Services
         /// <param name="referenceNumber">Askıya alınmış sürecin referans numarası</param>
         /// <param name="cancellationTokenSource">İptal token ı</param>
         /// <returns></returns>
+        [LogBeforeRuntimeAttr(nameof(ReEvaluateProduceProductAsync))]
+        [LogAfterRuntimeAttr(nameof(ReEvaluateProduceProductAsync))]
         public async Task<int> ReEvaluateProduceProductAsync(int referenceNumber, CancellationTokenSource cancellationTokenSource)
         {
             int executed = 0;

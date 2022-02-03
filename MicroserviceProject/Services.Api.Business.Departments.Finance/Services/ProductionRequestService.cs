@@ -11,6 +11,7 @@ using Services.Business.Departments.Finance.Repositories.Sql;
 using Services.Communication.Http.Broker.Department.Finance.Models;
 using Services.Communication.Mq.Rabbit.Queue.Selling.Models;
 using Services.Communication.Mq.Rabbit.Queue.Selling.Publishers;
+using Services.Logging.Aspect.Attributes;
 
 using System;
 using System.Collections.Generic;
@@ -125,6 +126,8 @@ namespace Services.Business.Departments.Finance.Services
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
+        [LogBeforeRuntimeAttr(nameof(GetProductionRequestsAsync))]
+        [LogAfterRuntimeAttr(nameof(GetProductionRequestsAsync))]
         public async Task<List<ProductionRequestModel>> GetProductionRequestsAsync(CancellationTokenSource cancellationTokenSource)
         {
             if (_redisCacheDataProvider.TryGetValue(CACHED_PRODUCTION_REQUESTS_KEY, out List<ProductionRequestModel> cachedProductionRequests)
@@ -150,6 +153,8 @@ namespace Services.Business.Departments.Finance.Services
         /// <param name="productionRequest">Talebi oluşturulacak üretim modeli</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
+        [LogBeforeRuntimeAttr(nameof(CreateProductionRequestAsync))]
+        [LogAfterRuntimeAttr(nameof(CreateProductionRequestAsync))]
         public async Task<int> CreateProductionRequestAsync(ProductionRequestModel productionRequest, CancellationTokenSource cancellationTokenSource)
         {
             ProductionRequestEntity mappedProductionRequest = _mapper.Map<ProductionRequestModel, ProductionRequestEntity>(productionRequest);
@@ -196,6 +201,8 @@ namespace Services.Business.Departments.Finance.Services
         /// <param name="productionRequestId">Onaylanacak üretim talebinin Id değeri</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
+        [LogBeforeRuntimeAttr(nameof(ApproveProductionRequestAsync))]
+        [LogAfterRuntimeAttr(nameof(ApproveProductionRequestAsync))]
         public async Task<int> ApproveProductionRequestAsync(int productionRequestId, CancellationTokenSource cancellationTokenSource)
         {
             int result = await _productionRequestRepository.ApproveAsync(productionRequestId, cancellationTokenSource);
@@ -264,6 +271,8 @@ namespace Services.Business.Departments.Finance.Services
         /// <param name="productionRequestId">Reddedilecek üretim talebinin Id değeri</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
+        [LogBeforeRuntimeAttr(nameof(RejectProductionRequestAsync))]
+        [LogAfterRuntimeAttr(nameof(RejectProductionRequestAsync))]
         public async Task<int> RejectProductionRequestAsync(int productionRequestId, CancellationTokenSource cancellationTokenSource)
         {
             int result = await _productionRequestRepository.RejectAsync(productionRequestId, cancellationTokenSource);
@@ -346,6 +355,8 @@ namespace Services.Business.Departments.Finance.Services
         /// <param name="rollback">İşlemin yedekleme noktası nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
+        [LogBeforeRuntimeAttr(nameof(CreateCheckpointAsync))]
+        [LogAfterRuntimeAttr(nameof(CreateCheckpointAsync))]
         public async Task<int> CreateCheckpointAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
         {
             RollbackEntity rollbackEntity = _mapper.Map<RollbackModel, RollbackEntity>(rollback);
@@ -368,7 +379,9 @@ namespace Services.Business.Departments.Finance.Services
         /// <param name="rollback">Geri alınacak işlemin yedekleme noktası nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
-        public async Task<int> RollbackTransactionAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
+        [LogBeforeRuntimeAttr(nameof(GetProductionRequestsAsync))]
+        [LogAfterRuntimeAttr(nameof(GetProductionRequestsAsync))]
+        public async Task<int> GetProductionRequestsAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
         {
             foreach (var rollbackItem in rollback.RollbackItems)
             {

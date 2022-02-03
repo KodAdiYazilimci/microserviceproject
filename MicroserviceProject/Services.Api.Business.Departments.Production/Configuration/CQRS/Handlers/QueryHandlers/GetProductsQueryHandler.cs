@@ -3,7 +3,10 @@
 using Services.Api.Business.Departments.Production.Services;
 using Services.Communication.Http.Broker.Department.Production.CQRS.Queries.Requests;
 using Services.Communication.Http.Broker.Department.Production.CQRS.Queries.Responses;
+using Services.Communication.Http.Broker.Department.Production.Models;
+using Services.Logging.Aspect.Handlers;
 
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,10 +14,14 @@ namespace Services.Api.Business.Departments.Production.Configuration.CQRS.Handle
 {
     public class GetProductsQueryHandler : IRequestHandler<GetProductsQueryRequest, GetProductsQueryResponse>
     {
+        private readonly RuntimeHandler _runtimeHandler;
         private readonly ProductService _productService;
 
-        public GetProductsQueryHandler(ProductService productService)
+        public GetProductsQueryHandler(
+            RuntimeHandler runtimeHandler,
+            ProductService productService)
         {
+            _runtimeHandler = runtimeHandler;
             _productService = productService;
         }
 
@@ -22,7 +29,12 @@ namespace Services.Api.Business.Departments.Production.Configuration.CQRS.Handle
         {
             return new GetProductsQueryResponse()
             {
-                Products = await _productService.GetProductsAsync(new CancellationTokenSource())
+                Products =
+                await
+                _runtimeHandler.ExecuteResultMethod<Task<List<ProductModel>>>(
+                    _productService,
+                    nameof(_productService.GetProductsAsync),
+                    new object[] { new CancellationTokenSource() })
             };
         }
     }

@@ -18,6 +18,7 @@ using Services.Communication.Http.Broker.Department.IT;
 using Services.Communication.Mq.Rabbit.Queue.AA.Models;
 using Services.Communication.Mq.Rabbit.Queue.Accounting.Models;
 using Services.Communication.Mq.Rabbit.Queue.Accounting.Publishers;
+using Services.Logging.Aspect.Attributes;
 
 using System;
 using System.Collections.Generic;
@@ -208,6 +209,8 @@ namespace Services.Api.Business.Departments.HR.Services
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
+        [LogBeforeRuntimeAttr(nameof(GetPeopleAsync))]
+        [LogAfterRuntimeAttr(nameof(GetPeopleAsync))]
         public async Task<List<PersonModel>> GetPeopleAsync(CancellationTokenSource cancellationTokenSource)
         {
             if (_redisCacheDataProvider.TryGetValue(CACHED_PEOPLE_KEY, out List<PersonModel> cachedPeople)
@@ -233,6 +236,8 @@ namespace Services.Api.Business.Departments.HR.Services
         /// <param name="person">Oluşturulacak kişi nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
+        [LogBeforeRuntimeAttr(nameof(CreatePersonAsync))]
+        [LogAfterRuntimeAttr(nameof(CreatePersonAsync))]
         public async Task<int> CreatePersonAsync(PersonModel person, CancellationTokenSource cancellationTokenSource)
         {
             PersonEntity mappedPerson = _mapper.Map<PersonModel, PersonEntity>(person);
@@ -276,6 +281,8 @@ namespace Services.Api.Business.Departments.HR.Services
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
+        [LogBeforeRuntimeAttr(nameof(GetTitlesAsync))]
+        [LogAfterRuntimeAttr(nameof(GetTitlesAsync))]
         public async Task<List<TitleModel>> GetTitlesAsync(CancellationTokenSource cancellationTokenSource)
         {
             if (_redisCacheDataProvider.TryGetValue(CACHED_TITLES_KEY, out List<TitleModel> cachedTitles)
@@ -301,6 +308,8 @@ namespace Services.Api.Business.Departments.HR.Services
         /// <param name="title">Oluşturulacak ünvan nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
+        [LogBeforeRuntimeAttr(nameof(CreateTitleAsync))]
+        [LogAfterRuntimeAttr(nameof(CreateTitleAsync))]
         public async Task<int> CreateTitleAsync(TitleModel title, CancellationTokenSource cancellationTokenSource)
         {
             TitleEntity mappedTitles = _mapper.Map<TitleModel, TitleEntity>(title);
@@ -344,6 +353,8 @@ namespace Services.Api.Business.Departments.HR.Services
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
+        [LogBeforeRuntimeAttr(nameof(GetWorkersAsync))]
+        [LogAfterRuntimeAttr(nameof(GetWorkersAsync))]
         public async Task<List<WorkerModel>> GetWorkersAsync(CancellationTokenSource cancellationTokenSource)
         {
             if (_redisCacheDataProvider.TryGetValue(CACHED_WORKERS_KEY, out List<WorkerModel> cachedWorkers)
@@ -391,6 +402,8 @@ namespace Services.Api.Business.Departments.HR.Services
             return workerModels;
         }
 
+        [LogBeforeRuntimeAttr(nameof(GetWorkers))]
+        [LogAfterRuntimeAttr(nameof(GetWorkers))]
         private List<WorkerModel> GetWorkers(CancellationTokenSource cancellationTokenSource)
         {
             //TO DO: Join sorgusu yazılacak
@@ -430,6 +443,8 @@ namespace Services.Api.Business.Departments.HR.Services
         /// <param name="worker">Oluşturulacak çalışan nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
+        [LogBeforeRuntimeAttr(nameof(CreateWorkerAsync))]
+        [LogAfterRuntimeAttr(nameof(CreateWorkerAsync))]
         public async Task<int> CreateWorkerAsync(WorkerModel worker, CancellationTokenSource cancellationTokenSource)
         {
             WorkerEntity mappedWorker = _mapper.Map<WorkerModel, WorkerEntity>(worker);
@@ -599,6 +614,8 @@ namespace Services.Api.Business.Departments.HR.Services
         /// <param name="rollback">İşlemin yedekleme noktası nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
+        [LogBeforeRuntimeAttr(nameof(CreateCheckpointAsync))]
+        [LogAfterRuntimeAttr(nameof(CreateCheckpointAsync))]
         public async Task<int> CreateCheckpointAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
         {
             RollbackEntity rollbackEntity = _mapper.Map<RollbackModel, RollbackEntity>(rollback);
@@ -621,7 +638,9 @@ namespace Services.Api.Business.Departments.HR.Services
         /// <param name="rollback">Geri alınacak işlemin yedekleme noktası nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
-        public async Task<int> RollbackTransactionAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
+        [LogBeforeRuntimeAttr(nameof(GetProductionRequestsAsync))]
+        [LogAfterRuntimeAttr(nameof(GetProductionRequestsAsync))]
+        public async Task<int> GetProductionRequestsAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
         {
             foreach (var rollbackItem in rollback.RollbackItems)
             {

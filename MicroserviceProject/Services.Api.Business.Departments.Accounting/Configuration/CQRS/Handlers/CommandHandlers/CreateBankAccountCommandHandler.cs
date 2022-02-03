@@ -4,6 +4,7 @@ using Services.Api.Business.Departments.Accounting.Services;
 using Services.Api.Business.Departments.Accounting.Util.Validation.Department.CreateDepartment;
 using Services.Communication.Http.Broker.Department.Accounting.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.Accounting.CQRS.Commands.Responses;
+using Services.Logging.Aspect.Handlers;
 
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,10 +13,14 @@ namespace Services.Api.Business.Departments.Accounting.Configuration.CQRS.Handle
 {
     public class CreateBankAccountCommandHandler : IRequestHandler<CreateBankAccountCommandRequest, CreateBankAccountCommandResponse>
     {
+        private readonly RuntimeHandler _runtimeHandler;
         private readonly BankService _bankService;
 
-        public CreateBankAccountCommandHandler(BankService bankService)
+        public CreateBankAccountCommandHandler(
+            RuntimeHandler runtimeHandler,
+            BankService bankService)
         {
+            _runtimeHandler = runtimeHandler;
             _bankService = bankService;
         }
 
@@ -27,7 +32,12 @@ namespace Services.Api.Business.Departments.Accounting.Configuration.CQRS.Handle
 
             return new CreateBankAccountCommandResponse()
             {
-                CreatedBankAccountId = await _bankService.CreateBankAccountAsync(request.BankAccount, cancellationTokenSource)
+                CreatedBankAccountId =
+                await
+                _runtimeHandler.ExecuteResultMethod<Task<int>>(
+                    _bankService,
+                    nameof(_bankService.CreateBankAccountAsync),
+                    new object[] { request.BankAccount, cancellationTokenSource })
             };
         }
     }

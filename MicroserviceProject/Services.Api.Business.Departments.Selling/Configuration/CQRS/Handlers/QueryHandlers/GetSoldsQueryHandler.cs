@@ -3,7 +3,10 @@
 using Services.Api.Business.Departments.Selling.Services;
 using Services.Communication.Http.Broker.Department.Selling.CQRS.Queries.Requests;
 using Services.Communication.Http.Broker.Department.Selling.CQRS.Queries.Responses;
+using Services.Communication.Http.Broker.Department.Selling.Models;
+using Services.Logging.Aspect.Handlers;
 
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,10 +14,12 @@ namespace Services.Api.Business.Departments.Selling.Configuration.CQRS.Handlers.
 {
     public class GetSoldsQueryHandler : IRequestHandler<GetSoldsQueryRequest, GetSoldsQueryResponse>
     {
+        private readonly RuntimeHandler _runtimeHandler;
         private readonly SellingService _sellingService;
 
-        public GetSoldsQueryHandler(SellingService sellingService)
+        public GetSoldsQueryHandler(RuntimeHandler runtimeHandler, SellingService sellingService)
         {
+            _runtimeHandler = runtimeHandler;
             _sellingService = sellingService;
         }
 
@@ -22,7 +27,12 @@ namespace Services.Api.Business.Departments.Selling.Configuration.CQRS.Handlers.
         {
             return new GetSoldsQueryResponse()
             {
-                Solds = await _sellingService.GetSoldsAsync(new CancellationTokenSource())
+                Solds =
+                await
+                _runtimeHandler.ExecuteResultMethod<Task<List<SellModel>>>(
+                    _sellingService,
+                    nameof(_sellingService.GetSoldsAsync),
+                    new object[] { new CancellationTokenSource() })
             };
         }
     }

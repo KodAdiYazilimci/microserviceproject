@@ -15,6 +15,7 @@ using Services.Communication.Http.Broker.Department.Buying.Models;
 using Services.Communication.Http.Broker.Department.IT;
 using Services.Communication.Mq.Rabbit.Queue.Finance.Models;
 using Services.Communication.Mq.Rabbit.Queue.Finance.Publishers;
+using Services.Logging.Aspect.Attributes;
 
 using System;
 using System.Collections.Generic;
@@ -163,6 +164,8 @@ namespace Services.Api.Business.Departments.Buying.Services
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
+        [LogBeforeRuntimeAttr(nameof(GetInventoryRequestsAsync))]
+        [LogAfterRuntimeAttr(nameof(GetInventoryRequestsAsync))]
         public async Task<List<InventoryRequestModel>> GetInventoryRequestsAsync(CancellationTokenSource cancellationTokenSource)
         {
             if (_redisCacheDataProvider.TryGetValue(CACHED_REQUESTS_KEY, out List<InventoryRequestModel> cachedInventoryRequests)
@@ -239,6 +242,8 @@ namespace Services.Api.Business.Departments.Buying.Services
         /// </summary>
         /// <param name="cancellationTokenSource"></param>
         /// <returns></returns>
+        [LogBeforeRuntimeAttr(nameof(GetAAInventoriesAsync))]
+        [LogAfterRuntimeAttr(nameof(GetAAInventoriesAsync))]
         private async Task<List<Communication.Http.Broker.Department.AA.Models.InventoryModel>> GetAAInventoriesAsync(CancellationTokenSource cancellationTokenSource)
         {
             ServiceResultModel<Communication.Http.Broker.Department.AA.CQRS.Queries.Responses.GetInventoriesQueryResponse> serviceResult =
@@ -266,6 +271,8 @@ namespace Services.Api.Business.Departments.Buying.Services
         /// </summary>
         /// <param name="cancellationTokenSource"></param>
         /// <returns></returns>
+        [LogBeforeRuntimeAttr(nameof(GetITInventoriesAsync))]
+        [LogAfterRuntimeAttr(nameof(GetITInventoriesAsync))]
         private async Task<List<Communication.Http.Broker.Department.IT.Models.InventoryModel>> GetITInventoriesAsync(CancellationTokenSource cancellationTokenSource)
         {
             ServiceResultModel<Communication.Http.Broker.Department.IT.CQRS.Queries.Responses.GetInventoriesQueryResponse> serviceResult =
@@ -294,6 +301,8 @@ namespace Services.Api.Business.Departments.Buying.Services
         /// <param name="inventoryRequest">Oluşturulacak envanter talebi nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
+        [LogBeforeRuntimeAttr(nameof(CreateInventoryRequestAsync))]
+        [LogAfterRuntimeAttr(nameof(CreateInventoryRequestAsync))]
         public async Task<int> CreateInventoryRequestAsync(InventoryRequestModel inventoryRequest, CancellationTokenSource cancellationTokenSource)
         {
             InventoryRequestEntity mappedInventoryRequest = _mapper.Map<InventoryRequestModel, InventoryRequestEntity>(inventoryRequest);
@@ -371,6 +380,8 @@ namespace Services.Api.Business.Departments.Buying.Services
         /// <param name="decidedCost">Satın alım kararına ait modelin nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
+        [LogBeforeRuntimeAttr(nameof(ValidateCostInventoryAsync))]
+        [LogAfterRuntimeAttr(nameof(ValidateCostInventoryAsync))]
         public async Task<int> ValidateCostInventoryAsync(DecidedCostModel decidedCost, CancellationTokenSource cancellationTokenSource)
         {
             int result;
@@ -512,6 +523,8 @@ namespace Services.Api.Business.Departments.Buying.Services
         /// <param name="rollback">İşlemin yedekleme noktası nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
+        [LogBeforeRuntimeAttr(nameof(CreateCheckpointAsync))]
+        [LogAfterRuntimeAttr(nameof(CreateCheckpointAsync))]
         public async Task<int> CreateCheckpointAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
         {
             RollbackEntity rollbackEntity = _mapper.Map<RollbackModel, RollbackEntity>(rollback);
@@ -534,7 +547,9 @@ namespace Services.Api.Business.Departments.Buying.Services
         /// <param name="rollback">Geri alınacak işlemin yedekleme noktası nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
-        public async Task<int> RollbackTransactionAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
+        [LogBeforeRuntimeAttr(nameof(GetProductionRequestsAsync))]
+        [LogAfterRuntimeAttr(nameof(GetProductionRequestsAsync))]
+        public async Task<int> GetProductionRequestsAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
         {
             foreach (var rollbackItem in rollback.RollbackItems)
             {

@@ -4,6 +4,7 @@ using Services.Api.Business.Departments.Accounting.Services;
 using Services.Api.Business.Departments.Accounting.Util.Validation.Department.CreateDepartment;
 using Services.Communication.Http.Broker.Department.Accounting.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.Accounting.CQRS.Commands.Responses;
+using Services.Logging.Aspect.Handlers;
 
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,10 +13,14 @@ namespace Services.Api.Business.Departments.Accounting.Configuration.CQRS.Handle
 {
     public class CreateCurrencyCommandHandler : IRequestHandler<CreateCurrencyCommandRequest, CreateCurrencyCommandResponse>
     {
+        private readonly RuntimeHandler _runtimeHandler;
         private readonly BankService _bankService;
 
-        public CreateCurrencyCommandHandler(BankService bankService)
+        public CreateCurrencyCommandHandler(
+            RuntimeHandler runtimeHandler,
+            BankService bankService)
         {
+            _runtimeHandler = runtimeHandler;
             _bankService = bankService;
         }
 
@@ -28,7 +33,11 @@ namespace Services.Api.Business.Departments.Accounting.Configuration.CQRS.Handle
             return new CreateCurrencyCommandResponse()
             {
                 CreatedCurrencyId =
-                await _bankService.CreateCurrencyAsync(request.Currency, cancellationTokenSource)
+                await
+                _runtimeHandler.ExecuteResultMethod<Task<int>>(
+                    _bankService,
+                    nameof(_bankService.CreateCurrencyAsync),
+                    new object[] { request.Currency, cancellationTokenSource })
             };
         }
     }

@@ -4,6 +4,7 @@ using Services.Api.Business.Departments.Selling.Services;
 using Services.Api.Business.Departments.Selling.Util.Validation.Selling;
 using Services.Communication.Http.Broker.Department.Selling.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.Selling.CQRS.Commands.Responses;
+using Services.Logging.Aspect.Handlers;
 
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,10 +13,14 @@ namespace Services.Api.Business.Departments.Selling.Configuration.CQRS.Handlers.
 {
     public class CreateSellingCommandHandler : IRequestHandler<CreateSellingCommandRequest, CreateSellingCommandResponse>
     {
+        private readonly RuntimeHandler _runtimeHandler;
         private readonly SellingService _sellingService;
 
-        public CreateSellingCommandHandler(SellingService sellingService)
+        public CreateSellingCommandHandler(
+            RuntimeHandler runtimeHandler,
+            SellingService sellingService)
         {
+            _runtimeHandler = runtimeHandler;
             _sellingService = sellingService;
         }
 
@@ -27,7 +32,12 @@ namespace Services.Api.Business.Departments.Selling.Configuration.CQRS.Handlers.
 
             return new CreateSellingCommandResponse()
             {
-                CreatedSellingId = await _sellingService.CreateSellingAsync(request.Selling, cancellationTokenSource)
+                CreatedSellingId =
+                await
+                _runtimeHandler.ExecuteResultMethod<Task<int>>(
+                    _sellingService,
+                    nameof(_sellingService.CreateSellingAsync),
+                    new object[] { request.Selling, cancellationTokenSource })
             };
         }
     }

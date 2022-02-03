@@ -3,7 +3,10 @@
 using Services.Business.Departments.Finance.Services;
 using Services.Communication.Http.Broker.Department.Finance.CQRS.Queries.Requests;
 using Services.Communication.Http.Broker.Department.Finance.CQRS.Queries.Responses;
+using Services.Communication.Http.Broker.Department.Finance.Models;
+using Services.Logging.Aspect.Handlers;
 
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,10 +14,14 @@ namespace Services.Api.Business.Departments.Finance.Configuration.CQRS.Handlers.
 {
     public class GetProductionRequestsQueryHandler : IRequestHandler<GetProductionRequestsQueryRequest, GetProductionRequestsQueryResponse>
     {
+        private readonly RuntimeHandler _runtimeHandler;
         private readonly ProductionRequestService _productionRequestService;
 
-        public GetProductionRequestsQueryHandler(ProductionRequestService productionRequestService)
+        public GetProductionRequestsQueryHandler(
+            RuntimeHandler runtimeHandler,
+            ProductionRequestService productionRequestService)
         {
+            _runtimeHandler = runtimeHandler;
             _productionRequestService = productionRequestService;
         }
 
@@ -23,7 +30,11 @@ namespace Services.Api.Business.Departments.Finance.Configuration.CQRS.Handlers.
             return new GetProductionRequestsQueryResponse()
             {
                 ProductionRequests =
-                await _productionRequestService.GetProductionRequestsAsync(new CancellationTokenSource())
+                await
+                _runtimeHandler.ExecuteResultMethod<Task<List<ProductionRequestModel>>>(
+                    _productionRequestService,
+                    nameof(_productionRequestService.GetProductionRequestsAsync),
+                    new object[] { new CancellationTokenSource() })
             };
         }
     }

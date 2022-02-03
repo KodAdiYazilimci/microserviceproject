@@ -9,6 +9,7 @@ using Infrastructure.Transaction.UnitOfWork.Sql;
 using Services.Api.Business.Departments.HR.Entities.Sql;
 using Services.Api.Business.Departments.HR.Repositories.Sql;
 using Services.Communication.Http.Broker.Department.HR.Models;
+using Services.Logging.Aspect.Attributes;
 
 using System;
 using System.Collections.Generic;
@@ -107,6 +108,8 @@ namespace Services.Api.Business.Departments.HR.Services
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
+        [LogBeforeRuntimeAttr(nameof(GetDepartmentsAsync))]
+        [LogAfterRuntimeAttr(nameof(GetDepartmentsAsync))]
         public async Task<List<DepartmentModel>> GetDepartmentsAsync(CancellationTokenSource cancellationTokenSource)
         {
             if (_redisCacheDataProvider.TryGetValue(CACHED_DEPARTMENTS_KEY, out List<DepartmentModel> cachedDepartments)
@@ -132,6 +135,8 @@ namespace Services.Api.Business.Departments.HR.Services
         /// <param name="department">Oluşturulacak departman nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
+        [LogBeforeRuntimeAttr(nameof(CreateDepartmentAsync))]
+        [LogAfterRuntimeAttr(nameof(CreateDepartmentAsync))]
         public async Task<int> CreateDepartmentAsync(DepartmentModel department, CancellationTokenSource cancellationTokenSource)
         {
             DepartmentEntity mappedDepartment = _mapper.Map<DepartmentModel, DepartmentEntity>(department);
@@ -191,6 +196,8 @@ namespace Services.Api.Business.Departments.HR.Services
         /// <param name="rollback">İşlemin yedekleme noktası nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
+        [LogBeforeRuntimeAttr(nameof(CreateCheckpointAsync))]
+        [LogAfterRuntimeAttr(nameof(CreateCheckpointAsync))]
         public async Task<int> CreateCheckpointAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
         {
             RollbackEntity rollbackEntity = _mapper.Map<RollbackModel, RollbackEntity>(rollback);
@@ -213,7 +220,9 @@ namespace Services.Api.Business.Departments.HR.Services
         /// <param name="rollback">Geri alınacak işlemin yedekleme noktası nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
-        public async Task<int> RollbackTransactionAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
+        [LogBeforeRuntimeAttr(nameof(GetProductionRequestsAsync))]
+        [LogAfterRuntimeAttr(nameof(GetProductionRequestsAsync))]
+        public async Task<int> GetProductionRequestsAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
         {
             foreach (var rollbackItem in rollback.RollbackItems)
             {
