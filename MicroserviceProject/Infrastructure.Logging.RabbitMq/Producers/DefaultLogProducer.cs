@@ -1,13 +1,8 @@
-﻿using Infrastructure.Communication.Mq.Rabbit;
+﻿using Infrastructure.Communication.Mq.Configuration;
 using Infrastructure.Logging.Abstraction;
 using Infrastructure.Logging.Model;
 
-using Newtonsoft.Json;
-
-using RabbitMQ.Client;
-
 using System;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 

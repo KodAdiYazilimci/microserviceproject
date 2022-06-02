@@ -1,14 +1,8 @@
-﻿using Infrastructure.Communication.Mq.Rabbit;
+﻿using Infrastructure.Communication.Mq.Configuration;
+using Infrastructure.Communication.Mq.Rabbit;
 using Infrastructure.Logging.Model;
 
-using Newtonsoft.Json;
-
-using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
-
 using System;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Logging.RabbitMq.Consumers
 {

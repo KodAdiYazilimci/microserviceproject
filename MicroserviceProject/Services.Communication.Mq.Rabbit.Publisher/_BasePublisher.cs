@@ -1,4 +1,4 @@
-﻿using Infrastructure.Communication.Mq.Rabbit;
+﻿using Infrastructure.Communication.Mq.Configuration;
 using Infrastructure.Logging.RabbitMq.Producers;
 
 using System;
