@@ -17,12 +17,12 @@ using Services.Api.Business.Departments.HR.Services;
 using Services.Communication.Http.Broker.Department.AA.Mock;
 using Services.Communication.Http.Broker.Department.Accounting.Mock;
 using Services.Communication.Http.Broker.Department.IT.Mock;
-using Services.Communication.Mq.Rabbit.Queue.AA.Configuration.Mock;
-using Services.Communication.Mq.Rabbit.Queue.AA.Publishers.Mock;
-using Services.Communication.Mq.Rabbit.Queue.Accounting.Configuration.Mock;
-using Services.Communication.Mq.Rabbit.Queue.Accounting.Publisher.Mock;
-using Services.Communication.Mq.Rabbit.Queue.IT.Configuration.Mock;
-using Services.Communication.Mq.Rabbit.Queue.IT.Publishers.Mock;
+using Services.Communication.Mq.Queue.AA.Configuration.Mock;
+using Services.Communication.Mq.Queue.AA.Rabbit.Publishers.Mock;
+using Services.Communication.Mq.Queue.Accounting.Configuration.Mock;
+using Services.Communication.Mq.Queue.Accounting.Rabbit.Publisher.Mock;
+using Services.Communication.Mq.Queue.IT.Configuration.Mock;
+using Services.Communication.Mq.Queue.IT.Rabbit.Publishers.Mock;
 
 using Test.Services.Api.Business.Departments.HR.Factories.Infrastructure;
 using Test.Services.Api.Business.Departments.HR.Factories.Repositories;

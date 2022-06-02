@@ -19,8 +19,10 @@ using Newtonsoft.Json;
 using Services.Api.Business.Departments.Buying.DI;
 using Services.Business.Departments.Finance.DI;
 using Services.Communication.Http.Broker.Department.Finance.DI;
-using Services.Communication.Mq.Rabbit.Queue.Buying.DI;
-using Services.Communication.Mq.Rabbit.Queue.Selling.DI;
+using Services.Communication.Mq.Queue.Buying.DI;
+using Services.Communication.Mq.Queue.Buying.Rabbit.DI;
+using Services.Communication.Mq.Queue.Selling.DI;
+using Services.Communication.Mq.Queue.Selling.Rabbit.DI;
 using Services.Diagnostics.HealthCheck.DI;
 using Services.Logging.Aspect.DI;
 using Services.Logging.RequestResponse.DI;
@@ -51,11 +53,13 @@ namespace Services.Api.Business.Departments.Buying
             services.RegisterRepositories();
 
             services.RegisterBasicTokenAuthentication();
+            services.RegisterBuyingQueueConfigurations();
             services.RegisterBuyingQueuePublishers();
             services.RegisterHttpFinanceDepartmentCommunicators();
             services.RegisterLocalizationProviders();
             services.RegisterRequestResponseLogger();
             services.RegisterRuntimeHandlers();
+            services.RegisterSellingQueueConfigurations();
             services.RegisterSellingQueuePublishers();
             services.RegisterSqlHealthChecking(
                 connectionStrings: new List<string>() { Configuration.GetSection("Persistence")["DataSource"] });

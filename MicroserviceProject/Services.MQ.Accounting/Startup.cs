@@ -12,7 +12,8 @@ using Newtonsoft.Json;
 
 using Services.Communication.Http.Broker.Authorization.DI;
 using Services.Communication.Http.Broker.Department.Accounting.DI;
-using Services.Communication.Mq.Rabbit.Queue.Accounting.DI;
+using Services.Communication.Mq.Queue.Accounting.DI;
+using Services.Communication.Mq.Queue.Accounting.Rabbit.DI;
 
 using System.Net;
 
@@ -24,6 +25,7 @@ namespace Services.MQ.Accounting
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.RegisterAccountingQueueConfigurations();
             services.RegisterAccountingQueueConsumers();
             services.RegisterHttpAuthorizationCommunicators();
             services.RegisterHttpAccountingDepartmentCommunicators();

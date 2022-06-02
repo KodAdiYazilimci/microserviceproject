@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-using Services.Communication.Mq.Rabbit.Queue.Authorization.Consumers;
+using Services.Communication.Mq.Queue.Authorization.Rabbit.Consumers;
 
 namespace Services.MQ.Authorization
 {

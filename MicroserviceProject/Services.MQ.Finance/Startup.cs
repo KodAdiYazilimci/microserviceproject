@@ -12,7 +12,8 @@ using Newtonsoft.Json;
 
 using Services.Communication.Http.Broker.Authorization.DI;
 using Services.Communication.Http.Broker.Department.Finance.DI;
-using Services.Communication.Mq.Rabbit.Queue.Finance.DI;
+using Services.Communication.Mq.Queue.Finance.DI;
+using Services.Communication.Mq.Queue.Finance.Rabbit.DI;
 
 using System.Net;
 
@@ -24,6 +25,7 @@ namespace Services.MQ.Finance
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.RegisterFinanceQueueConfigurations();
             services.RegisterFinanceQueueConsumers();
             services.RegisterHttpAuthorizationCommunicators();
             services.RegisterHttpFinanceDepartmentCommunicators();

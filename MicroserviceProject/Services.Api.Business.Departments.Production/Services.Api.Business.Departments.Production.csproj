@@ -33,9 +33,10 @@
     <ProjectReference Include="..\Infrastructure.Transaction.UnitOfWork.EntityFramework\Infrastructure.Transaction.UnitOfWork.EntityFramework.csproj" />
     <ProjectReference Include="..\Infrastructure.Util.DI\Infrastructure.Util.DI.csproj" />
     <ProjectReference Include="..\Services.Communication.Http.Broker.Department.Production\Services.Communication.Http.Broker.Department.Production.csproj" />
+    <ProjectReference Include="..\Services.Communication.Http.Broker.Department.Storage\Services.Communication.Http.Broker.Department.Storage.csproj" />
+    <ProjectReference Include="..\Services.Communication.Mq.Queue.Buying.Rabbit\Services.Communication.Mq.Queue.Buying.Rabbit.csproj" />
+    <ProjectReference Include="..\Services.Communication.Mq.Queue.Storage.Rabbit\Services.Communication.Mq.Queue.Storage.Rabbit.csproj" />
     <ProjectReference Include="..\Services.Communication.Mq.Rabbit.Publisher\Services.Communication.Mq.Rabbit.Publisher.csproj" />
-    <ProjectReference Include="..\Services.Communication.Mq.Rabbit.Queue.Buying\Services.Communication.Mq.Rabbit.Queue.Buying.csproj" />
-    <ProjectReference Include="..\Services.Communication.Mq.Rabbit.Queue.Storage\Services.Communication.Mq.Rabbit.Queue.Storage.csproj" />
     <ProjectReference Include="..\Services.Diagnostics.HealthCheck\Services.Diagnostics.HealthCheck.csproj" />
     <ProjectReference Include="..\Services.Logging.RequestResponse\Services.Logging.RequestResponse.csproj" />
     <ProjectReference Include="..\Services.Runtime.Aspect\Services.Runtime.Aspect.csproj" />

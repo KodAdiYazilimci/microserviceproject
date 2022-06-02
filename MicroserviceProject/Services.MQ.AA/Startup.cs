@@ -12,7 +12,8 @@ using Newtonsoft.Json;
 
 using Services.Communication.Http.Broker.Authorization.DI;
 using Services.Communication.Http.Broker.Department.AA.DI;
-using Services.Communication.Mq.Rabbit.Queue.AA.DI;
+using Services.Communication.Mq.Queue.AA.DI;
+using Services.Communication.Mq.Queue.AA.Rabbit.DI;
 
 using System.Net;
 
@@ -25,6 +26,7 @@ namespace Services.MQ.AA
         public void ConfigureServices(IServiceCollection services)
         {
             services.RegisterHttpAuthorizationCommunicators();
+            services.RegisterAAQueueConfigurations();
             services.RegisterAAQueueConsumers();
             services.RegisterHttpAADepartmentCommunicators();
             services.RegisterLocalizationProviders();

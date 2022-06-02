@@ -19,8 +19,10 @@ using Newtonsoft.Json;
 using Services.Api.Business.Departments.Production.Configuration.Persistence;
 using Services.Api.Business.Departments.Production.DI;
 using Services.Communication.Http.Broker.Department.Production.DI;
-using Services.Communication.Mq.Rabbit.Configuration.DI;
-using Services.Communication.Mq.Rabbit.Queue.Buying.DI;
+using Services.Communication.Mq.Queue.Buying.DI;
+using Services.Communication.Mq.Queue.Buying.Rabbit.DI;
+using Services.Communication.Mq.Queue.Storage.Configuration.DI;
+using Services.Communication.Mq.Queue.Storage.Rabbit.Configuration.DI;
 using Services.Diagnostics.HealthCheck.DI;
 using Services.Logging.Aspect.DI;
 using Services.Logging.RequestResponse.DI;
@@ -52,6 +54,7 @@ namespace Services.Api.Business.Departments.Production
             services.RegisterRepositories();
 
             services.RegisterBasicTokenAuthentication();
+            services.RegisterBuyingQueueConfigurations();
             services.RegisterBuyingQueuePublishers();
             services.RegisterHttpProductionDepartmentCommunicators();
             services.RegisterLocalizationProviders();
@@ -59,6 +62,7 @@ namespace Services.Api.Business.Departments.Production
             services.RegisterRuntimeHandlers();
             services.RegisterSqlHealthChecking(
                 connectionStrings: new List<string>() { Configuration.GetSection("Persistence")["DataSource"] });
+            services.RegisterStorageQueueConfigurations();
             services.RegisterStorageQueuePublishers();
             services.RegisterSwagger();
             services.RegisterEntityFrameworkUnitOfWork<ProductionContext>();

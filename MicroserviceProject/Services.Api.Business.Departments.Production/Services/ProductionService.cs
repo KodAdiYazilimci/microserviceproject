@@ -18,10 +18,10 @@ using Services.Api.Business.Departments.Production.Repositories.EntityFramework;
 using Services.Communication.Http.Broker.Department.Production.Models;
 using Services.Communication.Http.Broker.Department.Storage;
 using Services.Communication.Http.Broker.Department.Storage.CQRS.Queries.Responses;
-using Services.Communication.Mq.Rabbit.Queue.Buying.Models;
-using Services.Communication.Mq.Rabbit.Queue.Buying.Publishers;
-using Services.Communication.Mq.Rabbit.Queue.Storage.Models;
-using Services.Communication.Mq.Rabbit.Queue.Storage.Publishers;
+using Services.Communication.Mq.Queue.Buying.Models;
+using Services.Communication.Mq.Queue.Buying.Rabbit.Publishers;
+using Services.Communication.Mq.Queue.Storage.Models;
+using Services.Communication.Mq.Queue.Storage.Rabbit.Publishers;
 using Services.Logging.Aspect.Attributes;
 
 using System;

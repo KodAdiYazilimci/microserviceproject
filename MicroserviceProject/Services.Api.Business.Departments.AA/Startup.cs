@@ -18,8 +18,10 @@ using Newtonsoft.Json;
 
 using Services.Api.Business.Departments.AA.DI;
 using Services.Communication.Http.Broker.Department.AA.DI;
-using Services.Communication.Mq.Rabbit.Queue.AA.DI;
-using Services.Communication.Mq.Rabbit.Queue.Buying.DI;
+using Services.Communication.Mq.Queue.AA.DI;
+using Services.Communication.Mq.Queue.AA.Rabbit.DI;
+using Services.Communication.Mq.Queue.Buying.DI;
+using Services.Communication.Mq.Queue.Buying.Rabbit.DI;
 using Services.Diagnostics.HealthCheck.DI;
 using Services.Logging.Aspect.DI;
 using Services.Logging.RequestResponse.DI;
@@ -49,8 +51,10 @@ namespace Services.Api.Business.Departments.AA
             services.RegisterMappings();
             services.RegisterRepositories();
 
+            services.RegisterAAQueueConfigurations();
             services.RegisterAAQueuePublishers();
             services.RegisterBasicTokenAuthentication();
+            services.RegisterBuyingQueueConfigurations();
             services.RegisterBuyingQueuePublishers();
             services.RegisterHttpAADepartmentCommunicators();
             services.RegisterLocalizationProviders();

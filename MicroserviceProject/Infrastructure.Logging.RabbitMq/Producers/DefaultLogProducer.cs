@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Communication.Mq.Configuration;
+using Infrastructure.Communication.Mq.Rabbit;
 using Infrastructure.Logging.Abstraction;
 using Infrastructure.Logging.Model;
 

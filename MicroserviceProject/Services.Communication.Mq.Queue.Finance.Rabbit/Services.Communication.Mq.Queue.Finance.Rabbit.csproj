@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.Communication.Mq.Rabbit\Infrastructure.Communication.Mq.Rabbit.csproj" />
+    <ProjectReference Include="..\Services.Communication.Http.Broker.Department.Finance\Services.Communication.Http.Broker.Department.Finance.csproj" />
+    <ProjectReference Include="..\Services.Communication.Mq.Queue.Finance\Services.Communication.Mq.Queue.Finance.csproj" />
+    <ProjectReference Include="..\Services.Communication.Mq.Rabbit.Publisher\Services.Communication.Mq.Rabbit.Publisher.csproj" />
+  </ItemGroup>
+
+</Project>

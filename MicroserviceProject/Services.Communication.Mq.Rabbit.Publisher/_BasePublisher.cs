@@ -1,5 +1,7 @@
 ﻿using Infrastructure.Communication.Mq.Configuration;
-using Infrastructure.Logging.RabbitMq.Producers;
+using Infrastructure.Communication.Mq.Rabbit;
+
+using Services.Communication.Mq.Models;
 
 using System;
 using System.Collections.Generic;

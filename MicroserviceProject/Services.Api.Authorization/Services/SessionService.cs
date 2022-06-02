@@ -14,8 +14,8 @@ using Services.Api.Infrastructure.Authorization.Entities.EntityFramework;
 using Services.Api.Infrastructure.Authorization.Persistence.Sql.Exceptions;
 using Services.Api.Infrastructure.Authorization.Repositories;
 using Services.Communication.Http.Broker.Authorization.Models;
-using Services.Communication.Mq.Rabbit.Queue.Authorization.Models;
-using Services.Communication.Mq.Rabbit.Queue.Authorization.Publishers;
+using Services.Communication.Mq.Queue.Authorization.Models;
+using Services.Communication.Mq.Queue.Authorization.Rabbit.Publishers;
 
 using System;
 using System.Collections.Generic;

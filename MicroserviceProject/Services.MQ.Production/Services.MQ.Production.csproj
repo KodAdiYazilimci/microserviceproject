@@ -9,7 +9,7 @@
     <ProjectReference Include="..\Infrastructure.Security.Authentication.BasicToken\Infrastructure.Security.Authentication.BasicToken.csproj" />
     <ProjectReference Include="..\Infrastructure.Util.DI\Infrastructure.Util.DI.csproj" />
     <ProjectReference Include="..\Services.Communication.Http.Broker.Authorization\Services.Communication.Http.Broker.Authorization.csproj" />
-    <ProjectReference Include="..\Services.Communication.Mq.Rabbit.Queue.Production\Services.Communication.Mq.Rabbit.Queue.Production.csproj" />
+    <ProjectReference Include="..\Services.Communication.Mq.Queue.Production.Rabbit\Services.Communication.Mq.Queue.Production.Rabbit.csproj" />
   </ItemGroup>
 
   <ItemGroup>

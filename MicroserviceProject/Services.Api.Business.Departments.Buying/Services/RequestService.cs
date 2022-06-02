@@ -13,8 +13,8 @@ using Services.Api.Business.Departments.Buying.Repositories.Sql;
 using Services.Communication.Http.Broker.Department.AA;
 using Services.Communication.Http.Broker.Department.Buying.Models;
 using Services.Communication.Http.Broker.Department.IT;
-using Services.Communication.Mq.Rabbit.Queue.Finance.Models;
-using Services.Communication.Mq.Rabbit.Queue.Finance.Publishers;
+using Services.Communication.Mq.Queue.Finance.Models;
+using Services.Communication.Mq.Queue.Finance.Rabbit.Publishers;
 using Services.Logging.Aspect.Attributes;
 
 using System;
@@ -98,12 +98,12 @@ namespace Services.Api.Business.Departments.Buying.Services
         /// <summary>
         /// İdari işler departmanına satın alımla ilgili olumlu veya olumsuz dönüş verisini rabbit kuyruğuna ekleyecek nesne
         /// </summary>
-        private readonly Communication.Mq.Rabbit.Queue.AA.Publishers.InformInventoryRequestPublisher _AAInformInventoryRequestPublisher;
+        private readonly Communication.Mq.Queue.AA.Rabbit.Publishers.InformInventoryRequestPublisher _AAInformInventoryRequestPublisher;
 
         /// <summary>
         /// Bilgi teknolojileri departmanına satın alımla ilgili olumlu veya olumsuz dönüş verisini rabbit kuyruğuna ekleyecek nesne
         /// </summary>
-        private readonly Communication.Mq.Rabbit.Queue.IT.Publishers.InformInventoryRequestPublisher _ITInformInventoryRequestPublisher;
+        private readonly Communication.Mq.Queue.IT.Rabbit.Publishers.InformInventoryRequestPublisher _ITInformInventoryRequestPublisher;
 
         /// <summary>
         /// Satınalma departmanından alınması istenilen envanter talepleri için kayıt açan nesne
@@ -137,8 +137,8 @@ namespace Services.Api.Business.Departments.Buying.Services
             InventoryRequestRepository inventoryRequestRepository,
             AACommunicator aaCommunicator,
             ITCommunicator itCommunicator,
-            Communication.Mq.Rabbit.Queue.AA.Publishers.InformInventoryRequestPublisher aaInformInventoryRequestPublisher,
-            Communication.Mq.Rabbit.Queue.IT.Publishers.InformInventoryRequestPublisher itInformInventoryRequestPublisher,
+            Communication.Mq.Queue.AA.Rabbit.Publishers.InformInventoryRequestPublisher aaInformInventoryRequestPublisher,
+            Communication.Mq.Queue.IT.Rabbit.Publishers.InformInventoryRequestPublisher itInformInventoryRequestPublisher,
             InventoryRequestPublisher inventoryRequestPublisher)
         {
             _mapper = mapper;
@@ -467,7 +467,7 @@ namespace Services.Api.Business.Departments.Buying.Services
             if (inventoryRequestEntity.DepartmentId == (int)Constants.Departments.AdministrativeAffairs)
             {
                 _AAInformInventoryRequestPublisher.AddToBuffer(
-                    model: new Communication.Mq.Rabbit.Queue.AA.Models.InventoryRequestQueueModel
+                    model: new Communication.Mq.Queue.AA.Models.InventoryRequestQueueModel
                     {
                         InventoryId = inventoryRequestEntity.InventoryId,
                         Amount = inventoryRequestEntity.Amount,
@@ -480,7 +480,7 @@ namespace Services.Api.Business.Departments.Buying.Services
             else if (inventoryRequestEntity.DepartmentId == (int)Constants.Departments.InformationTechnologies)
             {
                 _ITInformInventoryRequestPublisher.AddToBuffer(
-                    model: new Communication.Mq.Rabbit.Queue.IT.Models.InventoryRequestQueueModel
+                    model: new Communication.Mq.Queue.IT.Models.InventoryRequestQueueModel
                     {
                         InventoryId = inventoryRequestEntity.InventoryId,
                         Amount = inventoryRequestEntity.Amount,

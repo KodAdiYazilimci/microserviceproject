@@ -21,7 +21,8 @@ using Services.Communication.Http.Broker.Department.IT.DI;
 using Services.Communication.Http.Broker.Department.Production.DI;
 using Services.Communication.Http.Broker.Department.Selling.DI;
 using Services.Communication.Http.Broker.Department.Storage.DI;
-using Services.Communication.Mq.Rabbit.Queue.Authorization.DI;
+using Services.Communication.Mq.Queue.Authorization.DI;
+using Services.Communication.Mq.Queue.Authorization.Rabbit.DI;
 
 using System.Net;
 
@@ -33,6 +34,7 @@ namespace Services.MQ.Authorization
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.RegisterAuthorizationQueueConfigurations();
             services.RegisterAuthorizationQueueConsumers();
             services.RegisterHttpAuthorizationCommunicators();
             services.RegisterHttpAADepartmentCommunicators();

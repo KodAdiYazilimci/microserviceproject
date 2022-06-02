@@ -12,7 +12,8 @@ using Newtonsoft.Json;
 
 using Services.Communication.Http.Broker.Authorization.DI;
 using Services.Communication.Http.Broker.Department.Storage.DI;
-using Services.Communication.Mq.Rabbit.Configuration.DI;
+using Services.Communication.Mq.Queue.Storage.Configuration.DI;
+using Services.Communication.Mq.Queue.Storage.Rabbit.Configuration.DI;
 
 using System.Net;
 
@@ -25,6 +26,7 @@ namespace Services.MQ.Storage
         public void ConfigureServices(IServiceCollection services)
         {
             services.RegisterHttpAuthorizationCommunicators();
+            services.RegisterStorageQueueConfigurations();
             services.RegisterStorageQueueConsumers();
             services.RegisterHttpStorageDepartmentCommunicators();
             services.RegisterLocalizationProviders();

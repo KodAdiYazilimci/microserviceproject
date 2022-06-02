@@ -9,8 +9,8 @@ using Infrastructure.Transaction.UnitOfWork.Sql;
 using Services.Api.Business.Departments.AA.Entities.Sql;
 using Services.Api.Business.Departments.AA.Repositories.Sql;
 using Services.Communication.Http.Broker.Department.AA.Models;
-using Services.Communication.Mq.Rabbit.Queue.Buying.Models;
-using Services.Communication.Mq.Rabbit.Queue.Buying.Publishers;
+using Services.Communication.Mq.Queue.Buying.Models;
+using Services.Communication.Mq.Queue.Buying.Rabbit.Publishers;
 using Services.Logging.Aspect.Attributes;
 
 using System;

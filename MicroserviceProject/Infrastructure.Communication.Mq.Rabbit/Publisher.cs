@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Logging.RabbitMq.Producers
+namespace Infrastructure.Communication.Mq.Rabbit
 {
     /// <summary>
     /// Rabbit sunucusuna data üretecek sınıf

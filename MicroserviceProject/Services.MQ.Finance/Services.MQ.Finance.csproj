@@ -16,7 +16,8 @@
     <ProjectReference Include="..\Infrastructure.Security.Authentication.BasicToken\Infrastructure.Security.Authentication.BasicToken.csproj" />
     <ProjectReference Include="..\Infrastructure.Util.DI\Infrastructure.Util.DI.csproj" />
     <ProjectReference Include="..\Services.Communication.Http.Broker.Authorization\Services.Communication.Http.Broker.Authorization.csproj" />
-    <ProjectReference Include="..\Services.Communication.Mq.Rabbit.Queue.Finance\Services.Communication.Mq.Rabbit.Queue.Finance.csproj" />
+    <ProjectReference Include="..\Services.Communication.Mq.Queue.Finance.Rabbit\Services.Communication.Mq.Queue.Finance.Rabbit.csproj" />
+    <ProjectReference Include="..\Services.Communication.Mq.Queue.Finance\Services.Communication.Mq.Queue.Finance.csproj" />
   </ItemGroup>
 
 </Project>
