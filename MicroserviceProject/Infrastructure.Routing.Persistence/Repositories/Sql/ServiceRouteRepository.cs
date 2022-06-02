@@ -70,7 +70,9 @@ namespace Infrastructure.Routing.Persistence.Repositories.Sql
                                                                          ALT.ALTERNATIVE_SERVICE_ROUTE_ID,
                                                                          RO.[NAME],
                                                                          RO.CALLTYPE,
-                                                                         RO.[ENDPOINT]
+                                                                         RO.[ENDPOINT],
+                                                                         RO.[ENABLED],
+                                                                         RO.[ROUTE_TYPE]
                                                                          FROM SERVICE_ROUTES_ALTERNATIVES ALT
                                                                          INNER JOIN SERVICE_ROUTES RO
                                                                          ON ALT.ALTERNATIVE_SERVICE_ROUTE_ID = RO.ID
@@ -98,7 +100,9 @@ namespace Infrastructure.Routing.Persistence.Repositories.Sql
                                     Id = sqlAlternativeRouteReader.GetInt32("ALTERNATIVE_SERVICE_ROUTE_ID"),
                                     ServiceName = sqlAlternativeRouteReader.GetString("NAME"),
                                     CallType = sqlAlternativeRouteReader.GetString("CALLTYPE"),
-                                    Endpoint = sqlAlternativeRouteReader.GetString("ENDPOINT")
+                                    Endpoint = sqlAlternativeRouteReader.GetString("ENDPOINT"),
+                                    Enabled = sqlAlternativeRouteReader.GetBoolean("ENABLED"),
+                                    RouteType = sqlAlternativeRouteReader.GetInt32("ROUTE_TYPE")
                                 };
 
                                 route.AlternativeRoute = alternativeRoute;
@@ -141,6 +145,8 @@ namespace Infrastructure.Routing.Persistence.Repositories.Sql
                             route.ServiceName = sqlRouteDataReader["NAME"].ToString();
                             route.CallType = sqlRouteDataReader["CALLTYPE"].ToString();
                             route.Endpoint = sqlRouteDataReader["ENDPOINT"].ToString();
+                            route.Enabled = Convert.ToBoolean(sqlRouteDataReader["ENABLED"]);
+                            route.RouteType = Convert.ToInt32(sqlRouteDataReader["ROUTE_TYPE"]);
 
                             routes.Add(route);
                         }

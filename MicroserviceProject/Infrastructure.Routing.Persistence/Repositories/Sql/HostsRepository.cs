@@ -87,6 +87,8 @@ namespace Infrastructure.Routing.Persistence.Repositories.Sql
                                 };
                                 host.Name = sqlRouteDataReader["NAME"].ToString();
                                 host.Host = sqlRouteDataReader["HOST"].ToString();
+                                host.HostType = Convert.ToInt32(sqlRouteDataReader["HOST_TYPE"]);
+                                host.Enabled = Convert.ToBoolean(sqlRouteDataReader["ENABLED"]);
 
                                 hosts.Add(host);
                             }

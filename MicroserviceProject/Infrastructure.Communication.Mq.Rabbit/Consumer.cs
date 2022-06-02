@@ -1,4 +1,6 @@
 ﻿
+using Infrastructure.Communication.Mq.Configuration;
+
 using Newtonsoft.Json;
 
 using RabbitMQ.Client;

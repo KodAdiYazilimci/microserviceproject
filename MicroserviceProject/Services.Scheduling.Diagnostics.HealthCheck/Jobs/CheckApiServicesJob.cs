@@ -41,15 +41,18 @@ namespace Services.Scheduling.Diagnostics.HealthCheck.Jobs
             {
                 try
                 {
-                    ServiceResultModel<List<CheckResultModel>> httpResult =
-                        await _httpGetProvider.GetAsync<ServiceResultModel<List<CheckResultModel>>>(host.Host + "/health", cancellationTokenSource);
-
-                    if (!httpResult.IsSuccess || httpResult.Data.Any(x => x.Status != HealthStatus.Healthy.ToString()))
+                    if (host.Enabled)
                     {
+                        ServiceResultModel<List<CheckResultModel>> httpResult =
+                            await _httpGetProvider.GetAsync<ServiceResultModel<List<CheckResultModel>>>(host.Host + "/health", cancellationTokenSource);
 
+                        if (!httpResult.IsSuccess || httpResult.Data.Any(x => x.Status != HealthStatus.Healthy.ToString()))
+                        {
+
+                        }
+
+                        // TODO: Kuyruğa veya web sokete bildirim yapılacak veya loglanacak
                     }
-
-                    // TODO: Kuyruğa veya web sokete bildirim yapılacak veya loglanacak
                 }
                 catch (Exception ex)
                 {

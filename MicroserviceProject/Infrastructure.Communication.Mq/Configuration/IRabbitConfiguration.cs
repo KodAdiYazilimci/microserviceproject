@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Infrastructure.Communication.Mq.Rabbit
+﻿namespace Infrastructure.Communication.Mq.Configuration
 {
     /// <summary>
     /// Rabbit sunucusunun yapılandırma ayarları

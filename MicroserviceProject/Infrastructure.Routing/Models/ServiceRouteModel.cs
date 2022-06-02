@@ -23,6 +23,9 @@ namespace Infrastructure.Routing.Models
         /// </summary>
         public string Endpoint { get; set; }
 
+        public int RouteType { get; set; }
+        public bool Enabled { get; set; }
+
         /// <summary>
         /// Bu servis endpoint ile başarısız iletişim kurulması halinde denenecek diğer endpointler
         /// </summary>
