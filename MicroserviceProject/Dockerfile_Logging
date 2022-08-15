@@ -1,0 +1,28 @@
+FROM mcr.microsoft.com/dotnet/aspnet:6.0-focal AS base
+WORKDIR /app
+EXPOSE 15455
+
+ENV ASPNETCORE_URLS=http://+:15455
+
+# Creates a non-root user with an explicit UID and adds permission to access the /app folder
+# For more info, please refer to https://aka.ms/vscode-docker-dotnet-configure-containers
+RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
+USER appuser
+
+FROM mcr.microsoft.com/dotnet/sdk:6.0-focal AS build
+WORKDIR /src
+COPY ["Services.Api.Logging/Services.Api.Logging.csproj", "Services.Api.Logging/"]
+RUN dotnet restore "Services.Api.Logging/Services.Api.Logging.csproj"
+COPY . .
+WORKDIR "/src/Services.Api.Logging"
+RUN dotnet build "Services.Api.Logging.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "Services.Api.Logging.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "Services.Api.Logging.dll"]
+
+#docker build -t serkancamur/Logging:latest -f Dockerfile_Logging .

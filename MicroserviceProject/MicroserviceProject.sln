@@ -263,43 +263,50 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Communicatio
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Communication.Mq", "Infrastructure.Communication.Mq\Infrastructure.Communication.Mq.csproj", "{7EBA3C60-360F-4D4F-9585-A555C16A7CCB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Mq", "Services.Communication.Mq\Services.Communication.Mq.csproj", "{AEFCEEA7-AFFE-4285-9B12-EEF2A151ED04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Mq", "Services.Communication.Mq\Services.Communication.Mq.csproj", "{AEFCEEA7-AFFE-4285-9B12-EEF2A151ED04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Mq.Queue.AA", "Services.Communication.Mq.Queue.AA\Services.Communication.Mq.Queue.AA.csproj", "{B483D87A-E71D-4D4B-AF52-74642BFF1A12}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Mq.Queue.AA", "Services.Communication.Mq.Queue.AA\Services.Communication.Mq.Queue.AA.csproj", "{B483D87A-E71D-4D4B-AF52-74642BFF1A12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Mq.Queue.AA.Rabbit", "Services.Communication.Mq.Queue.AA.Rabbit\Services.Communication.Mq.Queue.AA.Rabbit.csproj", "{2DCE12D0-1A7B-401D-AC0F-2D5E8227511F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Mq.Queue.AA.Rabbit", "Services.Communication.Mq.Queue.AA.Rabbit\Services.Communication.Mq.Queue.AA.Rabbit.csproj", "{2DCE12D0-1A7B-401D-AC0F-2D5E8227511F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Mq.Queue.Accounting", "Services.Communication.Mq.Queue.Accounting\Services.Communication.Mq.Queue.Accounting.csproj", "{2C92E219-CEC9-4523-A555-716E71035BDA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Mq.Queue.Accounting", "Services.Communication.Mq.Queue.Accounting\Services.Communication.Mq.Queue.Accounting.csproj", "{2C92E219-CEC9-4523-A555-716E71035BDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Mq.Queue.Accounting.Rabbit", "Services.Communication.Mq.Queue.Accounting.Rabbit\Services.Communication.Mq.Queue.Accounting.Rabbit.csproj", "{E43C9E98-64D5-47A5-9670-D9D6DACC4906}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Mq.Queue.Accounting.Rabbit", "Services.Communication.Mq.Queue.Accounting.Rabbit\Services.Communication.Mq.Queue.Accounting.Rabbit.csproj", "{E43C9E98-64D5-47A5-9670-D9D6DACC4906}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Mq.Queue.Authorization", "Services.Communication.Mq.Queue.Authorization\Services.Communication.Mq.Queue.Authorization.csproj", "{32E0E2D1-D435-4F0B-9BD4-73C015296162}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Mq.Queue.Authorization", "Services.Communication.Mq.Queue.Authorization\Services.Communication.Mq.Queue.Authorization.csproj", "{32E0E2D1-D435-4F0B-9BD4-73C015296162}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Mq.Queue.Authorization.Rabbit", "Services.Communication.Mq.Queue.Authorization.Rabbit\Services.Communication.Mq.Queue.Authorization.Rabbit.csproj", "{F1C89D9A-CAF0-45C6-BFB2-5FEEB62098D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Mq.Queue.Authorization.Rabbit", "Services.Communication.Mq.Queue.Authorization.Rabbit\Services.Communication.Mq.Queue.Authorization.Rabbit.csproj", "{F1C89D9A-CAF0-45C6-BFB2-5FEEB62098D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Mq.Queue.Buying", "Services.Communication.Mq.Queue.Buying\Services.Communication.Mq.Queue.Buying.csproj", "{B80CAC69-26BF-4877-8421-2D74D905D04E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Mq.Queue.Buying", "Services.Communication.Mq.Queue.Buying\Services.Communication.Mq.Queue.Buying.csproj", "{B80CAC69-26BF-4877-8421-2D74D905D04E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Mq.Queue.Buying.Rabbit", "Services.Communication.Mq.Queue.Buying.Rabbit\Services.Communication.Mq.Queue.Buying.Rabbit.csproj", "{5672CB54-1FAD-40B7-87B0-8AEF02DF9BFA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Mq.Queue.Buying.Rabbit", "Services.Communication.Mq.Queue.Buying.Rabbit\Services.Communication.Mq.Queue.Buying.Rabbit.csproj", "{5672CB54-1FAD-40B7-87B0-8AEF02DF9BFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Mq.Queue.Finance", "Services.Communication.Mq.Queue.Finance\Services.Communication.Mq.Queue.Finance.csproj", "{C626617F-2A0E-4C00-89E5-5BF9BEA1FCA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Mq.Queue.Finance", "Services.Communication.Mq.Queue.Finance\Services.Communication.Mq.Queue.Finance.csproj", "{C626617F-2A0E-4C00-89E5-5BF9BEA1FCA7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Mq.Queue.Finance.Rabbit", "Services.Communication.Mq.Queue.Finance.Rabbit\Services.Communication.Mq.Queue.Finance.Rabbit.csproj", "{86A0BFD8-4A64-4839-A763-313B4978A9D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Mq.Queue.Finance.Rabbit", "Services.Communication.Mq.Queue.Finance.Rabbit\Services.Communication.Mq.Queue.Finance.Rabbit.csproj", "{86A0BFD8-4A64-4839-A763-313B4978A9D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Mq.Queue.IT", "Services.Communication.Mq.Queue.IT\Services.Communication.Mq.Queue.IT.csproj", "{CDD4FB13-EEEE-421D-A89E-6B0FD3C5D304}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Mq.Queue.IT", "Services.Communication.Mq.Queue.IT\Services.Communication.Mq.Queue.IT.csproj", "{CDD4FB13-EEEE-421D-A89E-6B0FD3C5D304}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Mq.Queue.IT.Rabbit", "Services.Communication.Mq.Queue.IT.Rabbit\Services.Communication.Mq.Queue.IT.Rabbit.csproj", "{B54A6B72-86A5-4306-9021-E1C85EC213F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Mq.Queue.IT.Rabbit", "Services.Communication.Mq.Queue.IT.Rabbit\Services.Communication.Mq.Queue.IT.Rabbit.csproj", "{B54A6B72-86A5-4306-9021-E1C85EC213F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Mq.Queue.Production", "Services.Communication.Mq.Queue.Production\Services.Communication.Mq.Queue.Production.csproj", "{4760BB96-A405-413D-A47A-9961E1D1897E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Mq.Queue.Production", "Services.Communication.Mq.Queue.Production\Services.Communication.Mq.Queue.Production.csproj", "{4760BB96-A405-413D-A47A-9961E1D1897E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Mq.Queue.Production.Rabbit", "Services.Communication.Mq.Queue.Production.Rabbit\Services.Communication.Mq.Queue.Production.Rabbit.csproj", "{430524DB-0EB9-413F-A86F-30C5B0FED685}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Mq.Queue.Production.Rabbit", "Services.Communication.Mq.Queue.Production.Rabbit\Services.Communication.Mq.Queue.Production.Rabbit.csproj", "{430524DB-0EB9-413F-A86F-30C5B0FED685}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Mq.Queue.Selling", "Services.Communication.Mq.Queue.Selling\Services.Communication.Mq.Queue.Selling.csproj", "{70B33016-9972-481F-BCBD-6535094202B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Mq.Queue.Selling", "Services.Communication.Mq.Queue.Selling\Services.Communication.Mq.Queue.Selling.csproj", "{70B33016-9972-481F-BCBD-6535094202B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Mq.Queue.Selling.Rabbit", "Services.Communication.Mq.Queue.Selling.Rabbit\Services.Communication.Mq.Queue.Selling.Rabbit.csproj", "{52274720-04B1-4231-A275-F67D600F5589}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Mq.Queue.Selling.Rabbit", "Services.Communication.Mq.Queue.Selling.Rabbit\Services.Communication.Mq.Queue.Selling.Rabbit.csproj", "{52274720-04B1-4231-A275-F67D600F5589}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Mq.Queue.Storage", "Services.Communication.Mq.Queue.Storage\Services.Communication.Mq.Queue.Storage.csproj", "{51F6DD1D-E1B7-4979-98DF-071C393C7F74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Mq.Queue.Storage", "Services.Communication.Mq.Queue.Storage\Services.Communication.Mq.Queue.Storage.csproj", "{51F6DD1D-E1B7-4979-98DF-071C393C7F74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Mq.Queue.Storage.Rabbit", "Services.Communication.Mq.Queue.Storage.Rabbit\Services.Communication.Mq.Queue.Storage.Rabbit.csproj", "{D75198D3-C7A0-4D83-85A2-6DB303C55760}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Mq.Queue.Storage.Rabbit", "Services.Communication.Mq.Queue.Storage.Rabbit\Services.Communication.Mq.Queue.Storage.Rabbit.csproj", "{D75198D3-C7A0-4D83-85A2-6DB303C55760}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B4F16325-B26A-412C-893E-AC556403B9ED}"
+	ProjectSection(SolutionItems) = preProject
+		CodeMap.dgml = CodeMap.dgml
+		Dockerfile_Authorization = Dockerfile_Authorization
+		Dockerfile_Logging = Dockerfile_Logging
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
