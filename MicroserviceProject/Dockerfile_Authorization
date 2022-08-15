@@ -1,0 +1,28 @@
+FROM mcr.microsoft.com/dotnet/aspnet:6.0-focal AS base
+WORKDIR /app
+EXPOSE 16859
+
+ENV ASPNETCORE_URLS=http://+:16859
+
+# Creates a non-root user with an explicit UID and adds permission to access the /app folder
+# For more info, please refer to https://aka.ms/vscode-docker-dotnet-configure-containers
+RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
+USER appuser
+
+FROM mcr.microsoft.com/dotnet/sdk:6.0-focal AS build
+WORKDIR /src
+COPY ["Services.Api.Authorization/Services.Api.Authorization.csproj", "Services.Api.Authorization/"]
+RUN dotnet restore "Services.Api.Authorization/Services.Api.Authorization.csproj"
+COPY . .
+WORKDIR "/src/Services.Api.Authorization"
+RUN dotnet build "Services.Api.Authorization.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "Services.Api.Authorization.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "Services.Api.Authorization.dll"]
+
+#docker build -t serkancamur/authorization:latest -f Dockerfile_Authorization .

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authorization-deployment
+spec:
+  selector:
+    matchLabels:
+      app: authorization-pod
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: authorization-pod
+    spec:
+      volumes:
+        - name: volume
+          persistentVolumeClaim:
+            claimName: pv-claim
+      containers:
+        - name: mainapp-container
+          image: serkancamur/authorization:latest
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 16859
+          volumeMounts:
+            - mountPath: "mnt/data"
+              name: volume

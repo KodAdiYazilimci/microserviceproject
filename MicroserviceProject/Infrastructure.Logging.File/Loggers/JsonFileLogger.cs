@@ -58,7 +58,7 @@ namespace Infrastructure.Logging.File.Loggers
             }
 
             await System.IO.File.AppendAllTextAsync(
-                path: _fileConfiguration.Path + "\\" + _fileConfiguration.FileName,
+                path: Environment.CurrentDirectory + "\\" + _fileConfiguration.Path + "\\" + _fileConfiguration.FileName,
                 contents: sbJsonText.ToString(),
                 encoding: _fileConfiguration.Encoding,
                 cancellationToken: cancellationTokenSource.Token);
