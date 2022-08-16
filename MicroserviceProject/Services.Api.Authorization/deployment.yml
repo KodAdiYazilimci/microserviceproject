@@ -32,7 +32,7 @@ spec:
             - name: Configuration_Authorization_DataSource_ConnectionString
               value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Security_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
             - name: Configuration_Localization_TranslationDbConnnectionString
-              value: "server=localhost;DataBase=Microservice_Localization_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
+              value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Localization_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
             - name: Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Host
               value: "rabbitmq-cluster.rabbitmq.svc.cluster.local"
             - name: Configuration_Logging_RequestResponseLogging_RabbitConfiguration_UserName

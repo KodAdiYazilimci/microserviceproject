@@ -8,6 +8,7 @@ using StackExchange.Redis;
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Infrastructure.Caching.Redis
 {
@@ -51,8 +52,12 @@ namespace Infrastructure.Caching.Redis
             get
             {
                 return
-                    _configuration
-                    .GetSection("Persistence")["CacheServer"];
+                    Convert.ToBoolean(
+                        _configuration.GetSection("Persistence")["IsSensitiveData"] ?? false.ToString()) && !Debugger.IsAttached
+                        ?
+                        Environment.GetEnvironmentVariable(_configuration.GetSection("Persistence")["EnvironmentVariableName"])
+                        :
+                        _configuration.GetSection("Persistence")["CacheServer"];
             }
         }
 
