@@ -26,6 +26,7 @@ using Services.UnitOfWork.EntityFramework.DI;
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 
 namespace Services.Api.Infrastructure.Authorization
@@ -52,7 +53,16 @@ namespace Services.Api.Infrastructure.Authorization
             services.RegisterRepositories();
             services.RegisterRequestResponseLogger();
             services.RegisterSqlHealthChecking(
-                connectionStrings: new List<string>() { Configuration.GetSection("Persistence")["DataSource"] });
+                connectionStrings: new List<string>()
+                {
+                    Convert.ToBoolean(Configuration.GetSection("Persistence")["IsSensitiveData"] ?? false.ToString())
+                    &&
+                    !Debugger.IsAttached
+                    ?
+                    Environment.GetEnvironmentVariable(Configuration.GetSection("Persistence")["EnvironmentVariableName"])
+                    :
+                    Configuration.GetSection("Persistence")["DataSource"] 
+                });
             services.RegisterSwagger(
                 applicationName: Environment.GetEnvironmentVariable("ApplicationName") ?? "Services.Api.Authorization",
                 description: "Authorization Api Service");

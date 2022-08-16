@@ -3,6 +3,8 @@ using Infrastructure.Communication.Mq.Configuration;
 
 using Microsoft.Extensions.Configuration;
 
+using System.Diagnostics;
+
 namespace Services.Communication.Mq.Configuration
 {
     /// <summary>
@@ -23,18 +25,54 @@ namespace Services.Communication.Mq.Configuration
         public BaseConfiguration(IConfiguration configuration)
         {
             Host =
+                Convert.ToBoolean(
+                    configuration
+                    .GetSection("Configuration")
+                    .GetSection("RabbitQueues")
+                    .GetSection("Host")["IsSensitiveData"] ?? false.ToString()) && !Debugger.IsAttached
+                ?
+                Environment.GetEnvironmentVariable(
+                    configuration
+                    .GetSection("Configuration")
+                    .GetSection("RabbitQueues")
+                    .GetSection("Host")["EnviromentVariableNamePrefix"] + "_DefaultHost")
+                :
                 configuration
                 .GetSection("Configuration")
                 .GetSection("RabbitQueues")
                 .GetSection("Host")["DefaultHost"];
 
             UserName =
+                Convert.ToBoolean(
+                    configuration
+                    .GetSection("Configuration")
+                    .GetSection("RabbitQueues")
+                    .GetSection("Host")["IsSensitiveData"] ?? false.ToString()) && !Debugger.IsAttached
+                ?
+                Environment.GetEnvironmentVariable(
+                    configuration
+                    .GetSection("Configuration")
+                    .GetSection("RabbitQueues")
+                    .GetSection("Host")["EnviromentVariableNamePrefix"] + "_DefaultUserName")
+                :
                 configuration
                 .GetSection("Configuration")
                 .GetSection("RabbitQueues")
                 .GetSection("Host")["DefaultUserName"];
 
             Password =
+                Convert.ToBoolean(
+                    configuration
+                    .GetSection("Configuration")
+                    .GetSection("RabbitQueues")
+                    .GetSection("Host")["IsSensitiveData"] ?? false.ToString()) && !Debugger.IsAttached
+                ?
+                Environment.GetEnvironmentVariable(
+                    configuration
+                    .GetSection("Configuration")
+                    .GetSection("RabbitQueues")
+                    .GetSection("Host")["EnviromentVariableNamePrefix"] + "_DefaultPassword")
+                :
                 configuration
                 .GetSection("Configuration")
                 .GetSection("RabbitQueues")

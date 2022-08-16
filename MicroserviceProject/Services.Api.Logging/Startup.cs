@@ -23,6 +23,7 @@ using Services.UnitOfWork.Sql.DI;
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 
 namespace Services.Api.Infrastructure.Logging
@@ -47,7 +48,16 @@ namespace Services.Api.Infrastructure.Logging
             services.RegisterRepositories();
             services.RegisterHttpServiceCommunicator();
             services.RegisterSqlHealthChecking(
-                connectionStrings: new List<string>() { Configuration.GetSection("Persistence")["DataSource"] });
+                connectionStrings: new List<string>()
+                {
+                    Convert.ToBoolean(Configuration.GetSection("Persistence")["IsSensitiveData"] ?? false.ToString())
+                    &&
+                    !Debugger.IsAttached
+                    ?
+                    Environment.GetEnvironmentVariable(Configuration.GetSection("Persistence")["EnvironmentVariableName"])
+                    :
+                    Configuration.GetSection("Persistence")["DataSource"]
+                });
             services.RegisterSwagger(
                 applicationName: Environment.GetEnvironmentVariable("ApplicationName") ?? "Services.Api.Logging",
                 description: "Logging Api Service");

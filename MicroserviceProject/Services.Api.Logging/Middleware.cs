@@ -84,7 +84,7 @@ namespace Services.Api.Infrastructure.Logging
                     requestResponseLogger.LogAsync(
                         model: new RequestResponseLogModel()
                         {
-                            ApplicationName = "Services.Api.Infrastructure.Logging",
+                            ApplicationName = Environment.GetEnvironmentVariable("ApplicationName") ?? "Services.Api.Infrastructure.Logging",
                             Content = response,
                             Date = DateTime.Now,
                             Host = httpContext.Request.Host.ToString(),

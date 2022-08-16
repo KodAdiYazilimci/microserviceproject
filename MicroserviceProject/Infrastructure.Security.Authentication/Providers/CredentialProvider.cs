@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 
 using System;
+using System.Diagnostics;
 
 namespace Infrastructure.Security.Authentication.Providers
 {
@@ -36,10 +37,22 @@ namespace Infrastructure.Security.Authentication.Providers
             get
             {
                 return
+                    Convert.ToBoolean(
+                        _configuration
+                        .GetSection("Configuration")
+                        .GetSection("Authorization")
+                        .GetSection("Credential")["IsSensitiveData"] ?? false.ToString()) && !Debugger.IsAttached
+                    ?
+                    Environment.GetEnvironmentVariable(
+                        _configuration
+                        .GetSection("Configuration")
+                        .GetSection("Authorization")
+                        .GetSection("Credential")["EnvironmentVariableNamePrefix"] +"_Email")
+                    :
                     _configuration
                     .GetSection("Configuration")
                     .GetSection("Authorization")
-                    .GetSection("Credential")["email"];
+                    .GetSection("Credential")["email"];                
             }
         }
 
@@ -51,6 +64,18 @@ namespace Infrastructure.Security.Authentication.Providers
             get
             {
                 return
+                    Convert.ToBoolean(
+                        _configuration
+                        .GetSection("Configuration")
+                        .GetSection("Authorization")
+                        .GetSection("Credential")["IsSensitiveData"] ?? false.ToString()) && !Debugger.IsAttached
+                    ?
+                    Environment.GetEnvironmentVariable(
+                        _configuration
+                        .GetSection("Configuration")
+                        .GetSection("Authorization")
+                        .GetSection("Credential")["EnvironmentVariableNamePrefix"] + "_Password")
+                    :
                     _configuration
                     .GetSection("Configuration")
                     .GetSection("Authorization")

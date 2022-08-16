@@ -2,6 +2,9 @@
 
 using Microsoft.Extensions.Configuration;
 
+using System;
+using System.Diagnostics;
+
 namespace Services.Api.Infrastructure.Logging.Configuration.Logging
 {
     /// <summary>
@@ -23,25 +26,67 @@ namespace Services.Api.Infrastructure.Logging.Configuration.Logging
             _configuration = configuration;
 
             Host =
-                _configuration
-                .GetSection("Configuration")
-                .GetSection("Logging")
-                .GetSection("RequestResponseLogging")
-                .GetSection("RabbitConfiguration")["Host"];
+                Convert.ToBoolean(
+                    _configuration
+                    .GetSection("Configuration")
+                    .GetSection("Logging")
+                    .GetSection("RequestResponseLogging")
+                    .GetSection("RabbitConfiguration")["IsSensitiveData"] ?? false.ToString()) && !Debugger.IsAttached
+                    ?
+                    Environment.GetEnvironmentVariable(
+                        _configuration
+                        .GetSection("Configuration")
+                        .GetSection("Logging")
+                        .GetSection("RequestResponseLogging")
+                        .GetSection("RabbitConfiguration")["EnvironmentVariableNamePrefix"] + "_Host")
+                    :
+                    _configuration
+                    .GetSection("Configuration")
+                    .GetSection("Logging")
+                    .GetSection("RequestResponseLogging")
+                    .GetSection("RabbitConfiguration")["Host"];
 
             UserName =
-                _configuration
-                .GetSection("Configuration")
-                .GetSection("Logging")
-                .GetSection("RequestResponseLogging")
-                .GetSection("RabbitConfiguration")["UserName"];
+                Convert.ToBoolean(
+                    _configuration
+                    .GetSection("Configuration")
+                    .GetSection("Logging")
+                    .GetSection("RequestResponseLogging")
+                    .GetSection("RabbitConfiguration")["IsSensitiveData"] ?? false.ToString()) && !Debugger.IsAttached
+                    ?
+                    Environment.GetEnvironmentVariable(
+                        _configuration
+                        .GetSection("Configuration")
+                        .GetSection("Logging")
+                        .GetSection("RequestResponseLogging")
+                        .GetSection("RabbitConfiguration")["EnvironmentVariableNamePrefix"] + "_UserName")
+                    :
+                    _configuration
+                    .GetSection("Configuration")
+                    .GetSection("Logging")
+                    .GetSection("RequestResponseLogging")
+                    .GetSection("RabbitConfiguration")["UserName"];
 
             Password =
-                _configuration
-                .GetSection("Configuration")
-                .GetSection("Logging")
-                .GetSection("RequestResponseLogging")
-                .GetSection("RabbitConfiguration")["Password"];
+                Convert.ToBoolean(
+                    _configuration
+                    .GetSection("Configuration")
+                    .GetSection("Logging")
+                    .GetSection("RequestResponseLogging")
+                    .GetSection("RabbitConfiguration")["IsSensitiveData"] ?? false.ToString()) && !Debugger.IsAttached
+                    ?
+                    Environment.GetEnvironmentVariable(
+                        _configuration
+                        .GetSection("Configuration")
+                        .GetSection("Logging")
+                        .GetSection("RequestResponseLogging")
+                        .GetSection("RabbitConfiguration")["EnvironmentVariableNamePrefix"] + "_Password")
+                    :
+                    _configuration
+                    .GetSection("Configuration")
+                    .GetSection("Logging")
+                    .GetSection("RequestResponseLogging")
+                    .GetSection("RabbitConfiguration")["Password"];
 
             QueueName =
                 _configuration

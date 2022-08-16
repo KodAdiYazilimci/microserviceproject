@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Services.Security.Authorization\**" />
+    <Content Remove="Services.Security.Authorization\**" />
+    <EmbeddedResource Remove="Services.Security.Authorization\**" />
+    <None Remove="Services.Security.Authorization\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Repositories\TransactionItemRepository.cs" />
     <Compile Remove="Repositories\TransactionRepository.cs" />
   </ItemGroup>

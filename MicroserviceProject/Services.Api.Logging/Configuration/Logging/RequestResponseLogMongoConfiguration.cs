@@ -2,6 +2,9 @@
 
 using Microsoft.Extensions.Configuration;
 
+using System;
+using System.Diagnostics;
+
 namespace Services.Api.Infrastructure.Logging.Configuration.Logging
 {
     /// <summary>
@@ -15,11 +18,26 @@ namespace Services.Api.Infrastructure.Logging.Configuration.Logging
         /// <param name="configuration"></param>
         public RequestResponseLogMongoConfiguration(IConfiguration configuration)
         {
-            ConnectionString = configuration
-               .GetSection("Configuration")
-               .GetSection("Logging")
-               .GetSection("RequestResponseLogging")
-               .GetSection("MongoConfiguration")["ConnectionString"];
+            ConnectionString =
+                Convert.ToBoolean(
+                    configuration
+                    .GetSection("Configuration")
+                    .GetSection("Logging")
+                    .GetSection("RequestResponseLogging")
+                    .GetSection("MongoConfiguration")["IsSensitiveData"] ?? false.ToString()) && !Debugger.IsAttached
+                    ?
+                    Environment.GetEnvironmentVariable(
+                    configuration
+                    .GetSection("Configuration")
+                    .GetSection("Logging")
+                    .GetSection("RequestResponseLogging")
+                    .GetSection("MongoConfiguration")["EnvironmentVariableName"])
+                    :
+                    configuration
+                    .GetSection("Configuration")
+                    .GetSection("Logging")
+                    .GetSection("RequestResponseLogging")
+                    .GetSection("MongoConfiguration")["ConnectionString"];
 
             DataBase = configuration
                 .GetSection("Configuration")

@@ -6,6 +6,7 @@ using Services.Logging.RequestResponse.Configuration;
 using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -139,6 +140,20 @@ namespace Services.Logging.RequestResponse.Persistence
             get
             {
                 string connectionString =
+                    Convert.ToBoolean(
+                        _configuration
+                        .GetSection("Configuration")
+                        .GetSection("Logging")
+                        .GetSection("RequestResponseLogging")
+                        .GetSection("DataBaseConfiguration")["IsSensitiveData"] ?? false.ToString()) && !Debugger.IsAttached
+                    ?
+                    Environment.GetEnvironmentVariable(
+                        _configuration
+                        .GetSection("Configuration")
+                        .GetSection("Logging")
+                        .GetSection("RequestResponseLogging")
+                        .GetSection("DataBaseConfiguration")["EnvironmentVariableName"])
+                    :
                     _configuration
                     .GetSection("Configuration")
                     .GetSection("Logging")
