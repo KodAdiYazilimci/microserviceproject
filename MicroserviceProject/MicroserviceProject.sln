@@ -301,6 +301,78 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Mq.Q
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Mq.Queue.Storage.Rabbit", "Services.Communication.Mq.Queue.Storage.Rabbit\Services.Communication.Mq.Queue.Storage.Rabbit.csproj", "{D75198D3-C7A0-4D83-85A2-6DB303C55760}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{040BFC8F-477D-4056-B6A1-9752CC46556D}"
+	ProjectSection(SolutionItems) = preProject
+		Dockerfile_Authorization = Dockerfile_Authorization
+		Dockerfile_Logging = Dockerfile_Logging
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{D97D927E-30E6-446F-8212-8A92042FE46F}"
+	ProjectSection(SolutionItems) = preProject
+		Common\CodeMap.dgml = Common\CodeMap.dgml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DB Scripts", "DB Scripts", "{E7FD7F1F-3107-473D-8D21-CFBAA5C0CCB8}"
+	ProjectSection(SolutionItems) = preProject
+		Common\DB Scripts\Microservice_AA_DB.sql = Common\DB Scripts\Microservice_AA_DB.sql
+		Common\DB Scripts\Microservice_Accounting_DB.sql = Common\DB Scripts\Microservice_Accounting_DB.sql
+		Common\DB Scripts\Microservice_Buying_DB.sql = Common\DB Scripts\Microservice_Buying_DB.sql
+		Common\DB Scripts\Microservice_CR_DB.sql = Common\DB Scripts\Microservice_CR_DB.sql
+		Common\DB Scripts\Microservice_Finance_DB.sql = Common\DB Scripts\Microservice_Finance_DB.sql
+		Common\DB Scripts\Microservice_HR_DB.sql = Common\DB Scripts\Microservice_HR_DB.sql
+		Common\DB Scripts\Microservice_IT_DB.sql = Common\DB Scripts\Microservice_IT_DB.sql
+		Common\DB Scripts\Microservice_Localization_DB.sql = Common\DB Scripts\Microservice_Localization_DB.sql
+		Common\DB Scripts\Microservice_Logs_DB.sql = Common\DB Scripts\Microservice_Logs_DB.sql
+		Common\DB Scripts\Microservice_Production_DB.sql = Common\DB Scripts\Microservice_Production_DB.sql
+		Common\DB Scripts\Microservice_Routing_DB.sql = Common\DB Scripts\Microservice_Routing_DB.sql
+		Common\DB Scripts\Microservice_Security_DB.sql = Common\DB Scripts\Microservice_Security_DB.sql
+		Common\DB Scripts\Microservice_Selling_DB.sql = Common\DB Scripts\Microservice_Selling_DB.sql
+		Common\DB Scripts\Microservice_Socket_DB.sql = Common\DB Scripts\Microservice_Socket_DB.sql
+		Common\DB Scripts\Microservice_Storage_DB.sql = Common\DB Scripts\Microservice_Storage_DB.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Kubernetes", "Kubernetes", "{00D4D46F-F1C2-4D2B-A83E-B220050BE2F6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{C4C563A5-9B24-4D47-A145-8B3F272DC706}"
+	ProjectSection(SolutionItems) = preProject
+		Common\Kubernetes\Common\volume.yml = Common\Kubernetes\Common\volume.yml
+		Common\Kubernetes\Common\volumeClaim.yml = Common\Kubernetes\Common\volumeClaim.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MongoDB", "MongoDB", "{564957C4-73B7-486F-8EDB-8E81F4612C23}"
+	ProjectSection(SolutionItems) = preProject
+		Common\Kubernetes\MongoDB\mongodb-deployment.yaml = Common\Kubernetes\MongoDB\mongodb-deployment.yaml
+		Common\Kubernetes\MongoDB\mongodb-pv.yaml = Common\Kubernetes\MongoDB\mongodb-pv.yaml
+		Common\Kubernetes\MongoDB\mongodb-pvc.yaml = Common\Kubernetes\MongoDB\mongodb-pvc.yaml
+		Common\Kubernetes\MongoDB\mongodb-secrets.yaml = Common\Kubernetes\MongoDB\mongodb-secrets.yaml
+		Common\Kubernetes\MongoDB\mongodb-service.yaml = Common\Kubernetes\MongoDB\mongodb-service.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MsSql", "MsSql", "{323AEA12-4541-45AB-BC5E-7C889E7C003D}"
+	ProjectSection(SolutionItems) = preProject
+		Common\Kubernetes\MsSql\mssqldeployment.yml = Common\Kubernetes\MsSql\mssqldeployment.yml
+		Common\Kubernetes\MsSql\mssqlService.yml = Common\Kubernetes\MsSql\mssqlService.yml
+		Common\Kubernetes\MsSql\mssqlVolume.yml = Common\Kubernetes\MsSql\mssqlVolume.yml
+		Common\Kubernetes\MsSql\mssqlVolumeClaim.yml = Common\Kubernetes\MsSql\mssqlVolumeClaim.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RabbitMq", "RabbitMq", "{21F0B8F2-6652-4383-9EE9-C1E82CBCB786}"
+	ProjectSection(SolutionItems) = preProject
+		Common\Kubernetes\RabbitMq\install.txt = Common\Kubernetes\RabbitMq\install.txt
+		Common\Kubernetes\RabbitMq\rabbitMqCluster.yml = Common\Kubernetes\RabbitMq\rabbitMqCluster.yml
+		Common\Kubernetes\RabbitMq\rabbitMqDeployment.yml = Common\Kubernetes\RabbitMq\rabbitMqDeployment.yml
+		Common\Kubernetes\RabbitMq\rabbitMqSecret.yml = Common\Kubernetes\RabbitMq\rabbitMqSecret.yml
+		Common\Kubernetes\RabbitMq\rabbitMqService.yml = Common\Kubernetes\RabbitMq\rabbitMqService.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Redis", "Redis", "{89EDEC5F-CC60-452A-8EF1-9D86EF3D245C}"
+	ProjectSection(SolutionItems) = preProject
+		Common\Kubernetes\Redis\redisDeployment.yml = Common\Kubernetes\Redis\redisDeployment.yml
+		Common\Kubernetes\Redis\redisService.yml = Common\Kubernetes\Redis\redisService.yml
+		Common\Kubernetes\Redis\redisVolume.yml = Common\Kubernetes\Redis\redisVolume.yml
+		Common\Kubernetes\Redis\redisVolumeClaim.yml = Common\Kubernetes\Redis\redisVolumeClaim.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -946,6 +1018,14 @@ Global
 		{52274720-04B1-4231-A275-F67D600F5589} = {2EE70AFD-E3E7-49A0-9A36-5C36844C0EA0}
 		{51F6DD1D-E1B7-4979-98DF-071C393C7F74} = {2EE70AFD-E3E7-49A0-9A36-5C36844C0EA0}
 		{D75198D3-C7A0-4D83-85A2-6DB303C55760} = {2EE70AFD-E3E7-49A0-9A36-5C36844C0EA0}
+		{D97D927E-30E6-446F-8212-8A92042FE46F} = {040BFC8F-477D-4056-B6A1-9752CC46556D}
+		{E7FD7F1F-3107-473D-8D21-CFBAA5C0CCB8} = {D97D927E-30E6-446F-8212-8A92042FE46F}
+		{00D4D46F-F1C2-4D2B-A83E-B220050BE2F6} = {D97D927E-30E6-446F-8212-8A92042FE46F}
+		{C4C563A5-9B24-4D47-A145-8B3F272DC706} = {00D4D46F-F1C2-4D2B-A83E-B220050BE2F6}
+		{564957C4-73B7-486F-8EDB-8E81F4612C23} = {00D4D46F-F1C2-4D2B-A83E-B220050BE2F6}
+		{323AEA12-4541-45AB-BC5E-7C889E7C003D} = {00D4D46F-F1C2-4D2B-A83E-B220050BE2F6}
+		{21F0B8F2-6652-4383-9EE9-C1E82CBCB786} = {00D4D46F-F1C2-4D2B-A83E-B220050BE2F6}
+		{89EDEC5F-CC60-452A-8EF1-9D86EF3D245C} = {00D4D46F-F1C2-4D2B-A83E-B220050BE2F6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5FD68A04-D16D-49EC-9D04-25E6B952DA89}
