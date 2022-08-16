@@ -301,13 +301,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Mq.Q
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Mq.Queue.Storage.Rabbit", "Services.Communication.Mq.Queue.Storage.Rabbit\Services.Communication.Mq.Queue.Storage.Rabbit.csproj", "{D75198D3-C7A0-4D83-85A2-6DB303C55760}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B4F16325-B26A-412C-893E-AC556403B9ED}"
-	ProjectSection(SolutionItems) = preProject
-		CodeMap.dgml = CodeMap.dgml
-		Dockerfile_Authorization = Dockerfile_Authorization
-		Dockerfile_Logging = Dockerfile_Logging
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

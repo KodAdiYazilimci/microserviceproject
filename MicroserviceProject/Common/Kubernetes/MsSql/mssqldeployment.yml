@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mssql-deployment
+spec:
+  selector:
+    matchLabels:
+      app: mssql-pod
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mssql-pod
+    spec:
+      terminationGracePeriodSeconds: 10
+      volumes:
+        - name: volume
+          persistentVolumeClaim:
+            claimName: mssql-pv-claim
+      initContainers:
+        - name: volume-permissions
+          image: busybox
+          command: ["sh", "-c", "chown -R 10001:0 /var/opt/mssql"]
+          volumeMounts:
+            - name: volume
+              mountPath: "/var/opt/mssql"
+      containers:
+        - name: sql-mssql
+          image: mcr.microsoft.com/mssql/server:2019-CU16-GDR1-ubuntu-16.04
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "4Gi"
+              cpu: "5000m"
+          ports:
+            - containerPort: 1433
+          env:
+            - name: MSSQL_PID
+              value: "Developer"
+            - name: ACCEPT_EULA
+              value: "Y"
+            - name: MSSQL_SA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mssql
+                  key: MSSQL_SA_PASSWORD
+                  #kubectl create secret generic mssql --from-literal=MSSQL_SA_PASSWORD="Srkn_CMR*1987"
+          volumeMounts:
+            - mountPath: /var/opt/mssql
+              name: volume
