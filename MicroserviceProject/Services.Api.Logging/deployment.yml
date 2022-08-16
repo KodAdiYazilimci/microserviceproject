@@ -26,6 +26,9 @@ spec:
               cpu: "500m"
           ports:
             - containerPort: 15455
+          env:
+            - name: ApplicationName
+              value: "Logging Service"
           volumeMounts:
             - mountPath: "mnt/data"
               name: volume

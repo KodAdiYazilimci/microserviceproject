@@ -26,6 +26,9 @@ spec:
               cpu: "500m"
           ports:
             - containerPort: 16859
+          env:
+            - name: ApplicationName
+              value: "Authorization Service"
           volumeMounts:
             - mountPath: "mnt/data"
               name: volume

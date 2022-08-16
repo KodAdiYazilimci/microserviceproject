@@ -25,6 +25,7 @@ using Services.Logging.RequestResponse.DI;
 using Services.Security.BasicToken.DI;
 using Services.UnitOfWork.EntityFramework.DI;
 
+using System;
 using System.Collections.Generic;
 using System.Net;
 
@@ -54,10 +55,12 @@ namespace Services.Api.Business.Departments.CR
             services.RegisterLocalizationProviders();
             services.RegisterRequestResponseLogger();
             services.RegisterRuntimeHandlers();
-            services.RegisterSwagger();
             services.RegisterSqlHealthChecking(
                 connectionStrings: new List<string>() { Configuration.GetSection("Persistence")["DataSource"] });
             services.RegisterEntityFrameworkUnitOfWork<CRContext>();
+            services.RegisterSwagger(
+                applicationName: Environment.GetEnvironmentVariable("ApplicationName") ?? "Services.Api.Business.Departments.CR",
+                description: "Customer Relations Api Service");
 
             services.AddMediatR(typeof(Startup));
         }

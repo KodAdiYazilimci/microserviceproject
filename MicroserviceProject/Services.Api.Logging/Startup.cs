@@ -21,6 +21,7 @@ using Services.Diagnostics.HealthCheck.DI;
 using Services.Security.BasicToken.DI;
 using Services.UnitOfWork.Sql.DI;
 
+using System;
 using System.Collections.Generic;
 using System.Net;
 
@@ -47,7 +48,9 @@ namespace Services.Api.Infrastructure.Logging
             services.RegisterHttpServiceCommunicator();
             services.RegisterSqlHealthChecking(
                 connectionStrings: new List<string>() { Configuration.GetSection("Persistence")["DataSource"] });
-            services.RegisterSwagger();
+            services.RegisterSwagger(
+                applicationName: Environment.GetEnvironmentVariable("ApplicationName") ?? "Services.Api.Logging",
+                description: "Logging Api Service");
             services.RegisterSqlUnitOfWork();
         }
 

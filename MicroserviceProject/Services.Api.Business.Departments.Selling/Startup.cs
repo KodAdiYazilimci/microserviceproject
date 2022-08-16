@@ -29,6 +29,7 @@ using Services.Logging.RequestResponse.DI;
 using Services.Security.BasicToken.DI;
 using Services.UnitOfWork.EntityFramework.DI;
 
+using System;
 using System.Collections.Generic;
 using System.Net;
 
@@ -64,7 +65,9 @@ namespace Services.Api.Business.Departments.Selling
             services.RegisterRuntimeHandlers();
             services.RegisterSqlHealthChecking(
                 connectionStrings: new List<string>() { Configuration.GetSection("Persistence")["DataSource"] });
-            services.RegisterSwagger();
+            services.RegisterSwagger(
+                applicationName: Environment.GetEnvironmentVariable("ApplicationName") ?? "Services.Api.Business.Departments.Selling",
+                description: "Selling Api Service");
             services.RegisterEntityFrameworkUnitOfWork<SellingContext>();
 
             services.AddMediatR(typeof(Startup));

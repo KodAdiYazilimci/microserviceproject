@@ -29,6 +29,7 @@ using Services.Logging.RequestResponse.DI;
 using Services.Security.BasicToken.DI;
 using Services.UnitOfWork.EntityFramework.DI;
 
+using System;
 using System.Collections.Generic;
 using System.Net;
 
@@ -64,7 +65,9 @@ namespace Services.Api.Business.Departments.Production
                 connectionStrings: new List<string>() { Configuration.GetSection("Persistence")["DataSource"] });
             services.RegisterStorageQueueConfigurations();
             services.RegisterStorageQueuePublishers();
-            services.RegisterSwagger();
+            services.RegisterSwagger(
+                applicationName: Environment.GetEnvironmentVariable("ApplicationName") ?? "Services.Api.Business.Departments.Production",
+                description: "Production Api Service");
             services.RegisterEntityFrameworkUnitOfWork<ProductionContext>();
 
             services.AddMediatR(typeof(Startup));
