@@ -1,0 +1,22 @@
+deployment:
+ application:
+  name: "authorization-pod"
+  containers:
+   authorizationContainer:
+    port: 16859
+    environment:
+     ApplicationName: "Authorization Service Test Environment"
+     Configuration_Authorization_DataSource_ConnectionString: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Security_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
+     Configuration_Localization_TranslationDbConnnectionString: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Localization_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
+     Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Host: "rabbitmq-cluster.rabbitmq.svc.cluster.local"
+     Configuration_Logging_RequestResponseLogging_RabbitConfiguration_UserName: "default_user_wL7nqhCX5fjN8WeKuYm"
+     Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Password: "JDzIA69MgB47hTXvMn4GdMvBslk3TPVr"
+     Configuration_Logging_RequestResponseLogging_DataBaseConfiguration_DataSource: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Logs_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
+     Configuration_Logging_RequestResponseLogging_MongoConfiguration_ConnectionString: "mongodb://mongo-service.default.svc.cluster.local:27017"
+     Configuration_RabbitQueues_Host_DefaultHost: "rabbitmq-cluster.rabbitmq.svc.cluster.local"
+     Configuration_RabbitQueues_Host_DefaultUserName: "default_user_wL7nqhCX5fjN8WeKuYm"
+     Configuration_RabbitQueues_Host_DefaultPassword: "JDzIA69MgB47hTXvMn4GdMvBslk3TPVr"
+     Configuration_WebSockets_DataSource: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Socket_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
+     Persistence_CacheServer: "svc-redis.default.svc.cluster.local"
+  image:
+   tag: "latest"

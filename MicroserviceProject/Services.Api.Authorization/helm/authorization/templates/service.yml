@@ -4,10 +4,10 @@ metadata:
   name: authorization-service
 spec:
   selector:
-    app: authorization-pod
+    app: {{ .Values.service.name }}
   ports:
-  - port: 5100
-    targetPort: 16859
-    protocol: TCP
-  type: LoadBalancer
-  clusterIP: 10.102.2.100
+  - port: {{ .Values.service.ports.external }}
+    targetPort: {{ .Values.service.ports.internal }}
+    protocol: {{ .Values.service.ports.protocol }}
+  type: {{ .Values.service.type }}
+  clusterIP: {{ .Values.service.clusterIP }}

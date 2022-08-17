@@ -28,31 +28,31 @@ spec:
             - containerPort: {{ .Values.deployment.application.containers.authorizationContainer.port }}
           env:
             - name: ApplicationName
-              value: {{ .Values.deployment.application.containers.authorizationContainer.environment.test.applicationName.value }}
+              value: {{ .Values.deployment.application.containers.authorizationContainer.environment.ApplicationName }}
             - name: Configuration_Authorization_DataSource_ConnectionString
-              value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Security_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
+              value: {{ .Values.deployment.application.containers.authorizationContainer.environment.Configuration_Authorization_DataSource_ConnectionString }}
             - name: Configuration_Localization_TranslationDbConnnectionString
-              value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Localization_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
+              value: {{ .Values.deployment.application.containers.authorizationContainer.environment.Configuration_Localization_TranslationDbConnnectionString }}
             - name: Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Host
-              value: "rabbitmq-cluster.rabbitmq.svc.cluster.local"
+              value: {{ .Values.deployment.application.containers.authorizationContainer.environment.Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Host }}
             - name: Configuration_Logging_RequestResponseLogging_RabbitConfiguration_UserName
-              value: "default_user_wL7nqhCX5fjN8WeKuYm"
+              value: {{ .Values.deployment.application.containers.authorizationContainer.environment.Configuration_Logging_RequestResponseLogging_RabbitConfiguration_UserName }}
             - name: Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Password
-              value: "JDzIA69MgB47hTXvMn4GdMvBslk3TPVr"
+              value: {{ .Values.deployment.application.containers.authorizationContainer.environment.Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Password }}
             - name: Configuration_Logging_RequestResponseLogging_DataBaseConfiguration_DataSource
-              value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Logs_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
+              value: {{ .Values.deployment.application.containers.authorizationContainer.environment.Configuration_Logging_RequestResponseLogging_DataBaseConfiguration_DataSource }}
             - name: Configuration_Logging_RequestResponseLogging_MongoConfiguration_ConnectionString
-              value: "mongodb://mongo-service.default.svc.cluster.local:27017"
+              value: {{ .Values.deployment.application.containers.authorizationContainer.environment.Configuration_Logging_RequestResponseLogging_MongoConfiguration_ConnectionString }}
             - name: Configuration_RabbitQueues_Host_DefaultHost
-              value: "rabbitmq-cluster.rabbitmq.svc.cluster.local"
+              value: {{ .Values.deployment.application.containers.authorizationContainer.environment.Configuration_RabbitQueues_Host_DefaultHost }}
             - name: Configuration_RabbitQueues_Host_DefaultUserName
-              value: "default_user_wL7nqhCX5fjN8WeKuYm"
+              value: {{ .Values.deployment.application.containers.authorizationContainer.environment.Configuration_RabbitQueues_Host_DefaultUserName }}
             - name: Configuration_RabbitQueues_Host_DefaultPassword
-              value: "JDzIA69MgB47hTXvMn4GdMvBslk3TPVr"
+              value: {{ .Values.deployment.application.containers.authorizationContainer.environment.Configuration_RabbitQueues_Host_DefaultPassword }}
             - name: Configuration_WebSockets_DataSource
-              value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Socket_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
+              value: {{ .Values.deployment.application.containers.authorizationContainer.environment.Configuration_WebSockets_DataSource }}
             - name: Persistence_CacheServer
-              value: "svc-redis.default.svc.cluster.local"
+              value: {{ .Values.deployment.application.containers.authorizationContainer.environment.Persistence_CacheServer }}
           volumeMounts:
             - mountPath: "mnt/data"
               name: volume
