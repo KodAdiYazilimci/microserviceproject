@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authorization-deployment
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.deployment.application.name }}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.deployment.application.name }}
+    spec:
+      volumes:
+        - name: volume
+          persistentVolumeClaim:
+            claimName: pv-claim
+      containers:
+        - name: authorization-container
+          image: {{ .Values.deployment.application.image.name }}:{{ .Values.deployment.application.image.tag }}
+          imagePullPolicy: {{ .Values.deployment.application.image.imagePullPolicy }}
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: {{ .Values.deployment.application.containers.authorizationContainer.port }}
+          env:
+            - name: ApplicationName
+              value: {{ .Values.deployment.application.containers.authorizationContainer.environment.test.applicationName.value }}
+            - name: Configuration_Authorization_DataSource_ConnectionString
+              value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Security_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
+            - name: Configuration_Localization_TranslationDbConnnectionString
+              value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Localization_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
+            - name: Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Host
+              value: "rabbitmq-cluster.rabbitmq.svc.cluster.local"
+            - name: Configuration_Logging_RequestResponseLogging_RabbitConfiguration_UserName
+              value: "default_user_wL7nqhCX5fjN8WeKuYm"
+            - name: Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Password
+              value: "JDzIA69MgB47hTXvMn4GdMvBslk3TPVr"
+            - name: Configuration_Logging_RequestResponseLogging_DataBaseConfiguration_DataSource
+              value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Logs_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
+            - name: Configuration_Logging_RequestResponseLogging_MongoConfiguration_ConnectionString
+              value: "mongodb://mongo-service.default.svc.cluster.local:27017"
+            - name: Configuration_RabbitQueues_Host_DefaultHost
+              value: "rabbitmq-cluster.rabbitmq.svc.cluster.local"
+            - name: Configuration_RabbitQueues_Host_DefaultUserName
+              value: "default_user_wL7nqhCX5fjN8WeKuYm"
+            - name: Configuration_RabbitQueues_Host_DefaultPassword
+              value: "JDzIA69MgB47hTXvMn4GdMvBslk3TPVr"
+            - name: Configuration_WebSockets_DataSource
+              value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Socket_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
+            - name: Persistence_CacheServer
+              value: "svc-redis.default.svc.cluster.local"
+          volumeMounts:
+            - mountPath: "mnt/data"
+              name: volume

@@ -52,4 +52,8 @@
     <ProjectReference Include="..\Services.Logging.RequestResponse\Services.Logging.RequestResponse.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="helm\authorization\charts\" />
+  </ItemGroup>
+
 </Project>
