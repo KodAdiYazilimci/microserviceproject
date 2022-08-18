@@ -1,3 +1,12 @@
+service:  
+ name: "authorization-pod"
+ clusterIP: 10.102.2.100
+ type: LoadBalancer
+ ports:
+  internal: 16859
+  external: 5100
+  protocol: TCP
+
 deployment:
  application:
   name: "authorization-pod"
@@ -19,4 +28,6 @@ deployment:
      Configuration_WebSockets_DataSource: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Socket_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
      Persistence_CacheServer: "svc-redis.default.svc.cluster.local"
   image:
+   imagePullPolicy: "Always"
+   name: "serkancamur/authorization"
    tag: "latest"

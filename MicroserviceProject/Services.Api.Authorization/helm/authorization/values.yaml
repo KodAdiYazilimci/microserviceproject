@@ -1,28 +1,3 @@
-###Common##
-service:  
- name: "authorization-pod"
- clusterIP: 10.102.2.100
- type: LoadBalancer
- ports:
-  internal: 16859
-  external: 5100
-  protocol: TCP
-
-deployment:
- application:
-  name: "authorization-pod"
-  containers:
-   authorizationContainer:
-    port: 16859
-    environment:
-     applicationName:
-      value: "Authorization Service Test Environment"
-  image:
-   imagePullPolicy: "Always"
-   name: "serkancamur/authorization"
-   tag: "latest"
-###########
-
 #################################Setup:#############################
 #helm create authorization
 #helm install <appName> <directoryName>
