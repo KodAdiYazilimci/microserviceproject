@@ -3,6 +3,7 @@
 #helm install <appName> <directoryName>
 #helm install authorization authorization
 #helm list
+#helm delete authorization
 #########################Set Values with file#######################
 #helm upgrade <appName> <directoryName> --values <values.yaml.Path>
 #helm upgrade authorization authorization --values ./authorization/values.yaml
