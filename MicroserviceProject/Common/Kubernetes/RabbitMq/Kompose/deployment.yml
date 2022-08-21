@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.26.0 (40646f47)
+  labels:
+    io.kompose.service: rabbitmq3
+  name: rabbitmq3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: rabbitmq3
+  strategy: { }
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.26.0 (40646f47)
+      labels:
+        io.kompose.service: rabbitmq3
+    spec:
+      containers:
+        - env:
+            - name: RABBITMQ_DEFAULT_PASS
+              value: rabbitpassword
+            - name: RABBITMQ_DEFAULT_USER
+              value: rabbituser
+          image: rabbitmq:management-alpine
+          name: rabbitmq
+          ports:
+            - containerPort: 15672
+              name: discovery
+            - containerPort: 5672
+              name: amqp
+          resources: { }
+      restartPolicy: Always
+

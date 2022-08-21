@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.26.0 (40646f47)
+  labels:
+    io.kompose.service: rabbitmq3
+  name: rabbitmq3
+spec:
+  type: LoadBalancer
+  ports:
+    - name: amqp
+      port: 5672
+      targetPort: 5672
+    - name: discovery
+      port: 15672
+      targetPort: 15672
+  selector:
+    io.kompose.service: rabbitmq3
+
