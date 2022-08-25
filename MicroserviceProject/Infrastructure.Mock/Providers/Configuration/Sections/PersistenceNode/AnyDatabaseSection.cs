@@ -7,14 +7,14 @@ using System.Collections.Generic;
 namespace Infrastructure.Mock.Providers.Configuration.Sections.PersistenceNode
 {
     /// <summary>
-    /// Databases düğümü sınıfı
+    /// AnyDatabase düğümü sınıfı
     /// </summary>
-    public class DatabasesSection : BaseSection, IConfigurationSection
+    public class AnyDatabaseSection : BaseSection, IConfigurationSection
     {
-        /// <summary>
-        /// AnyDatabase düğümü
-        /// </summary>
-        public List<AnyDatabaseSection> AnyDatabaseSections { get; set; } = new List<AnyDatabaseSection>();
+        public AnyDatabaseSection(string databaseName, string connectionString)
+        {
+            this[databaseName] = connectionString;
+        }
 
         /// <summary>
         /// Alt düğümleri verir
@@ -31,7 +31,7 @@ namespace Infrastructure.Mock.Providers.Configuration.Sections.PersistenceNode
         /// <returns></returns>
         public IChangeToken GetReloadToken()
         {
-            return new DatabasesChangeToken();
+            return new AnyDatabaseChangeToken();
         }
 
         /// <summary>
@@ -47,16 +47,16 @@ namespace Infrastructure.Mock.Providers.Configuration.Sections.PersistenceNode
         /// <summary>
         /// Değişim token sınıfı
         /// </summary>
-        public class DatabasesChangeToken : IChangeToken
+        public class AnyDatabaseChangeToken : IChangeToken
         {
             public bool HasChanged { get; }
             public bool ActiveChangeCallbacks { get; }
 
             public IDisposable RegisterChangeCallback(Action<object> callback, object state)
             {
-                return new DatabasesDisposable();
+                return new AnyDatabaseDisposable();
             }
-            public class DatabasesDisposable : IDisposable
+            public class AnyDatabaseDisposable : IDisposable
             {
                 public void Dispose() { }
             }

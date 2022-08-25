@@ -1,7 +1,10 @@
 ﻿using Infrastructure.Mock.Providers.Configuration;
 using Infrastructure.Mock.Providers.Configuration.Sections.AuthorizationNode;
+using Infrastructure.Mock.Providers.Configuration.Sections.PersistenceNode;
 
 using Microsoft.Extensions.Configuration;
+
+using System.Collections.Generic;
 
 namespace Infrastructure.Mock.Data
 {
@@ -21,7 +24,7 @@ namespace Infrastructure.Mock.Data
         /// <param name="authorizationCredential">Credential düğüm sınıfı nesnesi</param>
         /// <param name="loggingFilePath">Dosya log yolu</param>
         /// <returns></returns>
-        public static IConfiguration GetConfiguration(CredentialSection authorizationCredential, string loggingFilePath)
+        public static IConfiguration GetConfiguration(CredentialSection authorizationCredential, string loggingFilePath, List<AnyDatabaseSection> databaseSections)
         {
             if (appConfigurationProvider == null)
             {
@@ -122,7 +125,8 @@ namespace Infrastructure.Mock.Data
                 appConfigurationProvider.ServicesSection.EndpointsSection.WebSocketsSecuritySection["SendTokenNotification"] = "websockets.security.sendtokennotification";
                 appConfigurationProvider.ServicesSection.EndpointsSection.WebSocketsSecuritySection["SendErrorNotification"] = "websockets.reliability.senderrornotification";
 
-                appConfigurationProvider.PersistenceSection.DatabasesSection["DataSource"] = "server=localhost;DataBase=Microservice_HR_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true";
+                appConfigurationProvider.PersistenceSection.DatabasesSection.AnyDatabaseSections = databaseSections;
+
                 appConfigurationProvider.CachingSection.RedisSection["Server"] = "localhost";
 
                 appConfigurationProvider.WebSocketsSection.EndpointsSection["TokensHub.GetTokenMessages"] = "websockets.security.tokenshub.gettokenmessages";

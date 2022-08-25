@@ -14,7 +14,7 @@ namespace Infrastructure.Mock.Providers.Configuration.Sections.PersistenceNode
         /// <summary>
         /// Databases düğümü
         /// </summary>
-        public DatabasesSection DatabasesSection { get; set; }=new DatabasesSection();
+        public DatabasesSection DatabasesSection { get; set; } = new DatabasesSection();
 
         /// <summary>
         /// Alt düğümleri verir
