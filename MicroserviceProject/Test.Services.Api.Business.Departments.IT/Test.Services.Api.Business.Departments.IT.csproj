@@ -26,7 +26,6 @@
     <ProjectReference Include="..\Infrastructure.Routing.Persistence.Mock\Infrastructure.Routing.Persistence.Mock.csproj" />
     <ProjectReference Include="..\Infrastructure.Routing.Providers.Mock\Infrastructure.Routing.Providers.Mock.csproj" />
     <ProjectReference Include="..\Infrastructure.Security.Authentication.Mock\Infrastructure.Security.Authentication.Mock.csproj" />
-    <ProjectReference Include="..\Infrastructure.Transaction.UnitOfWork.Sql.Mock\Infrastructure.Transaction.UnitOfWork.Sql.Mock.csproj" />
     <ProjectReference Include="..\Services.Api.Business.Departments.IT\Services.Api.Business.Departments.IT.csproj" />
   </ItemGroup>
 

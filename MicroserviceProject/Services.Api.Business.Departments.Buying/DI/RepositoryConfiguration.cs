@@ -1,7 +1,10 @@
 ﻿
-using Services.Api.Business.Departments.Buying.Repositories.Sql;
+using Infrastructure.Transaction.UnitOfWork.Sql;
 
 using Microsoft.Extensions.DependencyInjection;
+
+using Services.Api.Business.Departments.Buying.Configuration.Persistence;
+using Services.Api.Business.Departments.Buying.Repositories.Sql;
 
 namespace Services.Api.Business.Departments.Buying.DI
 {
@@ -18,6 +21,8 @@ namespace Services.Api.Business.Departments.Buying.DI
         /// <returns></returns>
         public static IServiceCollection RegisterRepositories(this IServiceCollection services)
         {
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             services.AddScoped<InventoryRequestRepository>();
             services.AddScoped<TransactionRepository>();
             services.AddScoped<TransactionItemRepository>();

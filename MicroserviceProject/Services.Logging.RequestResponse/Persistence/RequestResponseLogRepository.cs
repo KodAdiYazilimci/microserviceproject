@@ -142,23 +142,20 @@ namespace Services.Logging.RequestResponse.Persistence
                 string connectionString =
                     Convert.ToBoolean(
                         _configuration
-                        .GetSection("Configuration")
-                        .GetSection("Logging")
-                        .GetSection("RequestResponseLogging")
-                        .GetSection("DataBaseConfiguration")["IsSensitiveData"] ?? false.ToString()) && !Debugger.IsAttached
+                        .GetSection("Persistence")
+                        .GetSection("Databases")
+                        .GetSection("Microservice_Logs_DB")["IsSensitiveData"] ?? false.ToString()) && !Debugger.IsAttached
                     ?
                     Environment.GetEnvironmentVariable(
                         _configuration
-                        .GetSection("Configuration")
-                        .GetSection("Logging")
-                        .GetSection("RequestResponseLogging")
-                        .GetSection("DataBaseConfiguration")["EnvironmentVariableName"])
+                        .GetSection("Persistence")
+                        .GetSection("Databases")
+                        .GetSection("Microservice_Logs_DB")["EnvironmentVariableName"])
                     :
                     _configuration
-                    .GetSection("Configuration")
-                    .GetSection("Logging")
-                    .GetSection("RequestResponseLogging")
-                    .GetSection("DataBaseConfiguration")["DataSource"];
+                    .GetSection("Persistence")
+                    .GetSection("Databases")
+                    .GetSection("Microservice_Logs_DB")["ConnectionString"];
 
                 return connectionString;
             }

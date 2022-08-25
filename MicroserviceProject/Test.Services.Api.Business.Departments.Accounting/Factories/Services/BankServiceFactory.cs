@@ -3,11 +3,11 @@ using Infrastructure.Localization.Translation.Persistence.EntityFramework.Reposi
 using Infrastructure.Localization.Translation.Persistence.Mock.EntityFramework.Persistence;
 using Infrastructure.Localization.Translation.Provider.Mock;
 using Infrastructure.Mock.Factories;
-using Infrastructure.Transaction.UnitOfWork.Sql.Mock;
 
 using Microsoft.Extensions.Configuration;
 
 using Services.Api.Business.Departments.Accounting.Configuration.Mapping;
+using Services.Api.Business.Departments.Accounting.Configuration.Persistence;
 using Services.Api.Business.Departments.Accounting.Services;
 
 using Test.Services.Api.Business.Departments.Accounting.Factories.Infrastructure;
@@ -29,7 +29,7 @@ namespace Test.Services.Api.Business.Departments.Accounting.Factories.Services
 
                     service = new BankService(
                         mapper: MappingFactory.GetInstance(new MappingProfile()),
-                        unitOfWork: UnitOfWorkFactory.GetInstance(configuration),
+                        unitOfWork: new UnitOfWork(configuration),
                         translationProvider: TranslationProviderFactory.GetTranslationProvider(
                             configuration: configuration,
                             cacheDataProvider: CacheDataProviderFactory.GetInstance(configuration),

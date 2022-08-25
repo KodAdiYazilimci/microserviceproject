@@ -29,20 +29,20 @@ namespace Services.Api.Infrastructure.Authorization.DI
                     connectionString:
                         Convert.ToBoolean(
                             configuration
-                            .GetSection("Configuration")
-                            .GetSection("Authorization")
-                            .GetSection("DataSource")["IsSensitiveData"] ?? false.ToString()) && !Debugger.IsAttached
+                            .GetSection("Persistence")
+                            .GetSection("Databases")
+                            .GetSection("Microservice_Security_DB")["IsSensitiveData"] ?? false.ToString()) && !Debugger.IsAttached
                             ?
                             Environment.GetEnvironmentVariable(
                                 configuration
-                                .GetSection("Configuration")
-                                .GetSection("Authorization")
-                                .GetSection("DataSource")["EnvironmentVariableName"])
+                                .GetSection("Persistence")
+                                .GetSection("Databases")
+                                .GetSection("Microservice_Security_DB")["EnvironmentVariableName"])
                             :
                             configuration
-                            .GetSection("Configuration")
-                            .GetSection("Authorization")
-                            .GetSection("DataSource")["ConnectionString"]);
+                            .GetSection("Persistence")
+                            .GetSection("Databases")
+                            .GetSection("Microservice_Security_DB")["ConnectionString"]);
 
                 optionBuilder.EnableSensitiveDataLogging();
                 optionBuilder.EnableDetailedErrors();

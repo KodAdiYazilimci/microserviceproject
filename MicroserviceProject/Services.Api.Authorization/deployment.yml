@@ -51,7 +51,7 @@ spec:
               value: "JDzIA69MgB47hTXvMn4GdMvBslk3TPVr"
             - name: Configuration_WebSockets_DataSource
               value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Socket_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
-            - name: Persistence_CacheServer
+            - name: Caching_Redis_Server
               value: "svc-redis.default.svc.cluster.local"
           volumeMounts:
             - mountPath: "mnt/data"

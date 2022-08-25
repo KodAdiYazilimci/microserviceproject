@@ -47,8 +47,10 @@ spec:
               value: "mongodb://mongo-service.default.svc.cluster.local:27017"
             - name: Configuration_WebSockets_DataSource
               value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Socket_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
-            - name: Persistence_CacheServer
+            - name: Caching_Redis_Server
               value: "svc-redis.default.svc.cluster.local"
+            - name: Persistence_DataBases_Microservice_Logs_DB_ConnectionString
+              value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Logs_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
           volumeMounts:
             - mountPath: "mnt/data"
               name: volume

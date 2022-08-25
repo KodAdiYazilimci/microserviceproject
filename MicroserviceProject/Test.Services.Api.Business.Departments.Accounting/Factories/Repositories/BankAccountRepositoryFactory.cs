@@ -1,8 +1,8 @@
 ﻿using Infrastructure.Transaction.UnitOfWork.Sql;
-using Infrastructure.Transaction.UnitOfWork.Sql.Mock;
 
 using Microsoft.Extensions.Configuration;
 
+using Services.Api.Business.Departments.Accounting.Configuration.Persistence;
 using Services.Api.Business.Departments.Accounting.Repositories.Sql;
 
 using Test.Services.Api.Business.Departments.Accounting.Factories.Infrastructure;
@@ -19,9 +19,9 @@ namespace Test.Services.Api.Business.Departments.Accounting.Factories.Repositori
             {
                 if (repository == null)
                 {
-                    IConfiguration configurationProvider = ConfigurationFactory.GetConfiguration();
+                    IConfiguration configuration = ConfigurationFactory.GetConfiguration();
 
-                    IUnitOfWork unitOfWork = UnitOfWorkFactory.GetInstance(configurationProvider);
+                    IUnitOfWork unitOfWork = new UnitOfWork(configuration);
 
                     repository = new BankAccountRepository(unitOfWork);
                 }

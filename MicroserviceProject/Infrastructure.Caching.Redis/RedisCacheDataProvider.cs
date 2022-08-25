@@ -53,11 +53,11 @@ namespace Infrastructure.Caching.Redis
             {
                 return
                     Convert.ToBoolean(
-                        _configuration.GetSection("Persistence")["IsSensitiveData"] ?? false.ToString()) && !Debugger.IsAttached
+                        _configuration.GetSection("Caching").GetSection("Redis")["IsSensitiveData"] ?? false.ToString()) && !Debugger.IsAttached
                         ?
-                        Environment.GetEnvironmentVariable(_configuration.GetSection("Persistence")["EnvironmentVariableName"])
+                        Environment.GetEnvironmentVariable(_configuration.GetSection("Caching").GetSection("Redis")["EnvironmentVariableName"])
                         :
-                        _configuration.GetSection("Persistence")["CacheServer"];
+                        _configuration.GetSection("Caching").GetSection("Redis")["Server"];
             }
         }
 

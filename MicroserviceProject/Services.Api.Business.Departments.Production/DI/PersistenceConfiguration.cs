@@ -4,6 +4,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Services.Api.Business.Departments.Production.Configuration.Persistence;
 
+using System;
+using System.Diagnostics;
+
 namespace Services.Api.Business.Departments.Production.DI
 {
     /// <summary>
@@ -23,7 +26,23 @@ namespace Services.Api.Business.Departments.Production.DI
             services.AddDbContext<ProductionContext>(optionBuilder =>
             {
                 optionBuilder.UseSqlServer(
-                    connectionString: configuration.GetSection("Persistence")["DataSource"]);
+                    connectionString:
+                        Convert.ToBoolean(
+                            configuration
+                            .GetSection("Persistence")
+                            .GetSection("Databases")
+                            .GetSection("Microservice_Production_DB")["IsSensitiveData"] ?? false.ToString()) && !Debugger.IsAttached
+                            ?
+                            Environment.GetEnvironmentVariable(
+                                configuration
+                                .GetSection("Persistence")
+                                .GetSection("Databases")
+                                .GetSection("Microservice_Production_DB")["EnvironmentVariableName"])
+                            :
+                            configuration
+                            .GetSection("Persistence")
+                            .GetSection("Databases")
+                            .GetSection("Microservice_Production_DB")["ConnectionString"]);
 
                 optionBuilder.EnableSensitiveDataLogging();
                 optionBuilder.EnableDetailedErrors();

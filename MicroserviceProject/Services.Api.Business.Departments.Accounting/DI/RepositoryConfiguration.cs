@@ -1,7 +1,10 @@
 ﻿
-using Services.Api.Business.Departments.Accounting.Repositories.Sql;
+using Infrastructure.Transaction.UnitOfWork.Sql;
 
 using Microsoft.Extensions.DependencyInjection;
+
+using Services.Api.Business.Departments.Accounting.Configuration.Persistence;
+using Services.Api.Business.Departments.Accounting.Repositories.Sql;
 
 namespace Services.Api.Business.Departments.Accounting.DI
 {
@@ -18,6 +21,8 @@ namespace Services.Api.Business.Departments.Accounting.DI
         /// <returns></returns>
         public static IServiceCollection RegisterRepositories(this IServiceCollection services)
         {
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             services.AddScoped<BankAccountRepository>();
             services.AddScoped<CurrencyRepository>();
             services.AddScoped<SalaryPaymentRepository>();

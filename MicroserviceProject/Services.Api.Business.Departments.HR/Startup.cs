@@ -31,7 +31,6 @@ using Services.Diagnostics.HealthCheck.DI;
 using Services.Logging.Aspect.DI;
 using Services.Logging.RequestResponse.DI;
 using Services.Security.BasicToken.DI;
-using Services.UnitOfWork.Sql.DI;
 
 using System;
 using System.Collections.Generic;
@@ -71,12 +70,8 @@ namespace Services.Api.Business.Departments.HR
             services.RegisterLocalizationProviders();
             services.RegisterRequestResponseLogger();
             services.RegisterRuntimeHandlers();
-            services.RegisterSqlHealthChecking(
-                connectionStrings: new List<string>() { Configuration.GetSection("Persistence")["DataSource"] });
-            services.RegisterSwagger(
-                applicationName: Environment.GetEnvironmentVariable("ApplicationName") ?? "Services.Api.Business.Departments.HR",
-                description: "Human Resources Api Service");
-            services.RegisterSqlUnitOfWork();
+            services.RegisterSqlHealthChecking();
+            services.RegisterSwagger();
 
             services.AddMediatR(typeof(Startup));
         }

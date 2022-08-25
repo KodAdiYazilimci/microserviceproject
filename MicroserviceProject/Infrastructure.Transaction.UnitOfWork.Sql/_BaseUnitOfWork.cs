@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 namespace Infrastructure.Transaction.UnitOfWork.Sql
 {
     /// <summary>
-    /// Ms SQL veritabanı işlemleri transaction için iş birimi sınıfı
+    /// Ms SQL veritabanı işlemleri transaction için iş birimi sınıfının temeli
     /// </summary>
-    public class UnitOfWork : IUnitOfWork, IDisposable
+    public abstract class _BaseUnitOfWork : IUnitOfWork, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -26,14 +26,7 @@ namespace Infrastructure.Transaction.UnitOfWork.Sql
         /// <summary>
         /// Repository sınıflarda kullanılacak veritabanı bağlantı cümlesi
         /// </summary>
-        private string ConnectionString
-        {
-            get
-            {
-                return _configuration
-                    .GetSection("Persistence")["DataSource"];
-            }
-        }
+        public abstract string ConnectionString { get; }
 
         /// <summary>
         /// Veritabanı bağlantı nesnesi
@@ -89,7 +82,7 @@ namespace Infrastructure.Transaction.UnitOfWork.Sql
         /// Ms SQL veritabanı işlemleri transaction için iş birimi sınıfı
         /// </summary>
         /// <param name="configuration">Repository yapılandırmaları için configuration nesnesi</param>
-        public UnitOfWork(IConfiguration configuration)
+        public _BaseUnitOfWork(IConfiguration configuration)
         {
             _configuration = configuration;
         }

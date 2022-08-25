@@ -28,7 +28,6 @@ using Services.Diagnostics.HealthCheck.DI;
 using Services.Logging.Aspect.DI;
 using Services.Logging.RequestResponse.DI;
 using Services.Security.BasicToken.DI;
-using Services.UnitOfWork.Sql.DI;
 
 using System;
 using System.Collections.Generic;
@@ -70,7 +69,6 @@ namespace Services.Api.Business.Departments.Buying
             services.RegisterSwagger(
                 applicationName: Environment.GetEnvironmentVariable("ApplicationName") ?? "Services.Api.Business.Departments.Buying",
                 description: "Buying Api Service");
-            services.RegisterSqlUnitOfWork();
 
             services.AddMediatR(typeof(Startup));
         }

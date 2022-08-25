@@ -16,17 +16,14 @@ using Microsoft.Extensions.Hosting;
 
 using Newtonsoft.Json;
 
+using Services.Api.Authorization.DI;
 using Services.Api.Infrastructure.Authorization.Configuration.Persistence;
 using Services.Api.Infrastructure.Authorization.DI;
 using Services.Communication.Mq.Queue.Authorization.DI;
 using Services.Communication.Mq.Queue.Authorization.Rabbit.DI;
-using Services.Diagnostics.HealthCheck.DI;
 using Services.Logging.RequestResponse.DI;
 using Services.UnitOfWork.EntityFramework.DI;
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Net;
 
 namespace Services.Api.Infrastructure.Authorization
@@ -52,20 +49,8 @@ namespace Services.Api.Infrastructure.Authorization
             services.RegisterPersistence();
             services.RegisterRepositories();
             services.RegisterRequestResponseLogger();
-            services.RegisterSqlHealthChecking(
-                connectionStrings: new List<string>()
-                {
-                    Convert.ToBoolean(Configuration.GetSection("Persistence")["IsSensitiveData"] ?? false.ToString())
-                    &&
-                    !Debugger.IsAttached
-                    ?
-                    Environment.GetEnvironmentVariable(Configuration.GetSection("Persistence")["EnvironmentVariableName"])
-                    :
-                    Configuration.GetSection("Persistence")["DataSource"] 
-                });
-            services.RegisterSwagger(
-                applicationName: Environment.GetEnvironmentVariable("ApplicationName") ?? "Services.Api.Authorization",
-                description: "Authorization Api Service");
+            services.RegisterSqlHealthChecking();
+            services.RegisterSwagger();
 
             services.AddControllers();
         }

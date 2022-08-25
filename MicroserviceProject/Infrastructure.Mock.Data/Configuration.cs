@@ -122,8 +122,8 @@ namespace Infrastructure.Mock.Data
                 appConfigurationProvider.ServicesSection.EndpointsSection.WebSocketsSecuritySection["SendTokenNotification"] = "websockets.security.sendtokennotification";
                 appConfigurationProvider.ServicesSection.EndpointsSection.WebSocketsSecuritySection["SendErrorNotification"] = "websockets.reliability.senderrornotification";
 
-                appConfigurationProvider.PersistenceSection["DataSource"] = "server=localhost;DataBase=Microservice_HR_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true";
-                appConfigurationProvider.PersistenceSection["CacheServer"] = "localhost";
+                appConfigurationProvider.PersistenceSection.DatabasesSection["DataSource"] = "server=localhost;DataBase=Microservice_HR_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true";
+                appConfigurationProvider.CachingSection.RedisSection["Server"] = "localhost";
 
                 appConfigurationProvider.WebSocketsSection.EndpointsSection["TokensHub.GetTokenMessages"] = "websockets.security.tokenshub.gettokenmessages";
             }

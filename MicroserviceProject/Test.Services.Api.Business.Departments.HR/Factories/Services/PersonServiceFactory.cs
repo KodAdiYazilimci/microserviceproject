@@ -8,11 +8,11 @@ using Infrastructure.Mock.Factories;
 using Infrastructure.Routing.Persistence.Mock;
 using Infrastructure.Routing.Providers.Mock;
 using Infrastructure.Security.Authentication.Mock;
-using Infrastructure.Transaction.UnitOfWork.Sql.Mock;
 
 using Microsoft.Extensions.Configuration;
 
 using Services.Api.Business.Departments.HR.Configuration.Mapping;
+using Services.Api.Business.Departments.HR.Configuration.Persistence;
 using Services.Api.Business.Departments.HR.Services;
 using Services.Communication.Http.Broker.Department.AA.Mock;
 using Services.Communication.Http.Broker.Department.Accounting.Mock;
@@ -70,7 +70,7 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Services
                             configuration: ITAssignInventoryToWorkerRabbitConfigurationProvider.GetConfiguration(configuration)),
                         createBankAccountPublisher: CreateBankAccountPublisherProvider.GetPublisher(
                             rabbitConfiguration: CreateBankAccountRabbitConfigurationProvider.GetConfiguration(configuration)),
-                        unitOfWork: UnitOfWorkFactory.GetInstance(configuration),
+                        unitOfWork: new UnitOfWork(configuration),
                         translationProvider: TranslationProviderFactory.GetTranslationProvider(
                             configuration: configuration,
                             cacheDataProvider: CacheDataProviderFactory.GetInstance(configuration),

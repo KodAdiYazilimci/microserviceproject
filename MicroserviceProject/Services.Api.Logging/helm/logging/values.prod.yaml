@@ -24,7 +24,8 @@ deployment:
      Configuration_Logging_RequestResponseLogging_DataBaseConfiguration_DataSource: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Logs_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
      Configuration_Logging_RequestResponseLogging_MongoConfiguration_ConnectionString: "mongodb://mongo-service.default.svc.cluster.local:27017"
      Configuration_WebSockets_DataSource: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Socket_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
-     Persistence_CacheServer: "svc-redis.default.svc.cluster.local"
+     Caching_Redis_Server: "svc-redis.default.svc.cluster.local"
+     Persistence_DataBases_Microservice_Logs_DB_ConnectionString: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Logs_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
   image:
    imagePullPolicy: Always
    name: "serkancamur/logging"

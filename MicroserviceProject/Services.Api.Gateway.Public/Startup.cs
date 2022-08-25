@@ -26,7 +26,6 @@ using Services.Communication.Http.Broker.Department.Storage.DI;
 using Services.Logging.RequestResponse.DI;
 using Services.Security.BasicToken.DI;
 
-using System;
 using System.Net;
 
 namespace Services.Api.Gateway.Public
@@ -62,9 +61,7 @@ namespace Services.Api.Gateway.Public
             services.RegisterRequestResponseLogger();
             //services.RegisterJWTProviders();
             //services.RegisterJWT();
-            services.RegisterSwagger(
-                applicationName: Environment.GetEnvironmentVariable("ApplicationName") ?? "Services.Api.Gateway.Public",
-                description: "Public Gateway API");
+            services.RegisterSwagger();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

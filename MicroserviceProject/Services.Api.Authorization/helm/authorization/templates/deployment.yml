@@ -51,8 +51,8 @@ spec:
               value: {{ .Values.deployment.application.containers.authorizationContainer.environment.Configuration_RabbitQueues_Host_DefaultPassword }}
             - name: Configuration_WebSockets_DataSource
               value: {{ .Values.deployment.application.containers.authorizationContainer.environment.Configuration_WebSockets_DataSource }}
-            - name: Persistence_CacheServer
-              value: {{ .Values.deployment.application.containers.authorizationContainer.environment.Persistence_CacheServer }}
+            - name: Caching_Redis_Server
+              value: {{ .Values.deployment.application.containers.authorizationContainer.environment.Caching_Redis_Server }}
           volumeMounts:
             - mountPath: "mnt/data"
               name: volume
