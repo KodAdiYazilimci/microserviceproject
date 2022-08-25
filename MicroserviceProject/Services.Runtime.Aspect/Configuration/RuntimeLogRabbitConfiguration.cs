@@ -2,6 +2,8 @@
 
 using Microsoft.Extensions.Configuration;
 
+using System.Diagnostics;
+
 namespace Services.Logging.Aspect.Configuration
 {
     /// <summary>
@@ -28,6 +30,20 @@ namespace Services.Logging.Aspect.Configuration
             _configuration = configuration;
 
             Host =
+                Convert.ToBoolean(
+                    _configuration
+                    .GetSection("Configuration")
+                    .GetSection("Logging")
+                    .GetSection("RuntimeLogging")
+                    .GetSection("RabbitConfiguration")["IsSensitiveData"] ?? false.ToString()) && !Debugger.IsAttached
+                ?
+                Environment.GetEnvironmentVariable(
+                    _configuration
+                    .GetSection("Configuration")
+                    .GetSection("Logging")
+                    .GetSection("RuntimeLogging")
+                    .GetSection("RabbitConfiguration")["EnvironmentVariableNamePrefix"] + "_Host")
+                :
                 _configuration
                 .GetSection("Configuration")
                 .GetSection("Logging")
@@ -35,6 +51,20 @@ namespace Services.Logging.Aspect.Configuration
                 .GetSection("RabbitConfiguration")["Host"];
 
             UserName =
+                Convert.ToBoolean(
+                    _configuration
+                    .GetSection("Configuration")
+                    .GetSection("Logging")
+                    .GetSection("RuntimeLogging")
+                    .GetSection("RabbitConfiguration")["IsSensitiveData"] ?? false.ToString()) && !Debugger.IsAttached
+                ?
+                Environment.GetEnvironmentVariable(
+                    _configuration
+                    .GetSection("Configuration")
+                    .GetSection("Logging")
+                    .GetSection("RuntimeLogging")
+                    .GetSection("RabbitConfiguration")["EnvironmentVariableNamePrefix"] + "_UserName")
+                :
                 _configuration
                 .GetSection("Configuration")
                 .GetSection("Logging")
@@ -42,6 +72,20 @@ namespace Services.Logging.Aspect.Configuration
                 .GetSection("RabbitConfiguration")["UserName"];
 
             Password =
+                Convert.ToBoolean(
+                    _configuration
+                    .GetSection("Configuration")
+                    .GetSection("Logging")
+                    .GetSection("RuntimeLogging")
+                    .GetSection("RabbitConfiguration")["IsSensitiveData"] ?? false.ToString()) && !Debugger.IsAttached
+                ?
+                Environment.GetEnvironmentVariable(
+                    _configuration
+                    .GetSection("Configuration")
+                    .GetSection("Logging")
+                    .GetSection("RuntimeLogging")
+                    .GetSection("RabbitConfiguration")["EnvironmentVariableNamePrefix"] + "_Password")
+                :
                 _configuration
                 .GetSection("Configuration")
                 .GetSection("Logging")

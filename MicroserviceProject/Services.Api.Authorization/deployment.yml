@@ -29,8 +29,6 @@ spec:
           env:
             - name: ApplicationName
               value: "Authorization Service"
-            - name: Configuration_Authorization_DataSource_ConnectionString
-              value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Security_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
             - name: Configuration_Localization_TranslationDbConnnectionString
               value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Localization_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
             - name: Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Host
@@ -53,6 +51,8 @@ spec:
               value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Socket_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
             - name: Caching_Redis_Server
               value: "svc-redis.default.svc.cluster.local"
+            - name: Persistence_Databases_Microservice_Security_DB_ConnectionString
+              value: "server=localhost;DataBase=Microservice_Security_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
           volumeMounts:
             - mountPath: "mnt/data"
               name: volume

@@ -10,7 +10,7 @@ namespace Services.Api.Business.Departments.AA.Configuration.Persistence
     /// <summary>
     /// Ms SQL veritabanı işlemleri transaction için iş birimi sınıfı
     /// </summary>
-    public class UnitOfWork : _BaseUnitOfWork, IDisposable
+    public class UnitOfWork : BaseUnitOfWork, IDisposable
     {
         private readonly IConfiguration _configuration;
 

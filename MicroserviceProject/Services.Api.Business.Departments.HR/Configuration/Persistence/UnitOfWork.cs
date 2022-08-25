@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace Services.Api.Business.Departments.HR.Configuration.Persistence
 {
-    public class UnitOfWork : _BaseUnitOfWork
+    public class UnitOfWork : BaseUnitOfWork
     {
         private readonly IConfiguration _configuration;
 

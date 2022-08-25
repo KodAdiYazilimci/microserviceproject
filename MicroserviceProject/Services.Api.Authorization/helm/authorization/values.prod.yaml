@@ -14,7 +14,6 @@ deployment:
    authorizationContainer:
     environment:
      applicationName: "Authorization Service Prod Environment"
-     Configuration_Authorization_DataSource_ConnectionString: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Security_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
      Configuration_Localization_TranslationDbConnnectionString: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Localization_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
      Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Host: "rabbitmq-cluster.rabbitmq.svc.cluster.local"
      Configuration_Logging_RequestResponseLogging_RabbitConfiguration_UserName: "default_user_wL7nqhCX5fjN8WeKuYm"
@@ -26,6 +25,7 @@ deployment:
      Configuration_RabbitQueues_Host_DefaultPassword: "JDzIA69MgB47hTXvMn4GdMvBslk3TPVr"
      Configuration_WebSockets_DataSource: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Socket_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
      Caching_Redis_Server: "svc-redis.default.svc.cluster.local"
+     Persistence_Databases_Microservice_Security_DB_ConnectionString: "server=localhost;DataBase=Microservice_Security_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
   image:
    imagePullPolicy: "Always"
    name: "serkancamur/authorization"

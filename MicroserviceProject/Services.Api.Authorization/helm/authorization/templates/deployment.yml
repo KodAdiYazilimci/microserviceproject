@@ -29,8 +29,6 @@ spec:
           env:
             - name: ApplicationName
               value: {{ .Values.deployment.application.containers.authorizationContainer.environment.ApplicationName }}
-            - name: Configuration_Authorization_DataSource_ConnectionString
-              value: {{ .Values.deployment.application.containers.authorizationContainer.environment.Configuration_Authorization_DataSource_ConnectionString }}
             - name: Configuration_Localization_TranslationDbConnnectionString
               value: {{ .Values.deployment.application.containers.authorizationContainer.environment.Configuration_Localization_TranslationDbConnnectionString }}
             - name: Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Host
@@ -53,6 +51,8 @@ spec:
               value: {{ .Values.deployment.application.containers.authorizationContainer.environment.Configuration_WebSockets_DataSource }}
             - name: Caching_Redis_Server
               value: {{ .Values.deployment.application.containers.authorizationContainer.environment.Caching_Redis_Server }}
+            - name: Persistence_Databases_Microservice_Security_DB_ConnectionString
+              value: "server=localhost;DataBase=Microservice_Security_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
           volumeMounts:
             - mountPath: "mnt/data"
               name: volume
