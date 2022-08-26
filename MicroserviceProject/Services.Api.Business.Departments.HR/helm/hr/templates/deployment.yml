@@ -65,8 +65,8 @@ spec:
               value: {{ .Values.deployment.application.containers.hrContainer.environment.Configuration_RabbitQueues_Host_DefaultPassword }}
             - name: Configuration_WebSockets_DataSource
               value: {{ .Values.deployment.application.containers.hrContainer.environment.Configuration_WebSockets_DataSource }}
-            - name: Persistence_DataBases_Microservice_Logs_DB_ConnectionString
-              value: {{ .Values.deployment.application.containers.hrContainer.environment.Persistence_DataBases_Microservice_Logs_DB_ConnectionString }}
+            - name: Persistence_DataBases_Microservice_HR_DB_ConnectionString
+              value: {{ .Values.deployment.application.containers.hrContainer.environment.Persistence_DataBases_Microservice_HR_DB_ConnectionString }}
             - name: Caching_Redis_Server
               value: {{ .Values.deployment.application.containers.hrContainer.environment.Caching_Redis_Server }}
           volumeMounts:
