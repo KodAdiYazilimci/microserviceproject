@@ -25,4 +25,4 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Services.Api.Logging.dll"]
 
-#docker build -t serkancamur/Logging:latest -f Dockerfile_Logging .
+#docker build -t serkancamur/logging:latest -f Dockerfile_Logging .

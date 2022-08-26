@@ -22,7 +22,7 @@ spec:
         - containerPort: 80
         env:
         - name: RABBIT_HOST 
-          value: "rabbitmq-cluster.rabbitmq.svc.cluster.local"
+          value: "rabbitmq3.default.svc.cluster.local"
         - name: RABBIT_PORT
           value: "5672"
         - name: RABBIT_USERNAME

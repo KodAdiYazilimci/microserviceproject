@@ -18,14 +18,14 @@ deployment:
      Configuration_Authorization_Credential_Email: "Services.Api.Logging@service.service"
      Configuration_Authorization_Credential_Password: "1234"
      Configuration_Routing_DataSource: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Routing_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
-     Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Host: "rabbitmq-cluster.rabbitmq.svc.cluster.local"
-     Configuration_Logging_RequestResponseLogging_RabbitConfiguration_UserName: "default_user_wL7nqhCX5fjN8WeKuYm"
-     Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Password: "JDzIA69MgB47hTXvMn4GdMvBslk3TPVr"
+     Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Host: "rabbitmq3.default.svc.cluster.local"
+     Configuration_Logging_RequestResponseLogging_RabbitConfiguration_UserName: "rabbituser"
+     Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Password: "rabbitpassword"
      Configuration_Logging_RequestResponseLogging_DataBaseConfiguration_DataSource: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Logs_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
      Configuration_Logging_RequestResponseLogging_MongoConfiguration_ConnectionString: "mongodb://mongo-service.default.svc.cluster.local:27017"
      Configuration_WebSockets_DataSource: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Socket_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
      Caching_Redis_Server: "svc-redis.default.svc.cluster.local"     
-     Persistence_DataBases_Microservice_Logs_DB_ConnectionString: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Logs_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
+     Persistence_Databases_Microservice_Logs_DB_ConnectionString: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Logs_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
   image:
    imagePullPolicy: Always
    name: "serkancamur/logging"

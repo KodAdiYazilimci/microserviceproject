@@ -14,3 +14,38 @@
 ##################Set Value with command-line:######################
 #helm upgrade <appName> <directoryName> --set <key>="<value>"
 #helm upgrade authorization authorization --set deployment.application.name="authorization-pod"
+
+
+service:  
+ name: "authorization-pod"
+ clusterIP: 10.102.2.100
+ type: LoadBalancer
+ ports:
+  internal: 16859
+  external: 5100
+  protocol: TCP
+
+deployment:
+ application:
+  name: "authorization-pod"
+  containers:
+   authorizationContainer:
+    port: 16859
+    environment:
+     ApplicationName: "Authorization Service Test Environment"
+     Configuration_Localization_TranslationDbConnnectionString: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Localization_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
+     Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Host: "rabbitmq3.default.svc.cluster.local"
+     Configuration_Logging_RequestResponseLogging_RabbitConfiguration_UserName: "rabbituser"
+     Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Password: "rabbitpassword"
+     Configuration_Logging_RequestResponseLogging_DataBaseConfiguration_DataSource: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Logs_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
+     Configuration_Logging_RequestResponseLogging_MongoConfiguration_ConnectionString: "mongodb://mongo-service.default.svc.cluster.local:27017"
+     Configuration_RabbitQueues_Host_DefaultHost: "rabbitmq3.default.svc.cluster.local"
+     Configuration_RabbitQueues_Host_DefaultUserName: "rabbituser"
+     Configuration_RabbitQueues_Host_DefaultPassword: "rabbitpassword"
+     Configuration_WebSockets_DataSource: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Socket_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
+     Caching_Redis_Server: "svc-redis.default.svc.cluster.local"
+     Persistence_Databases_Microservice_Security_DB_ConnectionString: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Security_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
+  image:
+   imagePullPolicy: "Always"
+   name: "serkancamur/authorization"
+   tag: "latest"

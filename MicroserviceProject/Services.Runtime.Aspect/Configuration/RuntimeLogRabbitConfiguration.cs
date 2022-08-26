@@ -17,34 +17,27 @@ namespace Services.Logging.Aspect.Configuration
         private bool disposed = false;
 
         /// <summary>
-        /// Request-response log ayarlarının çekileceği configuration
-        /// </summary>
-        private readonly IConfiguration _configuration;
-
-        /// <summary>
         /// Çalışma zamanı logları için rabbit sunucusunun yapılandırma ayarları
         /// </summary>
         /// <param name="configuration">Çalışma zamanı log ayarlarının çekileceği configuration</param>
         public RuntimeLogRabbitConfiguration(IConfiguration configuration)
         {
-            _configuration = configuration;
-
             Host =
                 Convert.ToBoolean(
-                    _configuration
+                    configuration
                     .GetSection("Configuration")
                     .GetSection("Logging")
                     .GetSection("RuntimeLogging")
                     .GetSection("RabbitConfiguration")["IsSensitiveData"] ?? false.ToString()) && !Debugger.IsAttached
                 ?
                 Environment.GetEnvironmentVariable(
-                    _configuration
+                    configuration
                     .GetSection("Configuration")
                     .GetSection("Logging")
                     .GetSection("RuntimeLogging")
                     .GetSection("RabbitConfiguration")["EnvironmentVariableNamePrefix"] + "_Host")
                 :
-                _configuration
+                configuration
                 .GetSection("Configuration")
                 .GetSection("Logging")
                 .GetSection("RuntimeLogging")
@@ -52,20 +45,20 @@ namespace Services.Logging.Aspect.Configuration
 
             UserName =
                 Convert.ToBoolean(
-                    _configuration
+                    configuration
                     .GetSection("Configuration")
                     .GetSection("Logging")
                     .GetSection("RuntimeLogging")
                     .GetSection("RabbitConfiguration")["IsSensitiveData"] ?? false.ToString()) && !Debugger.IsAttached
                 ?
                 Environment.GetEnvironmentVariable(
-                    _configuration
+                    configuration
                     .GetSection("Configuration")
                     .GetSection("Logging")
                     .GetSection("RuntimeLogging")
                     .GetSection("RabbitConfiguration")["EnvironmentVariableNamePrefix"] + "_UserName")
                 :
-                _configuration
+                configuration
                 .GetSection("Configuration")
                 .GetSection("Logging")
                 .GetSection("RuntimeLogging")
@@ -73,27 +66,27 @@ namespace Services.Logging.Aspect.Configuration
 
             Password =
                 Convert.ToBoolean(
-                    _configuration
+                    configuration
                     .GetSection("Configuration")
                     .GetSection("Logging")
                     .GetSection("RuntimeLogging")
                     .GetSection("RabbitConfiguration")["IsSensitiveData"] ?? false.ToString()) && !Debugger.IsAttached
                 ?
                 Environment.GetEnvironmentVariable(
-                    _configuration
+                    configuration
                     .GetSection("Configuration")
                     .GetSection("Logging")
                     .GetSection("RuntimeLogging")
                     .GetSection("RabbitConfiguration")["EnvironmentVariableNamePrefix"] + "_Password")
                 :
-                _configuration
+                configuration
                 .GetSection("Configuration")
                 .GetSection("Logging")
                 .GetSection("RuntimeLogging")
                 .GetSection("RabbitConfiguration")["Password"];
 
             QueueName =
-                _configuration
+                configuration
                 .GetSection("Configuration")
                 .GetSection("Logging")
                 .GetSection("RuntimeLogging")

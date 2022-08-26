@@ -50,7 +50,7 @@ namespace Infrastructure.Logging.File.Loggers
                 sbJsonText.Append("\r\n");
             }
 
-            DirectoryInfo directoryInfo = new DirectoryInfo(_fileConfiguration.Path);
+            DirectoryInfo directoryInfo = new DirectoryInfo(Environment.CurrentDirectory + "/"+ _fileConfiguration.Path);
 
             if (!directoryInfo.Exists)
             {
@@ -58,7 +58,7 @@ namespace Infrastructure.Logging.File.Loggers
             }
 
             await System.IO.File.AppendAllTextAsync(
-                path: Environment.CurrentDirectory + "\\" + _fileConfiguration.Path + "\\" + _fileConfiguration.FileName,
+                path: Environment.CurrentDirectory + "/" + _fileConfiguration.Path + "/" + _fileConfiguration.FileName,
                 contents: sbJsonText.ToString(),
                 encoding: _fileConfiguration.Encoding,
                 cancellationToken: cancellationTokenSource.Token);

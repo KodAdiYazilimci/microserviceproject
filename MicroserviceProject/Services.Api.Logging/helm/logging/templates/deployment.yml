@@ -49,8 +49,8 @@ spec:
               value: {{ .Values.deployment.application.containers.loggingContainer.environment.Configuration_WebSockets_DataSource }}
             - name: Caching_Redis_Server
               value: {{ .Values.deployment.application.containers.loggingContainer.environment.Caching_Redis_Server }}
-            - name: Persistence_DataBases_Microservice_Logs_DB_ConnectionString
-              value: {{ .Values.deployment.application.containers.loggingContainer.environment.Persistence_DataBases_Microservice_Logs_DB_ConnectionString }}
+            - name: Persistence_Databases_Microservice_Logs_DB_ConnectionString
+              value: {{ .Values.deployment.application.containers.loggingContainer.environment.Persistence_Databases_Microservice_Logs_DB_ConnectionString }}
           volumeMounts:
             - mountPath: "mnt/data"
               name: volume

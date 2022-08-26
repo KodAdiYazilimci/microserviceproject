@@ -30,27 +30,27 @@ spec:
             - name: ApplicationName
               value: "HR Service"
             - name: Configuration_Authorization_Credential_Email
-              value: "Services.Api.HR@service.service"
+              value: "Services.Api.Business.Departments.HR@service.service"
             - name: Configuration_Authorization_Credential_Password
               value: "1234"
             - name: Configuration_Localization_TranslationDbConnnectionString
-              value: "server=localhost;DataBase=Microservice_Localization_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
+              value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Localization_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
             - name: Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Host
-              value: "rabbitmq-cluster.rabbitmq.svc.cluster.local"
+              value: "rabbitmq3.default.svc.cluster.local"
             - name: Configuration_Logging_RequestResponseLogging_RabbitConfiguration_UserName
-              value: "default_user_wL7nqhCX5fjN8WeKuYm"
+              value: "rabbituser"
             - name: Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Password
-              value: "JDzIA69MgB47hTXvMn4GdMvBslk3TPVr"
+              value: "rabbitpassword"
             - name: Configuration_Logging_RequestResponseLogging_DataBaseConfiguration_DataSource
               value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Logs_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
             - name: Configuration_Logging_RequestResponseLogging_MongoConfiguration_ConnectionString
               value: "mongodb://mongo-service.default.svc.cluster.local:27017"
             - name: Configuration_Logging_RuntimeLogging_RabbitConfiguration_Host
-              value: "rabbitmq-cluster.rabbitmq.svc.cluster.local"
+              value: "rabbitmq3.default.svc.cluster.local"
             - name: Configuration_Logging_RuntimeLogging_RabbitConfiguration_UserName
-              value: "default_user_wL7nqhCX5fjN8WeKuYm"
+              value: "rabbituser"
             - name: Configuration_Logging_RuntimeLogging_RabbitConfiguration_Password
-              value: "JDzIA69MgB47hTXvMn4GdMvBslk3TPVr"
+              value: "rabbitpassword"
             - name: Configuration_Logging_RuntimeLogging_DataBaseConfiguration_DataSource
               value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Logs_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
             - name: Configuration_Logging_RuntimeLogging_MongoConfiguration_ConnectionString
@@ -58,14 +58,14 @@ spec:
             - name: Configuration_Routing_DataSource
               value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Routing_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
             - name: Configuration_RabbitQueues_Host_DefaultHost
-              value: "rabbitmq-cluster.rabbitmq.svc.cluster.local"
+              value: "rabbitmq3.default.svc.cluster.local"
             - name: Configuration_RabbitQueues_Host_DefaultUserName
-              value: "default_user_wL7nqhCX5fjN8WeKuYm"
+              value: "rabbituser"
             - name: Configuration_RabbitQueues_Host_DefaultPassword
-              value: "JDzIA69MgB47hTXvMn4GdMvBslk3TPVr"
+              value: "rabbitpassword"
             - name: Configuration_WebSockets_DataSource
               value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Socket_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
-            - name: Persistence_DataBases_Microservice_HR_DB_ConnectionString
+            - name: Persistence_Databases_Microservice_HR_DB_ConnectionString
               value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_HR_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
             - name: Caching_Redis_Server
               value: "svc-redis.default.svc.cluster.local"

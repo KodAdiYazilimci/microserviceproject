@@ -36,11 +36,11 @@ spec:
             - name: Configuration_Routing_DataSource
               value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Routing_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
             - name: Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Host
-              value: "rabbitmq-cluster.rabbitmq.svc.cluster.local"
+              value: "rabbitmq3.default.svc.cluster.local"
             - name: Configuration_Logging_RequestResponseLogging_RabbitConfiguration_UserName
-              value: "default_user_wL7nqhCX5fjN8WeKuYm"
+              value: "rabbituser"
             - name: Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Password
-              value: "JDzIA69MgB47hTXvMn4GdMvBslk3TPVr"
+              value: "rabbitpassword"
             - name: Configuration_Logging_RequestResponseLogging_DataBaseConfiguration_DataSource
               value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Logs_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
             - name: Configuration_Logging_RequestResponseLogging_MongoConfiguration_ConnectionString
@@ -49,7 +49,7 @@ spec:
               value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Socket_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
             - name: Caching_Redis_Server
               value: "svc-redis.default.svc.cluster.local"
-            - name: Persistence_DataBases_Microservice_Logs_DB_ConnectionString
+            - name: Persistence_Databases_Microservice_Logs_DB_ConnectionString
               value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Logs_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
           volumeMounts:
             - mountPath: "mnt/data"
