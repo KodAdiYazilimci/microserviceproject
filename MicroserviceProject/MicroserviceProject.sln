@@ -302,6 +302,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{040BFC8F-477D-4056-B6A1-9752CC46556D}"
 	ProjectSection(SolutionItems) = preProject
 		Dockerfile_Authorization = Dockerfile_Authorization
+		Dockerfile_HR = Dockerfile_HR
 		Dockerfile_Logging = Dockerfile_Logging
 	EndProjectSection
 EndProject
