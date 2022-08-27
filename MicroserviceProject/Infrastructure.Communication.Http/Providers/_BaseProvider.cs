@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 
 namespace Infrastructure.Communication.Http.Providers
 {
@@ -55,14 +56,15 @@ namespace Infrastructure.Communication.Http.Providers
         /// <summary>
         /// Http isteğine headerları ekler
         /// </summary>
-        /// <param name="webRequest">Headerlar eklenecek web isteği</param>
-        protected void AppendHeaders(HttpWebRequest webRequest)
+        /// <param name="httpClient">Headerlar eklenecek web isteği</param>
+        protected void AppendHeaders(HttpClient httpClient)
         {
             if (Headers != null && Headers.Any())
             {
                 foreach (HttpHeader header in Headers)
                 {
-                    webRequest.Headers.Add(header.Key, header.Value);
+                    if (!string.IsNullOrWhiteSpace(header.Value))
+                        httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
                 }
             }
         }

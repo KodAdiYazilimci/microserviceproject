@@ -1,9 +1,8 @@
 ﻿using Newtonsoft.Json;
 
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,24 +31,18 @@ namespace Infrastructure.Communication.Http.Providers
         {
             Uri requestUri = GenerateUri(url);
 
-            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(requestUri);
-            webRequest.Method = "POST";
-            webRequest.ContentType = "application/json; charset=UTF-8";
+            HttpClient httpClient = new HttpClient();
 
-            AppendHeaders(webRequest);
+            AppendHeaders(httpClient);
 
-            using (StreamWriter streamWriter = new StreamWriter(await webRequest.GetRequestStreamAsync()))
+            HttpResponseMessage httpResponseMessage =
+                await httpClient.PostAsync(requestUri, new StringContent(JsonConvert.SerializeObject(postData), Encoding.UTF8, "application/json"), cancellationTokenSource.Token);
+
+            using (StreamReader streamReader = new StreamReader(await httpResponseMessage.Content.ReadAsStreamAsync(cancellationTokenSource.Token)))
             {
-                string jsonBody = JsonConvert.SerializeObject(postData);
+                string response = await streamReader.ReadToEndAsync();
 
-                await streamWriter.WriteAsync(jsonBody);
-            }
-
-            HttpWebResponse webResponse = (HttpWebResponse)await webRequest.GetResponseAsync();
-
-            using (StreamReader streamReader = new StreamReader(webResponse.GetResponseStream()))
-            {
-                return await streamReader.ReadToEndAsync();
+                return response;
             }
         }
 
@@ -66,22 +59,14 @@ namespace Infrastructure.Communication.Http.Providers
         {
             Uri requestUri = GenerateUri(url);
 
-            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(requestUri);
-            webRequest.Method = "POST";
-            webRequest.ContentType = "application/json; charset=UTF-8";
+            HttpClient httpClient = new HttpClient();
 
-            AppendHeaders(webRequest);
+            AppendHeaders(httpClient);
 
-            using (StreamWriter streamWriter = new StreamWriter(await webRequest.GetRequestStreamAsync()))
-            {
-                string jsonBody = JsonConvert.SerializeObject(postData);
+            HttpResponseMessage httpResponseMessage = 
+                await httpClient.PostAsync(requestUri, new StringContent(JsonConvert.SerializeObject(postData), Encoding.UTF8, "application/json"), cancellationTokenSource.Token);
 
-                await streamWriter.WriteAsync(jsonBody);
-            }
-
-            HttpWebResponse webResponse = (HttpWebResponse)await webRequest.GetResponseAsync();
-
-            using (StreamReader streamReader = new StreamReader(webResponse.GetResponseStream()))
+            using (StreamReader streamReader = new StreamReader(await httpResponseMessage.Content.ReadAsStreamAsync(cancellationTokenSource.Token)))
             {
                 string response = await streamReader.ReadToEndAsync();
 
