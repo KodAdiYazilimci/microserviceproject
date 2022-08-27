@@ -25,4 +25,4 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Services.Api.Gateway.Public.dll"]
 
-#docker build -t serkancamur/agwpublic:latest -f Dockerfile_Logging .
+#docker build -t serkancamur/agwpublic:latest -f Dockerfile_AGW_Public .
