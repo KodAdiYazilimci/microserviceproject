@@ -2,8 +2,7 @@
 using Infrastructure.Communication.Http.Models;
 
 using Services.Communication.Http.Broker.Department.AA.CQRS.Commands.Requests;
-using Services.Communication.Http.Broker.Department.AA.CQRS.Commands.Responses;
-using Services.Communication.Http.Broker.Department.AA.CQRS.Queries.Responses;
+using Services.Communication.Http.Broker.Department.AA.Models;
 using Services.Communication.Http.Providers;
 
 namespace Services.Communication.Http.Broker.Department.AA
@@ -47,13 +46,13 @@ namespace Services.Communication.Http.Broker.Department.AA
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<GetInventoriesQueryResponse>> GetInventoriesAsync(
+        public async Task<ServiceResultModel<List<InventoryModel>>> GetInventoriesAsync(
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            ServiceResultModel<GetInventoriesQueryResponse> serviceResult =
+            ServiceResultModel<List<InventoryModel>> serviceResult =
                     await
-                    _serviceCommunicator.Call<GetInventoriesQueryResponse>(
+                    _serviceCommunicator.Call<List<InventoryModel>>(
                             serviceName: _routeNameProvider.AA_GetInventories,
                             postData: null,
                             queryParameters: null,
@@ -72,12 +71,12 @@ namespace Services.Communication.Http.Broker.Department.AA
         /// <param name="request">Envanterin modeli</param>
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
-        public async Task<ServiceResultModel<CreateInventoryCommandResponse>> CreateInventoryAsync(
+        public async Task<ServiceResultModel> CreateInventoryAsync(
             CreateInventoryCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<CreateInventoryCommandResponse>(
+            return await _serviceCommunicator.Call(
                 serviceName: _routeNameProvider.AA_CreateInventory,
                 postData: request,
                 queryParameters: null,
@@ -94,12 +93,12 @@ namespace Services.Communication.Http.Broker.Department.AA
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<GetInventoriesForNewWorkerQueryResponse>> GetInventoriesForNewWorkerAsync(
+        public async Task<ServiceResultModel<List<InventoryModel>>> GetInventoriesForNewWorkerAsync(
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            ServiceResultModel<GetInventoriesForNewWorkerQueryResponse> defaultInventoriesServiceResult =
-                    await _serviceCommunicator.Call<GetInventoriesForNewWorkerQueryResponse>(
+            ServiceResultModel<List<InventoryModel>> defaultInventoriesServiceResult =
+                    await _serviceCommunicator.Call<List<InventoryModel>>(
                         serviceName: _routeNameProvider.AA_GetInventoriesForNewWorker,
                         postData: null,
                         queryParameters: null,
@@ -143,12 +142,12 @@ namespace Services.Communication.Http.Broker.Department.AA
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<AssignInventoryToWorkerCommandResponse>> AssignInventoryToWorkerAsync(
+        public async Task<ServiceResultModel> AssignInventoryToWorkerAsync(
             AssignInventoryToWorkerCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<AssignInventoryToWorkerCommandResponse>(
+            return await _serviceCommunicator.Call(
                 serviceName: _routeNameProvider.AA_AssignInventoryToWorker,
                 postData: request,
                 queryParameters: null,
@@ -166,12 +165,12 @@ namespace Services.Communication.Http.Broker.Department.AA
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<InformInventoryRequestCommandResponse>> InformInventoryRequestAsync(
+        public async Task<ServiceResultModel> InformInventoryRequestAsync(
             InformInventoryRequestCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<InformInventoryRequestCommandResponse>(
+            return await _serviceCommunicator.Call(
                 serviceName: _routeNameProvider.AA_InformInventoryRequest,
                 postData: request,
                 queryParameters: null,
@@ -189,12 +188,12 @@ namespace Services.Communication.Http.Broker.Department.AA
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<CreateDefaultInventoryForNewWorkerCommandResponse>> CreateDefaultInventoryForNewWorkerAsync(
+        public async Task<ServiceResultModel> CreateDefaultInventoryForNewWorkerAsync(
             CreateDefaultInventoryForNewWorkerCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<CreateDefaultInventoryForNewWorkerCommandResponse>(
+            return await _serviceCommunicator.Call(
                 serviceName: _routeNameProvider.AA_CreateDefaultInventoryForNewWorker,
                 postData: request,
                 queryParameters: null,

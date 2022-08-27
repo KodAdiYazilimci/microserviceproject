@@ -2,8 +2,7 @@
 using Infrastructure.Communication.Http.Models;
 
 using Services.Communication.Http.Broker.Department.Accounting.CQRS.Commands.Requests;
-using Services.Communication.Http.Broker.Department.Accounting.CQRS.Commands.Responses;
-using Services.Communication.Http.Broker.Department.Accounting.CQRS.Queries.Responses;
+using Services.Communication.Http.Broker.Department.Accounting.Models;
 using Services.Communication.Http.Providers;
 
 namespace Services.Communication.Http.Broker.Department.Accounting
@@ -48,13 +47,13 @@ namespace Services.Communication.Http.Broker.Department.Accounting
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<GetBankAccountsOfWorkerQueryResponse>> GetBankAccountsOfWorkerAsync(
+        public async Task<ServiceResultModel<List<BankAccountModel>>> GetBankAccountsOfWorkerAsync(
             int workerId,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            ServiceResultModel<GetBankAccountsOfWorkerQueryResponse> bankAccountsServiceResult =
-                 await _serviceCommunicator.Call<GetBankAccountsOfWorkerQueryResponse>(
+            ServiceResultModel<List<BankAccountModel>> bankAccountsServiceResult =
+                 await _serviceCommunicator.Call<List<BankAccountModel>>(
                      serviceName: _routeNameProvider.Accounting_GetBankAccountsOfWorker,
                      postData: null,
                      queryParameters: new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("workerId", workerId.ToString()) },
@@ -74,12 +73,12 @@ namespace Services.Communication.Http.Broker.Department.Accounting
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<CreateBankAccountCommandResponse>> CreateBankAccountAsync(
+        public async Task<ServiceResultModel> CreateBankAccountAsync(
             CreateBankAccountCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<CreateBankAccountCommandResponse>(
+            return await _serviceCommunicator.Call(
                serviceName: _routeNameProvider.Accounting_CreateBankAccount,
                postData: request,
                queryParameters: null,
@@ -95,10 +94,10 @@ namespace Services.Communication.Http.Broker.Department.Accounting
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<GetCurrenciesQueryResponse>> GetCurrenciesAsync(
+        public async Task<ServiceResultModel<List<CurrencyModel>>> GetCurrenciesAsync(
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<GetCurrenciesQueryResponse>(
+            return await _serviceCommunicator.Call<List<CurrencyModel>>(
                 serviceName: _routeNameProvider.Accounting_GetCurrencies,
                 postData: null,
                 queryParameters: null,
@@ -113,12 +112,12 @@ namespace Services.Communication.Http.Broker.Department.Accounting
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<CreateCurrencyCommandResponse>> CreateCurrencyAsync(
+        public async Task<ServiceResultModel> CreateCurrencyAsync(
             CreateCurrencyCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<CreateCurrencyCommandResponse>(
+            return await _serviceCommunicator.Call(
                 serviceName: _routeNameProvider.Accounting_CreateCurrency,
                 postData: request,
                 queryParameters: null,
@@ -135,11 +134,11 @@ namespace Services.Communication.Http.Broker.Department.Accounting
         /// <param name="workerId">Maaş bilgileri getirilecek çalışanın Id değeri</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<GetSalaryPaymentsOfWorkerQueryResponse>> GetSalaryPaymentsOfWorker(
+        public async Task<ServiceResultModel<List<SalaryPaymentModel>>> GetSalaryPaymentsOfWorker(
             int workerId,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<GetSalaryPaymentsOfWorkerQueryResponse>(
+            return await _serviceCommunicator.Call<List<SalaryPaymentModel>>(
                 serviceName: _routeNameProvider.Accounting_GetSalaryPaymentsOfWorker,
                 postData: null,
                 queryParameters: new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("workerId", workerId.ToString()) },
@@ -154,12 +153,12 @@ namespace Services.Communication.Http.Broker.Department.Accounting
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<CreateSalaryPaymentCommandResponse>> CreateSalaryPayment(
+        public async Task<ServiceResultModel> CreateSalaryPayment(
             CreateSalaryPaymentCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<CreateSalaryPaymentCommandResponse>(
+            return await _serviceCommunicator.Call(
                 serviceName: _routeNameProvider.Accounting_CreateSalaryPayment,
                 postData: request,
                 queryParameters: null,

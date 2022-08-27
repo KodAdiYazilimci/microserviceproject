@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 using Services.Api.Business.Departments.Selling.Services;
 using Services.Communication.Http.Broker.Department.Selling.CQRS.Commands.Requests;
-using Services.Communication.Http.Broker.Department.Selling.CQRS.Commands.Responses;
 using Services.Communication.Http.Broker.Department.Selling.CQRS.Queries.Requests;
 using Services.Communication.Http.Broker.Department.Selling.CQRS.Queries.Responses;
 
@@ -34,9 +33,11 @@ namespace Services.Api.Business.Departments.Selling.Controllers
         [Authorize(Roles = "ApiUser,GatewayUser")]
         public async Task<IActionResult> GetSolds()
         {
-            return await HttpResponseWrapper.WrapAsync<GetSoldsQueryResponse>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await _mediator.Send(new GetSoldsQueryRequest());
+                GetSoldsQueryResponse mediatorResult = await _mediator.Send(new GetSoldsQueryRequest());
+
+                return mediatorResult.Solds;
             },
             services: _sellingService);
         }
@@ -46,9 +47,9 @@ namespace Services.Api.Business.Departments.Selling.Controllers
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> CreateSelling([FromBody] CreateSellingCommandRequest createSellingCommandRequest)
         {
-            return await HttpResponseWrapper.WrapAsync<CreateSellingCommandResponse>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await _mediator.Send(createSellingCommandRequest);
+                await _mediator.Send(createSellingCommandRequest);
             },
             services: _sellingService);
         }
@@ -58,9 +59,9 @@ namespace Services.Api.Business.Departments.Selling.Controllers
         [Authorize(Roles = "ApiUser,QueueUser")]
         public async Task<IActionResult> NotifyProductionRequest([FromBody] NotifyProductionRequestCommandRequest productionRequest)
         {
-            return await HttpResponseWrapper.WrapAsync<NotifyProductionRequestCommandResponse>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await _mediator.Send(productionRequest);
+                await _mediator.Send(productionRequest);
             },
             services: _sellingService);
         }

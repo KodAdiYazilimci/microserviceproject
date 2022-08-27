@@ -32,9 +32,11 @@ namespace Services.Api.Business.Departments.AA.Controllers
         [Authorize(Roles = "ApiUser")]
         public async Task<IActionResult> RollbackTransaction([FromBody] RollbackTransactionCommandRequest request)
         {
-            return await HttpResponseWrapper.WrapAsync<RollbackTransactionCommandResponse>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await _mediator.Send(request);
+                RollbackTransactionCommandResponse mediatorResult = await _mediator.Send(request);
+
+                return mediatorResult.Result;
             },
             services: _inventoryService);
         }

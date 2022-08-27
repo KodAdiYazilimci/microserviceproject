@@ -33,11 +33,12 @@ namespace Services.Api.Gateway.Public.Controllers
         [Authorize(Roles = "WebPresentationUser")]
         public async Task<IActionResult> GetDepartments(CancellationTokenSource cancellationTokenSource)
         {
-            return await HttpResponseWrapper.WrapAsync<List<DepartmentModel>>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await _apiBridge.CallAsync<List<DepartmentModel>>(async (transactionIdentity, cancellationTokenSource) =>
+                return await _apiBridge.CallAsync(async (transactionIdentity, cancellationTokenSource) =>
                 {
                     return await _hrCommunicator.GetDepartmentsAsync(transactionIdentity, cancellationTokenSource);
+
                 }, cancellationTokenSource);
             });
         }

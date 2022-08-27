@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 using Services.Business.Departments.Finance.Services;
 using Services.Communication.Http.Broker.Department.Finance.CQRS.Commands.Requests;
-using Services.Communication.Http.Broker.Department.Finance.CQRS.Commands.Responses;
 using Services.Communication.Http.Broker.Department.Finance.CQRS.Queries.Requests;
 using Services.Communication.Http.Broker.Department.Finance.CQRS.Queries.Responses;
 
@@ -34,9 +33,11 @@ namespace Services.Business.Departments.Finance.Controllers
         [Authorize(Roles = "ApiUser,GatewayUser")]
         public async Task<IActionResult> GetProductionRequests()
         {
-            return await HttpResponseWrapper.WrapAsync<GetProductionRequestsQueryResponse>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await _mediator.Send(new GetProductionRequestsQueryRequest());
+                GetProductionRequestsQueryResponse mediatorResult = await _mediator.Send(new GetProductionRequestsQueryRequest());
+
+                return mediatorResult.ProductionRequests;
             },
             services: _productionRequestService);
         }
@@ -45,9 +46,9 @@ namespace Services.Business.Departments.Finance.Controllers
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> CreateProductionRequest([FromBody] CreateProductionRequestCommandRequest request)
         {
-            return await HttpResponseWrapper.WrapAsync<CreateProductionRequestCommandResponse>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await _mediator.Send(request);
+                await _mediator.Send(request);
             },
             services: _productionRequestService);
         }
@@ -58,9 +59,9 @@ namespace Services.Business.Departments.Finance.Controllers
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> DecideProductionRequest([FromBody] DecideProductionRequestCommandRequest request)
         {
-            return await HttpResponseWrapper.WrapAsync<DecideProductionRequestCommandResponse>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await _mediator.Send(request);
+                await _mediator.Send(request);
             },
             services: _productionRequestService);
         }

@@ -2,8 +2,7 @@
 using Infrastructure.Communication.Http.Models;
 
 using Services.Communication.Http.Broker.Department.Selling.CQRS.Commands.Requests;
-using Services.Communication.Http.Broker.Department.Selling.CQRS.Commands.Responses;
-using Services.Communication.Http.Broker.Department.Selling.CQRS.Queries.Responses;
+using Services.Communication.Http.Broker.Department.Selling.Models;
 using Services.Communication.Http.Providers;
 
 namespace Services.Communication.Http.Broker.Department.Selling
@@ -46,10 +45,10 @@ namespace Services.Communication.Http.Broker.Department.Selling
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<GetSoldsQueryResponse>> GetSoldsAsync(
+        public async Task<ServiceResultModel<List<SellModel>>> GetSoldsAsync(
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<GetSoldsQueryResponse>(
+            return await _serviceCommunicator.Call<List<SellModel>>(
                 serviceName: _routeNameProvider.Selling_GetSolds,
                 postData: null,
                 queryParameters: null,
@@ -64,12 +63,12 @@ namespace Services.Communication.Http.Broker.Department.Selling
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<CreateSellingCommandResponse>> CreateSellingAsync(
+        public async Task<ServiceResultModel> CreateSellingAsync(
             CreateSellingCommandRequest createSellingCommandRequest,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<CreateSellingCommandResponse>(
+            return await _serviceCommunicator.Call(
                 serviceName: _routeNameProvider.Selling_CreateSelling,
                 postData: createSellingCommandRequest,
                 queryParameters: null,
@@ -87,12 +86,12 @@ namespace Services.Communication.Http.Broker.Department.Selling
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<NotifyProductionRequestCommandResponse>> NotifyProductionRequest(
+        public async Task<ServiceResultModel> NotifyProductionRequest(
             NotifyProductionRequestCommandRequest notifyProductionRequestCommandRequest,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<NotifyProductionRequestCommandResponse>(
+            return await _serviceCommunicator.Call(
                 serviceName: _routeNameProvider.Selling_NotifyProductionRequest,
                 postData: notifyProductionRequestCommandRequest,
                 queryParameters: null,

@@ -2,8 +2,7 @@
 using Infrastructure.Communication.Http.Models;
 
 using Services.Communication.Http.Broker.Department.Production.CQRS.Commands.Requests;
-using Services.Communication.Http.Broker.Department.Production.CQRS.Commands.Responses;
-using Services.Communication.Http.Broker.Department.Production.CQRS.Queries.Responses;
+using Services.Communication.Http.Broker.Department.Production.Models;
 using Services.Communication.Http.Providers;
 
 namespace Services.Communication.Http.Broker.Department.Production
@@ -46,10 +45,10 @@ namespace Services.Communication.Http.Broker.Department.Production
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<GetProductsQueryResponse>> GetProductsAsync(
+        public async Task<ServiceResultModel<List<ProductModel>>> GetProductsAsync(
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<GetProductsQueryResponse>(
+            return await _serviceCommunicator.Call<List<ProductModel>>(
                 serviceName: _routeNameProvider.Production_GetProducts,
                 postData: null,
                 queryParameters: null,
@@ -64,12 +63,12 @@ namespace Services.Communication.Http.Broker.Department.Production
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<ProduceProductCommandResponse>> ProduceProductAsync(
+        public async Task<ServiceResultModel> ProduceProductAsync(
             ProduceProductCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<ProduceProductCommandResponse>(
+            return await _serviceCommunicator.Call(
                 serviceName: _routeNameProvider.Production_ProduceProduct,
                 postData: request,
                 queryParameters: null,
@@ -87,12 +86,12 @@ namespace Services.Communication.Http.Broker.Department.Production
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<CreateProductCommandResponse>> CreateProductAsync(
+        public async Task<ServiceResultModel> CreateProductAsync(
             CreateProductCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<CreateProductCommandResponse>(
+            return await _serviceCommunicator.Call(
                 serviceName: _routeNameProvider.Production_CreateProduct,
                 postData: request,
                 queryParameters: null,
@@ -127,12 +126,12 @@ namespace Services.Communication.Http.Broker.Department.Production
             return serviceResult;
         }
 
-        public async Task<ServiceResultModel<ReEvaluateProduceProductCommandResponse>> ReEvaluateProduceProductAsync(
+        public async Task<ServiceResultModel> ReEvaluateProduceProductAsync(
             int referenceNumber,
             CancellationTokenSource cancellationTokenSource)
         {
-            ServiceResultModel<ReEvaluateProduceProductCommandResponse> serviceResult =
-                await _serviceCommunicator.Call<ReEvaluateProduceProductCommandResponse>(
+            ServiceResultModel serviceResult =
+                await _serviceCommunicator.Call(
                     serviceName: _routeNameProvider.Production_ReEvaluateProduceProduct,
                     postData: null,
                     queryParameters: new List<KeyValuePair<string, string>>()

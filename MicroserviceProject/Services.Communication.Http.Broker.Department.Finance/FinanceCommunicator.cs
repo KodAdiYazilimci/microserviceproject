@@ -2,8 +2,7 @@
 using Infrastructure.Communication.Http.Models;
 
 using Services.Communication.Http.Broker.Department.Finance.CQRS.Commands.Requests;
-using Services.Communication.Http.Broker.Department.Finance.CQRS.Commands.Responses;
-using Services.Communication.Http.Broker.Department.Finance.CQRS.Queries.Responses;
+using Services.Communication.Http.Broker.Department.Finance.Models;
 using Services.Communication.Http.Providers;
 
 namespace Services.Communication.Http.Broker.Department.Finance
@@ -48,12 +47,12 @@ namespace Services.Communication.Http.Broker.Department.Finance
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<CreateCostCommandResponse>> CreateCostAsync(
+        public async Task<ServiceResultModel> CreateCostAsync(
             CreateCostCommandRequest request, 
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<CreateCostCommandResponse>(
+            return await _serviceCommunicator.Call(
                 serviceName: _routeNameProvider.Finance_CreateCost,
                 postData: request,
                 queryParameters: null,
@@ -71,12 +70,12 @@ namespace Services.Communication.Http.Broker.Department.Finance
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<CreateProductionRequestCommandResponse>> CreateProductionRequestAsync(
+        public async Task<ServiceResultModel> CreateProductionRequestAsync(
             CreateProductionRequestCommandRequest request, 
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<CreateProductionRequestCommandResponse>(
+            return await _serviceCommunicator.Call(
                 serviceName: _routeNameProvider.Finance_CreateProductionRequest,
                 postData: request,
                 queryParameters: null,
@@ -92,10 +91,10 @@ namespace Services.Communication.Http.Broker.Department.Finance
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<GetDecidedCostsQueryResponse>> GetDecidedCostsAsync(
+        public async Task<ServiceResultModel<List<DecidedCostModel>>> GetDecidedCostsAsync(
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<GetDecidedCostsQueryResponse>(
+            return await _serviceCommunicator.Call<List<DecidedCostModel>>(
                 serviceName: _routeNameProvider.Finance_GetDecidedCosts,
                 postData: null,
                 queryParameters: null,
@@ -110,12 +109,12 @@ namespace Services.Communication.Http.Broker.Department.Finance
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<DecideCostCommandResponse>> DecideCostAsync(
+        public async Task<ServiceResultModel> DecideCostAsync(
             DecideCostCommandRequest request, 
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<DecideCostCommandResponse>(
+            return await _serviceCommunicator.Call(
                 serviceName: _routeNameProvider.Finance_DecideCost,
                 postData: request,
                 queryParameters: null,

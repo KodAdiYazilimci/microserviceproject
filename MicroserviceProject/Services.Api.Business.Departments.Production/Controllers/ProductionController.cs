@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 using Services.Api.Business.Departments.Production.Services;
 using Services.Communication.Http.Broker.Department.Production.CQRS.Commands.Requests;
-using Services.Communication.Http.Broker.Department.Production.CQRS.Commands.Responses;
 
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,9 +30,9 @@ namespace Services.Api.Business.Departments.Production.Controllers
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> ProduceProduct([FromBody] ProduceProductCommandRequest request, CancellationTokenSource cancellationTokenSource)
         {
-            return await HttpResponseWrapper.WrapAsync<ProduceProductCommandResponse>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await _mediator.Send(request);
+                await _mediator.Send(request);
             },
             services: _productionService);
         }
@@ -43,9 +42,9 @@ namespace Services.Api.Business.Departments.Production.Controllers
         [Authorize(Roles = "ApiUser,QueueUser")]
         public async Task<IActionResult> ReEvaluateProduceProduct(int referenceNumber, CancellationTokenSource cancellationTokenSource)
         {
-            return await HttpResponseWrapper.WrapAsync<ReEvaluateProduceProductCommandResponse>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await _mediator.Send(new ReEvaluateProduceProductCommandRequest() { ReferenceNumber = referenceNumber });
+                await _mediator.Send(new ReEvaluateProduceProductCommandRequest() { ReferenceNumber = referenceNumber });
             },
            services: _productionService);
         }

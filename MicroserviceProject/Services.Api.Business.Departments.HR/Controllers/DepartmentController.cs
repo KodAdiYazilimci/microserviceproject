@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 using Services.Api.Business.Departments.HR.Services;
 using Services.Communication.Http.Broker.Department.HR.CQRS.Commands.Requests;
-using Services.Communication.Http.Broker.Department.HR.CQRS.Commands.Responses;
 using Services.Communication.Http.Broker.Department.HR.CQRS.Queries.Requests;
 using Services.Communication.Http.Broker.Department.HR.CQRS.Queries.Responses;
 using Services.Communication.Http.Broker.Department.HR.Models;
@@ -36,7 +35,7 @@ namespace Services.Api.Business.Departments.HR.Controllers
         {
             return await HttpResponseWrapper.WrapAsync<List<DepartmentModel>>(async () =>
             {
-                var mediatorResult = await _mediator.Send(new GetDepartmentsQueryRequest());
+                GetDepartmentsQueryResponse mediatorResult = await _mediator.Send(new GetDepartmentsQueryRequest());
 
                 return mediatorResult.Departments;
             },
@@ -48,9 +47,9 @@ namespace Services.Api.Business.Departments.HR.Controllers
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> CreateDepartment([FromBody] CreateDepartmentCommandRequest request)
         {
-            return await HttpResponseWrapper.WrapAsync<CreateDepartmentCommandResponse>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await _mediator.Send(request);
+                await _mediator.Send(request);
             },
             services: _departmentService);
         }

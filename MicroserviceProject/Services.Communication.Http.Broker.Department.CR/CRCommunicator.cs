@@ -2,8 +2,7 @@
 using Infrastructure.Communication.Http.Models;
 
 using Services.Communication.Http.Broker.Department.CR.CQRS.Commands.Requests;
-using Services.Communication.Http.Broker.Department.CR.CQRS.Commands.Responses;
-using Services.Communication.Http.Broker.Department.CR.CQRS.Queries.Responses;
+using Services.Communication.Http.Broker.Department.CR.Models;
 using Services.Communication.Http.Providers;
 
 namespace Services.Communication.Http.Broker.Department.CR
@@ -46,10 +45,10 @@ namespace Services.Communication.Http.Broker.Department.CR
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<GetCustomersQueryResponse>> GetCustomersAsync(
+        public async Task<ServiceResultModel<List<CustomerModel>>> GetCustomersAsync(
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<GetCustomersQueryResponse>(
+            return await _serviceCommunicator.Call<List<CustomerModel>>(
                 serviceName: _routeNameProvider.CR_GetCustomers,
                 postData: null,
                 queryParameters: null,
@@ -64,12 +63,12 @@ namespace Services.Communication.Http.Broker.Department.CR
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<CreateCustomerCommandResponse>> CreateCustomerAsync(
+        public async Task<ServiceResultModel> CreateCustomerAsync(
             CreateCustomerCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<CreateCustomerCommandResponse>(
+            return await _serviceCommunicator.Call(
                 serviceName: _routeNameProvider.CR_CreateCustomer,
                 postData: request,
                 queryParameters: null,

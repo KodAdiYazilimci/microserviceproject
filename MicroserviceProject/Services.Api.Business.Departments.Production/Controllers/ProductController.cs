@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 using Services.Api.Business.Departments.Production.Services;
 using Services.Communication.Http.Broker.Department.Production.CQRS.Commands.Requests;
-using Services.Communication.Http.Broker.Department.Production.CQRS.Commands.Responses;
 using Services.Communication.Http.Broker.Department.Production.CQRS.Queries.Requests;
 using Services.Communication.Http.Broker.Department.Production.CQRS.Queries.Responses;
 
@@ -35,9 +34,11 @@ namespace Services.Api.Business.Departments.Production.Controllers
         [Authorize(Roles = "ApiUser,GatewayUser")]
         public async Task<IActionResult> GetProducts()
         {
-            return await HttpResponseWrapper.WrapAsync<GetProductsQueryResponse>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await _mediator.Send(new GetProductsQueryRequest());
+                GetProductsQueryResponse mediatorResult = await _mediator.Send(new GetProductsQueryRequest());
+
+                return mediatorResult.Products;
             },
             services: _productService);
         }
@@ -47,9 +48,9 @@ namespace Services.Api.Business.Departments.Production.Controllers
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> CreateProduct([FromBody] CreateProductCommandRequest request, CancellationTokenSource cancellationTokenSource)
         {
-            return await HttpResponseWrapper.WrapAsync<CreateProductCommandResponse>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await _mediator.Send(request);
+                await _mediator.Send(request);
             },
             services: _productService);
         }

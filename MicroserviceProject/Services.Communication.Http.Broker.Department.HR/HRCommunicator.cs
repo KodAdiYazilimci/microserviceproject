@@ -2,8 +2,6 @@
 using Infrastructure.Communication.Http.Models;
 
 using Services.Communication.Http.Broker.Department.HR.CQRS.Commands.Requests;
-using Services.Communication.Http.Broker.Department.HR.CQRS.Commands.Responses;
-using Services.Communication.Http.Broker.Department.HR.CQRS.Queries.Responses;
 using Services.Communication.Http.Broker.Department.HR.Models;
 using Services.Communication.Http.Providers;
 
@@ -74,12 +72,12 @@ namespace Services.Communication.Http.Broker.Department.HR
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource"></param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<CreateDepartmentCommandResponse>> CreateDepartmentAsync(
+        public async Task<ServiceResultModel> CreateDepartmentAsync(
             CreateDepartmentCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<CreateDepartmentCommandResponse>(
+            return await _serviceCommunicator.Call(
                 serviceName: _routeNameProvider.HR_CreateDepartment,
                 postData: request,
                 queryParameters: null,
@@ -95,10 +93,10 @@ namespace Services.Communication.Http.Broker.Department.HR
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<GetPeopleQueryResponse>> GetPeopleAsync(
+        public async Task<ServiceResultModel<List<PersonModel>>> GetPeopleAsync(
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<GetPeopleQueryResponse>(
+            return await _serviceCommunicator.Call<List<PersonModel>>(
                 serviceName: _routeNameProvider.HR_GetPeople,
                 postData: null,
                 queryParameters: null,
@@ -113,12 +111,12 @@ namespace Services.Communication.Http.Broker.Department.HR
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<CreatePersonCommandResponse>> CreatePersonAsync(
+        public async Task<ServiceResultModel> CreatePersonAsync(
             CreatePersonCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<CreatePersonCommandResponse>(
+            return await _serviceCommunicator.Call(
                 serviceName: _routeNameProvider.HR_CreatePerson,
                 postData: request,
                 queryParameters: null,
@@ -133,10 +131,10 @@ namespace Services.Communication.Http.Broker.Department.HR
         /// Ünvanları verir
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenu</param>
-        public async Task<ServiceResultModel<GetTitlesQueryResponse>> GetTitlesAsync(
+        public async Task<ServiceResultModel<List<TitleModel>>> GetTitlesAsync(
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<GetTitlesQueryResponse>(
+            return await _serviceCommunicator.Call<List<TitleModel>>(
                 serviceName: _routeNameProvider.HR_GetTitles,
                 postData: null,
                 queryParameters: null,
@@ -150,12 +148,12 @@ namespace Services.Communication.Http.Broker.Department.HR
         /// <param name="request">Ünvan modeli</param>
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
-        public async Task<ServiceResultModel<CreateTitleCommandResponse>> CreateTitleAsync(
+        public async Task<ServiceResultModel> CreateTitleAsync(
             CreateTitleCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<CreateTitleCommandResponse>(
+            return await _serviceCommunicator.Call<int>(
                 serviceName: _routeNameProvider.HR_CreateTitle,
                 postData: request,
                 queryParameters: null,
@@ -170,10 +168,10 @@ namespace Services.Communication.Http.Broker.Department.HR
         /// Çalışanları verir
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
-        public async Task<ServiceResultModel<GetWorkersQueryResponse>> GetWorkersAsync(
+        public async Task<ServiceResultModel<List<WorkerModel>>> GetWorkersAsync(
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<GetWorkersQueryResponse>(
+            return await _serviceCommunicator.Call<List<WorkerModel>>(
                 serviceName: _routeNameProvider.HR_GetWorkers,
                 postData: null,
                 queryParameters: null,
@@ -187,12 +185,12 @@ namespace Services.Communication.Http.Broker.Department.HR
         /// <param name="request">Çalışan modeli</param>
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
-        public async Task<ServiceResultModel<CreateWorkerCommandResponse>> CreateWorkerAsync(
+        public async Task<ServiceResultModel> CreateWorkerAsync(
             CreateWorkerCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<CreateWorkerCommandResponse>(
+            return await _serviceCommunicator.Call(
                 serviceName: _routeNameProvider.HR_CreateWorker,
                 postData: request,
                 queryParameters: null,

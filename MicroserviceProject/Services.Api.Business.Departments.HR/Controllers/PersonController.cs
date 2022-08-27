@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 
 using Services.Api.Business.Departments.HR.Services;
 using Services.Communication.Http.Broker.Department.HR.CQRS.Commands.Requests;
-using Services.Communication.Http.Broker.Department.HR.CQRS.Commands.Responses;
 using Services.Communication.Http.Broker.Department.HR.CQRS.Queries.Requests;
 using Services.Communication.Http.Broker.Department.HR.CQRS.Queries.Responses;
 
@@ -33,9 +32,11 @@ namespace Services.Api.Business.Departments.HR.Controllers
         [Authorize(Roles = "ApiUser,GatewayUser")]
         public async Task<IActionResult> GetPeople()
         {
-            return await HttpResponseWrapper.WrapAsync<GetPeopleQueryResponse>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await _mediator.Send(new GetPeopleQueryRequest());
+                GetPeopleQueryResponse mediatorResult = await _mediator.Send(new GetPeopleQueryRequest());
+
+                return mediatorResult.People;
             },
             services: _personService);
         }
@@ -45,9 +46,9 @@ namespace Services.Api.Business.Departments.HR.Controllers
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> CreatePerson([FromBody] CreatePersonCommandRequest request)
         {
-            return await HttpResponseWrapper.WrapAsync<CreatePersonCommandResponse>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await _mediator.Send(request);
+                await _mediator.Send(request);
             },
             services: _personService);
         }
@@ -57,9 +58,11 @@ namespace Services.Api.Business.Departments.HR.Controllers
         [Authorize(Roles = "ApiUser,GatewayUser")]
         public async Task<IActionResult> GetTitles()
         {
-            return await HttpResponseWrapper.WrapAsync<GetTitlesQueryResponse>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await _mediator.Send(new GetTitlesQueryRequest());
+                GetTitlesQueryResponse mediatorResult = await _mediator.Send(new GetTitlesQueryRequest());
+
+                return mediatorResult.Titles;
             },
             services: _personService);
         }
@@ -69,9 +72,9 @@ namespace Services.Api.Business.Departments.HR.Controllers
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> CreateTitle([FromBody] CreateTitleCommandRequest request)
         {
-            return await HttpResponseWrapper.WrapAsync<CreateTitleCommandResponse>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await _mediator.Send(request);
+                await _mediator.Send(request);
             },
             services: _personService);
         }
@@ -81,9 +84,11 @@ namespace Services.Api.Business.Departments.HR.Controllers
         [Authorize(Roles = "ApiUser,GatewayUser")]
         public async Task<IActionResult> GetWorkers()
         {
-            return await HttpResponseWrapper.WrapAsync<GetWorkersQueryResponse>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await _mediator.Send(new GetWorkersQueryRequest());
+                GetWorkersQueryResponse mediatorResult = await _mediator.Send(new GetWorkersQueryRequest());
+
+                return mediatorResult.Workers;
             },
             services: _personService);
         }
@@ -93,9 +98,9 @@ namespace Services.Api.Business.Departments.HR.Controllers
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> CreateWorker([FromBody] CreateWorkerCommandRequest request)
         {
-            return await HttpResponseWrapper.WrapAsync<CreateWorkerCommandResponse>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await _mediator.Send(request);
+                await _mediator.Send(request);
             },
             services: _personService);
         }

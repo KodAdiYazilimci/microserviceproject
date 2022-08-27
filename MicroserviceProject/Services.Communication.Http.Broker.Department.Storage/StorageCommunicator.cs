@@ -2,8 +2,7 @@
 using Infrastructure.Communication.Http.Models;
 
 using Services.Communication.Http.Broker.Department.Storage.CQRS.Commands.Requests;
-using Services.Communication.Http.Broker.Department.Storage.CQRS.Commands.Responses;
-using Services.Communication.Http.Broker.Department.Storage.CQRS.Queries.Responses;
+using Services.Communication.Http.Broker.Department.Storage.Models;
 using Services.Communication.Http.Providers;
 
 namespace Services.Communication.Http.Broker.Department.Storage
@@ -46,11 +45,11 @@ namespace Services.Communication.Http.Broker.Department.Storage
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<GetStockQueryResponse>> GetStockAsync(
+        public async Task<ServiceResultModel<StockModel>> GetStockAsync(
             int productId,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<GetStockQueryResponse>(
+            return await _serviceCommunicator.Call<StockModel>(
                 serviceName: _routeNameProvider.Storage_GetStock,
                 postData: null,
                 queryParameters: new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("productId", productId.ToString()) },
@@ -65,12 +64,12 @@ namespace Services.Communication.Http.Broker.Department.Storage
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<int>> DescendStockAsync(
+        public async Task<ServiceResultModel> DescendStockAsync(
             DescendProductStockCommandRequest descendProductStockCommandRequest,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<int>(
+            return await _serviceCommunicator.Call(
                 serviceName: _routeNameProvider.Storage_DescendProductStock,
                 postData: descendProductStockCommandRequest,
                 queryParameters: null,
@@ -88,12 +87,12 @@ namespace Services.Communication.Http.Broker.Department.Storage
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<CreateStockCommandResponse>> CreateStockAsync(
+        public async Task<ServiceResultModel> CreateStockAsync(
             CreateStockCommandRequest createStockCommandRequest,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<CreateStockCommandResponse>(
+            return await _serviceCommunicator.Call(
                 serviceName: _routeNameProvider.Storage_CreateStock,
                 postData: createStockCommandRequest,
                 queryParameters: null,

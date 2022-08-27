@@ -6,18 +6,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Services.Api.Business.Departments.IT.Services;
-using Services.Api.Business.Departments.IT.Util.Validation.Inventory.AssignInventoryToWorker;
-using Services.Api.Business.Departments.IT.Util.Validation.Inventory.CreateDefaultInventoryForNewWorker;
-using Services.Api.Business.Departments.IT.Util.Validation.Inventory.CreateInventory;
-using Services.Api.Business.Departments.IT.Util.Validation.Inventory.InformInventoryRequest;
 using Services.Communication.Http.Broker.Department.IT.CQRS.Commands.Requests;
-using Services.Communication.Http.Broker.Department.IT.CQRS.Commands.Responses;
 using Services.Communication.Http.Broker.Department.IT.CQRS.Queries.Requests;
 using Services.Communication.Http.Broker.Department.IT.CQRS.Queries.Responses;
-using Services.Communication.Http.Broker.Department.IT.Models;
 
-using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Services.Api.Business.Departments.IT.Controllers
@@ -39,9 +31,11 @@ namespace Services.Api.Business.Departments.IT.Controllers
         [Authorize(Roles = "ApiUser,GatewayUser")]
         public async Task<IActionResult> GetInventories()
         {
-            return await HttpResponseWrapper.WrapAsync<GetInventoriesQueryResponse>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await _mediator.Send(new GetInventoriesQueryRequest());
+                GetInventoriesQueryResponse mediatorResult = await _mediator.Send(new GetInventoriesQueryRequest());
+
+                return mediatorResult.Inventories;
             },
             services: _inventoryService);
         }
@@ -51,9 +45,9 @@ namespace Services.Api.Business.Departments.IT.Controllers
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> CreateInventory([FromBody] CreateInventoryCommandRequest request)
         {
-            return await HttpResponseWrapper.WrapAsync<CreateInventoryCommandResponse>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await _mediator.Send(request);
+                await _mediator.Send(request);
             },
             services: _inventoryService);
         }
@@ -63,9 +57,9 @@ namespace Services.Api.Business.Departments.IT.Controllers
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> AssignInventoryToWorker([FromBody] AssignInventoryToWorkerCommandRequest request)
         {
-            return await HttpResponseWrapper.WrapAsync<AssignInventoryToWorkerCommandResponse>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await _mediator.Send(request);
+                await _mediator.Send(request);
             },
             services: _inventoryService);
         }
@@ -75,9 +69,9 @@ namespace Services.Api.Business.Departments.IT.Controllers
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> CreateDefaultInventoryForNewWorker([FromBody] CreateDefaultInventoryForNewWorkerCommandRequest request)
         {
-            return await HttpResponseWrapper.WrapAsync<CreateDefaultInventoryForNewWorkerCommandResponse>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await _mediator.Send(request);
+                await _mediator.Send(request);
             },
             services: _inventoryService);
         }
@@ -87,9 +81,11 @@ namespace Services.Api.Business.Departments.IT.Controllers
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public IActionResult GetInventoriesForNewWorker()
         {
-            return HttpResponseWrapper.Wrap<GetInventoriesForNewWorkerQueryResponse>(() =>
+            return HttpResponseWrapper.Wrap(() =>
             {
-                return _mediator.Send(new GetInventoriesForNewWorkerQueryRequest()).Result;
+                GetInventoriesForNewWorkerQueryResponse mediatorResult = _mediator.Send(new GetInventoriesForNewWorkerQueryRequest()).Result;
+
+                return mediatorResult.Inventories;
             },
             services: _inventoryService);
         }
