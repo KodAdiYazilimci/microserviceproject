@@ -2,12 +2,13 @@
 using Infrastructure.Communication.WebSockets;
 using Infrastructure.Communication.WebSockets.Models;
 using Infrastructure.Routing.Persistence.Mock;
-using Infrastructure.Routing.Providers.Mock;
 using Infrastructure.Security.Authentication.Mock;
 using Infrastructure.Sockets.Persistence.Mock;
 using Infrastructure.Sockets.Providers.Mock;
 
 using Microsoft.Extensions.Configuration;
+
+using Services.Communication.Http.Providers.Mock;
 
 using System.Threading;
 using System.Threading.Tasks;

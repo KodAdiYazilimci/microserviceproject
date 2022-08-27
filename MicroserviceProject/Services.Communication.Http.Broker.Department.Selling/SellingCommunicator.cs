@@ -1,10 +1,10 @@
 ﻿using Infrastructure.Communication.Http.Broker;
 using Infrastructure.Communication.Http.Models;
-using Infrastructure.Routing.Providers;
 
 using Services.Communication.Http.Broker.Department.Selling.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.Selling.CQRS.Commands.Responses;
 using Services.Communication.Http.Broker.Department.Selling.CQRS.Queries.Responses;
+using Services.Communication.Http.Providers;
 
 namespace Services.Communication.Http.Broker.Department.Selling
 {

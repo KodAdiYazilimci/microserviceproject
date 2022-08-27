@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Infrastructure.Routing.Providers
+namespace Services.Communication.Http.Providers
 {
     /// <summary>
     /// Servis rotalarına ait endpoint isimlerini sağlayan sınıf

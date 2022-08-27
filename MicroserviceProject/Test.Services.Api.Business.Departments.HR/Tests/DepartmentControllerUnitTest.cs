@@ -4,8 +4,6 @@ using Infrastructure.Communication.Http.Broker.Mock;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Mock.Factories;
 using Infrastructure.Routing.Persistence.Mock;
-using Infrastructure.Routing.Providers;
-using Infrastructure.Routing.Providers.Mock;
 using Infrastructure.Security.Authentication.Mock;
 
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +12,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Services.Api.Business.Departments.HR;
 using Services.Api.Business.Departments.HR.Controllers;
 using Services.Communication.Http.Broker.Department.HR.Models;
+using Services.Communication.Http.Providers;
+using Services.Communication.Http.Providers.Mock;
 
 using System;
 using System.Collections.Generic;
@@ -37,7 +37,7 @@ namespace Test.Services.Api.Business.Departments.HR.Tests
         public void Init()
         {
             cancellationTokenSource = new CancellationTokenSource();
-            departmentController = new DepartmentController(MediatorFactory.GetInstance(typeof(Startup)), DepartmentServiceFactory.Instance,null);
+            departmentController = new DepartmentController(MediatorFactory.GetInstance(typeof(Startup)), DepartmentServiceFactory.Instance);
             routeNameProvider = RouteNameProviderFactory.GetRouteNameProvider(ConfigurationFactory.GetConfiguration());
 
             serviceCommunicator =

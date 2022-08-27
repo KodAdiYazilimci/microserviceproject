@@ -5,7 +5,6 @@ using Infrastructure.Communication.WebSockets.Models;
 using Infrastructure.Routing.Exceptions;
 using Infrastructure.Routing.Models;
 using Infrastructure.Routing.Persistence.Repositories.Sql;
-using Infrastructure.Routing.Providers;
 using Infrastructure.Security.Authentication.Exceptions;
 using Infrastructure.Security.Authentication.Providers;
 using Infrastructure.Security.Model;
@@ -17,6 +16,8 @@ using Infrastructure.Sockets.Providers;
 using Microsoft.AspNetCore.SignalR.Client;
 
 using Newtonsoft.Json;
+
+using Services.Communication.Http.Providers;
 
 using System;
 using System.Collections.Generic;

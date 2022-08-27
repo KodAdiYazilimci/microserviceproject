@@ -1,7 +1,7 @@
 ﻿
 using Microsoft.Extensions.Configuration;
 
-namespace Infrastructure.Routing.Providers.Mock
+namespace Services.Communication.Http.Providers.Mock
 {
     /// <summary>
     /// Servis rota sağlayıcısını taklit eden sınıf

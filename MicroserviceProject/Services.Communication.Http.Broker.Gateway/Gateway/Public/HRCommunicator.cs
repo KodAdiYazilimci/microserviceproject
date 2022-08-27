@@ -1,9 +1,9 @@
 ﻿
 using Infrastructure.Communication.Http.Broker;
 using Infrastructure.Communication.Http.Models;
-using Infrastructure.Routing.Providers;
 
 using Services.Communication.Http.Broker.Gateway.Public.Models;
+using Services.Communication.Http.Providers;
 
 using System;
 using System.Collections.Generic;

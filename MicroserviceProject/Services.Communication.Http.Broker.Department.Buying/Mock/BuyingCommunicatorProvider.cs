@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Communication.Http.Broker;
-using Infrastructure.Routing.Providers;
+
+using Services.Communication.Http.Providers;
 
 namespace Services.Communication.Http.Broker.Department.Buying.Mock
 {

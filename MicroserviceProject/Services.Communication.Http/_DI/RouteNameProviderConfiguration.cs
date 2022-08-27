@@ -1,7 +1,9 @@
 ﻿
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Infrastructure.Routing.Providers.DI
+using Services.Communication.Http.Providers;
+
+namespace Services.Communication.Http.DI
 {
     /// <summary>
     /// Servis rotaları DI sınıfı

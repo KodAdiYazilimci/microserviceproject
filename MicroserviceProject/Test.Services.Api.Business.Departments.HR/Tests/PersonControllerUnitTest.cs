@@ -31,7 +31,7 @@ namespace Test.Services.Api.Business.Departments.HR.Tests
         {
             cancellationTokenSource = new CancellationTokenSource();
             personController = new PersonController(MediatorFactory.GetInstance(typeof(Startup)), PersonServiceFactory.Instance);
-            departmentController = new DepartmentController(MediatorFactory.GetInstance(typeof(Startup)), DepartmentServiceFactory.Instance,null);
+            departmentController = new DepartmentController(MediatorFactory.GetInstance(typeof(Startup)), DepartmentServiceFactory.Instance);
         }
 
         [TestMethod]

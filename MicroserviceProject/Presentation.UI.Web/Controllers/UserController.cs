@@ -1,6 +1,5 @@
 ﻿using Infrastructure.Communication.Http.Broker;
 using Infrastructure.Routing.Models;
-using Infrastructure.Routing.Providers;
 using Infrastructure.Security.Authentication.Cookie.Handlers;
 using Infrastructure.Security.Model;
 
@@ -13,6 +12,8 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
 using Presentation.UI.Web.Models;
+
+using Services.Communication.Http.Providers;
 
 using System;
 using System.Threading;

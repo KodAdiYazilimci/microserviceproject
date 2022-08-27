@@ -6,7 +6,6 @@ using Infrastructure.Localization.Translation.Persistence.Mock.EntityFramework.P
 using Infrastructure.Localization.Translation.Provider.Mock;
 using Infrastructure.Mock.Factories;
 using Infrastructure.Routing.Persistence.Mock;
-using Infrastructure.Routing.Providers.Mock;
 using Infrastructure.Security.Authentication.Mock;
 
 using Microsoft.Extensions.Configuration;
@@ -17,6 +16,7 @@ using Services.Api.Business.Departments.HR.Services;
 using Services.Communication.Http.Broker.Department.AA.Mock;
 using Services.Communication.Http.Broker.Department.Accounting.Mock;
 using Services.Communication.Http.Broker.Department.IT.Mock;
+using Services.Communication.Http.Providers.Mock;
 using Services.Communication.Mq.Queue.AA.Configuration.Mock;
 using Services.Communication.Mq.Queue.AA.Rabbit.Publishers.Mock;
 using Services.Communication.Mq.Queue.Accounting.Configuration.Mock;

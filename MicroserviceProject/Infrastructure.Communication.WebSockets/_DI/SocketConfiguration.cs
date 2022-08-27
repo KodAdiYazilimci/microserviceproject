@@ -1,11 +1,12 @@
 ﻿using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Routing.Persistence.DI;
-using Infrastructure.Routing.Providers.DI;
 using Infrastructure.Security.Authentication.DI;
 using Infrastructure.Sockets.Persistence.Repositories.Sql;
 using Infrastructure.Sockets.Providers.DI;
 
 using Microsoft.Extensions.DependencyInjection;
+
+using Services.Communication.Http.DI;
 
 namespace Infrastructure.Communication.WebSockets.DI
 {
