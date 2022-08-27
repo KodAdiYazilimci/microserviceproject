@@ -4,6 +4,7 @@ using Infrastructure.Communication.Http.Models;
 using Services.Communication.Http.Broker.Department.HR.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.HR.CQRS.Commands.Responses;
 using Services.Communication.Http.Broker.Department.HR.CQRS.Queries.Responses;
+using Services.Communication.Http.Broker.Department.HR.Models;
 using Services.Communication.Http.Providers;
 
 namespace Services.Communication.Http.Broker.Department.HR
@@ -47,13 +48,13 @@ namespace Services.Communication.Http.Broker.Department.HR
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<GetDepartmentsQueryResponse>> GetDepartmentsAsync(
+        public async Task<ServiceResultModel<List<DepartmentModel>>> GetDepartmentsAsync(
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            ServiceResultModel<GetDepartmentsQueryResponse> departmentsServiceResult =
+            ServiceResultModel<List<DepartmentModel>> departmentsServiceResult =
                     await
-                    _serviceCommunicator.Call<GetDepartmentsQueryResponse>(
+                    _serviceCommunicator.Call<List<DepartmentModel>>(
                         serviceName: _routeNameProvider.HR_GetDepartments,
                         postData: null,
                         queryParameters: null,
