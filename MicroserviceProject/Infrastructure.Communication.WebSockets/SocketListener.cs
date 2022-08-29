@@ -19,6 +19,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -113,7 +114,7 @@ namespace Infrastructure.Communication.WebSockets
                 ||
                 takenTokenForThisService.ValidTo <= DateTime.Now)
             {
-                ServiceCaller serviceTokenCaller = new ServiceCaller(_cacheProvider, "");
+                ServiceCaller serviceTokenCaller = new ServiceCaller(null, _cacheProvider, "");
                 serviceTokenCaller.OnNoServiceFoundInCacheAsync += async (serviceName) =>
                 {
                     return await GetServiceAsync(serviceName, cancellationTokenSource);

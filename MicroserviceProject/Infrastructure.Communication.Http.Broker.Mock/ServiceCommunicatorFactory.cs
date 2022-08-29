@@ -2,6 +2,8 @@
 using Infrastructure.Routing.Persistence.Repositories.Sql;
 using Infrastructure.Security.Authentication.Providers;
 
+using System.Net.Http;
+
 namespace Infrastructure.Communication.Http.Broker.Mock
 {
     /// <summary>
@@ -28,7 +30,9 @@ namespace Infrastructure.Communication.Http.Broker.Mock
         {
             if (serviceCommunicator == null)
             {
-                serviceCommunicator = new ServiceCommunicator(cacheProvider, credentialProvider, serviceRouteRepository);
+                IHttpClientFactory httpClientFactory = (IHttpClientFactory)HttpClientFactory.Create();
+
+                serviceCommunicator = new ServiceCommunicator(httpClientFactory, cacheProvider, credentialProvider, serviceRouteRepository);
             }
 
             return serviceCommunicator;

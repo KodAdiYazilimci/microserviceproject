@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -36,6 +37,8 @@ namespace Infrastructure.Communication.Http.Broker
         /// </summary>
         private const string CACHEDSERVICEROUTES = "CACHED_SERVICE_ROUTES";
 
+        private readonly IHttpClientFactory _httpClientFactory;
+
         /// <summary>
         /// Önbellek nesnesi
         /// </summary>
@@ -58,10 +61,12 @@ namespace Infrastructure.Communication.Http.Broker
         /// <param name="credentialProvider">İletişimde kullanılacak yetkiler için sağlayıcı</param>
         /// <param name="serviceRouteRepository">Servis endpointleri sağlayıcısı</param>
         public ServiceCommunicator(
+            IHttpClientFactory httpClientFactory,
             InMemoryCacheDataProvider cacheProvider,
             CredentialProvider credentialProvider,
             ServiceRouteRepository serviceRouteRepository)
         {
+            _httpClientFactory = httpClientFactory;
             _cacheProvider = cacheProvider;
             _credentialProvider = credentialProvider;
             _serviceRouteRepository = serviceRouteRepository;
@@ -90,7 +95,7 @@ namespace Infrastructure.Communication.Http.Broker
                 ||
                 takenTokenForThisService.ValidTo <= DateTime.Now)
             {
-                ServiceCaller serviceTokenCaller = new ServiceCaller(_cacheProvider, "");
+                ServiceCaller serviceTokenCaller = new ServiceCaller(_httpClientFactory, _cacheProvider, "");
                 serviceTokenCaller.OnNoServiceFoundInCacheAsync += async (serviceName) =>
                 {
                     return await GetServiceAsync(serviceName, cancellationTokenSource);
@@ -118,7 +123,7 @@ namespace Infrastructure.Communication.Http.Broker
                 }
             }
 
-            ServiceCaller serviceCaller = new ServiceCaller(_cacheProvider, takenTokenForThisService.TokenKey);
+            ServiceCaller serviceCaller = new ServiceCaller(_httpClientFactory, _cacheProvider, takenTokenForThisService.TokenKey);
             serviceCaller.OnNoServiceFoundInCacheAsync += async (serviceName) =>
             {
                 return await GetServiceAsync(serviceName, cancellationTokenSource);
@@ -156,7 +161,7 @@ namespace Infrastructure.Communication.Http.Broker
                 ||
                 takenTokenForThisService.ValidTo <= DateTime.Now)
             {
-                ServiceCaller serviceTokenCaller = new ServiceCaller(_cacheProvider, "");
+                ServiceCaller serviceTokenCaller = new ServiceCaller(_httpClientFactory, _cacheProvider, "");
                 serviceTokenCaller.OnNoServiceFoundInCacheAsync += async (serviceName) =>
                 {
                     return await GetServiceAsync(serviceName, cancellationTokenSource);
@@ -184,7 +189,7 @@ namespace Infrastructure.Communication.Http.Broker
                 }
             }
 
-            ServiceCaller serviceCaller = new ServiceCaller(_cacheProvider, takenTokenForThisService.TokenKey);
+            ServiceCaller serviceCaller = new ServiceCaller(_httpClientFactory, _cacheProvider, takenTokenForThisService.TokenKey);
             serviceCaller.OnNoServiceFoundInCacheAsync += async (serviceName) =>
             {
                 return await GetServiceAsync(serviceName, cancellationTokenSource);

@@ -20,6 +20,13 @@ namespace Infrastructure.Communication.Http.Providers
         /// </summary>
         private bool disposed = false;
 
+        private readonly IHttpClientFactory _httpClientFactory;
+
+        public HttpGetProvider(IHttpClientFactory httpClientFactory)
+        {
+            _httpClientFactory = httpClientFactory;
+        }
+
         /// <summary>
         /// Http get isteği gönderir
         /// </summary>
@@ -30,7 +37,7 @@ namespace Infrastructure.Communication.Http.Providers
         {
             Uri requestUri = GenerateUri(url);
 
-            HttpClient httpClient = new HttpClient();
+            HttpClient httpClient = _httpClientFactory?.CreateClient() ?? HttpClient;
 
             AppendHeaders(httpClient);
 
@@ -55,7 +62,7 @@ namespace Infrastructure.Communication.Http.Providers
         {
             Uri requestUri = GenerateUri(url);
 
-            HttpClient httpClient = new HttpClient();
+            HttpClient httpClient = _httpClientFactory?.CreateClient() ?? HttpClient;
 
             AppendHeaders(httpClient);
 
@@ -81,7 +88,7 @@ namespace Infrastructure.Communication.Http.Providers
         {
             Uri requestUri = GenerateUri(url);
 
-            HttpClient httpClient = new HttpClient();
+            HttpClient httpClient = _httpClientFactory?.CreateClient() ?? HttpClient;
 
             AppendHeaders(httpClient);
 

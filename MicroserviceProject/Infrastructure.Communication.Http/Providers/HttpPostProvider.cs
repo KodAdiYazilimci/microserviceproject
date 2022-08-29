@@ -19,6 +19,13 @@ namespace Infrastructure.Communication.Http.Providers
         /// </summary>
         private bool disposed = false;
 
+        private readonly IHttpClientFactory _httpClientFactory;
+
+        public HttpPostProvider(IHttpClientFactory httpClientFactory)
+        {
+            _httpClientFactory = httpClientFactory;
+        }
+
         /// <summary>
         /// Http post isteği gönderir
         /// </summary>
@@ -31,7 +38,7 @@ namespace Infrastructure.Communication.Http.Providers
         {
             Uri requestUri = GenerateUri(url);
 
-            HttpClient httpClient = new HttpClient();
+            HttpClient httpClient = _httpClientFactory?.CreateClient() ?? HttpClient;
 
             AppendHeaders(httpClient);
 
@@ -59,11 +66,11 @@ namespace Infrastructure.Communication.Http.Providers
         {
             Uri requestUri = GenerateUri(url);
 
-            HttpClient httpClient = new HttpClient();
+            HttpClient httpClient = _httpClientFactory?.CreateClient() ?? HttpClient;
 
             AppendHeaders(httpClient);
 
-            HttpResponseMessage httpResponseMessage = 
+            HttpResponseMessage httpResponseMessage =
                 await httpClient.PostAsync(requestUri, new StringContent(JsonConvert.SerializeObject(postData), Encoding.UTF8, "application/json"), cancellationTokenSource.Token);
 
             using (StreamReader streamReader = new StreamReader(await httpResponseMessage.Content.ReadAsStreamAsync(cancellationTokenSource.Token)))

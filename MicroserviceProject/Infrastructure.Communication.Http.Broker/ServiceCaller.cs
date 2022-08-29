@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -36,6 +37,8 @@ namespace Infrastructure.Communication.Http.Broker
         /// Servis bilgisinin önbellekte tutulacak süresinin dakika cinsinden değeri
         /// </summary>
         private const double SERVICE_ENDPOINT_CACHE_TIMEOUT = 60;
+
+        private readonly IHttpClientFactory _httpClientFactory;
 
         /// <summary>
         /// Servis bilgisini tutan önbellek nesnesi
@@ -66,9 +69,11 @@ namespace Infrastructure.Communication.Http.Broker
         /// <param name="cacheProvider">Servis bilgisini tutan önbellek nesnesi</param>
         /// <param name="serviceToken">Kurulacak servisin beklediği token</param>
         public ServiceCaller(
+            IHttpClientFactory httpClientFactory,
             InMemoryCacheDataProvider cacheProvider,
             string serviceToken)
         {
+            _httpClientFactory = httpClientFactory;
             _cacheProvider = cacheProvider;
             _serviceToken = serviceToken;
         }
@@ -278,7 +283,7 @@ namespace Infrastructure.Communication.Http.Broker
             {
                 if (serviceRoute.CallType.ToUpper() == "POST")
                 {
-                    HttpPostProvider httpPostProvider = new HttpPostProvider
+                    HttpPostProvider httpPostProvider = new HttpPostProvider(_httpClientFactory)
                     {
                         Headers = new List<HttpHeader>()
                     };
@@ -305,7 +310,7 @@ namespace Infrastructure.Communication.Http.Broker
                 }
                 else if (serviceRoute.CallType.ToUpper() == "GET")
                 {
-                    HttpGetProvider httpGetProvider = new HttpGetProvider
+                    HttpGetProvider httpGetProvider = new HttpGetProvider(_httpClientFactory)
                     {
                         Headers = new List<HttpHeader>()
                     };
@@ -350,7 +355,7 @@ namespace Infrastructure.Communication.Http.Broker
             {
                 if (serviceRoute.CallType.ToUpper() == "POST")
                 {
-                    HttpPostProvider httpPostProvider = new HttpPostProvider
+                    HttpPostProvider httpPostProvider = new HttpPostProvider(_httpClientFactory)
                     {
                         Headers = new List<HttpHeader>()
                     };
@@ -377,7 +382,7 @@ namespace Infrastructure.Communication.Http.Broker
                 }
                 else if (serviceRoute.CallType.ToUpper() == "GET")
                 {
-                    HttpGetProvider httpGetProvider = new HttpGetProvider
+                    HttpGetProvider httpGetProvider = new HttpGetProvider(_httpClientFactory)
                     {
                         Headers = new List<HttpHeader>()
                     };

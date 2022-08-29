@@ -21,6 +21,8 @@ namespace Infrastructure.Communication.Http.Providers
         /// </summary>
         private bool disposed = false;
 
+        protected static HttpClient HttpClient { get; private set; } = new HttpClient();
+
         /// <summary>
         /// Http isteği esnasında kullanılacak headerlar
         /// </summary>

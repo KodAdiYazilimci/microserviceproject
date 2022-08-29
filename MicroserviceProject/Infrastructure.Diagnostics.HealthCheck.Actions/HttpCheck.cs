@@ -39,7 +39,7 @@ namespace Infrastructure.Diagnostics.HealthCheck.Actions
         /// <returns></returns>
         public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
         {
-            using (HttpGetProvider httpGetProvider = new HttpGetProvider())
+            using (HttpGetProvider httpGetProvider = new HttpGetProvider(null))
             {
                 try
                 {
