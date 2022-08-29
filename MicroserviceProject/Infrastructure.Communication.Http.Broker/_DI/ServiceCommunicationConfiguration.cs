@@ -5,8 +5,6 @@ using Infrastructure.Security.Authentication.DI;
 
 using Microsoft.Extensions.DependencyInjection;
 
-using Services.Communication.Http.DI;
-
 namespace Infrastructure.Communication.Http.Broker.DI
 {
     /// <summary>
@@ -22,7 +20,6 @@ namespace Infrastructure.Communication.Http.Broker.DI
         public static IServiceCollection RegisterHttpServiceCommunicator(this IServiceCollection services)
         {
             services.RegisterCredentialProvider();
-            services.RegisterHttpRouteProvider();
             services.RegisterHttpRouteRepositories();
             services.RegisterInMemoryCaching();
 

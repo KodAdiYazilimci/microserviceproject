@@ -3,7 +3,6 @@ using Infrastructure.Communication.Http.Models;
 
 using Services.Communication.Http.Broker.Department.Finance.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.Finance.Models;
-using Services.Communication.Http.Providers;
 
 namespace Services.Communication.Http.Broker.Department.Finance
 {
@@ -18,11 +17,6 @@ namespace Services.Communication.Http.Broker.Department.Finance
         private bool disposed = false;
 
         /// <summary>
-        /// Servis rotalarına ait endpoint isimlerini sağlayan sınıfın nesnesi
-        /// </summary>
-        private readonly RouteNameProvider _routeNameProvider;
-
-        /// <summary>
         /// Yetki denetimi destekli servis iletişim sağlayıcı sınıfın nesnesi
         /// </summary>
         private readonly ServiceCommunicator _serviceCommunicator;
@@ -33,10 +27,8 @@ namespace Services.Communication.Http.Broker.Department.Finance
         /// <param name="routeNameProvider">Servis rotalarına ait endpoint isimlerini sağlayan sınıfın nesnesi</param>
         /// <param name="serviceCommunicator">Yetki denetimi destekli servis iletişim sağlayıcı sınıfın nesnesi</param>
         public FinanceCommunicator(
-            RouteNameProvider routeNameProvider,
             ServiceCommunicator serviceCommunicator)
         {
-            _routeNameProvider = routeNameProvider;
             _serviceCommunicator = serviceCommunicator;
         }
 
@@ -53,7 +45,7 @@ namespace Services.Communication.Http.Broker.Department.Finance
             CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call(
-                serviceName: _routeNameProvider.Finance_CreateCost,
+                serviceName: "finance.cost.createcost",
                 postData: request,
                 queryParameters: null,
                 headers: new List<KeyValuePair<string, string>>()
@@ -76,7 +68,7 @@ namespace Services.Communication.Http.Broker.Department.Finance
             CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call(
-                serviceName: _routeNameProvider.Finance_CreateProductionRequest,
+                serviceName: "finance.productionrequest.createproductionrequest",
                 postData: request,
                 queryParameters: null,
                 headers: new List<KeyValuePair<string, string>>()
@@ -95,7 +87,7 @@ namespace Services.Communication.Http.Broker.Department.Finance
             CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call<List<DecidedCostModel>>(
-                serviceName: _routeNameProvider.Finance_GetDecidedCosts,
+                serviceName: "finance.cost.getdecidedcosts",
                 postData: null,
                 queryParameters: null,
                 headers: null,
@@ -115,7 +107,7 @@ namespace Services.Communication.Http.Broker.Department.Finance
             CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call(
-                serviceName: _routeNameProvider.Finance_DecideCost,
+                serviceName: "finance.cost.decidecost",
                 postData: request,
                 queryParameters: null,
                 headers: new List<KeyValuePair<string, string>>()
@@ -137,7 +129,7 @@ namespace Services.Communication.Http.Broker.Department.Finance
         {
             ServiceResultModel serviceResult =
                 await _serviceCommunicator.Call(
-                    serviceName: _routeNameProvider.Finance_RemoveSessionIfExistsInCache,
+                    serviceName: "finance.identity.removesessionifexistsincache",
                     postData: null,
                     queryParameters: new List<KeyValuePair<string, string>>()
                     {
@@ -168,7 +160,6 @@ namespace Services.Communication.Http.Broker.Department.Finance
             {
                 if (!disposed)
                 {
-                    _routeNameProvider.Dispose();
                     _serviceCommunicator.Dispose();
                 }
 

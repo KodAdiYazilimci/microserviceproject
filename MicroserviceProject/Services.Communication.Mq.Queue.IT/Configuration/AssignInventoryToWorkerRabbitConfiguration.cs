@@ -23,13 +23,7 @@ namespace Services.Communication.Mq.Queue.IT.Configuration
         public AssignInventoryToWorkerRabbitConfiguration(IConfiguration configuration)
             : base(configuration)
         {
-            QueueName =
-                configuration
-                .GetSection("Configuration")
-                .GetSection("RabbitQueues")
-                .GetSection("Services")
-                .GetSection("IT")
-                .GetSection("QueueNames")["AssignInventoryToWorker"];
+            QueueName = "it.queue.inventory.assigninventorytoworker";
         }
 
         /// <summary>

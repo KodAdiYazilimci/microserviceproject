@@ -8,8 +8,6 @@ using Infrastructure.Security.Model;
 
 using Newtonsoft.Json;
 
-using Services.Communication.Http.Providers;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,11 +47,6 @@ namespace Infrastructure.Communication.Http.Broker
         private readonly CredentialProvider _credentialProvider;
 
         /// <summary>
-        /// Gerektiğinde iletişimde bulunacak yetki servisi için rota isimleri sağlayıcısı
-        /// </summary>
-        private readonly RouteNameProvider _routeNameProvider;
-
-        /// <summary>
         /// Servis endpointleri sağlayıcısı
         /// </summary>
         private readonly ServiceRouteRepository _serviceRouteRepository;
@@ -63,17 +56,14 @@ namespace Infrastructure.Communication.Http.Broker
         /// </summary>
         /// <param name="cacheProvider">Önbellek nesnesi</param>
         /// <param name="credentialProvider">İletişimde kullanılacak yetkiler için sağlayıcı</param>
-        /// <param name="routeNameProvider">Gerektiğinde iletişimde bulunacak yetki servisi için rota isimleri sağlayıcısı</param>
         /// <param name="serviceRouteRepository">Servis endpointleri sağlayıcısı</param>
         public ServiceCommunicator(
             InMemoryCacheDataProvider cacheProvider,
             CredentialProvider credentialProvider,
-            RouteNameProvider routeNameProvider,
             ServiceRouteRepository serviceRouteRepository)
         {
             _cacheProvider = cacheProvider;
             _credentialProvider = credentialProvider;
-            _routeNameProvider = routeNameProvider;
             _serviceRouteRepository = serviceRouteRepository;
         }
 
@@ -107,7 +97,7 @@ namespace Infrastructure.Communication.Http.Broker
                 };
                 ServiceResultModel<AuthenticationToken> tokenResult =
                     await serviceTokenCaller.Call<AuthenticationToken>(
-                        serviceName: _routeNameProvider.Auth_GetToken,
+                        serviceName: "authorization.auth.gettoken",
                         postData: new AuthenticationCredential()
                         {
                             Email = _credentialProvider.GetEmail,
@@ -173,7 +163,7 @@ namespace Infrastructure.Communication.Http.Broker
                 };
                 ServiceResultModel<AuthenticationToken> tokenResult =
                     await serviceTokenCaller.Call<AuthenticationToken>(
-                        serviceName: _routeNameProvider.Auth_GetToken,
+                        serviceName: "authorization.auth.gettoken",
                         postData: new AuthenticationCredential()
                         {
                             Email = _credentialProvider.GetEmail,
@@ -251,9 +241,6 @@ namespace Infrastructure.Communication.Http.Broker
                 {
                     if (_credentialProvider != null)
                         _credentialProvider.Dispose();
-
-                    if (_routeNameProvider != null)
-                        _routeNameProvider.Dispose();
 
                     if (_serviceRouteRepository != null)
                         _serviceRouteRepository.Dispose();

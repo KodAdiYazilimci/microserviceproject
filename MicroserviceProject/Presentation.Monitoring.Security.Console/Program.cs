@@ -4,11 +4,8 @@ using Infrastructure.Communication.WebSockets.Models;
 using Infrastructure.Routing.Persistence.Mock;
 using Infrastructure.Security.Authentication.Mock;
 using Infrastructure.Sockets.Persistence.Mock;
-using Infrastructure.Sockets.Providers.Mock;
 
 using Microsoft.Extensions.Configuration;
-
-using Services.Communication.Http.Providers.Mock;
 
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,9 +21,7 @@ namespace Presentation.Monitoring.Security.Console
             SocketListener socketListener = new SocketListener(
                 cacheProvider: InMemoryCacheDataProviderFactory.Instance,
                 credentialProvider: CredentialProviderFactory.GetCredentialProvider(GetConfiguration(args)),
-                routeNameProvider: RouteNameProviderFactory.GetRouteNameProvider(GetConfiguration(args)),
                 serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(GetConfiguration(args)),
-                socketNameProvider: SocketNameProviderFactory.GetSocketNameProvider(GetConfiguration(args)),
                 socketRepository: SocketRepositoryFactory.GetSocketRepository(GetConfiguration(args)));
 
             socketListener.OnMessageReceived += (WebSocketResultModel webSocketResult) =>
@@ -35,7 +30,7 @@ namespace Presentation.Monitoring.Security.Console
             };
 
             await socketListener.ListenAsync(
-                socketName: SocketNameProviderFactory.GetSocketNameProvider(GetConfiguration(args)).Security_TokensHub_GetTokenMessages,
+                socketName: "websockets.security.tokenshub.gettokenmessages",
                 cancellationTokenSource: cancellationTokenSource);
 
             System.Console.ReadKey();

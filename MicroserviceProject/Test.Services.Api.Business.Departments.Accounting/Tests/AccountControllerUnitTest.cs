@@ -12,8 +12,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Services.Api.Business.Departments.Accounting;
 using Services.Api.Business.Departments.Accounting.Controllers;
 using Services.Communication.Http.Broker.Department.Accounting.Models;
-using Services.Communication.Http.Providers;
-using Services.Communication.Http.Providers.Mock;
 
 using System;
 using System.Collections.Generic;
@@ -31,7 +29,6 @@ namespace Test.Services.Api.Business.Departments.Accounting.Tests
     {
         private CancellationTokenSource cancellationTokenSource = null;
         private AccountController accountController = null;
-        private RouteNameProvider routeNameProvider = null;
         private ServiceCommunicator serviceCommunicator = null;
 
         [TestInitialize]
@@ -39,13 +36,11 @@ namespace Test.Services.Api.Business.Departments.Accounting.Tests
         {
             cancellationTokenSource = new CancellationTokenSource();
             accountController = new AccountController(MediatorFactory.GetInstance(typeof(Startup)), BankServiceFactory.Instance);
-            routeNameProvider = RouteNameProviderFactory.GetRouteNameProvider(ConfigurationFactory.GetConfiguration());
 
             serviceCommunicator =
                 ServiceCommunicatorFactory.GetServiceCommunicator(
                     cacheProvider: InMemoryCacheDataProviderFactory.Instance,
                     credentialProvider: CredentialProviderFactory.GetCredentialProvider(ConfigurationFactory.GetConfiguration()),
-                    routeNameProvider: routeNameProvider,
                     serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(ConfigurationFactory.GetConfiguration()));
         }
 
@@ -54,7 +49,7 @@ namespace Test.Services.Api.Business.Departments.Accounting.Tests
         {
             ServiceResultModel<List<WorkerModel>> workersResult =
                 await serviceCommunicator.Call<List<WorkerModel>>(
-                    serviceName: routeNameProvider.HR_GetWorkers,
+                    serviceName: "hr.person.getworkers",
                     postData: null,
                     queryParameters: null,
                     headers: null,
@@ -72,7 +67,7 @@ namespace Test.Services.Api.Business.Departments.Accounting.Tests
         {
             ServiceResultModel<List<WorkerModel>> workersResult =
                 await serviceCommunicator.Call<List<WorkerModel>>(
-                    serviceName: routeNameProvider.HR_GetWorkers,
+                    serviceName: "hr.person.getworkers",
                     postData: null,
                     queryParameters: null,
                     headers: null,
@@ -125,7 +120,7 @@ namespace Test.Services.Api.Business.Departments.Accounting.Tests
         {
             ServiceResultModel<List<WorkerModel>> workersResult =
                    await serviceCommunicator.Call<List<WorkerModel>>(
-                       serviceName: routeNameProvider.HR_GetWorkers,
+                       serviceName: "hr.person.getworkers",
                        postData: null,
                        queryParameters: null,
                        headers: null,
@@ -143,7 +138,7 @@ namespace Test.Services.Api.Business.Departments.Accounting.Tests
         {
             ServiceResultModel<List<WorkerModel>> workersResult =
                 await serviceCommunicator.Call<List<WorkerModel>>(
-                    serviceName: routeNameProvider.HR_GetWorkers,
+                    serviceName: "hr.person.getworkers",
                     postData: null,
                     queryParameters: null,
                     headers: null,
@@ -151,7 +146,7 @@ namespace Test.Services.Api.Business.Departments.Accounting.Tests
 
             Task<ServiceResultModel<List<BankAccountModel>>> getBankAccountsTask =
                 serviceCommunicator.Call<List<BankAccountModel>>(
-                    serviceName: routeNameProvider.Accounting_GetBankAccountsOfWorker,
+                    serviceName: "accounting.bankaccounts.getbankaccountsofworker",
                     postData: null,
                     queryParameters: new List<KeyValuePair<string, string>>()
                     {
@@ -162,7 +157,7 @@ namespace Test.Services.Api.Business.Departments.Accounting.Tests
 
             Task<ServiceResultModel<List<CurrencyModel>>> getCurrenciesTask =
                             serviceCommunicator.Call<List<CurrencyModel>>(
-                            serviceName: routeNameProvider.Accounting_GetCurrencies,
+                            serviceName: "accounting.bankaccounts.getcurrencies",
                             postData: null,
                             queryParameters: null,
                             headers: null,

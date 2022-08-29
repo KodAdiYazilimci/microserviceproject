@@ -23,13 +23,7 @@ namespace Services.Communication.Mq.Queue.Finance.Configuration
         public InventoryRequestRabbitConfiguration(IConfiguration configuration)
             : base(configuration)
         {
-            QueueName =
-                configuration
-                .GetSection("Configuration")
-                .GetSection("RabbitQueues")
-                .GetSection("Services")
-                .GetSection("Finance")
-                .GetSection("QueueNames")["InventoryRequest"];
+            QueueName = "finance.queue.request.inventoryrequest";
         }
 
         /// <summary>

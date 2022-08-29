@@ -13,8 +13,6 @@ using Newtonsoft.Json;
 
 using Presentation.UI.Web.Models;
 
-using Services.Communication.Http.Providers;
-
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,19 +21,16 @@ namespace Presentation.UI.Web.Controllers
 {
     public class UserController : Controller
     {
-        private readonly RouteNameProvider _routeNameProvider;
         private readonly ServiceCommunicator _serviceCommunicator;
         private readonly CookieHandler _sessionProvider;
         private readonly IConfiguration _configuration;
 
         public UserController(
             IConfiguration configuration,
-            RouteNameProvider routeNameProvider,
             ServiceCommunicator serviceCommunicator,
             CookieHandler sessionProvider)
         {
             _configuration = configuration;
-            _routeNameProvider = routeNameProvider;
             _sessionProvider = sessionProvider;
             _serviceCommunicator = serviceCommunicator;
         }
@@ -67,7 +62,7 @@ namespace Presentation.UI.Web.Controllers
 
                 QueryString queryString = queryBuilder.ToQueryString();
 
-                string serviceJson = await _serviceCommunicator.GetServiceAsync(_routeNameProvider.Identity_Login, cancellationTokenSource);
+                string serviceJson = await _serviceCommunicator.GetServiceAsync(serviceName: "presentation.ui.web.identity.user.login", cancellationTokenSource);
 
                 ServiceRouteModel serviceRouteModel = JsonConvert.DeserializeObject<ServiceRouteModel>(serviceJson);
 

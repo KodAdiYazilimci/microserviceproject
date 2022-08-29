@@ -23,13 +23,7 @@ namespace Services.Communication.Mq.Queue.Authorization.Configuration
         public InformInvalidTokenRabbitConfiguration(IConfiguration configuration)
             : base(configuration)
         {
-            QueueName =
-                configuration
-                .GetSection("Configuration")
-                .GetSection("RabbitQueues")
-                .GetSection("Services")
-                .GetSection("Authorization")
-                .GetSection("QueueNames")["InformInvalidToken"];
+            QueueName = "authorization.queue.identity.informinvalidtoken";
         }
 
         /// <summary>

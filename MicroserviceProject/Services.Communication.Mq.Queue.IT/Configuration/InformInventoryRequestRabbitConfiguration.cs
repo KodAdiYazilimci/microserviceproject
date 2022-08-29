@@ -23,13 +23,7 @@ namespace Services.Communication.Mq.Queue.IT.Configuration
         public InformInventoryRequestRabbitConfiguration(IConfiguration configuration)
             : base(configuration)
         {
-            QueueName =
-                configuration
-                .GetSection("Configuration")
-                .GetSection("RabbitQueues")
-                .GetSection("Services")
-                .GetSection("IT")
-                .GetSection("QueueNames")["InformInventoryRequest"];
+            QueueName = "it.queue.request.informinventoryrequest";
         }
 
         /// <summary>

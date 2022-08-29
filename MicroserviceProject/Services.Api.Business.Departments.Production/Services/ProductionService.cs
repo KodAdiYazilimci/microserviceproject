@@ -18,6 +18,7 @@ using Services.Api.Business.Departments.Production.Repositories.EntityFramework;
 using Services.Communication.Http.Broker.Department.Production.Models;
 using Services.Communication.Http.Broker.Department.Storage;
 using Services.Communication.Http.Broker.Department.Storage.CQRS.Queries.Responses;
+using Services.Communication.Http.Broker.Department.Storage.Models;
 using Services.Communication.Mq.Queue.Buying.Models;
 using Services.Communication.Mq.Queue.Buying.Rabbit.Publishers;
 using Services.Communication.Mq.Queue.Storage.Models;
@@ -301,7 +302,7 @@ namespace Services.Api.Business.Departments.Production.Services
 
                 foreach (ProductDependencyEntity dependedProduct in productDependencies)
                 {
-                    ServiceResultModel<GetStockQueryResponse> stocksServiceResult =
+                    ServiceResultModel<StockModel> stocksServiceResult =
                         await _storageCommunicator.GetStockAsync(dependedProduct.DependedProductId, cancellationTokenSource);
 
                     if (stocksServiceResult.IsSuccess)
@@ -310,7 +311,7 @@ namespace Services.Api.Business.Departments.Production.Services
                         productionItem.DependedProductId = dependedProduct.DependedProductId;
                         productionItem.RequiredAmount = dependedProduct.Amount * produceModel.Amount;
 
-                        if (stocksServiceResult.Data.Stock.Amount < dependedProduct.Amount * produceModel.Amount)
+                        if (stocksServiceResult.Data.Amount < dependedProduct.Amount * produceModel.Amount)
                         {
                             productionItem.StatusId = (int)ProductionStatus.WaitingDependency;
                             production.StatusId = (int)ProductionStatus.WaitingDependency;
@@ -454,12 +455,12 @@ namespace Services.Api.Business.Departments.Production.Services
 
                 foreach (var productionItem in productionItems)
                 {
-                    ServiceResultModel<GetStockQueryResponse> stocksServiceResult =
+                    ServiceResultModel<StockModel> stocksServiceResult =
                            await _storageCommunicator.GetStockAsync(productionItem.DependedProductId, cancellationTokenSource);
 
                     if (stocksServiceResult.IsSuccess)
                     {
-                        if (stocksServiceResult.Data.Stock.Amount >= productionItem.RequiredAmount)
+                        if (stocksServiceResult.Data.Amount >= productionItem.RequiredAmount)
                         {
                             _descendProductStockPublisher.AddToBuffer(new ProductStockQueueModel()
                             {

@@ -23,13 +23,7 @@ namespace Services.Communication.Mq.Queue.Storage.Configuration
         public IncreaseProductStockRabbitConfiguration(IConfiguration configuration)
             : base(configuration)
         {
-            QueueName =
-                configuration
-                .GetSection("Configuration")
-                .GetSection("RabbitQueues")
-                .GetSection("Services")
-                .GetSection("Storage")
-                .GetSection("QueueNames")["IncreaseProductStock"];
+            QueueName = "storage.queue.product.increaseproductstock";
         }
 
         /// <summary>

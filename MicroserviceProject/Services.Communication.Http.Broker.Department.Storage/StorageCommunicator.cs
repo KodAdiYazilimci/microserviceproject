@@ -3,7 +3,6 @@ using Infrastructure.Communication.Http.Models;
 
 using Services.Communication.Http.Broker.Department.Storage.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.Storage.Models;
-using Services.Communication.Http.Providers;
 
 namespace Services.Communication.Http.Broker.Department.Storage
 {
@@ -18,11 +17,6 @@ namespace Services.Communication.Http.Broker.Department.Storage
         private bool disposed = false;
 
         /// <summary>
-        /// Servis rotalarına ait endpoint isimlerini sağlayan sınıfın nesnesi
-        /// </summary>
-        private readonly RouteNameProvider _routeNameProvider;
-
-        /// <summary>
         /// Yetki denetimi destekli servis iletişim sağlayıcı sınıfın nesnesi
         /// </summary>
         private readonly ServiceCommunicator _serviceCommunicator;
@@ -30,13 +24,10 @@ namespace Services.Communication.Http.Broker.Department.Storage
         /// <summary>
         /// Stok servisi için iletişim kurucu sınıf
         /// </summary>
-        /// <param name="routeNameProvider">Servis rotalarına ait endpoint isimlerini sağlayan sınıfın nesnesi</param>
         /// <param name="serviceCommunicator">Yetki denetimi destekli servis iletişim sağlayıcı sınıfın nesnesi</param>
         public StorageCommunicator(
-            RouteNameProvider routeNameProvider,
             ServiceCommunicator serviceCommunicator)
         {
-            _routeNameProvider = routeNameProvider;
             _serviceCommunicator = serviceCommunicator;
         }
 
@@ -50,7 +41,7 @@ namespace Services.Communication.Http.Broker.Department.Storage
             CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call<StockModel>(
-                serviceName: _routeNameProvider.Storage_GetStock,
+                serviceName: "storage.stock.getstock",
                 postData: null,
                 queryParameters: new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("productId", productId.ToString()) },
                 headers: null,
@@ -70,7 +61,7 @@ namespace Services.Communication.Http.Broker.Department.Storage
             CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call(
-                serviceName: _routeNameProvider.Storage_DescendProductStock,
+                serviceName: "storage.stock.descendproductstock",
                 postData: descendProductStockCommandRequest,
                 queryParameters: null,
                 headers: new List<KeyValuePair<string, string>>()
@@ -93,7 +84,7 @@ namespace Services.Communication.Http.Broker.Department.Storage
             CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call(
-                serviceName: _routeNameProvider.Storage_CreateStock,
+                serviceName: "storage.stock.createstock",
                 postData: createStockCommandRequest,
                 queryParameters: null,
                 headers: new List<KeyValuePair<string, string>>()
@@ -115,7 +106,7 @@ namespace Services.Communication.Http.Broker.Department.Storage
         {
             ServiceResultModel serviceResult =
                 await _serviceCommunicator.Call(
-                    serviceName: _routeNameProvider.Storage_RemoveSessionIfExistsInCache,
+                    serviceName: "storage.identity.removesessionifexistsincache",
                     postData: null,
                     queryParameters: new List<KeyValuePair<string, string>>()
                     {
@@ -146,7 +137,6 @@ namespace Services.Communication.Http.Broker.Department.Storage
             {
                 if (!disposed)
                 {
-                    _routeNameProvider.Dispose();
                     _serviceCommunicator.Dispose();
                 }
 

@@ -9,7 +9,6 @@
     <ProjectReference Include="..\Infrastructure.Communication.Http\Infrastructure.Communication.Http.csproj" />
     <ProjectReference Include="..\Infrastructure.Routing.Persistence\Infrastructure.Routing.Persistence.csproj" />
     <ProjectReference Include="..\Infrastructure.Security.Authentication\Infrastructure.Security.Authentication.csproj" />
-    <ProjectReference Include="..\Services.Communication.Http\Services.Communication.Http.csproj" />
   </ItemGroup>
 
 </Project>

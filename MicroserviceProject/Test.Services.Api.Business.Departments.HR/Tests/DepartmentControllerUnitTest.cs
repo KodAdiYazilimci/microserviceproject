@@ -12,8 +12,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Services.Api.Business.Departments.HR;
 using Services.Api.Business.Departments.HR.Controllers;
 using Services.Communication.Http.Broker.Department.HR.Models;
-using Services.Communication.Http.Providers;
-using Services.Communication.Http.Providers.Mock;
 
 using System;
 using System.Collections.Generic;
@@ -30,7 +28,6 @@ namespace Test.Services.Api.Business.Departments.HR.Tests
     {
         private CancellationTokenSource cancellationTokenSource = null;
         private DepartmentController departmentController = null;
-        private RouteNameProvider routeNameProvider = null;
         private ServiceCommunicator serviceCommunicator = null;
 
         [TestInitialize]
@@ -38,13 +35,11 @@ namespace Test.Services.Api.Business.Departments.HR.Tests
         {
             cancellationTokenSource = new CancellationTokenSource();
             departmentController = new DepartmentController(MediatorFactory.GetInstance(typeof(Startup)), DepartmentServiceFactory.Instance);
-            routeNameProvider = RouteNameProviderFactory.GetRouteNameProvider(ConfigurationFactory.GetConfiguration());
 
             serviceCommunicator =
                 ServiceCommunicatorFactory.GetServiceCommunicator(
                     cacheProvider: InMemoryCacheDataProviderFactory.Instance,
                     credentialProvider: CredentialProviderFactory.GetCredentialProvider(ConfigurationFactory.GetConfiguration()),
-                    routeNameProvider: routeNameProvider,
                     serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(ConfigurationFactory.GetConfiguration()));
         }
 
@@ -62,7 +57,7 @@ namespace Test.Services.Api.Business.Departments.HR.Tests
             ServiceResultModel<List<DepartmentModel>> serviceResult =
                 await
                 serviceCommunicator.Call<List<DepartmentModel>>(
-                serviceName: routeNameProvider.HR_GetDepartments,
+                serviceName: "hr.department.getdepartments",
                 postData: null,
                 queryParameters: null,
                 headers: null,
@@ -97,9 +92,6 @@ namespace Test.Services.Api.Business.Departments.HR.Tests
 
             serviceCommunicator.Dispose();
             serviceCommunicator = null;
-
-            routeNameProvider.Dispose();
-            routeNameProvider = null;
         }
     }
 }

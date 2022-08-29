@@ -2,7 +2,6 @@
 using Infrastructure.Communication.Http.Models;
 
 using Services.Communication.Http.Broker.Authorization.Models;
-using Services.Communication.Http.Providers;
 
 using System;
 using System.Collections.Generic;
@@ -22,11 +21,6 @@ namespace Services.Communication.Http.Broker.Authorization
         private bool disposed = false;
 
         /// <summary>
-        /// Servis rotalarına ait endpoint isimlerini sağlayan sınıfın nesnesi
-        /// </summary>
-        private readonly RouteNameProvider _routeNameProvider;
-
-        /// <summary>
         /// Yetki denetimi destekli servis iletişim sağlayıcı sınıfın nesnesi
         /// </summary>
         private readonly ServiceCommunicator _serviceCommunicator;
@@ -34,13 +28,10 @@ namespace Services.Communication.Http.Broker.Authorization
         /// <summary>
         /// Yetki denetimi servisi için iletişim kurucu sınıf
         /// </summary>
-        /// <param name="routeNameProvider">Servis rotalarına ait endpoint isimlerini sağlayan sınıfın nesnesi</param>
         /// <param name="serviceCommunicator">Yetki denetimi destekli servis iletişim sağlayıcı sınıfın nesnesi</param>
         public AuthorizationCommunicator(
-            RouteNameProvider routeNameProvider,
             ServiceCommunicator serviceCommunicator)
         {
-            _routeNameProvider = routeNameProvider;
             _serviceCommunicator = serviceCommunicator;
         }
 
@@ -54,7 +45,7 @@ namespace Services.Communication.Http.Broker.Authorization
         {
             ServiceResultModel<TokenModel> tokenResult =
                    await _serviceCommunicator.Call<TokenModel>(
-                       serviceName: _routeNameProvider.Auth_GetToken,
+                       serviceName: "authorization.auth.gettoken",
                        postData: credential,
                        queryParameters: null,
                        headers: null,
@@ -74,7 +65,7 @@ namespace Services.Communication.Http.Broker.Authorization
             ServiceResultModel<UserModel> serviceResult =
                     await
                     _serviceCommunicator.Call<UserModel>(
-                        serviceName: _routeNameProvider.Auth_GetUser,
+                        serviceName: "authorization.auth.getuser",
                         postData: null,
                         queryParameters: new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("token", headerToken) },
                         headers: null,
@@ -102,7 +93,6 @@ namespace Services.Communication.Http.Broker.Authorization
             {
                 if (!disposed)
                 {
-                    _routeNameProvider.Dispose();
                     _serviceCommunicator.Dispose();
                 }
 

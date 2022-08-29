@@ -23,13 +23,7 @@ namespace Services.Communication.Mq.Queue.Production.Configuration
         public ProductionProduceRabbitConfiguration(IConfiguration configuration)
             : base(configuration)
         {
-            QueueName =
-                configuration
-                .GetSection("Configuration")
-                .GetSection("RabbitQueues")
-                .GetSection("Services")
-                .GetSection("Production")
-                .GetSection("QueueNames")["Produce"];
+            QueueName = "production.queue.product.produce";
         }
 
         /// <summary>

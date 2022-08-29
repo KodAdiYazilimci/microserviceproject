@@ -3,7 +3,6 @@ using Infrastructure.Communication.Http.Models;
 
 using Services.Communication.Http.Broker.Department.Accounting.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.Accounting.Models;
-using Services.Communication.Http.Providers;
 
 namespace Services.Communication.Http.Broker.Department.Accounting
 {
@@ -18,11 +17,6 @@ namespace Services.Communication.Http.Broker.Department.Accounting
         private bool disposed = false;
 
         /// <summary>
-        /// Servis rotalarına ait endpoint isimlerini sağlayan sınıfın nesnesi
-        /// </summary>
-        private readonly RouteNameProvider _routeNameProvider;
-
-        /// <summary>
         /// Yetki denetimi destekli servis iletişim sağlayıcı sınıfın nesnesi
         /// </summary>
         private readonly ServiceCommunicator _serviceCommunicator;
@@ -30,13 +24,10 @@ namespace Services.Communication.Http.Broker.Department.Accounting
         /// <summary>
         /// Muhasebe servisi için iletişim kurucu sınıf
         /// </summary>
-        /// <param name="routeNameProvider">Servis rotalarına ait endpoint isimlerini sağlayan sınıfın nesnesi</param>
         /// <param name="serviceCommunicator">Yetki denetimi destekli servis iletişim sağlayıcı sınıfın nesnesi</param>
         public AccountingCommunicator(
-            RouteNameProvider routeNameProvider,
             ServiceCommunicator serviceCommunicator)
         {
-            _routeNameProvider = routeNameProvider;
             _serviceCommunicator = serviceCommunicator;
         }
 
@@ -54,7 +45,7 @@ namespace Services.Communication.Http.Broker.Department.Accounting
         {
             ServiceResultModel<List<BankAccountModel>> bankAccountsServiceResult =
                  await _serviceCommunicator.Call<List<BankAccountModel>>(
-                     serviceName: _routeNameProvider.Accounting_GetBankAccountsOfWorker,
+                     serviceName: "accounting.bankaccounts.getbankaccountsofworker",
                      postData: null,
                      queryParameters: new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("workerId", workerId.ToString()) },
                      headers: new List<KeyValuePair<string, string>>()
@@ -79,7 +70,7 @@ namespace Services.Communication.Http.Broker.Department.Accounting
             CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call(
-               serviceName: _routeNameProvider.Accounting_CreateBankAccount,
+               serviceName: "accounting.bankaccounts.createbankaccount",
                postData: request,
                queryParameters: null,
                headers: new List<KeyValuePair<string, string>>()
@@ -98,7 +89,7 @@ namespace Services.Communication.Http.Broker.Department.Accounting
             CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call<List<CurrencyModel>>(
-                serviceName: _routeNameProvider.Accounting_GetCurrencies,
+                serviceName: "accounting.bankaccounts.getcurrencies",
                 postData: null,
                 queryParameters: null,
                 headers: null,
@@ -118,7 +109,7 @@ namespace Services.Communication.Http.Broker.Department.Accounting
             CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call(
-                serviceName: _routeNameProvider.Accounting_CreateCurrency,
+                serviceName: "accounting.bankaccounts.createcurrency",
                 postData: request,
                 queryParameters: null,
                 headers: new List<KeyValuePair<string, string>>()
@@ -139,7 +130,7 @@ namespace Services.Communication.Http.Broker.Department.Accounting
             CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call<List<SalaryPaymentModel>>(
-                serviceName: _routeNameProvider.Accounting_GetSalaryPaymentsOfWorker,
+                serviceName: "accounting.bankaccounts.getsalarypaymentsofworker",
                 postData: null,
                 queryParameters: new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("workerId", workerId.ToString()) },
                 headers: null,
@@ -159,7 +150,7 @@ namespace Services.Communication.Http.Broker.Department.Accounting
             CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call(
-                serviceName: _routeNameProvider.Accounting_CreateSalaryPayment,
+                serviceName: "accounting.bankaccounts.createsalarypayment",
                 postData: request,
                 queryParameters: null,
                 headers: new List<KeyValuePair<string, string>>()
@@ -181,7 +172,7 @@ namespace Services.Communication.Http.Broker.Department.Accounting
         {
             ServiceResultModel serviceResult =
                 await _serviceCommunicator.Call(
-                    serviceName: _routeNameProvider.Accounting_RemoveSessionIfExistsInCache,
+                    serviceName: "accounting.identity.removesessionifexistsincache",
                     postData: null,
                     queryParameters: new List<KeyValuePair<string, string>>()
                     {
@@ -212,7 +203,6 @@ namespace Services.Communication.Http.Broker.Department.Accounting
             {
                 if (!disposed)
                 {
-                    _routeNameProvider.Dispose();
                     _serviceCommunicator.Dispose();
                 }
 

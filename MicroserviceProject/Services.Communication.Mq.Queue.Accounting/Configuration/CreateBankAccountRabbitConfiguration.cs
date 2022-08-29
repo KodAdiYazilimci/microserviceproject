@@ -23,13 +23,7 @@ namespace Services.Communication.Mq.Queue.Accounting.Configuration
         public CreateBankAccountRabbitConfiguration(IConfiguration configuration)
             : base(configuration)
         {
-            QueueName =
-                configuration
-                .GetSection("Configuration")
-                .GetSection("RabbitQueues")
-                .GetSection("Services")
-                .GetSection("Accounting")
-                .GetSection("QueueNames")["CreateBankAccount"];
+            QueueName = "accounting.queue.bankaccounts.createbankaccount";
         }
 
         /// <summary>

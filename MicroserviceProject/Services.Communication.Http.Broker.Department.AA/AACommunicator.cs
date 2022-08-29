@@ -3,7 +3,6 @@ using Infrastructure.Communication.Http.Models;
 
 using Services.Communication.Http.Broker.Department.AA.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.AA.Models;
-using Services.Communication.Http.Providers;
 
 namespace Services.Communication.Http.Broker.Department.AA
 {
@@ -18,11 +17,6 @@ namespace Services.Communication.Http.Broker.Department.AA
         private bool disposed = false;
 
         /// <summary>
-        /// Servis rotalarına ait endpoint isimlerini sağlayan sınıfın nesnesi
-        /// </summary>
-        private readonly RouteNameProvider _routeNameProvider;
-
-        /// <summary>
         /// Yetki denetimi destekli servis iletişim sağlayıcı sınıfın nesnesi
         /// </summary>
         private readonly ServiceCommunicator _serviceCommunicator;
@@ -30,13 +24,10 @@ namespace Services.Communication.Http.Broker.Department.AA
         /// <summary>
         /// İdari işler servisi için iletişim kurucu sınıf
         /// </summary>
-        /// <param name="routeNameProvider">Servis rotalarına ait endpoint isimlerini sağlayan sınıfın nesnesi</param>
         /// <param name="serviceCommunicator">Yetki denetimi destekli servis iletişim sağlayıcı sınıfın nesnesi</param>
         public AACommunicator(
-            RouteNameProvider routeNameProvider,
             ServiceCommunicator serviceCommunicator)
         {
-            _routeNameProvider = routeNameProvider;
             _serviceCommunicator = serviceCommunicator;
         }
 
@@ -53,7 +44,7 @@ namespace Services.Communication.Http.Broker.Department.AA
             ServiceResultModel<List<InventoryModel>> serviceResult =
                     await
                     _serviceCommunicator.Call<List<InventoryModel>>(
-                            serviceName: _routeNameProvider.AA_GetInventories,
+                            serviceName: "aa.inventory.getinventories",
                             postData: null,
                             queryParameters: null,
                             headers: new List<KeyValuePair<string, string>>()
@@ -77,7 +68,7 @@ namespace Services.Communication.Http.Broker.Department.AA
             CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call(
-                serviceName: _routeNameProvider.AA_CreateInventory,
+                serviceName: "aa.inventory.createinventory",
                 postData: request,
                 queryParameters: null,
                 headers: new List<KeyValuePair<string, string>>()
@@ -99,7 +90,7 @@ namespace Services.Communication.Http.Broker.Department.AA
         {
             ServiceResultModel<List<InventoryModel>> defaultInventoriesServiceResult =
                     await _serviceCommunicator.Call<List<InventoryModel>>(
-                        serviceName: _routeNameProvider.AA_GetInventoriesForNewWorker,
+                        serviceName: "aa.inventory.getinventoriesfornewworker",
                         postData: null,
                         queryParameters: null,
                         headers: new List<KeyValuePair<string, string>>()
@@ -123,7 +114,7 @@ namespace Services.Communication.Http.Broker.Department.AA
         {
             ServiceResultModel serviceResult =
                 await _serviceCommunicator.Call(
-                    serviceName: _routeNameProvider.AA_RemoveSessionIfExistsInCache,
+                    serviceName: "aa.identity.removesessionifexistsincache",
                     postData: null,
                     queryParameters: new List<KeyValuePair<string, string>>()
                     {
@@ -148,7 +139,7 @@ namespace Services.Communication.Http.Broker.Department.AA
             CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call(
-                serviceName: _routeNameProvider.AA_AssignInventoryToWorker,
+                serviceName: "aa.inventory.assigninventorytoworker",
                 postData: request,
                 queryParameters: null,
                 headers: new List<KeyValuePair<string, string>>()
@@ -171,7 +162,7 @@ namespace Services.Communication.Http.Broker.Department.AA
             CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call(
-                serviceName: _routeNameProvider.AA_InformInventoryRequest,
+                serviceName: "aa.inventory.informinventoryrequest",
                 postData: request,
                 queryParameters: null,
                 headers: new List<KeyValuePair<string, string>>()
@@ -194,7 +185,7 @@ namespace Services.Communication.Http.Broker.Department.AA
             CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call(
-                serviceName: _routeNameProvider.AA_CreateDefaultInventoryForNewWorker,
+                serviceName: "aa.inventory.createdefaultinventoryfornewworker",
                 postData: request,
                 queryParameters: null,
                 headers: new List<KeyValuePair<string, string>>()
@@ -223,7 +214,6 @@ namespace Services.Communication.Http.Broker.Department.AA
             {
                 if (!disposed)
                 {
-                    _routeNameProvider.Dispose();
                     _serviceCommunicator.Dispose();
                 }
 

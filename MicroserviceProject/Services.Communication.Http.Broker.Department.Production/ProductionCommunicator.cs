@@ -3,7 +3,6 @@ using Infrastructure.Communication.Http.Models;
 
 using Services.Communication.Http.Broker.Department.Production.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.Production.Models;
-using Services.Communication.Http.Providers;
 
 namespace Services.Communication.Http.Broker.Department.Production
 {
@@ -18,11 +17,6 @@ namespace Services.Communication.Http.Broker.Department.Production
         private bool disposed = false;
 
         /// <summary>
-        /// Servis rotalarına ait endpoint isimlerini sağlayan sınıfın nesnesi
-        /// </summary>
-        private readonly RouteNameProvider _routeNameProvider;
-
-        /// <summary>
         /// Yetki denetimi destekli servis iletişim sağlayıcı sınıfın nesnesi
         /// </summary>
         private readonly ServiceCommunicator _serviceCommunicator;
@@ -30,13 +24,10 @@ namespace Services.Communication.Http.Broker.Department.Production
         /// <summary>
         /// Üretim servisi için iletişim kurucu sınıf
         /// </summary>
-        /// <param name="routeNameProvider">Servis rotalarına ait endpoint isimlerini sağlayan sınıfın nesnesi</param>
         /// <param name="serviceCommunicator">Yetki denetimi destekli servis iletişim sağlayıcı sınıfın nesnesi</param>
         public ProductionCommunicator(
-            RouteNameProvider routeNameProvider,
             ServiceCommunicator serviceCommunicator)
         {
-            _routeNameProvider = routeNameProvider;
             _serviceCommunicator = serviceCommunicator;
         }
 
@@ -49,7 +40,7 @@ namespace Services.Communication.Http.Broker.Department.Production
             CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call<List<ProductModel>>(
-                serviceName: _routeNameProvider.Production_GetProducts,
+                serviceName: "production.product.getproducts",
                 postData: null,
                 queryParameters: null,
                 headers: null,
@@ -69,7 +60,7 @@ namespace Services.Communication.Http.Broker.Department.Production
             CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call(
-                serviceName: _routeNameProvider.Production_ProduceProduct,
+                serviceName: "production.production.produceproduct",
                 postData: request,
                 queryParameters: null,
                 headers: new List<KeyValuePair<string, string>>()
@@ -92,7 +83,7 @@ namespace Services.Communication.Http.Broker.Department.Production
             CancellationTokenSource cancellationTokenSource)
         {
             return await _serviceCommunicator.Call(
-                serviceName: _routeNameProvider.Production_CreateProduct,
+                serviceName: "production.product.createproduct",
                 postData: request,
                 queryParameters: null,
                 headers: new List<KeyValuePair<string, string>>()
@@ -114,7 +105,7 @@ namespace Services.Communication.Http.Broker.Department.Production
         {
             ServiceResultModel serviceResult =
                 await _serviceCommunicator.Call(
-                    serviceName: _routeNameProvider.Production_RemoveSessionIfExistsInCache,
+                    serviceName: "production.identity.removesessionifexistsincache",
                     postData: null,
                     queryParameters: new List<KeyValuePair<string, string>>()
                     {
@@ -132,7 +123,7 @@ namespace Services.Communication.Http.Broker.Department.Production
         {
             ServiceResultModel serviceResult =
                 await _serviceCommunicator.Call(
-                    serviceName: _routeNameProvider.Production_ReEvaluateProduceProduct,
+                    serviceName: "production.production.reevaluateproduceproduct",
                     postData: null,
                     queryParameters: new List<KeyValuePair<string, string>>()
                     {
@@ -163,7 +154,6 @@ namespace Services.Communication.Http.Broker.Department.Production
             {
                 if (!disposed)
                 {
-                    _routeNameProvider.Dispose();
                     _serviceCommunicator.Dispose();
                 }
 

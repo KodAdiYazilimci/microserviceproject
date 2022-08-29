@@ -1,18 +1,16 @@
 ﻿using Infrastructure.Communication.Http.Broker;
 
-using Services.Communication.Http.Providers;
-
 namespace Services.Communication.Http.Broker.Department.Production.Mock
 {
     public class ProductionCommunicatorProvider
     {
         private static ProductionCommunicator productionCommunicator;
 
-        public static ProductionCommunicator GetProductionCommunicator(RouteNameProvider routeNameProvider, ServiceCommunicator serviceCommunicator)
+        public static ProductionCommunicator GetProductionCommunicator(ServiceCommunicator serviceCommunicator)
         {
             if (productionCommunicator == null)
             {
-                productionCommunicator = new ProductionCommunicator(routeNameProvider, serviceCommunicator);
+                productionCommunicator = new ProductionCommunicator(serviceCommunicator);
             }
 
             return productionCommunicator;

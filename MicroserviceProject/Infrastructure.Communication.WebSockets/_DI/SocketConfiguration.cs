@@ -2,11 +2,8 @@
 using Infrastructure.Routing.Persistence.DI;
 using Infrastructure.Security.Authentication.DI;
 using Infrastructure.Sockets.Persistence.Repositories.Sql;
-using Infrastructure.Sockets.Providers.DI;
 
 using Microsoft.Extensions.DependencyInjection;
-
-using Services.Communication.Http.DI;
 
 namespace Infrastructure.Communication.WebSockets.DI
 {
@@ -24,9 +21,7 @@ namespace Infrastructure.Communication.WebSockets.DI
         {
             services.RegisterCredentialProvider();
             services.RegisterInMemoryCaching();
-            services.RegisterHttpRouteProvider();
             services.RegisterHttpRouteRepositories();
-            services.RegisterSocketRouteNameProvider();
 
             services.AddSingleton<SocketListener>();
             services.AddSingleton<SocketRepository>();

@@ -23,13 +23,7 @@ namespace Services.Communication.Mq.Queue.Buying.Configuration
         public CreateProductRequestRabbitConfiguration(IConfiguration configuration)
             : base(configuration)
         {
-            QueueName =
-                configuration
-                .GetSection("Configuration")
-                .GetSection("RabbitQueues")
-                .GetSection("Services")
-                .GetSection("Buying")
-                .GetSection("QueueNames")["CreateProductRequest"];
+            QueueName = "buying.queue.request.createproductrequest";
         }
 
         /// <summary>
