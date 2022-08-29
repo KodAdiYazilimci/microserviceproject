@@ -9,5 +9,6 @@ spec:
   - port: 5097
     targetPort: 8501
     protocol: TCP
-  type: LoadBalancer
+    nodePort: 31097
+  type: NodePort
   clusterIP: 10.102.2.97

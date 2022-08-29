@@ -9,5 +9,6 @@ spec:
   - port: 5098
     targetPort: 31636
     protocol: TCP
-  type: LoadBalancer
+    nodePort: 31098
+  type: NodePort
   clusterIP: 10.102.2.98

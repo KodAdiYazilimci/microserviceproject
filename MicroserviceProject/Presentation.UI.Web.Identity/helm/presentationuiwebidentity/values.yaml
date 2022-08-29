@@ -1,21 +1,22 @@
 service:  
- name: "presentationuiweb-pod"
- clusterIP: 10.102.2.97
- type: LoadBalancer
+ name: "presentationuiwebidentity-pod"
+ clusterIP: 10.102.2.98
+ type: NodePort
  ports:
-  internal: 8501
-  external: 5097
+  internal: 31636
+  external: 5098
   protocol: TCP
+  nodePort: 31098
 
 deployment:
  application:
-  name: "presentationuiweb-pod"
+  name: "presentationuiwebidentity-pod"
   containers:
-   presentationuiwebContainer:
+   presentationuiwebidentityContainer:
     port: 26920
     environment:
-     ApplicationName: "Presentation Web UI"
-     Configuration_Authorization_Credential_Email: "Presentation.UI.Web@ui.service"
+     ApplicationName: "Presentation Web UI Identity"
+     Configuration_Authorization_Credential_Email: "Presentation.UI.Web.Identity@ui.service"
      Configuration_Authorization_Credential_Password: "1234"
      Configuration_Localization_TranslationDbConnnectionString: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Localization_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
      Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Host: "rabbitmq3.default.svc.cluster.local"
@@ -36,5 +37,5 @@ deployment:
      Caching_Redis_Server: "svc-redis.default.svc.cluster.local"
   image:
    imagePullPolicy: "Always"
-   name: "serkancamur/presentationuiweb"
+   name: "serkancamur/presentationuiwebidentity"
    tag: "latest"
