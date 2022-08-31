@@ -26,3 +26,4 @@ COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Services.MQ.Accounting.dll"]
 
 #docker build -t serkancamur/mqaccounting:latest -f Dockerfile_MQ_Accounting .
+#docker push serkancamur/mqaccounting:latest

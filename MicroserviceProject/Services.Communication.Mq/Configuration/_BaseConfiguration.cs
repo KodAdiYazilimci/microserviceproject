@@ -35,7 +35,7 @@ namespace Services.Communication.Mq.Configuration
                     configuration
                     .GetSection("Configuration")
                     .GetSection("RabbitQueues")
-                    .GetSection("Host")["EnviromentVariableNamePrefix"] + "_DefaultHost")
+                    .GetSection("Host")["EnvironmentVariableNamePrefix"] + "_DefaultHost")
                 :
                 configuration
                 .GetSection("Configuration")
@@ -53,7 +53,7 @@ namespace Services.Communication.Mq.Configuration
                     configuration
                     .GetSection("Configuration")
                     .GetSection("RabbitQueues")
-                    .GetSection("Host")["EnviromentVariableNamePrefix"] + "_DefaultUserName")
+                    .GetSection("Host")["EnvironmentVariableNamePrefix"] + "_DefaultUserName")
                 :
                 configuration
                 .GetSection("Configuration")
@@ -71,7 +71,7 @@ namespace Services.Communication.Mq.Configuration
                     configuration
                     .GetSection("Configuration")
                     .GetSection("RabbitQueues")
-                    .GetSection("Host")["EnviromentVariableNamePrefix"] + "_DefaultPassword")
+                    .GetSection("Host")["EnvironmentVariableNamePrefix"] + "_DefaultPassword")
                 :
                 configuration
                 .GetSection("Configuration")

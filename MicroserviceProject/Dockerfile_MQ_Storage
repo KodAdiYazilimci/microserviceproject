@@ -26,3 +26,4 @@ COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Services.MQ.Storage.dll"]
 
 #docker build -t serkancamur/mqstorage:latest -f Dockerfile_MQ_Storage .
+#docker push serkancamur/mqstorage:latest

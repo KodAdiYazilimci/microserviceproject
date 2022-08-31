@@ -26,3 +26,4 @@ COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Presentation.UI.Web.Identity.dll"]
 
 #docker build -t serkancamur/presentationuiwebidentity:latest -f Dockerfile_PresentationUIWebIdentity .
+#docker push serkancamur/presentationuiwebidentity:latest

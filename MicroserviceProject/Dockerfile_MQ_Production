@@ -26,3 +26,4 @@ COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Services.MQ.Production.dll"]
 
 #docker build -t serkancamur/mqproduction:latest -f Dockerfile_MQ_Production .
+#docker push serkancamur/mqproduction:latest

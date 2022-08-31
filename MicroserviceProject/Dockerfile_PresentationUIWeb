@@ -26,3 +26,4 @@ COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Presentation.UI.Web.dll"]
 
 #docker build -t serkancamur/presentationuiweb:latest -f Dockerfile_PresentationUIWeb .
+#docker push serkancamur/presentationuiweb:latest

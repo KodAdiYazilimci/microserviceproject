@@ -26,3 +26,4 @@ COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Services.Api.Business.Departments.AA.dll"]
 
 #docker build -t serkancamur/aa:latest -f Dockerfile_AA .
+#docker push serkancamur/aa:latest

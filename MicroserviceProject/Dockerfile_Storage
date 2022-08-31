@@ -26,3 +26,4 @@ COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Services.Api.Business.Departments.Storage.dll"]
 
 #docker build -t serkancamur/storage:latest -f Dockerfile_Storage .
+#docker push serkancamur/storage:latest

@@ -26,3 +26,4 @@ COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Services.MQ.Buying.dll"]
 
 #docker build -t serkancamur/mqbuying:latest -f Dockerfile_MQ_Buying .
+#docker push serkancamur/mqbuying:latest

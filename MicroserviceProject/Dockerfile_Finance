@@ -26,3 +26,4 @@ COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Services.Api.Business.Departments.Finance.dll"]
 
 #docker build -t serkancamur/finance:latest -f Dockerfile_Finance .
+#docker push serkancamur/finance:latest

@@ -26,3 +26,4 @@ COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Services.MQ.IT.dll"]
 
 #docker build -t serkancamur/mqit:latest -f Dockerfile_MQ_IT .
+#docker push serkancamur/mqit:latest

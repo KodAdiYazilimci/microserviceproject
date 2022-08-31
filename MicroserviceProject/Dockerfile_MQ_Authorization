@@ -26,3 +26,4 @@ COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Services.MQ.Authorization.dll"]
 
 #docker build -t serkancamur/mqauthorization:latest -f Dockerfile_MQ_Authorization .
+#docker push serkancamur/mqauthorization:latest

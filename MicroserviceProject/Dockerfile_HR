@@ -26,3 +26,4 @@ COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Services.Api.Business.Departments.HR.dll"]
 
 #docker build -t serkancamur/hr:latest -f Dockerfile_HR .
+#docker push serkancamur/hr:latest

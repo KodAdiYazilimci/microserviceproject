@@ -26,3 +26,4 @@ COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Services.MQ.AA.dll"]
 
 #docker build -t serkancamur/mqaa:latest -f Dockerfile_MQ_AA .
+#docker push serkancamur/mqaa:latest

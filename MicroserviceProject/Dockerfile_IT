@@ -26,3 +26,4 @@ COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Services.Api.Business.Departments.IT.dll"]
 
 #docker build -t serkancamur/it:latest -f Dockerfile_IT .
+#docker push serkancamur/it:latest
