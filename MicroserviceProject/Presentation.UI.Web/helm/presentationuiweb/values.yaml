@@ -6,7 +6,7 @@ service:
   internal: 8501
   external: 5097
   protocol: TCP
-  nodePort: 31097
+  nodeport: 31097
 
 deployment:
  application:
