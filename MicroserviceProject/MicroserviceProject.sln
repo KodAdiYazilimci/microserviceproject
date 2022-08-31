@@ -301,6 +301,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Dockerfile_CR = Dockerfile_CR
 		Dockerfile_Finance = Dockerfile_Finance
 		Dockerfile_HR = Dockerfile_HR
+		Dockerfile_IT = Dockerfile_IT
 		Dockerfile_Logging = Dockerfile_Logging
 		Dockerfile_PresentationUIWeb = Dockerfile_PresentationUIWeb
 		Dockerfile_PresentationUIWebIdentity = Dockerfile_PresentationUIWebIdentity
