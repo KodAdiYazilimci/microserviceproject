@@ -44,7 +44,7 @@ spec:
             - name: Configuration_Logging_RequestResponseLogging_DataBaseConfiguration_DataSource
               value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Logs_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
             - name: Configuration_Logging_RequestResponseLogging_MongoConfiguration_ConnectionString
-              value: "mongodb://mongo-service.default.svc.cluster.local:27017"
+              value: "mongodb://adminuser:password123@mongo-service.default.svc.cluster.local:27017"
             - name: Configuration_WebSockets_DataSource
               value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Socket_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
             - name: Caching_Redis_Server
