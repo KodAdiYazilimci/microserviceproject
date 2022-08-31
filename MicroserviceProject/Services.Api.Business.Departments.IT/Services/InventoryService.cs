@@ -183,7 +183,7 @@ namespace Services.Api.Business.Departments.IT.Services
                 }
                 else if (!inventoryRequest.Revoked)
                 {
-                    await _pendingWorkerInventoryRepository.DelayAsync(pendingWorkerInventory.WorkerId, pendingWorkerInventory.InventoryId, DateTime.Now.AddDays(7), cancellationTokenSource);
+                    await _pendingWorkerInventoryRepository.DelayAsync(pendingWorkerInventory.WorkerId, pendingWorkerInventory.InventoryId, DateTime.UtcNow.AddDays(7), cancellationTokenSource);
                 }
             }
 
@@ -234,7 +234,7 @@ namespace Services.Api.Business.Departments.IT.Services
                 rollback: new RollbackModel()
                 {
                     TransactionIdentity = TransactionIdentity,
-                    TransactionDate = DateTime.Now,
+                    TransactionDate = DateTime.UtcNow,
                     TransactionType = TransactionType.Insert,
                     RollbackItems = new List<RollbackItemModel>
                     {
@@ -296,7 +296,7 @@ namespace Services.Api.Business.Departments.IT.Services
                 rollback: new RollbackModel()
                 {
                     TransactionIdentity = TransactionIdentity,
-                    TransactionDate = DateTime.Now,
+                    TransactionDate = DateTime.UtcNow,
                     TransactionType = TransactionType.Insert,
                     RollbackItems = new List<RollbackItemModel>
                     {
@@ -358,7 +358,7 @@ namespace Services.Api.Business.Departments.IT.Services
                                                     Name = inv.Name
                                                 }).ToList();
 
-            _redisCacheDataProvider.Set(CACHED_INVENTORIES_DEFAULTS_KEY, inventories, DateTime.Now.AddMinutes(10));
+            _redisCacheDataProvider.Set(CACHED_INVENTORIES_DEFAULTS_KEY, inventories, DateTime.UtcNow.AddMinutes(10));
 
             return inventories;
         }
@@ -408,7 +408,7 @@ namespace Services.Api.Business.Departments.IT.Services
                         rollback: new RollbackModel()
                         {
                             TransactionIdentity = TransactionIdentity,
-                            TransactionDate = DateTime.Now,
+                            TransactionDate = DateTime.UtcNow,
                             TransactionType = TransactionType.Update,
                             RollbackItems = new List<RollbackItemModel>
                             {
@@ -444,7 +444,7 @@ namespace Services.Api.Business.Departments.IT.Services
                     await CreateCheckpointAsync(
                         rollback: new RollbackModel()
                         {
-                            TransactionDate = DateTime.Now,
+                            TransactionDate = DateTime.UtcNow,
                             TransactionIdentity = TransactionIdentity,
                             TransactionType = TransactionType.Insert,
                             RollbackItems = new List<RollbackItemModel>
@@ -475,7 +475,7 @@ namespace Services.Api.Business.Departments.IT.Services
                     await CreateCheckpointAsync(
                         rollback: new RollbackModel()
                         {
-                            TransactionDate = DateTime.Now,
+                            TransactionDate = DateTime.UtcNow,
                             TransactionIdentity = TransactionIdentity,
                             TransactionType = TransactionType.Insert,
                             RollbackItems = new List<RollbackItemModel>

@@ -247,7 +247,7 @@ namespace Services.Api.Business.Departments.HR.Services
             await CreateCheckpointAsync(
                 rollback: new RollbackModel()
                 {
-                    TransactionDate = DateTime.Now,
+                    TransactionDate = DateTime.UtcNow,
                     TransactionIdentity = TransactionIdentity,
                     TransactionType = TransactionType.Insert,
                     RollbackItems = new List<RollbackItemModel>
@@ -320,7 +320,7 @@ namespace Services.Api.Business.Departments.HR.Services
                 rollback: new RollbackModel()
                 {
                     TransactionIdentity = TransactionIdentity,
-                    TransactionDate = DateTime.Now,
+                    TransactionDate = DateTime.UtcNow,
                     TransactionType = TransactionType.Insert,
                     RollbackItems = new List<RollbackItemModel>
                     {

@@ -296,7 +296,7 @@ namespace Services.Api.Business.Departments.Selling.Services
                 rollback: new RollbackModel()
                 {
                     TransactionType = TransactionType.Insert,
-                    TransactionDate = DateTime.Now,
+                    TransactionDate = DateTime.UtcNow,
                     TransactionIdentity = TransactionIdentity,
                     RollbackItems = new List<RollbackItemModel>
                     {
@@ -341,7 +341,7 @@ namespace Services.Api.Business.Departments.Selling.Services
                     rollback: new RollbackModel()
                     {
                         TransactionType = TransactionType.Update,
-                        TransactionDate = DateTime.Now,
+                        TransactionDate = DateTime.UtcNow,
                         TransactionIdentity = TransactionIdentity,
                         RollbackItems = new List<RollbackItemModel>
                         {

@@ -172,7 +172,7 @@ namespace Test.Services.Api.Business.Departments.Accounting.Tests
                         SalaryPayment = new SalaryPaymentModel()
                         {
                             Amount = new Random().Next(1, short.MaxValue),
-                            Date = DateTime.Now,
+                            Date = DateTime.UtcNow,
                             BankAccount = getBankAccountsTask.Result.Data.ElementAt(new Random().Next(0, getBankAccountsTask.Result.Data.Count - 1)),
                             Currency = getCurrenciesTask.Result.Data.ElementAt(new Random().Next(0, getCurrenciesTask.Result.Data.Count - 1))
                         }

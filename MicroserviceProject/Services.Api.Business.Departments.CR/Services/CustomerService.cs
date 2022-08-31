@@ -153,7 +153,7 @@ namespace Services.Api.Business.Departments.CR.Services
                 rollback: new RollbackModel()
                 {
                     TransactionType = TransactionType.Insert,
-                    TransactionDate = DateTime.Now,
+                    TransactionDate = DateTime.UtcNow,
                     TransactionIdentity = TransactionIdentity,
                     RollbackItems = new List<RollbackItemModel>
                     {

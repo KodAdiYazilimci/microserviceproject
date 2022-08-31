@@ -81,7 +81,7 @@ namespace Services.Api.Infrastructure.Authorization.Business.Services
         public async Task<UserModel> GetUserAsync(string token, CancellationTokenSource cancellationTokenSource)
         {
             Session session =
-                _unitOfWork.Context.Sessions.FirstOrDefault(x => x.DeleteDate == null && x.IsValid && x.Token == token && x.ValidTo > DateTime.Now);
+                _unitOfWork.Context.Sessions.FirstOrDefault(x => x.DeleteDate == null && x.IsValid && x.Token == token && x.ValidTo > DateTime.UtcNow);
 
             if (session != null)
             {

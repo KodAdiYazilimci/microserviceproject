@@ -120,7 +120,7 @@ namespace Services.Api.Infrastructure.Authorization.Business.Services
                     {
                         UserId = user.Id,
                         Token = Guid.NewGuid().ToString(),
-                        ValidTo = DateTime.Now.AddMinutes(60),
+                        ValidTo = DateTime.UtcNow.AddMinutes(60),
                         IsValid = true,
                         IpAddress = credential.IpAddress,
                         UserAgent = credential.UserAgent,
@@ -169,7 +169,7 @@ namespace Services.Api.Infrastructure.Authorization.Business.Services
                     newSession.Token = Guid.NewGuid().ToString();
                     newSession.UserAgent = oldSession.UserAgent;
                     newSession.UserId = oldSession.UserId;
-                    newSession.ValidTo = DateTime.Now.AddMinutes(60);
+                    newSession.ValidTo = DateTime.UtcNow.AddMinutes(60);
 
                     _unitOfWork.Context.Sessions.Add(newSession);
 

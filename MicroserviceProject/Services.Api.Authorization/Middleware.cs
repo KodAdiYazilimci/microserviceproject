@@ -24,7 +24,7 @@ namespace Services.Api.Infrastructure.Authorization
 
         public HttpRequestTimeFeature()
         {
-            RequestTime = DateTime.Now;
+            RequestTime = DateTime.UtcNow;
         }
     }
 
@@ -87,7 +87,7 @@ namespace Services.Api.Infrastructure.Authorization
                         {
                             ApplicationName = Environment.GetEnvironmentVariable("ApplicationName") ?? "Services.Security.Authorization",
                             Content = response,
-                            Date = DateTime.Now,
+                            Date = DateTime.UtcNow,
                             Host = httpContext.Request.Host.ToString(),
                             IpAddress = httpContext.Connection.RemoteIpAddress.ToString(),
                             MachineName = Environment.MachineName,

@@ -111,7 +111,7 @@ namespace Infrastructure.Communication.Http.Broker
                     _cacheProvider.Set<string>(
                         key: SERVICE_ENDPOINT_CACHE_PREFIX + serviceName.ToLower(),
                         value: serviceJson,
-                        toTime: DateTime.Now.AddMinutes(SERVICE_ENDPOINT_CACHE_TIMEOUT));
+                        toTime: DateTime.UtcNow.AddMinutes(SERVICE_ENDPOINT_CACHE_TIMEOUT));
                 }
 
                 if (!string.IsNullOrEmpty(serviceJson))
@@ -209,7 +209,7 @@ namespace Infrastructure.Communication.Http.Broker
                     _cacheProvider.Set<string>(
                         key: SERVICE_ENDPOINT_CACHE_PREFIX + serviceName.ToLower(),
                         value: serviceJson,
-                        toTime: DateTime.Now.AddMinutes(SERVICE_ENDPOINT_CACHE_TIMEOUT));
+                        toTime: DateTime.UtcNow.AddMinutes(SERVICE_ENDPOINT_CACHE_TIMEOUT));
                 }
 
                 if (!string.IsNullOrEmpty(serviceJson))

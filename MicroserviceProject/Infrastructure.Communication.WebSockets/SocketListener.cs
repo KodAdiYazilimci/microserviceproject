@@ -112,7 +112,7 @@ namespace Infrastructure.Communication.WebSockets
 
             if (string.IsNullOrWhiteSpace(takenTokenForThisService?.TokenKey)
                 ||
-                takenTokenForThisService.ValidTo <= DateTime.Now)
+                takenTokenForThisService.ValidTo <= DateTime.UtcNow)
             {
                 ServiceCaller serviceTokenCaller = new ServiceCaller(null, _cacheProvider, "");
                 serviceTokenCaller.OnNoServiceFoundInCacheAsync += async (serviceName) =>
@@ -177,7 +177,7 @@ namespace Infrastructure.Communication.WebSockets
             {
                 serviceRoutes = await _serviceRouteRepository.GetServiceRoutesAsync(cancellationTokenSource);
 
-                _cacheProvider.Set<List<ServiceRouteModel>>(CACHEDSERVICEROUTES, serviceRoutes, DateTime.Now.AddMinutes(60));
+                _cacheProvider.Set<List<ServiceRouteModel>>(CACHEDSERVICEROUTES, serviceRoutes, DateTime.UtcNow.AddMinutes(60));
             }
 
             if (serviceRoutes.Any(x => x.ServiceName == serviceName))
@@ -200,7 +200,7 @@ namespace Infrastructure.Communication.WebSockets
             {
                 sockets = await _socketRepository.GetSocketsAsync(cancellationTokenSource);
 
-                _cacheProvider.Set<List<SocketModel>>(CACHEDWEBSOCKETS, sockets, DateTime.Now.AddMinutes(60));
+                _cacheProvider.Set<List<SocketModel>>(CACHEDWEBSOCKETS, sockets, DateTime.UtcNow.AddMinutes(60));
             }
 
             if (sockets.Any(x => x.Name == socketName))

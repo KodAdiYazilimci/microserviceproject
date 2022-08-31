@@ -93,7 +93,7 @@ namespace Infrastructure.Communication.Http.Broker
 
             if (string.IsNullOrWhiteSpace(takenTokenForThisService?.TokenKey)
                 ||
-                takenTokenForThisService.ValidTo <= DateTime.Now)
+                takenTokenForThisService.ValidTo <= DateTime.UtcNow)
             {
                 ServiceCaller serviceTokenCaller = new ServiceCaller(_httpClientFactory, _cacheProvider, "");
                 serviceTokenCaller.OnNoServiceFoundInCacheAsync += async (serviceName) =>
@@ -159,7 +159,7 @@ namespace Infrastructure.Communication.Http.Broker
 
             if (string.IsNullOrWhiteSpace(takenTokenForThisService?.TokenKey)
                 ||
-                takenTokenForThisService.ValidTo <= DateTime.Now)
+                takenTokenForThisService.ValidTo <= DateTime.UtcNow)
             {
                 ServiceCaller serviceTokenCaller = new ServiceCaller(_httpClientFactory, _cacheProvider, "");
                 serviceTokenCaller.OnNoServiceFoundInCacheAsync += async (serviceName) =>
@@ -219,7 +219,7 @@ namespace Infrastructure.Communication.Http.Broker
             {
                 serviceRoutes = await _serviceRouteRepository.GetServiceRoutesAsync(cancellationTokenSource);
 
-                _cacheProvider.Set<List<ServiceRouteModel>>(CACHEDSERVICEROUTES, serviceRoutes, DateTime.Now.AddMinutes(60));
+                _cacheProvider.Set<List<ServiceRouteModel>>(CACHEDSERVICEROUTES, serviceRoutes, DateTime.UtcNow.AddMinutes(60));
             }
 
             return JsonConvert.SerializeObject(serviceRoutes.FirstOrDefault(x => x.ServiceName == serviceName));

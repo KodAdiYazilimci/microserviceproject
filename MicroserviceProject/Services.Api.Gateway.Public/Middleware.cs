@@ -25,7 +25,7 @@ namespace Services.Api.Gateway.Public
 
         public HttpRequestTimeFeature()
         {
-            RequestTime = DateTime.Now;
+            RequestTime = DateTime.UtcNow;
         }
     }
 
@@ -90,7 +90,7 @@ namespace Services.Api.Gateway.Public
                         {
                             ApplicationName = "Services.Api.Gateway.Public",
                             Content = response,
-                            Date = DateTime.Now,
+                            Date = DateTime.UtcNow,
                             Host = httpContext.Request.Host.ToString(),
                             IpAddress = httpContext.Connection.RemoteIpAddress.ToString(),
                             MachineName = Environment.MachineName,
