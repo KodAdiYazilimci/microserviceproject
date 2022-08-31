@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mqproduction-deployment
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.deployment.application.name }}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.deployment.application.name }}
+    spec:
+      volumes:
+        - name: volume
+          persistentVolumeClaim:
+            claimName: pv-claim
+      containers:
+        - name: mqproduction-container
+          image: {{ .Values.deployment.application.image.name }}:{{ .Values.deployment.application.image.tag }}
+          imagePullPolicy: {{ .Values.deployment.application.image.imagePullPolicy }}
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: {{ .Values.deployment.application.containers.mqproductionContainer.port }}
+          env:
+            - name: ApplicationName
+              value: {{ .Values.deployment.application.containers.mqproductionContainer.environment.ApplicationName }}
+            - name: Configuration_Authorization_Credential_Email
+              value: {{ .Values.deployment.application.containers.mqproductionContainer.environment.Configuration_Authorization_Credential_Email }}
+            - name: Configuration_Authorization_Credential_Password
+              value: "{{ .Values.deployment.application.containers.mqproductionContainer.environment.Configuration_Authorization_Credential_Password }}"
+            - name: Configuration_Localization_TranslationDbConnnectionString
+              value: {{ .Values.deployment.application.containers.mqproductionContainer.environment.Configuration_Localization_TranslationDbConnnectionString }}
+            - name: Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Host
+              value: {{ .Values.deployment.application.containers.mqproductionContainer.environment.Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Host }}
+            - name: Configuration_Logging_RequestResponseLogging_RabbitConfiguration_UserName
+              value: {{ .Values.deployment.application.containers.mqproductionContainer.environment.Configuration_Logging_RequestResponseLogging_RabbitConfiguration_UserName }}
+            - name: Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Password
+              value: {{ .Values.deployment.application.containers.mqproductionContainer.environment.Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Password }}
+            - name: Configuration_Logging_RequestResponseLogging_DataBaseConfiguration_DataSource
+              value: {{ .Values.deployment.application.containers.mqproductionContainer.environment.Configuration_Logging_RequestResponseLogging_DataBaseConfiguration_DataSource }}
+            - name: Configuration_Logging_RequestResponseLogging_MongoConfiguration_ConnectionString
+              value: {{ .Values.deployment.application.containers.mqproductionContainer.environment.Configuration_Logging_RequestResponseLogging_MongoConfiguration_ConnectionString }}
+            - name: Configuration_Logging_RuntimeLogging_RabbitConfiguration_Host
+              value: {{ .Values.deployment.application.containers.mqproductionContainer.environment.Configuration_Logging_RuntimeLogging_RabbitConfiguration_Host }}
+            - name: Configuration_Logging_RuntimeLogging_RabbitConfiguration_UserName
+              value: {{ .Values.deployment.application.containers.mqproductionContainer.environment.Configuration_Logging_RuntimeLogging_RabbitConfiguration_UserName }}
+            - name: Configuration_Logging_RuntimeLogging_RabbitConfiguration_Password
+              value: {{ .Values.deployment.application.containers.mqproductionContainer.environment.Configuration_Logging_RuntimeLogging_RabbitConfiguration_Password }}
+            - name: Configuration_Logging_RuntimeLogging_DataBaseConfiguration_DataSource
+              value: {{ .Values.deployment.application.containers.mqproductionContainer.environment.Configuration_Logging_RuntimeLogging_DataBaseConfiguration_DataSource }}
+            - name: Configuration_Logging_RuntimeLogging_MongoConfiguration_ConnectionString
+              value: {{ .Values.deployment.application.containers.mqproductionContainer.environment.Configuration_Logging_RuntimeLogging_MongoConfiguration_ConnectionString }}
+            - name: Configuration_Routing_DataSource
+              value: {{ .Values.deployment.application.containers.mqproductionContainer.environment.Configuration_Routing_DataSource }}
+            - name: Configuration_RabbitQueues_Host_DefaultHost
+              value: {{ .Values.deployment.application.containers.mqproductionContainer.environment.Configuration_RabbitQueues_Host_DefaultHost }}
+            - name: Configuration_RabbitQueues_Host_DefaultUserName
+              value: {{ .Values.deployment.application.containers.mqproductionContainer.environment.Configuration_RabbitQueues_Host_DefaultUserName }}
+            - name: Configuration_RabbitQueues_Host_DefaultPassword
+              value: {{ .Values.deployment.application.containers.mqproductionContainer.environment.Configuration_RabbitQueues_Host_DefaultPassword }}
+            - name: Configuration_WebSockets_DataSource
+              value: {{ .Values.deployment.application.containers.mqproductionContainer.environment.Configuration_WebSockets_DataSource }}
+            - name: Caching_Redis_Server
+              value: {{ .Values.deployment.application.containers.mqproductionContainer.environment.Caching_Redis_Server }}
+          volumeMounts:
+            - mountPath: "mnt/data"
+              name: volume

@@ -1,0 +1,28 @@
+FROM mcr.microsoft.com/dotnet/aspnet:6.0-focal AS base
+WORKDIR /app
+EXPOSE 13202
+
+ENV ASPNETCORE_URLS=http://+:13202
+
+# Creates a non-root user with an explicit UID and adds permission to access the /app folder
+# For more info, please refer to https://aka.ms/vscode-docker-dotnet-configure-containers
+RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
+USER appuser
+
+FROM mcr.microsoft.com/dotnet/sdk:6.0-focal AS build
+WORKDIR /src
+COPY ["Services.MQ.Buying/Services.MQ.Buying.csproj", "Services.MQ.Buying/"]
+RUN dotnet restore "Services.MQ.Buying/Services.MQ.Buying.csproj"
+COPY . .
+WORKDIR "/src/Services.MQ.Buying"
+RUN dotnet build "Services.MQ.Buying.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "Services.MQ.Buying.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "Services.MQ.Buying.dll"]
+
+#docker build -t serkancamur/mqbuying:latest -f Dockerfile_MQ_Buying .
