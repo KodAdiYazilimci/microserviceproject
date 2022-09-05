@@ -19,6 +19,7 @@ using Services.Api.Infrastructure.Logging.Configuration.Services.Repositories;
 using Services.Api.Infrastructure.Logging.DI;
 using Services.Api.Logging.DI;
 using Services.Diagnostics.HealthCheck.DI;
+using Services.Logging.Exception.DI;
 using Services.Security.BasicToken.DI;
 
 using System.Net;
@@ -40,6 +41,7 @@ namespace Services.Api.Infrastructure.Logging
             services.AddControllers();
 
             services.RegisterBasicTokenAuthentication();
+            services.RegisterExceptionLogger();
             services.RegisterRedisCaching();
             services.RegisterLoggers();
             services.RegisterRepositories();

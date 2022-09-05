@@ -14,6 +14,7 @@ using Services.Communication.Http.Broker.Authorization.DI;
 using Services.Communication.Http.Broker.Department.Storage.DI;
 using Services.Communication.Mq.Queue.Storage.Configuration.DI;
 using Services.Communication.Mq.Queue.Storage.Rabbit.Configuration.DI;
+using Services.Logging.Exception.DI;
 
 using System.Net;
 
@@ -25,6 +26,7 @@ namespace Services.MQ.Storage
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.RegisterExceptionLogger();
             services.RegisterHttpAuthorizationCommunicators();
             services.RegisterStorageQueueConfigurations();
             services.RegisterStorageQueueConsumers();

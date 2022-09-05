@@ -18,6 +18,7 @@
     <ProjectReference Include="..\Services.Communication.Mq.Queue.Accounting.Rabbit\Services.Communication.Mq.Queue.Accounting.Rabbit.csproj" />
     <ProjectReference Include="..\Services.Communication.Mq.Queue.Accounting\Services.Communication.Mq.Queue.Accounting.csproj" />
     <ProjectReference Include="..\Services.Communication.Mq\Services.Communication.Mq.csproj" />
+    <ProjectReference Include="..\Services.Logging.Exception\Services.Logging.Exception.csproj" />
   </ItemGroup>
 
 </Project>

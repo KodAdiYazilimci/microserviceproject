@@ -26,6 +26,7 @@
     <ProjectReference Include="..\Services.Communication.Mq.Queue.Buying\Services.Communication.Mq.Queue.Buying.csproj" />
     <ProjectReference Include="..\Services.Communication.Mq.Rabbit.Publisher\Services.Communication.Mq.Rabbit.Publisher.csproj" />
     <ProjectReference Include="..\Services.Diagnostics.HealthCheck\Services.Diagnostics.HealthCheck.csproj" />
+    <ProjectReference Include="..\Services.Logging.Exception\Services.Logging.Exception.csproj" />
     <ProjectReference Include="..\Services.Logging.RequestResponse\Services.Logging.RequestResponse.csproj" />
     <ProjectReference Include="..\Services.Runtime.Aspect\Services.Runtime.Aspect.csproj" />
     <ProjectReference Include="..\Services.Security.BasicToken\Services.Security.BasicToken.csproj" />

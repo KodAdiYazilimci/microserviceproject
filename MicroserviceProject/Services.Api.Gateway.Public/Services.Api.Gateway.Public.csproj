@@ -29,6 +29,7 @@
     <ProjectReference Include="..\Services.Communication.Http.Broker.Department.Production\Services.Communication.Http.Broker.Department.Production.csproj" />
     <ProjectReference Include="..\Services.Communication.Http.Broker.Department.Selling\Services.Communication.Http.Broker.Department.Selling.csproj" />
     <ProjectReference Include="..\Services.Communication.Http.Broker.Department.Storage\Services.Communication.Http.Broker.Department.Storage.csproj" />
+    <ProjectReference Include="..\Services.Logging.Exception\Services.Logging.Exception.csproj" />
     <ProjectReference Include="..\Services.Logging.RequestResponse\Services.Logging.RequestResponse.csproj" />
     <ProjectReference Include="..\Services.Security.BasicToken\Services.Security.BasicToken.csproj" />
   </ItemGroup>

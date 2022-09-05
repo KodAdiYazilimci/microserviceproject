@@ -49,6 +49,7 @@
     <ProjectReference Include="..\Services.Communication.Mq.Queue.Authorization\Services.Communication.Mq.Queue.Authorization.csproj" />
     <ProjectReference Include="..\Services.Communication.Mq.Rabbit.Publisher\Services.Communication.Mq.Rabbit.Publisher.csproj" />
     <ProjectReference Include="..\Services.Diagnostics.HealthCheck\Services.Diagnostics.HealthCheck.csproj" />
+    <ProjectReference Include="..\Services.Logging.Exception\Services.Logging.Exception.csproj" />
     <ProjectReference Include="..\Services.Logging.RequestResponse\Services.Logging.RequestResponse.csproj" />
   </ItemGroup>
 

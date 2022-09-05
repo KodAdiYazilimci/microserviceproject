@@ -29,6 +29,7 @@ using Services.Communication.Mq.Queue.IT.DI;
 using Services.Communication.Mq.Queue.IT.Rabbit.DI;
 using Services.Diagnostics.HealthCheck.DI;
 using Services.Logging.Aspect.DI;
+using Services.Logging.Exception.DI;
 using Services.Logging.RequestResponse.DI;
 using Services.Security.BasicToken.DI;
 
@@ -61,6 +62,7 @@ namespace Services.Api.Business.Departments.HR
             services.RegisterAccountingQueueConfigurations();
             services.RegisterAccountingQueuePublishers();
             services.RegisterBasicTokenAuthentication();
+            services.RegisterExceptionLogger();
             services.RegisterHttpAADepartmentCommunicators();
             services.RegisterHttpAccountingDepartmentCommunicators();
             services.RegisterHttpHRDepartmentCommunicators();

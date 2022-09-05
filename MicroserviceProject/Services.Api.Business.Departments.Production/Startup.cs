@@ -25,6 +25,7 @@ using Services.Communication.Mq.Queue.Storage.Configuration.DI;
 using Services.Communication.Mq.Queue.Storage.Rabbit.Configuration.DI;
 using Services.Diagnostics.HealthCheck.DI;
 using Services.Logging.Aspect.DI;
+using Services.Logging.Exception.DI;
 using Services.Logging.RequestResponse.DI;
 using Services.Security.BasicToken.DI;
 using Services.UnitOfWork.EntityFramework.DI;
@@ -55,6 +56,7 @@ namespace Services.Api.Business.Departments.Production
             services.RegisterBasicTokenAuthentication();
             services.RegisterBuyingQueueConfigurations();
             services.RegisterBuyingQueuePublishers();
+            services.RegisterExceptionLogger();
             services.RegisterHttpProductionDepartmentCommunicators();
             services.RegisterLocalizationProviders();
             services.RegisterRequestResponseLogger();

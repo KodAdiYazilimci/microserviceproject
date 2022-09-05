@@ -23,6 +23,7 @@ using Services.Communication.Http.Broker.Department.Selling.DI;
 using Services.Communication.Http.Broker.Department.Storage.DI;
 using Services.Communication.Mq.Queue.Authorization.DI;
 using Services.Communication.Mq.Queue.Authorization.Rabbit.DI;
+using Services.Logging.Exception.DI;
 
 using System.Net;
 
@@ -36,6 +37,7 @@ namespace Services.MQ.Authorization
         {
             services.RegisterAuthorizationQueueConfigurations();
             services.RegisterAuthorizationQueueConsumers();
+            services.RegisterExceptionLogger();
             services.RegisterHttpAuthorizationCommunicators();
             services.RegisterHttpAADepartmentCommunicators();
             services.RegisterHttpAccountingDepartmentCommunicators();

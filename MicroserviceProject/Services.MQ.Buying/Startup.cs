@@ -14,6 +14,7 @@ using Services.Communication.Http.Broker.Authorization.DI;
 using Services.Communication.Http.Broker.Department.Buying.DI;
 using Services.Communication.Mq.Queue.Buying.DI;
 using Services.Communication.Mq.Queue.Buying.Rabbit.DI;
+using Services.Logging.Exception.DI;
 
 using System.Net;
 
@@ -27,6 +28,7 @@ namespace Services.MQ.Buying
         {
             services.RegisterBuyingQueueConfigurations();
             services.RegisterBuyingQueueConsumers();
+            services.RegisterExceptionLogger();
             services.RegisterHttpAuthorizationCommunicators();
             services.RegisterHttpBuyingDepartmentCommunicators();
             services.RegisterLocalizationProviders();

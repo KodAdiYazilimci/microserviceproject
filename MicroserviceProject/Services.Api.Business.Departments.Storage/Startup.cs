@@ -21,6 +21,7 @@ using Services.Api.Business.Departments.Storage.DI;
 using Services.Communication.Http.Broker.Department.Storage.DI;
 using Services.Diagnostics.HealthCheck.DI;
 using Services.Logging.Aspect.DI;
+using Services.Logging.Exception.DI;
 using Services.Logging.RequestResponse.DI;
 using Services.Security.BasicToken.DI;
 using Services.UnitOfWork.EntityFramework.DI;
@@ -49,6 +50,7 @@ namespace Services.Api.Business.Departments.Storage
             services.RegisterRepositories();
 
             services.RegisterBasicTokenAuthentication();
+            services.RegisterExceptionLogger();
             services.RegisterHttpStorageDepartmentCommunicators();
             services.RegisterLocalizationProviders();
             services.RegisterRequestResponseLogger();

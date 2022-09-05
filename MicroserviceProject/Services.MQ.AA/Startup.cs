@@ -14,6 +14,7 @@ using Services.Communication.Http.Broker.Authorization.DI;
 using Services.Communication.Http.Broker.Department.AA.DI;
 using Services.Communication.Mq.Queue.AA.DI;
 using Services.Communication.Mq.Queue.AA.Rabbit.DI;
+using Services.Logging.Exception.DI;
 
 using System.Net;
 
@@ -25,6 +26,7 @@ namespace Services.MQ.AA
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.RegisterExceptionLogger();
             services.RegisterHttpAuthorizationCommunicators();
             services.RegisterAAQueueConfigurations();
             services.RegisterAAQueueConsumers();

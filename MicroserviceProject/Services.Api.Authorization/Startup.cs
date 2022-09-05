@@ -21,6 +21,7 @@ using Services.Api.Infrastructure.Authorization.Configuration.Persistence;
 using Services.Api.Infrastructure.Authorization.DI;
 using Services.Communication.Mq.Queue.Authorization.DI;
 using Services.Communication.Mq.Queue.Authorization.Rabbit.DI;
+using Services.Logging.Exception.DI;
 using Services.Logging.RequestResponse.DI;
 using Services.UnitOfWork.EntityFramework.DI;
 
@@ -44,6 +45,7 @@ namespace Services.Api.Infrastructure.Authorization
             services.RegisterAuthorizationQueuePublishers();
             services.RegisterBusinessServices();
             services.RegisterEntityFrameworkUnitOfWork<AuthContext>();
+            services.RegisterExceptionLogger();
             services.RegisterInMemoryCaching();
             services.RegisterLocalizationProviders();
             services.RegisterPersistence();

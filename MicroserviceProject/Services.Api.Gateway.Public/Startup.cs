@@ -23,6 +23,7 @@ using Services.Communication.Http.Broker.Department.IT.DI;
 using Services.Communication.Http.Broker.Department.Production.DI;
 using Services.Communication.Http.Broker.Department.Selling.DI;
 using Services.Communication.Http.Broker.Department.Storage.DI;
+using Services.Logging.Exception.DI;
 using Services.Logging.RequestResponse.DI;
 using Services.Security.BasicToken.DI;
 
@@ -47,6 +48,7 @@ namespace Services.Api.Gateway.Public
             services.RegisterUtilities();
 
             services.RegisterBasicTokenAuthentication();
+            services.RegisterExceptionLogger();
             services.RegisterHttpAADepartmentCommunicators();
             services.RegisterHttpAccountingDepartmentCommunicators();
             services.RegisterHttpBuyingDepartmentCommunicators();

@@ -14,6 +14,7 @@ using Services.Communication.Http.Broker.Authorization.DI;
 using Services.Communication.Http.Broker.Department.Accounting.DI;
 using Services.Communication.Mq.Queue.Accounting.DI;
 using Services.Communication.Mq.Queue.Accounting.Rabbit.DI;
+using Services.Logging.Exception.DI;
 
 using System.Net;
 
@@ -27,6 +28,7 @@ namespace Services.MQ.Accounting
         {
             services.RegisterAccountingQueueConfigurations();
             services.RegisterAccountingQueueConsumers();
+            services.RegisterExceptionLogger();
             services.RegisterHttpAuthorizationCommunicators();
             services.RegisterHttpAccountingDepartmentCommunicators();
             services.RegisterLocalizationProviders();

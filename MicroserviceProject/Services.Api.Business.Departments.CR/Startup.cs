@@ -20,6 +20,7 @@ using Services.Api.Business.Departments.CR.DI;
 using Services.Communication.Http.Broker.Department.CR.DI;
 using Services.Diagnostics.HealthCheck.DI;
 using Services.Logging.Aspect.DI;
+using Services.Logging.Exception.DI;
 using Services.Logging.RequestResponse.DI;
 using Services.Security.BasicToken.DI;
 
@@ -47,6 +48,7 @@ namespace Services.Api.Business.Departments.CR
             services.RegisterRepositories();
 
             services.RegisterBasicTokenAuthentication();
+            services.RegisterExceptionLogger();
             services.RegisterHttpCRDepartmentCommunicators();
             services.RegisterLocalizationProviders();
             services.RegisterRequestResponseLogger();
