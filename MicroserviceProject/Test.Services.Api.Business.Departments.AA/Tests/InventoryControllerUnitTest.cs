@@ -4,8 +4,6 @@ using Infrastructure.Communication.Http.Broker.Mock;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Mock.Factories;
 using Infrastructure.Routing.Persistence.Mock;
-using Infrastructure.Routing.Providers;
-using Infrastructure.Routing.Providers.Mock;
 using Infrastructure.Security.Authentication.Mock;
 
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +29,6 @@ namespace Test.Services.Api.Business.Departments.AA.Tests
     {
         private CancellationTokenSource cancellationTokenSource = null;
         private InventoryController inventoryController = null;
-        private RouteNameProvider routeNameProvider = null;
         private ServiceCommunicator serviceCommunicator = null;
 
         [TestInitialize]
@@ -39,13 +36,11 @@ namespace Test.Services.Api.Business.Departments.AA.Tests
         {
             cancellationTokenSource = new CancellationTokenSource();
             inventoryController = new InventoryController(MediatorFactory.GetInstance(typeof(Startup)), InventoryServiceFactory.Instance);
-            routeNameProvider = RouteNameProviderFactory.GetRouteNameProvider(ConfigurationFactory.GetConfiguration());
 
             serviceCommunicator =
                 ServiceCommunicatorFactory.GetServiceCommunicator(
                     cacheProvider: InMemoryCacheDataProviderFactory.Instance,
                     credentialProvider: CredentialProviderFactory.GetCredentialProvider(ConfigurationFactory.GetConfiguration()),
-                    routeNameProvider: routeNameProvider,
                     serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(ConfigurationFactory.GetConfiguration()));
         }
 
@@ -77,7 +72,7 @@ namespace Test.Services.Api.Business.Departments.AA.Tests
         {
             ServiceResultModel<List<WorkerModel>> workersResult =
                 await serviceCommunicator.Call<List<WorkerModel>>(
-                    serviceName: routeNameProvider.HR_GetWorkers,
+                    serviceName: "hr.person.getworkers",
                     postData: null,
                     queryParameters: null,
                     headers: null,
@@ -98,7 +93,7 @@ namespace Test.Services.Api.Business.Departments.AA.Tests
         {
             ServiceResultModel<List<InventoryModel>> inventoriesResult =
                 await serviceCommunicator.Call<List<InventoryModel>>(
-                    serviceName: routeNameProvider.AA_GetInventories,
+                    serviceName: "aa.inventory.getinventories",
                     postData: null,
                     queryParameters: null,
                     headers: null,
@@ -127,7 +122,7 @@ namespace Test.Services.Api.Business.Departments.AA.Tests
         {
             ServiceResultModel<List<InventoryRequestModel>> inventoryRequestsResult =
                 await serviceCommunicator.Call<List<InventoryRequestModel>>(
-                    serviceName: routeNameProvider.Buying_GetInventoryRequests,
+                    serviceName: "buying.request.getinventoryrequests",
                     postData: null,
                     queryParameters: null,
                     headers: null,

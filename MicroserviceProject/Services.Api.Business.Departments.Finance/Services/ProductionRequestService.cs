@@ -165,7 +165,7 @@ namespace Services.Business.Departments.Finance.Services
                 rollback: new RollbackModel()
                 {
                     TransactionType = TransactionType.Insert,
-                    TransactionDate = DateTime.Now,
+                    TransactionDate = DateTime.UtcNow,
                     TransactionIdentity = TransactionIdentity,
                     RollbackItems = new List<RollbackItemModel>
                     {
@@ -218,7 +218,7 @@ namespace Services.Business.Departments.Finance.Services
                 rollback: new RollbackModel()
                 {
                     TransactionType = TransactionType.Update,
-                    TransactionDate = DateTime.Now,
+                    TransactionDate = DateTime.UtcNow,
                     TransactionIdentity = TransactionIdentity,
                     RollbackItems = new List<RollbackItemModel>
                     {
@@ -288,7 +288,7 @@ namespace Services.Business.Departments.Finance.Services
                 rollback: new RollbackModel()
                 {
                     TransactionType = TransactionType.Update,
-                    TransactionDate = DateTime.Now,
+                    TransactionDate = DateTime.UtcNow,
                     TransactionIdentity = TransactionIdentity,
                     RollbackItems = new List<RollbackItemModel>
                     {

@@ -3,6 +3,8 @@
 using System;
 using System.IO;
 using System.Net;
+using System.Net.Http.Json;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,6 +20,13 @@ namespace Infrastructure.Communication.Http.Providers
         /// </summary>
         private bool disposed = false;
 
+        private readonly IHttpClientFactory _httpClientFactory;
+
+        public HttpGetProvider(IHttpClientFactory httpClientFactory)
+        {
+            _httpClientFactory = httpClientFactory;
+        }
+
         /// <summary>
         /// Http get isteği gönderir
         /// </summary>
@@ -28,17 +37,18 @@ namespace Infrastructure.Communication.Http.Providers
         {
             Uri requestUri = GenerateUri(url);
 
-            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(requestUri);
-            webRequest.Method = "GET";
-            webRequest.ContentType = "application/json; charset=UTF-8";
+            HttpClient httpClient = _httpClientFactory?.CreateClient() ?? HttpClient;
 
-            AppendHeaders(webRequest);
+            AppendHeaders(httpClient);
 
-            HttpWebResponse webResponse = (HttpWebResponse)await webRequest.GetResponseAsync();
+            HttpResponseMessage httpResponseMessage =
+                await httpClient.GetAsync(requestUri);
 
-            using (StreamReader streamReader = new StreamReader(webResponse.GetResponseStream()))
+            using (StreamReader streamReader = new StreamReader(await httpResponseMessage.Content.ReadAsStreamAsync()))
             {
-                return await streamReader.ReadToEndAsync();
+                string response = await streamReader.ReadToEndAsync();
+
+                return response;
             }
         }
 
@@ -52,17 +62,18 @@ namespace Infrastructure.Communication.Http.Providers
         {
             Uri requestUri = GenerateUri(url);
 
-            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(requestUri);
-            webRequest.Method = "GET";
-            webRequest.ContentType = "application/json; charset=UTF-8";
+            HttpClient httpClient = _httpClientFactory?.CreateClient() ?? HttpClient;
 
-            AppendHeaders(webRequest);
+            AppendHeaders(httpClient);
 
-            HttpWebResponse webResponse = (HttpWebResponse)await webRequest.GetResponseAsync();
+            HttpResponseMessage httpResponseMessage =
+                await httpClient.GetAsync(requestUri);
 
-            using (StreamReader streamReader = new StreamReader(webResponse.GetResponseStream()))
+            using (StreamReader streamReader = new StreamReader(await httpResponseMessage.Content.ReadAsStreamAsync(cancellationTokenSource.Token)))
             {
-                return await streamReader.ReadToEndAsync();
+                string response = await streamReader.ReadToEndAsync();
+
+                return response;
             }
         }
 
@@ -77,15 +88,14 @@ namespace Infrastructure.Communication.Http.Providers
         {
             Uri requestUri = GenerateUri(url);
 
-            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(requestUri);
-            webRequest.Method = "GET";
-            webRequest.ContentType = "application/json; charset=UTF-8";
+            HttpClient httpClient = _httpClientFactory?.CreateClient() ?? HttpClient;
 
-            AppendHeaders(webRequest);
+            AppendHeaders(httpClient);
 
-            HttpWebResponse webResponse = (HttpWebResponse)await webRequest.GetResponseAsync();
+            HttpResponseMessage httpResponseMessage =
+                await httpClient.GetAsync(requestUri, cancellationTokenSource.Token);
 
-            using (StreamReader streamReader = new StreamReader(webResponse.GetResponseStream()))
+            using (StreamReader streamReader = new StreamReader(await httpResponseMessage.Content.ReadAsStreamAsync(cancellationTokenSource.Token)))
             {
                 string response = await streamReader.ReadToEndAsync();
 

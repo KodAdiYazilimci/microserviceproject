@@ -26,9 +26,7 @@ using Services.Diagnostics.HealthCheck.DI;
 using Services.Logging.Aspect.DI;
 using Services.Logging.RequestResponse.DI;
 using Services.Security.BasicToken.DI;
-using Services.UnitOfWork.Sql.DI;
 
-using System.Collections.Generic;
 using System.Net;
 
 namespace Services.Api.Business.Departments.AA
@@ -60,10 +58,8 @@ namespace Services.Api.Business.Departments.AA
             services.RegisterLocalizationProviders();
             services.RegisterRequestResponseLogger();
             services.RegisterRuntimeHandlers();
-            services.RegisterSqlHealthChecking(
-                connectionStrings: new List<string>() { Configuration.GetSection("Persistence")["DataSource"] });
+            services.RegisterSqlHealthChecking();
             services.RegisterSwagger();
-            services.RegisterSqlUnitOfWork();
 
             services.AddMediatR(typeof(Startup));
         }

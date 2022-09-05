@@ -1,7 +1,10 @@
 ﻿using Infrastructure.Mock.Providers.Configuration;
 using Infrastructure.Mock.Providers.Configuration.Sections.AuthorizationNode;
+using Infrastructure.Mock.Providers.Configuration.Sections.PersistenceNode;
 
 using Microsoft.Extensions.Configuration;
+
+using System.Collections.Generic;
 
 namespace Infrastructure.Mock.Data
 {
@@ -21,7 +24,7 @@ namespace Infrastructure.Mock.Data
         /// <param name="authorizationCredential">Credential düğüm sınıfı nesnesi</param>
         /// <param name="loggingFilePath">Dosya log yolu</param>
         /// <returns></returns>
-        public static IConfiguration GetConfiguration(CredentialSection authorizationCredential, string loggingFilePath)
+        public static IConfiguration GetConfiguration(CredentialSection authorizationCredential, string loggingRelativeFilePath, string loggingAbsoluteFilePath, List<AnyDatabaseSection> databaseSections)
         {
             if (appConfigurationProvider == null)
             {
@@ -41,7 +44,8 @@ namespace Infrastructure.Mock.Data
                 appConfigurationProvider.ConfigurationSection.LocalizationSection["CacheKey"] = "localization.translations";
 
                 appConfigurationProvider.ConfigurationSection.LoggingSection.RequestResponseLoggingSection.DataBaseConfigurationSection["DataSource"] = "server=localhost;DataBase=Microservice_Logs_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true";
-                appConfigurationProvider.ConfigurationSection.LoggingSection.RequestResponseLoggingSection.FileConfigurationSection["Path"] = loggingFilePath;
+                appConfigurationProvider.ConfigurationSection.LoggingSection.RequestResponseLoggingSection.FileConfigurationSection["RelativePath"] = loggingRelativeFilePath;
+                appConfigurationProvider.ConfigurationSection.LoggingSection.RequestResponseLoggingSection.FileConfigurationSection["AbsolutePath"] = loggingAbsoluteFilePath;
                 appConfigurationProvider.ConfigurationSection.LoggingSection.RequestResponseLoggingSection.FileConfigurationSection["FileName"] = "RequestResponseLog";
                 appConfigurationProvider.ConfigurationSection.LoggingSection.RequestResponseLoggingSection.FileConfigurationSection["Encoding"] = "UTF-8";
                 appConfigurationProvider.ConfigurationSection.LoggingSection.RequestResponseLoggingSection.MongoConfigurationSection["ConnectionString"] = "mongodb://localhost:27017";
@@ -122,8 +126,9 @@ namespace Infrastructure.Mock.Data
                 appConfigurationProvider.ServicesSection.EndpointsSection.WebSocketsSecuritySection["SendTokenNotification"] = "websockets.security.sendtokennotification";
                 appConfigurationProvider.ServicesSection.EndpointsSection.WebSocketsSecuritySection["SendErrorNotification"] = "websockets.reliability.senderrornotification";
 
-                appConfigurationProvider.PersistenceSection["DataSource"] = "server=localhost;DataBase=Microservice_HR_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true";
-                appConfigurationProvider.PersistenceSection["CacheServer"] = "localhost";
+                appConfigurationProvider.PersistenceSection.DatabasesSection.AnyDatabaseSections = databaseSections;
+
+                appConfigurationProvider.CachingSection.RedisSection["Server"] = "localhost";
 
                 appConfigurationProvider.WebSocketsSection.EndpointsSection["TokensHub.GetTokenMessages"] = "websockets.security.tokenshub.gettokenmessages";
             }

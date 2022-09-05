@@ -1,5 +1,4 @@
 ﻿using Infrastructure.Communication.Http.Broker;
-using Infrastructure.Routing.Providers;
 
 namespace Services.Communication.Http.Broker.Department.CR.Mock
 {
@@ -7,11 +6,11 @@ namespace Services.Communication.Http.Broker.Department.CR.Mock
     {
         private static CRCommunicator crCommunicator;
 
-        public static CRCommunicator GetCRCommunicator(RouteNameProvider routeNameProvider, ServiceCommunicator serviceCommunicator)
+        public static CRCommunicator GetCRCommunicator(ServiceCommunicator serviceCommunicator)
         {
             if (crCommunicator == null)
             {
-                crCommunicator = new CRCommunicator(routeNameProvider, serviceCommunicator);
+                crCommunicator = new CRCommunicator(serviceCommunicator);
             }
 
             return crCommunicator;

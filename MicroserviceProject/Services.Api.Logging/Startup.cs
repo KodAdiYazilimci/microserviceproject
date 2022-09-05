@@ -17,11 +17,10 @@ using Newtonsoft.Json;
 
 using Services.Api.Infrastructure.Logging.Configuration.Services.Repositories;
 using Services.Api.Infrastructure.Logging.DI;
+using Services.Api.Logging.DI;
 using Services.Diagnostics.HealthCheck.DI;
 using Services.Security.BasicToken.DI;
-using Services.UnitOfWork.Sql.DI;
 
-using System.Collections.Generic;
 using System.Net;
 
 namespace Services.Api.Infrastructure.Logging
@@ -45,10 +44,8 @@ namespace Services.Api.Infrastructure.Logging
             services.RegisterLoggers();
             services.RegisterRepositories();
             services.RegisterHttpServiceCommunicator();
-            services.RegisterSqlHealthChecking(
-                connectionStrings: new List<string>() { Configuration.GetSection("Persistence")["DataSource"] });
+            services.RegisterSqlHealthChecking();
             services.RegisterSwagger();
-            services.RegisterSqlUnitOfWork();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

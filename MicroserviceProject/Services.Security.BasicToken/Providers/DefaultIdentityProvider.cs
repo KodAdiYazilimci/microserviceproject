@@ -113,7 +113,7 @@ namespace Services.Security.BasicToken.Providers
         {
             if (_cacheProvider.TryGetValue(CACHEDTOKENBASEDSESSIONS, out List<AuthenticatedUser> cachedUsers) && cachedUsers != default(List<AuthenticatedUser>))
             {
-                cachedUsers.RemoveAll(x => x == null || x.Token == null || x.Token.ValidTo < DateTime.Now);
+                cachedUsers.RemoveAll(x => x == null || x.Token == null || x.Token.ValidTo < DateTime.UtcNow);
 
                 cachedUsers.Add(userModel);
 
@@ -139,7 +139,7 @@ namespace Services.Security.BasicToken.Providers
         {
             if (_cacheProvider.TryGetValue(CACHEDTOKENBASEDSESSIONS, out List<AuthenticatedUser> cachedUsers) && cachedUsers != default(List<AuthenticatedUser>))
             {
-                if (cachedUsers.RemoveAll(x => x == null || x.Token == null || x.Token.ValidTo < DateTime.Now) > 0)
+                if (cachedUsers.RemoveAll(x => x == null || x.Token == null || x.Token.ValidTo < DateTime.UtcNow) > 0)
                 {
                     _cacheProvider.Set(CACHEDTOKENBASEDSESSIONS, cachedUsers);
                 }

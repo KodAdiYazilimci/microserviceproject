@@ -5,7 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 
 using Services.Api.Gateway.Public.Util.Communication;
 using Services.Communication.Http.Broker.Department.HR;
+using Services.Communication.Http.Broker.Department.HR.CQRS.Queries.Responses;
+using Services.Communication.Http.Broker.Department.HR.Models;
 
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -35,6 +38,7 @@ namespace Services.Api.Gateway.Public.Controllers
                 return await _apiBridge.CallAsync(async (transactionIdentity, cancellationTokenSource) =>
                 {
                     return await _hrCommunicator.GetDepartmentsAsync(transactionIdentity, cancellationTokenSource);
+
                 }, cancellationTokenSource);
             });
         }

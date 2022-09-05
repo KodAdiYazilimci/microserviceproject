@@ -1,0 +1,29 @@
+FROM mcr.microsoft.com/dotnet/aspnet:6.0-focal AS base
+WORKDIR /app
+EXPOSE 26920
+
+ENV ASPNETCORE_URLS=http://+:26920
+
+# Creates a non-root user with an explicit UID and adds permission to access the /app folder
+# For more info, please refer to https://aka.ms/vscode-docker-dotnet-configure-containers
+RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
+USER appuser
+
+FROM mcr.microsoft.com/dotnet/sdk:6.0-focal AS build
+WORKDIR /src
+COPY ["Services.Api.Business.Departments.HR/Services.Api.Business.Departments.HR.csproj", "Services.Api.Business.Departments.HR/"]
+RUN dotnet restore "Services.Api.Business.Departments.HR/Services.Api.Business.Departments.HR.csproj"
+COPY . .
+WORKDIR "/src/Services.Api.Business.Departments.HR"
+RUN dotnet build "Services.Api.Business.Departments.HR.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "Services.Api.Business.Departments.HR.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "Services.Api.Business.Departments.HR.dll"]
+
+#docker build -t serkancamur/hr:latest -f Dockerfile_HR .
+#docker push serkancamur/hr:latest

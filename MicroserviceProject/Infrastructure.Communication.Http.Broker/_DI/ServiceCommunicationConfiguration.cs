@@ -1,7 +1,6 @@
 ﻿
 using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Routing.Persistence.DI;
-using Infrastructure.Routing.Providers.DI;
 using Infrastructure.Security.Authentication.DI;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -20,8 +19,9 @@ namespace Infrastructure.Communication.Http.Broker.DI
         /// <returns></returns>
         public static IServiceCollection RegisterHttpServiceCommunicator(this IServiceCollection services)
         {
+            services.AddHttpClient();
+
             services.RegisterCredentialProvider();
-            services.RegisterHttpRouteProvider();
             services.RegisterHttpRouteRepositories();
             services.RegisterInMemoryCaching();
 

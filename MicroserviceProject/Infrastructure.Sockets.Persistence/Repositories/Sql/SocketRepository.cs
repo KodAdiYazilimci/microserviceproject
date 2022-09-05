@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -44,6 +45,16 @@ namespace Infrastructure.Sockets.Persistence.Repositories.Sql
             get
             {
                 return
+                    Convert.ToBoolean(
+                        _configuration
+                        .GetSection("Configuration")
+                        .GetSection("WebSockets")["IsSensitiveData"] ?? false.ToString()) && !Debugger.IsAttached
+                    ?
+                    Environment.GetEnvironmentVariable(
+                        _configuration
+                        .GetSection("Configuration")
+                        .GetSection("WebSockets")["EnvironmentVariableName"])
+                    :
                     _configuration
                     .GetSection("Configuration")
                     .GetSection("WebSockets")["DataSource"];

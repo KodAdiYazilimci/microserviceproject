@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 using Services.Business.Departments.Finance.Services;
 using Services.Communication.Http.Broker.Department.Finance.CQRS.Commands.Requests;
-using Services.Communication.Http.Broker.Department.Finance.CQRS.Commands.Responses;
 using Services.Communication.Http.Broker.Department.Finance.CQRS.Queries.Requests;
 using Services.Communication.Http.Broker.Department.Finance.CQRS.Queries.Responses;
 
@@ -32,9 +31,11 @@ namespace Services.Business.Departments.Finance.Controllers
         [Authorize(Roles = "ApiUser,GatewayUser")]
         public async Task<IActionResult> GetDecidedCosts()
         {
-            return await HttpResponseWrapper.WrapAsync<GetDecidedCostsQueryResponse>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await _mediator.Send(new GetDecidedCostsQueryRequest());
+                GetDecidedCostsQueryResponse mediatorResult = await _mediator.Send(new GetDecidedCostsQueryRequest());
+
+                return mediatorResult.DecidedCosts;
             },
             services: _costService);
         }
@@ -44,9 +45,9 @@ namespace Services.Business.Departments.Finance.Controllers
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> CreateCost([FromBody] CreateCostCommandRequest request)
         {
-            return await HttpResponseWrapper.WrapAsync<CreateCostCommandResponse>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await _mediator.Send(request);
+                await _mediator.Send(request);
             },
             services: _costService);
         }
@@ -56,9 +57,9 @@ namespace Services.Business.Departments.Finance.Controllers
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> DecideCost([FromBody] DecideCostCommandRequest request)
         {
-            return await HttpResponseWrapper.WrapAsync<DecideCostCommandResponse>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await _mediator.Send(request);
+                await _mediator.Send(request);
             },
             services: _costService);
         }

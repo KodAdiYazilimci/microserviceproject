@@ -5,6 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+using System;
+using System.Diagnostics;
+
 namespace Infrastructure.Localization.Translation.Persistence.EntityFramework.DI
 {
     /// <summary>
@@ -24,9 +27,19 @@ namespace Infrastructure.Localization.Translation.Persistence.EntityFramework.DI
             services.AddDbContext<TranslationDbContext>(optionBuilder =>
             {
                 optionBuilder.UseSqlServer(
-                    configuration
-                    .GetSection("Configuration")
-                    .GetSection("Localization")["TranslationDbConnnectionString"]);
+                    Convert.ToBoolean(
+                        configuration
+                        .GetSection("Configuration")
+                        .GetSection("Localization")["IsSensitiveData"] ?? false.ToString()) && !Debugger.IsAttached
+                        ?
+                        Environment.GetEnvironmentVariable(
+                            configuration
+                            .GetSection("Configuration")
+                            .GetSection("Localization")["EnvironmentVariableName"])
+                        :
+                        configuration
+                        .GetSection("Configuration")
+                        .GetSection("Localization")["TranslationDbConnnectionString"]);
 
                 optionBuilder.EnableSensitiveDataLogging();
                 optionBuilder.EnableDetailedErrors();

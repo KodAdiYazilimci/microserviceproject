@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: presentationuiwebidentity-service
+spec:
+  selector:
+    app: presentationuiwebidentity-pod
+  ports:
+  - port: 5098
+    targetPort: 31636
+    protocol: TCP
+    nodePort: 31098
+  type: NodePort
+  clusterIP: 10.102.2.98

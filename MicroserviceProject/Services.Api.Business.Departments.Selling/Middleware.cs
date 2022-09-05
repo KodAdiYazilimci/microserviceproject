@@ -25,7 +25,7 @@ namespace Services.Api.Business.Departments.Selling
 
         public HttpRequestTimeFeature()
         {
-            RequestTime = DateTime.Now;
+            RequestTime = DateTime.UtcNow;
         }
     }
 
@@ -89,7 +89,7 @@ namespace Services.Api.Business.Departments.Selling
                           {
                               ApplicationName = "Services.Api.Business.Departments.Selling",
                               Content = response,
-                              Date = DateTime.Now,
+                              Date = DateTime.UtcNow,
                               Host = httpContext.Request.Host.ToString(),
                               IpAddress = httpContext.Connection.RemoteIpAddress.ToString(),
                               MachineName = Environment.MachineName,

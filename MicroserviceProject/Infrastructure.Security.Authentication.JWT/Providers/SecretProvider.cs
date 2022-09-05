@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 
+using System.Diagnostics;
+using System;
 using System.Text;
 
 namespace Infrastructure.Security.Authentication.JWT.Providers
@@ -31,10 +33,12 @@ namespace Infrastructure.Security.Authentication.JWT.Providers
             get
             {
                 return
-                    configuration
-                    .GetSection("Configuration")
-                    .GetSection("Authorization")
-                    .GetSection("Jwt")["JWTSecretKey"];
+                    Convert.ToBoolean(
+                        configuration.GetSection("Configuration").GetSection("Authorization").GetSection("Jwt")["IsSensitiveData"] ?? false.ToString()) && !Debugger.IsAttached
+                        ?
+                        Environment.GetEnvironmentVariable(configuration.GetSection("Configuration").GetSection("Authorization").GetSection("Jwt")["EnvironmentVariableName"])
+                        :
+                        configuration.GetSection("Configuration").GetSection("Authorization").GetSection("Jwt")["JWTSecretKey"];
             }
         }
 

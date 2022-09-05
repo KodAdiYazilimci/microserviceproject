@@ -3,11 +3,11 @@ using Infrastructure.Localization.Translation.Persistence.EntityFramework.Reposi
 using Infrastructure.Localization.Translation.Persistence.Mock.EntityFramework.Persistence;
 using Infrastructure.Localization.Translation.Provider.Mock;
 using Infrastructure.Mock.Factories;
-using Infrastructure.Transaction.UnitOfWork.Sql.Mock;
 
 using Microsoft.Extensions.Configuration;
 
 using Services.Api.Business.Departments.AA.Configuration.Mapping;
+using Services.Api.Business.Departments.AA.Configuration.Persistence;
 using Services.Api.Business.Departments.AA.Services;
 using Services.Communication.Mq.Queue.Buying.Configuration.Mock;
 using Services.Communication.Mq.Queue.Buying.Rabbit.Publishers.Mock;
@@ -31,7 +31,7 @@ namespace Test.Services.Api.Business.Departments.AA.Factories.Services
 
                     service = new InventoryService(
                         mapper: MappingFactory.GetInstance(new MappingProfile()),
-                        unitOfWork: UnitOfWorkFactory.GetInstance(configuration),
+                        unitOfWork: new UnitOfWork(configuration),
                         redisCacheDataProvider: CacheDataProviderFactory.GetInstance(configuration),
                         translationProvider: TranslationProviderFactory.GetTranslationProvider(
                             configuration: configuration,

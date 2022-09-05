@@ -3,11 +3,11 @@ using Infrastructure.Localization.Translation.Persistence.EntityFramework.Reposi
 using Infrastructure.Localization.Translation.Persistence.Mock.EntityFramework.Persistence;
 using Infrastructure.Localization.Translation.Provider.Mock;
 using Infrastructure.Mock.Factories;
-using Infrastructure.Transaction.UnitOfWork.Sql.Mock;
 
 using Microsoft.Extensions.Configuration;
 
 using Services.Api.Business.Departments.HR.Configuration.Mapping;
+using Services.Api.Business.Departments.HR.Configuration.Persistence;
 using Services.Api.Business.Departments.HR.Services;
 
 using Test.Services.Api.Business.Departments.HR.Factories.Infrastructure;
@@ -29,7 +29,7 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Services
 
                     departmentService = new DepartmentService(
                         mapper: MappingFactory.GetInstance(new MappingProfile()),
-                        unitOfWork: UnitOfWorkFactory.GetInstance(configuration),
+                        unitOfWork: new UnitOfWork(configuration),
                         redisCacheDataProvider: CacheDataProviderFactory.GetInstance(configuration),
                         translationProvider: TranslationProviderFactory.GetTranslationProvider(
                             configuration: configuration,

@@ -1,7 +1,6 @@
 ﻿
 using Infrastructure.Communication.Http.Broker;
 using Infrastructure.Communication.Http.Models;
-using Infrastructure.Routing.Providers;
 
 using Services.Communication.Http.Broker.Gateway.Public.Models;
 
@@ -23,11 +22,6 @@ namespace Services.Communication.Http.Broker.Gateway.Public
         private bool disposed = false;
 
         /// <summary>
-        /// Servis rotalarına ait endpoint isimlerini sağlayan sınıfın nesnesi
-        /// </summary>
-        private readonly RouteNameProvider _routeNameProvider;
-
-        /// <summary>
         /// Yetki denetimi destekli servis iletişim sağlayıcı sınıfın nesnesi
         /// </summary>
         private readonly ServiceCommunicator _serviceCommunicator;
@@ -35,13 +29,10 @@ namespace Services.Communication.Http.Broker.Gateway.Public
         /// <summary>
         /// İnsan kaynakları servisi için iletişim kurucu sınıf
         /// </summary>
-        /// <param name="routeNameProvider">Servis rotalarına ait endpoint isimlerini sağlayan sınıfın nesnesi</param>
         /// <param name="serviceCommunicator">Yetki denetimi destekli servis iletişim sağlayıcı sınıfın nesnesi</param>
         public HRCommunicator(
-            RouteNameProvider routeNameProvider,
             ServiceCommunicator serviceCommunicator)
         {
-            _routeNameProvider = routeNameProvider;
             _serviceCommunicator = serviceCommunicator;
         }
 
@@ -56,7 +47,7 @@ namespace Services.Communication.Http.Broker.Gateway.Public
             ServiceResultModel<List<DepartmentModel>> departmentsServiceResult =
                     await
                     _serviceCommunicator.Call<List<DepartmentModel>>(
-                        serviceName: _routeNameProvider.Gateway_Public_HR_GetDepartments,
+                        serviceName: "gateway.public.hr.getdepartments",
                         postData: null,
                         queryParameters: null,
                         headers: new List<KeyValuePair<string, string>>()
@@ -79,7 +70,7 @@ namespace Services.Communication.Http.Broker.Gateway.Public
         {
             ServiceResultModel serviceResult =
                 await _serviceCommunicator.Call(
-                    serviceName: _routeNameProvider.Gateway_Public_Identity_RemoveSessionIfExistsInCache,
+                    serviceName: "gateway.public.identity.removesessionifexistsincache",
                     postData: null,
                     queryParameters: new List<KeyValuePair<string, string>>()
                     {
@@ -110,7 +101,6 @@ namespace Services.Communication.Http.Broker.Gateway.Public
             {
                 if (!disposed)
                 {
-                    _routeNameProvider.Dispose();
                     _serviceCommunicator.Dispose();
                 }
 

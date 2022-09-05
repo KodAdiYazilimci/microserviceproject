@@ -16,16 +16,13 @@ using Microsoft.Extensions.Hosting;
 
 using Newtonsoft.Json;
 
-using Services.Api.Business.Departments.CR.Configuration.Persistence;
 using Services.Api.Business.Departments.CR.DI;
 using Services.Communication.Http.Broker.Department.CR.DI;
 using Services.Diagnostics.HealthCheck.DI;
 using Services.Logging.Aspect.DI;
 using Services.Logging.RequestResponse.DI;
 using Services.Security.BasicToken.DI;
-using Services.UnitOfWork.EntityFramework.DI;
 
-using System.Collections.Generic;
 using System.Net;
 
 namespace Services.Api.Business.Departments.CR
@@ -54,10 +51,8 @@ namespace Services.Api.Business.Departments.CR
             services.RegisterLocalizationProviders();
             services.RegisterRequestResponseLogger();
             services.RegisterRuntimeHandlers();
+            services.RegisterSqlHealthChecking();
             services.RegisterSwagger();
-            services.RegisterSqlHealthChecking(
-                connectionStrings: new List<string>() { Configuration.GetSection("Persistence")["DataSource"] });
-            services.RegisterEntityFrameworkUnitOfWork<CRContext>();
 
             services.AddMediatR(typeof(Startup));
         }

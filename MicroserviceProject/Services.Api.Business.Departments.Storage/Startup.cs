@@ -16,7 +16,6 @@ using Microsoft.Extensions.Hosting;
 
 using Newtonsoft.Json;
 
-using Services.Api.Business.Departments.Storage.Configuration.CQRS.Handlers.QueryHandlers;
 using Services.Api.Business.Departments.Storage.Configuration.Persistence;
 using Services.Api.Business.Departments.Storage.DI;
 using Services.Communication.Http.Broker.Department.Storage.DI;
@@ -26,7 +25,6 @@ using Services.Logging.RequestResponse.DI;
 using Services.Security.BasicToken.DI;
 using Services.UnitOfWork.EntityFramework.DI;
 
-using System.Collections.Generic;
 using System.Net;
 
 namespace Services.Api.Business.Departments.Storage
@@ -55,8 +53,7 @@ namespace Services.Api.Business.Departments.Storage
             services.RegisterLocalizationProviders();
             services.RegisterRequestResponseLogger();
             services.RegisterRuntimeHandlers();
-            services.RegisterSqlHealthChecking(
-                connectionStrings: new List<string>() { Configuration.GetSection("Persistence")["DataSource"] });
+            services.RegisterSqlHealthChecking();
             services.RegisterSwagger();
             services.RegisterEntityFrameworkUnitOfWork<StorageContext>();
 

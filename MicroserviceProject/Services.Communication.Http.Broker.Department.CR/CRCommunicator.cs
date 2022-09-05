@@ -1,10 +1,8 @@
 ﻿using Infrastructure.Communication.Http.Broker;
 using Infrastructure.Communication.Http.Models;
-using Infrastructure.Routing.Providers;
 
 using Services.Communication.Http.Broker.Department.CR.CQRS.Commands.Requests;
-using Services.Communication.Http.Broker.Department.CR.CQRS.Commands.Responses;
-using Services.Communication.Http.Broker.Department.CR.CQRS.Queries.Responses;
+using Services.Communication.Http.Broker.Department.CR.Models;
 
 namespace Services.Communication.Http.Broker.Department.CR
 {
@@ -19,11 +17,6 @@ namespace Services.Communication.Http.Broker.Department.CR
         private bool disposed = false;
 
         /// <summary>
-        /// Servis rotalarına ait endpoint isimlerini sağlayan sınıfın nesnesi
-        /// </summary>
-        private readonly RouteNameProvider _routeNameProvider;
-
-        /// <summary>
         /// Yetki denetimi destekli servis iletişim sağlayıcı sınıfın nesnesi
         /// </summary>
         private readonly ServiceCommunicator _serviceCommunicator;
@@ -31,13 +24,10 @@ namespace Services.Communication.Http.Broker.Department.CR
         /// <summary>
         /// Müşteri ilişkileri servisi için iletişim kurucu sınıf
         /// </summary>
-        /// <param name="routeNameProvider">Servis rotalarına ait endpoint isimlerini sağlayan sınıfın nesnesi</param>
         /// <param name="serviceCommunicator">Yetki denetimi destekli servis iletişim sağlayıcı sınıfın nesnesi</param>
         public CRCommunicator(
-            RouteNameProvider routeNameProvider,
             ServiceCommunicator serviceCommunicator)
         {
-            _routeNameProvider = routeNameProvider;
             _serviceCommunicator = serviceCommunicator;
         }
 
@@ -46,11 +36,11 @@ namespace Services.Communication.Http.Broker.Department.CR
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<GetCustomersQueryResponse>> GetCustomersAsync(
+        public async Task<ServiceResultModel<List<CustomerModel>>> GetCustomersAsync(
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<GetCustomersQueryResponse>(
-                serviceName: _routeNameProvider.CR_GetCustomers,
+            return await _serviceCommunicator.Call<List<CustomerModel>>(
+                serviceName: "cr.customers.getcustomers",
                 postData: null,
                 queryParameters: null,
                 headers: null,
@@ -64,13 +54,13 @@ namespace Services.Communication.Http.Broker.Department.CR
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<CreateCustomerCommandResponse>> CreateCustomerAsync(
+        public async Task<ServiceResultModel> CreateCustomerAsync(
             CreateCustomerCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<CreateCustomerCommandResponse>(
-                serviceName: _routeNameProvider.CR_CreateCustomer,
+            return await _serviceCommunicator.Call(
+                serviceName: "cr.customers.createcustomer",
                 postData: request,
                 queryParameters: null,
                 headers: new List<KeyValuePair<string, string>>()
@@ -93,7 +83,7 @@ namespace Services.Communication.Http.Broker.Department.CR
         {
             ServiceResultModel serviceResult =
                 await _serviceCommunicator.Call(
-                    serviceName: _routeNameProvider.CR_RemoveSessionIfExistsInCache,
+                    serviceName: "cr.identity.removesessionifexistsincache",
                     postData: null,
                     queryParameters: new List<KeyValuePair<string, string>>()
                     {
@@ -124,7 +114,6 @@ namespace Services.Communication.Http.Broker.Department.CR
             {
                 if (!disposed)
                 {
-                    _routeNameProvider.Dispose();
                     _serviceCommunicator.Dispose();
                 }
 

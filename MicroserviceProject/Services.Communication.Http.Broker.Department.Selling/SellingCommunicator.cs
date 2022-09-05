@@ -1,10 +1,8 @@
 ﻿using Infrastructure.Communication.Http.Broker;
 using Infrastructure.Communication.Http.Models;
-using Infrastructure.Routing.Providers;
 
 using Services.Communication.Http.Broker.Department.Selling.CQRS.Commands.Requests;
-using Services.Communication.Http.Broker.Department.Selling.CQRS.Commands.Responses;
-using Services.Communication.Http.Broker.Department.Selling.CQRS.Queries.Responses;
+using Services.Communication.Http.Broker.Department.Selling.Models;
 
 namespace Services.Communication.Http.Broker.Department.Selling
 {
@@ -19,11 +17,6 @@ namespace Services.Communication.Http.Broker.Department.Selling
         private bool disposed = false;
 
         /// <summary>
-        /// Servis rotalarına ait endpoint isimlerini sağlayan sınıfın nesnesi
-        /// </summary>
-        private readonly RouteNameProvider _routeNameProvider;
-
-        /// <summary>
         /// Yetki denetimi destekli servis iletişim sağlayıcı sınıfın nesnesi
         /// </summary>
         private readonly ServiceCommunicator _serviceCommunicator;
@@ -31,13 +24,10 @@ namespace Services.Communication.Http.Broker.Department.Selling
         /// <summary>
         /// Satış servisi için iletişim kurucu sınıf
         /// </summary>
-        /// <param name="routeNameProvider">Servis rotalarına ait endpoint isimlerini sağlayan sınıfın nesnesi</param>
         /// <param name="serviceCommunicator">Yetki denetimi destekli servis iletişim sağlayıcı sınıfın nesnesi</param>
         public SellingCommunicator(
-            RouteNameProvider routeNameProvider,
             ServiceCommunicator serviceCommunicator)
         {
-            _routeNameProvider = routeNameProvider;
             _serviceCommunicator = serviceCommunicator;
         }
 
@@ -46,11 +36,11 @@ namespace Services.Communication.Http.Broker.Department.Selling
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<GetSoldsQueryResponse>> GetSoldsAsync(
+        public async Task<ServiceResultModel<List<SellModel>>> GetSoldsAsync(
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<GetSoldsQueryResponse>(
-                serviceName: _routeNameProvider.Selling_GetSolds,
+            return await _serviceCommunicator.Call<List<SellModel>>(
+                serviceName: "selling.selling.getsolds",
                 postData: null,
                 queryParameters: null,
                 headers: null,
@@ -64,13 +54,13 @@ namespace Services.Communication.Http.Broker.Department.Selling
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<CreateSellingCommandResponse>> CreateSellingAsync(
+        public async Task<ServiceResultModel> CreateSellingAsync(
             CreateSellingCommandRequest createSellingCommandRequest,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<CreateSellingCommandResponse>(
-                serviceName: _routeNameProvider.Selling_CreateSelling,
+            return await _serviceCommunicator.Call(
+                serviceName: "selling.selling.createselling",
                 postData: createSellingCommandRequest,
                 queryParameters: null,
                 headers: new List<KeyValuePair<string, string>>()
@@ -87,13 +77,13 @@ namespace Services.Communication.Http.Broker.Department.Selling
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<NotifyProductionRequestCommandResponse>> NotifyProductionRequest(
+        public async Task<ServiceResultModel> NotifyProductionRequest(
             NotifyProductionRequestCommandRequest notifyProductionRequestCommandRequest,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<NotifyProductionRequestCommandResponse>(
-                serviceName: _routeNameProvider.Selling_NotifyProductionRequest,
+            return await _serviceCommunicator.Call(
+                serviceName: "selling.selling.notifyproductionrequest",
                 postData: notifyProductionRequestCommandRequest,
                 queryParameters: null,
                 headers: new List<KeyValuePair<string, string>>()
@@ -115,7 +105,7 @@ namespace Services.Communication.Http.Broker.Department.Selling
         {
             ServiceResultModel serviceResult =
                 await _serviceCommunicator.Call(
-                    serviceName: _routeNameProvider.Selling_RemoveSessionIfExistsInCache,
+                    serviceName: "selling.identity.removesessionifexistsincache",
                     postData: null,
                     queryParameters: new List<KeyValuePair<string, string>>()
                     {
@@ -146,7 +136,6 @@ namespace Services.Communication.Http.Broker.Department.Selling
             {
                 if (!disposed)
                 {
-                    _routeNameProvider.Dispose();
                     _serviceCommunicator.Dispose();
                 }
 

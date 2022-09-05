@@ -23,13 +23,7 @@ namespace Services.Communication.Mq.Queue.Buying.Configuration
         public NotifyCostApprovementRabbitConfiguration(IConfiguration configuration)
             : base(configuration)
         {
-            QueueName =
-                configuration
-                .GetSection("Configuration")
-                .GetSection("RabbitQueues")
-                .GetSection("Services")
-                .GetSection("Buying")
-                .GetSection("QueueNames")["NotifyCostApprovement"];
+            QueueName = "buying.queue.cost.notifycostapprovement";
         }
 
         /// <summary>

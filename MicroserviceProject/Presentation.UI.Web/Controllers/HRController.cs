@@ -46,10 +46,12 @@ namespace Presentation.UI.Web.Controllers
                 List<Models.HR.DepartmentModel> departmentModels = 
                     _mapper.Map<List<DepartmentModel>, List<Models.HR.DepartmentModel>>(departmentsServiceResult.Data);
 
+                ViewBag.Error = null;
                 return View(departmentModels);
             }
             else
             {
+                ViewBag.Error = "Hata:" + departmentsServiceResult.ErrorModel?.Description;
                 return View();
             }
         }

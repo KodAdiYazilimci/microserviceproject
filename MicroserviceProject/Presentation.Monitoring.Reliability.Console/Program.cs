@@ -2,10 +2,8 @@
 using Infrastructure.Communication.WebSockets;
 using Infrastructure.Communication.WebSockets.Models;
 using Infrastructure.Routing.Persistence.Mock;
-using Infrastructure.Routing.Providers.Mock;
 using Infrastructure.Security.Authentication.Mock;
 using Infrastructure.Sockets.Persistence.Mock;
-using Infrastructure.Sockets.Providers.Mock;
 
 using Microsoft.Extensions.Configuration;
 
@@ -23,9 +21,7 @@ namespace Presentation.Monitoring.Reliability.Console
             SocketListener socketListener = new SocketListener(
                 cacheProvider: InMemoryCacheDataProviderFactory.Instance,
                 credentialProvider: CredentialProviderFactory.GetCredentialProvider(GetConfiguration(args)),
-                routeNameProvider: RouteNameProviderFactory.GetRouteNameProvider(GetConfiguration(args)),
                 serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(GetConfiguration(args)),
-                socketNameProvider: SocketNameProviderFactory.GetSocketNameProvider(GetConfiguration(args)),
                 socketRepository: SocketRepositoryFactory.GetSocketRepository(GetConfiguration(args)));
 
             socketListener.OnMessageReceived += (WebSocketResultModel webSocketResult) =>
@@ -34,7 +30,7 @@ namespace Presentation.Monitoring.Reliability.Console
             };
 
             await socketListener.ListenAsync(
-                socketName: SocketNameProviderFactory.GetSocketNameProvider(GetConfiguration(args)).Reliability_ErrorHub_GetErrorMessages,
+                socketName: "websockets.reliability.errorhub.geterrormessages",
                 cancellationTokenSource: cancellationTokenSource);
 
             System.Console.ReadKey();

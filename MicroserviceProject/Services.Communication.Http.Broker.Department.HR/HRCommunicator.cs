@@ -1,10 +1,8 @@
 ﻿using Infrastructure.Communication.Http.Broker;
 using Infrastructure.Communication.Http.Models;
-using Infrastructure.Routing.Providers;
 
 using Services.Communication.Http.Broker.Department.HR.CQRS.Commands.Requests;
-using Services.Communication.Http.Broker.Department.HR.CQRS.Commands.Responses;
-using Services.Communication.Http.Broker.Department.HR.CQRS.Queries.Responses;
+using Services.Communication.Http.Broker.Department.HR.Models;
 
 namespace Services.Communication.Http.Broker.Department.HR
 {
@@ -19,11 +17,6 @@ namespace Services.Communication.Http.Broker.Department.HR
         private bool disposed = false;
 
         /// <summary>
-        /// Servis rotalarına ait endpoint isimlerini sağlayan sınıfın nesnesi
-        /// </summary>
-        private readonly RouteNameProvider _routeNameProvider;
-
-        /// <summary>
         /// Yetki denetimi destekli servis iletişim sağlayıcı sınıfın nesnesi
         /// </summary>
         private readonly ServiceCommunicator _serviceCommunicator;
@@ -31,13 +24,10 @@ namespace Services.Communication.Http.Broker.Department.HR
         /// <summary>
         /// İnsan kaynakları servisi için iletişim kurucu sınıf
         /// </summary>
-        /// <param name="routeNameProvider">Servis rotalarına ait endpoint isimlerini sağlayan sınıfın nesnesi</param>
         /// <param name="serviceCommunicator">Yetki denetimi destekli servis iletişim sağlayıcı sınıfın nesnesi</param>
         public HRCommunicator(
-            RouteNameProvider routeNameProvider,
             ServiceCommunicator serviceCommunicator)
         {
-            _routeNameProvider = routeNameProvider;
             _serviceCommunicator = serviceCommunicator;
         }
 
@@ -47,14 +37,14 @@ namespace Services.Communication.Http.Broker.Department.HR
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<GetDepartmentsQueryResponse>> GetDepartmentsAsync(
+        public async Task<ServiceResultModel<List<DepartmentModel>>> GetDepartmentsAsync(
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            ServiceResultModel<GetDepartmentsQueryResponse> departmentsServiceResult =
+            ServiceResultModel<List<DepartmentModel>> departmentsServiceResult =
                     await
-                    _serviceCommunicator.Call<GetDepartmentsQueryResponse>(
-                        serviceName: _routeNameProvider.HR_GetDepartments,
+                    _serviceCommunicator.Call<List<DepartmentModel>>(
+                        serviceName: "hr.department.getdepartments",
                         postData: null,
                         queryParameters: null,
                         headers: new List<KeyValuePair<string, string>>()
@@ -73,13 +63,13 @@ namespace Services.Communication.Http.Broker.Department.HR
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource"></param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<CreateDepartmentCommandResponse>> CreateDepartmentAsync(
+        public async Task<ServiceResultModel> CreateDepartmentAsync(
             CreateDepartmentCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<CreateDepartmentCommandResponse>(
-                serviceName: _routeNameProvider.HR_CreateDepartment,
+            return await _serviceCommunicator.Call(
+                serviceName: "hr.department.createdepartment",
                 postData: request,
                 queryParameters: null,
                 headers: new List<KeyValuePair<string, string>>()
@@ -94,11 +84,11 @@ namespace Services.Communication.Http.Broker.Department.HR
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<GetPeopleQueryResponse>> GetPeopleAsync(
+        public async Task<ServiceResultModel<List<PersonModel>>> GetPeopleAsync(
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<GetPeopleQueryResponse>(
-                serviceName: _routeNameProvider.HR_GetPeople,
+            return await _serviceCommunicator.Call<List<PersonModel>>(
+                serviceName: "hr.person.getpeople",
                 postData: null,
                 queryParameters: null,
                 headers: null,
@@ -112,13 +102,13 @@ namespace Services.Communication.Http.Broker.Department.HR
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<CreatePersonCommandResponse>> CreatePersonAsync(
+        public async Task<ServiceResultModel> CreatePersonAsync(
             CreatePersonCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<CreatePersonCommandResponse>(
-                serviceName: _routeNameProvider.HR_CreatePerson,
+            return await _serviceCommunicator.Call(
+                serviceName: "hr.person.createperson",
                 postData: request,
                 queryParameters: null,
                 headers: new List<KeyValuePair<string, string>>()
@@ -132,11 +122,11 @@ namespace Services.Communication.Http.Broker.Department.HR
         /// Ünvanları verir
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenu</param>
-        public async Task<ServiceResultModel<GetTitlesQueryResponse>> GetTitlesAsync(
+        public async Task<ServiceResultModel<List<TitleModel>>> GetTitlesAsync(
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<GetTitlesQueryResponse>(
-                serviceName: _routeNameProvider.HR_GetTitles,
+            return await _serviceCommunicator.Call<List<TitleModel>>(
+                serviceName: "hr.person.gettitles",
                 postData: null,
                 queryParameters: null,
                 headers: null,
@@ -149,13 +139,13 @@ namespace Services.Communication.Http.Broker.Department.HR
         /// <param name="request">Ünvan modeli</param>
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
-        public async Task<ServiceResultModel<CreateTitleCommandResponse>> CreateTitleAsync(
+        public async Task<ServiceResultModel> CreateTitleAsync(
             CreateTitleCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<CreateTitleCommandResponse>(
-                serviceName: _routeNameProvider.HR_CreateTitle,
+            return await _serviceCommunicator.Call<int>(
+                serviceName: "hr.person.createtitle",
                 postData: request,
                 queryParameters: null,
                 headers: new List<KeyValuePair<string, string>>()
@@ -169,11 +159,11 @@ namespace Services.Communication.Http.Broker.Department.HR
         /// Çalışanları verir
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
-        public async Task<ServiceResultModel<GetWorkersQueryResponse>> GetWorkersAsync(
+        public async Task<ServiceResultModel<List<WorkerModel>>> GetWorkersAsync(
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<GetWorkersQueryResponse>(
-                serviceName: _routeNameProvider.HR_GetWorkers,
+            return await _serviceCommunicator.Call<List<WorkerModel>>(
+                serviceName: "hr.person.getworkers",
                 postData: null,
                 queryParameters: null,
                 headers: null,
@@ -186,13 +176,13 @@ namespace Services.Communication.Http.Broker.Department.HR
         /// <param name="request">Çalışan modeli</param>
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
-        public async Task<ServiceResultModel<CreateWorkerCommandResponse>> CreateWorkerAsync(
+        public async Task<ServiceResultModel> CreateWorkerAsync(
             CreateWorkerCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<CreateWorkerCommandResponse>(
-                serviceName: _routeNameProvider.HR_CreateWorker,
+            return await _serviceCommunicator.Call(
+                serviceName: "hr.person.createworker",
                 postData: request,
                 queryParameters: null,
                 headers: new List<KeyValuePair<string, string>>()
@@ -214,7 +204,7 @@ namespace Services.Communication.Http.Broker.Department.HR
         {
             ServiceResultModel serviceResult =
                 await _serviceCommunicator.Call(
-                    serviceName: _routeNameProvider.HR_RemoveSessionIfExistsInCache,
+                    serviceName: "hr.identity.removesessionifexistsincache",
                     postData: null,
                     queryParameters: new List<KeyValuePair<string, string>>()
                     {
@@ -245,7 +235,6 @@ namespace Services.Communication.Http.Broker.Department.HR
             {
                 if (!disposed)
                 {
-                    _routeNameProvider.Dispose();
                     _serviceCommunicator.Dispose();
                 }
 

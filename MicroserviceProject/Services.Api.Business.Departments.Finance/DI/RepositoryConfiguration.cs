@@ -1,7 +1,10 @@
 ﻿
-using Services.Business.Departments.Finance.Repositories.Sql;
+using Infrastructure.Transaction.UnitOfWork.Sql;
 
 using Microsoft.Extensions.DependencyInjection;
+
+using Services.Api.Business.Departments.Finance.Configuration.Persistence;
+using Services.Business.Departments.Finance.Repositories.Sql;
 
 namespace Services.Api.Business.Departments.Buying.DI
 {
@@ -18,8 +21,9 @@ namespace Services.Api.Business.Departments.Buying.DI
         /// <returns></returns>
         public static IServiceCollection RegisterRepositories(this IServiceCollection services)
         {
-            services.AddScoped<DecidedCostRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+            services.AddScoped<DecidedCostRepository>();
             services.AddScoped<TransactionRepository>();
             services.AddScoped<TransactionItemRepository>();
 

@@ -2,6 +2,8 @@
 using Services.Api.Business.Departments.HR.Repositories.Sql;
 
 using Microsoft.Extensions.DependencyInjection;
+using Infrastructure.Transaction.UnitOfWork.Sql;
+using Services.Api.Business.Departments.HR.Configuration.Persistence;
 
 namespace Services.Api.Business.Departments.HR.DI
 {
@@ -17,6 +19,8 @@ namespace Services.Api.Business.Departments.HR.DI
         /// <returns></returns>
         public static IServiceCollection RegisterRepositories(this IServiceCollection services)
         {
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             services.AddScoped<DepartmentRepository>();
             services.AddScoped<PersonRepository>();
             services.AddScoped<TitleRepository>();

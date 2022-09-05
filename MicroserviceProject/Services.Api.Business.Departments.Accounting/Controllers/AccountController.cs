@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 using Services.Api.Business.Departments.Accounting.Services;
 using Services.Communication.Http.Broker.Department.Accounting.CQRS.Commands.Requests;
-using Services.Communication.Http.Broker.Department.Accounting.CQRS.Commands.Responses;
 using Services.Communication.Http.Broker.Department.Accounting.CQRS.Queries.Requests;
 using Services.Communication.Http.Broker.Department.Accounting.CQRS.Queries.Responses;
 
@@ -34,9 +33,12 @@ namespace Services.Api.Business.Departments.Accounting.Controllers
         [Authorize(Roles = "ApiUser,GatewayUser")]
         public async Task<IActionResult> GetBankAccountsOfWorker(int workerId)
         {
-            return await HttpResponseWrapper.WrapAsync<GetBankAccountsOfWorkerQueryResponse>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await _mediator.Send(new GetBankAccountsOfWorkerQueryRequest() { WorkerId = workerId });
+                GetBankAccountsOfWorkerQueryResponse mediatorResult = 
+                    await _mediator.Send(new GetBankAccountsOfWorkerQueryRequest() { WorkerId = workerId });
+
+                return mediatorResult.BankAccounts;
             },
             services: _bankService);
         }
@@ -46,9 +48,9 @@ namespace Services.Api.Business.Departments.Accounting.Controllers
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> CreateBankAccount([FromBody] CreateBankAccountCommandRequest request)
         {
-            return await HttpResponseWrapper.WrapAsync<CreateBankAccountCommandResponse>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await _mediator.Send(request);
+                await _mediator.Send(request);
             },
             services: _bankService);
         }
@@ -58,9 +60,11 @@ namespace Services.Api.Business.Departments.Accounting.Controllers
         [Authorize(Roles = "ApiUser,GatewayUser")]
         public async Task<IActionResult> GetCurrencies()
         {
-            return await HttpResponseWrapper.WrapAsync<GetCurrenciesQueryResponse>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await _mediator.Send(new GetCurrenciesQueryRequest());
+                GetCurrenciesQueryResponse mediatorResult = await _mediator.Send(new GetCurrenciesQueryRequest());
+
+                return mediatorResult;
             },
             services: _bankService);
         }
@@ -70,9 +74,9 @@ namespace Services.Api.Business.Departments.Accounting.Controllers
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> CreateCurrency([FromBody] CreateCurrencyCommandRequest request)
         {
-            return await HttpResponseWrapper.WrapAsync<CreateCurrencyCommandResponse>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await _mediator.Send(request);
+                await _mediator.Send(request);
             },
             services: _bankService);
         }
@@ -82,9 +86,12 @@ namespace Services.Api.Business.Departments.Accounting.Controllers
         [Authorize(Roles = "ApiUser,GatewayUser")]
         public async Task<IActionResult> GetSalaryPaymentsOfWorker(int workerId)
         {
-            return await HttpResponseWrapper.WrapAsync<GetSalaryPaymentsOfWorkerQueryResponse>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await _mediator.Send(new GetSalaryPaymentsOfWorkerQueryRequest() { WorkerId = workerId });
+                GetSalaryPaymentsOfWorkerQueryResponse mediatorResult = 
+                    await _mediator.Send(new GetSalaryPaymentsOfWorkerQueryRequest() { WorkerId = workerId });
+
+                return mediatorResult.SalaryPayments;
             },
             services: _bankService);
         }
@@ -94,9 +101,9 @@ namespace Services.Api.Business.Departments.Accounting.Controllers
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> CreateSalaryPayment([FromBody] CreateSalaryPaymentCommandRequest request)
         {
-            return await HttpResponseWrapper.WrapAsync<CreateSalaryPaymentCommandResponse>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await _mediator.Send(request);
+                await _mediator.Send(request);
             },
             services: _bankService);
         }

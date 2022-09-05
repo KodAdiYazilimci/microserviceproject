@@ -17,6 +17,6 @@ namespace Infrastructure.Communication.Http.Models
         /// </summary>
         public string Description { get; set; }
 
-        public List<ErrorModel> InnerErrors { get; set; }
+        public List<ErrorModel> InnerErrors { get; set; } = new List<ErrorModel>();
     }
 }

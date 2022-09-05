@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 
 namespace Services.Logging.Aspect.Persistence
 {
@@ -110,11 +111,25 @@ namespace Services.Logging.Aspect.Persistence
             get
             {
                 string connectionString =
-                    _configuration
-                    .GetSection("Configuration")
-                    .GetSection("Logging")
-                    .GetSection("RuntimeLog")
-                    .GetSection("DataBaseConfiguration")["DataSource"];
+                    Convert.ToBoolean(
+                        _configuration
+                        .GetSection("Configuration")
+                        .GetSection("Logging")
+                        .GetSection("RuntimeLogging")
+                        .GetSection("DataBaseConfiguration")["IsSensitiveData"] ?? false.ToString()) && !Debugger.IsAttached
+                        ?
+                        Environment.GetEnvironmentVariable(
+                            _configuration
+                            .GetSection("Configuration")
+                            .GetSection("Logging")
+                            .GetSection("RuntimeLogging")
+                            .GetSection("DataBaseConfiguration")["EnvironmentVariableName"])
+                        :
+                        _configuration
+                        .GetSection("Configuration")
+                        .GetSection("Logging")
+                        .GetSection("RuntimeLogging")
+                        .GetSection("DataBaseConfiguration")["DataSource"];
 
                 return connectionString;
             }

@@ -28,8 +28,8 @@ using Services.Diagnostics.HealthCheck.DI;
 using Services.Logging.Aspect.DI;
 using Services.Logging.RequestResponse.DI;
 using Services.Security.BasicToken.DI;
-using Services.UnitOfWork.Sql.DI;
 
+using System;
 using System.Collections.Generic;
 using System.Net;
 
@@ -66,8 +66,9 @@ namespace Services.Api.Business.Departments.Buying
             services.RegisterRuntimeHandlers();
             services.RegisterSqlHealthChecking(
                 connectionStrings: new List<string>() { Configuration.GetSection("Persistence")["DataSource"] });
-            services.RegisterSwagger();
-            services.RegisterSqlUnitOfWork();
+            services.RegisterSwagger(
+                applicationName: Environment.GetEnvironmentVariable("ApplicationName") ?? "Services.Api.Business.Departments.Buying",
+                description: "Buying Api Service");
 
             services.AddMediatR(typeof(Startup));
         }

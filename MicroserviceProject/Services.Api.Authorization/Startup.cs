@@ -16,15 +16,14 @@ using Microsoft.Extensions.Hosting;
 
 using Newtonsoft.Json;
 
+using Services.Api.Authorization.DI;
 using Services.Api.Infrastructure.Authorization.Configuration.Persistence;
 using Services.Api.Infrastructure.Authorization.DI;
 using Services.Communication.Mq.Queue.Authorization.DI;
 using Services.Communication.Mq.Queue.Authorization.Rabbit.DI;
-using Services.Diagnostics.HealthCheck.DI;
 using Services.Logging.RequestResponse.DI;
 using Services.UnitOfWork.EntityFramework.DI;
 
-using System.Collections.Generic;
 using System.Net;
 
 namespace Services.Api.Infrastructure.Authorization
@@ -50,8 +49,7 @@ namespace Services.Api.Infrastructure.Authorization
             services.RegisterPersistence();
             services.RegisterRepositories();
             services.RegisterRequestResponseLogger();
-            services.RegisterSqlHealthChecking(
-                connectionStrings: new List<string>() { Configuration.GetSection("Persistence")["DataSource"] });
+            services.RegisterSqlHealthChecking();
             services.RegisterSwagger();
 
             services.AddControllers();

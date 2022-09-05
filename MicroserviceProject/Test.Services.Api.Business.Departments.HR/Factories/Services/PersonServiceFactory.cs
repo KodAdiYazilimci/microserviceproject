@@ -6,13 +6,12 @@ using Infrastructure.Localization.Translation.Persistence.Mock.EntityFramework.P
 using Infrastructure.Localization.Translation.Provider.Mock;
 using Infrastructure.Mock.Factories;
 using Infrastructure.Routing.Persistence.Mock;
-using Infrastructure.Routing.Providers.Mock;
 using Infrastructure.Security.Authentication.Mock;
-using Infrastructure.Transaction.UnitOfWork.Sql.Mock;
 
 using Microsoft.Extensions.Configuration;
 
 using Services.Api.Business.Departments.HR.Configuration.Mapping;
+using Services.Api.Business.Departments.HR.Configuration.Persistence;
 using Services.Api.Business.Departments.HR.Services;
 using Services.Communication.Http.Broker.Department.AA.Mock;
 using Services.Communication.Http.Broker.Department.Accounting.Mock;
@@ -44,25 +43,19 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Services
                     service = new PersonService(
                         mapper: MappingFactory.GetInstance(new MappingProfile()),
                         aACommunicator: AACommunicatorProvider.GetAACommunicator(
-                             routeNameProvider: RouteNameProviderFactory.GetRouteNameProvider(configuration),
                              serviceCommunicator: ServiceCommunicatorFactory.GetServiceCommunicator(
                                  cacheProvider: InMemoryCacheDataProviderFactory.Instance,
                                  credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),
-                                 routeNameProvider: RouteNameProviderFactory.GetRouteNameProvider(configuration),
                                  serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration))),
                         accountingCommunicator: AccountingCommunicatorProvider.GetAccountingCommunicator(
-                             routeNameProvider: RouteNameProviderFactory.GetRouteNameProvider(configuration),
                              serviceCommunicator: ServiceCommunicatorFactory.GetServiceCommunicator(
                                  cacheProvider: InMemoryCacheDataProviderFactory.Instance,
                                  credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),
-                                 routeNameProvider: RouteNameProviderFactory.GetRouteNameProvider(configuration),
                                  serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration))),
                         itCommunicator: ITCommunicatorProvider.GetITCommunicator(
-                             routeNameProvider: RouteNameProviderFactory.GetRouteNameProvider(configuration),
                              serviceCommunicator: ServiceCommunicatorFactory.GetServiceCommunicator(
                                  cacheProvider: InMemoryCacheDataProviderFactory.Instance,
                                  credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),
-                                 routeNameProvider: RouteNameProviderFactory.GetRouteNameProvider(configuration),
                                  serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration))),
                         AAassignInventoryToWorkerPublisher: AAAssignInventoryToWorkerPublisherProvider.GetPublisher(
                             configuration: AAAssignInventoryToWorkerRabbitConfigurationProvider.GetConfiguration(configuration)),
@@ -70,7 +63,7 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Services
                             configuration: ITAssignInventoryToWorkerRabbitConfigurationProvider.GetConfiguration(configuration)),
                         createBankAccountPublisher: CreateBankAccountPublisherProvider.GetPublisher(
                             rabbitConfiguration: CreateBankAccountRabbitConfigurationProvider.GetConfiguration(configuration)),
-                        unitOfWork: UnitOfWorkFactory.GetInstance(configuration),
+                        unitOfWork: new UnitOfWork(configuration),
                         translationProvider: TranslationProviderFactory.GetTranslationProvider(
                             configuration: configuration,
                             cacheDataProvider: CacheDataProviderFactory.GetInstance(configuration),

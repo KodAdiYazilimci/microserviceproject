@@ -50,18 +50,36 @@ namespace Infrastructure.Logging.File.Loggers
                 sbJsonText.Append("\r\n");
             }
 
-            DirectoryInfo directoryInfo = new DirectoryInfo(_fileConfiguration.Path);
-
-            if (!directoryInfo.Exists)
+            if (!string.IsNullOrEmpty(_fileConfiguration.RelativePath))
             {
-                directoryInfo.Create();
-            }
+                DirectoryInfo directoryInfo = new DirectoryInfo(Environment.CurrentDirectory + "/" + _fileConfiguration.RelativePath);
 
-            await System.IO.File.AppendAllTextAsync(
-                path: Environment.CurrentDirectory + "\\" + _fileConfiguration.Path + "\\" + _fileConfiguration.FileName,
-                contents: sbJsonText.ToString(),
-                encoding: _fileConfiguration.Encoding,
-                cancellationToken: cancellationTokenSource.Token);
+                if (!directoryInfo.Exists)
+                {
+                    directoryInfo.Create();
+                }
+
+                await System.IO.File.AppendAllTextAsync(
+                    path: Environment.CurrentDirectory + "/" + _fileConfiguration.RelativePath + "/" + _fileConfiguration.FileName,
+                    contents: sbJsonText.ToString(),
+                    encoding: _fileConfiguration.Encoding,
+                    cancellationToken: cancellationTokenSource.Token);
+            }
+            else if (!string.IsNullOrEmpty(_fileConfiguration.AbsolutePath))
+            {
+                DirectoryInfo directoryInfo = new DirectoryInfo(_fileConfiguration.AbsolutePath);
+
+                if (!directoryInfo.Exists)
+                {
+                    directoryInfo.Create();
+                }
+
+                await System.IO.File.AppendAllTextAsync(
+                    path: _fileConfiguration.AbsolutePath + "\\" + _fileConfiguration.FileName,
+                    contents: sbJsonText.ToString(),
+                    encoding: _fileConfiguration.Encoding,
+                    cancellationToken: cancellationTokenSource.Token);
+            }
         }
 
         /// <summary>

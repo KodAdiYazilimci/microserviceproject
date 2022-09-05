@@ -32,9 +32,11 @@ namespace Services.Api.Business.Departments.Storage.Controllers
         [Authorize(Roles = "ApiUser,GatewayUser")]
         public async Task<IActionResult> GetStock(int productId)
         {
-            return await HttpResponseWrapper.WrapAsync<GetStockQueryResponse>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await _mediator.Send(new GetStockQueryRequest() { ProductId = productId });
+                GetStockQueryResponse mediatorResult = await _mediator.Send(new GetStockQueryRequest() { ProductId = productId });
+
+                return mediatorResult.Stock;
             },
             services: _stockService);
         }
@@ -44,9 +46,9 @@ namespace Services.Api.Business.Departments.Storage.Controllers
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> CreateStock([FromBody] CreateStockCommandRequest createStockCommandRequest)
         {
-            return await HttpResponseWrapper.WrapAsync<CreateStockCommandResponse>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await _mediator.Send(createStockCommandRequest);
+                await _mediator.Send(createStockCommandRequest);
             },
             services: _stockService);
         }
@@ -56,11 +58,9 @@ namespace Services.Api.Business.Departments.Storage.Controllers
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> DescendProductStock([FromBody] DescendProductStockCommandRequest descendProductStockCommandRequest)
         {
-            return await HttpResponseWrapper.WrapAsync<int>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
                 DescendProductStockCommandResponse result = await _mediator.Send(descendProductStockCommandRequest);
-
-                return result.StockId;
             },
             services: _stockService);
         }

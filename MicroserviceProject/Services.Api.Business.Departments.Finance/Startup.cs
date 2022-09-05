@@ -17,6 +17,7 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 
 using Services.Api.Business.Departments.Buying.DI;
+using Services.Api.Business.Departments.Finance.DI;
 using Services.Business.Departments.Finance.DI;
 using Services.Communication.Http.Broker.Department.Finance.DI;
 using Services.Communication.Mq.Queue.Buying.DI;
@@ -27,9 +28,7 @@ using Services.Diagnostics.HealthCheck.DI;
 using Services.Logging.Aspect.DI;
 using Services.Logging.RequestResponse.DI;
 using Services.Security.BasicToken.DI;
-using Services.UnitOfWork.Sql.DI;
 
-using System.Collections.Generic;
 using System.Net;
 
 namespace Services.Api.Business.Departments.Buying
@@ -61,10 +60,8 @@ namespace Services.Api.Business.Departments.Buying
             services.RegisterRuntimeHandlers();
             services.RegisterSellingQueueConfigurations();
             services.RegisterSellingQueuePublishers();
-            services.RegisterSqlHealthChecking(
-                connectionStrings: new List<string>() { Configuration.GetSection("Persistence")["DataSource"] });
+            services.RegisterSqlHealthChecking();
             services.RegisterSwagger();
-            services.RegisterSqlUnitOfWork();
 
             services.AddMediatR(typeof(Startup));
         }

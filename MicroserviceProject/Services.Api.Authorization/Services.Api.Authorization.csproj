@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Services.Security.Authorization\**" />
+    <Content Remove="Services.Security.Authorization\**" />
+    <EmbeddedResource Remove="Services.Security.Authorization\**" />
+    <None Remove="Services.Security.Authorization\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Repositories\TransactionItemRepository.cs" />
     <Compile Remove="Repositories\TransactionRepository.cs" />
   </ItemGroup>
@@ -43,6 +50,10 @@
     <ProjectReference Include="..\Services.Communication.Mq.Rabbit.Publisher\Services.Communication.Mq.Rabbit.Publisher.csproj" />
     <ProjectReference Include="..\Services.Diagnostics.HealthCheck\Services.Diagnostics.HealthCheck.csproj" />
     <ProjectReference Include="..\Services.Logging.RequestResponse\Services.Logging.RequestResponse.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="helm\authorization\charts\" />
   </ItemGroup>
 
 </Project>

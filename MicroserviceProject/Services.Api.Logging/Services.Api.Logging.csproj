@@ -25,4 +25,8 @@
     <ProjectReference Include="..\Services.Security.BasicToken\Services.Security.BasicToken.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="helm\logging\charts\" />
+  </ItemGroup>
+
 </Project>

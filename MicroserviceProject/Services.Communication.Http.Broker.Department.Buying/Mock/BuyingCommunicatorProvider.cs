@@ -1,5 +1,4 @@
 ﻿using Infrastructure.Communication.Http.Broker;
-using Infrastructure.Routing.Providers;
 
 namespace Services.Communication.Http.Broker.Department.Buying.Mock
 {
@@ -7,11 +6,11 @@ namespace Services.Communication.Http.Broker.Department.Buying.Mock
     {
         private static BuyingCommunicator buyingCommunicator;
 
-        public static BuyingCommunicator GetBuyingCommunicator(RouteNameProvider routeNameProvider, ServiceCommunicator serviceCommunicator)
+        public static BuyingCommunicator GetBuyingCommunicator(ServiceCommunicator serviceCommunicator)
         {
             if (buyingCommunicator == null)
             {
-                buyingCommunicator = new BuyingCommunicator(routeNameProvider, serviceCommunicator);
+                buyingCommunicator = new BuyingCommunicator(serviceCommunicator);
             }
 
             return buyingCommunicator;

@@ -109,7 +109,7 @@ namespace Test.Services.Api.Business.Departments.HR.Tests
                         Person = people.Data.ElementAt(new Random().Next(0, people.Data.Count - 1)),
                         Title = titles.Data.ElementAt(new Random().Next(0, titles.Data.Count - 1)),
                         Department = departments.Data.ElementAt(new Random().Next(0, departments.Data.Count - 1)),
-                        FromDate = DateTime.Now,
+                        FromDate = DateTime.UtcNow,
                         BankAccounts = new List<BankAccountModel>()
                         {
                             new BankAccountModel(){ IBAN = new Random().Next(int.MaxValue/2,int.MaxValue).ToString() }

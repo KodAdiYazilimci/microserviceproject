@@ -1,5 +1,4 @@
 ﻿using Infrastructure.Communication.Http.Broker;
-using Infrastructure.Routing.Providers;
 
 namespace Services.Communication.Http.Broker.Department.Finance.Mock
 {
@@ -7,11 +6,11 @@ namespace Services.Communication.Http.Broker.Department.Finance.Mock
     {
         private static FinanceCommunicator financeCommunicator;
 
-        public static FinanceCommunicator GetFinanceCommunicator(RouteNameProvider routeNameProvider, ServiceCommunicator serviceCommunicator)
+        public static FinanceCommunicator GetFinanceCommunicator(ServiceCommunicator serviceCommunicator)
         {
             if (financeCommunicator == null)
             {
-                financeCommunicator = new FinanceCommunicator(routeNameProvider, serviceCommunicator);
+                financeCommunicator = new FinanceCommunicator(serviceCommunicator);
             }
 
             return financeCommunicator;

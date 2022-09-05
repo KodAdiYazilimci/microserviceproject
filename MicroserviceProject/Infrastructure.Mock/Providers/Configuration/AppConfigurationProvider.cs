@@ -1,5 +1,6 @@
 ﻿
 using Infrastructure.Mock.Providers.Configuration.Sections;
+using Infrastructure.Mock.Providers.Configuration.Sections.CachingNode;
 using Infrastructure.Mock.Providers.Configuration.Sections.PersistenceNode;
 using Infrastructure.Mock.Providers.Configuration.Sections.ServicesNode;
 
@@ -27,6 +28,11 @@ namespace Infrastructure.Mock.Providers.Configuration
         /// <param name="key">Değeri getirilecek ayarın anahtarı</param>
         /// <returns></returns>
         public string this[string key] { get => Data[key]; set { Data[key] = value; } }
+
+        /// <summary>
+        /// Caching düğümü
+        /// </summary>
+        public CachingSection CachingSection { get; set; } = new CachingSection();
 
         /// <summary>
         /// Configuration düğümü

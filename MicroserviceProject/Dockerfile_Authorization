@@ -26,3 +26,4 @@ COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Services.Api.Authorization.dll"]
 
 #docker build -t serkancamur/authorization:latest -f Dockerfile_Authorization .
+#docker push serkancamur/authorization:latest

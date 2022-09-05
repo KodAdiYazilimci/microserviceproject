@@ -9,9 +9,14 @@ namespace Infrastructure.Logging.File.Configuration
     public interface IFileConfiguration
     {
         /// <summary>
-        /// Yazılacak log dosyasının konumu
+        /// Yazılacak log dosyasının kesin konumu
         /// </summary>
-        string Path { get; set; }
+        public string AbsolutePath { get; set; }
+
+        /// <summary>
+        /// Yazılacak log dosyasının göreceli konumu
+        /// </summary>
+        string RelativePath { get; set; }
 
         /// <summary>
         /// Yazılacak log dosyasının adı

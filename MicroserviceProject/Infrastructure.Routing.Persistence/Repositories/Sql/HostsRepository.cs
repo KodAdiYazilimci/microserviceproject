@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -42,6 +43,16 @@ namespace Infrastructure.Routing.Persistence.Repositories.Sql
             get
             {
                 return
+                    Convert.ToBoolean(
+                        _configuration
+                        .GetSection("Configuration")
+                        .GetSection("Routing")["IsSensitiveData"] ?? false.ToString()) && !Debugger.IsAttached
+                    ?
+                    Environment.GetEnvironmentVariable(
+                        _configuration
+                        .GetSection("Configuration")
+                        .GetSection("Routing")["EnvironmentVariableName"])
+                    :
                     _configuration
                     .GetSection("Configuration")
                     .GetSection("Routing")["DataSource"];

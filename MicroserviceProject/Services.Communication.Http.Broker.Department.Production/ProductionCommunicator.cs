@@ -1,10 +1,8 @@
 ﻿using Infrastructure.Communication.Http.Broker;
 using Infrastructure.Communication.Http.Models;
-using Infrastructure.Routing.Providers;
 
 using Services.Communication.Http.Broker.Department.Production.CQRS.Commands.Requests;
-using Services.Communication.Http.Broker.Department.Production.CQRS.Commands.Responses;
-using Services.Communication.Http.Broker.Department.Production.CQRS.Queries.Responses;
+using Services.Communication.Http.Broker.Department.Production.Models;
 
 namespace Services.Communication.Http.Broker.Department.Production
 {
@@ -19,11 +17,6 @@ namespace Services.Communication.Http.Broker.Department.Production
         private bool disposed = false;
 
         /// <summary>
-        /// Servis rotalarına ait endpoint isimlerini sağlayan sınıfın nesnesi
-        /// </summary>
-        private readonly RouteNameProvider _routeNameProvider;
-
-        /// <summary>
         /// Yetki denetimi destekli servis iletişim sağlayıcı sınıfın nesnesi
         /// </summary>
         private readonly ServiceCommunicator _serviceCommunicator;
@@ -31,13 +24,10 @@ namespace Services.Communication.Http.Broker.Department.Production
         /// <summary>
         /// Üretim servisi için iletişim kurucu sınıf
         /// </summary>
-        /// <param name="routeNameProvider">Servis rotalarına ait endpoint isimlerini sağlayan sınıfın nesnesi</param>
         /// <param name="serviceCommunicator">Yetki denetimi destekli servis iletişim sağlayıcı sınıfın nesnesi</param>
         public ProductionCommunicator(
-            RouteNameProvider routeNameProvider,
             ServiceCommunicator serviceCommunicator)
         {
-            _routeNameProvider = routeNameProvider;
             _serviceCommunicator = serviceCommunicator;
         }
 
@@ -46,11 +36,11 @@ namespace Services.Communication.Http.Broker.Department.Production
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<GetProductsQueryResponse>> GetProductsAsync(
+        public async Task<ServiceResultModel<List<ProductModel>>> GetProductsAsync(
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<GetProductsQueryResponse>(
-                serviceName: _routeNameProvider.Production_GetProducts,
+            return await _serviceCommunicator.Call<List<ProductModel>>(
+                serviceName: "production.product.getproducts",
                 postData: null,
                 queryParameters: null,
                 headers: null,
@@ -64,13 +54,13 @@ namespace Services.Communication.Http.Broker.Department.Production
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<ProduceProductCommandResponse>> ProduceProductAsync(
+        public async Task<ServiceResultModel> ProduceProductAsync(
             ProduceProductCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<ProduceProductCommandResponse>(
-                serviceName: _routeNameProvider.Production_ProduceProduct,
+            return await _serviceCommunicator.Call(
+                serviceName: "production.production.produceproduct",
                 postData: request,
                 queryParameters: null,
                 headers: new List<KeyValuePair<string, string>>()
@@ -87,13 +77,13 @@ namespace Services.Communication.Http.Broker.Department.Production
         /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<ServiceResultModel<CreateProductCommandResponse>> CreateProductAsync(
+        public async Task<ServiceResultModel> CreateProductAsync(
             CreateProductCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<CreateProductCommandResponse>(
-                serviceName: _routeNameProvider.Production_CreateProduct,
+            return await _serviceCommunicator.Call(
+                serviceName: "production.product.createproduct",
                 postData: request,
                 queryParameters: null,
                 headers: new List<KeyValuePair<string, string>>()
@@ -115,7 +105,7 @@ namespace Services.Communication.Http.Broker.Department.Production
         {
             ServiceResultModel serviceResult =
                 await _serviceCommunicator.Call(
-                    serviceName: _routeNameProvider.Production_RemoveSessionIfExistsInCache,
+                    serviceName: "production.identity.removesessionifexistsincache",
                     postData: null,
                     queryParameters: new List<KeyValuePair<string, string>>()
                     {
@@ -127,13 +117,13 @@ namespace Services.Communication.Http.Broker.Department.Production
             return serviceResult;
         }
 
-        public async Task<ServiceResultModel<ReEvaluateProduceProductCommandResponse>> ReEvaluateProduceProductAsync(
+        public async Task<ServiceResultModel> ReEvaluateProduceProductAsync(
             int referenceNumber,
             CancellationTokenSource cancellationTokenSource)
         {
-            ServiceResultModel<ReEvaluateProduceProductCommandResponse> serviceResult =
-                await _serviceCommunicator.Call<ReEvaluateProduceProductCommandResponse>(
-                    serviceName: _routeNameProvider.Production_ReEvaluateProduceProduct,
+            ServiceResultModel serviceResult =
+                await _serviceCommunicator.Call(
+                    serviceName: "production.production.reevaluateproduceproduct",
                     postData: null,
                     queryParameters: new List<KeyValuePair<string, string>>()
                     {
@@ -164,7 +154,6 @@ namespace Services.Communication.Http.Broker.Department.Production
             {
                 if (!disposed)
                 {
-                    _routeNameProvider.Dispose();
                     _serviceCommunicator.Dispose();
                 }
 

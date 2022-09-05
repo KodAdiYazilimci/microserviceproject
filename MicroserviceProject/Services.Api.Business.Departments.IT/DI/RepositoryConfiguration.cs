@@ -1,7 +1,10 @@
 ﻿
-using Services.Api.Business.Departments.IT.Repositories.Sql;
+using Infrastructure.Transaction.UnitOfWork.Sql;
 
 using Microsoft.Extensions.DependencyInjection;
+
+using Services.Api.Business.Departments.IT.Configuration.Persistence;
+using Services.Api.Business.Departments.IT.Repositories.Sql;
 
 namespace Services.Api.Business.Departments.IT.DI
 {
@@ -17,6 +20,8 @@ namespace Services.Api.Business.Departments.IT.DI
         /// <returns></returns>
         public static IServiceCollection RegisterRepositories(this IServiceCollection services)
         {
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             services.AddScoped<InventoryRepository>();
             services.AddScoped<InventoryDefaultsRepository>();
             services.AddScoped<WorkerInventoryRepository>();

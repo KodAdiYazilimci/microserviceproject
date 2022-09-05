@@ -1,8 +1,8 @@
 ﻿using Infrastructure.Transaction.UnitOfWork.Sql;
-using Infrastructure.Transaction.UnitOfWork.Sql.Mock;
 
 using Microsoft.Extensions.Configuration;
 
+using Services.Api.Business.Departments.HR.Configuration.Persistence;
 using Services.Api.Business.Departments.HR.Repositories.Sql;
 
 using Test.Services.Api.Business.Departments.HR.Factories.Infrastructure;
@@ -20,8 +20,7 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Repositories
                 if (repository == null)
                 {
                     IConfiguration configuration = ConfigurationFactory.GetConfiguration();
-                    IUnitOfWork unitOfWork = UnitOfWorkFactory.GetInstance(configuration);
-
+                    IUnitOfWork unitOfWork = new UnitOfWork(configuration);
                     repository = new TransactionItemRepository(unitOfWork);
                 }
 

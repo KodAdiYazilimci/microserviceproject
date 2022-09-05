@@ -1,6 +1,5 @@
 ﻿
 using Infrastructure.Communication.Http.Broker;
-using Infrastructure.Routing.Providers;
 
 namespace Services.Communication.Http.Broker.Department.Storage.Mock
 {
@@ -8,11 +7,11 @@ namespace Services.Communication.Http.Broker.Department.Storage.Mock
     {
         private static StorageCommunicator storageCommunicator;
 
-        public static StorageCommunicator GetStorageCommunicator(RouteNameProvider routeNameProvider, ServiceCommunicator serviceCommunicator)
+        public static StorageCommunicator GetStorageCommunicator(ServiceCommunicator serviceCommunicator)
         {
             if (storageCommunicator == null)
             {
-                storageCommunicator = new StorageCommunicator(routeNameProvider, serviceCommunicator);
+                storageCommunicator = new StorageCommunicator(serviceCommunicator);
             }
 
             return storageCommunicator;

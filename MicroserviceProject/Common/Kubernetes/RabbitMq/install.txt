@@ -1,0 +1,26 @@
+helm repo add bitnami https://charts.bitnami.com/bitnami
+
+helm install rabbit-operator bitnami/rabbitmq-cluster-operator --namespace rabbitmq --create-namespace --atomic
+
+kubectl get crds
+
+kubectl apply -f rabbitMqCluster.yaml -n rabbitmq
+# To verify the pods are created
+kubectl get po -n rabbitmq
+
+kubectl create ing rabbit-ing-1 --class default --rule="serkancamur.test/*=rabbitmq-cluster:15672" -n rabbitmq
+
+kubectl port-forward svc/rabbitmq-cluster -n rabbitmq 8091:15672
+Getting the Rabbitmq username and password
+Execute the following command to get the username and password for rabbitmq:
+
+# Username
+kubectl get secret rabbitmq-cluster-default-user -o jsonpath="{.data.username}" -n rabbitmq
+
+# Password
+kubectl get secret rabbitmq-cluster-default-user -n rabbitmq -o jsonpath="{.data.password}"
+
+#sırasıyla
+rabbitMqSecret
+rabbitMqDeployment
+rabbitMqService

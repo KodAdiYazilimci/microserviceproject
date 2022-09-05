@@ -29,7 +29,6 @@ using Services.Logging.RequestResponse.DI;
 using Services.Security.BasicToken.DI;
 using Services.UnitOfWork.EntityFramework.DI;
 
-using System.Collections.Generic;
 using System.Net;
 
 namespace Services.Api.Business.Departments.Production
@@ -60,8 +59,7 @@ namespace Services.Api.Business.Departments.Production
             services.RegisterLocalizationProviders();
             services.RegisterRequestResponseLogger();
             services.RegisterRuntimeHandlers();
-            services.RegisterSqlHealthChecking(
-                connectionStrings: new List<string>() { Configuration.GetSection("Persistence")["DataSource"] });
+            services.RegisterSqlHealthChecking();
             services.RegisterStorageQueueConfigurations();
             services.RegisterStorageQueuePublishers();
             services.RegisterSwagger();

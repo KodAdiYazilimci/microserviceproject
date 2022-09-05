@@ -76,14 +76,14 @@ namespace Infrastructure.Localization.Translation.Persistence.EntityFramework.Pe
                 {
                     if (entry.State == EntityState.Added)
                     {
-                        (entry.Entity as BaseEntity).CreateDate = DateTime.Now;
+                        (entry.Entity as BaseEntity).CreateDate = DateTime.UtcNow;
                     }
                     if (entry.State == EntityState.Deleted)
                     {
                         entry.State = EntityState.Modified;
-                        (entry.Entity as BaseEntity).DeleteDate = DateTime.Now;
+                        (entry.Entity as BaseEntity).DeleteDate = DateTime.UtcNow;
                     }
-                    (entry.Entity as BaseEntity).UpdateDate = DateTime.Now;
+                    (entry.Entity as BaseEntity).UpdateDate = DateTime.UtcNow;
 
                 }
             }

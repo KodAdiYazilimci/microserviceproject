@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 using Services.Api.Business.Departments.Buying.Services;
 using Services.Communication.Http.Broker.Department.Buying.CQRS.Commands.Requests;
-using Services.Communication.Http.Broker.Department.Buying.CQRS.Commands.Responses;
 using Services.Communication.Http.Broker.Department.Buying.CQRS.Queries.Requests;
 using Services.Communication.Http.Broker.Department.Buying.CQRS.Queries.Responses;
 
@@ -31,9 +30,11 @@ namespace Services.Api.Business.Departments.Buying.Controllers
         [Authorize(Roles = "ApiUser,GatewayUser")]
         public async Task<IActionResult> GetInventoryRequests()
         {
-            return await HttpResponseWrapper.WrapAsync<GetInventoryRequestsQueryResponse>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await _mediator.Send(new GetInventoryRequestsQueryRequest());
+                GetInventoryRequestsQueryResponse mediatorResult = await _mediator.Send(new GetInventoryRequestsQueryRequest());
+
+                return mediatorResult.InventoryRequests;
             },
             services: _requestService);
         }
@@ -43,9 +44,9 @@ namespace Services.Api.Business.Departments.Buying.Controllers
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> CreateInventoryRequest([FromBody] CreateInventoryRequestCommandRequest request)
         {
-            return await HttpResponseWrapper.WrapAsync<CreateInventoryRequestCommandResponse>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await _mediator.Send(request);
+                await _mediator.Send(request);
             },
             services: _requestService);
         }
@@ -55,9 +56,9 @@ namespace Services.Api.Business.Departments.Buying.Controllers
         [Authorize(Roles = "ApiUser,QueueUser")]
         public async Task<IActionResult> ValidateCostInventory([FromBody] ValidateCostInventoryCommandRequest request)
         {
-            return await HttpResponseWrapper.WrapAsync<ValidateCostInventoryCommandResponse>(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                return await _mediator.Send(request);
+                await _mediator.Send(request);
             },
             services: _requestService);
         }

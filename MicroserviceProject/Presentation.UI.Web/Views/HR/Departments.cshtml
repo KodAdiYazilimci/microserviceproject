@@ -32,6 +32,10 @@
                     }
                 </tbody>
             </table>
+            <br />
+            @if(ViewBag.Error != null){
+                @Html.Raw(ViewBag.Error)
+            }
         </div>
     </div>
 </div>

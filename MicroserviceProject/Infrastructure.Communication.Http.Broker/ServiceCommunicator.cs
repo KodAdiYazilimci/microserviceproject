@@ -2,7 +2,6 @@
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Routing.Models;
 using Infrastructure.Routing.Persistence.Repositories.Sql;
-using Infrastructure.Routing.Providers;
 using Infrastructure.Security.Authentication.Exceptions;
 using Infrastructure.Security.Authentication.Providers;
 using Infrastructure.Security.Model;
@@ -12,6 +11,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -37,6 +37,8 @@ namespace Infrastructure.Communication.Http.Broker
         /// </summary>
         private const string CACHEDSERVICEROUTES = "CACHED_SERVICE_ROUTES";
 
+        private readonly IHttpClientFactory _httpClientFactory;
+
         /// <summary>
         /// Önbellek nesnesi
         /// </summary>
@@ -48,11 +50,6 @@ namespace Infrastructure.Communication.Http.Broker
         private readonly CredentialProvider _credentialProvider;
 
         /// <summary>
-        /// Gerektiğinde iletişimde bulunacak yetki servisi için rota isimleri sağlayıcısı
-        /// </summary>
-        private readonly RouteNameProvider _routeNameProvider;
-
-        /// <summary>
         /// Servis endpointleri sağlayıcısı
         /// </summary>
         private readonly ServiceRouteRepository _serviceRouteRepository;
@@ -62,17 +59,16 @@ namespace Infrastructure.Communication.Http.Broker
         /// </summary>
         /// <param name="cacheProvider">Önbellek nesnesi</param>
         /// <param name="credentialProvider">İletişimde kullanılacak yetkiler için sağlayıcı</param>
-        /// <param name="routeNameProvider">Gerektiğinde iletişimde bulunacak yetki servisi için rota isimleri sağlayıcısı</param>
         /// <param name="serviceRouteRepository">Servis endpointleri sağlayıcısı</param>
         public ServiceCommunicator(
+            IHttpClientFactory httpClientFactory,
             InMemoryCacheDataProvider cacheProvider,
             CredentialProvider credentialProvider,
-            RouteNameProvider routeNameProvider,
             ServiceRouteRepository serviceRouteRepository)
         {
+            _httpClientFactory = httpClientFactory;
             _cacheProvider = cacheProvider;
             _credentialProvider = credentialProvider;
-            _routeNameProvider = routeNameProvider;
             _serviceRouteRepository = serviceRouteRepository;
         }
 
@@ -97,16 +93,16 @@ namespace Infrastructure.Communication.Http.Broker
 
             if (string.IsNullOrWhiteSpace(takenTokenForThisService?.TokenKey)
                 ||
-                takenTokenForThisService.ValidTo <= DateTime.Now)
+                takenTokenForThisService.ValidTo <= DateTime.UtcNow)
             {
-                ServiceCaller serviceTokenCaller = new ServiceCaller(_cacheProvider, "");
+                ServiceCaller serviceTokenCaller = new ServiceCaller(_httpClientFactory, _cacheProvider, "");
                 serviceTokenCaller.OnNoServiceFoundInCacheAsync += async (serviceName) =>
                 {
                     return await GetServiceAsync(serviceName, cancellationTokenSource);
                 };
                 ServiceResultModel<AuthenticationToken> tokenResult =
                     await serviceTokenCaller.Call<AuthenticationToken>(
-                        serviceName: _routeNameProvider.Auth_GetToken,
+                        serviceName: "authorization.auth.gettoken",
                         postData: new AuthenticationCredential()
                         {
                             Email = _credentialProvider.GetEmail,
@@ -127,7 +123,7 @@ namespace Infrastructure.Communication.Http.Broker
                 }
             }
 
-            ServiceCaller serviceCaller = new ServiceCaller(_cacheProvider, takenTokenForThisService.TokenKey);
+            ServiceCaller serviceCaller = new ServiceCaller(_httpClientFactory, _cacheProvider, takenTokenForThisService.TokenKey);
             serviceCaller.OnNoServiceFoundInCacheAsync += async (serviceName) =>
             {
                 return await GetServiceAsync(serviceName, cancellationTokenSource);
@@ -163,16 +159,16 @@ namespace Infrastructure.Communication.Http.Broker
 
             if (string.IsNullOrWhiteSpace(takenTokenForThisService?.TokenKey)
                 ||
-                takenTokenForThisService.ValidTo <= DateTime.Now)
+                takenTokenForThisService.ValidTo <= DateTime.UtcNow)
             {
-                ServiceCaller serviceTokenCaller = new ServiceCaller(_cacheProvider, "");
+                ServiceCaller serviceTokenCaller = new ServiceCaller(_httpClientFactory, _cacheProvider, "");
                 serviceTokenCaller.OnNoServiceFoundInCacheAsync += async (serviceName) =>
                 {
                     return await GetServiceAsync(serviceName, cancellationTokenSource);
                 };
                 ServiceResultModel<AuthenticationToken> tokenResult =
                     await serviceTokenCaller.Call<AuthenticationToken>(
-                        serviceName: _routeNameProvider.Auth_GetToken,
+                        serviceName: "authorization.auth.gettoken",
                         postData: new AuthenticationCredential()
                         {
                             Email = _credentialProvider.GetEmail,
@@ -193,7 +189,7 @@ namespace Infrastructure.Communication.Http.Broker
                 }
             }
 
-            ServiceCaller serviceCaller = new ServiceCaller(_cacheProvider, takenTokenForThisService.TokenKey);
+            ServiceCaller serviceCaller = new ServiceCaller(_httpClientFactory, _cacheProvider, takenTokenForThisService.TokenKey);
             serviceCaller.OnNoServiceFoundInCacheAsync += async (serviceName) =>
             {
                 return await GetServiceAsync(serviceName, cancellationTokenSource);
@@ -223,7 +219,7 @@ namespace Infrastructure.Communication.Http.Broker
             {
                 serviceRoutes = await _serviceRouteRepository.GetServiceRoutesAsync(cancellationTokenSource);
 
-                _cacheProvider.Set<List<ServiceRouteModel>>(CACHEDSERVICEROUTES, serviceRoutes, DateTime.Now.AddMinutes(60));
+                _cacheProvider.Set<List<ServiceRouteModel>>(CACHEDSERVICEROUTES, serviceRoutes, DateTime.UtcNow.AddMinutes(60));
             }
 
             return JsonConvert.SerializeObject(serviceRoutes.FirstOrDefault(x => x.ServiceName == serviceName));
@@ -250,9 +246,6 @@ namespace Infrastructure.Communication.Http.Broker
                 {
                     if (_credentialProvider != null)
                         _credentialProvider.Dispose();
-
-                    if (_routeNameProvider != null)
-                        _routeNameProvider.Dispose();
 
                     if (_serviceRouteRepository != null)
                         _serviceRouteRepository.Dispose();

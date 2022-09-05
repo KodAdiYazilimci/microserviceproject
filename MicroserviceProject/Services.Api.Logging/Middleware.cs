@@ -23,7 +23,7 @@ namespace Services.Api.Infrastructure.Logging
 
         public HttpRequestTimeFeature()
         {
-            RequestTime = DateTime.Now;
+            RequestTime = DateTime.UtcNow;
         }
     }
 
@@ -84,9 +84,9 @@ namespace Services.Api.Infrastructure.Logging
                     requestResponseLogger.LogAsync(
                         model: new RequestResponseLogModel()
                         {
-                            ApplicationName = "Services.Api.Infrastructure.Logging",
+                            ApplicationName = Environment.GetEnvironmentVariable("ApplicationName") ?? "Services.Api.Infrastructure.Logging",
                             Content = response,
-                            Date = DateTime.Now,
+                            Date = DateTime.UtcNow,
                             Host = httpContext.Request.Host.ToString(),
                             IpAddress = httpContext.Connection.RemoteIpAddress.ToString(),
                             MachineName = Environment.MachineName,

@@ -23,13 +23,7 @@ namespace Services.Communication.Mq.Queue.Selling.Configuration
         public NotifyProductionRequestApprovementRabbitConfiguration(IConfiguration configuration)
             : base(configuration)
         {
-            QueueName =
-                configuration
-                .GetSection("Configuration")
-                .GetSection("RabbitQueues")
-                .GetSection("Services")
-                .GetSection("Selling")
-                .GetSection("QueueNames")["NotifyProductionRequestApprovement"];
+            QueueName = "selling.queue.production.notifyproductionrequestapprovement";
         }
 
         /// <summary>

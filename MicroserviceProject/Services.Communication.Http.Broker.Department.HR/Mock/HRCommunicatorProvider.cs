@@ -1,5 +1,4 @@
 ﻿using Infrastructure.Communication.Http.Broker;
-using Infrastructure.Routing.Providers;
 
 namespace Services.Communication.Http.Broker.Department.HR.Mock
 {
@@ -7,11 +6,11 @@ namespace Services.Communication.Http.Broker.Department.HR.Mock
     {
         private static HRCommunicator hRCommunicator;
 
-        public static HRCommunicator GetHRCommunicator(RouteNameProvider routeNameProvider, ServiceCommunicator serviceCommunicator)
+        public static HRCommunicator GetHRCommunicator(ServiceCommunicator serviceCommunicator)
         {
             if (hRCommunicator == null)
             {
-                hRCommunicator = new HRCommunicator(routeNameProvider, serviceCommunicator);
+                hRCommunicator = new HRCommunicator(serviceCommunicator);
             }
 
             return hRCommunicator;

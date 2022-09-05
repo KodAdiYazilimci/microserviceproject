@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  # namespace: redis-cluster
+  labels:
+    app: deployment-redis
+  name: deployment-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: deployment-redis
+  template:
+    metadata:
+      labels:
+        app: deployment-redis
+    spec:
+      containers:
+      - image: redis
+        name: redis
+        command: ["redis-server"]
+        args: ["--replica-announce-ip svc-redis-instance-1"]
+        volumeMounts:
+        - name: "pvc-redis"
+          mountPath: "/data"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "500m"
+          limits:
+            memory: "512Mi"
+            cpu: "1000m"           
+      volumes:
+      - name: "pvc-redis"
+        persistentVolumeClaim:
+          claimName: "pvc-redis"

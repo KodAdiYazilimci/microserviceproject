@@ -12,15 +12,15 @@ namespace Infrastructure.Util.DI
         /// </summary>
         /// <param name="services">DI servisleri nesnesi</param>
         /// <returns></returns>
-        public static IServiceCollection RegisterSwagger(this IServiceCollection services)
+        public static IServiceCollection RegisterSwagger(this IServiceCollection services, string applicationName, string description)
         {
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("CoreSwagger", new Microsoft.OpenApi.Models.OpenApiInfo
                 {
-                    Title = "Services.Business.Departments Swagger",
+                    Title = $"{applicationName} Swagger",
                     Version = "1.0.0",
-                    Description = "ApiGateway+UI",
+                    Description = description,
                     Contact = new Microsoft.OpenApi.Models.OpenApiContact()
                     {
                         Name = "Swagger Implementation Serkan Camur",

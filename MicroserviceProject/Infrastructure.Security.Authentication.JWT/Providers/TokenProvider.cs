@@ -54,7 +54,7 @@ namespace Infrastructure.Security.Authentication.JWT.Providers
         public AuthenticationToken GetSecurityToken(AuthenticatedUser user)
         {
             DateTime expiration =
-                DateTime.Now.AddMinutes(
+                DateTime.UtcNow.AddMinutes(
                     Convert.ToInt32(
                         configuration
                         .GetSection("Configuration")

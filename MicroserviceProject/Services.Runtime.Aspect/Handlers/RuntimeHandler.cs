@@ -48,7 +48,7 @@ namespace Services.Logging.Aspect.Handlers
                     MethodName = methodName,
                     ResultAsJson = JsonConvert.SerializeObject(executionResult),
                     ParametersAsJson = JsonConvert.SerializeObject(parameters),
-                    Date = DateTime.Now
+                    Date = DateTime.UtcNow
                 }, new CancellationTokenSource());
 
                 logTask.Wait();
@@ -72,7 +72,7 @@ namespace Services.Logging.Aspect.Handlers
                 {
                     MethodName = methodName,
                     ParametersAsJson = JsonConvert.SerializeObject(parameters),
-                    Date = DateTime.Now
+                    Date = DateTime.UtcNow
                 }, new CancellationTokenSource());
 
                 logTask.Wait();

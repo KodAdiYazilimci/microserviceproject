@@ -23,13 +23,7 @@ namespace Services.Communication.Mq.Queue.Finance.Configuration
         public ProductionRequestRabbitConfiguration(IConfiguration configuration)
             : base(configuration)
         {
-            QueueName =
-                configuration
-                .GetSection("Configuration")
-                .GetSection("RabbitQueues")
-                .GetSection("Services")
-                .GetSection("Finance")
-                .GetSection("QueueNames")["ProductionRequest"];
+            QueueName = "finance.queue.request.productionrequest";
         }
 
         /// <summary>

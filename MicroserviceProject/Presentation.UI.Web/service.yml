@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: presentationuiweb-service
+spec:
+  selector:
+    app: presentationuiweb-pod
+  ports:
+  - port: 5097
+    targetPort: 8501
+    protocol: TCP
+    nodePort: 31097
+  type: NodePort
+  clusterIP: 10.102.2.97

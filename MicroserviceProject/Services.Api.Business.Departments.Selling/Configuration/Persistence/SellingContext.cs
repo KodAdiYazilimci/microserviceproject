@@ -2,11 +2,6 @@
 
 using Services.Api.Business.Departments.Selling.Entities.EntityFramework;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace Services.Api.Business.Departments.Selling.Configuration.Persistence
 {
     public class SellingContext : DbContext

@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: accounting-deployment
+spec:
+  selector:
+    matchLabels:
+      app: accounting-pod
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: accounting-pod
+    spec:
+      volumes:
+        - name: volume
+          persistentVolumeClaim:
+            claimName: pv-claim
+      containers:
+        - name: accounting-container
+          image: serkancamur/accounting:latest
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 30775
+          env:
+            - name: ApplicationName
+              value: "Accounting Service"
+            - name: Configuration_Authorization_Credential_Email
+              value: "Services.Api.Business.Departments.Accounting@service.service"
+            - name: Configuration_Authorization_Credential_Password
+              value: "1234"
+            - name: Configuration_Localization_TranslationDbConnnectionString
+              value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Localization_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
+            - name: Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Host
+              value: "rabbitmq3.default.svc.cluster.local"
+            - name: Configuration_Logging_RequestResponseLogging_RabbitConfiguration_UserName
+              value: "rabbituser"
+            - name: Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Password
+              value: "rabbitpassword"
+            - name: Configuration_Logging_RequestResponseLogging_DataBaseConfiguration_DataSource
+              value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Logs_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
+            - name: Configuration_Logging_RequestResponseLogging_MongoConfiguration_ConnectionString
+              value: "mongodb://adminuser:password123@mongo-service.default.svc.cluster.local:27017"
+            - name: Configuration_Logging_RuntimeLogging_RabbitConfiguration_Host
+              value: "rabbitmq3.default.svc.cluster.local"
+            - name: Configuration_Logging_RuntimeLogging_RabbitConfiguration_UserName
+              value: "rabbituser"
+            - name: Configuration_Logging_RuntimeLogging_RabbitConfiguration_Password
+              value: "rabbitpassword"
+            - name: Configuration_Logging_RuntimeLogging_DataBaseConfiguration_DataSource
+              value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Logs_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
+            - name: Configuration_Logging_RuntimeLogging_MongoConfiguration_ConnectionString
+              value: "mongodb://adminuser:password123@mongo-service.default.svc.cluster.local:27017"
+            - name: Configuration_Routing_DataSource
+              value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Routing_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
+            - name: Configuration_RabbitQueues_Host_DefaultHost
+              value: "rabbitmq3.default.svc.cluster.local"
+            - name: Configuration_RabbitQueues_Host_DefaultUserName
+              value: "rabbituser"
+            - name: Configuration_RabbitQueues_Host_DefaultPassword
+              value: "rabbitpassword"
+            - name: Configuration_WebSockets_DataSource
+              value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Socket_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
+            - name: Persistence_Databases_Microservice_Accounting_DB_ConnectionString
+              value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Accounting_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
+            - name: Caching_Redis_Server
+              value: "svc-redis.default.svc.cluster.local"
+          volumeMounts:
+            - mountPath: "mnt/data"
+              name: volume

@@ -32,7 +32,7 @@ namespace Services.Api.Business.Departments.Production.Controllers
                     &&
                     cachedUsers != default(List<AuthenticatedUser>))
                 {
-                    if (cachedUsers.RemoveAll(x => x == null || x.Token == null || x.Token.ValidTo < DateTime.Now || x.Token.TokenKey == tokenKey) > 0)
+                    if (cachedUsers.RemoveAll(x => x == null || x.Token == null || x.Token.ValidTo < DateTime.UtcNow || x.Token.TokenKey == tokenKey) > 0)
                     {
                         _cacheProvider.Set(DefaultIdentityProvider.CACHEDTOKENBASEDSESSIONS, cachedUsers);
                     }

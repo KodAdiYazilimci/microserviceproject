@@ -4,6 +4,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Services.Api.Infrastructure.Authorization.Configuration.Persistence;
 
+using System;
+using System.Diagnostics;
+
 namespace Services.Api.Infrastructure.Authorization.DI
 {
     /// <summary>
@@ -23,7 +26,23 @@ namespace Services.Api.Infrastructure.Authorization.DI
             services.AddDbContext<AuthContext>(optionBuilder =>
             {
                 optionBuilder.UseSqlServer(
-                    connectionString: configuration.GetSection("Configuration").GetSection("Authorization").GetSection("DataSource")["ConnectionString"]);
+                    connectionString:
+                        Convert.ToBoolean(
+                            configuration
+                            .GetSection("Persistence")
+                            .GetSection("Databases")
+                            .GetSection("Microservice_Security_DB")["IsSensitiveData"] ?? false.ToString()) && !Debugger.IsAttached
+                            ?
+                            Environment.GetEnvironmentVariable(
+                                configuration
+                                .GetSection("Persistence")
+                                .GetSection("Databases")
+                                .GetSection("Microservice_Security_DB")["EnvironmentVariableName"])
+                            :
+                            configuration
+                            .GetSection("Persistence")
+                            .GetSection("Databases")
+                            .GetSection("Microservice_Security_DB")["ConnectionString"]);
 
                 optionBuilder.EnableSensitiveDataLogging();
                 optionBuilder.EnableDetailedErrors();

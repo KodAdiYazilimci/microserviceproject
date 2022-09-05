@@ -5,14 +5,12 @@ using Infrastructure.Communication.WebSockets.Models;
 using Infrastructure.Routing.Exceptions;
 using Infrastructure.Routing.Models;
 using Infrastructure.Routing.Persistence.Repositories.Sql;
-using Infrastructure.Routing.Providers;
 using Infrastructure.Security.Authentication.Exceptions;
 using Infrastructure.Security.Authentication.Providers;
 using Infrastructure.Security.Model;
 using Infrastructure.Sockets.Exceptions;
 using Infrastructure.Sockets.Models;
 using Infrastructure.Sockets.Persistence.Repositories.Sql;
-using Infrastructure.Sockets.Providers;
 
 using Microsoft.AspNetCore.SignalR.Client;
 
@@ -21,6 +19,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -62,19 +61,9 @@ namespace Infrastructure.Communication.WebSockets
         private readonly CredentialProvider _credentialProvider;
 
         /// <summary>
-        /// Gerektiğinde iletişimde bulunacak yetki servisi için rota isimleri sağlayıcısı
-        /// </summary>
-        private readonly RouteNameProvider _routeNameProvider;
-
-        /// <summary>
         /// Servis endpointleri sağlayıcısı
         /// </summary>
         private readonly ServiceRouteRepository _serviceRouteRepository;
-
-        /// <summary>
-        /// Soket isimlerinin sağlayıcısı
-        /// </summary>
-        private readonly SocketNameProvider _socketNameProvider;
 
         /// <summary>
         /// Soket endpointlerinin sağlayıcısı
@@ -97,23 +86,17 @@ namespace Infrastructure.Communication.WebSockets
         /// </summary>
         /// <param name="cacheProvider">Önbellek nesnesi</param>
         /// <param name="credentialProvider">İletişimde kullanılacak yetkiler için sağlayıcı</param>
-        /// <param name="routeNameProvider">Gerektiğinde iletişimde bulunacak yetki servisi için rota isimleri sağlayıcısı</param>
         /// <param name="serviceRouteRepository">Servis endpointleri sağlayıcısı</param>
-        /// <param name="socketNameProvider">Soket isimlerinin sağlayıcısı</param>
         /// <param name="socketRepository">Soket endpointlerinin sağlayıcısı</param>
         public SocketListener(
             InMemoryCacheDataProvider cacheProvider,
             CredentialProvider credentialProvider,
-            RouteNameProvider routeNameProvider,
             ServiceRouteRepository serviceRouteRepository,
-            SocketNameProvider socketNameProvider,
             SocketRepository socketRepository)
         {
             _cacheProvider = cacheProvider;
             _credentialProvider = credentialProvider;
-            _routeNameProvider = routeNameProvider;
             _serviceRouteRepository = serviceRouteRepository;
-            _socketNameProvider = socketNameProvider;
             _socketRepository = socketRepository;
         }
 
@@ -129,9 +112,9 @@ namespace Infrastructure.Communication.WebSockets
 
             if (string.IsNullOrWhiteSpace(takenTokenForThisService?.TokenKey)
                 ||
-                takenTokenForThisService.ValidTo <= DateTime.Now)
+                takenTokenForThisService.ValidTo <= DateTime.UtcNow)
             {
-                ServiceCaller serviceTokenCaller = new ServiceCaller(_cacheProvider, "");
+                ServiceCaller serviceTokenCaller = new ServiceCaller(null, _cacheProvider, "");
                 serviceTokenCaller.OnNoServiceFoundInCacheAsync += async (serviceName) =>
                 {
                     return await GetServiceAsync(serviceName, cancellationTokenSource);
@@ -139,7 +122,7 @@ namespace Infrastructure.Communication.WebSockets
 
                 ServiceResultModel<AuthenticationToken> tokenResult =
                     await serviceTokenCaller.Call<AuthenticationToken>(
-                        serviceName: _routeNameProvider.Auth_GetToken,
+                        serviceName: "authorization.auth.gettoken",
                         postData: new AuthenticationCredential()
                         {
                             Email = _credentialProvider.GetEmail,
@@ -194,7 +177,7 @@ namespace Infrastructure.Communication.WebSockets
             {
                 serviceRoutes = await _serviceRouteRepository.GetServiceRoutesAsync(cancellationTokenSource);
 
-                _cacheProvider.Set<List<ServiceRouteModel>>(CACHEDSERVICEROUTES, serviceRoutes, DateTime.Now.AddMinutes(60));
+                _cacheProvider.Set<List<ServiceRouteModel>>(CACHEDSERVICEROUTES, serviceRoutes, DateTime.UtcNow.AddMinutes(60));
             }
 
             if (serviceRoutes.Any(x => x.ServiceName == serviceName))
@@ -217,7 +200,7 @@ namespace Infrastructure.Communication.WebSockets
             {
                 sockets = await _socketRepository.GetSocketsAsync(cancellationTokenSource);
 
-                _cacheProvider.Set<List<SocketModel>>(CACHEDWEBSOCKETS, sockets, DateTime.Now.AddMinutes(60));
+                _cacheProvider.Set<List<SocketModel>>(CACHEDWEBSOCKETS, sockets, DateTime.UtcNow.AddMinutes(60));
             }
 
             if (sockets.Any(x => x.Name == socketName))
@@ -248,14 +231,8 @@ namespace Infrastructure.Communication.WebSockets
                     if (_credentialProvider != null)
                         _credentialProvider.Dispose();
 
-                    if (_routeNameProvider != null)
-                        _routeNameProvider.Dispose();
-
                     if (_serviceRouteRepository != null)
                         _serviceRouteRepository.Dispose();
-
-                    if (_socketNameProvider != null)
-                        _socketNameProvider.Dispose();
 
                     if (_socketRepository != null)
                         _socketRepository.Dispose();
