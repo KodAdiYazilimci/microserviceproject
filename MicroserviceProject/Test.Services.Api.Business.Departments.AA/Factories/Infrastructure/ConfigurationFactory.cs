@@ -18,7 +18,8 @@ namespace Test.Services.Api.Business.Departments.AA.Factories.Infrastructure
 
             return Configuration.GetConfiguration(
                 authorizationCredential: authorizationCredentialSection,
-                loggingFilePath: "C:\\Logs\\Services.Api.Business.Departments.AA\\",
+                loggingAbsoluteFilePath: "C:\\Logs\\Services.Api.Business.Departments.AA\\",
+                loggingRelativeFilePath: "RequestResponseLogs/",
                 databaseSections: new List<AnyDatabaseSection>()
                 {
                     new AnyDatabaseSection("Microservice_AA_DB","server=localhost;DataBase=Microservice_AA_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true")

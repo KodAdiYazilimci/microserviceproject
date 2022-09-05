@@ -23,11 +23,17 @@ namespace Services.Logging.RequestResponse.Configuration
         /// <param name="configuration">Request-response log ayarlarının çekileceği configuration</param>
         public RequestResponseLogFileConfiguration(IConfiguration configuration)
         {
-            Path = configuration
+            RelativePath = configuration
                 .GetSection("Configuration")
                 .GetSection("Logging")
                 .GetSection("RequestResponseLogging")
-                .GetSection("FileConfiguration")["Path"];
+                .GetSection("FileConfiguration")["RelativePath"];
+
+            AbsolutePath = configuration
+                .GetSection("Configuration")
+                .GetSection("Logging")
+                .GetSection("RequestResponseLogging")
+                .GetSection("FileConfiguration")["AbsolutePath"];
 
             FileName = configuration
                 .GetSection("Configuration")
@@ -45,9 +51,14 @@ namespace Services.Logging.RequestResponse.Configuration
         }
 
         /// <summary>
-        /// Yazılacak log dosyasının konumu
+        /// Yazılacak log dosyasının kesin konumu
         /// </summary>
-        public string Path { get; set; }
+        public string AbsolutePath { get; set; }
+
+        /// <summary>
+        /// Yazılacak log dosyasının göreceli konumu
+        /// </summary>
+        public string RelativePath { get; set; }
 
         /// <summary>
         /// Yazılacak log dosyasının adı
@@ -78,7 +89,8 @@ namespace Services.Logging.RequestResponse.Configuration
             {
                 if (!disposed)
                 {
-                    Path = string.Empty;
+                    RelativePath = string.Empty;
+                    AbsolutePath = string.Empty;
                     FileName = string.Empty;
                     Encoding = null;
                 }
