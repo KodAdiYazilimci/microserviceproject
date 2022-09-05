@@ -35,26 +35,16 @@ spec:
               value: "{{ .Values.deployment.application.containers.mqaaContainer.environment.Configuration_Authorization_Credential_Password }}"
             - name: Configuration_Localization_TranslationDbConnnectionString
               value: {{ .Values.deployment.application.containers.mqaaContainer.environment.Configuration_Localization_TranslationDbConnnectionString }}
-            - name: Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Host
-              value: {{ .Values.deployment.application.containers.mqaaContainer.environment.Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Host }}
-            - name: Configuration_Logging_RequestResponseLogging_RabbitConfiguration_UserName
-              value: {{ .Values.deployment.application.containers.mqaaContainer.environment.Configuration_Logging_RequestResponseLogging_RabbitConfiguration_UserName }}
-            - name: Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Password
-              value: {{ .Values.deployment.application.containers.mqaaContainer.environment.Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Password }}
-            - name: Configuration_Logging_RequestResponseLogging_DataBaseConfiguration_DataSource
-              value: {{ .Values.deployment.application.containers.mqaaContainer.environment.Configuration_Logging_RequestResponseLogging_DataBaseConfiguration_DataSource }}
-            - name: Configuration_Logging_RequestResponseLogging_MongoConfiguration_ConnectionString
-              value: {{ .Values.deployment.application.containers.mqaaContainer.environment.Configuration_Logging_RequestResponseLogging_MongoConfiguration_ConnectionString }}
-            - name: Configuration_Logging_RuntimeLogging_RabbitConfiguration_Host
-              value: {{ .Values.deployment.application.containers.mqaaContainer.environment.Configuration_Logging_RuntimeLogging_RabbitConfiguration_Host }}
-            - name: Configuration_Logging_RuntimeLogging_RabbitConfiguration_UserName
-              value: {{ .Values.deployment.application.containers.mqaaContainer.environment.Configuration_Logging_RuntimeLogging_RabbitConfiguration_UserName }}
-            - name: Configuration_Logging_RuntimeLogging_RabbitConfiguration_Password
-              value: {{ .Values.deployment.application.containers.mqaaContainer.environment.Configuration_Logging_RuntimeLogging_RabbitConfiguration_Password }}
-            - name: Configuration_Logging_RuntimeLogging_DataBaseConfiguration_DataSource
-              value: {{ .Values.deployment.application.containers.mqaaContainer.environment.Configuration_Logging_RuntimeLogging_DataBaseConfiguration_DataSource }}
-            - name: Configuration_Logging_RuntimeLogging_MongoConfiguration_ConnectionString
-              value: {{ .Values.deployment.application.containers.mqaaContainer.environment.Configuration_Logging_RuntimeLogging_MongoConfiguration_ConnectionString }}
+            - name: Configuration_Logging_ExceptionLogging_RabbitConfiguration_Host
+              value: {{ .Values.deployment.application.containers.mqaaContainer.environment.Configuration_Logging_ExceptionLogging_RabbitConfiguration_Host }}
+            - name: Configuration_Logging_ExceptionLogging_RabbitConfiguration_UserName
+              value: {{ .Values.deployment.application.containers.mqaaContainer.environment.Configuration_Logging_ExceptionLogging_RabbitConfiguration_UserName }}
+            - name: Configuration_Logging_ExceptionLogging_RabbitConfiguration_Password
+              value: {{ .Values.deployment.application.containers.mqaaContainer.environment.Configuration_Logging_ExceptionLogging_RabbitConfiguration_Password }}
+            - name: Configuration_Logging_ExceptionLogging_DataBaseConfiguration_DataSource
+              value: {{ .Values.deployment.application.containers.mqaaContainer.environment.Configuration_Logging_ExceptionLogging_DataBaseConfiguration_DataSource }}
+            - name: Configuration_Logging_ExceptionLogging_MongoConfiguration_ConnectionString
+              value: {{ .Values.deployment.application.containers.mqaaContainer.environment.Configuration_Logging_ExceptionLogging_MongoConfiguration_ConnectionString }}
             - name: Configuration_Routing_DataSource
               value: {{ .Values.deployment.application.containers.mqaaContainer.environment.Configuration_Routing_DataSource }}
             - name: Configuration_RabbitQueues_Host_DefaultHost
