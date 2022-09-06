@@ -110,7 +110,7 @@ namespace Infrastructure.Runtime.Handlers
                     result = (T)m.Invoke(instance, parameters);
                     foundResult = true;
 
-                    ExecuteAfterInvoke(instance, m, null, parameters);
+                    ExecuteAfterInvoke(instance, m, result, parameters);
 
                     break;
                 }
@@ -150,7 +150,7 @@ namespace Infrastructure.Runtime.Handlers
 
                     foundResult = true;
 
-                    ExecuteAfterInvoke(null, m, null, parameters);
+                    ExecuteAfterInvoke(null, m, result, parameters);
 
                     return result;
                 }

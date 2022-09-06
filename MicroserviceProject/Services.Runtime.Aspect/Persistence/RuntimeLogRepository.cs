@@ -1,4 +1,6 @@
 ﻿
+using Infrastructure.Logging.Abstraction;
+
 using Microsoft.Extensions.Configuration;
 
 using System.Data;
@@ -10,7 +12,7 @@ namespace Services.Logging.Aspect.Persistence
     /// <summary>
     /// Çalışma zamanı logları repository sınıfı
     /// </summary>
-    public class RuntimeLogRepository : IDisposable
+    public class RuntimeLogRepository : ILogger<RuntimeLogModel>, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -37,10 +39,9 @@ namespace Services.Logging.Aspect.Persistence
         /// <param name="logModel">Eklenecek logun nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task<int> InsertLogAsync(RuntimeLogModel logModel, CancellationTokenSource cancellationTokenSource)
+        public async Task LogAsync(RuntimeLogModel logModel, CancellationTokenSource cancellationTokenSource)
         {
             Exception exception = null;
-            int result = 0;
 
             SqlConnection sqlConnection = new SqlConnection(ConnectionString);
 
@@ -80,7 +81,7 @@ namespace Services.Logging.Aspect.Persistence
                     await sqlConnection.OpenAsync(cancellationTokenSource.Token);
                 }
 
-                result = await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
+                await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
             }
             catch (Exception ex)
             {
@@ -98,8 +99,6 @@ namespace Services.Logging.Aspect.Persistence
             {
                 throw exception;
             }
-
-            return result;
         }
 
         /// <summary>

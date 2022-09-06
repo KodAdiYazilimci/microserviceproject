@@ -6,6 +6,7 @@ using Infrastructure.Logging.RabbitMq.Producers;
 using Microsoft.Extensions.Configuration;
 
 using Services.Logging.Aspect.Configuration;
+using Services.Logging.Aspect.Persistence;
 
 namespace Services.Logging.Aspect
 {
@@ -40,9 +41,13 @@ namespace Services.Logging.Aspect
                 new DefaultLogProducer<RuntimeLogModel>(
                     new RuntimeLogRabbitConfiguration(configuration));
 
+            RuntimeLogRepository runtimeLogRepository = new RuntimeLogRepository(configuration);
+
             loggers.Add(requestResponseRabbitLogger);
 
             loggers.Add(jsonFileLogger);
+
+            loggers.Add(runtimeLogRepository);
 
             _logManager = new LogManager<RuntimeLogModel>(loggers);
         }

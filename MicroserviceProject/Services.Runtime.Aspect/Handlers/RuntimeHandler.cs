@@ -1,4 +1,4 @@
-﻿using Infrastructure.Runtime.Defintion;
+﻿using Infrastructure.Communication.Http.Wrapper;
 using Infrastructure.Runtime.Handlers;
 using Infrastructure.Runtime.Util;
 
@@ -48,7 +48,9 @@ namespace Services.Logging.Aspect.Handlers
                     MethodName = methodName,
                     ResultAsJson = JsonConvert.SerializeObject(executionResult),
                     ParametersAsJson = JsonConvert.SerializeObject(parameters),
-                    Date = DateTime.UtcNow
+                    Date = DateTime.UtcNow,
+                    ApplicationName = instance is BaseService ? (instance as BaseService).ApiServiceName : String.Empty,
+                    MachineName = Environment.MachineName,
                 }, new CancellationTokenSource());
 
                 logTask.Wait();
@@ -72,7 +74,9 @@ namespace Services.Logging.Aspect.Handlers
                 {
                     MethodName = methodName,
                     ParametersAsJson = JsonConvert.SerializeObject(parameters),
-                    Date = DateTime.UtcNow
+                    Date = DateTime.UtcNow,
+                    ApplicationName = instance is BaseService ? (instance as BaseService).ApiServiceName : String.Empty,
+                    MachineName = Environment.MachineName,
                 }, new CancellationTokenSource());
 
                 logTask.Wait();
