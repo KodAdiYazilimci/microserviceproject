@@ -19,9 +19,12 @@ using Services.Api.Infrastructure.Logging.Configuration.Services.Repositories;
 using Services.Api.Infrastructure.Logging.DI;
 using Services.Api.Logging.DI;
 using Services.Diagnostics.HealthCheck.DI;
+using Services.Logging.Exception;
+using Services.Logging.Exception.Configuration;
 using Services.Logging.Exception.DI;
 using Services.Security.BasicToken.DI;
 
+using System;
 using System.Net;
 
 namespace Services.Api.Infrastructure.Logging
@@ -53,15 +56,21 @@ namespace Services.Api.Infrastructure.Logging
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
             app.UseExceptionHandler(handler =>
             {
                 handler.Run(async context =>
                 {
+                    var error = context.Features.Get<IExceptionHandlerPathFeature>().Error;
+
+                    await app.ApplicationServices.GetRequiredService<ExceptionLogger>().LogAsync(new ExceptionLogModel()
+                    {
+                        ApplicationName = Environment.GetEnvironmentVariable("ApplicationName") ?? "Services.Api.Logging",
+                        Date = DateTime.UtcNow,
+                        MachineName = Environment.MachineName,
+                        ExceptionMessage = error.Message,
+                        InnerExceptionMessage = error.InnerException?.Message
+                    }, null);
+
                     context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                     context.Response.ContentType = "application/json";
                     await
@@ -70,7 +79,10 @@ namespace Services.Api.Infrastructure.Logging
                         IsSuccess = false,
                         ErrorModel = new ErrorModel()
                         {
-                            Description = context.Features.Get<IExceptionHandlerPathFeature>().Error.Message
+                            Description =
+                            error.Message
+                            +
+                            (error.InnerException != null ? (Environment.NewLine + error.InnerException.Message) : String.Empty)
                         }
                     }));
                 });

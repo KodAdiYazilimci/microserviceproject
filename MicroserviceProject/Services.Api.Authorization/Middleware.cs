@@ -85,7 +85,7 @@ namespace Services.Api.Infrastructure.Authorization
                     requestResponseLogger.LogAsync(
                         model: new RequestResponseLogModel()
                         {
-                            ApplicationName = Environment.GetEnvironmentVariable("ApplicationName") ?? "Services.Security.Authorization",
+                            ApplicationName = Environment.GetEnvironmentVariable("ApplicationName") ?? "Services.Api.Authorization",
                             Content = response,
                             Date = DateTime.UtcNow,
                             Host = httpContext.Request.Host.ToString(),

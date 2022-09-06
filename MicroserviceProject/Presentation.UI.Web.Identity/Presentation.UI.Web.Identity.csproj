@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure.Security.Authentication.BasicToken\Infrastructure.Security.Authentication.BasicToken.csproj" />
     <ProjectReference Include="..\Services.Communication.Http.Broker.Authorization\Services.Communication.Http.Broker.Authorization.csproj" />
+    <ProjectReference Include="..\Services.Logging.Exception\Services.Logging.Exception.csproj" />
   </ItemGroup>
 
 </Project>

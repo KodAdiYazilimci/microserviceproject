@@ -23,8 +23,11 @@ using Services.Communication.Http.Broker.Department.Selling.DI;
 using Services.Communication.Http.Broker.Department.Storage.DI;
 using Services.Communication.Mq.Queue.Authorization.DI;
 using Services.Communication.Mq.Queue.Authorization.Rabbit.DI;
+using Services.Logging.Exception;
+using Services.Logging.Exception.Configuration;
 using Services.Logging.Exception.DI;
 
+using System;
 using System.Net;
 
 namespace Services.MQ.Authorization
@@ -55,15 +58,21 @@ namespace Services.MQ.Authorization
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
             app.UseExceptionHandler(handler =>
             {
                 handler.Run(async context =>
                 {
+                    var error = context.Features.Get<IExceptionHandlerPathFeature>().Error;
+
+                    await app.ApplicationServices.GetRequiredService<ExceptionLogger>().LogAsync(new ExceptionLogModel()
+                    {
+                        ApplicationName = Environment.GetEnvironmentVariable("ApplicationName") ?? "Services.MQ.Authorization",
+                        Date = DateTime.UtcNow,
+                        MachineName = Environment.MachineName,
+                        ExceptionMessage = error.Message,
+                        InnerExceptionMessage = error.InnerException?.Message
+                    }, null);
+
                     context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                     context.Response.ContentType = "application/json";
                     await
@@ -72,7 +81,10 @@ namespace Services.MQ.Authorization
                         IsSuccess = false,
                         ErrorModel = new ErrorModel()
                         {
-                            Description = context.Features.Get<IExceptionHandlerPathFeature>().Error.Message
+                            Description =
+                            error.Message
+                            +
+                            (error.InnerException != null ? (Environment.NewLine + error.InnerException.Message) : String.Empty)
                         }
                     }));
                 });
