@@ -11,6 +11,7 @@
     <ProjectReference Include="..\Services.Communication.Http.Broker.Authorization\Services.Communication.Http.Broker.Authorization.csproj" />
     <ProjectReference Include="..\Services.Communication.Http.Broker.Department.Selling\Services.Communication.Http.Broker.Department.Selling.csproj" />
     <ProjectReference Include="..\Services.Logging.Exception\Services.Logging.Exception.csproj" />
+    <ProjectReference Include="..\Services.Util\Services.Util.csproj" />
   </ItemGroup>
 
 </Project>

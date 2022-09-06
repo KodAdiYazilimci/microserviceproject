@@ -1,31 +1,21 @@
 using Infrastructure.Caching.Redis.DI;
 using Infrastructure.Communication.Http.Broker.DI;
-using Infrastructure.Communication.Http.Models;
 using Infrastructure.Diagnostics.HealthCheck.Util;
 using Infrastructure.Util.DI;
 
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-
-using Newtonsoft.Json;
 
 using Services.Api.Infrastructure.Logging.Configuration.Services.Repositories;
 using Services.Api.Infrastructure.Logging.DI;
 using Services.Api.Logging.DI;
 using Services.Diagnostics.HealthCheck.DI;
-using Services.Logging.Exception;
-using Services.Logging.Exception.Configuration;
 using Services.Logging.Exception.DI;
 using Services.Security.BasicToken.DI;
-
-using System;
-using System.Net;
+using Services.Util.Exception.Handlers;
 
 namespace Services.Api.Infrastructure.Logging
 {
@@ -56,37 +46,7 @@ namespace Services.Api.Infrastructure.Logging
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseExceptionHandler(handler =>
-            {
-                handler.Run(async context =>
-                {
-                    var error = context.Features.Get<IExceptionHandlerPathFeature>().Error;
-
-                    await app.ApplicationServices.GetRequiredService<ExceptionLogger>().LogAsync(new ExceptionLogModel()
-                    {
-                        ApplicationName = Environment.GetEnvironmentVariable("ApplicationName") ?? "Services.Api.Logging",
-                        Date = DateTime.UtcNow,
-                        MachineName = Environment.MachineName,
-                        ExceptionMessage = error.Message,
-                        InnerExceptionMessage = error.InnerException?.Message
-                    }, null);
-
-                    context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                    context.Response.ContentType = "application/json";
-                    await
-                    context.Response.WriteAsync(JsonConvert.SerializeObject(new ServiceResultModel()
-                    {
-                        IsSuccess = false,
-                        ErrorModel = new ErrorModel()
-                        {
-                            Description =
-                            error.Message
-                            +
-                            (error.InnerException != null ? (Environment.NewLine + error.InnerException.Message) : String.Empty)
-                        }
-                    }));
-                });
-            });
+            app.UseGlobalExceptionHandler(defaultApplicationName: "Services.Api.Logging");
 
             app.UseRouting();
 

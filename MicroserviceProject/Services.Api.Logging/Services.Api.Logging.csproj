@@ -24,6 +24,7 @@
     <ProjectReference Include="..\Services.Logging.Exception\Services.Logging.Exception.csproj" />
     <ProjectReference Include="..\Services.Logging.RequestResponse\Services.Logging.RequestResponse.csproj" />
     <ProjectReference Include="..\Services.Security.BasicToken\Services.Security.BasicToken.csproj" />
+    <ProjectReference Include="..\Services.Util\Services.Util.csproj" />
   </ItemGroup>
 
   <ItemGroup>

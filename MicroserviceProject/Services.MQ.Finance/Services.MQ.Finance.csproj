@@ -19,6 +19,7 @@
     <ProjectReference Include="..\Services.Communication.Mq.Queue.Finance.Rabbit\Services.Communication.Mq.Queue.Finance.Rabbit.csproj" />
     <ProjectReference Include="..\Services.Communication.Mq.Queue.Finance\Services.Communication.Mq.Queue.Finance.csproj" />
     <ProjectReference Include="..\Services.Logging.Exception\Services.Logging.Exception.csproj" />
+    <ProjectReference Include="..\Services.Util\Services.Util.csproj" />
   </ItemGroup>
 
 </Project>

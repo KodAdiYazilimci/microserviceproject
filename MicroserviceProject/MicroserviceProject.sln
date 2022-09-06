@@ -385,7 +385,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Redis", "Redis", "{89EDEC5F
 		Common\Kubernetes\Redis\redisVolumeClaim.yml = Common\Kubernetes\Redis\redisVolumeClaim.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Logging.Exception", "Services.Logging.Exception\Services.Logging.Exception.csproj", "{6F126316-D529-411C-802A-6A2B74C8C618}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Logging.Exception", "Services.Logging.Exception\Services.Logging.Exception.csproj", "{6F126316-D529-411C-802A-6A2B74C8C618}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Util", "Services.Util\Services.Util.csproj", "{13C05227-F3E2-4D39-8D83-BB44BF0391E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -873,6 +875,10 @@ Global
 		{6F126316-D529-411C-802A-6A2B74C8C618}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F126316-D529-411C-802A-6A2B74C8C618}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F126316-D529-411C-802A-6A2B74C8C618}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13C05227-F3E2-4D39-8D83-BB44BF0391E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13C05227-F3E2-4D39-8D83-BB44BF0391E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13C05227-F3E2-4D39-8D83-BB44BF0391E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13C05227-F3E2-4D39-8D83-BB44BF0391E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1020,6 +1026,7 @@ Global
 		{21F0B8F2-6652-4383-9EE9-C1E82CBCB786} = {00D4D46F-F1C2-4D2B-A83E-B220050BE2F6}
 		{89EDEC5F-CC60-452A-8EF1-9D86EF3D245C} = {00D4D46F-F1C2-4D2B-A83E-B220050BE2F6}
 		{6F126316-D529-411C-802A-6A2B74C8C618} = {2EE70AFD-E3E7-49A0-9A36-5C36844C0EA0}
+		{13C05227-F3E2-4D39-8D83-BB44BF0391E4} = {2EE70AFD-E3E7-49A0-9A36-5C36844C0EA0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5FD68A04-D16D-49EC-9D04-25E6B952DA89}

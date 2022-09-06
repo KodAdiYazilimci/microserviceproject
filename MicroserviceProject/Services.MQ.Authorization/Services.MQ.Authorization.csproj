@@ -12,6 +12,7 @@
     <ProjectReference Include="..\Services.Communication.Mq.Queue.Authorization.Rabbit\Services.Communication.Mq.Queue.Authorization.Rabbit.csproj" />
     <ProjectReference Include="..\Services.Communication.Mq.Queue.Authorization\Services.Communication.Mq.Queue.Authorization.csproj" />
     <ProjectReference Include="..\Services.Logging.Exception\Services.Logging.Exception.csproj" />
+    <ProjectReference Include="..\Services.Util\Services.Util.csproj" />
   </ItemGroup>
 
 </Project>

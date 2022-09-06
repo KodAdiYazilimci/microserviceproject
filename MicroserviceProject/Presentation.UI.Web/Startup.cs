@@ -1,17 +1,13 @@
 
 using Infrastructure.Caching.InMemory.DI;
-using Infrastructure.Communication.Http.Models;
 using Infrastructure.Security.Authentication.DI;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
-using Newtonsoft.Json;
 
 using Presentation.UI.Web.DI;
 
@@ -23,7 +19,7 @@ using Services.Logging.Exception.DI;
 using Services.Security.Cookie.DI;
 
 using System;
-using System.Net;
+using System.Threading;
 
 namespace Presentation.UI.Web
 {
@@ -57,7 +53,7 @@ namespace Presentation.UI.Web
             {
                 handler.Run(async context =>
                 {
-                    var error = context.Features.Get<IExceptionHandlerPathFeature>().Error;
+                    Exception error = context.Features.Get<IExceptionHandlerPathFeature>().Error;
 
                     await app.ApplicationServices.GetRequiredService<ExceptionLogger>().LogAsync(new ExceptionLogModel()
                     {
@@ -66,19 +62,9 @@ namespace Presentation.UI.Web
                         MachineName = Environment.MachineName,
                         ExceptionMessage = error.Message,
                         InnerExceptionMessage = error.InnerException?.Message
-                    }, null);
+                    }, new CancellationTokenSource());
 
-                    context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                    context.Response.ContentType = "application/json";
-                    await
-                    context.Response.WriteAsync(JsonConvert.SerializeObject(new ServiceResultModel()
-                    {
-                        IsSuccess = false,
-                        ErrorModel = new ErrorModel()
-                        {
-                            Description = error.Message
-                        }
-                    }));
+                    context.Response.Redirect("/Home/Hata");
                 });
             });
 
