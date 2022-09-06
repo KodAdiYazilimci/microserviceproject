@@ -60,7 +60,7 @@ namespace Infrastructure.Security.Authentication.Cookie.Handlers
                     claimsPrincipal,
                     new AuthenticationProperties()
                     {
-                        ExpiresUtc = new DateTimeOffset(authenticatedUser.Token.ValidTo.ToUniversalTime())
+                        ExpiresUtc = new DateTimeOffset(authenticatedUser.Token.ValidTo, TimeSpan.Zero)
                     });
 
                 _identityProvider.SetToCache(authenticatedUser);
@@ -95,7 +95,7 @@ namespace Infrastructure.Security.Authentication.Cookie.Handlers
                     claimsPrincipal,
                     new AuthenticationProperties()
                     {
-                        ExpiresUtc = authenticatedUser.Token.ValidTo.ToUniversalTime()
+                        ExpiresUtc = new DateTimeOffset(authenticatedUser.Token.ValidTo, TimeSpan.Zero)
                     });
 
                 _identityProvider.SetToCache(authenticatedUser);
