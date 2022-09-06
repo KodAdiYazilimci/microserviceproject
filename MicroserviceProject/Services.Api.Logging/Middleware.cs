@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 
+using Services.Communication.Http.Broker.Authorization.Models;
 using Services.Logging.RequestResponse.Configuration;
 
 using System;
@@ -45,10 +46,20 @@ namespace Services.Api.Infrastructure.Logging
             var watch = new Stopwatch();
             watch.Start();
 
+            string request = string.Empty;
             string response = string.Empty;
 
             try
             {
+                httpContext.Request.EnableBuffering();
+
+                using (StreamReader streamReader = new StreamReader(httpContext.Request.Body, leaveOpen: true))
+                {
+                    request = await streamReader.ReadToEndAsync();
+
+                    httpContext.Request.Body.Position = 0;
+                }
+
                 var originalBody = httpContext.Response.Body;
                 using (var newBody = new MemoryStream())
                 {
@@ -67,10 +78,7 @@ namespace Services.Api.Infrastructure.Logging
                     }
                 }
             }
-            catch (Exception)
-            {
-
-            }
+            catch { }
 
             httpContext.Response.OnCompleted(async () =>
             {
@@ -85,7 +93,7 @@ namespace Services.Api.Infrastructure.Logging
                         model: new RequestResponseLogModel()
                         {
                             ApplicationName = Environment.GetEnvironmentVariable("ApplicationName") ?? "Services.Api.Infrastructure.Logging",
-                            Content = response,
+                            Content = string.Concat("==REQUEST START==", request, "==REQUEST END==", "==RESPONSE START==", response, "==RESPONSE END=="),
                             Date = DateTime.UtcNow,
                             Host = httpContext.Request.Host.ToString(),
                             IpAddress = httpContext.Connection.RemoteIpAddress.ToString(),

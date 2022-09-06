@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 
 using Services.Api.Business.Departments.Accounting.Services;
+using Services.Communication.Http.Broker.Authorization.Models;
 using Services.Logging.RequestResponse;
 using Services.Logging.RequestResponse.Configuration;
 
@@ -49,10 +50,20 @@ namespace Services.Api.Business.Departments.Accounting
             var watch = new Stopwatch();
             watch.Start();
 
+            string request = string.Empty;
             string response = string.Empty;
 
             try
             {
+                httpContext.Request.EnableBuffering();
+
+                using (StreamReader streamReader = new StreamReader(httpContext.Request.Body, leaveOpen: true))
+                {
+                    request = await streamReader.ReadToEndAsync();
+
+                    httpContext.Request.Body.Position = 0;
+                }
+
                 var originalBody = httpContext.Response.Body;
                 using (var newBody = new MemoryStream())
                 {
@@ -71,10 +82,7 @@ namespace Services.Api.Business.Departments.Accounting
                     }
                 }
             }
-            catch (Exception)
-            {
-
-            }
+            catch { }
 
             httpContext.Response.OnCompleted(async () =>
             {
@@ -89,7 +97,7 @@ namespace Services.Api.Business.Departments.Accounting
                         model: new RequestResponseLogModel()
                         {
                             ApplicationName = "Services.Api.Business.Departments.Accounting",
-                            Content = response,
+                            Content = string.Concat("==REQUEST START==", request, "==REQUEST END==", "==RESPONSE START==", response, "==RESPONSE END=="),
                             Date = DateTime.UtcNow,
                             Host = httpContext.Request.Host.ToString(),
                             IpAddress = httpContext.Connection.RemoteIpAddress.ToString(),
