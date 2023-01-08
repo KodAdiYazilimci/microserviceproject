@@ -46,8 +46,8 @@ namespace Services.Logging.Aspect.Handlers
                 Task logTask = _runtimeLogger.LogAsync(new RuntimeLogModel()
                 {
                     MethodName = methodName,
-                    ResultAsJson = JsonConvert.SerializeObject(executionResult),
-                    ParametersAsJson = JsonConvert.SerializeObject(parameters),
+                    ResultAsJson = JsonConvert.SerializeObject(executionResult, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore}),
+                    ParametersAsJson = JsonConvert.SerializeObject(parameters, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }),
                     Date = DateTime.UtcNow,
                     ApplicationName = instance is BaseService ? (instance as BaseService).ApiServiceName : String.Empty,
                     MachineName = Environment.MachineName,

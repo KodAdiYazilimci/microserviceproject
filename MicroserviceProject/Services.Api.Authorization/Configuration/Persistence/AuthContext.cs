@@ -29,7 +29,7 @@ namespace Services.Api.Infrastructure.Authorization.Configuration.Persistence
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("server=localhost;DataBase=Microservice_Security_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true");
+                optionsBuilder.UseSqlServer("server=localhost;DataBase=Microservice_Security_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true;TrustServerCertificate=Yes");
 
                 optionsBuilder.EnableSensitiveDataLogging();
                 optionsBuilder.EnableDetailedErrors();

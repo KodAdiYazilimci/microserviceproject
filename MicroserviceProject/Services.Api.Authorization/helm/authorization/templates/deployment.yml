@@ -62,7 +62,7 @@ spec:
             - name: Caching_Redis_Server
               value: {{ .Values.deployment.application.containers.authorizationContainer.environment.Caching_Redis_Server }}
             - name: Persistence_Databases_Microservice_Security_DB_ConnectionString
-              value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Security_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
+              value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Security_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true;TrustServerCertificate=Yes"
           volumeMounts:
             - mountPath: "mnt/data"
               name: volume

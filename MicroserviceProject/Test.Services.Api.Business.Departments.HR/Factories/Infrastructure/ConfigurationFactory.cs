@@ -22,7 +22,7 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Infrastructure
                 loggingRelativeFilePath: "RequestResponseLogs/",
                 databaseSections: new List<AnyDatabaseSection>()
                 {
-                    new AnyDatabaseSection("Microservice_HR_DB","server=localhost;DataBase=Microservice_AA_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true")
+                    new AnyDatabaseSection("Microservice_HR_DB","server=localhost;DataBase=Microservice_AA_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true;TrustServerCertificate=Yes")
                 });
         }
     }

@@ -30,7 +30,7 @@ spec:
             - name: ApplicationName
               value: "Authorization Service"
             - name: Configuration_Localization_TranslationDbConnnectionString
-              value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Localization_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
+              value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Localization_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true;TrustServerCertificate=Yes"
             - name: Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Host
               value: "rabbitmq3.default.svc.cluster.local"
             - name: Configuration_Logging_RequestResponseLogging_RabbitConfiguration_UserName
@@ -38,7 +38,7 @@ spec:
             - name: Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Password
               value: "rabbitpassword"
             - name: Configuration_Logging_RequestResponseLogging_DataBaseConfiguration_DataSource
-              value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Logs_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
+              value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Logs_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true;TrustServerCertificate=Yes"
             - name: Configuration_Logging_RequestResponseLogging_MongoConfiguration_ConnectionString
               value: "mongodb://adminuser:password123@mongo-service.default.svc.cluster.local:27017"
             - name: Configuration_Logging_ExceptionLogging_RabbitConfiguration_Host
@@ -48,7 +48,7 @@ spec:
             - name: Configuration_Logging_ExceptionLogging_RabbitConfiguration_Password
               value: "rabbitpassword"
             - name: Configuration_Logging_ExceptionLogging_DataBaseConfiguration_DataSource
-              value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Logs_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
+              value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Logs_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true;TrustServerCertificate=Yes"
             - name: Configuration_Logging_ExceptionLogging_MongoConfiguration_ConnectionString
               value: "mongodb://adminuser:password123@mongo-service.default.svc.cluster.local:27017"
             - name: Configuration_RabbitQueues_Host_DefaultHost
@@ -58,11 +58,11 @@ spec:
             - name: Configuration_RabbitQueues_Host_DefaultPassword
               value: "rabbitpassword"
             - name: Configuration_WebSockets_DataSource
-              value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Socket_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
+              value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Socket_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true;TrustServerCertificate=Yes"
             - name: Caching_Redis_Server
               value: "svc-redis.default.svc.cluster.local"
             - name: Persistence_Databases_Microservice_Security_DB_ConnectionString
-              value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Security_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true"
+              value: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Security_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true;TrustServerCertificate=Yes"
           volumeMounts:
             - mountPath: "mnt/data"
               name: volume
