@@ -19,6 +19,8 @@ using Services.Communication.Http.Broker.Department.Selling.DI;
 using Services.Communication.Http.Broker.Department.Storage.DI;
 using Services.Logging.Exception.DI;
 using Services.Logging.RequestResponse.DI;
+using Services.RateLimiting.DI;
+using Services.RateLimiting.Policies;
 using Services.Security.BasicToken.DI;
 using Services.Util.Exception.Handlers;
 
@@ -57,6 +59,7 @@ namespace Services.Api.Gateway.Public
             //services.RegisterJWTProviders();
             //services.RegisterJWT();
             services.RegisterSwagger();
+            services.RegisterDefaultFixedRateLimiterPolicy();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -73,7 +76,7 @@ namespace Services.Api.Gateway.Public
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllers().RequireRateLimiting(DefaultFixedLimiterPolicy.PolicyName);
             });
 
             app.UseSwagger();

@@ -2,11 +2,13 @@
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 using Services.Api.Gateway.Public.Util.Communication;
 using Services.Communication.Http.Broker.Department.HR;
 using Services.Communication.Http.Broker.Department.HR.CQRS.Queries.Responses;
 using Services.Communication.Http.Broker.Department.HR.Models;
+using Services.RateLimiting.Policies;
 
 using System.Collections.Generic;
 using System.Threading;
@@ -31,6 +33,7 @@ namespace Services.Api.Gateway.Public.Controllers
         [HttpGet]
         [Route(nameof(GetDepartments))]
         [Authorize(Roles = "WebPresentationUser")]
+        //[EnableRateLimiting("DefaultFixedLimiterPolicy")]
         public async Task<IActionResult> GetDepartments(CancellationTokenSource cancellationTokenSource)
         {
             return await HttpResponseWrapper.WrapAsync(async () =>
