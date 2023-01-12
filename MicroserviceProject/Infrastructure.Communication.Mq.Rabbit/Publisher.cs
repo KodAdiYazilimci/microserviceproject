@@ -27,6 +27,9 @@ namespace Infrastructure.Communication.Mq.Rabbit
         /// </summary>
         private IRabbitConfiguration _rabbitConfiguration;
 
+        private IModel channel = null;
+        private IConnection connection = null;
+
         /// <summary>
         /// Rabbit sunucusuna data üretecek varsayılan sınıf
         /// </summary>
@@ -43,26 +46,25 @@ namespace Infrastructure.Communication.Mq.Rabbit
         /// <returns></returns>
         public virtual Task PublishAsync(TModel model, CancellationTokenSource cancellationTokenSource)
         {
-            var factory = new ConnectionFactory()
+            if (connection == null || channel == null)
             {
-                HostName = _rabbitConfiguration.Host,
-                UserName = _rabbitConfiguration.UserName,
-                Password = _rabbitConfiguration.Password
-            };
-
-            using (var connection = factory.CreateConnection())
-            {
-                using (var channel = connection.CreateModel())
+                var factory = new ConnectionFactory()
                 {
-                    QueueDeclareOk queue = channel.QueueDeclare(queue: _rabbitConfiguration.QueueName, durable: false, exclusive: false, autoDelete: false, arguments: null);
+                    HostName = _rabbitConfiguration.Host,
+                    UserName = _rabbitConfiguration.UserName,
+                    Password = _rabbitConfiguration.Password
+                };
 
-                    string jsonLog = JsonConvert.SerializeObject(model);
+                connection = factory.CreateConnection();
 
-                    byte[] jsonBuffer = UTF8Encoding.UTF8.GetBytes(jsonLog);
+                channel = connection.CreateModel();
 
-                    channel.BasicPublish(exchange: "", routingKey: _rabbitConfiguration.QueueName, mandatory: true, basicProperties: null, body: jsonBuffer);
-                }
             }
+            string jsonLog = JsonConvert.SerializeObject(model);
+
+            byte[] jsonBuffer = UTF8Encoding.UTF8.GetBytes(jsonLog);
+
+            channel.BasicPublish(exchange: "", routingKey: _rabbitConfiguration.QueueName, mandatory: true, basicProperties: null, body: jsonBuffer);
 
             return Task.CompletedTask;
         }
@@ -86,6 +88,18 @@ namespace Infrastructure.Communication.Mq.Rabbit
             {
                 if (!disposed)
                 {
+                    if (channel != null)
+                    {
+                        channel.Dispose();
+                        channel = null;
+                    }
+
+                    if (connection != null)
+                    {
+                        connection.Dispose();
+                        connection = null;
+                    }
+
                     _rabbitConfiguration = null;
                 }
 
