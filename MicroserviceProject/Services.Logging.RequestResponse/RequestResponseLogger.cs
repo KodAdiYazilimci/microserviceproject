@@ -27,7 +27,9 @@ namespace Services.Logging.RequestResponse
         /// <summary>
         /// Log yazma işlemlerini yürütecek yönetici
         /// </summary>
-        private readonly LogManager<RequestResponseLogModel> _logManager;
+        private readonly BulkLogManager<RequestResponseLogModel> _logManager;
+
+        private List<RequestResponseLogModel> responseLogModels = new List<RequestResponseLogModel>();
 
         /// <summary>
         /// Request-response loglarını yazan sınıf
@@ -35,21 +37,21 @@ namespace Services.Logging.RequestResponse
         /// <param name="configuration">Request-response log ayarlarının çekileceği configuration</param>
         public RequestResponseLogger(IConfiguration configuration)
         {
-            List<ILogger<RequestResponseLogModel>> loggers = new List<ILogger<RequestResponseLogModel>>();
+            List<IBulkLogger<RequestResponseLogModel>> loggers = new List<IBulkLogger<RequestResponseLogModel>>();
 
-            JsonFileLogger<RequestResponseLogModel> jsonFileLogger =
-                new JsonFileLogger<RequestResponseLogModel>(
+            BulkJsonFileLogger<RequestResponseLogModel> jsonFileLogger =
+                new BulkJsonFileLogger<RequestResponseLogModel>(
                     new RequestResponseLogFileConfiguration(configuration));
 
-            DefaultLogProducer<RequestResponseLogModel> requestResponseRabbitLogger =
-                new DefaultLogProducer<RequestResponseLogModel>(
+            DefaultBulkLogProducer<RequestResponseLogModel> requestResponseRabbitLogger =
+                new DefaultBulkLogProducer<RequestResponseLogModel>(
                     new RequestResponseLogRabbitConfiguration(configuration));
 
             loggers.Add(requestResponseRabbitLogger);
 
             loggers.Add(jsonFileLogger);
 
-            _logManager = new LogManager<RequestResponseLogModel>(loggers);
+            _logManager = new BulkLogManager<RequestResponseLogModel>(loggers);
         }
 
         /// <summary>
@@ -73,6 +75,12 @@ namespace Services.Logging.RequestResponse
                 {
                     if (_logManager != null)
                         _logManager.Dispose();
+
+                    if (responseLogModels != null)
+                    {
+                        responseLogModels.Clear();
+                        responseLogModels = null;
+                    }
                 }
 
                 disposed = true;
@@ -85,7 +93,15 @@ namespace Services.Logging.RequestResponse
         /// <param name="model">Yazılacak request-response logun nesnesi</param>
         public async Task LogAsync(RequestResponseLogModel model, CancellationTokenSource cancellationTokenSource)
         {
-            await _logManager.LogAsync(model, cancellationTokenSource);
+            if (responseLogModels.Count > 100)
+            {
+                await _logManager.LogAsync(responseLogModels, cancellationTokenSource);
+                responseLogModels.Clear();
+            }
+            else
+            {
+                responseLogModels.Add(model);
+            }
         }
     }
 }

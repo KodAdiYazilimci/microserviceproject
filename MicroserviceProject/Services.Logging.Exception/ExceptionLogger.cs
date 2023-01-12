@@ -1,16 +1,10 @@
 ﻿using Infrastructure.Logging.Abstraction;
 using Infrastructure.Logging.File.Loggers;
 using Infrastructure.Logging.Managers;
-using Infrastructure.Logging.RabbitMq.Producers;
 
 using Microsoft.Extensions.Configuration;
 
 using Services.Logging.Exception.Configuration;
-
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Services.Logging.Exception
 {
@@ -27,7 +21,9 @@ namespace Services.Logging.Exception
         /// <summary>
         /// Log yazma işlemlerini yürütecek yönetici
         /// </summary>
-        private readonly LogManager<ExceptionLogModel> _logManager;
+        private readonly BulkLogManager<ExceptionLogModel> _logManager;
+
+        private List<ExceptionLogModel> exceptionLogModels = new List<ExceptionLogModel>();
 
         /// <summary>
         /// Exception loglarını yazan sınıf
@@ -35,21 +31,21 @@ namespace Services.Logging.Exception
         /// <param name="configuration">Exception log ayarlarının çekileceği configuration</param>
         public ExceptionLogger(IConfiguration configuration)
         {
-            List<ILogger<ExceptionLogModel>> loggers = new List<ILogger<ExceptionLogModel>>();
+            List<IBulkLogger<ExceptionLogModel>> loggers = new List<IBulkLogger<ExceptionLogModel>>();
 
-            JsonFileLogger<ExceptionLogModel> jsonFileLogger =
-                new JsonFileLogger<ExceptionLogModel>(
+            BulkJsonFileLogger<ExceptionLogModel> jsonFileLogger =
+                new BulkJsonFileLogger<ExceptionLogModel>(
                     new ExceptionLogFileConfiguration(configuration));
 
-            DefaultLogProducer<ExceptionLogModel> exceptionRabbitLogger =
-                new DefaultLogProducer<ExceptionLogModel>(
-                    new ExceptionLogRabbitConfiguration(configuration));
+            BulkTextFileLogger<ExceptionLogModel> exceptionRabbitLogger =
+                new BulkTextFileLogger<ExceptionLogModel>(
+                    new ExceptionLogFileConfiguration(configuration));
 
             loggers.Add(exceptionRabbitLogger);
 
             loggers.Add(jsonFileLogger);
 
-            _logManager = new LogManager<ExceptionLogModel>(loggers);
+            _logManager = new BulkLogManager<ExceptionLogModel>(loggers);
         }
 
         /// <summary>
@@ -73,6 +69,12 @@ namespace Services.Logging.Exception
                 {
                     if (_logManager != null)
                         _logManager.Dispose();
+
+                    if (exceptionLogModels != null)
+                    {
+                        exceptionLogModels.Clear();
+                        exceptionLogModels = null;
+                    }
                 }
 
                 disposed = true;
@@ -85,7 +87,15 @@ namespace Services.Logging.Exception
         /// <param name="model">Yazılacak Exception logun nesnesi</param>
         public async Task LogAsync(ExceptionLogModel model, CancellationTokenSource cancellationTokenSource)
         {
-            await _logManager.LogAsync(model, cancellationTokenSource);
+            if (exceptionLogModels.Count > 100)
+            {
+                await _logManager.LogAsync(exceptionLogModels, cancellationTokenSource);
+                exceptionLogModels.Clear();
+            }
+            else
+            {
+                exceptionLogModels.Add(model);
+            }
         }
     }
 }
