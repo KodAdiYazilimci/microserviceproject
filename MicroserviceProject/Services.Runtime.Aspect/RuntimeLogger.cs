@@ -35,9 +35,9 @@ namespace Services.Logging.Aspect
         {
             List<IBulkLogger<RuntimeLogModel>> loggers = new List<IBulkLogger<RuntimeLogModel>>();
 
-            BulkJsonFileLogger<RuntimeLogModel> jsonFileLogger =
-                new BulkJsonFileLogger<RuntimeLogModel>(
-                    new RuntimeLogFileConfiguration(configuration));
+            //BulkJsonFileLogger<RuntimeLogModel> jsonFileLogger =
+            //    new BulkJsonFileLogger<RuntimeLogModel>(
+            //        new RuntimeLogFileConfiguration(configuration));
 
             DefaultBulkLogProducer<RuntimeLogModel> requestResponseRabbitLogger =
                 new DefaultBulkLogProducer<RuntimeLogModel>(
@@ -47,7 +47,7 @@ namespace Services.Logging.Aspect
 
             loggers.Add(requestResponseRabbitLogger);
 
-            loggers.Add(jsonFileLogger);
+            //loggers.Add(jsonFileLogger);
 
             loggers.Add(runtimeLogRepository);
 
@@ -95,8 +95,11 @@ namespace Services.Logging.Aspect
         {
             if (runtimeLogModels.Count > 100)
             {
-                await _logManager.LogAsync(runtimeLogModels, cancellationTokenSource);
+                RuntimeLogModel[] tempLogModels = new RuntimeLogModel[runtimeLogModels.Count];
+                runtimeLogModels.CopyTo(tempLogModels);
                 runtimeLogModels.Clear();
+
+                await _logManager.LogAsync(tempLogModels.ToList(), cancellationTokenSource);
             }
             else
             {

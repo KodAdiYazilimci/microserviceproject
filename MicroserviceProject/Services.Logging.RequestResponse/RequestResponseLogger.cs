@@ -9,6 +9,7 @@ using Services.Logging.RequestResponse.Configuration;
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -95,8 +96,11 @@ namespace Services.Logging.RequestResponse
         {
             if (responseLogModels.Count > 100)
             {
-                await _logManager.LogAsync(responseLogModels, cancellationTokenSource);
+                RequestResponseLogModel[] tempRequestResponseLogs = new RequestResponseLogModel[responseLogModels.Count];
+                responseLogModels.CopyTo(tempRequestResponseLogs);
                 responseLogModels.Clear();
+
+                await _logManager.LogAsync(tempRequestResponseLogs.ToList(), cancellationTokenSource);
             }
             else
             {

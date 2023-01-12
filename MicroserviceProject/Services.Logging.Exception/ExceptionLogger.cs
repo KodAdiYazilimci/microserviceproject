@@ -89,8 +89,11 @@ namespace Services.Logging.Exception
         {
             if (exceptionLogModels.Count > 100)
             {
-                await _logManager.LogAsync(exceptionLogModels, cancellationTokenSource);
+                ExceptionLogModel[] tempExceptionLogs = new ExceptionLogModel[exceptionLogModels.Count];
+                exceptionLogModels.CopyTo(tempExceptionLogs);
                 exceptionLogModels.Clear();
+
+                await _logManager.LogAsync(tempExceptionLogs.ToList(), cancellationTokenSource);
             }
             else
             {
