@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Caching.InMemory.Mock;
+using Infrastructure.Communication.Http.Broker.Mock;
 using Infrastructure.Communication.WebSockets;
 using Infrastructure.Communication.WebSockets.Models;
 using Infrastructure.Routing.Persistence.Mock;
@@ -22,7 +23,8 @@ namespace Presentation.Monitoring.Security.Console
                 cacheProvider: InMemoryCacheDataProviderFactory.Instance,
                 credentialProvider: CredentialProviderFactory.GetCredentialProvider(GetConfiguration(args)),
                 serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(GetConfiguration(args)),
-                socketRepository: SocketRepositoryFactory.GetSocketRepository(GetConfiguration(args)));
+                socketRepository: SocketRepositoryFactory.GetSocketRepository(GetConfiguration(args)),
+                serviceCaller: ServiceCallerFactory.GetServiceCaller(HttpClientFactory.Instance, InMemoryCacheDataProviderFactory.Instance));
 
             socketListener.OnMessageReceived += (WebSocketResultModel webSocketResult) =>
             {

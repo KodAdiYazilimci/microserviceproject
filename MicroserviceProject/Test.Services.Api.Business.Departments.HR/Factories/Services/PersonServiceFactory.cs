@@ -46,17 +46,20 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Services
                              serviceCommunicator: ServiceCommunicatorFactory.GetServiceCommunicator(
                                  cacheProvider: InMemoryCacheDataProviderFactory.Instance,
                                  credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),
-                                 serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration))),
+                                 serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration),
+                                 serviceCaller: ServiceCallerFactory.GetServiceCaller(HttpClientFactory.Instance, InMemoryCacheDataProviderFactory.Instance))),
                         accountingCommunicator: AccountingCommunicatorProvider.GetAccountingCommunicator(
                              serviceCommunicator: ServiceCommunicatorFactory.GetServiceCommunicator(
                                  cacheProvider: InMemoryCacheDataProviderFactory.Instance,
                                  credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),
-                                 serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration))),
+                                 serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration),
+                                 serviceCaller: ServiceCallerFactory.GetServiceCaller(HttpClientFactory.Instance, InMemoryCacheDataProviderFactory.Instance))),
                         itCommunicator: ITCommunicatorProvider.GetITCommunicator(
                              serviceCommunicator: ServiceCommunicatorFactory.GetServiceCommunicator(
                                  cacheProvider: InMemoryCacheDataProviderFactory.Instance,
                                  credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),
-                                 serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration))),
+                                 serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration),
+                                 serviceCaller: ServiceCallerFactory.GetServiceCaller(HttpClientFactory.Instance, InMemoryCacheDataProviderFactory.Instance))),
                         AAassignInventoryToWorkerPublisher: AAAssignInventoryToWorkerPublisherProvider.GetPublisher(
                             configuration: AAAssignInventoryToWorkerRabbitConfigurationProvider.GetConfiguration(configuration)),
                         ITassignInventoryToWorkerPublisher: ITassignInventoryToWorkerPublisherProvider.GetPublisher(

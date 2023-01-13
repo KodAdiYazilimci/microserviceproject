@@ -11,7 +11,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -30,14 +29,12 @@ namespace Infrastructure.Communication.Http.Broker
         /// <summary>
         /// Çağrıda kullanılacak yetki tokenının önbellekteki adı
         /// </summary>
-        private const string TAKENTOKENFORTHISSERVICE = "TAKEN_TOKEN_FOR_THIS_SERVICE";
+        public const string TAKENTOKENFORTHISSERVICE = "TAKEN_TOKEN_FOR_THIS_SERVICE";
 
         /// <summary>
         /// Servis endpointlerinin önbellekteki adı
         /// </summary>
-        private const string CACHEDSERVICEROUTES = "CACHED_SERVICE_ROUTES";
-
-        private readonly IHttpClientFactory _httpClientFactory;
+        public const string CACHEDSERVICEROUTES = "CACHED_SERVICE_ROUTES";
 
         /// <summary>
         /// Önbellek nesnesi
@@ -45,31 +42,32 @@ namespace Infrastructure.Communication.Http.Broker
         private readonly InMemoryCacheDataProvider _cacheProvider;
 
         /// <summary>
-        /// İletişimde kullanılacak yetkiler için sağlayıcı
-        /// </summary>
-        private readonly CredentialProvider _credentialProvider;
-
-        /// <summary>
         /// Servis endpointleri sağlayıcısı
         /// </summary>
         private readonly ServiceRouteRepository _serviceRouteRepository;
+
+        private readonly ServiceCaller _serviceCaller;
+
+        /// <summary>
+        /// İletişimde kullanılacak yetkiler için sağlayıcı
+        /// </summary>
+        private readonly CredentialProvider _credentialProvider;
 
         /// <summary>
         /// Yetki denetimi destekli servis iletişim sağlayıcı sınıf
         /// </summary>
         /// <param name="cacheProvider">Önbellek nesnesi</param>
         /// <param name="credentialProvider">İletişimde kullanılacak yetkiler için sağlayıcı</param>
-        /// <param name="serviceRouteRepository">Servis endpointleri sağlayıcısı</param>
         public ServiceCommunicator(
-            IHttpClientFactory httpClientFactory,
             InMemoryCacheDataProvider cacheProvider,
             CredentialProvider credentialProvider,
-            ServiceRouteRepository serviceRouteRepository)
+            ServiceRouteRepository serviceRouteRepository,
+            ServiceCaller serviceCaller)
         {
-            _httpClientFactory = httpClientFactory;
             _cacheProvider = cacheProvider;
             _credentialProvider = credentialProvider;
             _serviceRouteRepository = serviceRouteRepository;
+            _serviceCaller = serviceCaller;
         }
 
         /// <summary>
@@ -95,13 +93,8 @@ namespace Infrastructure.Communication.Http.Broker
                 ||
                 takenTokenForThisService.ValidTo <= DateTime.UtcNow)
             {
-                ServiceCaller serviceTokenCaller = new ServiceCaller(_httpClientFactory, _cacheProvider, "");
-                serviceTokenCaller.OnNoServiceFoundInCacheAsync += async (serviceName) =>
-                {
-                    return await GetServiceAsync(serviceName, cancellationTokenSource);
-                };
                 ServiceResultModel<AuthenticationToken> tokenResult =
-                    await serviceTokenCaller.Call<AuthenticationToken>(
+                    await _serviceCaller.Call<AuthenticationToken>(
                         serviceName: "authorization.auth.gettoken",
                         postData: new AuthenticationCredential()
                         {
@@ -110,6 +103,7 @@ namespace Infrastructure.Communication.Http.Broker
                         },
                         queryParameters: null,
                         headers: null,
+                        serviceToken: string.Empty,
                         cancellationTokenSource: cancellationTokenSource);
 
                 if (tokenResult.IsSuccess && tokenResult.Data != null)
@@ -123,17 +117,12 @@ namespace Infrastructure.Communication.Http.Broker
                 }
             }
 
-            ServiceCaller serviceCaller = new ServiceCaller(_httpClientFactory, _cacheProvider, takenTokenForThisService.TokenKey);
-            serviceCaller.OnNoServiceFoundInCacheAsync += async (serviceName) =>
-            {
-                return await GetServiceAsync(serviceName, cancellationTokenSource);
-            };
-
-            ServiceResultModel<T> result = await serviceCaller.Call<T>(
+            ServiceResultModel<T> result = await _serviceCaller.Call<T>(
                 serviceName: serviceName,
                 postData: postData,
                 queryParameters: queryParameters,
                 headers: headers,
+                serviceToken: takenTokenForThisService.TokenKey,
                 cancellationTokenSource: cancellationTokenSource);
 
             return result;
@@ -161,13 +150,8 @@ namespace Infrastructure.Communication.Http.Broker
                 ||
                 takenTokenForThisService.ValidTo <= DateTime.UtcNow)
             {
-                ServiceCaller serviceTokenCaller = new ServiceCaller(_httpClientFactory, _cacheProvider, "");
-                serviceTokenCaller.OnNoServiceFoundInCacheAsync += async (serviceName) =>
-                {
-                    return await GetServiceAsync(serviceName, cancellationTokenSource);
-                };
                 ServiceResultModel<AuthenticationToken> tokenResult =
-                    await serviceTokenCaller.Call<AuthenticationToken>(
+                    await _serviceCaller.Call<AuthenticationToken>(
                         serviceName: "authorization.auth.gettoken",
                         postData: new AuthenticationCredential()
                         {
@@ -176,6 +160,7 @@ namespace Infrastructure.Communication.Http.Broker
                         },
                         queryParameters: null,
                         headers: null,
+                        serviceToken: string.Empty,
                         cancellationTokenSource: cancellationTokenSource);
 
                 if (tokenResult.IsSuccess && tokenResult.Data != null)
@@ -189,17 +174,12 @@ namespace Infrastructure.Communication.Http.Broker
                 }
             }
 
-            ServiceCaller serviceCaller = new ServiceCaller(_httpClientFactory, _cacheProvider, takenTokenForThisService.TokenKey);
-            serviceCaller.OnNoServiceFoundInCacheAsync += async (serviceName) =>
-            {
-                return await GetServiceAsync(serviceName, cancellationTokenSource);
-            };
-
-            ServiceResultModel result = await serviceCaller.Call(
+            ServiceResultModel result = await _serviceCaller.Call(
                 serviceName: serviceName,
                 postData: postData,
                 queryParameters: queryParameters,
                 headers: headers,
+                serviceToken: takenTokenForThisService.TokenKey,
                 cancellationTokenSource: cancellationTokenSource);
 
             return result;
@@ -246,9 +226,6 @@ namespace Infrastructure.Communication.Http.Broker
                 {
                     if (_credentialProvider != null)
                         _credentialProvider.Dispose();
-
-                    if (_serviceRouteRepository != null)
-                        _serviceRouteRepository.Dispose();
                 }
 
                 disposed = true;

@@ -21,8 +21,6 @@ namespace Infrastructure.Communication.Http.Providers
         /// </summary>
         private bool disposed = false;
 
-        protected static HttpClient HttpClient { get; private set; } = new HttpClient();
-
         /// <summary>
         /// Http isteği esnasında kullanılacak headerlar
         /// </summary>
@@ -63,6 +61,8 @@ namespace Infrastructure.Communication.Http.Providers
         {
             if (Headers != null && Headers.Any())
             {
+                httpClient.DefaultRequestHeaders.Clear();
+
                 foreach (HttpHeader header in Headers)
                 {
                     if (!string.IsNullOrWhiteSpace(header.Value))

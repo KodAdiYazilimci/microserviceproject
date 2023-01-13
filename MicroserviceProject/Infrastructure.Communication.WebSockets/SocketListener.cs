@@ -38,12 +38,12 @@ namespace Infrastructure.Communication.WebSockets
         /// <summary>
         /// Servis endpointlerinin önbellekteki adı
         /// </summary>
-        private const string CACHEDSERVICEROUTES = "CACHED_SERVICE_ROUTES";
+        public const string CACHEDSERVICEROUTES = "CACHED_SERVICE_ROUTES";
 
         /// <summary>
         /// Websocket ile iletişimde kullanılacak yetki tokenının önbellekteki saklama anahtarı
         /// </summary>
-        private const string TAKENTOKENFORTHISSERVICE = "TAKEN_TOKEN_FOR_THIS_SERVICE";
+        public const string TAKENTOKENFORTHISSERVICE = "TAKEN_TOKEN_FOR_THIS_SERVICE";
 
         /// <summary>
         /// Servis endpointlerinin önbellekteki adı
@@ -70,6 +70,8 @@ namespace Infrastructure.Communication.WebSockets
         /// </summary>
         private readonly SocketRepository _socketRepository;
 
+        private readonly ServiceCaller _serviceCaller;
+
         /// <summary>
         /// Gelen soket verisini yakalayacak handler
         /// </summary>
@@ -92,12 +94,14 @@ namespace Infrastructure.Communication.WebSockets
             InMemoryCacheDataProvider cacheProvider,
             CredentialProvider credentialProvider,
             ServiceRouteRepository serviceRouteRepository,
-            SocketRepository socketRepository)
+            SocketRepository socketRepository,
+            ServiceCaller serviceCaller)
         {
             _cacheProvider = cacheProvider;
             _credentialProvider = credentialProvider;
             _serviceRouteRepository = serviceRouteRepository;
             _socketRepository = socketRepository;
+            _serviceCaller = serviceCaller;
         }
 
         /// <summary>
@@ -114,14 +118,8 @@ namespace Infrastructure.Communication.WebSockets
                 ||
                 takenTokenForThisService.ValidTo <= DateTime.UtcNow)
             {
-                ServiceCaller serviceTokenCaller = new ServiceCaller(null, _cacheProvider, "");
-                serviceTokenCaller.OnNoServiceFoundInCacheAsync += async (serviceName) =>
-                {
-                    return await GetServiceAsync(serviceName, cancellationTokenSource);
-                };
-
                 ServiceResultModel<AuthenticationToken> tokenResult =
-                    await serviceTokenCaller.Call<AuthenticationToken>(
+                    await _serviceCaller.Call<AuthenticationToken>(
                         serviceName: "authorization.auth.gettoken",
                         postData: new AuthenticationCredential()
                         {
@@ -130,6 +128,7 @@ namespace Infrastructure.Communication.WebSockets
                         },
                         queryParameters: null,
                         headers: null,
+                        serviceToken: string.Empty,
                         cancellationTokenSource: cancellationTokenSource);
 
                 if (tokenResult.IsSuccess && tokenResult.Data != null)
@@ -161,29 +160,6 @@ namespace Infrastructure.Communication.WebSockets
             });
 
             await hubConnection.StartAsync(cancellationTokenSource.Token);
-        }
-
-        /// <summary>
-        /// Servis rota bilgisini verir
-        /// </summary>
-        /// <param name="serviceName">Bilgisi getirilecek servisin adı</param>
-        /// <param name="cancellationTokenSource">İptal tokenı</param>
-        /// <returns></returns>
-        private async Task<string> GetServiceAsync(string serviceName, CancellationTokenSource cancellationTokenSource)
-        {
-            List<ServiceRouteModel> serviceRoutes = _cacheProvider.Get<List<ServiceRouteModel>>(CACHEDSERVICEROUTES);
-
-            if (serviceRoutes == null || !serviceRoutes.Any())
-            {
-                serviceRoutes = await _serviceRouteRepository.GetServiceRoutesAsync(cancellationTokenSource);
-
-                _cacheProvider.Set<List<ServiceRouteModel>>(CACHEDSERVICEROUTES, serviceRoutes, DateTime.UtcNow.AddMinutes(60));
-            }
-
-            if (serviceRoutes.Any(x => x.ServiceName == serviceName))
-                return JsonConvert.SerializeObject(serviceRoutes.FirstOrDefault(x => x.ServiceName == serviceName));
-            else
-                throw new GetRouteException("Servis rotası bulunamadı");
         }
 
         /// <summary>

@@ -2,8 +2,6 @@
 
 using System;
 using System.IO;
-using System.Net;
-using System.Net.Http.Json;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,11 +18,11 @@ namespace Infrastructure.Communication.Http.Providers
         /// </summary>
         private bool disposed = false;
 
-        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly HttpClient _httpClient;
 
-        public HttpGetProvider(IHttpClientFactory httpClientFactory)
+        public HttpGetProvider(HttpClient httpClient)
         {
-            _httpClientFactory = httpClientFactory;
+            _httpClient = httpClient;
         }
 
         /// <summary>
@@ -37,12 +35,10 @@ namespace Infrastructure.Communication.Http.Providers
         {
             Uri requestUri = GenerateUri(url);
 
-            HttpClient httpClient = _httpClientFactory?.CreateClient() ?? HttpClient;
-
-            AppendHeaders(httpClient);
+            AppendHeaders(_httpClient);
 
             HttpResponseMessage httpResponseMessage =
-                await httpClient.GetAsync(requestUri);
+                await _httpClient.GetAsync(requestUri);
 
             using (StreamReader streamReader = new StreamReader(await httpResponseMessage.Content.ReadAsStreamAsync()))
             {
@@ -62,12 +58,10 @@ namespace Infrastructure.Communication.Http.Providers
         {
             Uri requestUri = GenerateUri(url);
 
-            HttpClient httpClient = _httpClientFactory?.CreateClient() ?? HttpClient;
-
-            AppendHeaders(httpClient);
+            AppendHeaders(_httpClient);
 
             HttpResponseMessage httpResponseMessage =
-                await httpClient.GetAsync(requestUri);
+                await _httpClient.GetAsync(requestUri);
 
             using (StreamReader streamReader = new StreamReader(await httpResponseMessage.Content.ReadAsStreamAsync(cancellationTokenSource.Token)))
             {
@@ -88,12 +82,10 @@ namespace Infrastructure.Communication.Http.Providers
         {
             Uri requestUri = GenerateUri(url);
 
-            HttpClient httpClient = _httpClientFactory?.CreateClient() ?? HttpClient;
-
-            AppendHeaders(httpClient);
+            AppendHeaders(_httpClient);
 
             HttpResponseMessage httpResponseMessage =
-                await httpClient.GetAsync(requestUri, cancellationTokenSource.Token);
+                await _httpClient.GetAsync(requestUri, cancellationTokenSource.Token);
 
             using (StreamReader streamReader = new StreamReader(await httpResponseMessage.Content.ReadAsStreamAsync(cancellationTokenSource.Token)))
             {
