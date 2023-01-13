@@ -47,44 +47,48 @@ namespace Services.Logging.Aspect.Persistence
 
             try
             {
-                foreach (var logModel in logModels)
+                DataTable dataTable = new DataTable();
+                dataTable.Columns.Add("MACHINE_NAME", typeof(string));
+                dataTable.Columns.Add("APPLICATION_NAME", typeof(string));
+                dataTable.Columns.Add("LOG_TEXT", typeof(string));
+                dataTable.Columns.Add("DATE", typeof(DateTime));
+                dataTable.Columns.Add("METHOD", typeof(string));
+                dataTable.Columns.Add("PARAMETERSASJSON", typeof(string));
+                dataTable.Columns.Add("RESULTASJSON", typeof(string));
+
+                foreach (var logItem in logModels.Where(x => x != null))
                 {
-                    SqlCommand sqlCommand = new SqlCommand(@"INSERT INTO [dbo].[RUNTIME_LOGS]
-                                                            (
-                                                                [MACHINE_NAME],
-                                                                [APPLICATION_NAME],
-                                                                [LOG_TEXT],
-                                                                [DATE],
-                                                                [METHOD],
-                                                                [PARAMETERSASJSON],
-                                                                [RESULTASJSON]
-                                                            )
-                                                            VALUES
-                                                            (
-                                                                @MACHINE_NAME,
-                                                                @APPLICATION_NAME,
-                                                                @LOG_TEXT,
-                                                                @DATE,
-                                                                @METHOD,
-                                                                @PARAMETERSASJSON,
-                                                                @RESULTASJSON
-                                                            )", sqlConnection);
+                    var row = dataTable.NewRow();
+                    row["MACHINE_NAME"] = logItem.MachineName;
+                    row["APPLICATION_NAME"] = logItem.ApplicationName;
+                    row["LOG_TEXT"] = logItem.LogText ?? string.Empty;
+                    row["DATE"] = logItem.Date;
+                    row["METHOD"] = logItem.MethodName;
+                    row["PARAMETERSASJSON"] = logItem.ParametersAsJson;
+                    row["RESULTASJSON"] = logItem.ResultAsJson;
 
-                    sqlCommand.Parameters.AddWithValue("@MACHINE_NAME", ((object)logModel.MachineName) ?? DBNull.Value);
-                    sqlCommand.Parameters.AddWithValue("@APPLICATION_NAME", ((object)logModel.ApplicationName) ?? DBNull.Value);
-                    sqlCommand.Parameters.AddWithValue("@LOG_TEXT", ((object)logModel.LogText) ?? DBNull.Value);
-                    sqlCommand.Parameters.AddWithValue("@DATE", ((object)logModel.Date) ?? DBNull.Value);
-                    sqlCommand.Parameters.AddWithValue("@METHOD", ((object)logModel.MethodName) ?? DBNull.Value);
-                    sqlCommand.Parameters.AddWithValue("@PARAMETERSASJSON", ((object)logModel.ParametersAsJson) ?? DBNull.Value);
-                    sqlCommand.Parameters.AddWithValue("@RESULTASJSON", ((object)logModel.ResultAsJson) ?? DBNull.Value);
-
-                    if (sqlConnection.State != ConnectionState.Open)
-                    {
-                        await sqlConnection.OpenAsync(cancellationTokenSource.Token);
-                    }
-
-                    await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
+                    dataTable.Rows.Add(row);
                 }
+
+                if (sqlConnection.State != ConnectionState.Open)
+                {
+                    await sqlConnection.OpenAsync(cancellationTokenSource.Token);
+                }
+
+                using (var bulk = new SqlBulkCopy(sqlConnection))
+                {
+                    bulk.ColumnMappings.Add(new SqlBulkCopyColumnMapping("MACHINE_NAME", "MACHINE_NAME"));
+                    bulk.ColumnMappings.Add(new SqlBulkCopyColumnMapping("APPLICATION_NAME", "APPLICATION_NAME"));
+                    bulk.ColumnMappings.Add(new SqlBulkCopyColumnMapping("LOG_TEXT", "LOG_TEXT"));
+                    bulk.ColumnMappings.Add(new SqlBulkCopyColumnMapping("DATE", "DATE"));
+                    bulk.ColumnMappings.Add(new SqlBulkCopyColumnMapping("METHOD", "METHOD"));
+                    bulk.ColumnMappings.Add(new SqlBulkCopyColumnMapping("PARAMETERSASJSON", "PARAMETERSASJSON"));
+                    bulk.ColumnMappings.Add(new SqlBulkCopyColumnMapping("RESULTASJSON", "RESULTASJSON"));
+
+                    bulk.DestinationTableName = "RUNTIME_LOGS";
+                    await bulk.WriteToServerAsync(dataTable, cancellationTokenSource.Token);
+                }
+
             }
             catch (Exception ex)
             {
