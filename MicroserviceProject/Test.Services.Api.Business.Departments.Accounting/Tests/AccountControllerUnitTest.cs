@@ -41,8 +41,7 @@ namespace Test.Services.Api.Business.Departments.Accounting.Tests
                 ServiceCommunicatorFactory.GetServiceCommunicator(
                     cacheProvider: InMemoryCacheDataProviderFactory.Instance,
                     credentialProvider: CredentialProviderFactory.GetCredentialProvider(ConfigurationFactory.GetConfiguration()),
-                    serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(ConfigurationFactory.GetConfiguration()),
-                    serviceCaller: ServiceCallerFactory.GetServiceCaller(HttpClientFactory.Instance, InMemoryCacheDataProviderFactory.Instance));
+                    serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(ConfigurationFactory.GetConfiguration()));
         }
 
         [TestMethod]

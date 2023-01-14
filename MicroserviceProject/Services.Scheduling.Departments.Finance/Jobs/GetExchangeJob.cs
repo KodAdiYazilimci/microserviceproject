@@ -17,20 +17,20 @@ namespace Services.Scheduling.Departments.Finance.Jobs
     {
         private const string STORED_LAST_EXCHANGE = "stored.last.exhange";
 
-        private readonly HttpClient _httpClient;
+        private readonly IHttpClientFactory _httpClientFactory;
         private readonly InMemoryCacheDataProvider _inMemoryCacheDataProvider;
 
-        public GetExchangeJob(InMemoryCacheDataProvider inMemoryCacheDataProvider, HttpClient httpClient)
+        public GetExchangeJob(InMemoryCacheDataProvider inMemoryCacheDataProvider, IHttpClientFactory httpClientFactory)
         {
             _inMemoryCacheDataProvider = inMemoryCacheDataProvider;
-            _httpClient = httpClient;
+            _httpClientFactory = httpClientFactory;
         }
 
         public async Task CallExchangesAsync()
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            HttpGetProvider httpGetProvider = new HttpGetProvider(_httpClient);
+            HttpGetProvider httpGetProvider = new HttpGetProvider(_httpClientFactory);
 
             string result = await httpGetProvider.GetAsync("https://www.tcmb.gov.tr/kurlar/today.xml", cancellationTokenSource);
 

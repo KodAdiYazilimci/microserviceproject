@@ -38,12 +38,17 @@ namespace Infrastructure.Communication.Http.Broker
         /// </summary>
         private const double SERVICE_ENDPOINT_CACHE_TIMEOUT = 60;
 
-        private readonly HttpClient _httpClient;
+        private readonly IHttpClientFactory _httpClientFactory;
 
         /// <summary>
         /// Servis bilgisini tutan önbellek nesnesi
         /// </summary>
         private readonly InMemoryCacheDataProvider _cacheProvider;
+
+        /// <summary>
+        /// Kurulacak servisin beklediği token
+        /// </summary>
+        private readonly string _serviceToken;
 
         /// <summary>
         /// Servis bilgisi önbellekte bulunamadı tutucu
@@ -64,11 +69,13 @@ namespace Infrastructure.Communication.Http.Broker
         /// <param name="cacheProvider">Servis bilgisini tutan önbellek nesnesi</param>
         /// <param name="serviceToken">Kurulacak servisin beklediği token</param>
         public ServiceCaller(
-            HttpClient httpClient,
-            InMemoryCacheDataProvider cacheProvider)
+            IHttpClientFactory httpClientFactory,
+            InMemoryCacheDataProvider cacheProvider,
+            string serviceToken)
         {
-            _httpClient = httpClient;
+            _httpClientFactory = httpClientFactory;
             _cacheProvider = cacheProvider;
+            _serviceToken = serviceToken;
         }
 
         /// <summary>
@@ -85,7 +92,6 @@ namespace Infrastructure.Communication.Http.Broker
             object postData,
             List<KeyValuePair<string, string>> queryParameters,
             List<KeyValuePair<string, string>> headers,
-            string serviceToken,
             CancellationTokenSource cancellationTokenSource)
         {
             ServiceRouteModel serviceRoute = null;
@@ -116,7 +122,7 @@ namespace Infrastructure.Communication.Http.Broker
                     {
                         try
                         {
-                            return await ExecuteHttpCall(serviceRoute, postData, queryParameters, headers, serviceToken, cancellationTokenSource);
+                            return await ExecuteHttpCall(serviceRoute, postData, queryParameters, headers, cancellationTokenSource);
                         }
                         catch (WebException wex)
                         {
@@ -153,7 +159,7 @@ namespace Infrastructure.Communication.Http.Broker
                                 serviceRoute = serviceRoute.AlternativeRoute;
                             }
                             else
-                                serviceRoute = null;
+                                serviceRoute = null;    
                         }
                     }
                 }
@@ -184,7 +190,6 @@ namespace Infrastructure.Communication.Http.Broker
             object postData,
             List<KeyValuePair<string, string>> queryParameters,
             List<KeyValuePair<string, string>> headers,
-            string serviceToken,
             CancellationTokenSource cancellationTokenSource)
         {
             ServiceRouteModel serviceRoute = null;
@@ -215,7 +220,7 @@ namespace Infrastructure.Communication.Http.Broker
                     {
                         try
                         {
-                            return await ExecuteHttpCall<TResult>(serviceRoute, postData, queryParameters, headers, serviceToken, cancellationTokenSource);
+                            return await ExecuteHttpCall<TResult>(serviceRoute, postData, queryParameters, headers, cancellationTokenSource);
                         }
                         catch (WebException wex)
                         {
@@ -272,19 +277,18 @@ namespace Infrastructure.Communication.Http.Broker
             object postData,
             List<KeyValuePair<string, string>> queryParameters,
             List<KeyValuePair<string, string>> headers,
-            string serviceToken,
             CancellationTokenSource cancellationTokenSource)
         {
             if (!string.IsNullOrEmpty(serviceRoute.CallType))
             {
                 if (serviceRoute.CallType.ToUpper() == "POST")
                 {
-                    HttpPostProvider httpPostProvider = new HttpPostProvider(_httpClient)
+                    HttpPostProvider httpPostProvider = new HttpPostProvider(_httpClientFactory)
                     {
                         Headers = new List<HttpHeader>()
                     };
 
-                    httpPostProvider.Headers.Add(new HttpHeader("Authorization", serviceToken));
+                    httpPostProvider.Headers.Add(new HttpHeader("Authorization", _serviceToken));
 
                     if (headers != null)
                     {
@@ -306,13 +310,12 @@ namespace Infrastructure.Communication.Http.Broker
                 }
                 else if (serviceRoute.CallType.ToUpper() == "GET")
                 {
-                    HttpGetProvider httpGetProvider = new HttpGetProvider(_httpClient)
+                    HttpGetProvider httpGetProvider = new HttpGetProvider(_httpClientFactory)
                     {
                         Headers = new List<HttpHeader>()
                     };
 
-                    httpGetProvider.Headers.Clear();
-                    httpGetProvider.Headers.Add(new HttpHeader("Authorization", serviceToken));
+                    httpGetProvider.Headers.Add(new HttpHeader("Authorization", _serviceToken));
 
                     if (headers != null)
                     {
@@ -346,20 +349,18 @@ namespace Infrastructure.Communication.Http.Broker
             object postData,
             List<KeyValuePair<string, string>> queryParameters,
             List<KeyValuePair<string, string>> headers,
-            string serviceToken,
             CancellationTokenSource cancellationTokenSource)
         {
             if (!string.IsNullOrEmpty(serviceRoute.CallType))
             {
                 if (serviceRoute.CallType.ToUpper() == "POST")
                 {
-                    HttpPostProvider httpPostProvider = new HttpPostProvider(_httpClient)
+                    HttpPostProvider httpPostProvider = new HttpPostProvider(_httpClientFactory)
                     {
                         Headers = new List<HttpHeader>()
                     };
 
-                    httpPostProvider.Headers.Clear();
-                    httpPostProvider.Headers.Add(new HttpHeader("Authorization", serviceToken));
+                    httpPostProvider.Headers.Add(new HttpHeader("Authorization", _serviceToken));
 
                     if (headers != null)
                     {
@@ -381,13 +382,12 @@ namespace Infrastructure.Communication.Http.Broker
                 }
                 else if (serviceRoute.CallType.ToUpper() == "GET")
                 {
-                    HttpGetProvider httpGetProvider = new HttpGetProvider(_httpClient)
+                    HttpGetProvider httpGetProvider = new HttpGetProvider(_httpClientFactory)
                     {
                         Headers = new List<HttpHeader>()
                     };
 
-                    httpGetProvider.Headers.Clear();
-                    httpGetProvider.Headers.Add(new HttpHeader("Authorization", serviceToken));
+                    httpGetProvider.Headers.Add(new HttpHeader("Authorization", _serviceToken));
 
                     if (headers != null)
                     {

@@ -19,11 +19,11 @@ namespace Infrastructure.Communication.Http.Providers
         /// </summary>
         private bool disposed = false;
 
-        private readonly HttpClient _httpClient;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public HttpPostProvider(HttpClient httpClient)
+        public HttpPostProvider(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClient;
+            _httpClientFactory = httpClientFactory;
         }
 
         /// <summary>
@@ -38,10 +38,12 @@ namespace Infrastructure.Communication.Http.Providers
         {
             Uri requestUri = GenerateUri(url);
 
-            AppendHeaders(_httpClient);
+            HttpClient httpClient = _httpClientFactory?.CreateClient() ?? HttpClient;
+
+            AppendHeaders(httpClient);
 
             HttpResponseMessage httpResponseMessage =
-                await _httpClient.PostAsync(requestUri, new StringContent(JsonConvert.SerializeObject(postData), Encoding.UTF8, "application/json"), cancellationTokenSource.Token);
+                await httpClient.PostAsync(requestUri, new StringContent(JsonConvert.SerializeObject(postData), Encoding.UTF8, "application/json"), cancellationTokenSource.Token);
 
             using (StreamReader streamReader = new StreamReader(await httpResponseMessage.Content.ReadAsStreamAsync(cancellationTokenSource.Token)))
             {
@@ -64,10 +66,12 @@ namespace Infrastructure.Communication.Http.Providers
         {
             Uri requestUri = GenerateUri(url);
 
-            AppendHeaders(_httpClient);
+            HttpClient httpClient = _httpClientFactory?.CreateClient() ?? HttpClient;
+
+            AppendHeaders(httpClient);
 
             HttpResponseMessage httpResponseMessage =
-                await _httpClient.PostAsync(requestUri, new StringContent(JsonConvert.SerializeObject(postData), Encoding.UTF8, "application/json"), cancellationTokenSource.Token);
+                await httpClient.PostAsync(requestUri, new StringContent(JsonConvert.SerializeObject(postData), Encoding.UTF8, "application/json"), cancellationTokenSource.Token);
 
             using (StreamReader streamReader = new StreamReader(await httpResponseMessage.Content.ReadAsStreamAsync(cancellationTokenSource.Token)))
             {

@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure.Caching.InMemory.Mock\Infrastructure.Caching.InMemory.Mock.csproj" />
-    <ProjectReference Include="..\Infrastructure.Communication.Http.Broker.Mock\Infrastructure.Communication.Http.Broker.Mock.csproj" />
     <ProjectReference Include="..\Infrastructure.Communication.WebSockets\Infrastructure.Communication.WebSockets.csproj" />
     <ProjectReference Include="..\Infrastructure.Mock\Infrastructure.Mock.csproj" />
     <ProjectReference Include="..\Infrastructure.Routing.Persistence.Mock\Infrastructure.Routing.Persistence.Mock.csproj" />

@@ -42,6 +42,7 @@ namespace Presentation.UI.Web.Controllers
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
+
             bool useExternalLogin =
                 _configuration
                 .GetSection("Configuration")
