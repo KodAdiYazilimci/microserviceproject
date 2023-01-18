@@ -393,8 +393,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.RateLimiting", "Se
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Communication.Http.Endpoint", "Infrastructure.Communication.Http.Endpoint\Infrastructure.Communication.Http.Endpoint.csproj", "{E65C1889-D450-44A9-8364-99A05746F997}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Http.Endpoints", "Services.Communication.Http.Endpoints\Services.Communication.Http.Endpoints.csproj", "{8F511764-0994-4D06-982E-4A649A43F62B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -893,10 +891,6 @@ Global
 		{E65C1889-D450-44A9-8364-99A05746F997}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E65C1889-D450-44A9-8364-99A05746F997}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E65C1889-D450-44A9-8364-99A05746F997}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8F511764-0994-4D06-982E-4A649A43F62B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8F511764-0994-4D06-982E-4A649A43F62B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8F511764-0994-4D06-982E-4A649A43F62B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8F511764-0994-4D06-982E-4A649A43F62B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1047,7 +1041,6 @@ Global
 		{13C05227-F3E2-4D39-8D83-BB44BF0391E4} = {2EE70AFD-E3E7-49A0-9A36-5C36844C0EA0}
 		{CCFC4A23-F9E8-4760-BE9D-D49CD06ABA4C} = {2EE70AFD-E3E7-49A0-9A36-5C36844C0EA0}
 		{E65C1889-D450-44A9-8364-99A05746F997} = {0785BF07-F570-4362-BF9C-87B069DD06D7}
-		{8F511764-0994-4D06-982E-4A649A43F62B} = {2EE70AFD-E3E7-49A0-9A36-5C36844C0EA0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5FD68A04-D16D-49EC-9D04-25E6B952DA89}
