@@ -5,10 +5,10 @@ namespace Infrastructure.Communication.Http.Endpoint.Abstraction
 {
     public interface IHttpEndpoint
     {
-        string Name { get; set; }
-        string Url { get; set; }
-        HttpVerb HttpVerb { get; set; }
-        List<KeyValuePair<string, string>> Queries { get; set; }
-        List<HttpHeader> Headers { get; set; }
+        string Name { get; }
+        string Url { get; }
+        HttpVerb HttpVerb { get; }
+        List<HttpQuery> Queries { get; }
+        List<HttpHeader> Headers { get; }
     }
 }

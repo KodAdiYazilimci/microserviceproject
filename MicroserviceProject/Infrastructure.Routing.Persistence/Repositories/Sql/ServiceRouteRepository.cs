@@ -230,5 +230,50 @@ namespace Infrastructure.Routing.Persistence.Repositories.Sql
                 disposed = true;
             }
         }
+
+        public async Task<ServiceRouteModel> GetServiceRouteAsync(string routeName, CancellationTokenSource cancellationTokenSource)
+        {
+            ServiceRouteModel route = null;
+
+            using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
+            using (SqlCommand sqlRouteCommand =
+                                 new SqlCommand(@"
+                                    SELECT TOP 1 R.* FROM SERVICE_ROUTES R
+                                    WHERE 
+                                    R.NAME = @name
+                                    AND
+                                    R.DELETE_DATE IS NULL
+                                    ORDER BY R.ID DESC", sqlConnection))
+            {
+                sqlRouteCommand.Parameters.AddWithValue("@name", routeName);
+
+                if (sqlConnection.State != ConnectionState.Open)
+                {
+                    await sqlConnection.OpenAsync(cancellationTokenSource.Token);
+                }
+
+                using (SqlDataReader sqlRouteDataReader = await sqlRouteCommand.ExecuteReaderAsync(cancellationTokenSource.Token))
+                {
+
+                    if (sqlRouteDataReader.HasRows)
+                    {
+                        while (await sqlRouteDataReader.ReadAsync(cancellationTokenSource.Token))
+                        {
+                            route = new ServiceRouteModel
+                            {
+                                Id = Convert.ToInt32(sqlRouteDataReader["ID"])
+                            };
+                            route.ServiceName = sqlRouteDataReader["NAME"].ToString();
+                            route.CallType = sqlRouteDataReader["CALLTYPE"].ToString();
+                            route.Endpoint = sqlRouteDataReader["ENDPOINT"].ToString();
+                            route.Enabled = Convert.ToBoolean(sqlRouteDataReader["ENABLED"]);
+                            route.RouteType = Convert.ToInt32(sqlRouteDataReader["ROUTE_TYPE"]);
+                        }
+                    }
+                }
+            }
+
+            return route;
+        }
     }
 }
