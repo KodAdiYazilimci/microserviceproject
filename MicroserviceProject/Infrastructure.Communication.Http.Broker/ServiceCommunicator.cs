@@ -112,7 +112,7 @@ namespace Infrastructure.Communication.Http.Broker
                         headers: null,
                         cancellationTokenSource: cancellationTokenSource);
 
-                if (tokenResult.IsSuccess && tokenResult.Data != null)
+                if (tokenResult != null && tokenResult.IsSuccess && tokenResult.Data != null)
                 {
                     takenTokenForThisService = tokenResult.Data;
                     _cacheProvider.Set<AuthenticationToken>(TAKENTOKENFORTHISSERVICE, tokenResult.Data, tokenResult.Data.ValidTo.AddMinutes(-1));
@@ -178,7 +178,7 @@ namespace Infrastructure.Communication.Http.Broker
                         headers: null,
                         cancellationTokenSource: cancellationTokenSource);
 
-                if (tokenResult.IsSuccess && tokenResult.Data != null)
+                if (tokenResult != null && tokenResult.IsSuccess && tokenResult.Data != null)
                 {
                     takenTokenForThisService = tokenResult.Data;
                     _cacheProvider.Set<AuthenticationToken>(TAKENTOKENFORTHISSERVICE, tokenResult.Data, tokenResult.Data.ValidTo.AddMinutes(-1));
