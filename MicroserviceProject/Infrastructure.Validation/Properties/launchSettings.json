@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Infrastructure.Validation": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:49842;http://localhost:49843"
+    }
+  }
+}

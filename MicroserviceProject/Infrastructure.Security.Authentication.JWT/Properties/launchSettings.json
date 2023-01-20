@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Infrastructure.Security.Authentication.JWT": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:49833;http://localhost:49835"
+    }
+  }
+}
