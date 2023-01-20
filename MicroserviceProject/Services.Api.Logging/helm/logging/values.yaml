@@ -3,7 +3,7 @@ service:
  clusterIP: 10.102.2.101
  type: LoadBalancer
  ports:
-  internal: 15455
+  internal: 15456
   external: 5101
   protocol: TCP
 
@@ -12,7 +12,7 @@ deployment:
   name: "logging-pod"
   containers:
    loggingContainer:
-    port: 15455
+    port: 15456
     environment:
      ApplicationName: "Logging Service Test Environment"
      Configuration_Authorization_Credential_Email: "Services.Api.Logging@service.service"

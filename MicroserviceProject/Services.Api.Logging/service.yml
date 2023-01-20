@@ -7,7 +7,7 @@ spec:
     app: logging-pod
   ports:
   - port: 5101
-    targetPort: 15455
+    targetPort: 15456
     protocol: TCP
   type: LoadBalancer
   clusterIP: 10.102.2.101

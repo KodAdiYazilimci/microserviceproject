@@ -38,6 +38,8 @@ namespace Infrastructure.Logging.File.Loggers
             _fileConfiguration = fileConfiguration;
         }
 
+        private static ReaderWriterLockSlim ReaderWriterLockSlim => new ReaderWriterLockSlim();
+
         /// <summary>
         /// Json formatta log yazar
         /// </summary>
@@ -52,35 +54,44 @@ namespace Infrastructure.Logging.File.Loggers
                 sbJsonText.Append("\r\n");
             }
 
-            if (!string.IsNullOrEmpty(_fileConfiguration.RelativePath))
+            ReaderWriterLockSlim.EnterWriteLock();
+
+            try
             {
-                DirectoryInfo directoryInfo = new DirectoryInfo(Environment.CurrentDirectory + "/" + _fileConfiguration.RelativePath);
-
-                if (!directoryInfo.Exists)
+                if (!string.IsNullOrEmpty(_fileConfiguration.RelativePath))
                 {
-                    directoryInfo.Create();
-                }
+                    DirectoryInfo directoryInfo = new DirectoryInfo(Environment.CurrentDirectory + "/" + _fileConfiguration.RelativePath);
 
-                await System.IO.File.AppendAllTextAsync(
-                    path: Environment.CurrentDirectory + "/" + _fileConfiguration.RelativePath + "/" + _fileConfiguration.FileName,
-                    contents: sbJsonText.ToString(),
-                    encoding: _fileConfiguration.Encoding,
-                    cancellationToken: cancellationTokenSource.Token);
+                    if (!directoryInfo.Exists)
+                    {
+                        directoryInfo.Create();
+                    }
+
+                    await System.IO.File.AppendAllTextAsync(
+                        path: Environment.CurrentDirectory + "/" + _fileConfiguration.RelativePath + "/" + _fileConfiguration.FileName,
+                        contents: sbJsonText.ToString(),
+                        encoding: _fileConfiguration.Encoding,
+                        cancellationToken: cancellationTokenSource.Token);
+                }
+                else if (!string.IsNullOrEmpty(_fileConfiguration.AbsolutePath))
+                {
+                    DirectoryInfo directoryInfo = new DirectoryInfo(_fileConfiguration.AbsolutePath);
+
+                    if (!directoryInfo.Exists)
+                    {
+                        directoryInfo.Create();
+                    }
+
+                    await System.IO.File.AppendAllTextAsync(
+                        path: _fileConfiguration.AbsolutePath + "\\" + _fileConfiguration.FileName,
+                        contents: sbJsonText.ToString(),
+                        encoding: _fileConfiguration.Encoding,
+                        cancellationToken: cancellationTokenSource.Token);
+                }
             }
-            else if (!string.IsNullOrEmpty(_fileConfiguration.AbsolutePath))
+            finally
             {
-                DirectoryInfo directoryInfo = new DirectoryInfo(_fileConfiguration.AbsolutePath);
-
-                if (!directoryInfo.Exists)
-                {
-                    directoryInfo.Create();
-                }
-
-                await System.IO.File.AppendAllTextAsync(
-                    path: _fileConfiguration.AbsolutePath + "\\" + _fileConfiguration.FileName,
-                    contents: sbJsonText.ToString(),
-                    encoding: _fileConfiguration.Encoding,
-                    cancellationToken: cancellationTokenSource.Token);
+                ReaderWriterLockSlim.ExitWriteLock();
             }
         }
 
