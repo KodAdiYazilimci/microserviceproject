@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Communication.Http.Models;
+using Infrastructure.Routing.Persistence.Repositories.Sql;
 
 using Microsoft.AspNetCore.Http.Extensions;
 
@@ -7,6 +8,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,10 +16,10 @@ namespace Infrastructure.Communication.Http.Endpoint.Abstract
 {
     public interface IEndpoint
     {
-        string Url { get; }
-        string Name { get; }
-        List<HttpHeader> Headers { get; }
-        List<HttpQuery> Queries { get; }
+        string Url { get; set; }
+        string Name { get; set; }
+        List<HttpHeader> Headers { get; set; }
+        List<HttpQuery> Queries { get; set; }
         IRequiredAuthentication RequiredAuthentication { get; set; }
     }
 
@@ -33,11 +35,11 @@ namespace Infrastructure.Communication.Http.Endpoint.Abstract
             RequiredAuthentication = requiredAuthentication;
         }
 
-        public string Url { get; }
-        public string Name { get; }
-        public List<HttpHeader> Headers { get; }
-        public List<HttpQuery> Queries { get; }
-        public IRequiredAuthentication RequiredAuthentication { get; set; }
+        public string Url { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
+        public List<HttpHeader> Headers { get; set; } = new List<HttpHeader>();
+        public List<HttpQuery> Queries { get; set; } = new List<HttpQuery>();
+        public IRequiredAuthentication? RequiredAuthentication { get; set; } = null;
     }
 
     class TokenAuthentication : IRequiredAuthentication
@@ -161,17 +163,74 @@ namespace Infrastructure.Communication.Http.Endpoint.Abstract
         }
     }
 
+    class RouteProvider
+    {
+        private readonly ServiceRouteRepository serviceRouteRepository;
+        private List<IEndpoint> endpoints = new List<IEndpoint>();
+
+        public RouteProvider(ServiceRouteRepository serviceRouteRepository)
+        {
+            this.serviceRouteRepository = serviceRouteRepository;
+        }
+
+        public async Task<IEndpoint?> GetEndpoint(Type endpointType, CancellationTokenSource cancellationTokenSource)
+        {
+            if (endpointType is IEndpoint)
+            {
+                string endpoint = endpointType.Name;
+
+                if (!endpoints.Any(x => x.Name == endpoint))
+                {
+                    var route = await serviceRouteRepository.GetServiceRouteAsync(endpoint, cancellationTokenSource);
+
+                    if (route != null)
+                    {
+                        IEndpoint foundEnpoint = (IEndpoint)Activator.CreateInstance(endpointType);
+
+                        if (foundEnpoint != null)
+                        {
+                            foundEnpoint.Name = endpoint;
+                            foundEnpoint.Url = route.Endpoint;
+                            foundEnpoint.Queries = route.QueryKeys.Select(x => new HttpQuery()
+                            {
+                                Key = x.Key
+                            }).ToList();
+                            foundEnpoint.Headers = new List<HttpHeader>();
+                            foundEnpoint.RequiredAuthentication = new TokenAuthentication(string.Empty);
+
+                            endpoints.Add(foundEnpoint);
+
+                            return foundEnpoint;
+                        }
+                    }
+                }
+                else
+                    return endpoints.Where(x => x.Name == endpoint).FirstOrDefault();
+            }
+
+            return null;
+        }
+    }
+
     class Test
     {
-        void TestM()
+        async Task TestM()
         {
             IRequiredAuthentication requiredAuthentication = new TokenAuthentication("123");
-            IEndpoint testEndpoint = new TestEndpoint(requiredAuthentication);
+            IEndpoint? testEndpoint = new TestEndpoint(requiredAuthentication);
 
             IServiceCaller<string> getCaller = new HttpGetCaller<string>();
             string result = getCaller.Call(testEndpoint);
             result = getCaller.Call(testEndpoint, new List<HttpHeader>() { });
             result = getCaller.Call(testEndpoint, new List<HttpHeader>(), new List<HttpQuery>());
+
+            //
+
+            RouteProvider routeProvider = new RouteProvider(new ServiceRouteRepository(null));
+            testEndpoint = await routeProvider.GetEndpoint(typeof(TestEndpoint), new CancellationTokenSource());
+
+            if (testEndpoint != null)
+                result = getCaller.Call(testEndpoint);
         }
     }
 }
