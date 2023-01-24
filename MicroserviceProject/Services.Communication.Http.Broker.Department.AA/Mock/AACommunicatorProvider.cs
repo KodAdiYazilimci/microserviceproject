@@ -25,9 +25,9 @@ namespace Services.Communication.Http.Broker.Department.AA.Mock
                     authorizationCommunicator,
                     inMemoryCacheDataProvider,
                     credentialProvider,
-                    routeProvider,
                     httpGetCaller,
-                    httpPostCaller);
+                    httpPostCaller,
+                    routeProvider);
             }
 
             return aaCommunicator;

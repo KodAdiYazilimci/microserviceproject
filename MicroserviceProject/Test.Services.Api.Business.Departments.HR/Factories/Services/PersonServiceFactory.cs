@@ -58,10 +58,18 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Services
                             httpGetCaller: HttpGetCallerFactory.Instance,
                             httpPostCaller: HttpPostCallerFactory.Instance),
                         accountingCommunicator: AccountingCommunicatorProvider.GetAccountingCommunicator(
-                             serviceCommunicator: ServiceCommunicatorFactory.GetServiceCommunicator(
-                                 cacheProvider: InMemoryCacheDataProviderFactory.Instance,
-                                 credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),
-                                 serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration))),
+                            authorizationCommunicator: AuthorizationCommunicatorProvider.GetAuthorizationCommunicator(
+                                serviceCommunicator: ServiceCommunicatorFactory.GetServiceCommunicator(
+                                    cacheProvider: InMemoryCacheDataProviderFactory.Instance,
+                                    credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),
+                                    serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration))),
+                            inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance,
+                            credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),
+                            httpGetCaller: HttpGetCallerFactory.Instance,
+                            httpPostCaller: HttpPostCallerFactory.Instance,
+                            routeProvider: RouteProviderFactory.GetRouteProvider(
+                                serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration),
+                                inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance)),
                         itCommunicator: ITCommunicatorProvider.GetITCommunicator(
                              serviceCommunicator: ServiceCommunicatorFactory.GetServiceCommunicator(
                                  cacheProvider: InMemoryCacheDataProviderFactory.Instance,

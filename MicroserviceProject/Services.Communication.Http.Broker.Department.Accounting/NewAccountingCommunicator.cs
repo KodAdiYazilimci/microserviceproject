@@ -8,13 +8,13 @@ using Infrastructure.Routing.Providers;
 using Infrastructure.Security.Authentication.Providers;
 
 using Services.Communication.Http.Broker.Authorization;
-using Services.Communication.Http.Broker.Department.AA.CQRS.Commands.Requests;
-using Services.Communication.Http.Broker.Department.AA.Models;
-using Services.Communication.Http.Endpoints.Api.Business.Departments.AA;
+using Services.Communication.Http.Broker.Department.Accounting.CQRS.Commands.Requests;
+using Services.Communication.Http.Broker.Department.Accounting.Models;
+using Services.Communication.Http.Endpoints.Api.Business.Departments.Accounting;
 
-namespace Services.Communication.Http.Broker.Department.AA
+namespace Services.Communication.Http.Broker.Department.Accounting
 {
-    public class AACommunicator : BaseDepartmentCommunicator, IDisposable
+    public class NewAccountingCommunicator : BaseDepartmentCommunicator, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -23,7 +23,7 @@ namespace Services.Communication.Http.Broker.Department.AA
 
         private readonly RouteProvider? _routeProvider;
 
-        public AACommunicator(
+        public NewAccountingCommunicator(
             AuthorizationCommunicator authorizationCommunicator,
             InMemoryCacheDataProvider cacheProvider,
             CredentialProvider credentialProvider,
@@ -34,11 +34,12 @@ namespace Services.Communication.Http.Broker.Department.AA
             _routeProvider = routeProvider;
         }
 
-        public async Task<ServiceResultModel<List<InventoryModel>>> GetInventoriesAsync(
+        public async Task<ServiceResultModel<List<BankAccountModel>>> GetBankAccountsOfWorkerAsync(
+            int workerId,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<GetInventoriesEndpoint>(cancellationTokenSource);
+            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<GetBankAccountsOfWorkerEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {
@@ -46,19 +47,20 @@ namespace Services.Communication.Http.Broker.Department.AA
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
                 endpoint.Headers.Add(new HttpHeader() { Key = "TransactionIdentity", Value = transactionIdentity });
+                endpoint.Queries.Add(new HttpQuery() { Key = "workerId", Value = workerId.ToString() });
 
-                return await CallAsync<List<InventoryModel>>(endpoint, cancellationTokenSource);
+                return await CallAsync<List<BankAccountModel>>(endpoint, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();
         }
 
-        public async Task<ServiceResultModel> CreateInventoryAsync(
-            CreateInventoryCommandRequest request,
+        public async Task<ServiceResultModel> CreateBankAccountAsync(
+            CreateBankAccountCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<CreateInventoryEndpoint>(cancellationTokenSource);
+            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<CreateBankAccountEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {
@@ -66,19 +68,18 @@ namespace Services.Communication.Http.Broker.Department.AA
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
                 endpoint.Headers.Add(new HttpHeader() { Key = "TransactionIdentity", Value = transactionIdentity });
-                endpoint.Payload = request;
 
-                return await CallAsync<CreateInventoryCommandRequest, List<InventoryModel>>(endpoint, request, cancellationTokenSource);
+                return await CallAsync<CreateBankAccountCommandRequest, Object>(endpoint, request, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();
         }
 
-        public async Task<ServiceResultModel<List<InventoryModel>>> GetInventoriesForNewWorkerAsync(
+        public async Task<ServiceResultModel<List<CurrencyModel>>> GetCurrenciesAsync(
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<GetInventoriesForNewWorkerEndpoint>(cancellationTokenSource);
+            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<GetCurrenciesEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {
@@ -87,18 +88,18 @@ namespace Services.Communication.Http.Broker.Department.AA
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
                 endpoint.Headers.Add(new HttpHeader() { Key = "TransactionIdentity", Value = transactionIdentity });
 
-                return await CallAsync<List<InventoryModel>>(endpoint, cancellationTokenSource);
+                return await CallAsync<List<CurrencyModel>>(endpoint, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();
         }
 
-        public async Task<ServiceResultModel> CreateDefaultInventoryForNewWorkerAsync(
-            CreateDefaultInventoryForNewWorkerCommandRequest request,
+        public async Task<ServiceResultModel> CreateCurrencyAsync(
+            CreateCurrencyCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<CreateDefaultInventoryForNewWorkerEndpoint>(cancellationTokenSource);
+            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<CreateCurrencyEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {
@@ -107,18 +108,18 @@ namespace Services.Communication.Http.Broker.Department.AA
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
                 endpoint.Headers.Add(new HttpHeader() { Key = "TransactionIdentity", Value = transactionIdentity });
 
-                return await CallAsync<CreateDefaultInventoryForNewWorkerCommandRequest, Object>(endpoint, request, cancellationTokenSource);
+                return await CallAsync<CreateCurrencyCommandRequest, Object>(endpoint, request, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();
         }
 
-        public async Task<ServiceResultModel> AssignInventoryToWorkerAsync(
-            AssignInventoryToWorkerCommandRequest request,
+        public async Task<ServiceResultModel<List<SalaryPaymentModel>>> GetSalaryPaymentsOfWorkerAsync(
+            int workerId,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<AssignInventoryToWorkerEndpoint>(cancellationTokenSource);
+            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<GetSalaryPaymentsOfWorkerEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {
@@ -126,19 +127,20 @@ namespace Services.Communication.Http.Broker.Department.AA
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
                 endpoint.Headers.Add(new HttpHeader() { Key = "TransactionIdentity", Value = transactionIdentity });
+                endpoint.Queries.Add(new HttpQuery() { Key = "workerId", Value = workerId.ToString() });
 
-                return await CallAsync<AssignInventoryToWorkerCommandRequest, Object>(endpoint, request, cancellationTokenSource);
+                return await CallAsync<List<SalaryPaymentModel>>(endpoint, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();
         }
 
-        public async Task<ServiceResultModel> InformInventoryRequestAsync(
-            InformInventoryRequestCommandRequest request,
-            string transactionIdentity,
-            CancellationTokenSource cancellationTokenSource)
+        public async Task<ServiceResultModel> CreateSalaryPaymentAsync(
+           CreateSalaryPaymentCommandRequest request,
+           string transactionIdentity,
+           CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<InformInventoryRequestEndpoint>(cancellationTokenSource);
+            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<CreateSalaryPaymentEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {
@@ -147,7 +149,7 @@ namespace Services.Communication.Http.Broker.Department.AA
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
                 endpoint.Headers.Add(new HttpHeader() { Key = "TransactionIdentity", Value = transactionIdentity });
 
-                return await CallAsync<InformInventoryRequestCommandRequest, Object>(endpoint, request, cancellationTokenSource);
+                return await CallAsync<CreateSalaryPaymentCommandRequest, Object>(endpoint, request, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();

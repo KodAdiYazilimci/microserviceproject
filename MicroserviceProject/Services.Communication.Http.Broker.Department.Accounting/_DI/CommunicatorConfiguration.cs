@@ -18,7 +18,7 @@ namespace Services.Communication.Http.Broker.Department.Accounting.DI
         {
             services.RegisterHttpServiceCommunicator();
 
-            services.AddSingleton<AccountingCommunicator>();
+            services.AddSingleton<NewAccountingCommunicator>();
                         
             return services;
         }

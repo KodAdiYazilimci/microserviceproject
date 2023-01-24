@@ -24,7 +24,7 @@ namespace Services.Communication.Mq.Queue.Accounting.Rabbit.Consumers
         /// <summary>
         /// Muhasebe departmanı servis iletişimcisi
         /// </summary>
-        private readonly AccountingCommunicator _accountingCommunicator;
+        private readonly NewAccountingCommunicator _accountingCommunicator;
 
         /// <summary>
         /// Çalışana maaş hesabı açacak kayıtları tüketen sınıf
@@ -33,7 +33,7 @@ namespace Services.Communication.Mq.Queue.Accounting.Rabbit.Consumers
         /// <param name="accountingCommunicator">Muhasebe departmanı servis iletişimcisi</param>
         public CreateBankAccountConsumer(
             CreateBankAccountRabbitConfiguration rabbitConfiguration,
-            AccountingCommunicator accountingCommunicator)
+            NewAccountingCommunicator accountingCommunicator)
         {
             _accountingCommunicator = accountingCommunicator;
 
