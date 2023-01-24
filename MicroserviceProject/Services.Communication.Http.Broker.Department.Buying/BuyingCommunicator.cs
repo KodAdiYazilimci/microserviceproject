@@ -1,120 +1,115 @@
-﻿using Infrastructure.Communication.Http.Broker;
+﻿using Infrastructure.Caching.InMemory;
+using Infrastructure.Communication.Http.Broker;
+using Infrastructure.Communication.Http.Endpoint.Abstract;
+using Infrastructure.Communication.Http.Endpoint.Authentication;
 using Infrastructure.Communication.Http.Models;
+using Infrastructure.Routing.Exceptions;
+using Infrastructure.Routing.Providers;
+using Infrastructure.Security.Authentication.Providers;
 
+using Services.Communication.Http.Broker.Authorization;
 using Services.Communication.Http.Broker.Department.Buying.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.Buying.Models;
+using Services.Communication.Http.Endpoints.Api.Business.Departments.Buying;
 
 namespace Services.Communication.Http.Broker.Department.Buying
 {
-    /// <summary>
-    /// Satınalma servisi için iletişim kurucu sınıf
-    /// </summary>
-    public class BuyingCommunicator : IDisposable
+    public class BuyingCommunicator : BaseDepartmentCommunicator, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
         private bool disposed = false;
 
-        /// <summary>
-        /// Yetki denetimi destekli servis iletişim sağlayıcı sınıfın nesnesi
-        /// </summary>
-        private readonly ServiceCommunicator _serviceCommunicator;
+        private readonly RouteProvider? _routeProvider;
 
-        /// <summary>
-        /// Satınalma servisi için iletişim kurucu sınıf
-        /// </summary>
-        /// <param name="serviceCommunicator">Yetki denetimi destekli servis iletişim sağlayıcı sınıfın nesnesi</param>
         public BuyingCommunicator(
-            ServiceCommunicator serviceCommunicator)
+            AuthorizationCommunicator authorizationCommunicator,
+            InMemoryCacheDataProvider cacheProvider,
+            CredentialProvider credentialProvider,
+            HttpGetCaller httpGetCaller,
+            HttpPostCaller httpPostCaller,
+            RouteProvider? routeProvider) : base(authorizationCommunicator, cacheProvider, credentialProvider, httpGetCaller, httpPostCaller)
         {
-            _serviceCommunicator = serviceCommunicator;
+            _routeProvider = routeProvider;
         }
 
-        /// <summary>
-        /// Satınalma departmanındaki envanter taleplerini getirir
-        /// </summary>
-        /// <param name="cancellationTokenSource">İptal tokenı</param>
-        /// <returns></returns>
-        public async Task<ServiceResultModel<List<InventoryRequestModel>>> GetInventoryRequests(
+        public async Task<ServiceResultModel<List<InventoryRequestModel>>> GetInventoryRequestsAsync(
+            string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<List<InventoryRequestModel>>(
-                serviceName: "buying.request.getinventoryrequests",
-                postData: null,
-                queryParameters: null,
-                headers: null,
-                cancellationTokenSource: cancellationTokenSource);
+            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<GetInventoryRequestsEndpoint>(cancellationTokenSource);
+
+            if (endpoint != null)
+            {
+                string token = await GetServiceToken(cancellationTokenSource);
+
+                endpoint.EndpointAuthentication = new TokenAuthentication(token);
+                endpoint.Headers.Add(new HttpHeader() { Key = "TransactionIdentity", Value = transactionIdentity });
+
+                return await CallAsync<List<InventoryRequestModel>>(endpoint, cancellationTokenSource);
+            }
+            else
+                throw new GetRouteException();
         }
 
-        /// <summary>
-        /// Satın alınması planlanan envantere ait masrafın sonuçlandırılmasını sağlar
-        /// </summary>
-        /// <param name="request">Masraf modeli</param>
-        /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
-        /// <param name="cancellationTokenSource">İptal tokenı</param>
-        /// <returns></returns>
         public async Task<ServiceResultModel> ValidateCostInventoryAsync(
             ValidateCostInventoryCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call(
-                 serviceName: "buying.request.validatecostinventory",
-                 postData: request,
-                 queryParameters: null,
-                 headers: new List<KeyValuePair<string, string>>()
-                 {
-                     new KeyValuePair<string, string>("TransactionIdentity", transactionIdentity)
-                 },
-                 cancellationTokenSource: cancellationTokenSource);
+            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<ValidateCostInventoryEndpoint>(cancellationTokenSource);
+
+            if (endpoint != null)
+            {
+                string token = await GetServiceToken(cancellationTokenSource);
+
+                endpoint.EndpointAuthentication = new TokenAuthentication(token);
+                endpoint.Headers.Add(new HttpHeader() { Key = "TransactionIdentity", Value = transactionIdentity });
+
+                return await CallAsync<ValidateCostInventoryCommandRequest, Object>(endpoint, request, cancellationTokenSource);
+            }
+            else
+                throw new GetRouteException();
         }
 
-        /// <summary>
-        /// Satınalma departmanına envanter talebi oluşturur
-        /// </summary>
-        /// <param name="request">Envanter talep modeli</param>
-        /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
-        /// <param name="cancellationTokenSource">İptal tokenı</param>
-        /// <returns></returns>
         public async Task<ServiceResultModel> CreateInventoryRequestAsync(
             CreateInventoryRequestCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call(
-                serviceName: "buying.request.createinventoryrequest",
-                postData: request,
-                queryParameters: null,
-                headers: new List<KeyValuePair<string, string>>()
-                {
-                    new KeyValuePair<string, string>("TransactionIdentity", transactionIdentity)
-                },
-                cancellationTokenSource: cancellationTokenSource);
+            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<CreateInventoryRequestEndpoint>(cancellationTokenSource);
+
+            if (endpoint != null)
+            {
+                string token = await GetServiceToken(cancellationTokenSource);
+
+                endpoint.EndpointAuthentication = new TokenAuthentication(token);
+                endpoint.Headers.Add(new HttpHeader() { Key = "TransactionIdentity", Value = transactionIdentity });
+
+                return await CallAsync<CreateInventoryRequestCommandRequest, Object>(endpoint, request, cancellationTokenSource);
+            }
+            else
+                throw new GetRouteException();
         }
 
-        /// <summary>
-        /// İptal edilmesi istenilen bir session ın düşürülmesi talebini iletir
-        /// </summary>
-        /// <param name="tokenKey">Düşürülecek session a ait token</param>
-        /// <param name="cancellationTokenSource">İptal tokenı</param>
-        /// <returns></returns>
         public async Task<ServiceResultModel> RemoveSessionIfExistsInCacheAsync(
             string tokenKey,
             CancellationTokenSource cancellationTokenSource)
         {
-            ServiceResultModel serviceResult =
-                await _serviceCommunicator.Call(
-                    serviceName: "buying.identity.removesessionifexistsincache",
-                    postData: null,
-                    queryParameters: new List<KeyValuePair<string, string>>()
-                    {
-                        new KeyValuePair<string, string>("tokenKey",tokenKey)
-                    },
-                    headers: null,
-                    cancellationTokenSource);
+            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<RemoveSessionIfExistsInCacheEndpoint>(cancellationTokenSource);
 
-            return serviceResult;
+            if (endpoint != null)
+            {
+                string token = await GetServiceToken(cancellationTokenSource);
+
+                endpoint.EndpointAuthentication = new TokenAuthentication(token);
+                endpoint.Queries.Add(new HttpQuery() { Key = "tokenKey", Value = token });
+
+                return await CallAsync<List<InventoryModel>>(endpoint, cancellationTokenSource);
+            }
+            else
+                throw new GetRouteException();
         }
 
         /// <summary>
@@ -130,13 +125,13 @@ namespace Services.Communication.Http.Broker.Department.Buying
         /// Kaynakları serbest bırakır
         /// </summary>
         /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
-        public virtual void Dispose(bool disposing)
+        public void Dispose(bool disposing)
         {
             if (disposing)
             {
                 if (!disposed)
                 {
-                    _serviceCommunicator.Dispose();
+
                 }
 
                 disposed = true;
