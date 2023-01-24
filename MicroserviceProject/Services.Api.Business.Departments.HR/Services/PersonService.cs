@@ -118,7 +118,7 @@ namespace Services.Api.Business.Departments.HR.Services
         /// <summary>
         /// Muhasebe departmanı servis iletişimcisi
         /// </summary>
-        private readonly NewAccountingCommunicator _accountingCommunicator;
+        private readonly AccountingCommunicator _accountingCommunicator;
 
         /// <summary>
         /// IT departmanı servis iletişimcisi
@@ -165,7 +165,7 @@ namespace Services.Api.Business.Departments.HR.Services
         public PersonService(
             IMapper mapper,
             AACommunicator aACommunicator,
-            NewAccountingCommunicator accountingCommunicator,
+            AccountingCommunicator accountingCommunicator,
             ITCommunicator itCommunicator,
             Communication.Mq.Queue.AA.Rabbit.Publishers.AssignInventoryToWorkerPublisher AAassignInventoryToWorkerPublisher,
             Communication.Mq.Queue.IT.Rabbit.Publishers.AssignInventoryToWorkerPublisher ITassignInventoryToWorkerPublisher,

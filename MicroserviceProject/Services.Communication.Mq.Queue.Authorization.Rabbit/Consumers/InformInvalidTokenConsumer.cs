@@ -35,7 +35,7 @@ namespace Services.Communication.Mq.Queue.Authorization.Rabbit.Consumers
         /// </summary>
         private readonly AACommunicator _aaCommunicator;
 
-        private readonly NewAccountingCommunicator _accountingCommunicator;
+        private readonly AccountingCommunicator _accountingCommunicator;
 
         private readonly BuyingCommunicator _buyingCommunicator;
 
@@ -60,7 +60,7 @@ namespace Services.Communication.Mq.Queue.Authorization.Rabbit.Consumers
         public InformInvalidTokenConsumer(
             InformInvalidTokenRabbitConfiguration rabbitConfiguration,
             AACommunicator aaCommunicator,
-            NewAccountingCommunicator accountingCommunicator,
+            AccountingCommunicator accountingCommunicator,
             BuyingCommunicator buyingCommunicator,
             CRCommunicator crCommunicator,
             FinanceCommunicator financeCommunicator,

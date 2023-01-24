@@ -9,9 +9,9 @@ namespace Services.Communication.Http.Broker.Department.Accounting.Mock
 {
     public class AccountingCommunicatorProvider
     {
-        private static NewAccountingCommunicator accountingCommunicator = null;
+        private static AccountingCommunicator accountingCommunicator = null;
 
-        public static NewAccountingCommunicator GetAccountingCommunicator(
+        public static AccountingCommunicator GetAccountingCommunicator(
             AuthorizationCommunicator authorizationCommunicator,
             InMemoryCacheDataProvider inMemoryCacheDataProvider,
             CredentialProvider credentialProvider,
@@ -21,7 +21,7 @@ namespace Services.Communication.Http.Broker.Department.Accounting.Mock
         {
             if (accountingCommunicator == null)
             {
-                accountingCommunicator = new NewAccountingCommunicator(
+                accountingCommunicator = new AccountingCommunicator(
                     authorizationCommunicator,
                     inMemoryCacheDataProvider,
                     credentialProvider,
