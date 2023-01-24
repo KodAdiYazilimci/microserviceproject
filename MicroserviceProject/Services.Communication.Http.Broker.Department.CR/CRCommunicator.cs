@@ -1,98 +1,95 @@
-﻿using Infrastructure.Communication.Http.Broker;
+﻿using Infrastructure.Caching.InMemory;
+using Infrastructure.Communication.Http.Broker;
+using Infrastructure.Communication.Http.Endpoint.Abstract;
+using Infrastructure.Communication.Http.Endpoint.Authentication;
 using Infrastructure.Communication.Http.Models;
+using Infrastructure.Routing.Exceptions;
+using Infrastructure.Routing.Providers;
+using Infrastructure.Security.Authentication.Providers;
 
+using Services.Communication.Http.Broker.Authorization;
 using Services.Communication.Http.Broker.Department.CR.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.CR.Models;
+using Services.Communication.Http.Endpoints.Api.Business.Departments.CR;
 
 namespace Services.Communication.Http.Broker.Department.CR
 {
-    /// <summary>
-    /// Müşteri ilişkileri servisi için iletişim kurucu sınıf
-    /// </summary>
-    public class CRCommunicator : IDisposable
+    public class CRCommunicator : BaseDepartmentCommunicator, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
         private bool disposed = false;
 
-        /// <summary>
-        /// Yetki denetimi destekli servis iletişim sağlayıcı sınıfın nesnesi
-        /// </summary>
-        private readonly ServiceCommunicator _serviceCommunicator;
+        private readonly RouteProvider? _routeProvider;
 
-        /// <summary>
-        /// Müşteri ilişkileri servisi için iletişim kurucu sınıf
-        /// </summary>
-        /// <param name="serviceCommunicator">Yetki denetimi destekli servis iletişim sağlayıcı sınıfın nesnesi</param>
         public CRCommunicator(
-            ServiceCommunicator serviceCommunicator)
+            AuthorizationCommunicator authorizationCommunicator,
+            InMemoryCacheDataProvider cacheProvider,
+            CredentialProvider credentialProvider,
+            HttpGetCaller httpGetCaller,
+            HttpPostCaller httpPostCaller,
+            RouteProvider? routeProvider) : base(authorizationCommunicator, cacheProvider, credentialProvider, httpGetCaller, httpPostCaller)
         {
-            _serviceCommunicator = serviceCommunicator;
+            _routeProvider = routeProvider;
         }
 
-        /// <summary>
-        /// Müşteri ilişkileri departmanındaki müşterilerin listesini verir
-        /// </summary>
-        /// <param name="cancellationTokenSource">İptal tokenı</param>
-        /// <returns></returns>
         public async Task<ServiceResultModel<List<CustomerModel>>> GetCustomersAsync(
+            string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<List<CustomerModel>>(
-                serviceName: "cr.customers.getcustomers",
-                postData: null,
-                queryParameters: null,
-                headers: null,
-                cancellationTokenSource: cancellationTokenSource);
+            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<GetCustomersEndpoint>(cancellationTokenSource);
+
+            if (endpoint != null)
+            {
+                string token = await GetServiceToken(cancellationTokenSource);
+
+                endpoint.EndpointAuthentication = new TokenAuthentication(token);
+                endpoint.Headers.Add(new HttpHeader() { Key = "TransactionIdentity", Value = transactionIdentity });
+
+                return await CallAsync<List<CustomerModel>>(endpoint, cancellationTokenSource);
+            }
+            else
+                throw new GetRouteException();
         }
 
-        /// <summary>
-        /// Müşteri ilişkileri departmanına yeni müşteri kaydı oluşturur
-        /// </summary>
-        /// <param name="request">Müşteri modeli</param>
-        /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
-        /// <param name="cancellationTokenSource">İptal tokenı</param>
-        /// <returns></returns>
         public async Task<ServiceResultModel> CreateCustomerAsync(
             CreateCustomerCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call(
-                serviceName: "cr.customers.createcustomer",
-                postData: request,
-                queryParameters: null,
-                headers: new List<KeyValuePair<string, string>>()
-                {
-                    new KeyValuePair<string, string>("TransactionIdentity", transactionIdentity)
-                },
-                cancellationTokenSource: cancellationTokenSource);
+            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<CreateCustomerEndpoint>(cancellationTokenSource);
+
+            if (endpoint != null)
+            {
+                string token = await GetServiceToken(cancellationTokenSource);
+
+                endpoint.EndpointAuthentication = new TokenAuthentication(token);
+                endpoint.Headers.Add(new HttpHeader() { Key = "TransactionIdentity", Value = transactionIdentity });
+
+                return await CallAsync<CreateCustomerCommandRequest, Object>(endpoint, request, cancellationTokenSource);
+            }
+            else
+                throw new GetRouteException();
         }
 
-
-        /// <summary>
-        /// İptal edilmesi istenilen bir session ın düşürülmesi talebini iletir
-        /// </summary>
-        /// <param name="tokenKey">Düşürülecek session a ait token</param>
-        /// <param name="cancellationTokenSource">İptal tokenı</param>
-        /// <returns></returns>
         public async Task<ServiceResultModel> RemoveSessionIfExistsInCacheAsync(
             string tokenKey,
             CancellationTokenSource cancellationTokenSource)
         {
-            ServiceResultModel serviceResult =
-                await _serviceCommunicator.Call(
-                    serviceName: "cr.identity.removesessionifexistsincache",
-                    postData: null,
-                    queryParameters: new List<KeyValuePair<string, string>>()
-                    {
-                        new KeyValuePair<string, string>("tokenKey",tokenKey)
-                    },
-                    headers: null,
-                    cancellationTokenSource);
+            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<RemoveSessionIfExistsInCacheEndpoint>(cancellationTokenSource);
 
-            return serviceResult;
+            if (endpoint != null)
+            {
+                string token = await GetServiceToken(cancellationTokenSource);
+
+                endpoint.EndpointAuthentication = new TokenAuthentication(token);
+                endpoint.Queries.Add(new HttpQuery() { Key = "tokenKey", Value = tokenKey });
+
+                return await CallAsync<Object>(endpoint, cancellationTokenSource);
+            }
+            else
+                throw new GetRouteException();
         }
 
         /// <summary>
@@ -108,13 +105,13 @@ namespace Services.Communication.Http.Broker.Department.CR
         /// Kaynakları serbest bırakır
         /// </summary>
         /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
-        public virtual void Dispose(bool disposing)
+        public void Dispose(bool disposing)
         {
             if (disposing)
             {
                 if (!disposed)
                 {
-                    _serviceCommunicator.Dispose();
+
                 }
 
                 disposed = true;
