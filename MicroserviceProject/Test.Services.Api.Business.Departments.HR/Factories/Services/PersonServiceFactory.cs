@@ -6,6 +6,7 @@ using Infrastructure.Localization.Translation.Persistence.Mock.EntityFramework.P
 using Infrastructure.Localization.Translation.Provider.Mock;
 using Infrastructure.Mock.Factories;
 using Infrastructure.Routing.Persistence.Mock;
+using Infrastructure.Routing.Providers.Mock;
 using Infrastructure.Security.Authentication.Mock;
 
 using Microsoft.Extensions.Configuration;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Services.Api.Business.Departments.HR.Configuration.Mapping;
 using Services.Api.Business.Departments.HR.Configuration.Persistence;
 using Services.Api.Business.Departments.HR.Services;
+using Services.Communication.Http.Broker.Authorization.Mock;
 using Services.Communication.Http.Broker.Department.AA.Mock;
 using Services.Communication.Http.Broker.Department.Accounting.Mock;
 using Services.Communication.Http.Broker.Department.IT.Mock;
@@ -43,10 +45,18 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Services
                     service = new PersonService(
                         mapper: MappingFactory.GetInstance(new MappingProfile()),
                         aACommunicator: AACommunicatorProvider.GetAACommunicator(
-                             serviceCommunicator: ServiceCommunicatorFactory.GetServiceCommunicator(
-                                 cacheProvider: InMemoryCacheDataProviderFactory.Instance,
-                                 credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),
-                                 serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration))),
+                            authorizationCommunicator: AuthorizationCommunicatorProvider.GetAuthorizationCommunicator(
+                                ServiceCommunicatorFactory.GetServiceCommunicator(
+                                    cacheProvider: InMemoryCacheDataProviderFactory.Instance,
+                                    credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),
+                                    serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration))),
+                            inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance,
+                            credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),
+                            routeProvider: RouteProviderFactory.GetRouteProvider(
+                                serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration),
+                                inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance),
+                            httpGetCaller: HttpGetCallerFactory.Instance,
+                            httpPostCaller: HttpPostCallerFactory.Instance),
                         accountingCommunicator: AccountingCommunicatorProvider.GetAccountingCommunicator(
                              serviceCommunicator: ServiceCommunicatorFactory.GetServiceCommunicator(
                                  cacheProvider: InMemoryCacheDataProviderFactory.Instance,

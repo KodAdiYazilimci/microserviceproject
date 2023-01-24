@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using Services.Api.Business.Departments.HR.DI;
+using Services.Communication.Http.Broker.Authorization.DI;
 using Services.Communication.Http.Broker.Department.AA.DI;
 using Services.Communication.Http.Broker.Department.Accounting.DI;
 using Services.Communication.Http.Broker.Department.HR.DI;
@@ -55,6 +56,7 @@ namespace Services.Api.Business.Departments.HR
             services.RegisterBasicTokenAuthentication();
             services.RegisterExceptionLogger();
             services.RegisterHttpAADepartmentCommunicators();
+            services.RegisterHttpAuthorizationCommunicators();
             services.RegisterHttpAccountingDepartmentCommunicators();
             services.RegisterHttpHRDepartmentCommunicators();
             services.RegisterHttpITDepartmentCommunicators();

@@ -34,7 +34,7 @@ namespace Test.Services.Api.Business.Departments.HR.Tests
         public void Init()
         {
             cancellationTokenSource = new CancellationTokenSource();
-            departmentController = new DepartmentController(MediatorFactory.GetInstance(typeof(Startup)), DepartmentServiceFactory.Instance);
+            departmentController = new DepartmentController(MediatorFactory.GetInstance(typeof(Startup)), DepartmentServiceFactory.Instance, null);
 
             serviceCommunicator =
                 ServiceCommunicatorFactory.GetServiceCommunicator(

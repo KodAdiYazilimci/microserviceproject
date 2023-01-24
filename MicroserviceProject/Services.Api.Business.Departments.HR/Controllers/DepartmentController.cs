@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Services.Api.Business.Departments.HR.Services;
+using Services.Communication.Http.Broker.Department.AA;
 using Services.Communication.Http.Broker.Department.HR.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.HR.CQRS.Queries.Requests;
 using Services.Communication.Http.Broker.Department.HR.CQRS.Queries.Responses;
@@ -21,11 +22,13 @@ namespace Services.Api.Business.Departments.HR.Controllers
     {
         private readonly IMediator _mediator;
         private readonly DepartmentService _departmentService;
+        private readonly AACommunicator newAACommunicator;
 
-        public DepartmentController(IMediator mediator, DepartmentService departmentService)
+        public DepartmentController(IMediator mediator, DepartmentService departmentService, AACommunicator newAACommunicator)
         {
             _mediator = mediator;
             _departmentService = departmentService;
+            this.newAACommunicator = newAACommunicator;
         }
 
         [HttpGet]

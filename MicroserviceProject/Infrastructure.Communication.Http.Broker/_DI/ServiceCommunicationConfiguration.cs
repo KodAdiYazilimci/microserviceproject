@@ -1,6 +1,7 @@
 ﻿
 using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Routing.Persistence.DI;
+using Infrastructure.Routing.Providers._DI;
 using Infrastructure.Security.Authentication.DI;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -21,8 +22,12 @@ namespace Infrastructure.Communication.Http.Broker.DI
         {
             services.AddHttpClient();
 
+            services.AddSingleton<HttpGetCaller>();
+            services.AddSingleton<HttpPostCaller>();
+
             services.RegisterCredentialProvider();
             services.RegisterHttpRouteRepositories();
+            services.RegisterRoutingProviders();
             services.RegisterInMemoryCaching();
 
             services.AddSingleton<ServiceCommunicator>();
