@@ -71,10 +71,18 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Services
                                 serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration),
                                 inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance)),
                         itCommunicator: ITCommunicatorProvider.GetITCommunicator(
-                             serviceCommunicator: ServiceCommunicatorFactory.GetServiceCommunicator(
-                                 cacheProvider: InMemoryCacheDataProviderFactory.Instance,
-                                 credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),
-                                 serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration))),
+                            authorizationCommunicator: AuthorizationCommunicatorProvider.GetAuthorizationCommunicator(
+                                serviceCommunicator: ServiceCommunicatorFactory.GetServiceCommunicator(
+                                    InMemoryCacheDataProviderFactory.Instance,
+                                    credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),
+                                    serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration))),
+                            inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance,
+                            credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),
+                            httpGetCaller: HttpGetCallerFactory.Instance,
+                            httpPostCaller: HttpPostCallerFactory.Instance,
+                            routeProvider: RouteProviderFactory.GetRouteProvider(
+                                serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration),
+                                inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance)),
                         AAassignInventoryToWorkerPublisher: AAAssignInventoryToWorkerPublisherProvider.GetPublisher(
                             configuration: AAAssignInventoryToWorkerRabbitConfigurationProvider.GetConfiguration(configuration)),
                         ITassignInventoryToWorkerPublisher: ITassignInventoryToWorkerPublisherProvider.GetPublisher(
