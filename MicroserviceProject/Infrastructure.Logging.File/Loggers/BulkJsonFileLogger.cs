@@ -46,18 +46,18 @@ namespace Infrastructure.Logging.File.Loggers
         /// <param name="models">Yazılacak logun modeli</param>
         public async Task LogAsync(List<TModel> models, CancellationTokenSource cancellationTokenSource)
         {
-            StringBuilder sbJsonText = new StringBuilder();
-
-            foreach (var model in models)
-            {
-                sbJsonText.Append(JsonConvert.SerializeObject(model));
-                sbJsonText.Append("\r\n");
-            }
-
             ReaderWriterLockSlim.EnterWriteLock();
 
             try
             {
+                StringBuilder sbJsonText = new StringBuilder();
+
+                foreach (var model in models)
+                {
+                    sbJsonText.Append(JsonConvert.SerializeObject(model));
+                    sbJsonText.Append("\r\n");
+                }
+
                 if (!string.IsNullOrEmpty(_fileConfiguration.RelativePath))
                 {
                     DirectoryInfo directoryInfo = new DirectoryInfo(Environment.CurrentDirectory + "/" + _fileConfiguration.RelativePath);

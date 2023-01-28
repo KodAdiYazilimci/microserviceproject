@@ -35,6 +35,7 @@ namespace Infrastructure.Logging.File.Loggers
         {
             _fileConfiguration = fileConfiguration;
         }
+        private static ReaderWriterLockSlim ReaderWriterLockSlim => new ReaderWriterLockSlim();
 
         /// <summary>
         /// Düz metin log yazar
@@ -42,43 +43,52 @@ namespace Infrastructure.Logging.File.Loggers
         /// <param name="models">Yazılacak logun modeli</param>
         public async Task LogAsync(List<TModel> models, CancellationTokenSource cancellationTokenSource)
         {
-            StringBuilder sbContent = new StringBuilder();
+            ReaderWriterLockSlim.EnterWriteLock();
 
-            foreach (var model in models)
+            try
             {
-                sbContent.Append(model.ToString());
-                sbContent.Append("\r\n");
-            }
+                StringBuilder sbContent = new StringBuilder();
 
-            if (!string.IsNullOrEmpty(_fileConfiguration.RelativePath))
-            {
-                DirectoryInfo directoryInfo = new DirectoryInfo(Environment.CurrentDirectory + "/" + _fileConfiguration.RelativePath);
-
-                if (!directoryInfo.Exists)
+                foreach (var model in models)
                 {
-                    directoryInfo.Create();
+                    sbContent.Append(model.ToString());
+                    sbContent.Append("\r\n");
                 }
 
-                await System.IO.File.AppendAllTextAsync(
-                    path: Environment.CurrentDirectory + "/" + _fileConfiguration.RelativePath + "/" + _fileConfiguration.FileName,
-                    contents: sbContent.ToString(),
-                    encoding: _fileConfiguration.Encoding,
-                    cancellationToken: cancellationTokenSource.Token);
-            }
-            else if (!string.IsNullOrEmpty(_fileConfiguration.AbsolutePath))
-            {
-                DirectoryInfo directoryInfo = new DirectoryInfo(_fileConfiguration.AbsolutePath);
-
-                if (!directoryInfo.Exists)
+                if (!string.IsNullOrEmpty(_fileConfiguration.RelativePath))
                 {
-                    directoryInfo.Create();
-                }
+                    DirectoryInfo directoryInfo = new DirectoryInfo(Environment.CurrentDirectory + "/" + _fileConfiguration.RelativePath);
 
-                await System.IO.File.AppendAllTextAsync(
-                    path: _fileConfiguration.AbsolutePath + "\\" + _fileConfiguration.FileName,
-                    contents: sbContent.ToString(),
-                    encoding: _fileConfiguration.Encoding,
-                    cancellationToken: cancellationTokenSource.Token);
+                    if (!directoryInfo.Exists)
+                    {
+                        directoryInfo.Create();
+                    }
+
+                    await System.IO.File.AppendAllTextAsync(
+                        path: Environment.CurrentDirectory + "/" + _fileConfiguration.RelativePath + "/" + _fileConfiguration.FileName,
+                        contents: sbContent.ToString(),
+                        encoding: _fileConfiguration.Encoding,
+                        cancellationToken: cancellationTokenSource.Token);
+                }
+                else if (!string.IsNullOrEmpty(_fileConfiguration.AbsolutePath))
+                {
+                    DirectoryInfo directoryInfo = new DirectoryInfo(_fileConfiguration.AbsolutePath);
+
+                    if (!directoryInfo.Exists)
+                    {
+                        directoryInfo.Create();
+                    }
+
+                    await System.IO.File.AppendAllTextAsync(
+                        path: _fileConfiguration.AbsolutePath + "\\" + _fileConfiguration.FileName,
+                        contents: sbContent.ToString(),
+                        encoding: _fileConfiguration.Encoding,
+                        cancellationToken: cancellationTokenSource.Token);
+                }
+            }
+            finally
+            {
+                ReaderWriterLockSlim.ExitWriteLock();
             }
         }
 
