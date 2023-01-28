@@ -1,77 +1,67 @@
 ﻿using Infrastructure.Communication.Http.Broker;
+using Infrastructure.Communication.Http.Endpoint.Abstract;
+using Infrastructure.Communication.Http.Endpoint.Authentication;
 using Infrastructure.Communication.Http.Models;
+using Infrastructure.Routing.Exceptions;
+using Infrastructure.Routing.Providers;
 
 using Services.Communication.Http.Broker.Authorization.Models;
+using Services.Communication.Http.Endpoints.Api.Authorization;
 
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Services.Communication.Http.Broker.Authorization
 {
-    /// <summary>
-    /// Yetki denetimi servisi için iletişim kurucu sınıf
-    /// </summary>
-    public class AuthorizationCommunicator : IDisposable
+    public class AuthorizationCommunicator : BaseCommunicator, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
         private bool disposed = false;
 
-        /// <summary>
-        /// Yetki denetimi destekli servis iletişim sağlayıcı sınıfın nesnesi
-        /// </summary>
-        private readonly ServiceCommunicator _serviceCommunicator;
+        private readonly RouteProvider? _routeProvider;
 
-        /// <summary>
-        /// Yetki denetimi servisi için iletişim kurucu sınıf
-        /// </summary>
-        /// <param name="serviceCommunicator">Yetki denetimi destekli servis iletişim sağlayıcı sınıfın nesnesi</param>
         public AuthorizationCommunicator(
-            ServiceCommunicator serviceCommunicator)
+            HttpGetCaller httpGetCaller,
+            HttpPostCaller httpPostCaller,
+            RouteProvider routeProvider) : base(httpGetCaller, httpPostCaller)
         {
-            _serviceCommunicator = serviceCommunicator;
+            _routeProvider = routeProvider;
         }
 
-        /// <summary>
-        /// Kullanıcı bilgilerine göre token bilgisini verir
-        /// </summary>
-        /// <param name="credential">Kullanıcı bilgileri</param>
-        /// <param name="cancellationTokenSource">İptal tokenı</param>
-        /// <returns></returns>
-        public async Task<ServiceResultModel<TokenModel>> GetTokenAsync(CredentialModel credential, CancellationTokenSource cancellationTokenSource)
+        public async Task<ServiceResultModel<TokenModel>> GetTokenAsync(
+            CredentialModel credential,
+            CancellationTokenSource cancellationTokenSource)
         {
-            ServiceResultModel<TokenModel> tokenResult =
-                   await _serviceCommunicator.Call<TokenModel>(
-                       serviceName: "authorization.auth.gettoken",
-                       postData: credential,
-                       queryParameters: null,
-                       headers: null,
-                       cancellationTokenSource: cancellationTokenSource);
+            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<GetTokenEndpoint>(cancellationTokenSource);
 
-            return tokenResult;
+            if (endpoint != null)
+            {
+                endpoint.EndpointAuthentication = new AnonymouseAuthentication();
+
+                return await CallAsync<CredentialModel, TokenModel>(endpoint, credential, cancellationTokenSource);
+            }
+            else
+                throw new GetRouteException();
         }
 
-        /// <summary>
-        /// Token bilgisine göre kullanıcı bilgisini verir
-        /// </summary>
-        /// <param name="headerToken">Token bilgisi</param>
-        /// <param name="cancellationTokenSource">İptal tokenı</param>
-        /// <returns></returns>
-        public async Task<ServiceResultModel<UserModel>> GetUserAsync(string headerToken, CancellationTokenSource cancellationTokenSource)
+        public async Task<ServiceResultModel<UserModel>> GetUserAsync(
+            string headerToken, 
+            CancellationTokenSource cancellationTokenSource)
         {
-            ServiceResultModel<UserModel> serviceResult =
-                    await
-                    _serviceCommunicator.Call<UserModel>(
-                        serviceName: "authorization.auth.getuser",
-                        postData: null,
-                        queryParameters: new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("token", headerToken) },
-                        headers: null,
-                        cancellationTokenSource: cancellationTokenSource);
+            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<GetUserEndpoint>(cancellationTokenSource);
 
-            return serviceResult;
+            if (endpoint != null)
+            {
+                endpoint.EndpointAuthentication = new AnonymouseAuthentication();
+                endpoint.Queries.Add(new HttpQuery() {  Key = "token", Value = headerToken});   
+
+                return await CallAsync<UserModel>(endpoint, cancellationTokenSource);
+            }
+            else
+                throw new GetRouteException();
         }
 
         /// <summary>
@@ -87,13 +77,13 @@ namespace Services.Communication.Http.Broker.Authorization
         /// Kaynakları serbest bırakır
         /// </summary>
         /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
-        public virtual void Dispose(bool disposing)
+        public void Dispose(bool disposing)
         {
             if (disposing)
             {
                 if (!disposed)
                 {
-                    _serviceCommunicator.Dispose();
+
                 }
 
                 disposed = true;

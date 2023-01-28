@@ -46,10 +46,11 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Services
                         mapper: MappingFactory.GetInstance(new MappingProfile()),
                         aACommunicator: AACommunicatorProvider.GetAACommunicator(
                             authorizationCommunicator: AuthorizationCommunicatorProvider.GetAuthorizationCommunicator(
-                                ServiceCommunicatorFactory.GetServiceCommunicator(
-                                    cacheProvider: InMemoryCacheDataProviderFactory.Instance,
-                                    credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),
-                                    serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration))),
+                                httpGetCaller: HttpGetCallerFactory.Instance,
+                                httpPostCaller: HttpPostCallerFactory.Instance,
+                                routeProvider: RouteProviderFactory.GetRouteProvider(
+                                    serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration),
+                                    inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance)),
                             inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance,
                             credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),
                             routeProvider: RouteProviderFactory.GetRouteProvider(
@@ -59,10 +60,11 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Services
                             httpPostCaller: HttpPostCallerFactory.Instance),
                         accountingCommunicator: AccountingCommunicatorProvider.GetAccountingCommunicator(
                             authorizationCommunicator: AuthorizationCommunicatorProvider.GetAuthorizationCommunicator(
-                                serviceCommunicator: ServiceCommunicatorFactory.GetServiceCommunicator(
-                                    cacheProvider: InMemoryCacheDataProviderFactory.Instance,
-                                    credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),
-                                    serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration))),
+                                httpGetCaller: HttpGetCallerFactory.Instance,
+                                httpPostCaller: HttpPostCallerFactory.Instance,
+                                routeProvider: RouteProviderFactory.GetRouteProvider(
+                                    serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration),
+                                    inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance)),
                             inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance,
                             credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),
                             httpGetCaller: HttpGetCallerFactory.Instance,
@@ -72,10 +74,11 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Services
                                 inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance)),
                         itCommunicator: ITCommunicatorProvider.GetITCommunicator(
                             authorizationCommunicator: AuthorizationCommunicatorProvider.GetAuthorizationCommunicator(
-                                serviceCommunicator: ServiceCommunicatorFactory.GetServiceCommunicator(
-                                    InMemoryCacheDataProviderFactory.Instance,
-                                    credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),
-                                    serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration))),
+                                httpGetCaller: HttpGetCallerFactory.Instance,
+                                httpPostCaller: HttpPostCallerFactory.Instance,
+                                routeProvider: RouteProviderFactory.GetRouteProvider(
+                                    serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration),
+                                    inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance)),
                             inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance,
                             credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),
                             httpGetCaller: HttpGetCallerFactory.Instance,
