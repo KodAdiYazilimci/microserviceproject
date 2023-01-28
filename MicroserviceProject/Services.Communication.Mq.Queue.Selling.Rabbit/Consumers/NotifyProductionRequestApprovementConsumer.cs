@@ -56,7 +56,7 @@ namespace Services.Communication.Mq.Queue.Selling.Rabbit.Consumers
                 ReferenceNumber = data.ReferenceNumber
             };
 
-            await _sellingCommunicator.NotifyProductionRequest(
+            await _sellingCommunicator.NotifyProductionRequestAsync(
                 new NotifyProductionRequestCommandRequest()
                 {
                     ProductionRequest = productionRequestModel
