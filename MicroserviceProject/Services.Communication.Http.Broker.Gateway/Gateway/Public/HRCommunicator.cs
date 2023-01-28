@@ -1,8 +1,12 @@
-﻿
-using Infrastructure.Communication.Http.Broker;
+﻿using Infrastructure.Communication.Http.Broker;
+using Infrastructure.Communication.Http.Endpoint.Abstract;
+using Infrastructure.Communication.Http.Endpoint.Authentication;
 using Infrastructure.Communication.Http.Models;
+using Infrastructure.Routing.Exceptions;
+using Infrastructure.Routing.Providers;
 
 using Services.Communication.Http.Broker.Gateway.Public.Models;
+using Services.Communication.Http.Endpoints.Api.Gateway.Public;
 
 using System;
 using System.Collections.Generic;
@@ -11,75 +15,57 @@ using System.Threading.Tasks;
 
 namespace Services.Communication.Http.Broker.Gateway.Public
 {
-    /// <summary>
-    /// İnsan kaynakları servisi için iletişim kurucu sınıf
-    /// </summary>
-    public class HRCommunicator : IDisposable
+    public class HRCommunicator : BaseGatewayCommunicator, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
         private bool disposed = false;
 
-        /// <summary>
-        /// Yetki denetimi destekli servis iletişim sağlayıcı sınıfın nesnesi
-        /// </summary>
-        private readonly ServiceCommunicator _serviceCommunicator;
+        private readonly RouteProvider? _routeProvider;
 
-        /// <summary>
-        /// İnsan kaynakları servisi için iletişim kurucu sınıf
-        /// </summary>
-        /// <param name="serviceCommunicator">Yetki denetimi destekli servis iletişim sağlayıcı sınıfın nesnesi</param>
         public HRCommunicator(
-            ServiceCommunicator serviceCommunicator)
+            HttpGetCaller httpGetCaller,
+            HttpPostCaller httpPostCaller,
+            RouteProvider routeProvider) : base(httpGetCaller, httpPostCaller)
         {
-            _serviceCommunicator = serviceCommunicator;
+            _routeProvider = routeProvider;
         }
 
-        /// <summary>
-        /// Departmanları verir
-        /// </summary>
-        /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
-        /// <param name="cancellationTokenSource">İptal tokenı</param>
-        /// <returns></returns>
-        public async Task<ServiceResultModel<List<DepartmentModel>>> GetDepartmentsAsync(string transactionIdentity, CancellationTokenSource cancellationTokenSource)
+        public async Task<ServiceResultModel<List<DepartmentModel>>> GetDepartmentsAsync(
+            string transactionIdentity,
+            CancellationTokenSource cancellationTokenSource)
         {
-            ServiceResultModel<List<DepartmentModel>> departmentsServiceResult =
-                    await
-                    _serviceCommunicator.Call<List<DepartmentModel>>(
-                        serviceName: "gateway.public.hr.getdepartments",
-                        postData: null,
-                        queryParameters: null,
-                        headers: new List<KeyValuePair<string, string>>()
-                        {
-                            new KeyValuePair<string, string>("TransactionIdentity", transactionIdentity)
-                        },
-                        cancellationTokenSource: cancellationTokenSource);
+            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<GetDepartmentsEndpoint>(cancellationTokenSource);
 
-            return departmentsServiceResult;
+            if (endpoint != null)
+            {
+                string token = await GetServiceToken(cancellationTokenSource);
+
+                endpoint.EndpointAuthentication = new TokenAuthentication(token);
+                endpoint.Headers.Add(new HttpHeader() { Key = "TransactionIdentity", Value = transactionIdentity });
+
+                return await CallAsync<List<DepartmentModel>>(endpoint, cancellationTokenSource);
+            }
+            else
+                throw new GetRouteException();
         }
 
-
-        /// <summary>
-        /// İptal edilmesi istenilen bir session ın düşürülmesi talebini iletir
-        /// </summary>
-        /// <param name="tokenKey">Düşürülecek session a ait token</param>
-        /// <param name="cancellationTokenSource">İptal tokenı</param>
-        /// <returns></returns>
         public async Task<ServiceResultModel> RemoveSessionIfExistsInCacheAsync(string tokenKey, CancellationTokenSource cancellationTokenSource)
         {
-            ServiceResultModel serviceResult =
-                await _serviceCommunicator.Call(
-                    serviceName: "gateway.public.identity.removesessionifexistsincache",
-                    postData: null,
-                    queryParameters: new List<KeyValuePair<string, string>>()
-                    {
-                        new KeyValuePair<string, string>("tokenKey",tokenKey)
-                    },
-                    headers: null,
-                    cancellationTokenSource);
+            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<RemoveSessionIfExistsInCacheEndpoint>(cancellationTokenSource);
 
-            return serviceResult;
+            if (endpoint != null)
+            {
+                string token = await GetServiceToken(cancellationTokenSource);
+
+                endpoint.EndpointAuthentication = new TokenAuthentication(token);
+                endpoint.Queries.Add(new HttpQuery() { Key = "tokenKey", Value = tokenKey });
+
+                return await CallAsync<Object>(endpoint, cancellationTokenSource);
+            }
+            else
+                throw new GetRouteException();
         }
 
         /// <summary>
@@ -95,13 +81,13 @@ namespace Services.Communication.Http.Broker.Gateway.Public
         /// Kaynakları serbest bırakır
         /// </summary>
         /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
-        public virtual void Dispose(bool disposing)
+        public void Dispose(bool disposing)
         {
             if (disposing)
             {
                 if (!disposed)
                 {
-                    _serviceCommunicator.Dispose();
+
                 }
 
                 disposed = true;
