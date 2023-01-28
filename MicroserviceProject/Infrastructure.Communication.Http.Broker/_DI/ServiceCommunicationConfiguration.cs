@@ -20,8 +20,6 @@ namespace Infrastructure.Communication.Http.Broker.DI
         /// <returns></returns>
         public static IServiceCollection RegisterHttpServiceCommunicator(this IServiceCollection services)
         {
-            services.AddHttpClient();
-
             services.AddSingleton<HttpGetCaller>();
             services.AddSingleton<HttpPostCaller>();
 
