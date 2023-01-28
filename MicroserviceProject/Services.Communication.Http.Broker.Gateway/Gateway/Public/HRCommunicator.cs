@@ -8,8 +8,8 @@ using Infrastructure.Routing.Providers;
 using Infrastructure.Security.Authentication.Providers;
 
 using Services.Communication.Http.Broker.Authorization;
+using Services.Communication.Http.Broker.Gateway.Endpoints;
 using Services.Communication.Http.Broker.Gateway.Public.Models;
-using Services.Communication.Http.Endpoints.Api.Gateway.Public;
 
 using System;
 using System.Collections.Generic;

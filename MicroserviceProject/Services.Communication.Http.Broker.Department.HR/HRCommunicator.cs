@@ -9,8 +9,8 @@ using Infrastructure.Security.Authentication.Providers;
 
 using Services.Communication.Http.Broker.Authorization;
 using Services.Communication.Http.Broker.Department.HR.CQRS.Commands.Requests;
+using Services.Communication.Http.Broker.Department.HR.Endpoints;
 using Services.Communication.Http.Broker.Department.HR.Models;
-using Services.Communication.Http.Endpoints.Api.Business.Departments.HR;
 
 namespace Services.Communication.Http.Broker.Department.HR
 {

@@ -12,7 +12,6 @@
     <ProjectReference Include="..\Infrastructure.Communication.Http.Broker\Infrastructure.Communication.Http.Broker.csproj" />
     <ProjectReference Include="..\Services.Communication.Http.Broker.Authorization\Services.Communication.Http.Broker.Authorization.csproj" />
     <ProjectReference Include="..\Services.Communication.Http.Broker\Services.Communication.Http.Broker.csproj" />
-    <ProjectReference Include="..\Services.Communication.Http.Endpoints\Services.Communication.Http.Endpoints.csproj" />
   </ItemGroup>
 
 </Project>

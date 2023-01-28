@@ -9,8 +9,8 @@ using Infrastructure.Security.Authentication.Providers;
 
 using Services.Communication.Http.Broker.Authorization;
 using Services.Communication.Http.Broker.Department.Storage.CQRS.Commands.Requests;
+using Services.Communication.Http.Broker.Department.Storage.Endpoints;
 using Services.Communication.Http.Broker.Department.Storage.Models;
-using Services.Communication.Http.Endpoints.Api.Business.Departments.Stock;
 
 namespace Services.Communication.Http.Broker.Department.Storage
 {

@@ -9,8 +9,8 @@ using Infrastructure.Security.Authentication.Providers;
 
 using Services.Communication.Http.Broker.Authorization;
 using Services.Communication.Http.Broker.Department.Selling.CQRS.Commands.Requests;
+using Services.Communication.Http.Broker.Department.Selling.Endpoints;
 using Services.Communication.Http.Broker.Department.Selling.Models;
-using Services.Communication.Http.Endpoints.Api.Business.Departments.Selling;
 
 namespace Services.Communication.Http.Broker.Department.Selling
 {

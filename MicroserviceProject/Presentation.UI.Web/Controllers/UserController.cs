@@ -1,6 +1,4 @@
-﻿using Infrastructure.Communication.Http.Broker;
-using Infrastructure.Communication.Http.Endpoint.Abstract;
-using Infrastructure.Routing.Models;
+﻿using Infrastructure.Communication.Http.Endpoint.Abstract;
 using Infrastructure.Routing.Providers;
 using Infrastructure.Security.Authentication.Cookie.Handlers;
 using Infrastructure.Security.Model;
@@ -11,11 +9,8 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
-using Newtonsoft.Json;
-
+using Presentation.UI.Web.Endpoints;
 using Presentation.UI.Web.Models;
-
-using Services.Communication.Http.Endpoints.Presentation.Presentation.UI.Web.Identity;
 
 using System;
 using System.Threading;

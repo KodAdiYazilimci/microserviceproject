@@ -5,8 +5,8 @@ using Infrastructure.Communication.Http.Models;
 using Infrastructure.Routing.Exceptions;
 using Infrastructure.Routing.Providers;
 
+using Services.Communication.Http.Broker.Authorization.Endpoints;
 using Services.Communication.Http.Broker.Authorization.Models;
-using Services.Communication.Http.Endpoints.Api.Authorization;
 
 using System;
 using System.Threading;

@@ -9,14 +9,8 @@ using Infrastructure.Security.Authentication.Providers;
 
 using Services.Communication.Http.Broker.Authorization;
 using Services.Communication.Http.Broker.Department.Finance.CQRS.Commands.Requests;
+using Services.Communication.Http.Broker.Department.Finance.Endpoints;
 using Services.Communication.Http.Broker.Department.Finance.Models;
-using Services.Communication.Http.Endpoints.Api.Business.Departments.Finance;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Services.Communication.Http.Broker.Department.Finance
 {
