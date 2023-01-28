@@ -4,8 +4,6 @@ using Infrastructure.Mock.Providers.Configuration.Sections.PersistenceNode;
 
 using Microsoft.Extensions.Configuration;
 
-using System.Collections.Generic;
-
 namespace Test.Services.Api.Business.Departments.HR.Factories.Infrastructure
 {
     public class ConfigurationFactory

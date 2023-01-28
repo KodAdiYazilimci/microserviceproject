@@ -1,11 +1,9 @@
 ﻿
 using Infrastructure.Communication.Http.Models;
-using Infrastructure.Mock.Factories;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Services.Api.Business.Departments.HR;
 using Services.Api.Business.Departments.HR.Controllers;
 using Services.Communication.Http.Broker.Department.HR.Models;
 
@@ -14,8 +12,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
-using Test.Services.Api.Business.Departments.HR.Factories.Services;
 
 namespace Test.Services.Api.Business.Departments.HR.Tests
 {
@@ -30,8 +26,8 @@ namespace Test.Services.Api.Business.Departments.HR.Tests
         public void Init()
         {
             cancellationTokenSource = new CancellationTokenSource();
-            personController = new PersonController(MediatorFactory.GetInstance(typeof(Startup)), PersonServiceFactory.Instance);
-            departmentController = new DepartmentController(MediatorFactory.GetInstance(typeof(Startup)), DepartmentServiceFactory.Instance, null);
+            //personController = new PersonController(MediatorFactory.GetInstance(typeof(Startup)), PersonServiceFactory.Instance);
+            //departmentController = new DepartmentController(MediatorFactory.GetInstance(typeof(Startup)), DepartmentServiceFactory.Instance, null);
         }
 
         [TestMethod]

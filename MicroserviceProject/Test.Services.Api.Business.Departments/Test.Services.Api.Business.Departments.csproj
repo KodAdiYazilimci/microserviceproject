@@ -1,20 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
-
-    <IsPackable>false</IsPackable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
-    <PackageReference Include="MSTest.TestAdapter" Version="3.0.2" />
-    <PackageReference Include="MSTest.TestFramework" Version="3.0.2" />
-    <PackageReference Include="coverlet.collector" Version="3.2.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure.Caching.InMemory.Mock\Infrastructure.Caching.InMemory.Mock.csproj" />
@@ -23,11 +13,14 @@
     <ProjectReference Include="..\Infrastructure.Localization.Translation.Persistence.Mock\Infrastructure.Localization.Translation.Persistence.Mock.csproj" />
     <ProjectReference Include="..\Infrastructure.Localization.Translation.Provider.Mock\Infrastructure.Localization.Translation.Provider.Mock.csproj" />
     <ProjectReference Include="..\Infrastructure.Mock.Data\Infrastructure.Mock.Data.csproj" />
+    <ProjectReference Include="..\Infrastructure.Mock\Infrastructure.Mock.csproj" />
     <ProjectReference Include="..\Infrastructure.Routing.Persistence.Mock\Infrastructure.Routing.Persistence.Mock.csproj" />
     <ProjectReference Include="..\Infrastructure.Security.Authentication.Mock\Infrastructure.Security.Authentication.Mock.csproj" />
     <ProjectReference Include="..\Services.Api.Business.Departments.AA\Services.Api.Business.Departments.AA.csproj" />
+    <ProjectReference Include="..\Services.Api.Business.Departments.Accounting\Services.Api.Business.Departments.Accounting.csproj" />
     <ProjectReference Include="..\Services.Api.Business.Departments.HR\Services.Api.Business.Departments.HR.csproj" />
-    <ProjectReference Include="..\Test.Services.Api.Business.Departments\Test.Services.Api.Business.Departments.csproj" />
+    <ProjectReference Include="..\Services.Api.Business.Departments.IT\Services.Api.Business.Departments.IT.csproj" />
+    <ProjectReference Include="..\Services.Communication.Http.Broker.Department.Accounting\Services.Communication.Http.Broker.Department.Accounting.csproj" />
   </ItemGroup>
 
 </Project>

@@ -30,8 +30,6 @@ namespace Infrastructure.Communication.Http.Broker.DI
             services.RegisterRoutingProviders();
             services.RegisterInMemoryCaching();
 
-            services.AddSingleton<ServiceCommunicator>();
-
             return services;
         }
     }

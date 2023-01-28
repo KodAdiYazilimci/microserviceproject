@@ -106,48 +106,13 @@ namespace Infrastructure.Communication.WebSockets
         /// <param name="socketName">Dinlenecek soketin adı</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task ListenAsync(string socketName, CancellationTokenSource cancellationTokenSource)
+        public async Task ListenAsync(string socketName, string token, CancellationTokenSource cancellationTokenSource)
         {
-            AuthenticationToken takenTokenForThisService = _cacheProvider.Get<AuthenticationToken>(TAKENTOKENFORTHISSERVICE);
-
-            if (string.IsNullOrWhiteSpace(takenTokenForThisService?.TokenKey)
-                ||
-                takenTokenForThisService.ValidTo <= DateTime.UtcNow)
-            {
-                ServiceCaller serviceTokenCaller = new ServiceCaller(null, _cacheProvider, "");
-                serviceTokenCaller.OnNoServiceFoundInCacheAsync += async (serviceName) =>
-                {
-                    return await GetServiceAsync(serviceName, cancellationTokenSource);
-                };
-
-                ServiceResultModel<AuthenticationToken> tokenResult =
-                    await serviceTokenCaller.Call<AuthenticationToken>(
-                        serviceName: "authorization.auth.gettoken",
-                        postData: new AuthenticationCredential()
-                        {
-                            Email = _credentialProvider.GetEmail,
-                            Password = _credentialProvider.GetPassword
-                        },
-                        queryParameters: null,
-                        headers: null,
-                        cancellationTokenSource: cancellationTokenSource);
-
-                if (tokenResult.IsSuccess && tokenResult.Data != null)
-                {
-                    takenTokenForThisService = tokenResult.Data;
-                    _cacheProvider.Set<AuthenticationToken>(TAKENTOKENFORTHISSERVICE, tokenResult.Data);
-                }
-                else
-                {
-                    throw new GetTokenException("Kaynak servis yetki tokenı elde edilemedi");
-                }
-            }
-
             SocketModel socket = await GetSocketAsync(socketName, cancellationTokenSource);
 
             HubConnection hubConnection = new HubConnectionBuilder().WithUrl(socket.Endpoint, options =>
             {
-                options.Headers.Add("Authorization", takenTokenForThisService.TokenKey);
+                options.Headers.Add("Authorization", token);
             }).Build();
 
             hubConnection.On<object>(socket.Method, param =>
@@ -161,29 +126,6 @@ namespace Infrastructure.Communication.WebSockets
             });
 
             await hubConnection.StartAsync(cancellationTokenSource.Token);
-        }
-
-        /// <summary>
-        /// Servis rota bilgisini verir
-        /// </summary>
-        /// <param name="serviceName">Bilgisi getirilecek servisin adı</param>
-        /// <param name="cancellationTokenSource">İptal tokenı</param>
-        /// <returns></returns>
-        private async Task<string> GetServiceAsync(string serviceName, CancellationTokenSource cancellationTokenSource)
-        {
-            List<ServiceRouteModel> serviceRoutes = _cacheProvider.Get<List<ServiceRouteModel>>(CACHEDSERVICEROUTES);
-
-            if (serviceRoutes == null || !serviceRoutes.Any())
-            {
-                serviceRoutes = await _serviceRouteRepository.GetServiceRoutesAsync(cancellationTokenSource);
-
-                _cacheProvider.Set<List<ServiceRouteModel>>(CACHEDSERVICEROUTES, serviceRoutes, DateTime.UtcNow.AddMinutes(60));
-            }
-
-            if (serviceRoutes.Any(x => x.ServiceName == serviceName))
-                return JsonConvert.SerializeObject(serviceRoutes.FirstOrDefault(x => x.ServiceName == serviceName));
-            else
-                throw new GetRouteException("Servis rotası bulunamadı");
         }
 
         /// <summary>

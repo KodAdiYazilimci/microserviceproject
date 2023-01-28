@@ -1,5 +1,7 @@
 ﻿using Infrastructure.Communication.Http.Broker;
+using Infrastructure.Communication.Http.Endpoint.Abstract;
 using Infrastructure.Routing.Models;
+using Infrastructure.Routing.Providers;
 using Infrastructure.Security.Authentication.Cookie.Handlers;
 using Infrastructure.Security.Model;
 
@@ -13,6 +15,8 @@ using Newtonsoft.Json;
 
 using Presentation.UI.Web.Models;
 
+using Services.Communication.Http.Endpoints.Presentation.Presentation.UI.Web.Identity;
+
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,18 +25,18 @@ namespace Presentation.UI.Web.Controllers
 {
     public class UserController : Controller
     {
-        private readonly ServiceCommunicator _serviceCommunicator;
+        private readonly RouteProvider _routeProvider;
         private readonly CookieHandler _sessionProvider;
         private readonly IConfiguration _configuration;
 
         public UserController(
             IConfiguration configuration,
-            ServiceCommunicator serviceCommunicator,
-            CookieHandler sessionProvider)
+            CookieHandler sessionProvider,
+            RouteProvider routeProvider)
         {
             _configuration = configuration;
             _sessionProvider = sessionProvider;
-            _serviceCommunicator = serviceCommunicator;
+            _routeProvider = routeProvider;
         }
 
         [AllowAnonymous]
@@ -62,11 +66,9 @@ namespace Presentation.UI.Web.Controllers
 
                 QueryString queryString = queryBuilder.ToQueryString();
 
-                string serviceJson = await _serviceCommunicator.GetServiceAsync(serviceName: "presentation.ui.web.identity.user.login", cancellationTokenSource);
+                IEndpoint loginEndpoint = await _routeProvider.GetRoutingEndpointAsync<LoginEndpoint>(cancellationTokenSource);
 
-                ServiceRouteModel serviceRouteModel = JsonConvert.DeserializeObject<ServiceRouteModel>(serviceJson);
-
-                string endpoint = serviceRouteModel.Endpoint + queryString.Value;
+                string endpoint = loginEndpoint.Url + queryString.Value;
 
                 return Redirect(endpoint);
             }
