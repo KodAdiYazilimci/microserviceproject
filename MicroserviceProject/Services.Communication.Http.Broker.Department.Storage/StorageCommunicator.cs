@@ -1,121 +1,117 @@
-﻿using Infrastructure.Communication.Http.Broker;
+﻿using Infrastructure.Caching.InMemory;
+using Infrastructure.Communication.Http.Broker;
+using Infrastructure.Communication.Http.Endpoint.Abstract;
+using Infrastructure.Communication.Http.Endpoint.Authentication;
 using Infrastructure.Communication.Http.Models;
+using Infrastructure.Routing.Exceptions;
+using Infrastructure.Routing.Providers;
+using Infrastructure.Security.Authentication.Providers;
 
+using Services.Communication.Http.Broker.Authorization;
 using Services.Communication.Http.Broker.Department.Storage.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.Storage.Models;
+using Services.Communication.Http.Endpoints.Api.Business.Departments.Stock;
 
 namespace Services.Communication.Http.Broker.Department.Storage
 {
-    /// <summary>
-    /// Stok servisi için iletişim kurucu sınıf
-    /// </summary>
-    public class StorageCommunicator : IDisposable
+    public class StorageCommunicator : BaseDepartmentCommunicator, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
         private bool disposed = false;
 
-        /// <summary>
-        /// Yetki denetimi destekli servis iletişim sağlayıcı sınıfın nesnesi
-        /// </summary>
-        private readonly ServiceCommunicator _serviceCommunicator;
+        private readonly RouteProvider? _routeProvider;
 
-        /// <summary>
-        /// Stok servisi için iletişim kurucu sınıf
-        /// </summary>
-        /// <param name="serviceCommunicator">Yetki denetimi destekli servis iletişim sağlayıcı sınıfın nesnesi</param>
         public StorageCommunicator(
-            ServiceCommunicator serviceCommunicator)
+            AuthorizationCommunicator authorizationCommunicator,
+            InMemoryCacheDataProvider cacheProvider,
+            CredentialProvider credentialProvider,
+            HttpGetCaller httpGetCaller,
+            HttpPostCaller httpPostCaller,
+            RouteProvider? routeProvider) : base(authorizationCommunicator, cacheProvider, credentialProvider, httpGetCaller, httpPostCaller)
         {
-            _serviceCommunicator = serviceCommunicator;
+            _routeProvider = routeProvider;
         }
 
-        /// <summary>
-        /// Stok departmanındaki bir ürünün stok değerini verir
-        /// </summary>
-        /// <param name="cancellationTokenSource">İptal tokenı</param>
-        /// <returns></returns>
         public async Task<ServiceResultModel<StockModel>> GetStockAsync(
             int productId,
+            string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call<StockModel>(
-                serviceName: "storage.stock.getstock",
-                postData: null,
-                queryParameters: new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("productId", productId.ToString()) },
-                headers: null,
-                cancellationTokenSource: cancellationTokenSource);
+            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<GetStockEndpoint>(cancellationTokenSource);
+
+            if (endpoint != null)
+            {
+                string token = await GetServiceToken(cancellationTokenSource);
+
+                endpoint.EndpointAuthentication = new TokenAuthentication(token);
+                endpoint.Headers.Add(new HttpHeader() { Key = "TransactionIdentity", Value = transactionIdentity });
+                endpoint.Queries.Add(new HttpQuery() { Key = "productId", Value = productId.ToString() });
+
+                return await CallAsync<StockModel>(endpoint, cancellationTokenSource);
+            }
+            else
+                throw new GetRouteException();
         }
 
-        /// <summary>
-        /// Stok departmanındaki bir ürünün stok değerini azaltır
-        /// </summary>
-        /// <param name="descendProductStockCommandRequest">Stoğu düşürecek model</param>
-        /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
-        /// <param name="cancellationTokenSource">İptal tokenı</param>
-        /// <returns></returns>
         public async Task<ServiceResultModel> DescendStockAsync(
-            DescendProductStockCommandRequest descendProductStockCommandRequest,
-            string transactionIdentity,
-            CancellationTokenSource cancellationTokenSource)
+           DescendProductStockCommandRequest request,
+           string transactionIdentity,
+           CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call(
-                serviceName: "storage.stock.descendproductstock",
-                postData: descendProductStockCommandRequest,
-                queryParameters: null,
-                headers: new List<KeyValuePair<string, string>>()
-                {
-                    new KeyValuePair<string, string>("TransactionIdentity", transactionIdentity)
-                },
-                cancellationTokenSource: cancellationTokenSource);
+            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<DescendStockEndpoint>(cancellationTokenSource);
+
+            if (endpoint != null)
+            {
+                string token = await GetServiceToken(cancellationTokenSource);
+
+                endpoint.EndpointAuthentication = new TokenAuthentication(token);
+                endpoint.Headers.Add(new HttpHeader() { Key = "TransactionIdentity", Value = transactionIdentity });
+
+                return await CallAsync<DescendProductStockCommandRequest, Object>(endpoint, request, cancellationTokenSource);
+            }
+            else
+                throw new GetRouteException();
         }
 
-        /// <summary>
-        /// Stok departmanına yeni bir stok kaydı oluşturur
-        /// </summary>
-        /// <param name="createStockCommandRequest">Stok modeli</param>
-        /// <param name="transactionIdentity">Servislerin işlem süreçleri boyunca izleyeceği işlem kimliği</param>
-        /// <param name="cancellationTokenSource">İptal tokenı</param>
-        /// <returns></returns>
         public async Task<ServiceResultModel> CreateStockAsync(
-            CreateStockCommandRequest createStockCommandRequest,
-            string transactionIdentity,
-            CancellationTokenSource cancellationTokenSource)
+           CreateStockCommandRequest request,
+           string transactionIdentity,
+           CancellationTokenSource cancellationTokenSource)
         {
-            return await _serviceCommunicator.Call(
-                serviceName: "storage.stock.createstock",
-                postData: createStockCommandRequest,
-                queryParameters: null,
-                headers: new List<KeyValuePair<string, string>>()
-                {
-                    new KeyValuePair<string, string>("TransactionIdentity", transactionIdentity)
-                },
-                cancellationTokenSource: cancellationTokenSource);
+            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<CreateStockEndpoint>(cancellationTokenSource);
+
+            if (endpoint != null)
+            {
+                string token = await GetServiceToken(cancellationTokenSource);
+
+                endpoint.EndpointAuthentication = new TokenAuthentication(token);
+                endpoint.Headers.Add(new HttpHeader() { Key = "TransactionIdentity", Value = transactionIdentity });
+
+                return await CallAsync<CreateStockCommandRequest, Object>(endpoint, request, cancellationTokenSource);
+            }
+            else
+                throw new GetRouteException();
         }
 
-        /// <summary>
-        /// İptal edilmesi istenilen bir session ın düşürülmesi talebini iletir
-        /// </summary>
-        /// <param name="tokenKey">Düşürülecek session a ait token</param>
-        /// <param name="cancellationTokenSource">İptal tokenı</param>
-        /// <returns></returns>
         public async Task<ServiceResultModel> RemoveSessionIfExistsInCacheAsync(
             string tokenKey,
             CancellationTokenSource cancellationTokenSource)
         {
-            ServiceResultModel serviceResult =
-                await _serviceCommunicator.Call(
-                    serviceName: "storage.identity.removesessionifexistsincache",
-                    postData: null,
-                    queryParameters: new List<KeyValuePair<string, string>>()
-                    {
-                        new KeyValuePair<string, string>("tokenKey",tokenKey)
-                    },
-                    headers: null,
-                    cancellationTokenSource);
+            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<RemoveSessionIfExistsInCacheEndpoint>(cancellationTokenSource);
 
-            return serviceResult;
+            if (endpoint != null)
+            {
+                string token = await GetServiceToken(cancellationTokenSource);
+
+                endpoint.EndpointAuthentication = new TokenAuthentication(token);
+                endpoint.Queries.Add(new HttpQuery() { Key = "tokenKey", Value = tokenKey });
+
+                return await CallAsync<Object>(endpoint, cancellationTokenSource);
+            }
+            else
+                throw new GetRouteException();
         }
 
         /// <summary>
@@ -131,13 +127,13 @@ namespace Services.Communication.Http.Broker.Department.Storage
         /// Kaynakları serbest bırakır
         /// </summary>
         /// <param name="disposing">Kaynakların serbest bırakılıp bırakılmadığı bilgisi</param>
-        public virtual void Dispose(bool disposing)
+        public void Dispose(bool disposing)
         {
             if (disposing)
             {
                 if (!disposed)
                 {
-                    _serviceCommunicator.Dispose();
+
                 }
 
                 disposed = true;

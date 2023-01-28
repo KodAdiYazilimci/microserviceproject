@@ -250,8 +250,8 @@ namespace Services.Api.Business.Departments.Selling.Services
         {
             SellEntity mappedSellEntity = _mapper.Map<SellModel, SellEntity>(sellModel);
 
-            ServiceResultModel<Communication.Http.Broker.Department.Storage.Models.StockModel> stockServiceResult = 
-                await _storageCommunicator.GetStockAsync(mappedSellEntity.ProductId, cancellationTokenSource);
+            ServiceResultModel<Communication.Http.Broker.Department.Storage.Models.StockModel> stockServiceResult =
+                await _storageCommunicator.GetStockAsync(mappedSellEntity.ProductId, TransactionIdentity, cancellationTokenSource);
 
             if (stockServiceResult.IsSuccess)
             {

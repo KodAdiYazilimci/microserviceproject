@@ -303,7 +303,7 @@ namespace Services.Api.Business.Departments.Production.Services
                 foreach (ProductDependencyEntity dependedProduct in productDependencies)
                 {
                     ServiceResultModel<StockModel> stocksServiceResult =
-                        await _storageCommunicator.GetStockAsync(dependedProduct.DependedProductId, cancellationTokenSource);
+                        await _storageCommunicator.GetStockAsync(dependedProduct.DependedProductId, TransactionIdentity, cancellationTokenSource);
 
                     if (stocksServiceResult.IsSuccess)
                     {
@@ -456,7 +456,7 @@ namespace Services.Api.Business.Departments.Production.Services
                 foreach (var productionItem in productionItems)
                 {
                     ServiceResultModel<StockModel> stocksServiceResult =
-                           await _storageCommunicator.GetStockAsync(productionItem.DependedProductId, cancellationTokenSource);
+                           await _storageCommunicator.GetStockAsync(productionItem.DependedProductId, TransactionIdentity, cancellationTokenSource);
 
                     if (stocksServiceResult.IsSuccess)
                     {
