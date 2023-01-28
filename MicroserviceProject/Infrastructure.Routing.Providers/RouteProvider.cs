@@ -42,11 +42,8 @@ namespace Infrastructure.Routing.Providers
                 {
                     endpointInstance.Url = route.Endpoint;
                     endpointInstance.HttpAction = route.CallType == "GET" ? HttpAction.GET : HttpAction.POST;
-                    endpointInstance.Queries = route.QueryKeys.Select(x => new HttpQuery()
-                    {
-                        Key = x.Key
-                    }).ToList();
-                    endpointInstance.Headers = new List<HttpHeader>();
+                    endpointInstance.Queries = route.QueryKeys.ToDictionary(x => x.Key, y => string.Empty);
+                    endpointInstance.Headers = new Dictionary<string, string>();
 
                     endpoints.Add(endpointInstance);
 

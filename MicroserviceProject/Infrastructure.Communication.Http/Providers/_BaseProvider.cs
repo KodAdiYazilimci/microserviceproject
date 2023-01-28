@@ -26,12 +26,12 @@ namespace Infrastructure.Communication.Http.Providers
         /// <summary>
         /// Http isteği esnasında kullanılacak headerlar
         /// </summary>
-        public List<HttpHeader> Headers { get; set; }
+        public Dictionary<string, string> Headers { get; set; }
 
         /// <summary>
         /// Http isteği esnasında kullanılacak QueryString parametreleri
         /// </summary>
-        public List<HttpQuery> Queries { get; set; }
+        public Dictionary<string, string> Queries { get; set; }
 
         /// <summary>
         /// Http isteğinde kullanulacak Uri oluşturur
@@ -63,7 +63,7 @@ namespace Infrastructure.Communication.Http.Providers
         {
             if (Headers != null && Headers.Any())
             {
-                foreach (HttpHeader header in Headers)
+                foreach (KeyValuePair<string, string> header in Headers)
                 {
                     if (!string.IsNullOrWhiteSpace(header.Value))
                         httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);

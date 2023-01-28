@@ -16,8 +16,8 @@ namespace Services.Communication.Http.Endpoints.Api.Business.Departments.HR
         public string Name { get; set; }
         public object Payload { get; set; }
         public HttpAction HttpAction { get; set; }
-        public List<HttpHeader> Headers { get; set; }
-        public List<HttpQuery> Queries { get; set; }
+        public Dictionary<string, string> Headers { get; set; }
+        public Dictionary<string, string> Queries { get; set; }
         public IEndpointAuthentication EndpointAuthentication { get; set; }
     }
 }

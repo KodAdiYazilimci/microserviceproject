@@ -46,8 +46,8 @@ namespace Services.Communication.Http.Broker.Department.Storage
                 string token = await GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers.Add(new HttpHeader() { Key = "TransactionIdentity", Value = transactionIdentity });
-                endpoint.Queries.Add(new HttpQuery() { Key = "productId", Value = productId.ToString() });
+                endpoint.Headers["TransactionIdentity"] = transactionIdentity;
+                endpoint.Queries["productId"] = productId.ToString();
 
                 return await CallAsync<StockModel>(endpoint, cancellationTokenSource);
             }
@@ -67,7 +67,7 @@ namespace Services.Communication.Http.Broker.Department.Storage
                 string token = await GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers.Add(new HttpHeader() { Key = "TransactionIdentity", Value = transactionIdentity });
+                endpoint.Headers["TransactionIdentity"] = transactionIdentity;
 
                 return await CallAsync<DescendProductStockCommandRequest, Object>(endpoint, request, cancellationTokenSource);
             }
@@ -87,7 +87,7 @@ namespace Services.Communication.Http.Broker.Department.Storage
                 string token = await GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers.Add(new HttpHeader() { Key = "TransactionIdentity", Value = transactionIdentity });
+                endpoint.Headers["TransactionIdentity"] = transactionIdentity;
 
                 return await CallAsync<CreateStockCommandRequest, Object>(endpoint, request, cancellationTokenSource);
             }
@@ -106,7 +106,7 @@ namespace Services.Communication.Http.Broker.Department.Storage
                 string token = await GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Queries.Add(new HttpQuery() { Key = "tokenKey", Value = tokenKey });
+                endpoint.Queries["tokenKey"] = tokenKey;
 
                 return await CallAsync<Object>(endpoint, cancellationTokenSource);
             }

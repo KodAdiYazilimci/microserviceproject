@@ -2,6 +2,8 @@
 
 using Microsoft.Extensions.DependencyInjection;
 
+using Services.Communication.Http.Broker.Authorization;
+
 namespace Services.Communication.Http.Broker.Department.IT.DI
 {
     /// <summary>
@@ -18,6 +20,7 @@ namespace Services.Communication.Http.Broker.Department.IT.DI
         {
             services.RegisterHttpServiceCommunicator();
 
+            services.AddSingleton<AuthorizationCommunicator>();
             services.AddSingleton<ITCommunicator>();
                         
             return services;

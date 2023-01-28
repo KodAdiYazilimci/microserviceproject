@@ -10,8 +10,8 @@ namespace Services.Communication.Http.Endpoints.Presentation.Presentation.UI.Web
         public string Name { get; set; } = "presentation.ui.web.identity.user.login";
         public object Payload { get; set; }
         public HttpAction HttpAction { get; set; } = HttpAction.POST;
-        public List<HttpHeader> Headers { get; set; }
-        public List<HttpQuery> Queries { get; set; }
+        public Dictionary<string, string> Headers { get; set; }
+        public Dictionary<string, string> Queries { get; set; }
         public IEndpointAuthentication EndpointAuthentication { get; set; }
     }
 }

@@ -46,8 +46,8 @@ namespace Services.Communication.Http.Broker.Department.Accounting
                 string token = await GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers.Add(new HttpHeader() { Key = "TransactionIdentity", Value = transactionIdentity });
-                endpoint.Queries.Add(new HttpQuery() { Key = "workerId", Value = workerId.ToString() });
+                endpoint.Headers["TransactionIdentity"] = transactionIdentity;
+                endpoint.Queries["workerId"] = workerId.ToString();
 
                 return await CallAsync<List<BankAccountModel>>(endpoint, cancellationTokenSource);
             }
@@ -67,7 +67,7 @@ namespace Services.Communication.Http.Broker.Department.Accounting
                 string token = await GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers.Add(new HttpHeader() { Key = "TransactionIdentity", Value = transactionIdentity });
+                endpoint.Headers["TransactionIdentity"] = transactionIdentity;
 
                 return await CallAsync<CreateBankAccountCommandRequest, Object>(endpoint, request, cancellationTokenSource);
             }
@@ -86,7 +86,7 @@ namespace Services.Communication.Http.Broker.Department.Accounting
                 string token = await GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers.Add(new HttpHeader() { Key = "TransactionIdentity", Value = transactionIdentity });
+                endpoint.Headers["TransactionIdentity"] = transactionIdentity;
 
                 return await CallAsync<List<CurrencyModel>>(endpoint, cancellationTokenSource);
             }
@@ -106,7 +106,7 @@ namespace Services.Communication.Http.Broker.Department.Accounting
                 string token = await GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers.Add(new HttpHeader() { Key = "TransactionIdentity", Value = transactionIdentity });
+                endpoint.Headers["TransactionIdentity"] = transactionIdentity;
 
                 return await CallAsync<CreateCurrencyCommandRequest, Object>(endpoint, request, cancellationTokenSource);
             }
@@ -126,8 +126,8 @@ namespace Services.Communication.Http.Broker.Department.Accounting
                 string token = await GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers.Add(new HttpHeader() { Key = "TransactionIdentity", Value = transactionIdentity });
-                endpoint.Queries.Add(new HttpQuery() { Key = "workerId", Value = workerId.ToString() });
+                endpoint.Headers["TransactionIdentity"] = transactionIdentity;
+                endpoint.Queries["workerId"] = workerId.ToString();
 
                 return await CallAsync<List<SalaryPaymentModel>>(endpoint, cancellationTokenSource);
             }
@@ -147,7 +147,7 @@ namespace Services.Communication.Http.Broker.Department.Accounting
                 string token = await GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers.Add(new HttpHeader() { Key = "TransactionIdentity", Value = transactionIdentity });
+                endpoint.Headers["TransactionIdentity"] = transactionIdentity;
 
                 return await CallAsync<CreateSalaryPaymentCommandRequest, Object>(endpoint, request, cancellationTokenSource);
             }
@@ -166,7 +166,7 @@ namespace Services.Communication.Http.Broker.Department.Accounting
                 string token = await GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Queries.Add(new HttpQuery() { Key = "tokenKey", Value = tokenKey });
+                endpoint.Queries["tokenKey"] = tokenKey;
 
                 return await CallAsync<Object>(endpoint, cancellationTokenSource);
             }

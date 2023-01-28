@@ -10,8 +10,8 @@ namespace Services.Communication.Http.Endpoints.Api.Business.Departments.Buying
         public string Name { get; set; } = "buying.identity.removesessionifexistsincache";
         public object Payload { get; set; }
         public HttpAction HttpAction { get; set; } = HttpAction.GET;
-        public List<HttpHeader> Headers { get; set; }
-        public List<HttpQuery> Queries { get; set; }
+        public Dictionary<string, string> Headers { get; set; }
+        public Dictionary<string, string> Queries { get; set; }
         public IEndpointAuthentication EndpointAuthentication { get; set; }
     }
 }

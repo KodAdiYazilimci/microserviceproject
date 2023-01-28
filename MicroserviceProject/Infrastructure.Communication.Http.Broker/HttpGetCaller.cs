@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Communication.Http.Endpoint.Abstract;
+using Infrastructure.Communication.Http.Exceptions;
 using Infrastructure.Communication.Http.Models;
 
 using Microsoft.AspNetCore.Http.Extensions;
@@ -22,56 +23,23 @@ namespace Infrastructure.Communication.Http.Broker
 
             endpoint.EndpointAuthentication.SetAuthentication(httpClient);
 
-            if (endpoint.Headers.Any(x => string.IsNullOrEmpty(x.Value)) || endpoint.Queries.Any(x => string.IsNullOrEmpty(x.Value)))
+            if (endpoint.Headers.Any(x => string.IsNullOrEmpty(x.Value)))
             {
-                throw new Exception();
+                throw new MissingHeaderException();
             }
 
-            HttpResponseMessage getTask = await httpClient.GetAsync(endpoint.Url, cancellationTokenSource.Token);
-
-            return JsonConvert.DeserializeObject<TResult>(await getTask.Content.ReadAsStringAsync(cancellationTokenSource.Token));
-        }
-
-        public async Task<TResult> CallAsync<TResult>(IEndpoint endpoint, List<HttpHeader> headers, CancellationTokenSource cancellationTokenSource)
-        {
-            HttpClient httpClient = new HttpClient();
-
-            GenerateHeaders(httpClient, headers);
+            GenerateHeaders(httpClient, endpoint.Headers);
 
             if (endpoint.Queries.Any(x => string.IsNullOrEmpty(x.Value)))
             {
-                throw new Exception();
+                throw new MissingQueryStringException();
             }
 
-            return await CallAsync<TResult>(endpoint, cancellationTokenSource);
-        }
+            string url = GenerateQueryString(endpoint.Url, endpoint.Queries);
 
-        public async Task<TResult> CallAsync<TResult>(IEndpoint endpoint, List<HttpQuery> httpQueries, CancellationTokenSource cancellationTokenSource)
-        {
-            HttpClient httpClient = new HttpClient();
+            HttpResponseMessage getTask = await httpClient.GetAsync(url, cancellationTokenSource.Token);
 
-            GenerateQueryString(httpClient, endpoint, httpQueries);
-
-            if (endpoint.Headers.Any(x => string.IsNullOrEmpty(x.Value)))
-            {
-                throw new Exception();
-            }
-
-            return await CallAsync<TResult>(endpoint, cancellationTokenSource);
-        }
-
-        public async Task<TResult> CallAsync<TResult>(IEndpoint endpoint, List<HttpHeader> headers, List<HttpQuery> httpQueries, CancellationTokenSource cancellationTokenSource)
-        {
-            HttpClient httpClient = new HttpClient();
-
-            headers.ForEach(header =>
-            {
-                httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
-            });
-
-            GenerateQueryString(httpClient, endpoint, httpQueries);
-
-            return await CallAsync<TResult>(endpoint, cancellationTokenSource);
+            return JsonConvert.DeserializeObject<TResult>(await getTask.Content.ReadAsStringAsync(cancellationTokenSource.Token));
         }
     }
 }

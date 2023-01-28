@@ -24,10 +24,6 @@ namespace Services.Communication.Http.Broker.Gateway
         private readonly InMemoryCacheDataProvider _cacheProvider;
         private readonly CredentialProvider _credentialProvider;
 
-        public BaseGatewayCommunicator(HttpGetCaller httpGetCaller, HttpPostCaller httpPostCaller) : base(httpGetCaller, httpPostCaller)
-        {
-        }
-
         public BaseGatewayCommunicator(
             AuthorizationCommunicator authorizationCommunicator,
             InMemoryCacheDataProvider cacheProvider,
@@ -44,7 +40,7 @@ namespace Services.Communication.Http.Broker.Gateway
         {
             if (_cacheProvider.TryGetValue<TokenModel>(TAKENTOKENFORTHISSERVICE, out TokenModel takenTokenForThisService)
                 &&
-                takenTokenForThisService.ValidTo >= DateTime.UtcNow)
+                takenTokenForThisService != null && takenTokenForThisService.ValidTo >= DateTime.UtcNow)
             {
                 return takenTokenForThisService.TokenKey;
             }

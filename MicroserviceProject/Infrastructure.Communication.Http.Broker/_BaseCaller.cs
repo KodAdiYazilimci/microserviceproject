@@ -1,5 +1,4 @@
 ﻿using Infrastructure.Communication.Http.Endpoint.Abstract;
-using Infrastructure.Communication.Http.Models;
 
 using Microsoft.AspNetCore.Http.Extensions;
 
@@ -12,41 +11,41 @@ namespace Infrastructure.Communication.Http.Broker
 {
     public class BaseCaller
     {
-        protected void GenerateQueryString(HttpClient httpClient, IEndpoint endpoint, List<HttpQuery> httpQueries)
+        protected string GenerateQueryString(string baseUrl, Dictionary<string,string> httpQueries)
         {
             QueryBuilder queryBuilder = new QueryBuilder();
 
             Dictionary<string, bool> queryChecks = httpQueries.ToDictionary(x => x.Key, y => false);
 
-            httpQueries.ForEach(query =>
+            foreach (KeyValuePair<string, string> query in httpQueries)
             {
                 if (queryChecks.Any(x => x.Key == query.Key))
                     queryChecks[query.Key] = true;
 
                 queryBuilder.Add(query.Key, query.Value);
-            });
+            }
 
             if (queryChecks.Any(x => !x.Value))
             {
                 throw new Exception();
             }
 
-            string url = endpoint.Url + queryBuilder.ToQueryString();
+            string url = baseUrl + queryBuilder.ToQueryString();
 
-            httpClient.BaseAddress = new Uri(url);
+            return url;
         }
 
-        protected void GenerateHeaders(HttpClient httpClient, List<HttpHeader> headers)
+        protected void GenerateHeaders(HttpClient httpClient, Dictionary<string,string> headers)
         {
             Dictionary<string, bool> headerChecks = headers.ToDictionary(x => x.Key, y => false);
 
-            headers.ForEach(header =>
+            foreach (KeyValuePair<string, string> header in headers)
             {
                 if (headerChecks.Any(x => x.Key == header.Key))
                     headerChecks[header.Key] = true;
 
                 httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
-            });
+            }
 
             if (headerChecks.Any(x => !x.Value))
             {

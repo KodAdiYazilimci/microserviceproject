@@ -10,8 +10,8 @@ namespace Services.Communication.Http.Endpoints.Api.Business.Departments.Account
         public string Name { get; set; } = "accounting.bankaccounts.getbankaccountsofworker";
         public object Payload { get; set; }
         public HttpAction HttpAction { get; set; } = HttpAction.GET;
-        public List<HttpHeader> Headers { get; set; }
-        public List<HttpQuery> Queries { get; set; }
+        public Dictionary<string, string> Headers { get; set; }
+        public Dictionary<string, string> Queries { get; set; }
         public IEndpointAuthentication EndpointAuthentication { get; set; }
     }
 }

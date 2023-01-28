@@ -10,8 +10,8 @@ namespace Services.Communication.Http.Endpoints.Api.Business.Departments.IT
         public string Name { get; set; } = "it.inventory.getinventories";
         public object Payload { get; set; }
         public HttpAction HttpAction { get; set; } = HttpAction.GET;
-        public List<HttpHeader> Headers { get; set; }
-        public List<HttpQuery> Queries { get; set; }
+        public Dictionary<string, string> Headers { get; set; }
+        public Dictionary<string, string> Queries { get; set; }
         public IEndpointAuthentication EndpointAuthentication { get; set; }
     }
 }

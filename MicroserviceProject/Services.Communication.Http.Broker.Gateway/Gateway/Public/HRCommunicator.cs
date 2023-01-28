@@ -1,10 +1,13 @@
-﻿using Infrastructure.Communication.Http.Broker;
+﻿using Infrastructure.Caching.InMemory;
+using Infrastructure.Communication.Http.Broker;
 using Infrastructure.Communication.Http.Endpoint.Abstract;
 using Infrastructure.Communication.Http.Endpoint.Authentication;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Routing.Exceptions;
 using Infrastructure.Routing.Providers;
+using Infrastructure.Security.Authentication.Providers;
 
+using Services.Communication.Http.Broker.Authorization;
 using Services.Communication.Http.Broker.Gateway.Public.Models;
 using Services.Communication.Http.Endpoints.Api.Gateway.Public;
 
@@ -22,12 +25,15 @@ namespace Services.Communication.Http.Broker.Gateway.Public
         /// </summary>
         private bool disposed = false;
 
-        private readonly RouteProvider? _routeProvider;
+        private readonly RouteProvider _routeProvider;
 
         public HRCommunicator(
+            AuthorizationCommunicator authorizationCommunicator,
+            InMemoryCacheDataProvider cacheProvider,
+            CredentialProvider credentialProvider,
             HttpGetCaller httpGetCaller,
             HttpPostCaller httpPostCaller,
-            RouteProvider routeProvider) : base(httpGetCaller, httpPostCaller)
+            RouteProvider routeProvider) : base(authorizationCommunicator, cacheProvider, credentialProvider, httpGetCaller, httpPostCaller)
         {
             _routeProvider = routeProvider;
         }
@@ -43,7 +49,7 @@ namespace Services.Communication.Http.Broker.Gateway.Public
                 string token = await GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers.Add(new HttpHeader() { Key = "TransactionIdentity", Value = transactionIdentity });
+                endpoint.Headers["TransactionIdentity"] = transactionIdentity;
 
                 return await CallAsync<List<DepartmentModel>>(endpoint, cancellationTokenSource);
             }
@@ -60,7 +66,7 @@ namespace Services.Communication.Http.Broker.Gateway.Public
                 string token = await GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Queries.Add(new HttpQuery() { Key = "tokenKey", Value = tokenKey });
+                endpoint.Queries["tokenKey"] = tokenKey;
 
                 return await CallAsync<Object>(endpoint, cancellationTokenSource);
             }

@@ -7,10 +7,10 @@ namespace Infrastructure.Communication.Http.Endpoint.Abstract
     {
         string Url { get; set; }
         string Name { get; set; }
-        object Payload { get; set; }
+        object? Payload { get; set; }
         HttpAction HttpAction { get; set; }
-        List<HttpHeader> Headers { get; set; }
-        List<HttpQuery> Queries { get; set; }
+        Dictionary<string, string> Headers { get; set; }
+        Dictionary<string, string> Queries { get; set; }
         IEndpointAuthentication EndpointAuthentication { get; set; }
     }
 }

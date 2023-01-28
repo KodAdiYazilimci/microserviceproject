@@ -56,7 +56,7 @@ namespace Services.Communication.Http.Broker.Authorization
             if (endpoint != null)
             {
                 endpoint.EndpointAuthentication = new AnonymouseAuthentication();
-                endpoint.Queries.Add(new HttpQuery() {  Key = "token", Value = headerToken});   
+                endpoint.Queries["token"] = headerToken;   
 
                 return await CallAsync<UserModel>(endpoint, cancellationTokenSource);
             }

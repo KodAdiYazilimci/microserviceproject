@@ -45,7 +45,7 @@ namespace Services.Communication.Http.Broker.Department.Buying
                 string token = await GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers.Add(new HttpHeader() { Key = "TransactionIdentity", Value = transactionIdentity });
+                endpoint.Headers["TransactionIdentity"] = transactionIdentity;
 
                 return await CallAsync<List<InventoryRequestModel>>(endpoint, cancellationTokenSource);
             }
@@ -65,7 +65,7 @@ namespace Services.Communication.Http.Broker.Department.Buying
                 string token = await GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers.Add(new HttpHeader() { Key = "TransactionIdentity", Value = transactionIdentity });
+                endpoint.Headers["TransactionIdentity"] = transactionIdentity;
 
                 return await CallAsync<ValidateCostInventoryCommandRequest, Object>(endpoint, request, cancellationTokenSource);
             }
@@ -85,7 +85,7 @@ namespace Services.Communication.Http.Broker.Department.Buying
                 string token = await GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers.Add(new HttpHeader() { Key = "TransactionIdentity", Value = transactionIdentity });
+                endpoint.Headers["TransactionIdentity"] = transactionIdentity;
 
                 return await CallAsync<CreateInventoryRequestCommandRequest, Object>(endpoint, request, cancellationTokenSource);
             }
@@ -104,7 +104,7 @@ namespace Services.Communication.Http.Broker.Department.Buying
                 string token = await GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Queries.Add(new HttpQuery() { Key = "tokenKey", Value = token });
+                endpoint.Queries["tokenKey"] = token;
 
                 return await CallAsync<List<InventoryModel>>(endpoint, cancellationTokenSource);
             }
