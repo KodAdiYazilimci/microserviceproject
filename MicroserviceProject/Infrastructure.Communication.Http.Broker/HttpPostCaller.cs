@@ -21,14 +21,14 @@ namespace Infrastructure.Communication.Http.Broker
 
             if (endpoint.Headers.Any(x => string.IsNullOrEmpty(x.Value)))
             {
-                throw new MissingHeaderException();
+                throw new MissingHeaderException($"Belirtilmemiş header: {endpoint.Headers.FirstOrDefault(x => string.IsNullOrEmpty(x.Value)).Key}");
             }
 
             GenerateHeaders(httpClient, endpoint.Headers);
 
             if (endpoint.Queries.Any(x => string.IsNullOrEmpty(x.Value)))
             {
-                throw new MissingQueryStringException();
+                throw new MissingQueryStringException($"Belirtilmemiş query: {endpoint.Queries.FirstOrDefault(x => string.IsNullOrEmpty(x.Value)).Key}");
             }
 
             string url = GenerateQueryString(endpoint.Url, endpoint.Queries);
