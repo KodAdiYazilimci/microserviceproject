@@ -17,8 +17,8 @@ namespace Services.Logging.Aspect.DI
         /// <returns></returns>
         public static IServiceCollection RegisterRuntimeHandlers(this IServiceCollection services)
         {
-            services.AddSingleton<RuntimeLogger>();
-            services.AddSingleton<RuntimeHandler>();
+            services.AddScoped<RuntimeLogger>();
+            services.AddScoped<RuntimeHandler>();
 
             return services;
         }
