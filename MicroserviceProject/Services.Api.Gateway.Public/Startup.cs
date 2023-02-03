@@ -74,6 +74,8 @@ namespace Services.Api.Gateway.Public
             app.UseAuthentication();
             app.UseAuthorization();
 
+            //app.UseRateLimiter();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers().RequireRateLimiting(DefaultFixedLimiterPolicy.PolicyName);

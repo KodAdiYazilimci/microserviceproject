@@ -26,10 +26,12 @@ namespace Services.RateLimiting.Policies
             return RateLimitPartition.GetSlidingWindowLimiter(string.Empty,
                 _ => new SlidingWindowRateLimiterOptions
                 {
-                    PermitLimit = 2,
+                    PermitLimit = 10,
                     QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
-                    QueueLimit = 0,
-                    Window = TimeSpan.FromSeconds(3)
+                    QueueLimit = 1000,
+                    Window = TimeSpan.FromSeconds(10),
+                    AutoReplenishment = true,
+                    SegmentsPerWindow = 1
                 });
         }
     }
