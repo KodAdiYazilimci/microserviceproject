@@ -25,7 +25,7 @@ spec:
               memory: "128Mi"
               cpu: "100m"
           ports:
-            - containerPort: 16859
+            - containerPort: 15455
           env:
             - name: ApplicationName
               value: "Authorization Service"

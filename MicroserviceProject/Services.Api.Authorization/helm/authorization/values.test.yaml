@@ -3,7 +3,7 @@ service:
  clusterIP: 10.102.2.100
  type: LoadBalancer
  ports:
-  internal: 16859
+  internal: 15455
   external: 5100
   protocol: TCP
 
@@ -12,7 +12,7 @@ deployment:
   name: "authorization-pod"
   containers:
    authorizationContainer:
-    port: 16859
+    port: 15455
     environment:
      ApplicationName: "Authorization Service Test Environment"
      Configuration_Localization_TranslationDbConnnectionString: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Localization_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true;TrustServerCertificate=Yes"
