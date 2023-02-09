@@ -9,5 +9,6 @@ spec:
   - port: {{ .Values.service.ports.external }}
     targetPort: {{ .Values.service.ports.internal }}
     protocol: {{ .Values.service.ports.protocol }}
+    nodePort: {{ .Values.service.ports.nodePort }}
   type: {{ .Values.service.type }}
   clusterIP: {{ .Values.service.clusterIP }}

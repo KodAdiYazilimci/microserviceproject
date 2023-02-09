@@ -9,5 +9,7 @@ spec:
   - port: 5099
     targetPort: 20200
     protocol: TCP
-  type: LoadBalancer
+    nodePort: 31096
+  #type: LoadBalancer
+  type: NodePort
   clusterIP: 10.102.2.99

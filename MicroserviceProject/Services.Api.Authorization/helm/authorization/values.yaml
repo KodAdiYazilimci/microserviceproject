@@ -19,11 +19,13 @@
 service:  
  name: "authorization-pod"
  clusterIP: 10.102.2.100
- type: LoadBalancer
+ #type: LoadBalancer
+ type: NodePort
  ports:
   internal: 15455
   external: 5100
   protocol: TCP
+  nodePort: 31095
 
 deployment:
  application:
