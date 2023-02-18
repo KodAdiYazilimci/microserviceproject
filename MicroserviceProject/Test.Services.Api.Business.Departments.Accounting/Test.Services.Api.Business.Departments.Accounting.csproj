@@ -25,6 +25,7 @@
     <ProjectReference Include="..\Infrastructure.Routing.Persistence.Mock\Infrastructure.Routing.Persistence.Mock.csproj" />
     <ProjectReference Include="..\Infrastructure.Security.Authentication.Mock\Infrastructure.Security.Authentication.Mock.csproj" />
     <ProjectReference Include="..\Services.Api.Business.Departments.Accounting\Services.Api.Business.Departments.Accounting.csproj" />
+    <ProjectReference Include="..\Test.Services.Api.Business.Departments\Test.Services.Api.Business.Departments.csproj" />
   </ItemGroup>
 
 </Project>
