@@ -10,6 +10,7 @@ using Services.Communication.Http.Broker.Department.Accounting.CQRS.Commands.Req
 using Services.Communication.Http.Broker.Department.Accounting.CQRS.Queries.Requests;
 using Services.Communication.Http.Broker.Department.Accounting.CQRS.Queries.Responses;
 
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Services.Api.Business.Departments.Accounting.Controllers
@@ -35,10 +36,10 @@ namespace Services.Api.Business.Departments.Accounting.Controllers
         {
             return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                GetBankAccountsOfWorkerQueryResponse mediatorResult = 
-                    await _mediator.Send(new GetBankAccountsOfWorkerQueryRequest() { WorkerId = workerId });
-
-                return mediatorResult.BankAccounts;
+                if (ByPassMediatR)
+                    return await _bankService.GetBankAccounts(workerId, new CancellationTokenSource());
+                else
+                    return (await _mediator.Send(new GetBankAccountsOfWorkerQueryRequest() { WorkerId = workerId })).BankAccounts;
             },
             services: _bankService);
         }
@@ -50,7 +51,10 @@ namespace Services.Api.Business.Departments.Accounting.Controllers
         {
             return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                await _mediator.Send(request);
+                if (ByPassMediatR)
+                    await _bankService.CreateBankAccountAsync(request.BankAccount, new CancellationTokenSource());
+                else
+                    await _mediator.Send(request);
             },
             services: _bankService);
         }
@@ -62,9 +66,12 @@ namespace Services.Api.Business.Departments.Accounting.Controllers
         {
             return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                GetCurrenciesQueryResponse mediatorResult = await _mediator.Send(new GetCurrenciesQueryRequest());
-
-                return mediatorResult;
+                if (ByPassMediatR)
+                    return await _bankService.GetCurrenciesAsync(new CancellationTokenSource());
+                else
+                {
+                    return (await _mediator.Send(new GetCurrenciesQueryRequest())).Currencies;
+                }
             },
             services: _bankService);
         }
@@ -76,7 +83,10 @@ namespace Services.Api.Business.Departments.Accounting.Controllers
         {
             return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                await _mediator.Send(request);
+                if (ByPassMediatR)
+                    await _bankService.CreateCurrencyAsync(request.Currency, new CancellationTokenSource());
+                else
+                    await _mediator.Send(request);
             },
             services: _bankService);
         }
@@ -88,10 +98,10 @@ namespace Services.Api.Business.Departments.Accounting.Controllers
         {
             return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                GetSalaryPaymentsOfWorkerQueryResponse mediatorResult = 
-                    await _mediator.Send(new GetSalaryPaymentsOfWorkerQueryRequest() { WorkerId = workerId });
-
-                return mediatorResult.SalaryPayments;
+                if (ByPassMediatR)
+                    return await _bankService.GetSalaryPaymentsOfWorkerAsync(workerId, new CancellationTokenSource());
+                else
+                    return (await _mediator.Send(new GetSalaryPaymentsOfWorkerQueryRequest() { WorkerId = workerId })).SalaryPayments;
             },
             services: _bankService);
         }
@@ -103,7 +113,10 @@ namespace Services.Api.Business.Departments.Accounting.Controllers
         {
             return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                await _mediator.Send(request);
+                if (ByPassMediatR)
+                    await _bankService.CreateSalaryPaymentAsync(request.SalaryPayment, new CancellationTokenSource());
+                else
+                    await _mediator.Send(request);
             },
             services: _bankService);
         }

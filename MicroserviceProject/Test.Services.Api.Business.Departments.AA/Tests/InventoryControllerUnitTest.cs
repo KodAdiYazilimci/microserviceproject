@@ -6,6 +6,7 @@ using Services.Communication.Http.Broker.Department.HR.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.HR.Models;
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -31,6 +32,13 @@ namespace Test.Services.Api.Business.Departments.AA.Tests
         [TestMethod]
         public async Task GetInventoriesTest()
         {
+            List<global::Services.Communication.Http.Broker.Department.AA.Models.InventoryModel> inventories = await GetInventoriesAsync();
+
+            Assert.IsTrue(inventories != null && inventories.Any());
+        }
+
+        private async Task<List<global::Services.Communication.Http.Broker.Department.AA.Models.InventoryModel>> GetInventoriesAsync()
+        {
             var inventories = await inventoryControllerTest.GetInventoriesAsync();
 
             if (inventories != null && !inventories.Any())
@@ -40,7 +48,7 @@ namespace Test.Services.Api.Business.Departments.AA.Tests
                 inventories = await inventoryControllerTest.GetInventoriesAsync();
             }
 
-            Assert.IsTrue(inventories != null && inventories.Any());
+            return inventories;
         }
 
         [TestMethod]
@@ -63,44 +71,9 @@ namespace Test.Services.Api.Business.Departments.AA.Tests
         [TestMethod]
         public async Task AssignInventoryToWorkerTest()
         {
-            var workers = await personControllerTest.GetWorkersAsync();
+            List<global::Services.Communication.Http.Broker.Department.HR.Models.WorkerModel> workers = await GetWorkersAsync();
 
-            if (workers != null && !workers.Any())
-            {
-                var people = await personControllerTest.GetPeopleAsync();
-
-                if (people != null && !people.Any())
-                {
-                    var createPersonTask = personControllerTest.CreatePersonAsync(new CreatePersonCommandRequest()
-                    {
-                        Person = new PersonModel()
-                        {
-                            Name = new Random().Next(int.MinValue, int.MaxValue).ToString()
-                        }
-                    });
-
-                    people = await personControllerTest.GetPeopleAsync();
-                }
-
-                var createWorkerResult = await personControllerTest.CreateWorkerAsync(new CreateWorkerCommandRequest()
-                {
-                    Worker = new global::Services.Communication.Http.Broker.Department.HR.Models.WorkerModel()
-                    {
-                        Person = people.ElementAt(new Random().Next(0, people.Count - 1))
-                    }
-                });
-
-                workers = await personControllerTest.GetWorkersAsync();
-            }
-
-            var inventories = await inventoryControllerTest.GetInventoriesAsync();
-
-            if (inventories != null && !inventories.Any())
-            {
-                await CreateInventoryTest();
-
-                inventories = await inventoryControllerTest.GetInventoriesAsync();
-            }
+            var inventories = await GetInventoriesAsync();
 
             var result = await inventoryControllerTest.AssignInventoryToWorkerTest(new AssignInventoryToWorkerCommandRequest()
             {
@@ -116,17 +89,52 @@ namespace Test.Services.Api.Business.Departments.AA.Tests
             Assert.IsTrue(result != null && result.IsSuccess);
         }
 
+        private async Task<List<global::Services.Communication.Http.Broker.Department.HR.Models.WorkerModel>> GetWorkersAsync()
+        {
+            var workers = await personControllerTest.GetWorkersAsync();
+
+            if (workers != null && !workers.Any())
+            {
+                List<PersonModel> people = await GetPeopleAsync();
+
+                var createWorkerResult = await personControllerTest.CreateWorkerAsync(new CreateWorkerCommandRequest()
+                {
+                    Worker = new global::Services.Communication.Http.Broker.Department.HR.Models.WorkerModel()
+                    {
+                        Person = people.ElementAt(new Random().Next(0, people.Count - 1))
+                    }
+                });
+
+                workers = await personControllerTest.GetWorkersAsync();
+            }
+
+            return workers;
+        }
+
+        private async Task<List<PersonModel>> GetPeopleAsync()
+        {
+            var people = await personControllerTest.GetPeopleAsync();
+
+            if (people != null && !people.Any())
+            {
+                var createPersonTask = personControllerTest.CreatePersonAsync(new CreatePersonCommandRequest()
+                {
+                    Person = new PersonModel()
+                    {
+                        Name = new Random().Next(int.MinValue, int.MaxValue).ToString()
+                    }
+                });
+
+                people = await personControllerTest.GetPeopleAsync();
+            }
+
+            return people;
+        }
+
         [TestMethod]
         public async Task CreateDefaultInventoryForNewWorkerTest()
         {
-            var inventories = await inventoryControllerTest.GetInventoriesAsync();
-
-            if (inventories != null && !inventories.Any())
-            {
-                await CreateInventoryTest();
-
-                inventories = await inventoryControllerTest.GetInventoriesAsync();
-            }
+            var inventories = await GetInventoriesAsync();
 
             var result = await inventoryControllerTest.CreateDefaultInventoryForNewWorker(new CreateDefaultInventoryForNewWorkerCommandRequest()
             {
@@ -161,15 +169,25 @@ namespace Test.Services.Api.Business.Departments.AA.Tests
         [TestMethod]
         public async Task InformInventoryRequestTest()
         {
-            var inventories = await inventoryControllerTest.GetInventoriesAsync();
+            var inventories = await GetInventoriesAsync();
 
-            if (inventories != null && !inventories.Any())
+            List<DepartmentModel> departments = await GetDepartmentsAsync();
+
+            var result = await inventoryControllerTest.InformInventoryRequest(new InformInventoryRequestCommandRequest()
             {
-                await CreateInventoryTest();
+                InventoryRequest = new InventoryRequestModel()
+                {
+                    Amount = new Random().Next(1, byte.MaxValue),
+                    InventoryId = inventories.ElementAt(new Random().Next(0, inventories.Count - 1)).Id,
+                    DepartmentId = departments.ElementAt(new Random().Next(0, departments.Count - 1)).Id
+                }
+            });
 
-                inventories = await inventoryControllerTest.GetInventoriesAsync();
-            }
+            Assert.IsTrue(result != null && result.IsSuccess);
+        }
 
+        private async Task<List<DepartmentModel>> GetDepartmentsAsync()
+        {
             var departments = await departmentControllerTest.GetDepartmentsAsync();
 
             if (departments != null && !departments.Any())
@@ -185,17 +203,7 @@ namespace Test.Services.Api.Business.Departments.AA.Tests
                 departments = await departmentControllerTest.GetDepartmentsAsync();
             }
 
-            var result = await inventoryControllerTest.InformInventoryRequest(new InformInventoryRequestCommandRequest()
-            {
-                InventoryRequest = new InventoryRequestModel()
-                {
-                    Amount = new Random().Next(1, byte.MaxValue),
-                    InventoryId = inventories.ElementAt(new Random().Next(0, inventories.Count - 1)).Id,
-                    DepartmentId = departments.ElementAt(new Random().Next(0, departments.Count - 1)).Id
-                }
-            });
-
-            Assert.IsTrue(result != null && result.IsSuccess);
+            return departments;
         }
 
         [TestCleanup]
