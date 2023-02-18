@@ -24,11 +24,10 @@ namespace Services.Api.Business.Departments.HR.Controllers
         private readonly DepartmentService _departmentService;
         private readonly AACommunicator newAACommunicator;
 
-        public DepartmentController(IMediator mediator, DepartmentService departmentService, AACommunicator newAACommunicator)
+        public DepartmentController(IMediator mediator, DepartmentService departmentService)
         {
             _mediator = mediator;
             _departmentService = departmentService;
-            this.newAACommunicator = newAACommunicator;
         }
 
         [HttpGet]
