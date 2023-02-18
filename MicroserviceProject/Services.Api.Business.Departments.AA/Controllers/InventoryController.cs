@@ -10,6 +10,7 @@ using Services.Communication.Http.Broker.Department.AA.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.AA.CQRS.Queries.Requests;
 using Services.Communication.Http.Broker.Department.AA.CQRS.Queries.Responses;
 
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Services.Api.Business.Departments.AA.Controllers
@@ -35,9 +36,10 @@ namespace Services.Api.Business.Departments.AA.Controllers
         {
             return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                GetInventoriesQueryResponse mediatorResult = await _mediator.Send(new GetInventoriesQueryRequest());
-
-                return mediatorResult.Inventories;
+                if (ByPassMediatR)
+                    return await _inventoryService.GetInventoriesAsync(new CancellationTokenSource());
+                else
+                    return (await _mediator.Send(new GetInventoriesQueryRequest())).Inventories;
             },
             services: _inventoryService);
         }
@@ -49,7 +51,10 @@ namespace Services.Api.Business.Departments.AA.Controllers
         {
             return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                await _mediator.Send(request);
+                if (ByPassMediatR)
+                    await _inventoryService.CreateInventoryAsync(request.Inventory, new CancellationTokenSource());
+                else
+                    await _mediator.Send(request);
             },
             services: _inventoryService);
         }
@@ -61,7 +66,10 @@ namespace Services.Api.Business.Departments.AA.Controllers
         {
             return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                await _mediator.Send(request);
+                if (ByPassMediatR)
+                    await _inventoryService.AssignInventoryToWorkerAsync(request.Worker, new CancellationTokenSource());
+                else
+                    await _mediator.Send(request);
             },
             services: _inventoryService);
         }
@@ -73,7 +81,10 @@ namespace Services.Api.Business.Departments.AA.Controllers
         {
             return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                await _mediator.Send(request);
+                if (ByPassMediatR)
+                    await _inventoryService.CreateDefaultInventoryForNewWorkerAsync(request.Inventory, new CancellationTokenSource());
+                else
+                    await _mediator.Send(request);
             },
             services: _inventoryService);
         }
@@ -85,10 +96,10 @@ namespace Services.Api.Business.Departments.AA.Controllers
         {
             return HttpResponseWrapper.Wrap(async () =>
             {
-                GetInventoriesForNewWorkerQueryResponse mediatorResult = 
-                    await _mediator.Send(new GetInventoriesForNewWorkerQueryRequest());
-
-                return mediatorResult.Inventories;
+                if (ByPassMediatR)
+                    return _inventoryService.GetInventoriesForNewWorker(new CancellationTokenSource());
+                else
+                    return (await _mediator.Send(new GetInventoriesForNewWorkerQueryRequest())).Inventories;
             },
             services: _inventoryService);
         }
@@ -100,7 +111,10 @@ namespace Services.Api.Business.Departments.AA.Controllers
         {
             return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                await _mediator.Send(request);
+                if (ByPassMediatR)
+                    await _inventoryService.InformInventoryRequestAsync(request.InventoryRequest, new CancellationTokenSource());
+                else 
+                    await _mediator.Send(request);
             },
             services: _inventoryService);
         }
