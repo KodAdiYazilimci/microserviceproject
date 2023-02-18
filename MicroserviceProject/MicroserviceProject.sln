@@ -87,8 +87,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure.Mock", "Infr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Mock", "Infrastructure.Mock\Infrastructure.Mock.csproj", "{908FD171-7538-431E-936E-5152BF6488BB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Mock.Data", "Infrastructure.Mock.Data\Infrastructure.Mock.Data.csproj", "{EA07ECF7-F40D-4948-9E5B-F3CA8650186B}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure.Sockets", "Infrastructure.Sockets", "{FCB1496B-2EFE-4846-81D7-B640AB47D120}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Sockets.Persistence", "Infrastructure.Sockets.Persistence\Infrastructure.Sockets.Persistence.csproj", "{8AD78734-6487-49E2-8062-2F1901C4A60B}"
@@ -399,11 +397,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Http
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Http.Broker", "Services.Communication.Http.Broker\Services.Communication.Http.Broker.csproj", "{4F218068-8763-4D35-B785-D1CCB785A543}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Services.Api.Business.Departments", "Test.Services.Api.Business.Departments\Test.Services.Api.Business.Departments.csproj", "{38827248-699E-403C-9D26-380B3E07F1B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.Services.Api.Business.Departments", "Test.Services.Api.Business.Departments\Test.Services.Api.Business.Departments.csproj", "{38827248-699E-403C-9D26-380B3E07F1B5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{AD77BE3B-9E79-491B-B741-3E21792FDA1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation.Communication.Http.Broker.Identity", "Presentation.Communication.Http.Broker.Identity\Presentation.Communication.Http.Broker.Identity.csproj", "{D21E9F5A-FEC6-4F79-98B2-DD8F4488D9EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation.Communication.Http.Broker.Identity", "Presentation.Communication.Http.Broker.Identity\Presentation.Communication.Http.Broker.Identity.csproj", "{D21E9F5A-FEC6-4F79-98B2-DD8F4488D9EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -499,10 +497,6 @@ Global
 		{908FD171-7538-431E-936E-5152BF6488BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{908FD171-7538-431E-936E-5152BF6488BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{908FD171-7538-431E-936E-5152BF6488BB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EA07ECF7-F40D-4948-9E5B-F3CA8650186B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EA07ECF7-F40D-4948-9E5B-F3CA8650186B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EA07ECF7-F40D-4948-9E5B-F3CA8650186B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EA07ECF7-F40D-4948-9E5B-F3CA8650186B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8AD78734-6487-49E2-8062-2F1901C4A60B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8AD78734-6487-49E2-8062-2F1901C4A60B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8AD78734-6487-49E2-8062-2F1901C4A60B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -961,7 +955,6 @@ Global
 		{8885B555-2C55-4DEB-BA2A-D70D11EC001D} = {D3EC0E73-D522-4A1C-937E-9C743966B62B}
 		{AF3CAC1C-3C1A-4384-BF4A-04382AA8A47B} = {B29D6F56-F461-4BE8-80D8-6F92897F9EAA}
 		{908FD171-7538-431E-936E-5152BF6488BB} = {AF3CAC1C-3C1A-4384-BF4A-04382AA8A47B}
-		{EA07ECF7-F40D-4948-9E5B-F3CA8650186B} = {AF3CAC1C-3C1A-4384-BF4A-04382AA8A47B}
 		{FCB1496B-2EFE-4846-81D7-B640AB47D120} = {B29D6F56-F461-4BE8-80D8-6F92897F9EAA}
 		{8AD78734-6487-49E2-8062-2F1901C4A60B} = {FCB1496B-2EFE-4846-81D7-B640AB47D120}
 		{B526D55A-26B1-4914-B39C-06A89C996663} = {4F27C624-CF6E-455E-B0C5-5BF6940C4B15}

@@ -22,7 +22,6 @@
     <ProjectReference Include="..\Infrastructure.Communication.Http.Broker.Mock\Infrastructure.Communication.Http.Broker.Mock.csproj" />
     <ProjectReference Include="..\Infrastructure.Localization.Translation.Persistence.Mock\Infrastructure.Localization.Translation.Persistence.Mock.csproj" />
     <ProjectReference Include="..\Infrastructure.Localization.Translation.Provider.Mock\Infrastructure.Localization.Translation.Provider.Mock.csproj" />
-    <ProjectReference Include="..\Infrastructure.Mock.Data\Infrastructure.Mock.Data.csproj" />
     <ProjectReference Include="..\Infrastructure.Routing.Persistence.Mock\Infrastructure.Routing.Persistence.Mock.csproj" />
     <ProjectReference Include="..\Infrastructure.Security.Authentication.Mock\Infrastructure.Security.Authentication.Mock.csproj" />
     <ProjectReference Include="..\Services.Api.Business.Departments.Accounting\Services.Api.Business.Departments.Accounting.csproj" />

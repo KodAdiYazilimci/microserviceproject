@@ -1,10 +1,4 @@
-﻿using Infrastructure.Mock.Data;
-using Infrastructure.Mock.Providers.Configuration.Sections.AuthorizationNode;
-using Infrastructure.Mock.Providers.Configuration.Sections.PersistenceNode;
-
-using Microsoft.Extensions.Configuration;
-
-using System.Collections.Generic;
+﻿using Microsoft.Extensions.Configuration;
 
 namespace Test.Services.Api.Business.Departments.Accounting.Factories.Infrastructure
 {
@@ -12,18 +6,17 @@ namespace Test.Services.Api.Business.Departments.Accounting.Factories.Infrastruc
     {
         public static IConfiguration GetConfiguration()
         {
-            CredentialSection authorizationCredentialSection = new CredentialSection();
-            authorizationCredentialSection["email"] = "Services.Api.Business.Departments.Accounting@service.service";
-            authorizationCredentialSection["password"] = "1234";
+            string jsonFilePath =
+                new DirectoryInfo(Environment.CurrentDirectory).Parent.Parent.Parent.Parent.FullName
+                +
+                "\\Services.Api.Business.Departments.Accounting";
 
-            return Configuration.GetConfiguration(
-                authorizationCredential: authorizationCredentialSection,
-                loggingAbsoluteFilePath: "C:\\Logs\\Services.Api.Business.Departments.Accounting\\",
-                loggingRelativeFilePath: "RequestResponseLogs/",
-                databaseSections: new List<AnyDatabaseSection>()
-                {
-                    new AnyDatabaseSection("Microservice_AA_DB","server=localhost;DataBase=Microservice_Accounting_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true;TrustServerCertificate=Yes")
-                });
+            IConfigurationRoot configurationRoot = new ConfigurationBuilder()
+                .SetBasePath(jsonFilePath)
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            return configurationRoot;
         }
     }
 }
