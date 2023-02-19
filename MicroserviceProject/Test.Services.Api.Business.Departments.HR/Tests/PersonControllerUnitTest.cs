@@ -8,19 +8,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Test.Services.Api.Business.Departments.AA;
+using Test.Services.Api.Business.Departments.Accounting;
+
 namespace Test.Services.Api.Business.Departments.HR.Tests
 {
     [TestClass]
-    public class PersonControllerUnitTest
+    public class PersonControllerUnitTest : BaseTest
     {
-        private DepartmentControllerTest departmentControllerTest;
-        private PersonControllerTest personControllerTest;
+        private DepartmentControllerTest departmentControllerTest = new DepartmentControllerTest();
+        private PersonControllerTest personControllerTest = new PersonControllerTest();
+
+        public PersonControllerUnitTest(InventoryControllerTest inventoryControllerTest, PersonControllerTest personControllerTest, DepartmentControllerTest departmentControllerTest, AccountControllerTest accountControllerTest) : base(inventoryControllerTest, personControllerTest, departmentControllerTest, accountControllerTest)
+        {
+        }
 
         [TestInitialize]
         public void Init()
         {
-            departmentControllerTest = new DepartmentControllerTest();
-            personControllerTest = new PersonControllerTest();
+
         }
 
         [TestMethod]
@@ -82,53 +88,10 @@ namespace Test.Services.Api.Business.Departments.HR.Tests
             Assert.IsTrue(workers != null && workers.Any());
         }
 
-        private async Task<List<WorkerModel>> GetWorkersAsync()
-        {
-            var workers = await personControllerTest.GetWorkersAsync();
-
-            if (workers != null && !workers.Any())
-            {
-                List<PersonModel> people = await GetPeopleAsync();
-
-                var createWorkerResult = await personControllerTest.CreateWorkerAsync(new CreateWorkerCommandRequest()
-                {
-                    Worker = new global::Services.Communication.Http.Broker.Department.HR.Models.WorkerModel()
-                    {
-                        Person = people.ElementAt(new Random().Next(0, people.Count - 1))
-                    }
-                });
-
-                workers = await personControllerTest.GetWorkersAsync();
-            }
-
-            return workers;
-        }
-
-
-        private async Task<List<PersonModel>> GetPeopleAsync()
-        {
-            var people = await personControllerTest.GetPeopleAsync();
-
-            if (people != null && !people.Any())
-            {
-                var createPersonTask = personControllerTest.CreatePersonAsync(new CreatePersonCommandRequest()
-                {
-                    Person = new PersonModel()
-                    {
-                        Name = new Random().Next(int.MinValue, int.MaxValue).ToString()
-                    }
-                });
-
-                people = await personControllerTest.GetPeopleAsync();
-            }
-
-            return people;
-        }
-
         [TestMethod]
         public async Task CreateWorkerTest()
         {
-            var departments = await GetDepartmentsAsync();
+            var departments = await GetAADepartmentsAsync();
 
             var people = await GetPeopleAsync();
 
@@ -142,27 +105,6 @@ namespace Test.Services.Api.Business.Departments.HR.Tests
             });
 
             Assert.IsTrue(result != null && result.IsSuccess);
-        }
-
-
-        private async Task<List<DepartmentModel>> GetDepartmentsAsync()
-        {
-            var departments = await departmentControllerTest.GetDepartmentsAsync();
-
-            if (departments != null && !departments.Any())
-            {
-                var createDepartmentResult = departmentControllerTest.CreateDepartmentAsync(new CreateDepartmentCommandRequest()
-                {
-                    Department = new DepartmentModel()
-                    {
-                        Name = new Random().Next(int.MinValue, int.MaxValue).ToString()
-                    }
-                });
-
-                departments = await departmentControllerTest.GetDepartmentsAsync();
-            }
-
-            return departments;
         }
 
         [TestCleanup]
