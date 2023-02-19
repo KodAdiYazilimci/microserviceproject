@@ -7,17 +7,27 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Test.Services.Api.Business.Departments.AA;
+using Test.Services.Api.Business.Departments.Accounting;
+
 namespace Test.Services.Api.Business.Departments.HR.Tests
 {
     [TestClass]
-    public class DepartmentControllerUnitTest
+    public class DepartmentControllerUnitTest : BaseTest
     {
-        private DepartmentControllerTest departmentControllerTest;
+        private DepartmentControllerTest departmentControllerTest = new DepartmentControllerTest();
+
+        public DepartmentControllerUnitTest(InventoryControllerTest inventoryControllerTest,
+            PersonControllerTest personControllerTest,
+            DepartmentControllerTest departmentControllerTest,
+            AccountControllerTest accountControllerTest) : base(inventoryControllerTest, personControllerTest, departmentControllerTest, accountControllerTest)
+        {
+        }
 
         [TestInitialize]
         public void Init()
         {
-            departmentControllerTest = new DepartmentControllerTest();
+
         }
 
         [TestMethod]
@@ -34,7 +44,6 @@ namespace Test.Services.Api.Business.Departments.HR.Tests
 
             Assert.IsTrue(departments != null && departments.Any());
         }
-
 
         [TestMethod]
         public async Task CreateDepartmentTask()

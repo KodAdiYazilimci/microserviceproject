@@ -7,27 +7,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Test.Services.Api.Business.Departments.AA;
 using Test.Services.Api.Business.Departments.HR;
 
 namespace Test.Services.Api.Business.Departments.Accounting.Tests
 {
     [TestClass]
-    public class AccountControllerUnitTest
+    public class AccountControllerUnitTest : BaseTest
     {
-        private AccountControllerTest accountControllerTest;
-        private PersonControllerTest personControllerTest;
+        private AccountControllerTest accountControllerTest = new AccountControllerTest();
+        private PersonControllerTest personControllerTest = new PersonControllerTest();
+
+        public AccountControllerUnitTest(InventoryControllerTest inventoryControllerTest, PersonControllerTest personControllerTest, DepartmentControllerTest departmentControllerTest, AccountControllerTest accountControllerTest) : base(inventoryControllerTest, personControllerTest, departmentControllerTest, accountControllerTest)
+        {
+        }
 
         [TestInitialize]
         public void Init()
         {
-            accountControllerTest = new AccountControllerTest();
-            personControllerTest = new PersonControllerTest();
+
         }
 
         [TestMethod]
         public async Task GetBankAccountsOfWorkerTest()
         {
-            List<global::Services.Communication.Http.Broker.Department.HR.Models.WorkerModel> workers = await GetWorkers();
+            List<global::Services.Communication.Http.Broker.Department.HR.Models.WorkerModel> workers = await GetWorkersAsync();
 
             var randomWorkerId = workers.ElementAt(new Random().Next(0, workers.Count - 1)).Id;
 
@@ -41,66 +45,16 @@ namespace Test.Services.Api.Business.Departments.Accounting.Tests
             Assert.IsTrue(bankAccounts != null && bankAccounts.Any());
         }
 
-        private async Task<List<global::Services.Communication.Http.Broker.Department.HR.Models.WorkerModel>> GetWorkers()
-        {
-            var workers = await personControllerTest.GetWorkersAsync();
-
-            if (workers != null && !workers.Any())
-            {
-                var people = await personControllerTest.GetPeopleAsync();
-
-                if (people != null && !people.Any())
-                {
-                    var createPeopleResult = await personControllerTest.CreatePersonAsync(new global::Services.Communication.Http.Broker.Department.HR.CQRS.Commands.Requests.CreatePersonCommandRequest()
-                    {
-                        Person = new global::Services.Communication.Http.Broker.Department.HR.Models.PersonModel()
-                        {
-                            Name = new Random().Next(int.MinValue, int.MaxValue).ToString()
-                        }
-                    });
-
-                    people = await personControllerTest.GetPeopleAsync();
-                }
-
-                var createWorkerResult = await personControllerTest.CreateWorkerAsync(new global::Services.Communication.Http.Broker.Department.HR.CQRS.Commands.Requests.CreateWorkerCommandRequest()
-                {
-                    Worker = new global::Services.Communication.Http.Broker.Department.HR.Models.WorkerModel()
-                    {
-                        Person = people.ElementAt(new Random().Next(0, people.Count - 1))
-                    }
-                });
-
-                workers = await personControllerTest.GetWorkersAsync();
-            }
-
-            return workers;
-        }
-
         [TestMethod]
         public async Task CreateBankAccountTest()
         {
-            var workers = await GetWorkers();
+            var workers = await GetWorkersAsync();
 
             var randomWorkerId = workers.ElementAt(new Random().Next(0, workers.Count - 1)).Id;
 
             ServiceResultModel result = await CreateBankAccountToWorker(randomWorkerId);
 
             Assert.IsTrue(result != null && result.IsSuccess);
-        }
-
-        private async Task<ServiceResultModel> CreateBankAccountToWorker(int workerId)
-        {
-            return await accountControllerTest.CreateBankAccountTestAsync(new global::Services.Communication.Http.Broker.Department.Accounting.CQRS.Commands.Requests.CreateBankAccountCommandRequest()
-            {
-                BankAccount = new global::Services.Communication.Http.Broker.Department.Accounting.Models.BankAccountModel()
-                {
-                    IBAN = new Random().Next(int.MinValue, int.MaxValue).ToString(),
-                    Worker = new global::Services.Communication.Http.Broker.Department.Accounting.Models.WorkerModel()
-                    {
-                        Id = workerId,
-                    }
-                }
-            });
         }
 
         public async Task GetCurrenciesTest()
@@ -135,7 +89,7 @@ namespace Test.Services.Api.Business.Departments.Accounting.Tests
         [TestMethod]
         public async Task GetSalaryPaymentsOfWorkerTest()
         {
-            var workers = await GetWorkers();
+            var workers = await GetWorkersAsync();
 
             var randomWorkerId = workers.ElementAt(new Random().Next(0, workers.Count - 1)).Id;
 
@@ -154,31 +108,13 @@ namespace Test.Services.Api.Business.Departments.Accounting.Tests
         [TestMethod]
         public async Task CreateSalaryPaymentTest()
         {
-            var workers = await GetWorkers();
+            var workers = await GetWorkersAsync();
 
             var randomWorkerId = workers.ElementAt(new Random().Next(0, workers.Count - 1)).Id;
 
             var result = await CreateSalaryPaymentToWorker(randomWorkerId);
 
             Assert.IsTrue(result != null && result.IsSuccess);
-        }
-
-        private async Task<ServiceResultModel> CreateSalaryPaymentToWorker(int workerId)
-        {
-            var bankAccounts = await accountControllerTest.GetBankAccountsOfWorkerAsync(workerId);
-
-            var randomBankAccount = bankAccounts.ElementAt(new Random().Next(0, bankAccounts.Count - 1));
-
-            var result = await accountControllerTest.CreateSalaryPaymentTest(new global::Services.Communication.Http.Broker.Department.Accounting.CQRS.Commands.Requests.CreateSalaryPaymentCommandRequest()
-            {
-                SalaryPayment = new global::Services.Communication.Http.Broker.Department.Accounting.Models.SalaryPaymentModel()
-                {
-                    Amount = new Random().Next(1, byte.MaxValue),
-                    Date = DateTime.Now,
-                    BankAccount = randomBankAccount
-                }
-            });
-            return result;
         }
 
         [TestCleanup]
