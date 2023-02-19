@@ -11,6 +11,7 @@ using Services.Communication.Http.Broker.Department.HR.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.HR.CQRS.Queries.Requests;
 using Services.Communication.Http.Broker.Department.HR.CQRS.Queries.Responses;
 
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Services.Api.Business.Departments.HR.Controllers
@@ -34,9 +35,14 @@ namespace Services.Api.Business.Departments.HR.Controllers
         {
             return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                GetPeopleQueryResponse mediatorResult = await _mediator.Send(new GetPeopleQueryRequest());
+                if (ByPassMediatR)
+                    return await _personService.GetPeopleAsync(new CancellationTokenSource());
+                else
+                {
+                    GetPeopleQueryResponse mediatorResult = await _mediator.Send(new GetPeopleQueryRequest());
 
-                return mediatorResult.People;
+                    return mediatorResult.People;
+                }
             },
             services: _personService);
         }
@@ -48,7 +54,10 @@ namespace Services.Api.Business.Departments.HR.Controllers
         {
             return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                await _mediator.Send(request);
+                if (ByPassMediatR)
+                    await _personService.CreatePersonAsync(request.Person, new CancellationTokenSource());
+                else
+                    await _mediator.Send(request);
             },
             services: _personService);
         }
@@ -60,9 +69,14 @@ namespace Services.Api.Business.Departments.HR.Controllers
         {
             return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                GetTitlesQueryResponse mediatorResult = await _mediator.Send(new GetTitlesQueryRequest());
+                if (ByPassMediatR)
+                    return await _personService.GetTitlesAsync(new CancellationTokenSource());
+                else
+                {
+                    GetTitlesQueryResponse mediatorResult = await _mediator.Send(new GetTitlesQueryRequest());
 
-                return mediatorResult.Titles;
+                    return mediatorResult.Titles;
+                }
             },
             services: _personService);
         }
@@ -74,7 +88,10 @@ namespace Services.Api.Business.Departments.HR.Controllers
         {
             return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                await _mediator.Send(request);
+                if (ByPassMediatR)
+                    await _personService.CreateTitleAsync(request.Title, new CancellationTokenSource());
+                else
+                    await _mediator.Send(request);
             },
             services: _personService);
         }
@@ -86,9 +103,14 @@ namespace Services.Api.Business.Departments.HR.Controllers
         {
             return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                GetWorkersQueryResponse mediatorResult = await _mediator.Send(new GetWorkersQueryRequest());
+                if (ByPassMediatR)
+                    return await _personService.GetWorkersAsync(new CancellationTokenSource());
+                else
+                {
+                    GetWorkersQueryResponse mediatorResult = await _mediator.Send(new GetWorkersQueryRequest());
 
-                return mediatorResult.Workers;
+                    return mediatorResult.Workers;
+                }
             },
             services: _personService);
         }
@@ -100,7 +122,10 @@ namespace Services.Api.Business.Departments.HR.Controllers
         {
             return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                await _mediator.Send(request);
+                if (ByPassMediatR)
+                    await _personService.CreateWorkerAsync(request.Worker, new CancellationTokenSource());
+                else
+                    await _mediator.Send(request);
             },
             services: _personService);
         }

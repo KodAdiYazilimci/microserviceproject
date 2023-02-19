@@ -77,5 +77,35 @@ namespace Test.Services.Api.Business.Departments.HR
 
             return null;
         }
+
+        public async Task<List<TitleModel>> GetTitles()
+        {
+            IActionResult actionResult = await personController.GetTitles();
+
+            if (actionResult is OkObjectResult)
+            {
+                OkObjectResult okObjectResult = (OkObjectResult)actionResult;
+
+                var titles = okObjectResult.Value as ServiceResultModel<List<TitleModel>>;
+
+                return titles.Data;
+            }
+
+            return null;
+        }
+
+        public async Task<ServiceResultModel> CreateTitle(CreateTitleCommandRequest createTitleCommandRequest)
+        {
+            IActionResult actionResult = await personController.CreateTitle(createTitleCommandRequest);
+
+            if (actionResult is OkObjectResult)
+            {
+                OkObjectResult okObjectResult = (OkObjectResult)actionResult;
+
+                return okObjectResult.Value as ServiceResultModel;
+            }
+
+            return null;
+        }
     }
 }
