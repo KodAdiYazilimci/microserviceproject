@@ -41,6 +41,8 @@ namespace Test.Services.Api.Business.Departments.Accounting.Factories.Services
                         bankAccountRepository: BankAccountRepositoryFactory.Instance,
                         currencyRepository: CurrencyRepositoryFactory.Instance,
                         salaryPaymentRepository: SalaryPaymentRepositoryFactory.Instance);
+
+                    service.TransactionIdentity = new Random().Next(int.MinValue, int.MaxValue).ToString();
                 }
 
                 return service;

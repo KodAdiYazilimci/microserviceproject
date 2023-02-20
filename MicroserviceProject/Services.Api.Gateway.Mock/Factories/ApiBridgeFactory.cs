@@ -15,6 +15,8 @@ namespace Services.Api.Gateway.Mock.Factories
                     apiBridge = new ApiBridge();
                 }
 
+                apiBridge.TransactionIdentity = new Random().Next(int.MinValue, int.MaxValue).ToString();
+
                 return apiBridge;
             }
         }

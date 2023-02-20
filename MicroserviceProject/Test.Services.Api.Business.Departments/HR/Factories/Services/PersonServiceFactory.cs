@@ -107,6 +107,8 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Services
                         titleRepository: TitleRepositoryFactory.Instance,
                         workerRepository: WorkerRepositoryFactory.Instance,
                         workerRelationRepository: WorkerRelationRepositoryFactory.Instance);
+
+                    service.TransactionIdentity = new Random().Next(int.MinValue, int.MaxValue).ToString();
                 }
 
                 return service;

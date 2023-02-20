@@ -17,17 +17,17 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Services
 {
     public class DepartmentServiceFactory
     {
-        private static DepartmentService departmentService = null;
+        private static DepartmentService service = null;
 
         public static DepartmentService Instance
         {
             get
             {
-                if (departmentService == null)
+                if (service == null)
                 {
                     IConfiguration configuration = ConfigurationFactory.GetConfiguration();
 
-                    departmentService = new DepartmentService(
+                    service = new DepartmentService(
                         mapper: MappingFactory.GetInstance(new MappingProfile()),
                         unitOfWork: new UnitOfWork(configuration),
                         redisCacheDataProvider: CacheDataProviderFactory.GetInstance(configuration),
@@ -39,9 +39,11 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Services
                         transactionRepository: TransactionRepositoryFactory.Instance,
                         transactionItemRepository: TransactionItemRepositoryFactory.Instance,
                         departmentRepository: DepartmentRepositoryFactory.Instance);
+
+                    service.TransactionIdentity = new Random().Next(int.MinValue, int.MaxValue).ToString();
                 }
 
-                return departmentService;
+                return service;
             }
         }
     }

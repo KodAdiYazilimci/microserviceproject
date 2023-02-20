@@ -46,6 +46,8 @@ namespace Test.Services.Api.Business.Departments.IT.Factories.Services
                         inventoryDefaultsRepository: InventoryDefaultsRepositoryFactory.Instance,
                         pendingWorkerInventoryRepository: PendingWorkerInventoryRepositoryFactory.Instance,
                         workerInventoryRepository: WorkerInventoryRepositoryFactory.Instance);
+
+                    service.TransactionIdentity = new Random().Next(int.MinValue, int.MaxValue).ToString();
                 }
 
                 return service;
