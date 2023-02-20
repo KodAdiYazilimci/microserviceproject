@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Infrastructure.Diagnostics.HealthCheck.Util": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:62273;http://localhost:62275"
+    }
+  }
+}

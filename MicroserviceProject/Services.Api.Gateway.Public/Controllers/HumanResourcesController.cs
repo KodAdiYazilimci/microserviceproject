@@ -2,9 +2,8 @@
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.RateLimiting;
 
-using Services.Api.Gateway.Public.Util.Communication;
+using Services.Api.Gateway.Util.Communication;
 using Services.Communication.Http.Broker.Department.HR;
 
 using System.Threading;

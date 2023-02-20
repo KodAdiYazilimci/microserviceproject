@@ -2,8 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 
-using Services.Api.Gateway.Public.Util.Communication;
-using Services.Communication.Http.Broker.Authorization.Models;
+using Services.Api.Gateway.Util.Communication;
 using Services.Logging.RequestResponse;
 using Services.Logging.RequestResponse.Configuration;
 

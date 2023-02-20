@@ -14,25 +14,29 @@ using Test.Services.Api.Business.Departments.Accounting;
 namespace Test.Services.Api.Business.Departments.HR.Tests
 {
     [TestClass]
-    public class PersonControllerUnitTest : BaseTest
+    public class PersonControllerUnitTest
     {
-        private DepartmentControllerTest departmentControllerTest = new DepartmentControllerTest();
-        private PersonControllerTest personControllerTest = new PersonControllerTest();
+        private AccountControllerTest accountControllerTest;
+        private DepartmentControllerTest departmentControllerTest;
+        private PersonControllerTest personControllerTest;
+        private InventoryControllerTest inventoryControllerTest;
 
-        public PersonControllerUnitTest(InventoryControllerTest inventoryControllerTest, PersonControllerTest personControllerTest, DepartmentControllerTest departmentControllerTest, AccountControllerTest accountControllerTest) : base(inventoryControllerTest, personControllerTest, departmentControllerTest, accountControllerTest)
-        {
-        }
+        private DataProvider dataProvider;
 
         [TestInitialize]
         public void Init()
         {
-
+            accountControllerTest = new AccountControllerTest();
+            departmentControllerTest = new DepartmentControllerTest();
+            personControllerTest = new PersonControllerTest();
+            inventoryControllerTest = new InventoryControllerTest();
+            dataProvider = new DataProvider(inventoryControllerTest, personControllerTest, departmentControllerTest, accountControllerTest);
         }
 
         [TestMethod]
         public async Task GetPeopleTest()
         {
-            List<PersonModel> people = await GetPeopleAsync();
+            List<PersonModel> people = await dataProvider.GetPeopleAsync();
 
             Assert.IsNotNull(people != null && people.Any());
         }
@@ -83,7 +87,7 @@ namespace Test.Services.Api.Business.Departments.HR.Tests
         [TestMethod]
         public async Task GetWorkersTest()
         {
-            var workers = await GetWorkersAsync();
+            var workers = await dataProvider.GetWorkersAsync();
 
             Assert.IsTrue(workers != null && workers.Any());
         }
@@ -91,9 +95,9 @@ namespace Test.Services.Api.Business.Departments.HR.Tests
         [TestMethod]
         public async Task CreateWorkerTest()
         {
-            var departments = await GetAADepartmentsAsync();
+            var departments = await dataProvider.GetAADepartmentsAsync();
 
-            var people = await GetPeopleAsync();
+            var people = await dataProvider.GetPeopleAsync();
 
             var result = await personControllerTest.CreateWorkerAsync(new CreateWorkerCommandRequest()
             {

@@ -13,21 +13,23 @@ using Test.Services.Api.Business.Departments.Accounting;
 namespace Test.Services.Api.Business.Departments.HR.Tests
 {
     [TestClass]
-    public class DepartmentControllerUnitTest : BaseTest
+    public class DepartmentControllerUnitTest
     {
-        private DepartmentControllerTest departmentControllerTest = new DepartmentControllerTest();
+        private AccountControllerTest accountControllerTest;
+        private DepartmentControllerTest departmentControllerTest;
+        private PersonControllerTest personControllerTest;
+        private InventoryControllerTest inventoryControllerTest;
 
-        public DepartmentControllerUnitTest(InventoryControllerTest inventoryControllerTest,
-            PersonControllerTest personControllerTest,
-            DepartmentControllerTest departmentControllerTest,
-            AccountControllerTest accountControllerTest) : base(inventoryControllerTest, personControllerTest, departmentControllerTest, accountControllerTest)
-        {
-        }
+        private DataProvider dataProvider;
 
         [TestInitialize]
         public void Init()
         {
-
+            accountControllerTest = new AccountControllerTest();
+            departmentControllerTest = new DepartmentControllerTest();
+            personControllerTest = new PersonControllerTest();
+            inventoryControllerTest = new InventoryControllerTest();
+            dataProvider = new DataProvider(inventoryControllerTest, personControllerTest, departmentControllerTest, accountControllerTest);
         }
 
         [TestMethod]

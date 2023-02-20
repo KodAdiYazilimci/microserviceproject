@@ -13,25 +13,29 @@ using Test.Services.Api.Business.Departments.HR;
 namespace Test.Services.Api.Business.Departments.Accounting.Tests
 {
     [TestClass]
-    public class AccountControllerUnitTest : BaseTest
+    public class AccountControllerUnitTest
     {
-        private AccountControllerTest accountControllerTest = new AccountControllerTest();
-        private PersonControllerTest personControllerTest = new PersonControllerTest();
+        private AccountControllerTest accountControllerTest;
+        private DepartmentControllerTest departmentControllerTest;
+        private PersonControllerTest personControllerTest;
+        private InventoryControllerTest inventoryControllerTest;
 
-        public AccountControllerUnitTest(InventoryControllerTest inventoryControllerTest, PersonControllerTest personControllerTest, DepartmentControllerTest departmentControllerTest, AccountControllerTest accountControllerTest) : base(inventoryControllerTest, personControllerTest, departmentControllerTest, accountControllerTest)
-        {
-        }
+        private DataProvider dataProvider;
 
         [TestInitialize]
         public void Init()
         {
-
+            accountControllerTest = new AccountControllerTest();
+            departmentControllerTest = new DepartmentControllerTest();
+            personControllerTest = new PersonControllerTest();
+            inventoryControllerTest = new InventoryControllerTest();
+            dataProvider = new DataProvider(inventoryControllerTest, personControllerTest, departmentControllerTest, accountControllerTest);
         }
 
         [TestMethod]
         public async Task GetBankAccountsOfWorkerTest()
         {
-            List<global::Services.Communication.Http.Broker.Department.HR.Models.WorkerModel> workers = await GetWorkersAsync();
+            List<global::Services.Communication.Http.Broker.Department.HR.Models.WorkerModel> workers = await dataProvider.GetWorkersAsync();
 
             var randomWorkerId = workers.ElementAt(new Random().Next(0, workers.Count - 1)).Id;
 
@@ -39,7 +43,7 @@ namespace Test.Services.Api.Business.Departments.Accounting.Tests
 
             if (bankAccounts != null && !bankAccounts.Any())
             {
-                await CreateBankAccountToWorker(randomWorkerId);
+                await dataProvider.CreateBankAccountToWorker(randomWorkerId);
             }
 
             Assert.IsTrue(bankAccounts != null && bankAccounts.Any());
@@ -48,11 +52,11 @@ namespace Test.Services.Api.Business.Departments.Accounting.Tests
         [TestMethod]
         public async Task CreateBankAccountTest()
         {
-            var workers = await GetWorkersAsync();
+            var workers = await dataProvider.GetWorkersAsync();
 
             var randomWorkerId = workers.ElementAt(new Random().Next(0, workers.Count - 1)).Id;
 
-            ServiceResultModel result = await CreateBankAccountToWorker(randomWorkerId);
+            ServiceResultModel result = await dataProvider.CreateBankAccountToWorker(randomWorkerId);
 
             Assert.IsTrue(result != null && result.IsSuccess);
         }
@@ -89,7 +93,7 @@ namespace Test.Services.Api.Business.Departments.Accounting.Tests
         [TestMethod]
         public async Task GetSalaryPaymentsOfWorkerTest()
         {
-            var workers = await GetWorkersAsync();
+            var workers = await dataProvider.GetWorkersAsync();
 
             var randomWorkerId = workers.ElementAt(new Random().Next(0, workers.Count - 1)).Id;
 
@@ -97,7 +101,7 @@ namespace Test.Services.Api.Business.Departments.Accounting.Tests
 
             if (payments != null && !payments.Any())
             {
-                await CreateSalaryPaymentToWorker(randomWorkerId);
+                await dataProvider.CreateSalaryPaymentToWorker(randomWorkerId);
 
                 payments = await accountControllerTest.GetSalaryPaymentsOfWorkerAsync(randomWorkerId);
             }
@@ -108,11 +112,11 @@ namespace Test.Services.Api.Business.Departments.Accounting.Tests
         [TestMethod]
         public async Task CreateSalaryPaymentTest()
         {
-            var workers = await GetWorkersAsync();
+            var workers = await dataProvider.GetWorkersAsync();
 
             var randomWorkerId = workers.ElementAt(new Random().Next(0, workers.Count - 1)).Id;
 
-            var result = await CreateSalaryPaymentToWorker(randomWorkerId);
+            var result = await dataProvider.CreateSalaryPaymentToWorker(randomWorkerId);
 
             Assert.IsTrue(result != null && result.IsSuccess);
         }

@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Infrastructure.Communication.Http.Wrapper": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:62237;http://localhost:62238"
+    }
+  }
+}

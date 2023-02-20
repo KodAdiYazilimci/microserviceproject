@@ -15,30 +15,29 @@ using Test.Services.Api.Business.Departments.HR;
 namespace Test.Services.Api.Business.Departments.AA.Tests
 {
     [TestClass]
-    public class InventoryControllerUnitTest : BaseTest
+    public class InventoryControllerUnitTest
     {
-        private DepartmentControllerTest departmentControllerTest = new DepartmentControllerTest();
-        private PersonControllerTest personControllerTest = new PersonControllerTest();
-        private InventoryControllerTest inventoryControllerTest = new InventoryControllerTest();
+        private AccountControllerTest accountControllerTest;
+        private DepartmentControllerTest departmentControllerTest;
+        private PersonControllerTest personControllerTest;
+        private InventoryControllerTest inventoryControllerTest;
 
-        public InventoryControllerUnitTest(InventoryControllerTest inventoryControllerTest,
-            PersonControllerTest personControllerTest,
-            DepartmentControllerTest departmentControllerTest,
-            AccountControllerTest accountControllerTest) : base(inventoryControllerTest, personControllerTest, departmentControllerTest, accountControllerTest)
-        {
-
-        }
+        private DataProvider dataProvider;
 
         [TestInitialize]
         public void Init()
         {
-
+            accountControllerTest= new AccountControllerTest();
+            departmentControllerTest = new DepartmentControllerTest();
+            personControllerTest = new PersonControllerTest();
+            inventoryControllerTest = new InventoryControllerTest();
+            dataProvider = new DataProvider(inventoryControllerTest, personControllerTest, departmentControllerTest, accountControllerTest);
         }
 
         [TestMethod]
         public async Task GetInventoriesTest()
         {
-            List<global::Services.Communication.Http.Broker.Department.AA.Models.InventoryModel> inventories = await GetAAInventoriesAsync();
+            List<global::Services.Communication.Http.Broker.Department.AA.Models.InventoryModel> inventories = await dataProvider.GetAAInventoriesAsync();
 
             Assert.IsTrue(inventories != null && inventories.Any());
         }
@@ -46,7 +45,7 @@ namespace Test.Services.Api.Business.Departments.AA.Tests
         [TestMethod]
         public async Task CreateInventoryTest()
         {
-            Infrastructure.Communication.Http.Models.ServiceResultModel result = await CreateAAInventoryAsync();
+            Infrastructure.Communication.Http.Models.ServiceResultModel result = await dataProvider.CreateAAInventoryAsync();
 
             Assert.IsTrue(result != null && result.IsSuccess);
         }
@@ -55,9 +54,9 @@ namespace Test.Services.Api.Business.Departments.AA.Tests
         [TestMethod]
         public async Task AssignInventoryToWorkerTest()
         {
-            List<global::Services.Communication.Http.Broker.Department.HR.Models.WorkerModel> workers = await GetWorkersAsync();
+            List<global::Services.Communication.Http.Broker.Department.HR.Models.WorkerModel> workers = await dataProvider.GetWorkersAsync();
 
-            var inventories = await GetAAInventoriesAsync();
+            var inventories = await dataProvider.GetAAInventoriesAsync();
 
             var result = await inventoryControllerTest.AssignInventoryToWorkerTest(new AssignInventoryToWorkerCommandRequest()
             {
@@ -76,7 +75,7 @@ namespace Test.Services.Api.Business.Departments.AA.Tests
         [TestMethod]
         public async Task CreateDefaultInventoryForNewWorkerTest()
         {
-            var inventories = await GetAAInventoriesAsync();
+            var inventories = await dataProvider.GetAAInventoriesAsync();
 
             var result = await inventoryControllerTest.CreateDefaultInventoryForNewWorker(new CreateDefaultInventoryForNewWorkerCommandRequest()
             {
@@ -111,9 +110,9 @@ namespace Test.Services.Api.Business.Departments.AA.Tests
         [TestMethod]
         public async Task InformInventoryRequestTest()
         {
-            var inventories = await GetAAInventoriesAsync();
+            var inventories = await dataProvider.GetAAInventoriesAsync();
 
-            List<DepartmentModel> departments = await GetAADepartmentsAsync();
+            List<DepartmentModel> departments = await dataProvider.GetAADepartmentsAsync();
 
             var result = await inventoryControllerTest.InformInventoryRequest(new InformInventoryRequestCommandRequest()
             {

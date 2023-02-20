@@ -19,6 +19,7 @@
     <ProjectReference Include="..\Infrastructure.Communication.Http.Wrapper\Infrastructure.Communication.Http.Wrapper.csproj" />
     <ProjectReference Include="..\Infrastructure.Localization.Translation.Provider\Infrastructure.Localization.Translation.Provider.csproj" />
     <ProjectReference Include="..\Infrastructure.Util.DI\Infrastructure.Util.DI.csproj" />
+    <ProjectReference Include="..\Services.Api.Gateway\Services.Api.Gateway.csproj" />
     <ProjectReference Include="..\Services.Communication.Http.Broker.Department.AA\Services.Communication.Http.Broker.Department.AA.csproj" />
     <ProjectReference Include="..\Services.Communication.Http.Broker.Department.Accounting\Services.Communication.Http.Broker.Department.Accounting.csproj" />
     <ProjectReference Include="..\Services.Communication.Http.Broker.Department.Buying\Services.Communication.Http.Broker.Department.Buying.csproj" />
