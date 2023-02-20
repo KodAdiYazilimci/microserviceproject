@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Infrastructure.Cryptography": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:62211;http://localhost:62217"
+    }
+  }
+}

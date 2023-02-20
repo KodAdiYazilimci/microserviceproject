@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Presentation.Monitoring.Reliability.Console": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:62253;http://localhost:62254"
+    }
+  }
+}

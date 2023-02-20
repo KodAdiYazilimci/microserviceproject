@@ -1,7 +1,7 @@
 ﻿
 using Microsoft.Extensions.DependencyInjection;
 
-using Services.Api.Gateway.Public.Util.Communication;
+using Services.Api.Gateway.Util.Communication;
 
 namespace Services.Api.Gateway.Public.DI
 {

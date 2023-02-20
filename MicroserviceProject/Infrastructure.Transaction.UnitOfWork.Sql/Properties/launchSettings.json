@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Infrastructure.Transaction.UnitOfWork.Sql": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:62239;http://localhost:62240"
+    }
+  }
+}

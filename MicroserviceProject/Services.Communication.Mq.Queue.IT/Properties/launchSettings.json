@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Services.Communication.Mq.Queue.IT": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:62321;http://localhost:62322"
+    }
+  }
+}
