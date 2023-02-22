@@ -32,6 +32,12 @@ namespace Test.Services.Api.Business.Departments.Accounting
 
                 return inventories.Data;
             }
+            else if (actionResult is BadRequestObjectResult)
+            {
+                BadRequestObjectResult badRequestObjectResult = (BadRequestObjectResult)actionResult;
+
+                throw new Exception((badRequestObjectResult.Value as ServiceResultModel).ErrorModel.Description);
+            }
 
             return null;
         }
@@ -45,6 +51,12 @@ namespace Test.Services.Api.Business.Departments.Accounting
                 OkObjectResult okObjectResult = (OkObjectResult)actionResult;
 
                 return okObjectResult.Value as ServiceResultModel;
+            }
+            else if (actionResult is BadRequestObjectResult)
+            {
+                BadRequestObjectResult badRequestObjectResult = (BadRequestObjectResult)actionResult;
+
+                throw new Exception((badRequestObjectResult.Value as ServiceResultModel).ErrorModel.Description);
             }
 
             return null;
@@ -60,6 +72,12 @@ namespace Test.Services.Api.Business.Departments.Accounting
 
                 return (okObjectResult.Value as ServiceResultModel<List<CurrencyModel>>).Data;
             }
+            else if (actionResult is BadRequestObjectResult)
+            {
+                BadRequestObjectResult badRequestObjectResult = (BadRequestObjectResult)actionResult;
+
+                throw new Exception((badRequestObjectResult.Value as ServiceResultModel).ErrorModel.Description);
+            }
 
             return null;
         }
@@ -73,6 +91,12 @@ namespace Test.Services.Api.Business.Departments.Accounting
                 OkObjectResult okObjectResult = (OkObjectResult)actionResult;
 
                 return okObjectResult.Value as ServiceResultModel;
+            }
+            else if (actionResult is BadRequestObjectResult)
+            {
+                BadRequestObjectResult badRequestObjectResult = (BadRequestObjectResult)actionResult;
+
+                throw new Exception((badRequestObjectResult.Value as ServiceResultModel).ErrorModel.Description);
             }
 
             return null;
@@ -88,6 +112,12 @@ namespace Test.Services.Api.Business.Departments.Accounting
 
                 return (okObjectResult.Value as ServiceResultModel<List<SalaryPaymentModel>>).Data;
             }
+            else if (actionResult is BadRequestObjectResult)
+            {
+                BadRequestObjectResult badRequestObjectResult = (BadRequestObjectResult)actionResult;
+
+                throw new Exception((badRequestObjectResult.Value as ServiceResultModel).ErrorModel.Description);
+            }
 
             return null;
         }
@@ -101,6 +131,12 @@ namespace Test.Services.Api.Business.Departments.Accounting
                 OkObjectResult okObjectResult = (OkObjectResult)actionResult;
 
                 return okObjectResult.Value as ServiceResultModel;
+            }
+            else if (actionResult is BadRequestObjectResult)
+            {
+                BadRequestObjectResult badRequestObjectResult = (BadRequestObjectResult)actionResult;
+
+                throw new Exception((badRequestObjectResult.Value as ServiceResultModel).ErrorModel.Description);
             }
 
             return null;

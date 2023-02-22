@@ -32,6 +32,12 @@ namespace Test.Services.Api.Business.Departments.HR
 
                 return inventories.Data;
             }
+            else if (actionResult is BadRequestObjectResult)
+            {
+                BadRequestObjectResult badRequestObjectResult = (BadRequestObjectResult)actionResult;
+
+                throw new Exception((badRequestObjectResult.Value as ServiceResultModel).ErrorModel.Description);
+            }
 
             return null;
         }
@@ -45,6 +51,12 @@ namespace Test.Services.Api.Business.Departments.HR
                 OkObjectResult okObjectResult = (OkObjectResult)actionResult;
 
                 return okObjectResult.Value as ServiceResultModel;
+            }
+            else if (actionResult is BadRequestObjectResult)
+            {
+                BadRequestObjectResult badRequestObjectResult = (BadRequestObjectResult)actionResult;
+
+                throw new Exception((badRequestObjectResult.Value as ServiceResultModel).ErrorModel.Description);
             }
 
             return null;
