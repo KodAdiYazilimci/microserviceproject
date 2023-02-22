@@ -9,23 +9,13 @@ namespace Services.Communication.Mq.Queue.Accounting.Configuration.Mock
     public class CreateBankAccountRabbitConfigurationProvider
     {
         /// <summary>
-        /// Çalışana banka hesabı oluşturan yayıncının yapılandırma sınıfı nesnesi
-        /// </summary>
-        private static CreateBankAccountRabbitConfiguration rabbitConfiguration;
-
-        /// <summary>
         /// Çalışana banka hesabı oluşturan yayıncının yapılandırma sınıfı nesnesini verir
         /// </summary>
         /// <param name="configuration">Yapılandırma arayüzü nesnesi</param>
         /// <returns></returns>
         public static CreateBankAccountRabbitConfiguration GetConfiguration(IConfiguration configuration)
         {
-            if (rabbitConfiguration == null)
-            {
-                rabbitConfiguration = new CreateBankAccountRabbitConfiguration(configuration);
-            }
-
-            return rabbitConfiguration;
+            return new CreateBankAccountRabbitConfiguration(configuration);
         }
     }
 }

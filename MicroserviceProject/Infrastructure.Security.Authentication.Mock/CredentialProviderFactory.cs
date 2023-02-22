@@ -11,23 +11,13 @@ namespace Infrastructure.Security.Authentication.Mock
     public class CredentialProviderFactory
     {
         /// <summary>
-        /// Kullanıcı bilgi sağlayıcısı
-        /// </summary>
-        private static CredentialProvider credentialProvider;
-
-        /// <summary>
         /// Kullanıcı bilgi sağlayıcısını verir
         /// </summary>
         /// <param name="configuration">Yapılandırma arayüzü nesnesi</param>
         /// <returns></returns>
         public static CredentialProvider GetCredentialProvider(IConfiguration configuration)
         {
-            if (credentialProvider == null)
-            {
-                credentialProvider = new CredentialProvider(configuration);
-            }
-
-            return credentialProvider;
+            return new CredentialProvider(configuration);
         }
     }
 }
