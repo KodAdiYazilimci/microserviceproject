@@ -6,8 +6,6 @@ using Services.Api.Business.Departments.AA.Controllers;
 using Services.Communication.Http.Broker.Department.AA.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.AA.Models;
 
-using StackExchange.Redis;
-
 using Test.Services.Api.Business.Departments.AA.Factories.Services;
 
 namespace Test.Services.Api.Business.Departments.AA
@@ -36,6 +34,12 @@ namespace Test.Services.Api.Business.Departments.AA
 
                 return inventories.Data;
             }
+            else if (actionResult is BadRequestObjectResult)
+            {
+                BadRequestObjectResult badRequestObjectResult = (BadRequestObjectResult)actionResult;
+
+                throw new Exception((badRequestObjectResult.Value as ServiceResultModel).ErrorModel.Description);
+            }
 
             return null;
         }
@@ -50,6 +54,12 @@ namespace Test.Services.Api.Business.Departments.AA
 
                 return okObjectResult.Value as ServiceResultModel;
             }
+            else if (actionResult is BadRequestObjectResult)
+            {
+                BadRequestObjectResult badRequestObjectResult = (BadRequestObjectResult)actionResult;
+
+                throw new Exception((badRequestObjectResult.Value as ServiceResultModel).ErrorModel.Description);
+            }
 
             return null;
         }
@@ -63,6 +73,12 @@ namespace Test.Services.Api.Business.Departments.AA
                 OkObjectResult okObjectResult = (OkObjectResult)actionResult;
 
                 return okObjectResult.Value as ServiceResultModel;
+            }
+            else if (actionResult is BadRequestObjectResult)
+            {
+                BadRequestObjectResult badRequestObjectResult = (BadRequestObjectResult)actionResult;
+
+                throw new Exception((badRequestObjectResult.Value as ServiceResultModel).ErrorModel.Description);
             }
 
             return null;
@@ -80,6 +96,12 @@ namespace Test.Services.Api.Business.Departments.AA
 
                 return result;
             }
+            else if (actionResult is BadRequestObjectResult)
+            {
+                BadRequestObjectResult badRequestObjectResult = (BadRequestObjectResult)actionResult;
+
+                throw new Exception((badRequestObjectResult.Value as ServiceResultModel).ErrorModel.Description);
+            }
 
             return null;
         }
@@ -94,6 +116,12 @@ namespace Test.Services.Api.Business.Departments.AA
 
                 return (okObjectResult.Value as ServiceResultModel<List<InventoryModel>>).Data;
             }
+            else if (actionResult is BadRequestObjectResult)
+            {
+                BadRequestObjectResult badRequestObjectResult = (BadRequestObjectResult)actionResult;
+
+                throw new Exception((badRequestObjectResult.Value as ServiceResultModel).ErrorModel.Description);
+            }
 
             return null;
         }
@@ -107,6 +135,12 @@ namespace Test.Services.Api.Business.Departments.AA
                 OkObjectResult okObjectResult = (OkObjectResult)actionResult;
 
                 return okObjectResult.Value as ServiceResultModel;
+            }
+            else if (actionResult is BadRequestObjectResult)
+            {
+                BadRequestObjectResult badRequestObjectResult = (BadRequestObjectResult)actionResult;
+
+                throw new Exception((badRequestObjectResult.Value as ServiceResultModel).ErrorModel.Description);
             }
 
             return null;

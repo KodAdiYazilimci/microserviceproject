@@ -52,6 +52,12 @@ namespace Test.Services.Api.Gateway.Public
 
                 departments = (okObjectResult.Value as ServiceResultModel<List<DepartmentModel>>).Data;
             }
+            else if (actionResult is BadRequestObjectResult)
+            {
+                BadRequestObjectResult badRequestObjectResult = (BadRequestObjectResult)actionResult;
+
+                throw new Exception((badRequestObjectResult.Value as ServiceResultModel).ErrorModel.Description);
+            }
 
             return departments;
         }
