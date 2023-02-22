@@ -10,23 +10,13 @@ namespace Infrastructure.Routing.Persistence.Mock
     public class ServiceRouteRepositoryFactory
     {
         /// <summary>
-        /// Servis rota repositorysi
-        /// </summary>
-        private static ServiceRouteRepository serviceRouteRepository = null;
-
-        /// <summary>
         /// Servis rota repository nesnesini verir
         /// </summary>
         /// <param name="configuration">Yapılandırma arayüzü nesnesi</param>
         /// <returns></returns>
         public static ServiceRouteRepository GetServiceRouteRepository(IConfiguration configuration)
         {
-            if (serviceRouteRepository == null)
-            {
-                serviceRouteRepository = new ServiceRouteRepository(configuration);
-            }
-
-            return serviceRouteRepository;
+            return new ServiceRouteRepository(configuration);
         }
     }
 }

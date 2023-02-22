@@ -11,24 +11,13 @@ namespace Infrastructure.Localization.Translation.Persistence.Mock.EntityFramewo
     public class TranslationDbContextFactory
     {
         /// <summary>
-        /// Dil çeviri context nesnesi
-        /// </summary>
-        private static TranslationDbContext translationDbContext;
-
-        /// <summary>
         /// Dil çeviri context nesnesini verir
         /// </summary>
         /// <param name="configuration">Yapılandırma arayüzü nesnesi</param>
         /// <returns></returns>
         public static TranslationDbContext GetTranslationDbContext(IConfiguration configuration)
         {
-            if (translationDbContext == null)
-            {
-                translationDbContext = new TranslationDbContext(new TestDbContextOptions(configuration));
-
-            }
-
-            return translationDbContext;
+            return new TranslationDbContext(new TestDbContextOptions(configuration));
         }
     }
 

@@ -1,8 +1,12 @@
-﻿using Infrastructure.Caching.Redis.Mock;
+﻿using AutoMapper;
+
+using Infrastructure.Caching.Redis;
+using Infrastructure.Caching.Redis.Mock;
 using Infrastructure.Localization.Translation.Persistence.EntityFramework.Repositories;
 using Infrastructure.Localization.Translation.Persistence.Mock.EntityFramework.Persistence;
 using Infrastructure.Localization.Translation.Provider.Mock;
 using Infrastructure.Mock.Factories;
+using Infrastructure.Transaction.UnitOfWork.Sql;
 
 using Microsoft.Extensions.Configuration;
 
@@ -17,31 +21,29 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Services
 {
     public class DepartmentServiceFactory
     {
-        private static DepartmentService service = null;
-
         public static DepartmentService Instance
         {
             get
             {
-                if (service == null)
-                {
-                    IConfiguration configuration = ConfigurationFactory.GetConfiguration();
+                IConfiguration configuration = ConfigurationFactory.GetConfiguration();
+                IMapper mapper = MappingFactory.GetInstance(new MappingProfile());
+                RedisCacheDataProvider redisCacheDataProvider = CacheDataProviderFactory.GetInstance(configuration);
+                IUnitOfWork unitOfWork = new UnitOfWork(configuration);
 
-                    service = new DepartmentService(
-                        mapper: MappingFactory.GetInstance(new MappingProfile()),
-                        unitOfWork: new UnitOfWork(configuration),
-                        redisCacheDataProvider: CacheDataProviderFactory.GetInstance(configuration),
-                        translationProvider: TranslationProviderFactory.GetTranslationProvider(
-                            configuration: configuration,
-                            cacheDataProvider: CacheDataProviderFactory.GetInstance(configuration),
-                            translationRepository: new TranslationRepository(TranslationDbContextFactory.GetTranslationDbContext(configuration)),
-                            translationHelper: TranslationHelperFactory.Instance),
-                        transactionRepository: TransactionRepositoryFactory.Instance,
-                        transactionItemRepository: TransactionItemRepositoryFactory.Instance,
-                        departmentRepository: DepartmentRepositoryFactory.Instance);
+                var service = new DepartmentService(
+                    mapper: mapper,
+                    unitOfWork: new UnitOfWork(configuration),
+                    redisCacheDataProvider: redisCacheDataProvider,
+                    translationProvider: TranslationProviderFactory.GetTranslationProvider(
+                        configuration: configuration,
+                        cacheDataProvider: redisCacheDataProvider,
+                        translationRepository: new TranslationRepository(TranslationDbContextFactory.GetTranslationDbContext(configuration)),
+                        translationHelper: TranslationHelperFactory.Instance),
+                    transactionRepository: TransactionRepositoryFactory.GetInstance(unitOfWork),
+                    transactionItemRepository: TransactionItemRepositoryFactory.GetInstance(unitOfWork),
+                    departmentRepository: DepartmentRepositoryFactory.GetInstance(unitOfWork));
 
-                    service.TransactionIdentity = new Random().Next(int.MinValue, int.MaxValue).ToString();
-                }
+                service.TransactionIdentity = new Random().Next(int.MinValue, int.MaxValue).ToString();
 
                 return service;
             }

@@ -8,12 +8,7 @@
         {
             get
             {
-                if (httpPostCaller == null)
-                {
-                    httpPostCaller = new HttpPostCaller();
-                }
-
-                return httpPostCaller;
+                return new HttpPostCaller();
             }
         }
     }

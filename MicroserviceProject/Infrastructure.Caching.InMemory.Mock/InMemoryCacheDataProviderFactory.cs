@@ -9,23 +9,13 @@ namespace Infrastructure.Caching.InMemory.Mock
     public class InMemoryCacheDataProviderFactory
     {
         /// <summary>
-        /// Önbellek sağlayıcısı
-        /// </summary>
-        private static InMemoryCacheDataProvider memoryCache = null;
-
-        /// <summary>
         /// Önbellek sağlayıcısı örneği
         /// </summary>
         public static InMemoryCacheDataProvider Instance
         {
             get
             {
-                if (memoryCache == null)
-                {
-                    memoryCache = new InMemoryCacheDataProvider(new MemoryCache(new MemoryCacheOptions()));
-                }
-
-                return memoryCache;
+                return new InMemoryCacheDataProvider(new MemoryCache(new MemoryCacheOptions()));
             }
         }
     }

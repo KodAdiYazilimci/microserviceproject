@@ -1,4 +1,7 @@
-﻿using Infrastructure.Caching.InMemory.Mock;
+﻿using AutoMapper;
+
+using Infrastructure.Caching.InMemory.Mock;
+using Infrastructure.Caching.Redis;
 using Infrastructure.Caching.Redis.Mock;
 using Infrastructure.Communication.Http.Broker.Mock;
 using Infrastructure.Localization.Translation.Persistence.EntityFramework.Mock.Persistence;
@@ -8,6 +11,7 @@ using Infrastructure.Mock.Factories;
 using Infrastructure.Routing.Persistence.Mock;
 using Infrastructure.Routing.Providers.Mock;
 using Infrastructure.Security.Authentication.Mock;
+using Infrastructure.Transaction.UnitOfWork.Sql;
 
 using Microsoft.Extensions.Configuration;
 
@@ -32,84 +36,73 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Services
 {
     public class PersonServiceFactory
     {
-        private static PersonService service = null;
-
         public static PersonService Instance
         {
             get
             {
-                if (service == null)
-                {
-                    IConfiguration configuration = ConfigurationFactory.GetConfiguration();
+                IConfiguration configuration = ConfigurationFactory.GetConfiguration();
+                IMapper mapper = MappingFactory.GetInstance(new MappingProfile());
+                var inMemoryCacheDataProvider = InMemoryCacheDataProviderFactory.Instance;
+                RedisCacheDataProvider redisCacheDataProvider = CacheDataProviderFactory.GetInstance(configuration);
+                var serviceRouteRepository = ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration);
+                var routeProvider = RouteProviderFactory.GetRouteProvider(
+                    serviceRouteRepository: serviceRouteRepository,
+                    inMemoryCacheDataProvider: inMemoryCacheDataProvider);
+                var httpGetCaller = HttpGetCallerFactory.Instance;
+                var httpPostCaller = HttpPostCallerFactory.Instance;
+                var authorizationCommunicator = AuthorizationCommunicatorProvider.GetAuthorizationCommunicator(
+                    httpGetCaller: httpGetCaller,
+                    httpPostCaller: httpPostCaller,
+                    routeProvider: routeProvider);
+                var credentialProvider = CredentialProviderFactory.GetCredentialProvider(configuration);
+                IUnitOfWork unitOfWork = new UnitOfWork(configuration);
 
-                    service = new PersonService(
-                        mapper: MappingFactory.GetInstance(new MappingProfile()),
-                        aACommunicator: AACommunicatorProvider.GetAACommunicator(
-                            authorizationCommunicator: AuthorizationCommunicatorProvider.GetAuthorizationCommunicator(
-                                httpGetCaller: HttpGetCallerFactory.Instance,
-                                httpPostCaller: HttpPostCallerFactory.Instance,
-                                routeProvider: RouteProviderFactory.GetRouteProvider(
-                                    serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration),
-                                    inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance)),
-                            inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance,
-                            credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),
-                            routeProvider: RouteProviderFactory.GetRouteProvider(
-                                serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration),
-                                inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance),
-                            httpGetCaller: HttpGetCallerFactory.Instance,
-                            httpPostCaller: HttpPostCallerFactory.Instance),
-                        accountingCommunicator: AccountingCommunicatorProvider.GetAccountingCommunicator(
-                            authorizationCommunicator: AuthorizationCommunicatorProvider.GetAuthorizationCommunicator(
-                                httpGetCaller: HttpGetCallerFactory.Instance,
-                                httpPostCaller: HttpPostCallerFactory.Instance,
-                                routeProvider: RouteProviderFactory.GetRouteProvider(
-                                    serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration),
-                                    inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance)),
-                            inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance,
-                            credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),
-                            httpGetCaller: HttpGetCallerFactory.Instance,
-                            httpPostCaller: HttpPostCallerFactory.Instance,
-                            routeProvider: RouteProviderFactory.GetRouteProvider(
-                                serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration),
-                                inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance)),
-                        itCommunicator: ITCommunicatorProvider.GetITCommunicator(
-                            authorizationCommunicator: AuthorizationCommunicatorProvider.GetAuthorizationCommunicator(
-                                httpGetCaller: HttpGetCallerFactory.Instance,
-                                httpPostCaller: HttpPostCallerFactory.Instance,
-                                routeProvider: RouteProviderFactory.GetRouteProvider(
-                                    serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration),
-                                    inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance)),
-                            inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance,
-                            credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),
-                            httpGetCaller: HttpGetCallerFactory.Instance,
-                            httpPostCaller: HttpPostCallerFactory.Instance,
-                            routeProvider: RouteProviderFactory.GetRouteProvider(
-                                serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration),
-                                inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance)),
-                        AAassignInventoryToWorkerPublisher: AAAssignInventoryToWorkerPublisherProvider.GetPublisher(
-                            configuration: AAAssignInventoryToWorkerRabbitConfigurationProvider.GetConfiguration(configuration)),
-                        ITassignInventoryToWorkerPublisher: ITassignInventoryToWorkerPublisherProvider.GetPublisher(
-                            configuration: ITAssignInventoryToWorkerRabbitConfigurationProvider.GetConfiguration(configuration)),
-                        createBankAccountPublisher: CreateBankAccountPublisherProvider.GetPublisher(
-                            rabbitConfiguration: CreateBankAccountRabbitConfigurationProvider.GetConfiguration(configuration)),
-                        unitOfWork: new UnitOfWork(configuration),
-                        translationProvider: TranslationProviderFactory.GetTranslationProvider(
-                            configuration: configuration,
-                            cacheDataProvider: CacheDataProviderFactory.GetInstance(configuration),
-                            translationRepository: TranslationRepositoryFactory.GetTranslationRepository(
-                                translationDbContext: TranslationDbContextFactory.GetTranslationDbContext(configuration)),
-                            translationHelper: TranslationHelperFactory.Instance),
-                        redisCacheDataProvider: CacheDataProviderFactory.GetInstance(configuration),
-                        transactionRepository: TransactionRepositoryFactory.Instance,
-                        transactionItemRepository: TransactionItemRepositoryFactory.Instance,
-                        departmentRepository: DepartmentRepositoryFactory.Instance,
-                        personRepository: PersonRepositoryFactory.Instance,
-                        titleRepository: TitleRepositoryFactory.Instance,
-                        workerRepository: WorkerRepositoryFactory.Instance,
-                        workerRelationRepository: WorkerRelationRepositoryFactory.Instance);
+                var service = new PersonService(
+                    mapper: mapper,
+                    aACommunicator: AACommunicatorProvider.GetAACommunicator(
+                        authorizationCommunicator: authorizationCommunicator,
+                        inMemoryCacheDataProvider: inMemoryCacheDataProvider,
+                        credentialProvider: credentialProvider,
+                        routeProvider: routeProvider,
+                        httpGetCaller: httpGetCaller,
+                        httpPostCaller: httpPostCaller),
+                    accountingCommunicator: AccountingCommunicatorProvider.GetAccountingCommunicator(
+                        authorizationCommunicator: authorizationCommunicator,
+                        inMemoryCacheDataProvider: inMemoryCacheDataProvider,
+                        credentialProvider: credentialProvider,
+                        httpGetCaller: httpGetCaller,
+                        httpPostCaller: httpPostCaller,
+                        routeProvider: routeProvider),
+                    itCommunicator: ITCommunicatorProvider.GetITCommunicator(
+                        authorizationCommunicator: authorizationCommunicator,
+                        inMemoryCacheDataProvider: inMemoryCacheDataProvider,
+                        credentialProvider: credentialProvider,
+                        httpGetCaller: httpGetCaller,
+                        httpPostCaller: httpPostCaller,
+                        routeProvider: routeProvider),
+                    AAassignInventoryToWorkerPublisher: AAAssignInventoryToWorkerPublisherProvider.GetPublisher(
+                        configuration: AAAssignInventoryToWorkerRabbitConfigurationProvider.GetConfiguration(configuration)),
+                    ITassignInventoryToWorkerPublisher: ITassignInventoryToWorkerPublisherProvider.GetPublisher(
+                        configuration: ITAssignInventoryToWorkerRabbitConfigurationProvider.GetConfiguration(configuration)),
+                    createBankAccountPublisher: CreateBankAccountPublisherProvider.GetPublisher(
+                        rabbitConfiguration: CreateBankAccountRabbitConfigurationProvider.GetConfiguration(configuration)),
+                    unitOfWork: new UnitOfWork(configuration),
+                    translationProvider: TranslationProviderFactory.GetTranslationProvider(
+                        configuration: configuration,
+                        cacheDataProvider: redisCacheDataProvider,
+                        translationRepository: TranslationRepositoryFactory.GetTranslationRepository(
+                            translationDbContext: TranslationDbContextFactory.GetTranslationDbContext(configuration)),
+                        translationHelper: TranslationHelperFactory.Instance),
+                    redisCacheDataProvider: redisCacheDataProvider,
+                    transactionRepository: TransactionRepositoryFactory.GetInstance(unitOfWork),
+                    transactionItemRepository: TransactionItemRepositoryFactory.GetInstance(unitOfWork),
+                    departmentRepository: DepartmentRepositoryFactory.GetInstance(unitOfWork),
+                    personRepository: PersonRepositoryFactory.GetInstance(unitOfWork),
+                    titleRepository: TitleRepositoryFactory.GetInstance(unitOfWork),
+                    workerRepository: WorkerRepositoryFactory.GetInstance(unitOfWork),
+                    workerRelationRepository: WorkerRelationRepositoryFactory.GetInstance(unitOfWork));
 
-                    service.TransactionIdentity = new Random().Next(int.MinValue, int.MaxValue).ToString();
-                }
+                service.TransactionIdentity = new Random().Next(int.MinValue, int.MaxValue).ToString();
 
                 return service;
             }

@@ -12,11 +12,6 @@ namespace Infrastructure.Localization.Translation.Provider.Mock
     public class TranslationProviderFactory
     {
         /// <summary>
-        /// Dil çeviri yardımcısı
-        /// </summary>
-        private static TranslationProvider translationProvider;
-
-        /// <summary>
         /// Dil çeviri sağlayıcısının nesnesini verir
         /// </summary>
         /// <param name="configuration">Yapılandırma arayüzü nesnesi</param>
@@ -30,12 +25,7 @@ namespace Infrastructure.Localization.Translation.Provider.Mock
             TranslationRepository translationRepository,
             TranslationHelper translationHelper)
         {
-            if (translationProvider == null)
-            {
-                translationProvider = new TranslationProvider(configuration, cacheDataProvider, translationRepository, translationHelper);
-            }
-
-            return translationProvider;
+            return new TranslationProvider(configuration, cacheDataProvider, translationRepository, translationHelper);
         }
     }
 }

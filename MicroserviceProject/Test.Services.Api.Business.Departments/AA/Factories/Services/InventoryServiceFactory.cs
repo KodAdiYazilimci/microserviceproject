@@ -1,8 +1,12 @@
-﻿using Infrastructure.Caching.Redis.Mock;
+﻿using AutoMapper;
+
+using Infrastructure.Caching.Redis;
+using Infrastructure.Caching.Redis.Mock;
 using Infrastructure.Localization.Translation.Persistence.EntityFramework.Repositories;
 using Infrastructure.Localization.Translation.Persistence.Mock.EntityFramework.Persistence;
 using Infrastructure.Localization.Translation.Provider.Mock;
 using Infrastructure.Mock.Factories;
+using Infrastructure.Transaction.UnitOfWork.Sql;
 
 using Microsoft.Extensions.Configuration;
 
@@ -19,36 +23,34 @@ namespace Test.Services.Api.Business.Departments.AA.Factories.Services
 {
     public class InventoryServiceFactory
     {
-        private static InventoryService service;
-
         public static InventoryService Instance
         {
             get
             {
-                if (service == null)
-                {
-                    IConfiguration configuration = ConfigurationFactory.GetConfiguration();
+                IConfiguration configuration = ConfigurationFactory.GetConfiguration();
+                IMapper mapper = MappingFactory.GetInstance(new MappingProfile());
+                RedisCacheDataProvider redisCacheDataProvider = CacheDataProviderFactory.GetInstance(configuration);
+                IUnitOfWork unitOfWork = new UnitOfWork(configuration);
 
-                    service = new InventoryService(
-                        mapper: MappingFactory.GetInstance(new MappingProfile()),
-                        unitOfWork: new UnitOfWork(configuration),
-                        redisCacheDataProvider: CacheDataProviderFactory.GetInstance(configuration),
-                        translationProvider: TranslationProviderFactory.GetTranslationProvider(
-                            configuration: configuration,
-                            cacheDataProvider: CacheDataProviderFactory.GetInstance(configuration),
-                            translationRepository: new TranslationRepository(TranslationDbContextFactory.GetTranslationDbContext(configuration)),
-                            translationHelper: TranslationHelperFactory.Instance),
-                        createInventoryRequestPublisher: CreateInventoryRequestPublisherProvider.GetCreateInventoryRequestPublisher(
-                            configuration: CreateInventoryRequestRabbitConfigurationProvider.GetCreateInventoryRequestPublisher(configuration)),
-                        transactionItemRepository: TransactionItemRepositoryFactory.Instance,
-                        transactionRepository: TransactionRepositoryFactory.Instance,
-                        inventoryRepository: InventoryRepositoryFactory.Instance,
-                        inventoryDefaultsRepository: InventoryDefaultsRepositoryFactory.Instance,
-                        pendingWorkerInventoryRepository: PendingWorkerInventoryRepositoryFactory.Instance,
-                        workerInventoryRepository: WorkerInventoryRepositoryFactory.Instance);
+                var service = new InventoryService(
+                    mapper: mapper,
+                    unitOfWork: unitOfWork,
+                    redisCacheDataProvider: redisCacheDataProvider,
+                    translationProvider: TranslationProviderFactory.GetTranslationProvider(
+                        configuration: configuration,
+                        cacheDataProvider: redisCacheDataProvider,
+                        translationRepository: new TranslationRepository(TranslationDbContextFactory.GetTranslationDbContext(configuration)),
+                        translationHelper: TranslationHelperFactory.Instance),
+                    createInventoryRequestPublisher: CreateInventoryRequestPublisherProvider.GetCreateInventoryRequestPublisher(
+                        configuration: CreateInventoryRequestRabbitConfigurationProvider.GetCreateInventoryRequestPublisher(configuration)),
+                    transactionItemRepository: TransactionItemRepositoryFactory.GetInstance(unitOfWork),
+                    transactionRepository: TransactionRepositoryFactory.GetInstance(unitOfWork),
+                    inventoryRepository: InventoryRepositoryFactory.GetInstance(unitOfWork),
+                    inventoryDefaultsRepository: InventoryDefaultsRepositoryFactory.GetInstance(unitOfWork),
+                    pendingWorkerInventoryRepository: PendingWorkerInventoryRepositoryFactory.GetInstance(unitOfWork),
+                    workerInventoryRepository: WorkerInventoryRepositoryFactory.GetInstance(unitOfWork));
 
-                    service.TransactionIdentity = new Random().Next(int.MinValue, int.MaxValue).ToString();
-                }
+                service.TransactionIdentity = new Random().Next(int.MinValue, int.MaxValue).ToString();
 
                 return service;
             }
