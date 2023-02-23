@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Services.Api.Business.Departments.Accounting.Configuration.CQRS.Handlers.CommandHandlers
 {
-    public class CreateSalaryPaymentCommandHandler : IRequestHandler<CreateSalaryPaymentCommandRequest, CreateSalaryPaymentCommandResponse>
+    public class CreateSalaryPaymentCommandHandler : IRequestHandler<AccountingCreateSalaryPaymentCommandRequest, AccountingCreateSalaryPaymentCommandResponse>
     {
         private readonly RuntimeHandler _runtimeHandler;
         private readonly BankService _bankService;
@@ -24,13 +24,13 @@ namespace Services.Api.Business.Departments.Accounting.Configuration.CQRS.Handle
             _bankService = bankService;
         }
 
-        public async Task<CreateSalaryPaymentCommandResponse> Handle(CreateSalaryPaymentCommandRequest request, CancellationToken cancellationToken)
+        public async Task<AccountingCreateSalaryPaymentCommandResponse> Handle(AccountingCreateSalaryPaymentCommandRequest request, CancellationToken cancellationToken)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
             await CreateSalaryPaymentValidator.ValidateAsync(request.SalaryPayment, cancellationTokenSource);
 
-            return new CreateSalaryPaymentCommandResponse()
+            return new AccountingCreateSalaryPaymentCommandResponse()
             {
                 CreatedSalaryPaymentId =
                 await

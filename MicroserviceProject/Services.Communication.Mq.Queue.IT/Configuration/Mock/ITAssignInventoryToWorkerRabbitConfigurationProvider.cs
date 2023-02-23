@@ -13,9 +13,9 @@ namespace Services.Communication.Mq.Queue.IT.Configuration.Mock
         /// </summary>
         /// <param name="configuration">Yapılandırma arayüzü nesnesi</param>
         /// <returns></returns>
-        public static AssignInventoryToWorkerRabbitConfiguration GetConfiguration(IConfiguration configuration)
+        public static ITAssignInventoryToWorkerRabbitConfiguration GetConfiguration(IConfiguration configuration)
         {
-            return new AssignInventoryToWorkerRabbitConfiguration(configuration);
+            return new ITAssignInventoryToWorkerRabbitConfiguration(configuration);
         }
     }
 }

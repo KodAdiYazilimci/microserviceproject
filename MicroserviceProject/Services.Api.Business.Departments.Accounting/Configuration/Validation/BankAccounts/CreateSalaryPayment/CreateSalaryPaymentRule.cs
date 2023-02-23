@@ -7,7 +7,7 @@ namespace Services.Api.Business.Departments.Accounting.Configuration.Validation.
     /// <summary>
     /// BankAccounts/CreateSalaryPayment Http endpoint için validasyon kuralı
     /// </summary>
-    public class CreateSalaryPaymentRule : AbstractValidator<SalaryPaymentModel>
+    public class CreateSalaryPaymentRule : AbstractValidator<AccountingSalaryPaymentModel>
     {
         /// <summary>
         /// BankAccounts/CreateSalaryPayment Http endpoint için validasyon kuralı

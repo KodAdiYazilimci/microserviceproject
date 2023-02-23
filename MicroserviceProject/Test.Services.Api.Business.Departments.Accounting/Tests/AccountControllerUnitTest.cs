@@ -2,6 +2,9 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using Services.Communication.Http.Broker.Department.Accounting.CQRS.Commands.Requests;
+using Services.Communication.Http.Broker.Department.Accounting.Models;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -78,9 +81,9 @@ namespace Test.Services.Api.Business.Departments.Accounting.Tests
         [TestMethod]
         public async Task CreateCurrencyTest()
         {
-            var result = await accountControllerTest.CreateCurrencyAsync(new global::Services.Communication.Http.Broker.Department.Accounting.CQRS.Commands.Requests.CreateCurrencyCommandRequest()
+            var result = await accountControllerTest.CreateCurrencyAsync(new AccountingCreateCurrencyCommandRequest()
             {
-                Currency = new global::Services.Communication.Http.Broker.Department.Accounting.Models.CurrencyModel()
+                Currency = new AccountingCurrencyModel()
                 {
                     Name = new Random().Next(int.MinValue, int.MaxValue).ToString(),
                     ShortName = new Random().Next(int.MinValue, int.MaxValue).ToString()

@@ -1,6 +1,9 @@
 ﻿using Infrastructure.Communication.Http.Models;
 
 using Services.Communication.Http.Broker.Department.AA.CQRS.Commands.Requests;
+using Services.Communication.Http.Broker.Department.AA.Models;
+using Services.Communication.Http.Broker.Department.Accounting.CQRS.Commands.Requests;
+using Services.Communication.Http.Broker.Department.Accounting.Models;
 using Services.Communication.Http.Broker.Department.HR.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.HR.Models;
 
@@ -28,7 +31,7 @@ namespace Test.Services.Api.Business.Departments
             this.accountControllerTest = accountControllerTest;
         }
 
-        public async Task<List<global::Services.Communication.Http.Broker.Department.AA.Models.InventoryModel>> GetAAInventoriesAsync()
+        public async Task<List<AAInventoryModel>> GetAAInventoriesAsync()
         {
             var inventories = await inventoryControllerTest.GetInventoriesAsync();
 
@@ -44,14 +47,11 @@ namespace Test.Services.Api.Business.Departments
 
         public async Task<ServiceResultModel> CreateAAInventoryAsync()
         {
-            return await inventoryControllerTest.CreateInventoryAsync(new CreateInventoryCommandRequest()
+            return await inventoryControllerTest.CreateInventoryAsync(new AACreateInventoryCommandRequest()
             {
-                Inventory = new global::Services.Communication.Http.Broker.Department.AA.Models.InventoryModel()
+                Inventory = new AAInventoryModel()
                 {
-                    CurrentStockCount = 0,
-                    FromDate = DateTime.Now,
-                    Name = new Random().Next(int.MinValue, int.MaxValue).ToString(),
-                    ToDate = DateTime.Now.AddDays(new Random().Next(1, byte.MaxValue))
+                    Name = new Random().Next(int.MinValue, int.MaxValue).ToString()
                 }
             });
         }
@@ -113,12 +113,12 @@ namespace Test.Services.Api.Business.Departments
 
         public async Task<ServiceResultModel> CreateBankAccountToWorker(int workerId)
         {
-            return await accountControllerTest.CreateBankAccountTestAsync(new global::Services.Communication.Http.Broker.Department.Accounting.CQRS.Commands.Requests.CreateBankAccountCommandRequest()
+            return await accountControllerTest.CreateBankAccountTestAsync(new AccountingCreateBankAccountCommandRequest()
             {
-                BankAccount = new global::Services.Communication.Http.Broker.Department.Accounting.Models.BankAccountModel()
+                BankAccount = new AccountingBankAccountModel()
                 {
                     IBAN = new Random().Next(int.MinValue, int.MaxValue).ToString(),
-                    Worker = new global::Services.Communication.Http.Broker.Department.Accounting.Models.WorkerModel()
+                    Worker = new AccountingWorkerModel()
                     {
                         Id = workerId,
                     }
@@ -132,9 +132,9 @@ namespace Test.Services.Api.Business.Departments
 
             var randomBankAccount = bankAccounts.ElementAt(new Random().Next(0, bankAccounts.Count - 1));
 
-            var result = await accountControllerTest.CreateSalaryPaymentTest(new global::Services.Communication.Http.Broker.Department.Accounting.CQRS.Commands.Requests.CreateSalaryPaymentCommandRequest()
+            var result = await accountControllerTest.CreateSalaryPaymentTest(new AccountingCreateSalaryPaymentCommandRequest()
             {
-                SalaryPayment = new global::Services.Communication.Http.Broker.Department.Accounting.Models.SalaryPaymentModel()
+                SalaryPayment = new AccountingSalaryPaymentModel()
                 {
                     Amount = new Random().Next(1, byte.MaxValue),
                     Date = DateTime.Now,
@@ -150,7 +150,7 @@ namespace Test.Services.Api.Business.Departments
 
             if (people != null && !people.Any())
             {
-                var createPersonTask = personControllerTest.CreatePersonAsync(new CreatePersonCommandRequest()
+                var createPersonTask = await personControllerTest.CreatePersonAsync(new CreatePersonCommandRequest()
                 {
                     Person = new PersonModel()
                     {
@@ -164,5 +164,25 @@ namespace Test.Services.Api.Business.Departments
             return people;
         }
 
+
+        public async Task<List<TitleModel>> GetTitlesAsync()
+        {
+            var titles = await personControllerTest.GetTitles();
+
+            if (titles != null && !titles.Any())
+            {
+                var createTitleTask = await personControllerTest.CreateTitle(new CreateTitleCommandRequest()
+                {
+                    Title = new TitleModel()
+                    {
+                        Name = new Random().Next(int.MinValue, int.MaxValue).ToString()
+                    }
+                });
+
+                titles = await personControllerTest.GetTitles();
+            }
+
+            return titles;
+        }
     }
 }

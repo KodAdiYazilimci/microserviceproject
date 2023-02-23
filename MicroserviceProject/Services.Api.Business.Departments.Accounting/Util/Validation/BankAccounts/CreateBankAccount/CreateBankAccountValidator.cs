@@ -25,7 +25,7 @@ namespace Services.Api.Business.Departments.Accounting.Util.Validation.Departmen
         /// <param name="bankAccount">Doğrulanacak nesne</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public static async Task ValidateAsync(BankAccountModel bankAccount, CancellationTokenSource cancellationTokenSource)
+        public static async Task ValidateAsync(AccountingBankAccountModel bankAccount, CancellationTokenSource cancellationTokenSource)
         {
             CreateBankAccountRule validationRules = new CreateBankAccountRule();
 

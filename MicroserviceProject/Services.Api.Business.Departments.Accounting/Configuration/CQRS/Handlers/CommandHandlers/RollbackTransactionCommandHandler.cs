@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Services.Api.Business.Departments.Accounting.Configuration.CQRS.Handlers.CommandHandlers
 {
-    public class RollbackTransactionCommandHandler : IRequestHandler<RollbackTransactionCommandRequest, RollbackTransactionCommandResponse>
+    public class RollbackTransactionCommandHandler : IRequestHandler<AccountingRollbackTransactionCommandRequest, AccountingRollbackTransactionCommandResponse>
     {
         private readonly RuntimeHandler _runtimeHandler;
         private readonly BankService _bankService;
@@ -24,7 +24,7 @@ namespace Services.Api.Business.Departments.Accounting.Configuration.CQRS.Handle
             _bankService = bankService;
         }
 
-        public async Task<RollbackTransactionCommandResponse> Handle(RollbackTransactionCommandRequest request, CancellationToken cancellationToken)
+        public async Task<AccountingRollbackTransactionCommandResponse> Handle(AccountingRollbackTransactionCommandRequest request, CancellationToken cancellationToken)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
@@ -38,11 +38,11 @@ namespace Services.Api.Business.Departments.Accounting.Configuration.CQRS.Handle
                     await
                     _runtimeHandler.ExecuteResultMethod<Task<int>>(
                         _bankService,
-                        nameof(_bankService.GetProductionRequestsAsync),
+                        nameof(_bankService.RollbackTransactionAsync),
                         new object[] { request.Rollback, cancellationTokenSource });
             }
 
-            return new RollbackTransactionCommandResponse() { Result = rollbackResult };
+            return new AccountingRollbackTransactionCommandResponse() { Result = rollbackResult };
         }
     }
 }

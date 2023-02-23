@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Services.Api.Business.Departments.AA.Configuration.CQRS.Handlers.CommandHandlers
 {
-    public class RollbackTransactionCommandHandler : IRequestHandler<RollbackTransactionCommandRequest, RollbackTransactionCommandResponse>
+    public class RollbackTransactionCommandHandler : IRequestHandler<AARollbackTransactionCommandRequest, AARollbackTransactionCommandResponse>
     {
         private readonly RuntimeHandler _runtimeHandler;
         private readonly InventoryService _inventoryService;
@@ -24,7 +24,7 @@ namespace Services.Api.Business.Departments.AA.Configuration.CQRS.Handlers.Comma
             _inventoryService = inventoryService;
         }
 
-        public async Task<RollbackTransactionCommandResponse> Handle(RollbackTransactionCommandRequest request, CancellationToken cancellationToken)
+        public async Task<AARollbackTransactionCommandResponse> Handle(AARollbackTransactionCommandRequest request, CancellationToken cancellationToken)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
@@ -38,11 +38,11 @@ namespace Services.Api.Business.Departments.AA.Configuration.CQRS.Handlers.Comma
                     await
                     _runtimeHandler.ExecuteResultMethod<Task<int>>(
                         _inventoryService,
-                        nameof(_inventoryService.GetProductionRequestsAsync),
+                        nameof(_inventoryService.RollbackTransactionAsync),
                         new object[] { request.Rollback, cancellationTokenSource });
             }
 
-            return new RollbackTransactionCommandResponse() { Result = rollbackResult };
+            return new AARollbackTransactionCommandResponse() { Result = rollbackResult };
         }
     }
 }

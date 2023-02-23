@@ -24,7 +24,7 @@ namespace Services.Api.Business.Departments.IT.Util.Validation.Inventory.CreateD
         /// <param name="inventory">Doğrulanacak nesne</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public static async Task ValidateAsync(InventoryModel inventory, CancellationTokenSource cancellationTokenSource)
+        public static async Task ValidateAsync(ITInventoryModel inventory, CancellationTokenSource cancellationTokenSource)
         {
             CreateDefaultInventoryForNewWorkerRule validationRules = new CreateDefaultInventoryForNewWorkerRule();
 

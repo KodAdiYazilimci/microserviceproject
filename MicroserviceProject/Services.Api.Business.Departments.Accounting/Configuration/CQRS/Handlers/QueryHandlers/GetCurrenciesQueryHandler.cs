@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Services.Api.Business.Departments.Accounting.Configuration.CQRS.Handlers.QueryHandlers
 {
-    public class GetCurrenciesQueryHandler : IRequestHandler<GetCurrenciesQueryRequest, GetCurrenciesQueryResponse>
+    public class GetCurrenciesQueryHandler : IRequestHandler<AccountingGetCurrenciesQueryRequest, AccountingGetCurrenciesQueryResponse>
     {
         private readonly RuntimeHandler _runtimeHandler;
         private readonly BankService _bankService;
@@ -25,13 +25,13 @@ namespace Services.Api.Business.Departments.Accounting.Configuration.CQRS.Handle
             _bankService = bankService;
         }
 
-        public async Task<GetCurrenciesQueryResponse> Handle(GetCurrenciesQueryRequest request, CancellationToken cancellationToken)
+        public async Task<AccountingGetCurrenciesQueryResponse> Handle(AccountingGetCurrenciesQueryRequest request, CancellationToken cancellationToken)
         {
-            return new GetCurrenciesQueryResponse()
+            return new AccountingGetCurrenciesQueryResponse()
             {
                 Currencies =
                 await
-                _runtimeHandler.ExecuteResultMethod<Task<List<CurrencyModel>>>(
+                _runtimeHandler.ExecuteResultMethod<Task<List<AccountingCurrencyModel>>>(
                     _bankService,
                     nameof(_bankService.GetCurrenciesAsync),
                     new object[] { new CancellationTokenSource() })

@@ -20,7 +20,7 @@ namespace Services.Api.Business.Departments.AA.Configuration.Mapping
         {
             // Model => Entity
 
-            CreateMap<InventoryModel, InventoryEntity>()
+            CreateMap<AAInventoryModel, InventoryEntity>()
                 .ForMember(x => x.WorkerInventories, y => y.Ignore())
                 .ForMember(x => x.InventoryDefaults, y => y.Ignore())
                 .ForMember(x => x.DeleteDate, y => y.Ignore());
@@ -30,9 +30,7 @@ namespace Services.Api.Business.Departments.AA.Configuration.Mapping
 
             // Entity => Model
 
-            CreateMap<InventoryEntity, InventoryModel>()
-                .ForMember(x => x.FromDate, y => y.Ignore())
-                .ForMember(x => x.ToDate, y => y.Ignore());
+            CreateMap<InventoryEntity, AAInventoryModel>();
 
             CreateMap<RollbackEntity, RollbackModel>();
             CreateMap<RollbackItemEntity, RollbackItemModel>();

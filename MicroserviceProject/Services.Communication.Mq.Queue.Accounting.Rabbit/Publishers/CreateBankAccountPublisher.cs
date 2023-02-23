@@ -7,7 +7,7 @@ namespace Services.Communication.Mq.Queue.Accounting.Rabbit.Publishers
     /// <summary>
     /// Çalışana maaş hesabı açan rabbit kuyruğuna yeni bir kayıt ekler
     /// </summary>
-    public class CreateBankAccountPublisher : BasePublisher<BankAccountQueueModel>, IDisposable
+    public class CreateBankAccountPublisher : BasePublisher<AccountingBankAccountQueueModel>, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -19,7 +19,7 @@ namespace Services.Communication.Mq.Queue.Accounting.Rabbit.Publishers
         /// </summary>
         /// <param name="rabbitConfiguration">Kuyruk ayarlarını verece configuration nesnesi</param>
         public CreateBankAccountPublisher(
-            CreateBankAccountRabbitConfiguration rabbitConfiguration)
+            AccountingCreateBankAccountRabbitConfiguration rabbitConfiguration)
             : base(rabbitConfiguration)
         {
 

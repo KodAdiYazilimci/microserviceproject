@@ -16,7 +16,7 @@ namespace Services.Communication.Mq.Queue.Accounting.DI
         /// <returns></returns>
         public static IServiceCollection RegisterAccountingQueueConfigurations(this IServiceCollection services)
         {
-            services.AddSingleton<CreateBankAccountRabbitConfiguration>();
+            services.AddSingleton<AccountingCreateBankAccountRabbitConfiguration>();
 
             return services;
         }

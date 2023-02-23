@@ -82,10 +82,10 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Services
                         routeProvider: routeProvider),
                     AAassignInventoryToWorkerPublisher: AAAssignInventoryToWorkerPublisherProvider.GetPublisher(
                         configuration: AAAssignInventoryToWorkerRabbitConfigurationProvider.GetConfiguration(configuration)),
-                    ITassignInventoryToWorkerPublisher: ITassignInventoryToWorkerPublisherProvider.GetPublisher(
+                    ITassignInventoryToWorkerPublisher: ITAssignInventoryToWorkerPublisherProvider.GetPublisher(
                         configuration: ITAssignInventoryToWorkerRabbitConfigurationProvider.GetConfiguration(configuration)),
                     createBankAccountPublisher: CreateBankAccountPublisherProvider.GetPublisher(
-                        rabbitConfiguration: CreateBankAccountRabbitConfigurationProvider.GetConfiguration(configuration)),
+                        rabbitConfiguration: AccountingCreateBankAccountRabbitConfigurationProvider.GetConfiguration(configuration)),
                     unitOfWork: new UnitOfWork(configuration),
                     translationProvider: TranslationProviderFactory.GetTranslationProvider(
                         configuration: configuration,

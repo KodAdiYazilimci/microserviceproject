@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Services.Api.Business.Departments.Accounting.Configuration.CQRS.Handlers.QueryHandlers
 {
-    public class GetSalaryPaymentsOfWorkerQueryHandler : IRequestHandler<GetSalaryPaymentsOfWorkerQueryRequest, GetSalaryPaymentsOfWorkerQueryResponse>
+    public class GetSalaryPaymentsOfWorkerQueryHandler : IRequestHandler<AccountingGetSalaryPaymentsOfWorkerQueryRequest, AccountingGetSalaryPaymentsOfWorkerQueryResponse>
     {
         private readonly RuntimeHandler _runtimeHandler;
         private readonly BankService _bankService;
@@ -25,13 +25,13 @@ namespace Services.Api.Business.Departments.Accounting.Configuration.CQRS.Handle
             _bankService = bankService;
         }
 
-        public async Task<GetSalaryPaymentsOfWorkerQueryResponse> Handle(GetSalaryPaymentsOfWorkerQueryRequest request, CancellationToken cancellationToken)
+        public async Task<AccountingGetSalaryPaymentsOfWorkerQueryResponse> Handle(AccountingGetSalaryPaymentsOfWorkerQueryRequest request, CancellationToken cancellationToken)
         {
-            return new GetSalaryPaymentsOfWorkerQueryResponse()
+            return new AccountingGetSalaryPaymentsOfWorkerQueryResponse()
             {
                 SalaryPayments =
                 await
-                _runtimeHandler.ExecuteResultMethod<Task<List<SalaryPaymentModel>>>(
+                _runtimeHandler.ExecuteResultMethod<Task<List<AccountingSalaryPaymentModel>>>(
                     _bankService,
                     nameof(_bankService.GetSalaryPaymentsOfWorkerAsync),
                     new object[] { request.WorkerId, new CancellationTokenSource() })

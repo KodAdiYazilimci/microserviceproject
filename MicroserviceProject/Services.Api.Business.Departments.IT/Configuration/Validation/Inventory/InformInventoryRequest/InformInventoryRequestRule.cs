@@ -7,7 +7,7 @@ namespace Services.Api.Business.Departments.IT.Configuration.Validation.Inventor
     /// <summary>
     /// Inventory/InformInventoryRequest Http endpoint için validasyon kuralı
     /// </summary>
-    public class InformInventoryRequestRule : AbstractValidator<InventoryRequestModel>
+    public class InformInventoryRequestRule : AbstractValidator<ITInventoryRequestModel>
     {
         /// <summary>
         /// Inventory/InformInventoryRequest Http endpoint için validasyon kuralı

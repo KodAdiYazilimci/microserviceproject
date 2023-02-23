@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Services.Api.Business.Departments.Accounting.Configuration.CQRS.Handlers.CommandHandlers
 {
-    public class CreateBankAccountCommandHandler : IRequestHandler<CreateBankAccountCommandRequest, CreateBankAccountCommandResponse>
+    public class CreateBankAccountCommandHandler : IRequestHandler<AccountingCreateBankAccountCommandRequest, AccountingCreateBankAccountCommandResponse>
     {
         private readonly RuntimeHandler _runtimeHandler;
         private readonly BankService _bankService;
@@ -24,13 +24,13 @@ namespace Services.Api.Business.Departments.Accounting.Configuration.CQRS.Handle
             _bankService = bankService;
         }
 
-        public async Task<CreateBankAccountCommandResponse> Handle(CreateBankAccountCommandRequest request, CancellationToken cancellationToken)
+        public async Task<AccountingCreateBankAccountCommandResponse> Handle(AccountingCreateBankAccountCommandRequest request, CancellationToken cancellationToken)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
             await CreateBankAccountValidator.ValidateAsync(request.BankAccount, cancellationTokenSource);
 
-            return new CreateBankAccountCommandResponse()
+            return new AccountingCreateBankAccountCommandResponse()
             {
                 CreatedBankAccountId =
                 await

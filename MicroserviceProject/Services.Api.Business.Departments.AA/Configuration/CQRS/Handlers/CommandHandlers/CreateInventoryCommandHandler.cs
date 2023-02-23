@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Services.Api.Business.Departments.AA.Configuration.CQRS.Handlers.CommandHandlers
 {
-    public class CreateInventoryCommandHandler : IRequestHandler<CreateInventoryCommandRequest, CreateInventoryCommandResponse>
+    public class CreateInventoryCommandHandler : IRequestHandler<AACreateInventoryCommandRequest, AACreateInventoryCommandResponse>
     {
         private readonly RuntimeHandler _runtimeHandler;
         private readonly InventoryService _inventoryService;
@@ -24,13 +24,13 @@ namespace Services.Api.Business.Departments.AA.Configuration.CQRS.Handlers.Comma
             _inventoryService = inventoryService;
         }
 
-        public async Task<CreateInventoryCommandResponse> Handle(CreateInventoryCommandRequest request, CancellationToken cancellationToken)
+        public async Task<AACreateInventoryCommandResponse> Handle(AACreateInventoryCommandRequest request, CancellationToken cancellationToken)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
             await CreateInventoryValidator.ValidateAsync(request.Inventory, cancellationTokenSource);
 
-            return new CreateInventoryCommandResponse()
+            return new AACreateInventoryCommandResponse()
             {
                 CreatedInventoryId =
                 await

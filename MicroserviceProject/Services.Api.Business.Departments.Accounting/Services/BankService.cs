@@ -131,13 +131,13 @@ namespace Services.Api.Business.Departments.Accounting.Services
         /// <returns></returns>
         [LogBeforeRuntimeAttr(nameof(GetBankAccounts))]
         [LogAfterRuntimeAttr(nameof(GetBankAccounts))]
-        public async Task<List<BankAccountModel>> GetBankAccounts(int workerId, CancellationTokenSource cancellationTokenSource)
+        public async Task<List<AccountingBankAccountModel>> GetBankAccounts(int workerId, CancellationTokenSource cancellationTokenSource)
         {
             List<BankAccountEntity> bankAccounts =
                 await _bankAccountRepository.GetBankAccountsAsync(workerId, cancellationTokenSource);
 
-            List<BankAccountModel> mappedBankAccounts =
-                _mapper.Map<List<BankAccountEntity>, List<BankAccountModel>>(bankAccounts);
+            List<AccountingBankAccountModel> mappedBankAccounts =
+                _mapper.Map<List<BankAccountEntity>, List<AccountingBankAccountModel>>(bankAccounts);
 
             return mappedBankAccounts;
         }
@@ -150,9 +150,9 @@ namespace Services.Api.Business.Departments.Accounting.Services
         /// <returns></returns>
         [LogBeforeRuntimeAttr(nameof(CreateBankAccountAsync))]
         [LogAfterRuntimeAttr(nameof(CreateBankAccountAsync))]
-        public async Task<int> CreateBankAccountAsync(BankAccountModel bankAccount, CancellationTokenSource cancellationTokenSource)
+        public async Task<int> CreateBankAccountAsync(AccountingBankAccountModel bankAccount, CancellationTokenSource cancellationTokenSource)
         {
-            BankAccountEntity mappedBankAccount = _mapper.Map<BankAccountModel, BankAccountEntity>(bankAccount);
+            BankAccountEntity mappedBankAccount = _mapper.Map<AccountingBankAccountModel, BankAccountEntity>(bankAccount);
 
             int createdBankAccountId = await _bankAccountRepository.CreateAsync(mappedBankAccount, cancellationTokenSource);
 
@@ -186,9 +186,9 @@ namespace Services.Api.Business.Departments.Accounting.Services
         /// <returns></returns>
         [LogBeforeRuntimeAttr(nameof(GetCurrenciesAsync))]
         [LogAfterRuntimeAttr(nameof(GetCurrenciesAsync))]
-        public async Task<List<CurrencyModel>> GetCurrenciesAsync(CancellationTokenSource cancellationTokenSource)
+        public async Task<List<AccountingCurrencyModel>> GetCurrenciesAsync(CancellationTokenSource cancellationTokenSource)
         {
-            if (_redisCacheDataProvider.TryGetValue(CACHED_CURRENCIES_KEY, out List<CurrencyModel> cureencies)
+            if (_redisCacheDataProvider.TryGetValue(CACHED_CURRENCIES_KEY, out List<AccountingCurrencyModel> cureencies)
                 &&
                 cureencies != null && cureencies.Any())
             {
@@ -197,8 +197,8 @@ namespace Services.Api.Business.Departments.Accounting.Services
 
             List<CurrencyEntity> currencies = await _currencyRepository.GetListAsync(cancellationTokenSource);
 
-            List<CurrencyModel> mappedDepartments =
-                _mapper.Map<List<CurrencyEntity>, List<CurrencyModel>>(currencies);
+            List<AccountingCurrencyModel> mappedDepartments =
+                _mapper.Map<List<CurrencyEntity>, List<AccountingCurrencyModel>>(currencies);
 
             _redisCacheDataProvider.Set(CACHED_CURRENCIES_KEY, mappedDepartments);
 
@@ -213,9 +213,9 @@ namespace Services.Api.Business.Departments.Accounting.Services
         /// <returns></returns>
         [LogBeforeRuntimeAttr(nameof(CreateCurrencyAsync))]
         [LogAfterRuntimeAttr(nameof(CreateCurrencyAsync))]
-        public async Task<int> CreateCurrencyAsync(CurrencyModel currency, CancellationTokenSource cancellationTokenSource)
+        public async Task<int> CreateCurrencyAsync(AccountingCurrencyModel currency, CancellationTokenSource cancellationTokenSource)
         {
-            CurrencyEntity mappedCurrency = _mapper.Map<CurrencyModel, CurrencyEntity>(currency);
+            CurrencyEntity mappedCurrency = _mapper.Map<AccountingCurrencyModel, CurrencyEntity>(currency);
 
             int createdCurrencyId = await _currencyRepository.CreateAsync(mappedCurrency, cancellationTokenSource);
 
@@ -241,7 +241,7 @@ namespace Services.Api.Business.Departments.Accounting.Services
 
             currency.Id = createdCurrencyId;
 
-            if (_redisCacheDataProvider.TryGetValue(CACHED_CURRENCIES_KEY, out List<CurrencyModel> cachedCurrencies) && cachedCurrencies != null)
+            if (_redisCacheDataProvider.TryGetValue(CACHED_CURRENCIES_KEY, out List<AccountingCurrencyModel> cachedCurrencies) && cachedCurrencies != null)
             {
                 cachedCurrencies.Add(currency);
 
@@ -259,13 +259,13 @@ namespace Services.Api.Business.Departments.Accounting.Services
         /// <returns></returns>
         [LogBeforeRuntimeAttr(nameof(GetSalaryPaymentsOfWorkerAsync))]
         [LogAfterRuntimeAttr(nameof(GetSalaryPaymentsOfWorkerAsync))]
-        public async Task<List<SalaryPaymentModel>> GetSalaryPaymentsOfWorkerAsync(int workerId, CancellationTokenSource cancellationTokenSource)
+        public async Task<List<AccountingSalaryPaymentModel>> GetSalaryPaymentsOfWorkerAsync(int workerId, CancellationTokenSource cancellationTokenSource)
         {
             List<SalaryPaymentEntity> bankAccounts =
            await _salaryPaymentRepository.GetSalaryPaymentsOfWorkerAsync(workerId, cancellationTokenSource);
 
-            List<SalaryPaymentModel> mappedSalaryPayments =
-                _mapper.Map<List<SalaryPaymentEntity>, List<SalaryPaymentModel>>(bankAccounts);
+            List<AccountingSalaryPaymentModel> mappedSalaryPayments =
+                _mapper.Map<List<SalaryPaymentEntity>, List<AccountingSalaryPaymentModel>>(bankAccounts);
 
             return mappedSalaryPayments;
         }
@@ -278,9 +278,9 @@ namespace Services.Api.Business.Departments.Accounting.Services
         /// <returns></returns>
         [LogBeforeRuntimeAttr(nameof(CreateSalaryPaymentAsync))]
         [LogAfterRuntimeAttr(nameof(CreateSalaryPaymentAsync))]
-        public async Task<int> CreateSalaryPaymentAsync(SalaryPaymentModel salaryPayment, CancellationTokenSource cancellationTokenSource)
+        public async Task<int> CreateSalaryPaymentAsync(AccountingSalaryPaymentModel salaryPayment, CancellationTokenSource cancellationTokenSource)
         {
-            SalaryPaymentEntity mappedBankAccount = _mapper.Map<SalaryPaymentModel, SalaryPaymentEntity>(salaryPayment);
+            SalaryPaymentEntity mappedBankAccount = _mapper.Map<AccountingSalaryPaymentModel, SalaryPaymentEntity>(salaryPayment);
 
             int createdSalaryPaymentId = await _salaryPaymentRepository.CreateAsync(mappedBankAccount, cancellationTokenSource);
 
@@ -352,9 +352,9 @@ namespace Services.Api.Business.Departments.Accounting.Services
         /// <param name="rollback">Geri alınacak işlemin yedekleme noktası nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
-        [LogBeforeRuntimeAttr(nameof(GetProductionRequestsAsync))]
-        [LogAfterRuntimeAttr(nameof(GetProductionRequestsAsync))]
-        public async Task<int> GetProductionRequestsAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
+        [LogBeforeRuntimeAttr(nameof(RollbackTransactionAsync))]
+        [LogAfterRuntimeAttr(nameof(RollbackTransactionAsync))]
+        public async Task<int> RollbackTransactionAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
         {
             foreach (var rollbackItem in rollback.RollbackItems)
             {

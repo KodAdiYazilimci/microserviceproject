@@ -39,12 +39,12 @@ namespace Services.Api.Business.Departments.HR.Controllers
 
                 if (rollbackModel.Modules.Contains(_departmentService.ServiceName))
                 {
-                    rollbackResult = await _departmentService.GetProductionRequestsAsync(rollbackModel, cancellationTokenSource);
+                    rollbackResult = await _departmentService.RollbackTransactionAsync(rollbackModel, cancellationTokenSource);
                 }
 
                 if (rollbackModel.Modules.Contains(_personService.ServiceName))
                 {
-                    rollbackResult = await _departmentService.GetProductionRequestsAsync(rollbackModel, cancellationTokenSource);
+                    rollbackResult = await _departmentService.RollbackTransactionAsync(rollbackModel, cancellationTokenSource);
                 }
 
                 return rollbackResult;

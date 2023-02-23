@@ -11,13 +11,18 @@ using Infrastructure.Transaction.UnitOfWork.Sql;
 using Services.Api.Business.Departments.HR.Entities.Sql;
 using Services.Api.Business.Departments.HR.Repositories.Sql;
 using Services.Communication.Http.Broker.Department.AA;
+using Services.Communication.Http.Broker.Department.AA.Models;
 using Services.Communication.Http.Broker.Department.Accounting;
-using Services.Communication.Http.Broker.Department.Accounting.CQRS.Queries.Responses;
+using Services.Communication.Http.Broker.Department.Accounting.Models;
 using Services.Communication.Http.Broker.Department.HR.Models;
 using Services.Communication.Http.Broker.Department.IT;
+using Services.Communication.Http.Broker.Department.IT.Models;
 using Services.Communication.Mq.Queue.AA.Models;
+using Services.Communication.Mq.Queue.AA.Rabbit.Publishers;
 using Services.Communication.Mq.Queue.Accounting.Models;
 using Services.Communication.Mq.Queue.Accounting.Rabbit.Publishers;
+using Services.Communication.Mq.Queue.IT.Models;
+using Services.Communication.Mq.Queue.IT.Rabbit.Publishers;
 using Services.Logging.Aspect.Attributes;
 
 using System;
@@ -129,12 +134,12 @@ namespace Services.Api.Business.Departments.HR.Services
         /// İdari işler tarafından yeni çalışana varsayılan envanter ataması yapacak kuyruğa
         /// kayıt ekleyecek nesne
         /// </summary>
-        private readonly Communication.Mq.Queue.AA.Rabbit.Publishers.AssignInventoryToWorkerPublisher _AAassignInventoryToWorkerPublisher;
+        private readonly AAAssignInventoryToWorkerPublisher _AAassignInventoryToWorkerPublisher;
 
         /// <summary>
         /// IT tarafından yeni çalışana varsayılan envanter ataması yapacak kuyruğa kayıt ekleyecek nesne
         /// </summary>
-        private readonly Communication.Mq.Queue.IT.Rabbit.Publishers.AssignInventoryToWorkerPublisher _ITAssignInventoryToWorkerPublisher;
+        private readonly ITAssignInventoryToWorkerPublisher _ITAssignInventoryToWorkerPublisher;
 
         /// <summary>
         /// Muhasebe tarafından yeni çalışana maaş hesabı açacak kuyruğa kayıt ekleyecek nesne
@@ -167,8 +172,8 @@ namespace Services.Api.Business.Departments.HR.Services
             AACommunicator aACommunicator,
             AccountingCommunicator accountingCommunicator,
             ITCommunicator itCommunicator,
-            Communication.Mq.Queue.AA.Rabbit.Publishers.AssignInventoryToWorkerPublisher AAassignInventoryToWorkerPublisher,
-            Communication.Mq.Queue.IT.Rabbit.Publishers.AssignInventoryToWorkerPublisher ITassignInventoryToWorkerPublisher,
+            AAAssignInventoryToWorkerPublisher AAassignInventoryToWorkerPublisher,
+            ITAssignInventoryToWorkerPublisher ITassignInventoryToWorkerPublisher,
             CreateBankAccountPublisher createBankAccountPublisher,
             IUnitOfWork unitOfWork,
             TranslationProvider translationProvider,
@@ -368,7 +373,7 @@ namespace Services.Api.Business.Departments.HR.Services
 
             foreach (var worker in workerModels)
             {
-                ServiceResultModel<List<Communication.Http.Broker.Department.Accounting.Models.BankAccountModel>> bankAccountsServiceResult =
+                ServiceResultModel<List<AccountingBankAccountModel>> bankAccountsServiceResult =
                     await _accountingCommunicator.GetBankAccountsOfWorkerAsync(worker.Id, TransactionIdentity, cancellationTokenSource);
 
                 if (bankAccountsServiceResult.IsSuccess)
@@ -457,9 +462,9 @@ namespace Services.Api.Business.Departments.HR.Services
             #region Muhasebe departmanının banka hesabı açması için rabbit e kayıt ekler
 
             _createBankAccountPublisher.AddToBuffer(
-                model: new BankAccountQueueModel
+                model: new AccountingBankAccountQueueModel
                 {
-                    Worker = new Communication.Mq.Queue.Accounting.Models.WorkerQueueModel() { Id = worker.Id },
+                    Worker = new AccountingWorkerQueueModel() { Id = worker.Id },
                     IBAN = worker.BankAccounts.FirstOrDefault().IBAN,
                     TransactionIdentity = TransactionIdentity,
                     GeneratedBy = ApiServiceName
@@ -474,18 +479,16 @@ namespace Services.Api.Business.Departments.HR.Services
 
             if (!worker.AAInventories.Any())
             {
-                ServiceResultModel<List<Communication.Http.Broker.Department.AA.Models.InventoryModel>> defaultInventoriesServiceResult =
+                ServiceResultModel<List<AADefaultInventoryForNewWorkerModel>> defaultInventoriesServiceResult =
                     await _aaCommunicator.GetInventoriesForNewWorkerAsync(TransactionIdentity, cancellationTokenSource);
 
                 if (defaultInventoriesServiceResult.IsSuccess)
                 {
                     worker.AAInventories.AddRange(defaultInventoriesServiceResult.Data.Select(x => new InventoryModel()
                     {
-                        CurrentStockCount = x.CurrentStockCount,
-                        FromDate = x.FromDate,
                         Id = x.Id,
-                        Name = x.Name,
-                        ToDate = x.ToDate
+                        Amount = x.Amount,
+                        FromDate = DateTime.Now
                     }).ToList());
                 }
                 else
@@ -503,13 +506,14 @@ namespace Services.Api.Business.Departments.HR.Services
                 }
             }
 
-            _AAassignInventoryToWorkerPublisher.AddToBuffer(new Communication.Mq.Queue.AA.Models.WorkerQueueModel
+            _AAassignInventoryToWorkerPublisher.AddToBuffer(new AAWorkerQueueModel
             {
-                Id = worker.Id,
-                Inventories = worker.AAInventories.Select(x => new InventoryQueueModel()
+                Inventories = worker.AAInventories.Select(x => new AAInventoryQueueModel()
                 {
+                    InventoryId = x.Id,
+                    WorkerId = worker.Id,
+                    Amount = x.Amount,
                     FromDate = x.FromDate,
-                    Id = x.Id,
                     ToDate = x.ToDate,
                     TransactionIdentity = TransactionIdentity,
                     GeneratedBy = ApiServiceName
@@ -527,18 +531,16 @@ namespace Services.Api.Business.Departments.HR.Services
 
             if (!worker.ITInventories.Any())
             {
-                ServiceResultModel<List<Communication.Http.Broker.Department.IT.Models.InventoryModel>> defaultInventoriesServiceResult =
+                ServiceResultModel<List<ITDefaultInventoryForNewWorkerModel>> defaultInventoriesServiceResult =
                     await _itCommunicator.GetInventoriesForNewWorkerAsync(TransactionIdentity, cancellationTokenSource);
 
                 if (defaultInventoriesServiceResult.IsSuccess)
                 {
                     worker.ITInventories.AddRange(defaultInventoriesServiceResult.Data.Select(x => new InventoryModel()
                     {
-                        CurrentStockCount = x.CurrentStockCount,
-                        FromDate = x.FromDate,
                         Id = x.Id,
-                        Name = x.Name,
-                        ToDate = x.ToDate
+                        Amount = x.Amount,
+                        FromDate = DateTime.Now
                     }).ToList());
                 }
                 else
@@ -556,13 +558,15 @@ namespace Services.Api.Business.Departments.HR.Services
                 }
             }
 
-            _ITAssignInventoryToWorkerPublisher.AddToBuffer(new Communication.Mq.Queue.IT.Models.WorkerQueueModel
+            _ITAssignInventoryToWorkerPublisher.AddToBuffer(new ITWorkerQueueModel
             {
                 Id = worker.Id,
-                Inventories = worker.ITInventories.Select(x => new Communication.Mq.Queue.IT.Models.InventoryQueueModel()
+                Inventories = worker.ITInventories.Select(x => new ITInventoryQueueModel()
                 {
+                    InventoryId = x.Id,
+                    WorkerId = worker.Id,
+                    Amount = x.Amount,
                     FromDate = x.FromDate,
-                    Id = x.Id,
                     ToDate = x.ToDate,
                     TransactionIdentity = TransactionIdentity,
                     GeneratedBy = ApiServiceName
@@ -638,9 +642,9 @@ namespace Services.Api.Business.Departments.HR.Services
         /// <param name="rollback">Geri alınacak işlemin yedekleme noktası nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
-        [LogBeforeRuntimeAttr(nameof(GetProductionRequestsAsync))]
-        [LogAfterRuntimeAttr(nameof(GetProductionRequestsAsync))]
-        public async Task<int> GetProductionRequestsAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
+        [LogBeforeRuntimeAttr(nameof(RollbackTransactionAsync))]
+        [LogAfterRuntimeAttr(nameof(RollbackTransactionAsync))]
+        public async Task<int> RollbackTransactionAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
         {
             foreach (var rollbackItem in rollback.RollbackItems)
             {

@@ -106,7 +106,7 @@ namespace Services.Communication.Http.Broker.Department.Buying
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
                 endpoint.Queries["tokenKey"] = token;
 
-                return await CallAsync<List<InventoryModel>>(endpoint, cancellationTokenSource);
+                return await CallAsync<object>(endpoint, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();

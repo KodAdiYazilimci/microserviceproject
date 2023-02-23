@@ -18,14 +18,14 @@ namespace Services.Api.Business.Departments.Accounting.Configuration.Mapping
         {
             // Model => Entity
 
-            CreateMap<BankAccountModel, BankAccountEntity>();
-            CreateMap<CurrencyModel, CurrencyEntity>();
-            CreateMap<SalaryPaymentModel, SalaryPaymentEntity>();
+            CreateMap<AccountingBankAccountModel, BankAccountEntity>();
+            CreateMap<AccountingCurrencyModel, CurrencyEntity>();
+            CreateMap<AccountingSalaryPaymentModel, SalaryPaymentEntity>();
 
             // Entity => Model
-            CreateMap<BankAccountEntity, BankAccountModel>();
-            CreateMap<CurrencyEntity, CurrencyModel>();
-            CreateMap<SalaryPaymentEntity, SalaryPaymentModel>();
+            CreateMap<BankAccountEntity, AccountingBankAccountModel>();
+            CreateMap<CurrencyEntity, AccountingCurrencyModel>();
+            CreateMap<SalaryPaymentEntity, AccountingSalaryPaymentModel>();
         }
     }
 }

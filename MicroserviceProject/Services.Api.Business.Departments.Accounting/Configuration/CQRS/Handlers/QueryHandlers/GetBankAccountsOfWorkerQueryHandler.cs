@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Services.Api.Business.Departments.Accounting.Configuration.CQRS.Handlers.QueryHandlers
 {
-    public class GetBankAccountsOfWorkerQueryHandler : IRequestHandler<GetBankAccountsOfWorkerQueryRequest, GetBankAccountsOfWorkerQueryResponse>
+    public class GetBankAccountsOfWorkerQueryHandler : IRequestHandler<AccountingGetBankAccountsOfWorkerQueryRequest, AccountingGetBankAccountsOfWorkerQueryResponse>
     {
         private readonly RuntimeHandler _runtimeHandler;
         private readonly BankService _bankService;
@@ -25,13 +25,13 @@ namespace Services.Api.Business.Departments.Accounting.Configuration.CQRS.Handle
             _bankService = bankService;
         }
 
-        public async Task<GetBankAccountsOfWorkerQueryResponse> Handle(GetBankAccountsOfWorkerQueryRequest request, CancellationToken cancellationToken)
+        public async Task<AccountingGetBankAccountsOfWorkerQueryResponse> Handle(AccountingGetBankAccountsOfWorkerQueryRequest request, CancellationToken cancellationToken)
         {
-            return new GetBankAccountsOfWorkerQueryResponse()
+            return new AccountingGetBankAccountsOfWorkerQueryResponse()
             {
                 BankAccounts =
                 await
-                _runtimeHandler.ExecuteResultMethod<Task<List<BankAccountModel>>>(
+                _runtimeHandler.ExecuteResultMethod<Task<List<AccountingBankAccountModel>>>(
                     _bankService,
                     nameof(_bankService.GetBankAccounts),
                     new object[] { request.WorkerId, new CancellationTokenSource() })

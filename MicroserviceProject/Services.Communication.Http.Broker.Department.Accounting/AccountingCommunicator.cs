@@ -34,7 +34,7 @@ namespace Services.Communication.Http.Broker.Department.Accounting
             _routeProvider = routeProvider;
         }
 
-        public async Task<ServiceResultModel<List<BankAccountModel>>> GetBankAccountsOfWorkerAsync(
+        public async Task<ServiceResultModel<List<AccountingBankAccountModel>>> GetBankAccountsOfWorkerAsync(
             int workerId,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
@@ -49,14 +49,14 @@ namespace Services.Communication.Http.Broker.Department.Accounting
                 endpoint.Headers["TransactionIdentity"] = transactionIdentity;
                 endpoint.Queries["workerId"] = workerId.ToString();
 
-                return await CallAsync<List<BankAccountModel>>(endpoint, cancellationTokenSource);
+                return await CallAsync<List<AccountingBankAccountModel>>(endpoint, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();
         }
 
         public async Task<ServiceResultModel> CreateBankAccountAsync(
-            CreateBankAccountCommandRequest request,
+            AccountingCreateBankAccountCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
@@ -69,13 +69,13 @@ namespace Services.Communication.Http.Broker.Department.Accounting
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
                 endpoint.Headers["TransactionIdentity"] = transactionIdentity;
 
-                return await CallAsync<CreateBankAccountCommandRequest, Object>(endpoint, request, cancellationTokenSource);
+                return await CallAsync<AccountingCreateBankAccountCommandRequest, Object>(endpoint, request, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();
         }
 
-        public async Task<ServiceResultModel<List<CurrencyModel>>> GetCurrenciesAsync(
+        public async Task<ServiceResultModel<List<AccountingCurrencyModel>>> GetCurrenciesAsync(
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
@@ -88,14 +88,14 @@ namespace Services.Communication.Http.Broker.Department.Accounting
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
                 endpoint.Headers["TransactionIdentity"] = transactionIdentity;
 
-                return await CallAsync<List<CurrencyModel>>(endpoint, cancellationTokenSource);
+                return await CallAsync<List<AccountingCurrencyModel>>(endpoint, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();
         }
 
         public async Task<ServiceResultModel> CreateCurrencyAsync(
-            CreateCurrencyCommandRequest request,
+            AccountingCreateCurrencyCommandRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
@@ -108,13 +108,13 @@ namespace Services.Communication.Http.Broker.Department.Accounting
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
                 endpoint.Headers["TransactionIdentity"] = transactionIdentity;
 
-                return await CallAsync<CreateCurrencyCommandRequest, Object>(endpoint, request, cancellationTokenSource);
+                return await CallAsync<AccountingCreateCurrencyCommandRequest, Object>(endpoint, request, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();
         }
 
-        public async Task<ServiceResultModel<List<SalaryPaymentModel>>> GetSalaryPaymentsOfWorkerAsync(
+        public async Task<ServiceResultModel<List<AccountingSalaryPaymentModel>>> GetSalaryPaymentsOfWorkerAsync(
             int workerId,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
@@ -129,14 +129,14 @@ namespace Services.Communication.Http.Broker.Department.Accounting
                 endpoint.Headers["TransactionIdentity"] = transactionIdentity;
                 endpoint.Queries["workerId"] = workerId.ToString();
 
-                return await CallAsync<List<SalaryPaymentModel>>(endpoint, cancellationTokenSource);
+                return await CallAsync<List<AccountingSalaryPaymentModel>>(endpoint, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();
         }
 
         public async Task<ServiceResultModel> CreateSalaryPaymentAsync(
-           CreateSalaryPaymentCommandRequest request,
+           AccountingCreateSalaryPaymentCommandRequest request,
            string transactionIdentity,
            CancellationTokenSource cancellationTokenSource)
         {
@@ -149,7 +149,7 @@ namespace Services.Communication.Http.Broker.Department.Accounting
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
                 endpoint.Headers["TransactionIdentity"] = transactionIdentity;
 
-                return await CallAsync<CreateSalaryPaymentCommandRequest, Object>(endpoint, request, cancellationTokenSource);
+                return await CallAsync<AccountingCreateSalaryPaymentCommandRequest, Object>(endpoint, request, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();
