@@ -10,16 +10,16 @@ namespace Services.Api.Business.Departments.IT.Configuration.Validation.Inventor
     /// <summary>
     /// Inventory/AssignInventoryToWorker Http endpoint için validasyon kuralı
     /// </summary>
-    public class AssignInventoryToWorkerRule : AbstractValidator<WorkerModel>
+    public class AssignInventoryToWorkerRule : AbstractValidator<ITAssignInventoryToWorkerModel>
     {
         /// <summary>
         /// Inventory/AssignInventoryToWorker Http endpoint için validasyon kuralı
         /// </summary>
         public AssignInventoryToWorkerRule()
         {
-            RuleFor(x => x.Id).NotEmpty().WithMessage("Çalışan Id si boş geçilemez");
-            RuleFor(x => x.ITInventories).NotNull().WithMessage("Envanter bilgisi boş geçilemez");
-            RuleFor(x => x.ITInventories.Any()).NotEqual(false).WithMessage("Envanter bilgisi boş geçilemez");
+            RuleFor(x => x.InventoryId).NotNull().WithMessage("Envanter bilgisi boş geçilemez");
+            RuleFor(x => x.WorkerId).NotEmpty().WithMessage("Çalışan Id si boş geçilemez");
+            RuleFor(x => x.Amount).GreaterThan(0).WithMessage("Miktar bilgisi boş geçilemez");
         }
     }
 }

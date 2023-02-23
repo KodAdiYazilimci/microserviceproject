@@ -99,12 +99,24 @@ namespace Test.Services.Api.Business.Departments.HR.Tests
 
             var people = await dataProvider.GetPeopleAsync();
 
+            var titles = await dataProvider.GetTitlesAsync();
+
             var result = await personControllerTest.CreateWorkerAsync(new CreateWorkerCommandRequest()
             {
                 Worker = new WorkerModel()
                 {
                     Department = departments.ElementAt(new Random().Next(0, departments.Count - 1)),
-                    Person = people.ElementAt(new Random().Next(0, people.Count - 1))
+                    Person = people.ElementAt(new Random().Next(0, people.Count - 1)),
+                    Title = titles.ElementAt(new Random().Next(0, titles.Count - 1)),
+                    BankAccounts = new List<BankAccountModel>()
+                    {
+                        new BankAccountModel()
+                        {
+                             IBAN = new Random().Next(int.MinValue, int.MaxValue).ToString()
+                        }
+                    },
+                    FromDate = DateTime.Now,
+                    ToDate = DateTime.Now.AddDays(new Random().Next(byte.MinValue, byte.MaxValue))
                 }
             });
 

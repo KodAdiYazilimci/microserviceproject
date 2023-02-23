@@ -24,7 +24,7 @@ namespace Services.Api.Business.Departments.Accounting.Util.Validation.Departmen
         /// <param name="salaryPayment">Doğrulanacak nesne</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public static async Task ValidateAsync(SalaryPaymentModel salaryPayment, CancellationTokenSource cancellationTokenSource)
+        public static async Task ValidateAsync(AccountingSalaryPaymentModel salaryPayment, CancellationTokenSource cancellationTokenSource)
         {
             CreateSalaryPaymentRule validationRules = new CreateSalaryPaymentRule();
 

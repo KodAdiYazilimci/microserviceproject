@@ -33,7 +33,7 @@ namespace Services.Api.Business.Departments.Finance.Configuration.CQRS.Handlers.
                 await
                 _runtimeHandler.ExecuteResultMethod<Task<List<ProductionRequestModel>>>(
                     _productionRequestService,
-                    nameof(_productionRequestService.GetProductionRequestsAsync),
+                    nameof(_productionRequestService.RollbackTransactionAsync),
                     new object[] { new CancellationTokenSource() })
             };
         }

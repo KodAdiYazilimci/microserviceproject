@@ -126,8 +126,8 @@ namespace Services.Business.Departments.Finance.Services
         /// </summary>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        [LogBeforeRuntimeAttr(nameof(GetProductionRequestsAsync))]
-        [LogAfterRuntimeAttr(nameof(GetProductionRequestsAsync))]
+        [LogBeforeRuntimeAttr(nameof(RollbackTransactionAsync))]
+        [LogAfterRuntimeAttr(nameof(RollbackTransactionAsync))]
         public async Task<List<ProductionRequestModel>> GetProductionRequestsAsync(CancellationTokenSource cancellationTokenSource)
         {
             if (_redisCacheDataProvider.TryGetValue(CACHED_PRODUCTION_REQUESTS_KEY, out List<ProductionRequestModel> cachedProductionRequests)
@@ -379,9 +379,9 @@ namespace Services.Business.Departments.Finance.Services
         /// <param name="rollback">Geri alınacak işlemin yedekleme noktası nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
-        [LogBeforeRuntimeAttr(nameof(GetProductionRequestsAsync))]
-        [LogAfterRuntimeAttr(nameof(GetProductionRequestsAsync))]
-        public async Task<int> GetProductionRequestsAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
+        [LogBeforeRuntimeAttr(nameof(RollbackTransactionAsync))]
+        [LogAfterRuntimeAttr(nameof(RollbackTransactionAsync))]
+        public async Task<int> RollbackTransactionAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
         {
             foreach (var rollbackItem in rollback.RollbackItems)
             {

@@ -38,7 +38,7 @@ namespace Services.Api.Business.Departments.Buying.Configuration.CQRS.Handlers.C
                     await
                     _runtimeHandler.ExecuteResultMethod<Task<int>>(
                         _requestService,
-                        nameof(_requestService.GetProductionRequestsAsync),
+                        nameof(_requestService.RollbackTransactionAsync),
                         new object[] { request.Rollback, cancellationTokenSource });
             }
 

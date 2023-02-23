@@ -156,7 +156,7 @@ namespace Services.Api.Business.Departments.AA.Services
         /// <returns></returns>
         [LogBeforeRuntimeAttr(nameof(InformInventoryRequestAsync))]
         [LogAfterRuntimeAttr(nameof(InformInventoryRequestAsync))]
-        public async Task InformInventoryRequestAsync(InventoryRequestModel inventoryRequest, CancellationTokenSource cancellationTokenSource)
+        public async Task InformInventoryRequestAsync(AAInventoryRequestModel inventoryRequest, CancellationTokenSource cancellationTokenSource)
         {
             if (inventoryRequest.Revoked)
                 await _inventoryRepository.IncreaseStockCountAsync(inventoryRequest.InventoryId, inventoryRequest.Amount, cancellationTokenSource);
@@ -259,9 +259,9 @@ namespace Services.Api.Business.Departments.AA.Services
         /// <returns></returns>
         [LogBeforeRuntimeAttr(nameof(GetInventoriesAsync))]
         [LogAfterRuntimeAttr(nameof(GetInventoriesAsync))]
-        public async Task<List<InventoryModel>> GetInventoriesAsync(CancellationTokenSource cancellationTokenSource)
+        public async Task<List<AAInventoryModel>> GetInventoriesAsync(CancellationTokenSource cancellationTokenSource)
         {
-            if (_redisCacheDataProvider.TryGetValue(CACHED_INVENTORIES_KEY, out List<InventoryModel> cachedInventories)
+            if (_redisCacheDataProvider.TryGetValue(CACHED_INVENTORIES_KEY, out List<AAInventoryModel> cachedInventories)
                 &&
                 cachedInventories != null && cachedInventories.Any())
             {
@@ -270,8 +270,8 @@ namespace Services.Api.Business.Departments.AA.Services
 
             List<InventoryEntity> inventories = await _inventoryRepository.GetListAsync(cancellationTokenSource);
 
-            List<InventoryModel> mappedInventories =
-                _mapper.Map<List<InventoryEntity>, List<InventoryModel>>(inventories);
+            List<AAInventoryModel> mappedInventories =
+                _mapper.Map<List<InventoryEntity>, List<AAInventoryModel>>(inventories);
 
             _redisCacheDataProvider.Set(CACHED_INVENTORIES_KEY, mappedInventories);
 
@@ -286,9 +286,9 @@ namespace Services.Api.Business.Departments.AA.Services
         /// <returns></returns>
         [LogBeforeRuntimeAttr(nameof(CreateInventoryAsync))]
         [LogAfterRuntimeAttr(nameof(CreateInventoryAsync))]
-        public async Task<int> CreateInventoryAsync(InventoryModel inventory, CancellationTokenSource cancellationTokenSource)
+        public async Task<int> CreateInventoryAsync(AAInventoryModel inventory, CancellationTokenSource cancellationTokenSource)
         {
-            InventoryEntity mappedInventory = _mapper.Map<InventoryModel, InventoryEntity>(inventory);
+            InventoryEntity mappedInventory = _mapper.Map<AAInventoryModel, InventoryEntity>(inventory);
 
             int createdInventoryId = await _inventoryRepository.CreateAsync(mappedInventory, cancellationTokenSource);
 
@@ -314,7 +314,7 @@ namespace Services.Api.Business.Departments.AA.Services
 
             inventory.Id = createdInventoryId;
 
-            if (_redisCacheDataProvider.TryGetValue(CACHED_INVENTORIES_KEY, out List<InventoryModel> cachedInventories) && cachedInventories != null)
+            if (_redisCacheDataProvider.TryGetValue(CACHED_INVENTORIES_KEY, out List<AAInventoryModel> cachedInventories) && cachedInventories != null)
             {
                 cachedInventories.Add(inventory);
 
@@ -332,9 +332,9 @@ namespace Services.Api.Business.Departments.AA.Services
         /// <returns></returns>
         [LogBeforeRuntimeAttr(nameof(CreateDefaultInventoryForNewWorkerAsync))]
         [LogAfterRuntimeAttr(nameof(CreateDefaultInventoryForNewWorkerAsync))]
-        public async Task<InventoryModel> CreateDefaultInventoryForNewWorkerAsync(InventoryModel inventory, CancellationTokenSource cancellationTokenSource)
+        public async Task CreateDefaultInventoryForNewWorkerAsync(AADefaultInventoryForNewWorkerModel inventory, CancellationTokenSource cancellationTokenSource)
         {
-            List<InventoryModel> existingInventories = await GetInventoriesAsync(cancellationTokenSource);
+            List<AAInventoryModel> existingInventories = await GetInventoriesAsync(cancellationTokenSource);
 
             if (!existingInventories.Any(x => x.Id == inventory.Id))
             {
@@ -374,7 +374,7 @@ namespace Services.Api.Business.Departments.AA.Services
 
             await _unitOfWork.SaveAsync(cancellationTokenSource);
 
-            if (_redisCacheDataProvider.TryGetValue(CACHED_INVENTORIES_DEFAULTS_KEY, out List<InventoryModel> cachedInventories)
+            if (_redisCacheDataProvider.TryGetValue(CACHED_INVENTORIES_DEFAULTS_KEY, out List<AAInventoryModel> cachedInventories)
                 &&
                 cachedInventories != null)
             {
@@ -382,8 +382,6 @@ namespace Services.Api.Business.Departments.AA.Services
 
                 _redisCacheDataProvider.Set(CACHED_INVENTORIES_DEFAULTS_KEY, cachedInventories);
             }
-
-            return inventory;
         }
 
         /// <summary>
@@ -393,9 +391,9 @@ namespace Services.Api.Business.Departments.AA.Services
         /// <returns></returns>
         [LogBeforeRuntimeAttr(nameof(GetInventoriesForNewWorker))]
         [LogAfterRuntimeAttr(nameof(GetInventoriesForNewWorker))]
-        public List<InventoryModel> GetInventoriesForNewWorker(CancellationTokenSource cancellationTokenSource)
+        public List<AADefaultInventoryForNewWorkerModel> GetInventoriesForNewWorker(CancellationTokenSource cancellationTokenSource)
         {
-            if (_redisCacheDataProvider.TryGetValue(CACHED_INVENTORIES_DEFAULTS_KEY, out List<InventoryModel> cachedInventories)
+            if (_redisCacheDataProvider.TryGetValue(CACHED_INVENTORIES_DEFAULTS_KEY, out List<AADefaultInventoryForNewWorkerModel> cachedInventories)
                 &&
                 cachedInventories != null && cachedInventories.Any())
             {
@@ -407,18 +405,20 @@ namespace Services.Api.Business.Departments.AA.Services
 
             Task.WaitAll(new Task[] { inventoriesTask, inventoryDefaultsTask }, cancellationTokenSource.Token);
 
-            List<InventoryModel> inventories = (from inv in inventoriesTask.Result
-                                                join def in inventoryDefaultsTask.Result
-                                                on
-                                                inv.Id equals def.InventoryId
-                                                where
-                                                def.ForNewWorker
-                                                select
-                                                new InventoryModel()
-                                                {
-                                                    Id = inv.Id,
-                                                    Name = inv.Name
-                                                }).ToList();
+            List<AADefaultInventoryForNewWorkerModel> inventories = 
+                (from inv in inventoriesTask.Result
+                 join def in inventoryDefaultsTask.Result
+                 on
+                 inv.Id equals def.InventoryId
+                 where
+                 def.ForNewWorker
+                 select
+                 new AADefaultInventoryForNewWorkerModel()
+                 {
+                     Id = inv.Id,
+                     Name = inv.Name,
+                     Amount = 1
+                 }).ToList();
 
             _redisCacheDataProvider.Set(CACHED_INVENTORIES_DEFAULTS_KEY, inventories, DateTime.UtcNow.AddMinutes(10));
 
@@ -428,26 +428,26 @@ namespace Services.Api.Business.Departments.AA.Services
         /// <summary>
         /// Bir çalışana envanter ataması yapar
         /// </summary>
-        /// <param name="worker">Envanter bilgisini içeren çalışan nesnesi</param>
+        /// <param name="inventoryModel">Envanter bilgisini içeren çalışan nesnesi</param>
         /// <param name="cancellationTokenSource"></param>
         /// <returns></returns>
         [LogBeforeRuntimeAttr(nameof(AssignInventoryToWorkerAsync))]
         [LogAfterRuntimeAttr(nameof(AssignInventoryToWorkerAsync))]
-        public async Task<WorkerModel> AssignInventoryToWorkerAsync(WorkerModel worker, CancellationTokenSource cancellationTokenSource)
+        public async Task AssignInventoryToWorkerAsync(List<AAAssignInventoryToWorkerModel> inventoryModel, CancellationTokenSource cancellationTokenSource)
         {
-            List<int> inventoryIds = worker.AAInventories.Select(x => x.Id).ToList();
+            List<int> inventoryIds = inventoryModel.Select(x => x.InventoryId).ToList();
 
             List<InventoryEntity> inventories =
                 await _inventoryRepository.GetForSpecificIdAsync(inventoryIds, cancellationTokenSource);
 
-            foreach (var inventoryId in inventoryIds)
+            foreach (var workerModel in inventoryModel)
             {
-                if (!inventories.Select(x => x.Id).Contains(inventoryId))
+                if (!inventories.Select(x => x.Id).Contains(workerModel.InventoryId))
                 {
-                    throw new Exception($"{inventoryId} Id değerine sahip envanter bulunamadı");
+                    throw new Exception($"{workerModel} Id değerine sahip envanter bulunamadı");
                 }
 
-                InventoryEntity inventoryEntity = inventories.FirstOrDefault(x => x.Id == inventoryId);
+                InventoryEntity inventoryEntity = inventories.FirstOrDefault(x => x.Id == workerModel.InventoryId);
 
                 if (inventoryEntity.CurrentStockCount <= 0)
                 {
@@ -455,16 +455,16 @@ namespace Services.Api.Business.Departments.AA.Services
                     {
                         Amount = 3,
                         DepartmentId = (int)Constants.Departments.AdministrativeAffairs,
-                        InventoryId = inventoryId,
+                        InventoryId = workerModel.InventoryId,
                         TransactionIdentity = TransactionIdentity,
                         GeneratedBy = ApiServiceName
                     });
 
-                    worker.AAInventories.FirstOrDefault(x => x.Id == inventoryId).CurrentStockCount = 0;
+                    inventories.FirstOrDefault(x => x.Id == workerModel.InventoryId).CurrentStockCount = 0;
                 }
                 else
                 {
-                    await _inventoryRepository.DescendStockCountAsync(inventoryId, 1, cancellationTokenSource);
+                    await _inventoryRepository.DescendStockCountAsync(workerModel.InventoryId, workerModel.Amount, cancellationTokenSource);
 
                     await CreateCheckpointAsync(
                         rollback: new RollbackModel()
@@ -476,7 +476,7 @@ namespace Services.Api.Business.Departments.AA.Services
                             {
                                 new RollbackItemModel
                                 {
-                                    Identity = inventoryId,
+                                    Identity = workerModel,
                                     Name = nameof(InventoryEntity.CurrentStockCount),
                                     DataSet = InventoryRepository.TABLE_NAME,
                                     RollbackType =  RollbackType.IncreaseValue,
@@ -488,18 +488,15 @@ namespace Services.Api.Business.Departments.AA.Services
 
                     _redisCacheDataProvider.RemoveObject(CACHED_INVENTORIES_KEY);
                 }
-            }
 
-            foreach (var inventoryModel in worker.AAInventories)
-            {
-                if (inventories.FirstOrDefault(x => x.Id == inventoryModel.Id).CurrentStockCount > 0)
+                if (inventories.FirstOrDefault(x => x.Id == workerModel.InventoryId).CurrentStockCount > 0)
                 {
                     int createdWorkerInventoryId = await _workerInventoryRepository.CreateAsync(new WorkerInventoryEntity
                     {
-                        FromDate = worker.FromDate,
-                        ToDate = worker.ToDate,
-                        InventoryId = inventoryModel.Id,
-                        WorkerId = worker.Id
+                        FromDate = workerModel.FromDate,
+                        ToDate = workerModel.ToDate,
+                        InventoryId = workerModel.InventoryId,
+                        WorkerId = workerModel.WorkerId
                     }, cancellationTokenSource);
 
                     await CreateCheckpointAsync(
@@ -520,17 +517,17 @@ namespace Services.Api.Business.Departments.AA.Services
                         },
                         cancellationTokenSource: cancellationTokenSource);
 
-                    inventories.FirstOrDefault(x => x.Id == inventoryModel.Id).CurrentStockCount -= 1;
+                    inventories.FirstOrDefault(x => x.Id == workerModel.InventoryId).CurrentStockCount -= 1;
                 }
                 else
                 {
                     int createdPendingWorkerInventoryId = await _pendingWorkerInventoryRepository.CreateAsync(new PendingWorkerInventoryEntity()
                     {
-                        FromDate = worker.FromDate,
-                        InventoryId = inventoryModel.Id,
+                        FromDate = workerModel.FromDate,
+                        InventoryId = workerModel.InventoryId,
                         StockCount = 1,
-                        ToDate = worker.ToDate,
-                        WorkerId = worker.Id
+                        ToDate = workerModel.ToDate,
+                        WorkerId = workerModel.WorkerId
                     }, cancellationTokenSource);
 
                     await CreateCheckpointAsync(
@@ -556,8 +553,6 @@ namespace Services.Api.Business.Departments.AA.Services
             await _unitOfWork.SaveAsync(cancellationTokenSource);
 
             await _createInventoryRequestPublisher.PublishBufferAsync(cancellationTokenSource);
-
-            return worker;
         }
 
         /// <summary>
@@ -618,9 +613,9 @@ namespace Services.Api.Business.Departments.AA.Services
         /// <param name="rollback">Geri alınacak işlemin yedekleme noktası nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
-        [LogBeforeRuntimeAttr(nameof(GetProductionRequestsAsync))]
-        [LogAfterRuntimeAttr(nameof(GetProductionRequestsAsync))]
-        public async Task<int> GetProductionRequestsAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
+        [LogBeforeRuntimeAttr(nameof(RollbackTransactionAsync))]
+        [LogAfterRuntimeAttr(nameof(RollbackTransactionAsync))]
+        public async Task<int> RollbackTransactionAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
         {
             foreach (var rollbackItem in rollback.RollbackItems)
             {

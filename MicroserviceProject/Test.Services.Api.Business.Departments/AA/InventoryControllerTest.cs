@@ -22,7 +22,7 @@ namespace Test.Services.Api.Business.Departments.AA
             inventoryController.ByPassMediatR = true;
         }
 
-        public async Task<List<InventoryModel>> GetInventoriesAsync()
+        public async Task<List<AAInventoryModel>> GetInventoriesAsync()
         {
             IActionResult actionResult = await inventoryController.GetInventories();
 
@@ -30,7 +30,7 @@ namespace Test.Services.Api.Business.Departments.AA
             {
                 OkObjectResult okObjectResult = (OkObjectResult)actionResult;
 
-                var inventories = okObjectResult.Value as ServiceResultModel<List<InventoryModel>>;
+                var inventories = okObjectResult.Value as ServiceResultModel<List<AAInventoryModel>>;
 
                 return inventories.Data;
             }
@@ -44,7 +44,7 @@ namespace Test.Services.Api.Business.Departments.AA
             return null;
         }
 
-        public async Task<ServiceResultModel> CreateInventoryAsync(CreateInventoryCommandRequest createInventoryCommandRequest)
+        public async Task<ServiceResultModel> CreateInventoryAsync(AACreateInventoryCommandRequest createInventoryCommandRequest)
         {
             IActionResult actionResult = await inventoryController.CreateInventory(createInventoryCommandRequest);
 
@@ -64,7 +64,7 @@ namespace Test.Services.Api.Business.Departments.AA
             return null;
         }
 
-        public async Task<ServiceResultModel> AssignInventoryToWorkerTest(AssignInventoryToWorkerCommandRequest assignInventoryToWorkerCommandRequest)
+        public async Task<ServiceResultModel> AssignInventoryToWorkerTest(AAAssignInventoryToWorkerCommandRequest assignInventoryToWorkerCommandRequest)
         {
             IActionResult actionResult = await inventoryController.AssignInventoryToWorker(assignInventoryToWorkerCommandRequest);
 
@@ -84,7 +84,7 @@ namespace Test.Services.Api.Business.Departments.AA
             return null;
         }
 
-        public async Task<ServiceResultModel> CreateDefaultInventoryForNewWorker(CreateDefaultInventoryForNewWorkerCommandRequest createDefaultInventoryForNewWorkerCommandRequest)
+        public async Task<ServiceResultModel> CreateDefaultInventoryForNewWorker(AACreateDefaultInventoryForNewWorkerCommandRequest createDefaultInventoryForNewWorkerCommandRequest)
         {
             IActionResult actionResult = await inventoryController.CreateDefaultInventoryForNewWorker(createDefaultInventoryForNewWorkerCommandRequest);
 
@@ -106,7 +106,7 @@ namespace Test.Services.Api.Business.Departments.AA
             return null;
         }
 
-        public List<InventoryModel> GetInventoriesForNewWorker()
+        public List<AAInventoryModel> GetInventoriesForNewWorker()
         {
             IActionResult actionResult = inventoryController.GetInventoriesForNewWorker();
 
@@ -114,7 +114,7 @@ namespace Test.Services.Api.Business.Departments.AA
             {
                 OkObjectResult okObjectResult = (OkObjectResult)actionResult;
 
-                return (okObjectResult.Value as ServiceResultModel<List<InventoryModel>>).Data;
+                return (okObjectResult.Value as ServiceResultModel<List<AAInventoryModel>>).Data;
             }
             else if (actionResult is BadRequestObjectResult)
             {
@@ -126,7 +126,7 @@ namespace Test.Services.Api.Business.Departments.AA
             return null;
         }
 
-        public async Task<ServiceResultModel> InformInventoryRequest(InformInventoryRequestCommandRequest informInventoryRequestCommandRequest)
+        public async Task<ServiceResultModel> InformInventoryRequest(AAInformInventoryRequestCommandRequest informInventoryRequestCommandRequest)
         {
             IActionResult actionResult = await inventoryController.InformInventoryRequest(informInventoryRequestCommandRequest);
 

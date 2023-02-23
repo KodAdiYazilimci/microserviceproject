@@ -30,11 +30,11 @@ namespace Services.Api.Business.Departments.Accounting.Controllers
         [HttpPost]
         [Route(nameof(RollbackTransaction))]
         [Authorize(Roles = "ApiUser")]
-        public async Task<IActionResult> RollbackTransaction([FromBody] RollbackTransactionCommandRequest request)
+        public async Task<IActionResult> RollbackTransaction([FromBody] AccountingRollbackTransactionCommandRequest request)
         {
             return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                RollbackTransactionCommandResponse mediatorResult = await _mediator.Send(request);
+                AccountingRollbackTransactionCommandResponse mediatorResult = await _mediator.Send(request);
 
                 return mediatorResult.Result;
             },

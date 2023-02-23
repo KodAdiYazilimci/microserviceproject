@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Services.Api.Business.Departments.Accounting.Configuration.CQRS.Handlers.CommandHandlers
 {
-    public class CreateCurrencyCommandHandler : IRequestHandler<CreateCurrencyCommandRequest, CreateCurrencyCommandResponse>
+    public class CreateCurrencyCommandHandler : IRequestHandler<AccountingCreateCurrencyCommandRequest, AccountingCreateCurrencyCommandResponse>
     {
         private readonly RuntimeHandler _runtimeHandler;
         private readonly BankService _bankService;
@@ -24,13 +24,13 @@ namespace Services.Api.Business.Departments.Accounting.Configuration.CQRS.Handle
             _bankService = bankService;
         }
 
-        public async Task<CreateCurrencyCommandResponse> Handle(CreateCurrencyCommandRequest request, CancellationToken cancellationToken)
+        public async Task<AccountingCreateCurrencyCommandResponse> Handle(AccountingCreateCurrencyCommandRequest request, CancellationToken cancellationToken)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
             await CreateCurrencyValidator.ValidateAsync(request.Currency, cancellationTokenSource);
 
-            return new CreateCurrencyCommandResponse()
+            return new AccountingCreateCurrencyCommandResponse()
             {
                 CreatedCurrencyId =
                 await

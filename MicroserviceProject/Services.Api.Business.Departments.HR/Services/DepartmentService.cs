@@ -220,9 +220,9 @@ namespace Services.Api.Business.Departments.HR.Services
         /// <param name="rollback">Geri alınacak işlemin yedekleme noktası nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
-        [LogBeforeRuntimeAttr(nameof(GetProductionRequestsAsync))]
-        [LogAfterRuntimeAttr(nameof(GetProductionRequestsAsync))]
-        public async Task<int> GetProductionRequestsAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
+        [LogBeforeRuntimeAttr(nameof(RollbackTransactionAsync))]
+        [LogAfterRuntimeAttr(nameof(RollbackTransactionAsync))]
+        public async Task<int> RollbackTransactionAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
         {
             foreach (var rollbackItem in rollback.RollbackItems)
             {

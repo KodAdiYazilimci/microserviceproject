@@ -20,7 +20,7 @@ namespace Test.Services.Api.Business.Departments.Accounting
             accountController.ByPassMediatR = true;
         }
 
-        public async Task<List<BankAccountModel>> GetBankAccountsOfWorkerAsync(int workerId)
+        public async Task<List<AccountingBankAccountModel>> GetBankAccountsOfWorkerAsync(int workerId)
         {
             IActionResult actionResult = await accountController.GetBankAccountsOfWorker(workerId);
 
@@ -28,7 +28,7 @@ namespace Test.Services.Api.Business.Departments.Accounting
             {
                 OkObjectResult okObjectResult = (OkObjectResult)actionResult;
 
-                var inventories = okObjectResult.Value as ServiceResultModel<List<BankAccountModel>>;
+                var inventories = okObjectResult.Value as ServiceResultModel<List<AccountingBankAccountModel>>;
 
                 return inventories.Data;
             }
@@ -42,7 +42,7 @@ namespace Test.Services.Api.Business.Departments.Accounting
             return null;
         }
 
-        public async Task<ServiceResultModel> CreateBankAccountTestAsync(CreateBankAccountCommandRequest createBankAccountCommandRequest)
+        public async Task<ServiceResultModel> CreateBankAccountTestAsync(AccountingCreateBankAccountCommandRequest createBankAccountCommandRequest)
         {
             IActionResult actionResult = await accountController.CreateBankAccount(createBankAccountCommandRequest);
 
@@ -62,7 +62,7 @@ namespace Test.Services.Api.Business.Departments.Accounting
             return null;
         }
 
-        public async Task<List<CurrencyModel>> GetCurrenciesAsync()
+        public async Task<List<AccountingCurrencyModel>> GetCurrenciesAsync()
         {
             IActionResult actionResult = await accountController.GetCurrencies();
 
@@ -70,7 +70,7 @@ namespace Test.Services.Api.Business.Departments.Accounting
             {
                 OkObjectResult okObjectResult = (OkObjectResult)actionResult;
 
-                return (okObjectResult.Value as ServiceResultModel<List<CurrencyModel>>).Data;
+                return (okObjectResult.Value as ServiceResultModel<List<AccountingCurrencyModel>>).Data;
             }
             else if (actionResult is BadRequestObjectResult)
             {
@@ -82,7 +82,7 @@ namespace Test.Services.Api.Business.Departments.Accounting
             return null;
         }
 
-        public async Task<ServiceResultModel> CreateCurrencyAsync(CreateCurrencyCommandRequest createCurrencyCommandRequest)
+        public async Task<ServiceResultModel> CreateCurrencyAsync(AccountingCreateCurrencyCommandRequest createCurrencyCommandRequest)
         {
             IActionResult actionResult = await accountController.CreateCurrency(createCurrencyCommandRequest);
 
@@ -102,7 +102,7 @@ namespace Test.Services.Api.Business.Departments.Accounting
             return null;
         }
 
-        public async Task<List<SalaryPaymentModel>> GetSalaryPaymentsOfWorkerAsync(int workerId)
+        public async Task<List<AccountingSalaryPaymentModel>> GetSalaryPaymentsOfWorkerAsync(int workerId)
         {
             IActionResult actionResult = await accountController.GetSalaryPaymentsOfWorker(workerId);
 
@@ -110,7 +110,7 @@ namespace Test.Services.Api.Business.Departments.Accounting
             {
                 OkObjectResult okObjectResult = (OkObjectResult)actionResult;
 
-                return (okObjectResult.Value as ServiceResultModel<List<SalaryPaymentModel>>).Data;
+                return (okObjectResult.Value as ServiceResultModel<List<AccountingSalaryPaymentModel>>).Data;
             }
             else if (actionResult is BadRequestObjectResult)
             {
@@ -122,7 +122,7 @@ namespace Test.Services.Api.Business.Departments.Accounting
             return null;
         }
 
-        public async Task<ServiceResultModel> CreateSalaryPaymentTest(CreateSalaryPaymentCommandRequest createSalaryPaymentCommandRequest)
+        public async Task<ServiceResultModel> CreateSalaryPaymentTest(AccountingCreateSalaryPaymentCommandRequest createSalaryPaymentCommandRequest)
         {
             IActionResult actionResult = await accountController.CreateSalaryPayment(createSalaryPaymentCommandRequest);
 

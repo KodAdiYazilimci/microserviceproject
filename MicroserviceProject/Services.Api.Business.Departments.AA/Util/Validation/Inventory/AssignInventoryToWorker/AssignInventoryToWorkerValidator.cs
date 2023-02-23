@@ -22,34 +22,37 @@ namespace Services.Api.Business.Departments.AA.Util.Validation.Inventory.AssignI
         /// <summary>
         /// Request body doğrular
         /// </summary>
-        /// <param name="worker">Doğrulanacak nesne</param>
+        /// <param name="workerModels">Doğrulanacak nesne</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public static async Task ValidateAsync(WorkerModel worker, CancellationTokenSource cancellationTokenSource)
+        public static async Task ValidateAsync(List<AAAssignInventoryToWorkerModel> workerModels, CancellationTokenSource cancellationTokenSource)
         {
             AssignInventoryToWorkerRule validationRules = new AssignInventoryToWorkerRule();
 
-            if (worker != null)
+            if (workerModels != null)
             {
-                ValidationResult validationResult = await validationRules.ValidateAsync(worker, cancellationTokenSource.Token);
-
-                if (!validationResult.IsValid)
+                foreach (var worker in workerModels)
                 {
-                    ValidationModel validation = new ValidationModel()
+                    ValidationResult validationResult = await validationRules.ValidateAsync(worker, cancellationTokenSource.Token);
+
+                    if (!validationResult.IsValid)
                     {
-                        IsValid = false,
-                        ValidationItems = new List<ValidationItemModel>()
-                    };
-
-                    validation.ValidationItems.AddRange(
-                        validationResult.Errors.Select(x => new ValidationItemModel()
+                        ValidationModel validation = new ValidationModel()
                         {
-                            Key = x.PropertyName,
-                            Value = x.AttemptedValue,
-                            Message = x.ErrorMessage
-                        }).ToList());
+                            IsValid = false,
+                            ValidationItems = new List<ValidationItemModel>()
+                        };
 
-                    throw new ValidationException(validation);
+                        validation.ValidationItems.AddRange(
+                            validationResult.Errors.Select(x => new ValidationItemModel()
+                            {
+                                Key = x.PropertyName,
+                                Value = x.AttemptedValue,
+                                Message = x.ErrorMessage
+                            }).ToList());
+
+                        throw new ValidationException(validation);
+                    }
                 }
             }
             else

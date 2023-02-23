@@ -11,10 +11,16 @@ using Infrastructure.Transaction.UnitOfWork.Sql;
 using Services.Api.Business.Departments.Buying.Entities.Sql;
 using Services.Api.Business.Departments.Buying.Repositories.Sql;
 using Services.Communication.Http.Broker.Department.AA;
+using Services.Communication.Http.Broker.Department.AA.Models;
 using Services.Communication.Http.Broker.Department.Buying.Models;
 using Services.Communication.Http.Broker.Department.IT;
+using Services.Communication.Http.Broker.Department.IT.Models;
+using Services.Communication.Mq.Queue.AA.Models;
+using Services.Communication.Mq.Queue.AA.Rabbit.Publishers;
 using Services.Communication.Mq.Queue.Finance.Models;
 using Services.Communication.Mq.Queue.Finance.Rabbit.Publishers;
+using Services.Communication.Mq.Queue.IT.Models;
+using Services.Communication.Mq.Queue.IT.Rabbit.Publishers;
 using Services.Logging.Aspect.Attributes;
 
 using System;
@@ -88,22 +94,22 @@ namespace Services.Api.Business.Departments.Buying.Services
         /// <summary>
         /// İdari işler servis iletişimcisi
         /// </summary>
-        private readonly Communication.Http.Broker.Department.AA.AACommunicator _aaCommunicator;
+        private readonly AACommunicator _aaCommunicator;
 
         /// <summary>
         /// IT departmanı servis iletişimcisi
         /// </summary>
-        private readonly Communication.Http.Broker.Department.IT.ITCommunicator _itCommunicator;
+        private readonly ITCommunicator _itCommunicator;
 
         /// <summary>
         /// İdari işler departmanına satın alımla ilgili olumlu veya olumsuz dönüş verisini rabbit kuyruğuna ekleyecek nesne
         /// </summary>
-        private readonly Communication.Mq.Queue.AA.Rabbit.Publishers.InformInventoryRequestPublisher _AAInformInventoryRequestPublisher;
+        private readonly AAInformInventoryRequestPublisher _AAInformInventoryRequestPublisher;
 
         /// <summary>
         /// Bilgi teknolojileri departmanına satın alımla ilgili olumlu veya olumsuz dönüş verisini rabbit kuyruğuna ekleyecek nesne
         /// </summary>
-        private readonly Communication.Mq.Queue.IT.Rabbit.Publishers.InformInventoryRequestPublisher _ITInformInventoryRequestPublisher;
+        private readonly ITInformInventoryRequestPublisher _ITInformInventoryRequestPublisher;
 
         /// <summary>
         /// Satınalma departmanından alınması istenilen envanter talepleri için kayıt açan nesne
@@ -137,8 +143,8 @@ namespace Services.Api.Business.Departments.Buying.Services
             InventoryRequestRepository inventoryRequestRepository,
             AACommunicator aaCommunicator,
             ITCommunicator itCommunicator,
-            Communication.Mq.Queue.AA.Rabbit.Publishers.InformInventoryRequestPublisher aaInformInventoryRequestPublisher,
-            Communication.Mq.Queue.IT.Rabbit.Publishers.InformInventoryRequestPublisher itInformInventoryRequestPublisher,
+            AAInformInventoryRequestPublisher aaInformInventoryRequestPublisher,
+            ITInformInventoryRequestPublisher itInformInventoryRequestPublisher,
             InventoryRequestPublisher inventoryRequestPublisher)
         {
             _mapper = mapper;
@@ -180,14 +186,14 @@ namespace Services.Api.Business.Departments.Buying.Services
             List<InventoryRequestModel> mappedInventoryRequests =
                 _mapper.Map<List<InventoryRequestEntity>, List<InventoryRequestModel>>(inventoryRequests);
 
-            List<Communication.Http.Broker.Department.AA.Models.InventoryModel> aaInventories = new List<Communication.Http.Broker.Department.AA.Models.InventoryModel>();
+            List<AAInventoryModel> aaInventories = new List<AAInventoryModel>();
 
             if (mappedInventoryRequests.Any(x => x.DepartmentId == (int)Constants.Departments.AdministrativeAffairs))
             {
                 aaInventories = await GetAAInventoriesAsync(cancellationTokenSource);
             }
 
-            List<Communication.Http.Broker.Department.IT.Models.InventoryModel> itInventories = new List<Communication.Http.Broker.Department.IT.Models.InventoryModel>();
+            List<ITInventoryModel> itInventories = new List<ITInventoryModel>();
 
             if (mappedInventoryRequests.Any(x => x.DepartmentId == (int)Constants.Departments.AdministrativeAffairs))
             {
@@ -200,32 +206,20 @@ namespace Services.Api.Business.Departments.Buying.Services
                 {
                     if (aaInventories.Any(x => x.Id == requestModel.InventoryId))
                     {
-                        Communication.Http.Broker.Department.AA.Models.InventoryModel inventory = aaInventories.FirstOrDefault(x => x.Id == requestModel.InventoryId);
-
-                        requestModel.AAInventory = new InventoryModel()
-                        {
-                            CurrentStockCount = inventory.CurrentStockCount,
-                            FromDate = inventory.FromDate,
-                            Id = inventory.Id,
-                            Name = inventory.Name,
-                            ToDate = inventory.ToDate
-                        };
+                        AAInventoryModel inventory = aaInventories.FirstOrDefault(x => x.Id == requestModel.InventoryId);
+;
+                        requestModel.InventoryId = inventory.Id;
+                        requestModel.Name = inventory.Name;
                     }
                 }
                 else if (requestModel.DepartmentId == (int)Constants.Departments.InformationTechnologies)
                 {
                     if (itInventories.Any(x => x.Id == requestModel.InventoryId))
                     {
-                        Communication.Http.Broker.Department.IT.Models.InventoryModel inventory = itInventories.FirstOrDefault(x => x.Id == requestModel.InventoryId);
+                        ITInventoryModel inventory = itInventories.FirstOrDefault(x => x.Id == requestModel.InventoryId);
 
-                        requestModel.ITInventory = new InventoryModel()
-                        {
-                            CurrentStockCount = inventory.CurrentStockCount,
-                            FromDate = inventory.FromDate,
-                            ToDate = inventory.ToDate,
-                            Name = inventory.Name,
-                            Id = inventory.Id
-                        };
+                        requestModel.Name = inventory.Name;
+                        requestModel.InventoryId = inventory.Id;
                     }
                 }
                 else
@@ -244,9 +238,9 @@ namespace Services.Api.Business.Departments.Buying.Services
         /// <returns></returns>
         [LogBeforeRuntimeAttr(nameof(GetAAInventoriesAsync))]
         [LogAfterRuntimeAttr(nameof(GetAAInventoriesAsync))]
-        private async Task<List<Communication.Http.Broker.Department.AA.Models.InventoryModel>> GetAAInventoriesAsync(CancellationTokenSource cancellationTokenSource)
+        private async Task<List<AAInventoryModel>> GetAAInventoriesAsync(CancellationTokenSource cancellationTokenSource)
         {
-            ServiceResultModel<List<Communication.Http.Broker.Department.AA.Models.InventoryModel>> serviceResult =
+            ServiceResultModel<List<AAInventoryModel>> serviceResult =
                 await _aaCommunicator.GetInventoriesAsync(TransactionIdentity, cancellationTokenSource);
 
             if (!serviceResult.IsSuccess)
@@ -273,9 +267,9 @@ namespace Services.Api.Business.Departments.Buying.Services
         /// <returns></returns>
         [LogBeforeRuntimeAttr(nameof(GetITInventoriesAsync))]
         [LogAfterRuntimeAttr(nameof(GetITInventoriesAsync))]
-        private async Task<List<Communication.Http.Broker.Department.IT.Models.InventoryModel>> GetITInventoriesAsync(CancellationTokenSource cancellationTokenSource)
+        private async Task<List<ITInventoryModel>> GetITInventoriesAsync(CancellationTokenSource cancellationTokenSource)
         {
-            ServiceResultModel<List<Communication.Http.Broker.Department.IT.Models.InventoryModel>> serviceResult =
+            ServiceResultModel<List<ITInventoryModel>> serviceResult =
                 await _itCommunicator.GetInventoriesAsync(TransactionIdentity, cancellationTokenSource);
 
             if (!serviceResult.IsSuccess)
@@ -309,7 +303,7 @@ namespace Services.Api.Business.Departments.Buying.Services
 
             if (mappedInventoryRequest.DepartmentId == (int)Constants.Departments.AdministrativeAffairs)
             {
-                List<Communication.Http.Broker.Department.AA.Models.InventoryModel> aaInventories = await GetAAInventoriesAsync(cancellationTokenSource);
+                List<AAInventoryModel> aaInventories = await GetAAInventoriesAsync(cancellationTokenSource);
 
                 if (!aaInventories.Any(x => x.Id == mappedInventoryRequest.InventoryId))
                 {
@@ -318,7 +312,7 @@ namespace Services.Api.Business.Departments.Buying.Services
             }
             else if (mappedInventoryRequest.DepartmentId == (int)Constants.Departments.InformationTechnologies)
             {
-                List<Communication.Http.Broker.Department.IT.Models.InventoryModel> itInventories = await GetITInventoriesAsync(cancellationTokenSource);
+                List<ITInventoryModel> itInventories = await GetITInventoriesAsync(cancellationTokenSource);
 
                 if (!itInventories.Any(x => x.Id == mappedInventoryRequest.InventoryId))
                 {
@@ -467,7 +461,7 @@ namespace Services.Api.Business.Departments.Buying.Services
             if (inventoryRequestEntity.DepartmentId == (int)Constants.Departments.AdministrativeAffairs)
             {
                 _AAInformInventoryRequestPublisher.AddToBuffer(
-                    model: new Communication.Mq.Queue.AA.Models.InventoryRequestQueueModel
+                    model: new AAInventoryRequestQueueModel
                     {
                         InventoryId = inventoryRequestEntity.InventoryId,
                         Amount = inventoryRequestEntity.Amount,
@@ -480,7 +474,7 @@ namespace Services.Api.Business.Departments.Buying.Services
             else if (inventoryRequestEntity.DepartmentId == (int)Constants.Departments.InformationTechnologies)
             {
                 _ITInformInventoryRequestPublisher.AddToBuffer(
-                    model: new Communication.Mq.Queue.IT.Models.InventoryRequestQueueModel
+                    model: new ITInventoryRequestQueueModel
                     {
                         InventoryId = inventoryRequestEntity.InventoryId,
                         Amount = inventoryRequestEntity.Amount,
@@ -547,9 +541,9 @@ namespace Services.Api.Business.Departments.Buying.Services
         /// <param name="rollback">Geri alınacak işlemin yedekleme noktası nesnesi</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
-        [LogBeforeRuntimeAttr(nameof(GetProductionRequestsAsync))]
-        [LogAfterRuntimeAttr(nameof(GetProductionRequestsAsync))]
-        public async Task<int> GetProductionRequestsAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
+        [LogBeforeRuntimeAttr(nameof(RollbackTransactionAsync))]
+        [LogAfterRuntimeAttr(nameof(RollbackTransactionAsync))]
+        public async Task<int> RollbackTransactionAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource)
         {
             foreach (var rollbackItem in rollback.RollbackItems)
             {

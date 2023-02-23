@@ -13,7 +13,7 @@ namespace Services.Communication.Mq.Queue.Accounting.Rabbit.Publisher.Mock
         /// </summary>
         /// <param name="rabbitConfiguration">Çalışana banka hesabı oluşturan yayıncının yapılandırma sınıfı nesnesi</param>
         /// <returns></returns>
-        public static CreateBankAccountPublisher GetPublisher(CreateBankAccountRabbitConfiguration rabbitConfiguration)
+        public static CreateBankAccountPublisher GetPublisher(AccountingCreateBankAccountRabbitConfiguration rabbitConfiguration)
         {
             return new CreateBankAccountPublisher(rabbitConfiguration);
         }

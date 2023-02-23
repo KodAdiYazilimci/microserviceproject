@@ -11,7 +11,8 @@ using System.Threading.Tasks;
 
 namespace Services.Api.Business.Departments.AA.Configuration.CQRS.Handlers.CommandHandlers
 {
-    public class InformInventoryRequestCommandHandler : IRequestHandler<InformInventoryRequestCommandRequest, InformInventoryRequestCommandResponse>
+    public class InformInventoryRequestCommandHandler : 
+        IRequestHandler<AAInformInventoryRequestCommandRequest, AAInformInventoryRequestCommandResponse>
     {
         private readonly RuntimeHandler _runtimeHandler;
         private readonly InventoryService _inventoryService;
@@ -24,7 +25,7 @@ namespace Services.Api.Business.Departments.AA.Configuration.CQRS.Handlers.Comma
             _inventoryService = inventoryService;
         }
 
-        public async Task<InformInventoryRequestCommandResponse> Handle(InformInventoryRequestCommandRequest request, CancellationToken cancellationToken)
+        public async Task<AAInformInventoryRequestCommandResponse> Handle(AAInformInventoryRequestCommandRequest request, CancellationToken cancellationToken)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
@@ -36,7 +37,7 @@ namespace Services.Api.Business.Departments.AA.Configuration.CQRS.Handlers.Comma
                     nameof(_inventoryService.InformInventoryRequestAsync),
                     new object[] { request.InventoryRequest, cancellationTokenSource });
 
-            return new InformInventoryRequestCommandResponse();
+            return new AAInformInventoryRequestCommandResponse();
         }
     }
 }

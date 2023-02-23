@@ -25,7 +25,7 @@ namespace Services.Api.Business.Departments.Accounting.Util.Validation.Departmen
         /// <param name="currency">Doğrulanacak nesne</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public static async Task ValidateAsync(CurrencyModel currency, CancellationTokenSource cancellationTokenSource)
+        public static async Task ValidateAsync(AccountingCurrencyModel currency, CancellationTokenSource cancellationTokenSource)
         {
             CreateCurrencyRule validationRules = new CreateCurrencyRule();
 

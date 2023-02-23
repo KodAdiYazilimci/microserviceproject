@@ -25,7 +25,7 @@ namespace Services.Api.Business.Departments.AA.Util.Validation.Inventory.InformI
         /// <param name="inventory">Doğrulanacak nesne</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public static async Task ValidateAsync(InventoryRequestModel inventory, CancellationTokenSource cancellationTokenSource)
+        public static async Task ValidateAsync(AAInventoryRequestModel inventory, CancellationTokenSource cancellationTokenSource)
         {
             InformInventoryRequestRule validationRules = new InformInventoryRequestRule();
 

@@ -39,7 +39,7 @@ namespace Services.Api.Business.Departments.Accounting.Controllers
                 if (ByPassMediatR)
                     return await _bankService.GetBankAccounts(workerId, new CancellationTokenSource());
                 else
-                    return (await _mediator.Send(new GetBankAccountsOfWorkerQueryRequest() { WorkerId = workerId })).BankAccounts;
+                    return (await _mediator.Send(new AccountingGetBankAccountsOfWorkerQueryRequest() { WorkerId = workerId })).BankAccounts;
             },
             services: _bankService);
         }
@@ -47,7 +47,7 @@ namespace Services.Api.Business.Departments.Accounting.Controllers
         [HttpPost]
         [Route(nameof(CreateBankAccount))]
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
-        public async Task<IActionResult> CreateBankAccount([FromBody] CreateBankAccountCommandRequest request)
+        public async Task<IActionResult> CreateBankAccount([FromBody] AccountingCreateBankAccountCommandRequest request)
         {
             return await HttpResponseWrapper.WrapAsync(async () =>
             {
@@ -70,7 +70,7 @@ namespace Services.Api.Business.Departments.Accounting.Controllers
                     return await _bankService.GetCurrenciesAsync(new CancellationTokenSource());
                 else
                 {
-                    return (await _mediator.Send(new GetCurrenciesQueryRequest())).Currencies;
+                    return (await _mediator.Send(new AccountingGetCurrenciesQueryRequest())).Currencies;
                 }
             },
             services: _bankService);
@@ -79,7 +79,7 @@ namespace Services.Api.Business.Departments.Accounting.Controllers
         [HttpPost]
         [Route(nameof(CreateCurrency))]
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
-        public async Task<IActionResult> CreateCurrency([FromBody] CreateCurrencyCommandRequest request)
+        public async Task<IActionResult> CreateCurrency([FromBody] AccountingCreateCurrencyCommandRequest request)
         {
             return await HttpResponseWrapper.WrapAsync(async () =>
             {
@@ -101,7 +101,7 @@ namespace Services.Api.Business.Departments.Accounting.Controllers
                 if (ByPassMediatR)
                     return await _bankService.GetSalaryPaymentsOfWorkerAsync(workerId, new CancellationTokenSource());
                 else
-                    return (await _mediator.Send(new GetSalaryPaymentsOfWorkerQueryRequest() { WorkerId = workerId })).SalaryPayments;
+                    return (await _mediator.Send(new AccountingGetSalaryPaymentsOfWorkerQueryRequest() { WorkerId = workerId })).SalaryPayments;
             },
             services: _bankService);
         }
@@ -109,7 +109,7 @@ namespace Services.Api.Business.Departments.Accounting.Controllers
         [HttpPost]
         [Route(nameof(CreateSalaryPayment))]
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
-        public async Task<IActionResult> CreateSalaryPayment([FromBody] CreateSalaryPaymentCommandRequest request)
+        public async Task<IActionResult> CreateSalaryPayment([FromBody] AccountingCreateSalaryPaymentCommandRequest request)
         {
             return await HttpResponseWrapper.WrapAsync(async () =>
             {

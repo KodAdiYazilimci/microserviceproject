@@ -27,7 +27,7 @@ namespace Test.Services.Api.Business.Departments.AA.Tests
         [TestInitialize]
         public void Init()
         {
-            accountControllerTest= new AccountControllerTest();
+            accountControllerTest = new AccountControllerTest();
             departmentControllerTest = new DepartmentControllerTest();
             personControllerTest = new PersonControllerTest();
             inventoryControllerTest = new InventoryControllerTest();
@@ -37,7 +37,7 @@ namespace Test.Services.Api.Business.Departments.AA.Tests
         [TestMethod]
         public async Task GetInventoriesTest()
         {
-            List<global::Services.Communication.Http.Broker.Department.AA.Models.InventoryModel> inventories = await dataProvider.GetAAInventoriesAsync();
+            List<AAInventoryModel> inventories = await dataProvider.GetAAInventoriesAsync();
 
             Assert.IsTrue(inventories != null && inventories.Any());
         }
@@ -54,18 +54,22 @@ namespace Test.Services.Api.Business.Departments.AA.Tests
         [TestMethod]
         public async Task AssignInventoryToWorkerTest()
         {
-            List<global::Services.Communication.Http.Broker.Department.HR.Models.WorkerModel> workers = await dataProvider.GetWorkersAsync();
+            List<WorkerModel> workers = await dataProvider.GetWorkersAsync();
 
             var inventories = await dataProvider.GetAAInventoriesAsync();
 
-            var result = await inventoryControllerTest.AssignInventoryToWorkerTest(new AssignInventoryToWorkerCommandRequest()
+            var result = await inventoryControllerTest.AssignInventoryToWorkerTest(new AAAssignInventoryToWorkerCommandRequest()
             {
-                Worker = new global::Services.Communication.Http.Broker.Department.AA.Models.WorkerModel()
+                AssignInventoryToWorkerModels = new List<AAAssignInventoryToWorkerModel>()
                 {
-                    Id = workers.ElementAt(new Random().Next(0, workers.Count - 1)).Id,
-                    AAInventories = inventories.Take(new Random().Next(1, inventories.Count)).ToList(),
-                    FromDate = DateTime.Now,
-                    ToDate = DateTime.Now.AddDays(new Random().Next(1, byte.MaxValue))
+                    new AAAssignInventoryToWorkerModel()
+                    {
+                        WorkerId = workers.ElementAt(new Random().Next(0, workers.Count - 1)).Id,
+                        InventoryId = inventories.ElementAt(new Random().Next(0, inventories.Count-1)).Id,
+                        FromDate = DateTime.Now,
+                        ToDate = DateTime.Now.AddDays(new Random().Next(1, byte.MaxValue)),
+                        Amount = new Random().Next(1, byte.MaxValue)
+                    }
                 }
             });
 
@@ -77,15 +81,12 @@ namespace Test.Services.Api.Business.Departments.AA.Tests
         {
             var inventories = await dataProvider.GetAAInventoriesAsync();
 
-            var result = await inventoryControllerTest.CreateDefaultInventoryForNewWorker(new CreateDefaultInventoryForNewWorkerCommandRequest()
+            var result = await inventoryControllerTest.CreateDefaultInventoryForNewWorker(new AACreateDefaultInventoryForNewWorkerCommandRequest()
             {
-                Inventory = new global::Services.Communication.Http.Broker.Department.AA.Models.InventoryModel()
+                DefaultInventoryForNewWorkerModel = new AADefaultInventoryForNewWorkerModel()
                 {
-                    CurrentStockCount = new Random().Next(1, byte.MaxValue),
-                    FromDate = DateTime.Now,
-                    Name = new Random().Next(int.MinValue, int.MaxValue).ToString(),
-                    ToDate = DateTime.Now.AddDays(new Random().Next(1, byte.MaxValue)),
-                    Id = inventories.ElementAt(new Random().Next(0, inventories.Count - 1)).Id
+                    Id = inventories.ElementAt(new Random().Next(0, inventories.Count - 1)).Id,
+                    Amount = new Random().Next(1, byte.MaxValue)
                 }
             });
 
@@ -114,13 +115,12 @@ namespace Test.Services.Api.Business.Departments.AA.Tests
 
             List<DepartmentModel> departments = await dataProvider.GetAADepartmentsAsync();
 
-            var result = await inventoryControllerTest.InformInventoryRequest(new InformInventoryRequestCommandRequest()
+            var result = await inventoryControllerTest.InformInventoryRequest(new AAInformInventoryRequestCommandRequest()
             {
-                InventoryRequest = new InventoryRequestModel()
+                InventoryRequest = new AAInventoryRequestModel()
                 {
                     Amount = new Random().Next(1, byte.MaxValue),
-                    InventoryId = inventories.ElementAt(new Random().Next(0, inventories.Count - 1)).Id,
-                    DepartmentId = departments.ElementAt(new Random().Next(0, departments.Count - 1)).Id
+                    InventoryId = inventories.ElementAt(new Random().Next(0, inventories.Count - 1)).Id
                 }
             });
 

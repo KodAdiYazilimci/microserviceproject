@@ -17,11 +17,11 @@ namespace Services.Api.Business.Departments.IT.Configuration.Mapping
         {
             // Model => Entity
 
-            CreateMap<InventoryModel, InventoryEntity>();
+            CreateMap<ITInventoryModel, InventoryEntity>();
 
             // Entity => Model
 
-            CreateMap<InventoryEntity, InventoryModel>();
+            CreateMap<InventoryEntity, ITInventoryModel>();
         }
     }
 }

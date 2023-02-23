@@ -12,7 +12,8 @@ using System.Threading.Tasks;
 
 namespace Services.Api.Business.Departments.AA.Configuration.CQRS.Handlers.CommandHandlers
 {
-    public class AssignInventoryToWorkerCommandHandler : IRequestHandler<AssignInventoryToWorkerCommandRequest, AssignInventoryToWorkerCommandResponse>
+    public class AssignInventoryToWorkerCommandHandler 
+        : IRequestHandler<AAAssignInventoryToWorkerCommandRequest, AAAssignInventoryToWorkerCommandResponse>
     {
         private readonly RuntimeHandler _runtimeHandler;
         private readonly InventoryService _inventoryService;
@@ -25,21 +26,19 @@ namespace Services.Api.Business.Departments.AA.Configuration.CQRS.Handlers.Comma
             _inventoryService = inventoryService;
         }
 
-        public async Task<AssignInventoryToWorkerCommandResponse> Handle(AssignInventoryToWorkerCommandRequest request, CancellationToken cancellationToken)
+        public async Task<AAAssignInventoryToWorkerCommandResponse> Handle(AAAssignInventoryToWorkerCommandRequest request, CancellationToken cancellationToken)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            await AssignInventoryToWorkerValidator.ValidateAsync(request.Worker, cancellationTokenSource);
+            await AssignInventoryToWorkerValidator.ValidateAsync(request.AssignInventoryToWorkerModels, cancellationTokenSource);
 
-            return new AssignInventoryToWorkerCommandResponse()
-            {
-                Worker =
-                await
-                _runtimeHandler.ExecuteResultMethod<Task<WorkerModel>>(
-                    _inventoryService,
-                    nameof(_inventoryService.AssignInventoryToWorkerAsync),
-                    new object[] { request.Worker, cancellationTokenSource })
-            };
+            await
+            _runtimeHandler.ExecuteResultMethod<Task>(
+                _inventoryService,
+                nameof(_inventoryService.AssignInventoryToWorkerAsync),
+                new object[] { request.AssignInventoryToWorkerModels, cancellationTokenSource });
+
+            return new AAAssignInventoryToWorkerCommandResponse();
         }
     }
 }

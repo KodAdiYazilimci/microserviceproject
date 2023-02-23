@@ -12,13 +12,13 @@ namespace Services.MQ.IT
         {
             var host = CreateHostBuilder(args).Build();
 
-            AssignInventoryToWorkerConsumer assignInventoryToWorkerConsumer =
-                    (AssignInventoryToWorkerConsumer)host.Services.GetService(typeof(AssignInventoryToWorkerConsumer));
+            ITAssignInventoryToWorkerConsumer assignInventoryToWorkerConsumer =
+                    (ITAssignInventoryToWorkerConsumer)host.Services.GetService(typeof(ITAssignInventoryToWorkerConsumer));
 
             assignInventoryToWorkerConsumer.StartToConsume();
 
-            InformInventoryRequestConsumer informInventoryRequestConsumer =
-                (InformInventoryRequestConsumer)host.Services.GetService(typeof(InformInventoryRequestConsumer));
+            ITInformInventoryRequestConsumer informInventoryRequestConsumer =
+                (ITInformInventoryRequestConsumer)host.Services.GetService(typeof(ITInformInventoryRequestConsumer));
 
             informInventoryRequestConsumer.StartToConsume();
 

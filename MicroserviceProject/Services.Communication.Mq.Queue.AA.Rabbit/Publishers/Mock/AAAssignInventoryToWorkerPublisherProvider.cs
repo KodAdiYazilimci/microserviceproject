@@ -12,9 +12,9 @@ namespace Services.Communication.Mq.Queue.AA.Rabbit.Publishers.Mock
         /// </summary>
         /// <param name="configuration">Yapılandırma araüyüz nesnesi</param>
         /// <returns></returns>
-        public static AssignInventoryToWorkerPublisher GetPublisher(AssignInventoryToWorkerRabbitConfiguration configuration)
+        public static AAAssignInventoryToWorkerPublisher GetPublisher(AAAssignInventoryToWorkerRabbitConfiguration configuration)
         {
-            return new AssignInventoryToWorkerPublisher(configuration);
+            return new AAAssignInventoryToWorkerPublisher(configuration);
         }
     }
 }

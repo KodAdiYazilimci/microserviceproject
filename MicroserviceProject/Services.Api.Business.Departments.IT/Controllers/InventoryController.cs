@@ -33,7 +33,7 @@ namespace Services.Api.Business.Departments.IT.Controllers
         {
             return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                GetInventoriesQueryResponse mediatorResult = await _mediator.Send(new GetInventoriesQueryRequest());
+                ITGetInventoriesQueryResponse mediatorResult = await _mediator.Send(new ITGetInventoriesQueryRequest());
 
                 return mediatorResult.Inventories;
             },
@@ -43,7 +43,7 @@ namespace Services.Api.Business.Departments.IT.Controllers
         [HttpPost]
         [Route(nameof(CreateInventory))]
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
-        public async Task<IActionResult> CreateInventory([FromBody] CreateInventoryCommandRequest request)
+        public async Task<IActionResult> CreateInventory([FromBody] ITCreateInventoryCommandRequest request)
         {
             return await HttpResponseWrapper.WrapAsync(async () =>
             {
@@ -55,7 +55,7 @@ namespace Services.Api.Business.Departments.IT.Controllers
         [HttpPost]
         [Route(nameof(AssignInventoryToWorker))]
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
-        public async Task<IActionResult> AssignInventoryToWorker([FromBody] AssignInventoryToWorkerCommandRequest request)
+        public async Task<IActionResult> AssignInventoryToWorker([FromBody] ITAssignInventoryToWorkerCommandRequest request)
         {
             return await HttpResponseWrapper.WrapAsync(async () =>
             {
@@ -67,7 +67,7 @@ namespace Services.Api.Business.Departments.IT.Controllers
         [HttpPost]
         [Route(nameof(CreateDefaultInventoryForNewWorker))]
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
-        public async Task<IActionResult> CreateDefaultInventoryForNewWorker([FromBody] CreateDefaultInventoryForNewWorkerCommandRequest request)
+        public async Task<IActionResult> CreateDefaultInventoryForNewWorker([FromBody] ITCreateDefaultInventoryForNewWorkerCommandRequest request)
         {
             return await HttpResponseWrapper.WrapAsync(async () =>
             {
@@ -83,7 +83,7 @@ namespace Services.Api.Business.Departments.IT.Controllers
         {
             return HttpResponseWrapper.Wrap(() =>
             {
-                GetInventoriesForNewWorkerQueryResponse mediatorResult = _mediator.Send(new GetInventoriesForNewWorkerQueryRequest()).Result;
+                ITGetInventoriesForNewWorkerQueryResponse mediatorResult = _mediator.Send(new ITGetInventoriesForNewWorkerQueryRequest()).Result;
 
                 return mediatorResult.Inventories;
             },
@@ -93,7 +93,7 @@ namespace Services.Api.Business.Departments.IT.Controllers
         [HttpPost]
         [Route(nameof(InformInventoryRequest))]
         [Authorize(Roles = "ApiUser,QueueUser")]
-        public async Task<IActionResult> InformInventoryRequest([FromBody] InformInventoryRequestCommandRequest request)
+        public async Task<IActionResult> InformInventoryRequest([FromBody] ITInformInventoryRequestCommandRequest request)
         {
             return await HttpResponseWrapper.WrapAsync(async () =>
             {

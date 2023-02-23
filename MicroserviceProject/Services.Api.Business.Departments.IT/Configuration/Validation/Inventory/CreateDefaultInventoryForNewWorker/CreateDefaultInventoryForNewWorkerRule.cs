@@ -7,7 +7,7 @@ namespace Services.Api.Business.Departments.IT.Configuration.Validation.Inventor
     /// <summary>
     /// Inventory/CreateDefaultInventoryForNewWorker Http endpoint için validasyon kuralı
     /// </summary>
-    public class CreateDefaultInventoryForNewWorkerRule : AbstractValidator<InventoryModel>
+    public class CreateDefaultInventoryForNewWorkerRule : AbstractValidator<ITInventoryModel>
     {
         /// <summary>
         /// Inventory/CreateInventory Http endpoint için validasyon kuralı

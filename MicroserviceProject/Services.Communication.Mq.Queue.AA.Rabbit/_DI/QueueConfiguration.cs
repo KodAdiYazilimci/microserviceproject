@@ -18,8 +18,8 @@ namespace Services.Communication.Mq.Queue.AA.Rabbit.DI
         /// <returns></returns>
         public static IServiceCollection RegisterAAQueuePublishers(this IServiceCollection services)
         {
-            services.AddSingleton<AssignInventoryToWorkerPublisher>();
-            services.AddSingleton<InformInventoryRequestPublisher>();
+            services.AddSingleton<AAAssignInventoryToWorkerPublisher>();
+            services.AddSingleton<AAInformInventoryRequestPublisher>();
 
             return services;
         }
@@ -33,8 +33,8 @@ namespace Services.Communication.Mq.Queue.AA.Rabbit.DI
         {
             services.RegisterHttpAADepartmentCommunicators();            
 
-            services.AddSingleton<AssignInventoryToWorkerConsumer>();
-            services.AddSingleton<InformInventoryRequestConsumer>();
+            services.AddSingleton<AAAssignInventoryToWorkerConsumer>();
+            services.AddSingleton<AAInformInventoryRequestConsumer>();
 
             return services;
         }

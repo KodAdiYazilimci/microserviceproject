@@ -44,6 +44,6 @@ namespace Infrastructure.Transaction.Recovery
         /// <param name="rollback">Geri alınacak işlemin yedekleme modeli</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns>TIdentity işlemin geri dönüş tipidir</returns>
-        Task<TIdentity> GetProductionRequestsAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource);
+        Task<TIdentity> RollbackTransactionAsync(RollbackModel rollback, CancellationTokenSource cancellationTokenSource);
     }
 }

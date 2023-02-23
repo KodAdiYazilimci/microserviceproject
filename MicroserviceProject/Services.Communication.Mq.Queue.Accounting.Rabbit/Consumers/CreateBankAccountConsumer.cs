@@ -19,7 +19,7 @@ namespace Services.Communication.Mq.Queue.Accounting.Rabbit.Consumers
         /// <summary>
         /// Rabbit kuyruğuyla iletişim kuracak tüketici sınıf
         /// </summary>
-        private readonly Consumer<WorkerQueueModel> _consumer;
+        private readonly Consumer<AccountingWorkerQueueModel> _consumer;
 
         /// <summary>
         /// Muhasebe departmanı servis iletişimcisi
@@ -32,29 +32,29 @@ namespace Services.Communication.Mq.Queue.Accounting.Rabbit.Consumers
         /// <param name="rabbitConfiguration">Kuyruk ayarlarının alınacağın configuration nesnesi</param>
         /// <param name="accountingCommunicator">Muhasebe departmanı servis iletişimcisi</param>
         public CreateBankAccountConsumer(
-            CreateBankAccountRabbitConfiguration rabbitConfiguration,
+            AccountingCreateBankAccountRabbitConfiguration rabbitConfiguration,
             AccountingCommunicator accountingCommunicator)
         {
             _accountingCommunicator = accountingCommunicator;
 
-            _consumer = new Consumer<WorkerQueueModel>(rabbitConfiguration);
+            _consumer = new Consumer<AccountingWorkerQueueModel>(rabbitConfiguration);
             _consumer.OnConsumed += Consumer_OnConsumed;
         }
 
-        private async Task Consumer_OnConsumed(WorkerQueueModel data)
+        private async Task Consumer_OnConsumed(AccountingWorkerQueueModel data)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            Services.Communication.Http.Broker.Department.Accounting.Models.WorkerModel workerModel = new Services.Communication.Http.Broker.Department.Accounting.Models.WorkerModel
+            Services.Communication.Http.Broker.Department.Accounting.Models.AccountingWorkerModel workerModel = new Services.Communication.Http.Broker.Department.Accounting.Models.AccountingWorkerModel
             {
                 Id = data.Id,
-                BankAccounts = data.BankAccounts.Select(x => new Services.Communication.Http.Broker.Department.Accounting.Models.BankAccountModel()
+                BankAccounts = data.BankAccounts.Select(x => new Services.Communication.Http.Broker.Department.Accounting.Models.AccountingBankAccountModel()
                 {
                     IBAN = x.IBAN
                 }).ToList()
             };
 
-            await _accountingCommunicator.CreateBankAccountAsync(new Http.Broker.Department.Accounting.CQRS.Commands.Requests.CreateBankAccountCommandRequest()
+            await _accountingCommunicator.CreateBankAccountAsync(new Http.Broker.Department.Accounting.CQRS.Commands.Requests.AccountingCreateBankAccountCommandRequest()
             {
                 BankAccount = workerModel.BankAccounts.FirstOrDefault()
             }, data?.TransactionIdentity, cancellationTokenSource);

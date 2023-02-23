@@ -35,7 +35,7 @@ namespace Services.Business.Departments.Finance.Controllers
 
                 if (rollbackModel.Modules.Contains(_costService.ServiceName))
                 {
-                    rollbackResult = await _costService.GetProductionRequestsAsync(rollbackModel, cancellationTokenSource);
+                    rollbackResult = await _costService.RollbackTransactionAsync(rollbackModel, cancellationTokenSource);
                 }
 
                 return rollbackResult;

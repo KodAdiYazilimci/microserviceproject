@@ -13,6 +13,7 @@ using Services.Communication.Http.Broker.Department.HR.CQRS.Queries.Responses;
 using Services.Communication.Http.Broker.Department.HR.Models;
 
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Services.Api.Business.Departments.HR.Controllers
@@ -37,9 +38,14 @@ namespace Services.Api.Business.Departments.HR.Controllers
         {
             return await HttpResponseWrapper.WrapAsync<List<DepartmentModel>>(async () =>
             {
-                GetDepartmentsQueryResponse mediatorResult = await _mediator.Send(new GetDepartmentsQueryRequest());
+                if (ByPassMediatR)
+                    return await _departmentService.GetDepartmentsAsync(new CancellationTokenSource());
+                else
+                {
+                    GetDepartmentsQueryResponse mediatorResult = await _mediator.Send(new GetDepartmentsQueryRequest());
 
-                return mediatorResult.Departments;
+                    return mediatorResult.Departments;
+                }
             },
             services: _departmentService);
         }
@@ -51,7 +57,10 @@ namespace Services.Api.Business.Departments.HR.Controllers
         {
             return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                await _mediator.Send(request);
+                if (ByPassMediatR)
+                    await _departmentService.CreateDepartmentAsync(request.Department, new CancellationTokenSource());
+                else
+                    await _mediator.Send(request);
             },
             services: _departmentService);
         }

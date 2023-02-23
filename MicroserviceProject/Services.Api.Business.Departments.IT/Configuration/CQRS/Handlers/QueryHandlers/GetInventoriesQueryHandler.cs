@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Services.Api.Business.Departments.IT.Configuration.CQRS.Handlers.QueryHandlers
 {
-    public class GetInventoriesQueryHandler : IRequestHandler<GetInventoriesQueryRequest, GetInventoriesQueryResponse>
+    public class GetInventoriesQueryHandler : IRequestHandler<ITGetInventoriesQueryRequest, ITGetInventoriesQueryResponse>
     {
         private readonly RuntimeHandler _runtimeHandler;
         private readonly InventoryService _inventoryService;
@@ -25,13 +25,13 @@ namespace Services.Api.Business.Departments.IT.Configuration.CQRS.Handlers.Query
             _inventoryService = inventoryService;
         }
 
-        public async Task<GetInventoriesQueryResponse> Handle(GetInventoriesQueryRequest request, CancellationToken cancellationToken)
+        public async Task<ITGetInventoriesQueryResponse> Handle(ITGetInventoriesQueryRequest request, CancellationToken cancellationToken)
         {
-            return new GetInventoriesQueryResponse()
+            return new ITGetInventoriesQueryResponse()
             {
                 Inventories =
                 await
-                _runtimeHandler.ExecuteResultMethod<Task<List<InventoryModel>>>(
+                _runtimeHandler.ExecuteResultMethod<Task<List<ITInventoryModel>>>(
                     _inventoryService,
                     nameof(_inventoryService.GetInventoriesAsync),
                     new object[] { new CancellationTokenSource() })

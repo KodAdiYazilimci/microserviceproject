@@ -4,7 +4,6 @@ using Services.Api.Business.Departments.IT.Services;
 using Services.Api.Business.Departments.IT.Util.Validation.Inventory.CreateDefaultInventoryForNewWorker;
 using Services.Communication.Http.Broker.Department.IT.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.IT.CQRS.Commands.Responses;
-using Services.Communication.Http.Broker.Department.IT.Models;
 using Services.Logging.Aspect.Handlers;
 
 using System.Threading;
@@ -13,7 +12,7 @@ using System.Threading.Tasks;
 namespace Services.Api.Business.Departments.IT.Configuration.CQRS.Handlers.CommandHandlers
 {
     public class CreateDefaultInventoryForNewWorkerCommandHandler
-        : IRequestHandler<CreateDefaultInventoryForNewWorkerCommandRequest, CreateDefaultInventoryForNewWorkerCommandResponse>
+        : IRequestHandler<ITCreateDefaultInventoryForNewWorkerCommandRequest, ITCreateDefaultInventoryForNewWorkerCommandResponse>
     {
         private readonly RuntimeHandler _runtimeHandler;
         private readonly InventoryService _inventoryService;
@@ -26,23 +25,21 @@ namespace Services.Api.Business.Departments.IT.Configuration.CQRS.Handlers.Comma
             _inventoryService = inventoryService;
         }
 
-        public async Task<CreateDefaultInventoryForNewWorkerCommandResponse> Handle(
-            CreateDefaultInventoryForNewWorkerCommandRequest request,
+        public async Task<ITCreateDefaultInventoryForNewWorkerCommandResponse> Handle(
+            ITCreateDefaultInventoryForNewWorkerCommandRequest request,
             CancellationToken cancellationToken)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            await CreateDefaultInventoryForNewWorkerValidator.ValidateAsync(request.Inventory, cancellationTokenSource);
+            await CreateDefaultInventoryForNewWorkerValidator.ValidateAsync(request.DefaultInventoryForNewWorkerModel, cancellationTokenSource);
 
-            return new CreateDefaultInventoryForNewWorkerCommandResponse()
-            {
-                Inventory =
-                await
-                _runtimeHandler.ExecuteResultMethod<Task<InventoryModel>>(
-                    _inventoryService,
-                    nameof(_inventoryService.CreateDefaultInventoryForNewWorkerAsync),
-                    new object[] { request.Inventory, cancellationTokenSource })
-            };
+            await
+            _runtimeHandler.ExecuteResultMethod<Task>(
+                _inventoryService,
+                nameof(_inventoryService.CreateDefaultInventoryForNewWorkerAsync),
+                new object[] { request.DefaultInventoryForNewWorkerModel, cancellationTokenSource });
+
+            return new ITCreateDefaultInventoryForNewWorkerCommandResponse();
         }
     }
 }
