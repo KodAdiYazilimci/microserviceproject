@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Transaction.Recovery;
 using Infrastructure.Transaction.UnitOfWork.Sql;
+
 using Services.Api.Business.Departments.Buying.Entities.Sql;
 
 using System;
@@ -45,7 +46,7 @@ namespace Services.Api.Business.Departments.Buying.Repositories.Sql
         {
             List<InventoryRequestEntity> inventoryRequests = new List<InventoryRequestEntity>();
 
-            using (SqlCommand sqlCommand = new SqlCommand($@"SELECT 
+            SqlCommand sqlCommand = new SqlCommand($@"SELECT 
                                                       [ID],
                                                       [INVENTORY_ID],
                                                       [HR_DEPARTMENTS_ID],
@@ -55,33 +56,31 @@ namespace Services.Api.Business.Departments.Buying.Repositories.Sql
                                                       FROM {TABLE_NAME}
                                                       WHERE DELETE_DATE IS NULL",
                                                       UnitOfWork.SqlConnection,
-                                                      UnitOfWork.SqlTransaction)
+                                                      UnitOfWork.SqlTransaction);
+
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+            using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationTokenSource.Token))
             {
-                Transaction = UnitOfWork.SqlTransaction
-            })
-            {
-                using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationTokenSource.Token))
+                if (sqlDataReader.HasRows)
                 {
-                    if (sqlDataReader.HasRows)
+                    while (await sqlDataReader.ReadAsync(cancellationTokenSource.Token))
                     {
-                        while (await sqlDataReader.ReadAsync(cancellationTokenSource.Token))
+                        InventoryRequestEntity inventoryRequest = new InventoryRequestEntity
                         {
-                            InventoryRequestEntity inventoryRequest = new InventoryRequestEntity
-                            {
-                                Id = sqlDataReader.GetInt32("ID"),
-                                InventoryId = sqlDataReader.GetInt32("INVENTORY_ID"),
-                                DepartmentId = sqlDataReader.GetInt32("HR_DEPARTMENTS_ID"),
-                                Amount = sqlDataReader.GetInt32("AMOUNT"),
-                                Revoked = sqlDataReader.GetBoolean("REVOKED"),
-                                Done = sqlDataReader.GetBoolean("DONE")
-                            };
+                            Id = sqlDataReader.GetInt32("ID"),
+                            InventoryId = sqlDataReader.GetInt32("INVENTORY_ID"),
+                            DepartmentId = sqlDataReader.GetInt32("HR_DEPARTMENTS_ID"),
+                            Amount = sqlDataReader.GetInt32("AMOUNT"),
+                            Revoked = sqlDataReader.GetBoolean("REVOKED"),
+                            Done = sqlDataReader.GetBoolean("DONE")
+                        };
 
-                            inventoryRequests.Add(inventoryRequest);
-                        }
+                        inventoryRequests.Add(inventoryRequest);
                     }
-
-                    return inventoryRequests;
                 }
+
+                return inventoryRequests;
             }
         }
 
@@ -94,7 +93,7 @@ namespace Services.Api.Business.Departments.Buying.Repositories.Sql
         /// <returns></returns>
         public override async Task<int> CreateAsync(InventoryRequestEntity inventoryRequest, CancellationTokenSource cancellationTokenSource)
         {
-            using (SqlCommand sqlCommand = new SqlCommand($@"INSERT INTO {TABLE_NAME}
+            SqlCommand sqlCommand = new SqlCommand($@"INSERT INTO {TABLE_NAME}
                                                       ([INVENTORY_ID],
                                                       [HR_DEPARTMENTS_ID],
                                                       [AMOUNT],
@@ -108,19 +107,17 @@ namespace Services.Api.Business.Departments.Buying.Repositories.Sql
                                                       @DONE);
                                                       SELECT CAST(scope_identity() AS int)",
                                                          UnitOfWork.SqlConnection,
-                                                         UnitOfWork.SqlTransaction)
-            {
-                Transaction = UnitOfWork.SqlTransaction
-            })
-            {
-                sqlCommand.Parameters.AddWithValue("@INVENTORY_ID", ((object)inventoryRequest.InventoryId) ?? DBNull.Value);
-                sqlCommand.Parameters.AddWithValue("@HR_DEPARTMENTS_ID", ((object)inventoryRequest.DepartmentId) ?? DBNull.Value);
-                sqlCommand.Parameters.AddWithValue("@AMOUNT", ((object)inventoryRequest.Amount) ?? DBNull.Value);
-                sqlCommand.Parameters.AddWithValue("@REVOKED", ((object)inventoryRequest.Revoked) ?? DBNull.Value);
-                sqlCommand.Parameters.AddWithValue("@DONE", ((object)inventoryRequest.Done) ?? DBNull.Value);
+                                                         UnitOfWork.SqlTransaction);
 
-                return (int)await sqlCommand.ExecuteScalarAsync(cancellationTokenSource.Token);
-            }
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+            sqlCommand.Parameters.AddWithValue("@INVENTORY_ID", ((object)inventoryRequest.InventoryId) ?? DBNull.Value);
+            sqlCommand.Parameters.AddWithValue("@HR_DEPARTMENTS_ID", ((object)inventoryRequest.DepartmentId) ?? DBNull.Value);
+            sqlCommand.Parameters.AddWithValue("@AMOUNT", ((object)inventoryRequest.Amount) ?? DBNull.Value);
+            sqlCommand.Parameters.AddWithValue("@REVOKED", ((object)inventoryRequest.Revoked) ?? DBNull.Value);
+            sqlCommand.Parameters.AddWithValue("@DONE", ((object)inventoryRequest.Done) ?? DBNull.Value);
+
+            return (int)await sqlCommand.ExecuteScalarAsync(cancellationTokenSource.Token);
         }
 
         /// <summary>
@@ -152,7 +149,7 @@ namespace Services.Api.Business.Departments.Buying.Repositories.Sql
 
             string inQuery = inventoryRequestIds.Any() ? string.Join(',', inventoryRequestIds) : "0";
 
-            using (SqlCommand sqlCommand = new SqlCommand($@"SELECT 
+            SqlCommand sqlCommand = new SqlCommand($@"SELECT 
                                                       [ID],
                                                       [INVENTORY_ID],
                                                       [HR_DEPARTMENTS_ID],
@@ -165,33 +162,31 @@ namespace Services.Api.Business.Departments.Buying.Repositories.Sql
                                                       AND
                                                       ID IN ({inQuery})",
                                                        UnitOfWork.SqlConnection,
-                                                       UnitOfWork.SqlTransaction)
+                                                       UnitOfWork.SqlTransaction);
+
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+            using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationTokenSource.Token))
             {
-                Transaction = UnitOfWork.SqlTransaction
-            })
-            {
-                using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationTokenSource.Token))
+                if (sqlDataReader.HasRows)
                 {
-                    if (sqlDataReader.HasRows)
+                    while (await sqlDataReader.ReadAsync(cancellationTokenSource.Token))
                     {
-                        while (await sqlDataReader.ReadAsync(cancellationTokenSource.Token))
+                        InventoryRequestEntity inventoryRequest = new InventoryRequestEntity
                         {
-                            InventoryRequestEntity inventoryRequest = new InventoryRequestEntity
-                            {
-                                Id = sqlDataReader.GetInt32("ID"),
-                                InventoryId = sqlDataReader.GetInt32("INVENTORY_ID"),
-                                DepartmentId = sqlDataReader.GetInt32("HR_DEPARTMENTS_ID"),
-                                Amount = sqlDataReader.GetInt32("AMOUNT"),
-                                Revoked = sqlDataReader.GetBoolean("REVOKED"),
-                                Done = sqlDataReader.GetBoolean("DONE")
-                            };
+                            Id = sqlDataReader.GetInt32("ID"),
+                            InventoryId = sqlDataReader.GetInt32("INVENTORY_ID"),
+                            DepartmentId = sqlDataReader.GetInt32("HR_DEPARTMENTS_ID"),
+                            Amount = sqlDataReader.GetInt32("AMOUNT"),
+                            Revoked = sqlDataReader.GetBoolean("REVOKED"),
+                            Done = sqlDataReader.GetBoolean("DONE")
+                        };
 
-                            inventoryRequests.Add(inventoryRequest);
-                        }
+                        inventoryRequests.Add(inventoryRequest);
                     }
-
-                    return inventoryRequests;
                 }
+
+                return inventoryRequests;
             }
         }
 
@@ -203,19 +198,17 @@ namespace Services.Api.Business.Departments.Buying.Repositories.Sql
         /// <returns></returns>
         public async Task<int> RevokeAsync(int inventoryRequestId, CancellationTokenSource cancellationTokenSource)
         {
-            using (SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
                                                       SET REVOKED = 1, DONE = 1
                                                       WHERE ID = @ID",
                                                          UnitOfWork.SqlConnection,
-                                                         UnitOfWork.SqlTransaction)
-            {
-                Transaction = UnitOfWork.SqlTransaction
-            })
-            {
-                sqlCommand.Parameters.AddWithValue("@ID", inventoryRequestId);
+                                                         UnitOfWork.SqlTransaction);
 
-                return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
-            }
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+            sqlCommand.Parameters.AddWithValue("@ID", inventoryRequestId);
+
+            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
         }
 
         /// <summary>
@@ -226,19 +219,17 @@ namespace Services.Api.Business.Departments.Buying.Repositories.Sql
         /// <returns></returns>
         public async Task<int> UnRevokeAsync(int inventoryRequestId, CancellationTokenSource cancellationTokenSource)
         {
-            using (SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
                                                       SET REVOKED = 0, DONE = 1
                                                       WHERE ID = @ID",
                                                  UnitOfWork.SqlConnection,
-                                                 UnitOfWork.SqlTransaction)
-            {
-                Transaction = UnitOfWork.SqlTransaction
-            })
-            {
-                sqlCommand.Parameters.AddWithValue("@ID", inventoryRequestId);
+                                                 UnitOfWork.SqlTransaction);
 
-                return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
-            }
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+            sqlCommand.Parameters.AddWithValue("@ID", inventoryRequestId);
+
+            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
         }
 
         /// <summary>
@@ -249,19 +240,17 @@ namespace Services.Api.Business.Departments.Buying.Repositories.Sql
         /// <returns></returns>
         public async Task<int> DeleteAsync(int id, CancellationTokenSource cancellationTokenSource)
         {
-            using (SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
                                                       SET DELETE_DATE = GETDATE()
                                                       WHERE ID = @ID",
                                                        UnitOfWork.SqlConnection,
-                                                       UnitOfWork.SqlTransaction)
-            {
-                Transaction = UnitOfWork.SqlTransaction
-            })
-            {
-                sqlCommand.Parameters.AddWithValue("@ID", id);
+                                                       UnitOfWork.SqlTransaction);
 
-                return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
-            }
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+            sqlCommand.Parameters.AddWithValue("@ID", id);
+
+            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
         }
 
         /// <summary>
@@ -272,19 +261,17 @@ namespace Services.Api.Business.Departments.Buying.Repositories.Sql
         /// <returns></returns>
         public async Task<int> UnDeleteAsync(int id, CancellationTokenSource cancellationTokenSource)
         {
-            using (SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
                                                       SET DELETE_DATE = NULL
                                                       WHERE ID = @ID",
                                                                 UnitOfWork.SqlConnection,
-                                                                UnitOfWork.SqlTransaction)
-            {
-                Transaction = UnitOfWork.SqlTransaction
-            })
-            {
-                sqlCommand.Parameters.AddWithValue("@ID", id);
+                                                                UnitOfWork.SqlTransaction);
 
-                return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
-            }
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+            sqlCommand.Parameters.AddWithValue("@ID", id);
+
+            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
         }
 
         /// <summary>
@@ -297,20 +284,18 @@ namespace Services.Api.Business.Departments.Buying.Repositories.Sql
         /// <returns></returns>
         public async Task<int> SetAsync(int id, string name, object value, CancellationTokenSource cancellationTokenSource)
         {
-            using (SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
                                                       SET {name.ToUpper()} = @VALUE
                                                       WHERE ID = @ID",
                                                                     UnitOfWork.SqlConnection,
-                                                                    UnitOfWork.SqlTransaction)
-            {
-                Transaction = UnitOfWork.SqlTransaction
-            })
-            {
-                sqlCommand.Parameters.AddWithValue("@ID", id);
-                sqlCommand.Parameters.AddWithValue("@VALUE", value);
+                                                                    UnitOfWork.SqlTransaction);
 
-                return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
-            }
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+            sqlCommand.Parameters.AddWithValue("@ID", id);
+            sqlCommand.Parameters.AddWithValue("@VALUE", value);
+
+            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
         }
 
         /// <summary>
@@ -323,7 +308,7 @@ namespace Services.Api.Business.Departments.Buying.Repositories.Sql
         {
             InventoryRequestEntity inventoryRequestEntity = null;
 
-            using (SqlCommand sqlCommand = new SqlCommand($@"SELECT 
+            SqlCommand sqlCommand = new SqlCommand($@"SELECT 
                                                       TOP 1
                                                       [ID],
                                                       [INVENTORY_ID],
@@ -337,33 +322,31 @@ namespace Services.Api.Business.Departments.Buying.Repositories.Sql
                                                       AND
                                                       DELETE_DATE IS NULL",
                                                       UnitOfWork.SqlConnection,
-                                                      UnitOfWork.SqlTransaction)
-            {
-                Transaction = UnitOfWork.SqlTransaction
-            })
-            {
-                sqlCommand.Parameters.AddWithValue("@ID", ((object)inventoryRequestId) ?? DBNull.Value);
+                                                      UnitOfWork.SqlTransaction);
 
-                using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationTokenSource.Token))
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+            sqlCommand.Parameters.AddWithValue("@ID", ((object)inventoryRequestId) ?? DBNull.Value);
+
+            using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationTokenSource.Token))
+            {
+                if (sqlDataReader.HasRows)
                 {
-                    if (sqlDataReader.HasRows)
+                    while (await sqlDataReader.ReadAsync(cancellationTokenSource.Token))
                     {
-                        while (await sqlDataReader.ReadAsync(cancellationTokenSource.Token))
+                        inventoryRequestEntity = new InventoryRequestEntity
                         {
-                            inventoryRequestEntity = new InventoryRequestEntity
-                            {
-                                Id = sqlDataReader.GetInt32("ID"),
-                                InventoryId = sqlDataReader.GetInt32("INVENTORY_ID"),
-                                DepartmentId = sqlDataReader.GetInt32("HR_DEPARTMENTS_ID"),
-                                Amount = sqlDataReader.GetInt32("AMOUNT"),
-                                Revoked = sqlDataReader.GetBoolean("REVOKED"),
-                                Done = sqlDataReader.GetBoolean("DONE")
-                            };
-                        }
+                            Id = sqlDataReader.GetInt32("ID"),
+                            InventoryId = sqlDataReader.GetInt32("INVENTORY_ID"),
+                            DepartmentId = sqlDataReader.GetInt32("HR_DEPARTMENTS_ID"),
+                            Amount = sqlDataReader.GetInt32("AMOUNT"),
+                            Revoked = sqlDataReader.GetBoolean("REVOKED"),
+                            Done = sqlDataReader.GetBoolean("DONE")
+                        };
                     }
-
-                    return inventoryRequestEntity;
                 }
+
+                return inventoryRequestEntity;
             }
         }
     }

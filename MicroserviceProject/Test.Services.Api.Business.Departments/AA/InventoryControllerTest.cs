@@ -106,9 +106,9 @@ namespace Test.Services.Api.Business.Departments.AA
             return null;
         }
 
-        public List<AAInventoryModel> GetInventoriesForNewWorker()
+        public async Task<List<AAInventoryModel>> GetInventoriesForNewWorker()
         {
-            IActionResult actionResult = inventoryController.GetInventoriesForNewWorker();
+            IActionResult actionResult = await inventoryController.GetInventoriesForNewWorker();
 
             if (actionResult is OkObjectResult)
             {

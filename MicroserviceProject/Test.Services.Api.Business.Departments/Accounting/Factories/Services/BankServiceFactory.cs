@@ -32,7 +32,7 @@ namespace Test.Services.Api.Business.Departments.Accounting.Factories.Services
 
                 var service = new BankService(
                     mapper: mapper,
-                    unitOfWork: new UnitOfWork(configuration),
+                    unitOfWork: unitOfWork,
                     translationProvider: TranslationProviderFactory.GetTranslationProvider(
                         configuration: configuration,
                         cacheDataProvider: redisCacheDataProvider,

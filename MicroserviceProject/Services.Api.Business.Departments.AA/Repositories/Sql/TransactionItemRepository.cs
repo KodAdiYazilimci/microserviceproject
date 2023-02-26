@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Transaction.Recovery;
 using Infrastructure.Transaction.UnitOfWork.Sql;
+
 using Services.Api.Business.Departments.AA.Entities.Sql;
 
 using System;
@@ -85,7 +86,7 @@ namespace Services.Api.Business.Departments.AA.Repositories.Sql
         {
             List<RollbackItemEntity> entities = new List<RollbackItemEntity>();
 
-            using (SqlCommand sqlCommand = new SqlCommand($@"SELECT 
+            SqlCommand sqlCommand = new SqlCommand($@"SELECT 
                                                       [ID],
                                                       [ROLLBACK_TYPE],
                                                       [NAME],
@@ -97,33 +98,32 @@ namespace Services.Api.Business.Departments.AA.Repositories.Sql
                                                       FROM {TABLE_NAME}
                                                       WHERE DELETE_DATE IS NULL",
                                                        UnitOfWork.SqlConnection,
-                                                       UnitOfWork.SqlTransaction))
+                                                       UnitOfWork.SqlTransaction);
+
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+            using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationTokenSource.Token))
             {
-                sqlCommand.Transaction = UnitOfWork.SqlTransaction;
-
-                using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationTokenSource.Token))
+                if (sqlDataReader.HasRows)
                 {
-                    if (sqlDataReader.HasRows)
+                    while (await sqlDataReader.ReadAsync(cancellationTokenSource.Token))
                     {
-                        while (await sqlDataReader.ReadAsync(cancellationTokenSource.Token))
-                        {
-                            RollbackItemEntity inventory = new RollbackItemEntity();
+                        RollbackItemEntity inventory = new RollbackItemEntity();
 
-                            inventory.Id = sqlDataReader.GetInt32("ID");
-                            inventory.RollbackType = sqlDataReader.GetInt32("ROLLBACK_TYPE");
-                            inventory.Name = sqlDataReader.GetString("NAME");
-                            inventory.DataSet = sqlDataReader.GetString("DATASET");
-                            inventory.Identity = sqlDataReader.GetString("IDENTITY");
-                            inventory.OldValue = sqlDataReader.GetString("OLD_VALUE");
-                            inventory.NewValue = sqlDataReader.GetString("NEW_VALUE");
-                            inventory.IsRolledback = sqlDataReader.GetBoolean("IS_ROLLED_BACK");
+                        inventory.Id = sqlDataReader.GetInt32("ID");
+                        inventory.RollbackType = sqlDataReader.GetInt32("ROLLBACK_TYPE");
+                        inventory.Name = sqlDataReader.GetString("NAME");
+                        inventory.DataSet = sqlDataReader.GetString("DATASET");
+                        inventory.Identity = sqlDataReader.GetString("IDENTITY");
+                        inventory.OldValue = sqlDataReader.GetString("OLD_VALUE");
+                        inventory.NewValue = sqlDataReader.GetString("NEW_VALUE");
+                        inventory.IsRolledback = sqlDataReader.GetBoolean("IS_ROLLED_BACK");
 
-                            entities.Add(inventory);
-                        }
+                        entities.Add(inventory);
                     }
-
-                    return entities;
                 }
+
+                return entities;
             }
         }
 
@@ -152,18 +152,17 @@ namespace Services.Api.Business.Departments.AA.Repositories.Sql
         /// <returns></returns>
         public async Task<int> DeleteAsync(int id, CancellationTokenSource cancellationTokenSource)
         {
-            using (SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
                                                       SET DELETE_DATE = GETDATE()
                                                       WHERE ID = @ID",
                                                        UnitOfWork.SqlConnection,
-                                                       UnitOfWork.SqlTransaction))
-            {
-                sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+                                                       UnitOfWork.SqlTransaction);
 
-                sqlCommand.Parameters.AddWithValue("@ID", id);
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
 
-                return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
-            }
+            sqlCommand.Parameters.AddWithValue("@ID", id);
+
+            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
         }
 
         /// <summary>
@@ -174,18 +173,17 @@ namespace Services.Api.Business.Departments.AA.Repositories.Sql
         /// <returns></returns>
         public async Task<int> UnDeleteAsync(int id, CancellationTokenSource cancellationTokenSource)
         {
-            using (SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
                                                       SET DELETE_DATE = NULL
                                                       WHERE ID = @ID",
                                                                UnitOfWork.SqlConnection,
-                                                               UnitOfWork.SqlTransaction))
-            {
-                sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+                                                               UnitOfWork.SqlTransaction);
 
-                sqlCommand.Parameters.AddWithValue("@ID", id);
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
 
-                return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
-            }
+            sqlCommand.Parameters.AddWithValue("@ID", id);
+
+            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
         }
 
         /// <summary>
@@ -198,19 +196,18 @@ namespace Services.Api.Business.Departments.AA.Repositories.Sql
         /// <returns></returns>
         public async Task<int> SetAsync(int id, string name, object value, CancellationTokenSource cancellationTokenSource)
         {
-            using (SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
                                                       SET {name.ToUpper()} = @VALUE
                                                       WHERE ID = @ID",
                                                                    UnitOfWork.SqlConnection,
-                                                                   UnitOfWork.SqlTransaction))
-            {
-                sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+                                                                   UnitOfWork.SqlTransaction);
 
-                sqlCommand.Parameters.AddWithValue("@ID", id);
-                sqlCommand.Parameters.AddWithValue("@VALUE", value);
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
 
-                return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
-            }
+            sqlCommand.Parameters.AddWithValue("@ID", id);
+            sqlCommand.Parameters.AddWithValue("@VALUE", value);
+
+            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
         }
     }
 }
