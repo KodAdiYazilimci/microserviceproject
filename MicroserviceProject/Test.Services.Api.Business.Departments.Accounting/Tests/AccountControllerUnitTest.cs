@@ -94,6 +94,14 @@ namespace Test.Services.Api.Business.Departments.Accounting.Tests
         }
 
         [TestMethod]
+        public async Task GetCurrencyTest()
+        {
+            var result = await accountControllerTest.GetCurrenciesAsync();
+
+            Assert.IsTrue(result != null && result.Any());
+        }
+
+        [TestMethod]
         public async Task GetSalaryPaymentsOfWorkerTest()
         {
             var workers = await dataProvider.GetWorkersAsync();

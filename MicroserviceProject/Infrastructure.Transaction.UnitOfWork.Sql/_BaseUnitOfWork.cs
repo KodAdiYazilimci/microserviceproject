@@ -41,7 +41,9 @@ namespace Infrastructure.Transaction.UnitOfWork.Sql
             get
             {
                 if (sqlConnection == null)
+                {
                     sqlConnection = new SqlConnection(ConnectionString);
+                }
 
                 return sqlConnection;
             }
@@ -68,9 +70,9 @@ namespace Infrastructure.Transaction.UnitOfWork.Sql
 
                     sqlTransaction = SqlConnection.BeginTransaction();
 
-                    if (SqlTransaction.SupportsSavepoints)
+                    if (sqlTransaction.SupportsSavepoints)
                     {
-                        SqlTransaction.Save("SavePoint");
+                        sqlTransaction.Save("SavePoint");
                     }
                 }
 

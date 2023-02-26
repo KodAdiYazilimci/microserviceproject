@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Transaction.Recovery;
 using Infrastructure.Transaction.UnitOfWork.Sql;
+
 using Services.Api.Business.Departments.HR.Entities.Sql;
 
 using System;
@@ -44,36 +45,34 @@ namespace Services.Api.Business.Departments.HR.Repositories.Sql
         {
             List<DepartmentEntity> departments = new List<DepartmentEntity>();
 
-            using (SqlCommand sqlCommand = new SqlCommand($@"SELECT 
+            SqlCommand sqlCommand = new SqlCommand($@"SELECT 
                                                       [ID],
                                                       [NAME],
                                                       [DELETE_DATE]
                                                       FROM {TABLE_NAME}
                                                       WHERE DELETE_DATE IS NULL",
                                                         UnitOfWork.SqlConnection,
-                                                        UnitOfWork.SqlTransaction)
+                                                        UnitOfWork.SqlTransaction);
+
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+            using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationTokenSource.Token))
             {
-                Transaction = UnitOfWork.SqlTransaction
-            })
-            {
-                using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationTokenSource.Token))
+                if (sqlDataReader.HasRows)
                 {
-                    if (sqlDataReader.HasRows)
+                    while (await sqlDataReader.ReadAsync(cancellationTokenSource.Token))
                     {
-                        while (await sqlDataReader.ReadAsync(cancellationTokenSource.Token))
+                        DepartmentEntity department = new DepartmentEntity
                         {
-                            DepartmentEntity department = new DepartmentEntity
-                            {
-                                Id = sqlDataReader.GetInt32("ID"),
-                                Name = sqlDataReader.GetString("NAME")
-                            };
+                            Id = sqlDataReader.GetInt32("ID"),
+                            Name = sqlDataReader.GetString("NAME")
+                        };
 
-                            departments.Add(department);
-                        }
+                        departments.Add(department);
                     }
-
-                    return departments;
                 }
+
+                return departments;
             }
         }
         /// <summary>
@@ -85,21 +84,19 @@ namespace Services.Api.Business.Departments.HR.Repositories.Sql
         /// <returns></returns>
         public override async Task<int> CreateAsync(DepartmentEntity department, CancellationTokenSource cancellationTokenSource)
         {
-            using (SqlCommand sqlCommand = new SqlCommand($@"INSERT INTO {TABLE_NAME}
+            SqlCommand sqlCommand = new SqlCommand($@"INSERT INTO {TABLE_NAME}
                                                       ([NAME])
                                                       VALUES
                                                       (@NAME);
                                                       SELECT CAST(scope_identity() AS int)",
                                                          UnitOfWork.SqlConnection,
-                                                         UnitOfWork.SqlTransaction)
-            {
-                Transaction = UnitOfWork.SqlTransaction
-            })
-            {
-                sqlCommand.Parameters.AddWithValue("@NAME", ((object)department.Name) ?? DBNull.Value);
+                                                         UnitOfWork.SqlTransaction);
 
-                return (int)await sqlCommand.ExecuteScalarAsync(cancellationTokenSource.Token);
-            }
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+            sqlCommand.Parameters.AddWithValue("@NAME", ((object)department.Name) ?? DBNull.Value);
+
+            return (int)await sqlCommand.ExecuteScalarAsync(cancellationTokenSource.Token);
         }
 
         /// <summary>
@@ -127,19 +124,17 @@ namespace Services.Api.Business.Departments.HR.Repositories.Sql
         /// <returns></returns>
         public async Task<int> DeleteAsync(int id, CancellationTokenSource cancellationTokenSource)
         {
-            using (SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
                                                       SET DELETE_DATE = GETDATE()
                                                       WHERE ID = @ID",
                                                       UnitOfWork.SqlConnection,
-                                                      UnitOfWork.SqlTransaction)
-            {
-                Transaction = UnitOfWork.SqlTransaction
-            })
-            {
-                sqlCommand.Parameters.AddWithValue("@ID", id);
+                                                      UnitOfWork.SqlTransaction);
 
-                return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
-            }
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+            sqlCommand.Parameters.AddWithValue("@ID", id);
+
+            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
         }
 
         /// <summary>
@@ -150,19 +145,17 @@ namespace Services.Api.Business.Departments.HR.Repositories.Sql
         /// <returns></returns>
         public async Task<int> UnDeleteAsync(int id, CancellationTokenSource cancellationTokenSource)
         {
-            using (SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
                                                       SET DELETE_DATE = NULL
                                                       WHERE ID = @ID",
                                                                  UnitOfWork.SqlConnection,
-                                                                 UnitOfWork.SqlTransaction)
-            {
-                Transaction = UnitOfWork.SqlTransaction
-            })
-            {
-                sqlCommand.Parameters.AddWithValue("@ID", id);
+                                                                 UnitOfWork.SqlTransaction);
 
-                return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
-            }
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+            sqlCommand.Parameters.AddWithValue("@ID", id);
+
+            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
         }
 
         /// <summary>
@@ -175,20 +168,18 @@ namespace Services.Api.Business.Departments.HR.Repositories.Sql
         /// <returns></returns>
         public async Task<int> SetAsync(int id, string name, object value, CancellationTokenSource cancellationTokenSource)
         {
-            using (SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
                                                       SET {name.ToUpper()} = @VALUE
                                                       WHERE ID = @ID",
                                                                      UnitOfWork.SqlConnection,
-                                                                     UnitOfWork.SqlTransaction)
-            {
-                Transaction = UnitOfWork.SqlTransaction
-            })
-            {
-                sqlCommand.Parameters.AddWithValue("@ID", id);
-                sqlCommand.Parameters.AddWithValue("@VALUE", value);
+                                                                     UnitOfWork.SqlTransaction);
 
-                return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
-            }
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+            sqlCommand.Parameters.AddWithValue("@ID", id);
+            sqlCommand.Parameters.AddWithValue("@VALUE", value);
+
+            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Transaction.UnitOfWork.Sql;
+
 using Services.Api.Business.Departments.HR.Entities.Sql;
 
 using System;
@@ -84,7 +85,7 @@ namespace Services.Api.Business.Departments.HR.Repositories.Sql
         {
             List<RollbackItemEntity> entities = new List<RollbackItemEntity>();
 
-            using (SqlCommand sqlCommand = new SqlCommand($@"SELECT 
+            SqlCommand sqlCommand = new SqlCommand($@"SELECT 
                                                       [ID],
                                                       [ROLLBACK_TYPE],
                                                       [NAME],
@@ -96,33 +97,32 @@ namespace Services.Api.Business.Departments.HR.Repositories.Sql
                                                       FROM {TABLE_NAME}
                                                       WHERE DELETE_DATE IS NULL",
                                                        UnitOfWork.SqlConnection,
-                                                       UnitOfWork.SqlTransaction))
+                                                       UnitOfWork.SqlTransaction);
+
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+            using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationTokenSource.Token))
             {
-                sqlCommand.Transaction = UnitOfWork.SqlTransaction;
-
-                using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationTokenSource.Token))
+                if (sqlDataReader.HasRows)
                 {
-                    if (sqlDataReader.HasRows)
+                    while (await sqlDataReader.ReadAsync(cancellationTokenSource.Token))
                     {
-                        while (await sqlDataReader.ReadAsync(cancellationTokenSource.Token))
-                        {
-                            RollbackItemEntity inventory = new RollbackItemEntity();
+                        RollbackItemEntity inventory = new RollbackItemEntity();
 
-                            inventory.Id = sqlDataReader.GetInt32("ID");
-                            inventory.RollbackType = sqlDataReader.GetInt32("ROLLBACK_TYPE");
-                            inventory.Name = sqlDataReader.GetString("NAME");
-                            inventory.DataSet = sqlDataReader.GetString("DATASET");
-                            inventory.Identity = sqlDataReader.GetString("IDENTITY");
-                            inventory.OldValue = sqlDataReader.GetString("OLD_VALUE");
-                            inventory.NewValue = sqlDataReader.GetString("NEW_VALUE");
-                            inventory.IsRolledback = sqlDataReader.GetBoolean("IS_ROLLED_BACK");
+                        inventory.Id = sqlDataReader.GetInt32("ID");
+                        inventory.RollbackType = sqlDataReader.GetInt32("ROLLBACK_TYPE");
+                        inventory.Name = sqlDataReader.GetString("NAME");
+                        inventory.DataSet = sqlDataReader.GetString("DATASET");
+                        inventory.Identity = sqlDataReader.GetString("IDENTITY");
+                        inventory.OldValue = sqlDataReader.GetString("OLD_VALUE");
+                        inventory.NewValue = sqlDataReader.GetString("NEW_VALUE");
+                        inventory.IsRolledback = sqlDataReader.GetBoolean("IS_ROLLED_BACK");
 
-                            entities.Add(inventory);
-                        }
+                        entities.Add(inventory);
                     }
-
-                    return entities;
                 }
+
+                return entities;
             }
         }
 

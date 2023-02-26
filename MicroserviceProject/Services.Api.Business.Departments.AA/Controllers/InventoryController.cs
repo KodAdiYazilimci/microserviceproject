@@ -106,9 +106,9 @@ namespace Services.Api.Business.Departments.AA.Controllers
         [HttpGet]
         [Route(nameof(GetInventoriesForNewWorker))]
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
-        public IActionResult GetInventoriesForNewWorker()
+        public async Task<IActionResult> GetInventoriesForNewWorker()
         {
-            return HttpResponseWrapper.Wrap(async () =>
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
                 if (ByPassMediatR)
                     return _inventoryService.GetInventoriesForNewWorker(new CancellationTokenSource());

@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Transaction.Recovery;
 using Infrastructure.Transaction.UnitOfWork.Sql;
+
 using Services.Api.Business.Departments.Accounting.Entities.Sql;
 
 using System;
@@ -44,7 +45,7 @@ namespace Services.Api.Business.Departments.Accounting.Repositories.Sql
         {
             List<SalaryPaymentEntity> salaryPayments = new List<SalaryPaymentEntity>();
 
-            using (SqlCommand sqlCommand = new SqlCommand($@"SELECT [ID],
+            SqlCommand sqlCommand = new SqlCommand($@"SELECT [ID],
                                                       [ACCOUNTING_BANK_ACCOUNTS_ID],
                                                       [ACCOUNTING_CURRENCIES_ID],
                                                       [DATE],
@@ -52,30 +53,29 @@ namespace Services.Api.Business.Departments.Accounting.Repositories.Sql
                                                       FROM {TABLE_NAME}
                                                       WHERE DELETE_DATE IS NULL",
                                                       UnitOfWork.SqlConnection,
-                                                      UnitOfWork.SqlTransaction))
+                                                      UnitOfWork.SqlTransaction);
+
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+            using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationTokenSource.Token))
             {
-                sqlCommand.Transaction = UnitOfWork.SqlTransaction;
-
-                using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationTokenSource.Token))
+                if (sqlDataReader.HasRows)
                 {
-                    if (sqlDataReader.HasRows)
+                    while (await sqlDataReader.ReadAsync(cancellationTokenSource.Token))
                     {
-                        while (await sqlDataReader.ReadAsync(cancellationTokenSource.Token))
-                        {
-                            SalaryPaymentEntity salaryPayment = new SalaryPaymentEntity();
+                        SalaryPaymentEntity salaryPayment = new SalaryPaymentEntity();
 
-                            salaryPayment.Id = sqlDataReader.GetInt32("ID");
-                            salaryPayment.BankAccountId = sqlDataReader.GetInt32("ACCOUNTING_BANK_ACCOUNTS_ID");
-                            salaryPayment.CurrencyId = sqlDataReader.GetInt32("ACCOUNTING_CURRENCIES_ID");
-                            salaryPayment.Date = sqlDataReader.GetDateTime("DATE");
-                            salaryPayment.Amount = sqlDataReader.GetDecimal("AMOUNT");
+                        salaryPayment.Id = sqlDataReader.GetInt32("ID");
+                        salaryPayment.BankAccountId = sqlDataReader.GetInt32("ACCOUNTING_BANK_ACCOUNTS_ID");
+                        salaryPayment.CurrencyId = sqlDataReader.GetInt32("ACCOUNTING_CURRENCIES_ID");
+                        salaryPayment.Date = sqlDataReader.GetDateTime("DATE");
+                        salaryPayment.Amount = sqlDataReader.GetDecimal("AMOUNT");
 
-                            salaryPayments.Add(salaryPayment);
-                        }
+                        salaryPayments.Add(salaryPayment);
                     }
-
-                    return salaryPayments;
                 }
+
+                return salaryPayments;
             }
         }
 
@@ -83,7 +83,7 @@ namespace Services.Api.Business.Departments.Accounting.Repositories.Sql
         {
             List<SalaryPaymentEntity> salaryPayments = new List<SalaryPaymentEntity>();
 
-            using (SqlCommand sqlCommand = new SqlCommand($@"SELECT 
+            SqlCommand sqlCommand = new SqlCommand($@"SELECT 
                                                       SP.[ID],
                                                       SP.[ACCOUNTING_BANK_ACCOUNTS_ID],
                                                       SP.[ACCOUNTING_CURRENCIES_ID],
@@ -97,32 +97,31 @@ namespace Services.Api.Business.Departments.Accounting.Repositories.Sql
                                                       AND
                                                       BA.HR_WORKERS_ID = @HR_WORKERS_ID",
                                                       UnitOfWork.SqlConnection,
-                                                      UnitOfWork.SqlTransaction))
+                                                      UnitOfWork.SqlTransaction);
+
+            sqlCommand.Parameters.AddWithValue("@HR_WORKERS_ID", ((object)workerId) ?? DBNull.Value);
+
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+            using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationTokenSource.Token))
             {
-                sqlCommand.Parameters.AddWithValue("@HR_WORKERS_ID", ((object)workerId) ?? DBNull.Value);
-
-                sqlCommand.Transaction = UnitOfWork.SqlTransaction;
-
-                using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationTokenSource.Token))
+                if (sqlDataReader.HasRows)
                 {
-                    if (sqlDataReader.HasRows)
+                    while (await sqlDataReader.ReadAsync(cancellationTokenSource.Token))
                     {
-                        while (await sqlDataReader.ReadAsync(cancellationTokenSource.Token))
-                        {
-                            SalaryPaymentEntity salaryPayment = new SalaryPaymentEntity();
+                        SalaryPaymentEntity salaryPayment = new SalaryPaymentEntity();
 
-                            salaryPayment.Id = sqlDataReader.GetInt32("ID");
-                            salaryPayment.BankAccountId = sqlDataReader.GetInt32("ACCOUNTING_BANK_ACCOUNTS_ID");
-                            salaryPayment.CurrencyId = sqlDataReader.GetInt32("ACCOUNTING_CURRENCIES_ID");
-                            salaryPayment.Date = sqlDataReader.GetDateTime("DATE");
-                            salaryPayment.Amount = sqlDataReader.GetDecimal("AMOUNT");
+                        salaryPayment.Id = sqlDataReader.GetInt32("ID");
+                        salaryPayment.BankAccountId = sqlDataReader.GetInt32("ACCOUNTING_BANK_ACCOUNTS_ID");
+                        salaryPayment.CurrencyId = sqlDataReader.GetInt32("ACCOUNTING_CURRENCIES_ID");
+                        salaryPayment.Date = sqlDataReader.GetDateTime("DATE");
+                        salaryPayment.Amount = sqlDataReader.GetDecimal("AMOUNT");
 
-                            salaryPayments.Add(salaryPayment);
-                        }
+                        salaryPayments.Add(salaryPayment);
                     }
-
-                    return salaryPayments;
                 }
+
+                return salaryPayments;
             }
         }
 
@@ -135,7 +134,7 @@ namespace Services.Api.Business.Departments.Accounting.Repositories.Sql
         /// <returns></returns>
         public override async Task<int> CreateAsync(SalaryPaymentEntity salaryPayment, CancellationTokenSource cancellationTokenSource)
         {
-            using (SqlCommand sqlCommand = new SqlCommand($@"INSERT INTO {TABLE_NAME}
+            SqlCommand sqlCommand = new SqlCommand($@"INSERT INTO {TABLE_NAME}
                                                       ([ACCOUNTING_BANK_ACCOUNTS_ID],
                                                       [ACCOUNTING_CURRENCIES_ID],
                                                       [DATE],
@@ -147,17 +146,16 @@ namespace Services.Api.Business.Departments.Accounting.Repositories.Sql
                                                       @AMOUNT);
                                                       SELECT CAST(scope_identity() AS int)",
                                                         UnitOfWork.SqlConnection,
-                                                        UnitOfWork.SqlTransaction))
-            {
-                sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+                                                        UnitOfWork.SqlTransaction);
 
-                sqlCommand.Parameters.AddWithValue("@ACCOUNTING_BANK_ACCOUNTS_ID", ((object)salaryPayment.BankAccountId) ?? DBNull.Value);
-                sqlCommand.Parameters.AddWithValue("@ACCOUNTING_CURRENCIES_ID", ((object)salaryPayment.CurrencyId) ?? DBNull.Value);
-                sqlCommand.Parameters.AddWithValue("@DATE", ((object)salaryPayment.Date) ?? DBNull.Value);
-                sqlCommand.Parameters.AddWithValue("@AMOUNT", ((object)salaryPayment.Amount) ?? DBNull.Value);
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
 
-                return (int)await sqlCommand.ExecuteScalarAsync(cancellationTokenSource.Token);
-            }
+            sqlCommand.Parameters.AddWithValue("@ACCOUNTING_BANK_ACCOUNTS_ID", ((object)salaryPayment.BankAccountId) ?? DBNull.Value);
+            sqlCommand.Parameters.AddWithValue("@ACCOUNTING_CURRENCIES_ID", ((object)salaryPayment.CurrencyId) ?? DBNull.Value);
+            sqlCommand.Parameters.AddWithValue("@DATE", ((object)salaryPayment.Date) ?? DBNull.Value);
+            sqlCommand.Parameters.AddWithValue("@AMOUNT", ((object)salaryPayment.Amount) ?? DBNull.Value);
+
+            return (int)await sqlCommand.ExecuteScalarAsync(cancellationTokenSource.Token);
         }
 
         /// <summary>
@@ -185,18 +183,17 @@ namespace Services.Api.Business.Departments.Accounting.Repositories.Sql
         /// <returns></returns>
         public async Task<int> DeleteAsync(int id, CancellationTokenSource cancellationTokenSource)
         {
-            using (SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
                                                       SET DELETE_DATE = GETDATE()
                                                       WHERE ID = @ID",
                                                       UnitOfWork.SqlConnection,
-                                                      UnitOfWork.SqlTransaction))
-            {
-                sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+                                                      UnitOfWork.SqlTransaction);
 
-                sqlCommand.Parameters.AddWithValue("@ID", id);
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
 
-                return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
-            }
+            sqlCommand.Parameters.AddWithValue("@ID", id);
+
+            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
         }
 
         /// <summary>
@@ -207,18 +204,16 @@ namespace Services.Api.Business.Departments.Accounting.Repositories.Sql
         /// <returns></returns>
         public async Task<int> UnDeleteAsync(int id, CancellationTokenSource cancellationTokenSource)
         {
-            using (SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
                                                       SET DELETE_DATE = NULL
                                                       WHERE ID = @ID",
                                                                  UnitOfWork.SqlConnection,
-                                                                 UnitOfWork.SqlTransaction))
-            {
-                sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+                                                                 UnitOfWork.SqlTransaction);
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
 
-                sqlCommand.Parameters.AddWithValue("@ID", id);
+            sqlCommand.Parameters.AddWithValue("@ID", id);
 
-                return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
-            }
+            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
         }
 
         /// <summary>
@@ -231,19 +226,18 @@ namespace Services.Api.Business.Departments.Accounting.Repositories.Sql
         /// <returns></returns>
         public async Task<int> SetAsync(int id, string name, object value, CancellationTokenSource cancellationTokenSource)
         {
-            using (SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
                                                       SET {name.ToUpper()} = @VALUE
                                                       WHERE ID = @ID",
                                                                      UnitOfWork.SqlConnection,
-                                                                     UnitOfWork.SqlTransaction))
-            {
-                sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+                                                                     UnitOfWork.SqlTransaction);
 
-                sqlCommand.Parameters.AddWithValue("@ID", id);
-                sqlCommand.Parameters.AddWithValue("@VALUE", value);
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
 
-                return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
-            }
+            sqlCommand.Parameters.AddWithValue("@ID", id);
+            sqlCommand.Parameters.AddWithValue("@VALUE", value);
+
+            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
         }
     }
 }

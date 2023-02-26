@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Transaction.UnitOfWork.Sql;
+
 using Services.Api.Business.Departments.Buying.Entities.Sql;
 
 using System;
@@ -76,7 +77,7 @@ namespace Services.Api.Business.Departments.Buying.Repositories.Sql
         {
             List<RollbackEntity> entities = new List<RollbackEntity>();
 
-            using (SqlCommand sqlCommand = new SqlCommand($@"SELECT 
+            SqlCommand sqlCommand = new SqlCommand($@"SELECT 
                                                       [ID],
                                                       [TRANSACTION_IDENTITY],
                                                       [TRANSACTION_TYPE],
@@ -85,32 +86,30 @@ namespace Services.Api.Business.Departments.Buying.Repositories.Sql
                                                       FROM {TABLE_NAME}
                                                       WHERE DELETE_DATE IS NULL",
                                                         UnitOfWork.SqlConnection,
-                                                        UnitOfWork.SqlTransaction)
+                                                        UnitOfWork.SqlTransaction);
+
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+            using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationTokenSource.Token))
             {
-                Transaction = UnitOfWork.SqlTransaction
-            })
-            {
-                using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationTokenSource.Token))
+                if (sqlDataReader.HasRows)
                 {
-                    if (sqlDataReader.HasRows)
+                    while (await sqlDataReader.ReadAsync(cancellationTokenSource.Token))
                     {
-                        while (await sqlDataReader.ReadAsync(cancellationTokenSource.Token))
+                        RollbackEntity inventory = new RollbackEntity
                         {
-                            RollbackEntity inventory = new RollbackEntity
-                            {
-                                Id = sqlDataReader.GetInt32("ID"),
-                                TransactionIdentity = sqlDataReader.GetString("TRANSACTION_IDENTITY"),
-                                TransactionType = sqlDataReader.GetInt32("TRANSACTION_TYPE"),
-                                TransactionDate = sqlDataReader.GetDateTime("TRANSACTION_DATE"),
-                                IsRolledback = sqlDataReader.GetBoolean("IS_ROLLED_BACK")
-                            };
+                            Id = sqlDataReader.GetInt32("ID"),
+                            TransactionIdentity = sqlDataReader.GetString("TRANSACTION_IDENTITY"),
+                            TransactionType = sqlDataReader.GetInt32("TRANSACTION_TYPE"),
+                            TransactionDate = sqlDataReader.GetDateTime("TRANSACTION_DATE"),
+                            IsRolledback = sqlDataReader.GetBoolean("IS_ROLLED_BACK")
+                        };
 
-                            entities.Add(inventory);
-                        }
+                        entities.Add(inventory);
                     }
-
-                    return entities;
                 }
+
+                return entities;
             }
         }
 
@@ -139,20 +138,18 @@ namespace Services.Api.Business.Departments.Buying.Repositories.Sql
         /// <returns></returns>
         public async Task<int> SetRolledbackAsync(string transactionIdentity, CancellationTokenSource cancellationTokenSource)
         {
-            using (SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
+            SqlCommand sqlCommand = new SqlCommand($@"UPDATE {TABLE_NAME}
                                                       SET [IS_ROLLED_BACK] = 1
                                                       WHERE
                                                       [TRANSACTION_IDENTITY] = @TRANSACTION_IDENTITY",
                                                  UnitOfWork.SqlConnection,
-                                                 UnitOfWork.SqlTransaction)
-            {
-                Transaction = UnitOfWork.SqlTransaction
-            })
-            {
-                sqlCommand.Parameters.AddWithValue("@TRANSACTION_IDENTITY", transactionIdentity);
+                                                 UnitOfWork.SqlTransaction);
 
-                return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
-            }
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+            sqlCommand.Parameters.AddWithValue("@TRANSACTION_IDENTITY", transactionIdentity);
+
+            return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
         }
     }
 }

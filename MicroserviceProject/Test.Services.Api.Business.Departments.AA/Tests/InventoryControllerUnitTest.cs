@@ -96,13 +96,13 @@ namespace Test.Services.Api.Business.Departments.AA.Tests
         [TestMethod]
         public async void GetInventoriesForNewWorkerTest()
         {
-            var inventories = inventoryControllerTest.GetInventoriesForNewWorker();
+            var inventories = await inventoryControllerTest.GetInventoriesForNewWorker();
 
             if (inventories != null && !inventories.Any())
             {
                 await CreateDefaultInventoryForNewWorkerTest();
 
-                inventories = inventoryControllerTest.GetInventoriesForNewWorker();
+                inventories = await inventoryControllerTest.GetInventoriesForNewWorker();
             }
 
             Assert.IsTrue(inventories != null && inventories.Any());
