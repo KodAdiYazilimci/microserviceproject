@@ -106,7 +106,7 @@ namespace Test.Services.Api.Business.Departments.AA
             return null;
         }
 
-        public async Task<List<AAInventoryModel>> GetInventoriesForNewWorker()
+        public async Task<List<AADefaultInventoryForNewWorkerModel>> GetInventoriesForNewWorker()
         {
             IActionResult actionResult = await inventoryController.GetInventoriesForNewWorker();
 
@@ -114,7 +114,7 @@ namespace Test.Services.Api.Business.Departments.AA
             {
                 OkObjectResult okObjectResult = (OkObjectResult)actionResult;
 
-                return (okObjectResult.Value as ServiceResultModel<List<AAInventoryModel>>).Data;
+                return (okObjectResult.Value as ServiceResultModel<List<AADefaultInventoryForNewWorkerModel>>).Data;
             }
             else if (actionResult is BadRequestObjectResult)
             {

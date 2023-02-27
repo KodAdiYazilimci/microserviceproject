@@ -383,7 +383,7 @@ namespace Services.Api.Business.Departments.HR.Services
                         IBAN = x.IBAN,
                         Worker = new WorkerModel()
                         {
-                            Id = x.Worker.Id
+                            Id = worker.Id
                         }
                     }).ToList();
                 }

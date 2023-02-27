@@ -282,6 +282,8 @@ namespace Services.Api.Business.Departments.Accounting.Services
         {
             SalaryPaymentEntity mappedBankAccount = _mapper.Map<AccountingSalaryPaymentModel, SalaryPaymentEntity>(salaryPayment);
 
+            mappedBankAccount.BankAccountId = (await _bankAccountRepository.GetBankAccountByIban(salaryPayment.BankAccount.IBAN, cancellationTokenSource)).Id;
+
             int createdSalaryPaymentId = await _salaryPaymentRepository.CreateAsync(mappedBankAccount, cancellationTokenSource);
 
             await CreateCheckpointAsync(

@@ -94,7 +94,7 @@ namespace Test.Services.Api.Business.Departments.AA.Tests
         }
 
         [TestMethod]
-        public async void GetInventoriesForNewWorkerTest()
+        public async Task GetInventoriesForNewWorkerTest()
         {
             var inventories = await inventoryControllerTest.GetInventoriesForNewWorker();
 

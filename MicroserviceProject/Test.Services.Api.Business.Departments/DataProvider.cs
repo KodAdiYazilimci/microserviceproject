@@ -130,7 +130,18 @@ namespace Test.Services.Api.Business.Departments
         {
             var bankAccounts = await accountControllerTest.GetBankAccountsOfWorkerAsync(workerId);
 
+            if (bankAccounts != null && !bankAccounts.Any())
+            {
+                await CreateBankAccountToWorker(workerId);
+
+                bankAccounts = await accountControllerTest.GetBankAccountsOfWorkerAsync(workerId);
+            }
+
             var randomBankAccount = bankAccounts.ElementAt(new Random().Next(0, bankAccounts.Count - 1));
+
+            var currencies = await GetCurrenciesAsync();
+
+            var randomCurrency = currencies.ElementAt(new Random().Next(0, currencies.Count - 1));
 
             var result = await accountControllerTest.CreateSalaryPaymentTest(new AccountingCreateSalaryPaymentCommandRequest()
             {
@@ -138,10 +149,31 @@ namespace Test.Services.Api.Business.Departments
                 {
                     Amount = new Random().Next(1, byte.MaxValue),
                     Date = DateTime.Now,
-                    BankAccount = randomBankAccount
+                    BankAccount = randomBankAccount,
+                    Currency = randomCurrency
                 }
             });
             return result;
+        }
+
+        public async Task<List<AccountingCurrencyModel>> GetCurrenciesAsync()
+        {
+            var accounts = await accountControllerTest.GetCurrenciesAsync();
+
+            if (accounts != null && !accounts.Any())
+            {
+                await accountControllerTest.CreateCurrencyAsync(new AccountingCreateCurrencyCommandRequest()
+                {
+                    Currency = new AccountingCurrencyModel()
+                    {
+                        Name = new Random().Next(int.MinValue, int.MaxValue).ToString()
+                    }
+                });
+
+                accounts = await accountControllerTest.GetCurrenciesAsync();
+            }
+
+            return accounts;
         }
 
         public async Task<List<PersonModel>> GetPeopleAsync()

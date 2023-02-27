@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Services.Api.Business.Departments.Accounting.Services;
+using Services.Api.Business.Departments.Accounting.Util.Validation.Department.CreateDepartment;
 using Services.Communication.Http.Broker.Department.Accounting.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.Accounting.CQRS.Queries.Requests;
 using Services.Communication.Http.Broker.Department.Accounting.CQRS.Queries.Responses;
@@ -114,7 +115,13 @@ namespace Services.Api.Business.Departments.Accounting.Controllers
             return await HttpResponseWrapper.WrapAsync(async () =>
             {
                 if (ByPassMediatR)
-                    await _bankService.CreateSalaryPaymentAsync(request.SalaryPayment, new CancellationTokenSource());
+                {
+                    CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+
+                    await CreateSalaryPaymentValidator.ValidateAsync(request.SalaryPayment, cancellationTokenSource);
+
+                    await _bankService.CreateSalaryPaymentAsync(request.SalaryPayment, cancellationTokenSource);
+                }
                 else
                     await _mediator.Send(request);
             },

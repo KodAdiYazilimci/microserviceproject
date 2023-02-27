@@ -108,27 +108,36 @@ namespace Infrastructure.Transaction.UnitOfWork.Sql
             {
                 if (!disposed)
                 {
-                    if (sqlConnection != null)
-                    {
-                        if (sqlConnection.State != ConnectionState.Closed)
-                        {
-                            sqlConnection.Close();
-                        }
-                    }
-
-                    if (sqlTransaction != null)
-                    {
-                        sqlTransaction.Dispose();
-                    }
-
-                    if (sqlConnection != null)
-                    {
-                        sqlConnection.Dispose();
-                    }
+                    DisposeConnections();
                 }
 
                 disposed = true;
             }
+        }
+
+        private void DisposeConnections()
+        {
+            if (sqlConnection != null)
+            {
+                if (sqlConnection.State != ConnectionState.Closed)
+                {
+                    sqlConnection.Close();
+                }
+            }
+
+            if (sqlTransaction != null)
+            {
+                sqlTransaction.Dispose();
+            }
+
+            sqlTransaction = null;
+
+            if (sqlConnection != null)
+            {
+                sqlConnection.Dispose();
+            }
+
+            sqlConnection = null;
         }
 
         /// <summary>
@@ -152,10 +161,12 @@ namespace Infrastructure.Transaction.UnitOfWork.Sql
             }
             finally
             {
-                if (SqlConnection.State != ConnectionState.Closed)
-                {
-                    await SqlConnection.CloseAsync();
-                }
+                //if (SqlConnection.State != ConnectionState.Closed)
+                //{
+                //    await SqlConnection.CloseAsync();
+                //}
+
+                DisposeConnections();
             }
 
             if (exception != null)
