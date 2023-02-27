@@ -130,7 +130,7 @@ namespace Services.Api.Business.Departments.Accounting.Repositories.Sql
         {
             SqlCommand sqlCommand = UnitOfWork.SqlConnection.CreateCommand();
 
-            sqlCommand.CommandText = $@"INSERT INTO {TABLE_NAME} ([WORKERS_ID],[IBAN]) VALUES (@HR_WORKERS_ID,@IBAN); SELECT CAST(scope_identity() AS int);";
+            sqlCommand.CommandText = $@"INSERT INTO {TABLE_NAME} ([HR_WORKERS_ID],[IBAN]) VALUES (@HR_WORKERS_ID,@IBAN); SELECT CAST(scope_identity() AS int)";
 
             sqlCommand.Transaction = UnitOfWork.SqlTransaction;
 
@@ -221,6 +221,43 @@ namespace Services.Api.Business.Departments.Accounting.Repositories.Sql
             sqlCommand.Parameters.AddWithValue("@VALUE", value);
 
             return (int)await sqlCommand.ExecuteNonQueryAsync(cancellationTokenSource.Token);
+        }
+
+        public async Task<BankAccountEntity> GetBankAccountByIban(string iban, CancellationTokenSource cancellationTokenSource)
+        {
+            BankAccountEntity bankAccount = null;
+
+            SqlCommand sqlCommand = new SqlCommand($@"SELECT TOP 1 [ID],
+                                                      [HR_WORKERS_ID],
+                                                      [IBAN]
+                                                      FROM {TABLE_NAME}
+                                                      WHERE DELETE_DATE IS NULL
+                                                      AND
+                                                      IBAN = @IBAN
+                                                      ORDER BY 1 DESC",
+                                                      UnitOfWork.SqlConnection,
+                                                      UnitOfWork.SqlTransaction);
+
+            sqlCommand.Parameters.AddWithValue("@IBAN", ((object)iban) ?? DBNull.Value);
+
+            sqlCommand.Transaction = UnitOfWork.SqlTransaction;
+
+            using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationTokenSource.Token))
+            {
+                if (sqlDataReader.HasRows)
+                {
+                    while (await sqlDataReader.ReadAsync(cancellationTokenSource.Token))
+                    {
+                        bankAccount = new BankAccountEntity();
+
+                        bankAccount.Id = sqlDataReader.GetInt32("ID");
+                        bankAccount.WorkerId = sqlDataReader.GetInt32("HR_WORKERS_ID");
+                        bankAccount.IBAN = sqlDataReader.GetString("IBAN");
+                    }
+                }
+
+                return bankAccount;
+            }
         }
     }
 }
