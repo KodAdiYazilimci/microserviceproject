@@ -8,13 +8,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure.Caching.InMemory.Mock\Infrastructure.Caching.InMemory.Mock.csproj" />
-    <ProjectReference Include="..\Infrastructure.Caching.InMemory\Infrastructure.Caching.InMemory.csproj" />
     <ProjectReference Include="..\Infrastructure.Communication.Http.Broker.Mock\Infrastructure.Communication.Http.Broker.Mock.csproj" />
     <ProjectReference Include="..\Infrastructure.Routing.Persistence.Mock\Infrastructure.Routing.Persistence.Mock.csproj" />
     <ProjectReference Include="..\Infrastructure.Security.Authentication.Mock\Infrastructure.Security.Authentication.Mock.csproj" />
     <ProjectReference Include="..\Services.Api.Gateway.Mock\Services.Api.Gateway.Mock.csproj" />
     <ProjectReference Include="..\Services.Api.Gateway.Public\Services.Api.Gateway.Public.csproj" />
-    <ProjectReference Include="..\Services.Api.Gateway\Services.Api.Gateway.csproj" />
     <ProjectReference Include="..\Services.Communication.Http.Broker.Gateway\Services.Communication.Http.Broker.Gateway.csproj" />
   </ItemGroup>
 
