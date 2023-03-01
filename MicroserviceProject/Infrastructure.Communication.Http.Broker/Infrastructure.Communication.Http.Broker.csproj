@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Infrastructure.Caching.InMemory\Infrastructure.Caching.InMemory.csproj" />
-    <ProjectReference Include="..\Infrastructure.Communication.Http.Endpoint\Infrastructure.Communication.Http.Endpoint.csproj" />
-    <ProjectReference Include="..\Infrastructure.Communication.Http\Infrastructure.Communication.Http.csproj" />
-    <ProjectReference Include="..\Infrastructure.Routing.Persistence\Infrastructure.Routing.Persistence.csproj" />
     <ProjectReference Include="..\Infrastructure.Routing.Providers\Infrastructure.Routing.Providers.csproj" />
     <ProjectReference Include="..\Infrastructure.Security.Authentication\Infrastructure.Security.Authentication.csproj" />
   </ItemGroup>

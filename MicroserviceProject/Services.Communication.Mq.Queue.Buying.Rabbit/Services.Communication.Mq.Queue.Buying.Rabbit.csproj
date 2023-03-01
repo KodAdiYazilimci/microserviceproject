@@ -11,7 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Infrastructure.Communication.Mq.Rabbit\Infrastructure.Communication.Mq.Rabbit.csproj" />
     <ProjectReference Include="..\Services.Communication.Http.Broker.Department.Buying\Services.Communication.Http.Broker.Department.Buying.csproj" />
     <ProjectReference Include="..\Services.Communication.Mq.Queue.Buying\Services.Communication.Mq.Queue.Buying.csproj" />
     <ProjectReference Include="..\Services.Communication.Mq.Rabbit.Publisher\Services.Communication.Mq.Rabbit.Publisher.csproj" />
