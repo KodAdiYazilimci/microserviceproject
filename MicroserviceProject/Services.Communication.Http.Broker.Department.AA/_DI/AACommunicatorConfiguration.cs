@@ -1,8 +1,7 @@
-﻿using Infrastructure.Communication.Http.Broker.DI;
+﻿using Microsoft.Extensions.DependencyInjection;
 
-using Microsoft.Extensions.DependencyInjection;
-
-using Services.Communication.Http.Broker.Authorization;
+using Services.Communication.Http.Broker.Department.AA.Abstract;
+using Services.Communication.Http.Broker.Department.DI;
 
 namespace Services.Communication.Http.Broker.Department.AA.DI
 {
@@ -18,11 +17,9 @@ namespace Services.Communication.Http.Broker.Department.AA.DI
         /// <returns></returns>
         public static IServiceCollection RegisterHttpAADepartmentCommunicators(this IServiceCollection services)
         {
-            services.RegisterHttpServiceCommunicator();
+            services.RegisterDepartmentCommunicator();
+            services.AddSingleton<IAACommunicator, AACommunicator>();
 
-            services.AddSingleton<AuthorizationCommunicator>();
-            services.AddSingleton<AACommunicator>();
-                        
             return services;
         }
     }

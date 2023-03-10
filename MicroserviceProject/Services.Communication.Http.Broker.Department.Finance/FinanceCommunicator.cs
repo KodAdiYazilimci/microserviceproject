@@ -1,37 +1,32 @@
-﻿using Infrastructure.Caching.InMemory;
-using Infrastructure.Communication.Http.Broker;
-using Infrastructure.Communication.Http.Endpoint.Abstract;
+﻿using Infrastructure.Communication.Http.Endpoint.Abstract;
 using Infrastructure.Communication.Http.Endpoint.Authentication;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Routing.Exceptions;
 using Infrastructure.Routing.Providers;
-using Infrastructure.Security.Authentication.Providers;
 
-using Services.Communication.Http.Broker.Authorization;
+using Services.Communication.Http.Broker.Department.Abstract;
+using Services.Communication.Http.Broker.Department.Finance.Abstract;
 using Services.Communication.Http.Broker.Department.Finance.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.Finance.Endpoints;
 using Services.Communication.Http.Broker.Department.Finance.Models;
 
 namespace Services.Communication.Http.Broker.Department.Finance
 {
-    public class FinanceCommunicator : BaseDepartmentCommunicator, IDisposable
+    public class FinanceCommunicator : IFinanceCommunicator, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
         private bool disposed = false;
 
-        private readonly RouteProvider? _routeProvider;
+        private readonly RouteProvider _routeProvider;
+        private readonly IDepartmentCommunicator _departmentCommunicator;
 
         public FinanceCommunicator(
-            AuthorizationCommunicator authorizationCommunicator,
-            InMemoryCacheDataProvider cacheProvider,
-            CredentialProvider credentialProvider,
-            HttpGetCaller httpGetCaller,
-            HttpPostCaller httpPostCaller,
-            RouteProvider? routeProvider) : base(authorizationCommunicator, cacheProvider, credentialProvider, httpGetCaller, httpPostCaller)
+            RouteProvider routeProvider, IDepartmentCommunicator departmentCommunicator)
         {
             _routeProvider = routeProvider;
+            _departmentCommunicator = departmentCommunicator;
         }
 
         public async Task<ServiceResultModel> CreateCostAsync(
@@ -43,12 +38,12 @@ namespace Services.Communication.Http.Broker.Department.Finance
 
             if (endpoint != null)
             {
-                string token = await GetServiceToken(cancellationTokenSource);
+                string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
                 endpoint.Headers["TransactionIdentity"] = transactionIdentity;
 
-                return await CallAsync<CreateCostCommandRequest, Object>(endpoint, request, cancellationTokenSource);
+                return await _departmentCommunicator.CallAsync<CreateCostCommandRequest, Object>(endpoint, request, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();
@@ -63,12 +58,12 @@ namespace Services.Communication.Http.Broker.Department.Finance
 
             if (endpoint != null)
             {
-                string token = await GetServiceToken(cancellationTokenSource);
+                string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
                 endpoint.Headers["TransactionIdentity"] = transactionIdentity;
 
-                return await CallAsync<CreateProductionRequestCommandRequest, Object>(endpoint, request, cancellationTokenSource);
+                return await _departmentCommunicator.CallAsync<CreateProductionRequestCommandRequest, Object>(endpoint, request, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();
@@ -82,12 +77,12 @@ namespace Services.Communication.Http.Broker.Department.Finance
 
             if (endpoint != null)
             {
-                string token = await GetServiceToken(cancellationTokenSource);
+                string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
                 endpoint.Headers["TransactionIdentity"] = transactionIdentity;
 
-                return await CallAsync<List<DecidedCostModel>>(endpoint, cancellationTokenSource);
+                return await _departmentCommunicator.CallAsync<List<DecidedCostModel>>(endpoint, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();
@@ -102,12 +97,12 @@ namespace Services.Communication.Http.Broker.Department.Finance
 
             if (endpoint != null)
             {
-                string token = await GetServiceToken(cancellationTokenSource);
+                string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
                 endpoint.Headers["TransactionIdentity"] = transactionIdentity;
 
-                return await CallAsync<DecideCostCommandRequest, Object>(endpoint, request, cancellationTokenSource);
+                return await _departmentCommunicator.CallAsync<DecideCostCommandRequest, Object>(endpoint, request, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();
@@ -121,12 +116,12 @@ namespace Services.Communication.Http.Broker.Department.Finance
 
             if (endpoint != null)
             {
-                string token = await GetServiceToken(cancellationTokenSource);
+                string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
                 endpoint.Queries["tokenKey"] = tokenKey;
 
-                return await CallAsync<Object>(endpoint, cancellationTokenSource);
+                return await _departmentCommunicator.CallAsync<Object>(endpoint, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();

@@ -22,6 +22,8 @@ using Services.Communication.Http.Broker.Authorization.Mock;
 using Services.Communication.Http.Broker.Department.AA.Mock;
 using Services.Communication.Http.Broker.Department.Accounting.Mock;
 using Services.Communication.Http.Broker.Department.IT.Mock;
+using Services.Communication.Http.Broker.Department.Mock;
+using Services.Communication.Http.Broker.Mock;
 using Services.Communication.Mq.Queue.AA.Configuration.Mock;
 using Services.Communication.Mq.Queue.AA.Rabbit.Publishers.Mock;
 using Services.Communication.Mq.Queue.Accounting.Configuration.Mock;
@@ -50,57 +52,69 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Services
                     inMemoryCacheDataProvider: inMemoryCacheDataProvider);
                 var httpGetCaller = HttpGetCallerFactory.Instance;
                 var httpPostCaller = HttpPostCallerFactory.Instance;
+                var defaultCommunicator = DefaultCommunicatorProvider.GetDefaultCommunicator(httpGetCaller, httpPostCaller);
                 var authorizationCommunicator = AuthorizationCommunicatorProvider.GetAuthorizationCommunicator(
-                    httpGetCaller: httpGetCaller,
-                    httpPostCaller: httpPostCaller,
-                    routeProvider: routeProvider);
+                    routeProvider: routeProvider,
+                    defaultCommunicator);
                 var credentialProvider = CredentialProviderFactory.GetCredentialProvider(configuration);
+                var departmentCommunicator = DepartmentCommunicatorProvider.GetDepartmentCommunicator(
+                    authorizationCommunicator: authorizationCommunicator,
+                    inMemoryCacheDataProvider: inMemoryCacheDataProvider,
+                    credentialProvider: credentialProvider,
+                    communicator: defaultCommunicator);
+
                 IUnitOfWork unitOfWork = new UnitOfWork(configuration);
 
-                var service = new PersonService(
-                    mapper: mapper,
-                    aACommunicator: AACommunicatorProvider.GetAACommunicator(
-                        authorizationCommunicator: authorizationCommunicator,
-                        inMemoryCacheDataProvider: inMemoryCacheDataProvider,
-                        credentialProvider: credentialProvider,
-                        routeProvider: routeProvider,
-                        httpGetCaller: httpGetCaller,
-                        httpPostCaller: httpPostCaller),
-                    accountingCommunicator: AccountingCommunicatorProvider.GetAccountingCommunicator(
-                        authorizationCommunicator: authorizationCommunicator,
-                        inMemoryCacheDataProvider: inMemoryCacheDataProvider,
-                        credentialProvider: credentialProvider,
-                        httpGetCaller: httpGetCaller,
-                        httpPostCaller: httpPostCaller,
-                        routeProvider: routeProvider),
-                    itCommunicator: ITCommunicatorProvider.GetITCommunicator(
-                        authorizationCommunicator: authorizationCommunicator,
-                        inMemoryCacheDataProvider: inMemoryCacheDataProvider,
-                        credentialProvider: credentialProvider,
-                        httpGetCaller: httpGetCaller,
-                        httpPostCaller: httpPostCaller,
-                        routeProvider: routeProvider),
-                    AAassignInventoryToWorkerPublisher: AAAssignInventoryToWorkerPublisherProvider.GetPublisher(
-                        configuration: AAAssignInventoryToWorkerRabbitConfigurationProvider.GetConfiguration(configuration)),
-                    ITassignInventoryToWorkerPublisher: ITAssignInventoryToWorkerPublisherProvider.GetPublisher(
-                        configuration: ITAssignInventoryToWorkerRabbitConfigurationProvider.GetConfiguration(configuration)),
-                    createBankAccountPublisher: CreateBankAccountPublisherProvider.GetPublisher(
-                        rabbitConfiguration: AccountingCreateBankAccountRabbitConfigurationProvider.GetConfiguration(configuration)),
-                    unitOfWork: new UnitOfWork(configuration),
-                    translationProvider: TranslationProviderFactory.GetTranslationProvider(
-                        configuration: configuration,
-                        cacheDataProvider: redisCacheDataProvider,
-                        translationRepository: TranslationRepositoryFactory.GetTranslationRepository(
-                            translationDbContext: TranslationDbContextFactory.GetTranslationDbContext(configuration)),
-                        translationHelper: TranslationHelperFactory.Instance),
-                    redisCacheDataProvider: redisCacheDataProvider,
-                    transactionRepository: TransactionRepositoryFactory.GetInstance(unitOfWork),
-                    transactionItemRepository: TransactionItemRepositoryFactory.GetInstance(unitOfWork),
-                    departmentRepository: DepartmentRepositoryFactory.GetInstance(unitOfWork),
-                    personRepository: PersonRepositoryFactory.GetInstance(unitOfWork),
-                    titleRepository: TitleRepositoryFactory.GetInstance(unitOfWork),
-                    workerRepository: WorkerRepositoryFactory.GetInstance(unitOfWork),
-                    workerRelationRepository: WorkerRelationRepositoryFactory.GetInstance(unitOfWork));
+                var service = new PersonService
+                    (
+                        mapper: mapper,
+                        aACommunicator: AACommunicatorProvider.GetAACommunicator
+                        (
+                            routeProvider: routeProvider,
+                            departmentCommunicator: departmentCommunicator
+                        ),
+                        accountingCommunicator: AccountingCommunicatorProvider.GetAccountingCommunicator
+                        (
+                            routeProvider: routeProvider,
+                            departmentCommunicator: departmentCommunicator
+                        ),
+                        itCommunicator: ITCommunicatorProvider.GetITCommunicator
+                        (
+                            routeProvider: routeProvider,
+                            departmentCommunicator: departmentCommunicator
+                        ),
+                        AAassignInventoryToWorkerPublisher: AAAssignInventoryToWorkerPublisherProvider.GetPublisher
+                        (
+                            configuration: AAAssignInventoryToWorkerRabbitConfigurationProvider.GetConfiguration(configuration)
+                        ),
+                        ITassignInventoryToWorkerPublisher: ITAssignInventoryToWorkerPublisherProvider.GetPublisher
+                        (
+                            configuration: ITAssignInventoryToWorkerRabbitConfigurationProvider.GetConfiguration(configuration)
+                        ),
+                        createBankAccountPublisher: CreateBankAccountPublisherProvider.GetPublisher
+                        (
+                            rabbitConfiguration: AccountingCreateBankAccountRabbitConfigurationProvider.GetConfiguration(configuration)
+                        ),
+                        unitOfWork: new UnitOfWork(configuration),
+                        translationProvider: TranslationProviderFactory.GetTranslationProvider
+                        (
+                            configuration: configuration,
+                            cacheDataProvider: redisCacheDataProvider,
+                            translationRepository: TranslationRepositoryFactory.GetTranslationRepository
+                            (
+                                translationDbContext: TranslationDbContextFactory.GetTranslationDbContext(configuration)
+                            ),
+                            translationHelper: TranslationHelperFactory.Instance
+                        ),
+                        redisCacheDataProvider: redisCacheDataProvider,
+                        transactionRepository: TransactionRepositoryFactory.GetInstance(unitOfWork),
+                        transactionItemRepository: TransactionItemRepositoryFactory.GetInstance(unitOfWork),
+                        departmentRepository: DepartmentRepositoryFactory.GetInstance(unitOfWork),
+                        personRepository: PersonRepositoryFactory.GetInstance(unitOfWork),
+                        titleRepository: TitleRepositoryFactory.GetInstance(unitOfWork),
+                        workerRepository: WorkerRepositoryFactory.GetInstance(unitOfWork),
+                        workerRelationRepository: WorkerRelationRepositoryFactory.GetInstance(unitOfWork)
+                    );
 
                 service.TransactionIdentity = new Random().Next(int.MinValue, int.MaxValue).ToString();
 

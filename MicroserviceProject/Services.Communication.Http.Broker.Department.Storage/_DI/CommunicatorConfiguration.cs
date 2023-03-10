@@ -1,8 +1,7 @@
-﻿using Infrastructure.Communication.Http.Broker.DI;
+﻿using Microsoft.Extensions.DependencyInjection;
 
-using Microsoft.Extensions.DependencyInjection;
-
-using Services.Communication.Http.Broker.Authorization;
+using Services.Communication.Http.Broker.Department.DI;
+using Services.Communication.Http.Broker.Department.Storage.Abstract;
 
 namespace Services.Communication.Http.Broker.Department.Storage.DI
 {
@@ -18,11 +17,9 @@ namespace Services.Communication.Http.Broker.Department.Storage.DI
         /// <returns></returns>
         public static IServiceCollection RegisterHttpStorageDepartmentCommunicators(this IServiceCollection services)
         {
-            services.RegisterHttpServiceCommunicator();
+            services.RegisterDepartmentCommunicator();
+            services.AddSingleton<IStorageCommunicator, StorageCommunicator>();
 
-            services.AddSingleton<AuthorizationCommunicator>();
-            services.AddSingleton<StorageCommunicator>();
-                        
             return services;
         }
     }

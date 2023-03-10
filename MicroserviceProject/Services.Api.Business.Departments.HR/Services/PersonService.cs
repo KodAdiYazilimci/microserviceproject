@@ -10,12 +10,12 @@ using Infrastructure.Transaction.UnitOfWork.Sql;
 
 using Services.Api.Business.Departments.HR.Entities.Sql;
 using Services.Api.Business.Departments.HR.Repositories.Sql;
-using Services.Communication.Http.Broker.Department.AA;
+using Services.Communication.Http.Broker.Department.AA.Abstract;
 using Services.Communication.Http.Broker.Department.AA.Models;
-using Services.Communication.Http.Broker.Department.Accounting;
+using Services.Communication.Http.Broker.Department.Accounting.Abstract;
 using Services.Communication.Http.Broker.Department.Accounting.Models;
 using Services.Communication.Http.Broker.Department.HR.Models;
-using Services.Communication.Http.Broker.Department.IT;
+using Services.Communication.Http.Broker.Department.IT.Abstract;
 using Services.Communication.Http.Broker.Department.IT.Models;
 using Services.Communication.Mq.Queue.AA.Models;
 using Services.Communication.Mq.Queue.AA.Rabbit.Publishers;
@@ -118,17 +118,17 @@ namespace Services.Api.Business.Departments.HR.Services
         /// <summary>
         /// İdari işler departmanı servis iletişimcisi
         /// </summary>
-        private readonly AACommunicator _aaCommunicator;
+        private readonly IAACommunicator _aaCommunicator;
 
         /// <summary>
         /// Muhasebe departmanı servis iletişimcisi
         /// </summary>
-        private readonly AccountingCommunicator _accountingCommunicator;
+        private readonly IAccountingCommunicator _accountingCommunicator;
 
         /// <summary>
         /// IT departmanı servis iletişimcisi
         /// </summary>
-        private readonly ITCommunicator _itCommunicator;
+        private readonly IITCommunicator _itCommunicator;
 
         /// <summary>
         /// İdari işler tarafından yeni çalışana varsayılan envanter ataması yapacak kuyruğa
@@ -169,9 +169,9 @@ namespace Services.Api.Business.Departments.HR.Services
         /// <param name="workerRelationRepository">Çalışan ilişkileri tablosu için repository sınıfı</param>
         public PersonService(
             IMapper mapper,
-            AACommunicator aACommunicator,
-            AccountingCommunicator accountingCommunicator,
-            ITCommunicator itCommunicator,
+            IAACommunicator aACommunicator,
+            IAccountingCommunicator accountingCommunicator,
+            IITCommunicator itCommunicator,
             AAAssignInventoryToWorkerPublisher AAassignInventoryToWorkerPublisher,
             ITAssignInventoryToWorkerPublisher ITassignInventoryToWorkerPublisher,
             CreateBankAccountPublisher createBankAccountPublisher,

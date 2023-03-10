@@ -30,18 +30,25 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Services
                 RedisCacheDataProvider redisCacheDataProvider = CacheDataProviderFactory.GetInstance(configuration);
                 IUnitOfWork unitOfWork = new UnitOfWork(configuration);
 
-                var service = new DepartmentService(
-                    mapper: mapper,
-                    unitOfWork: new UnitOfWork(configuration),
-                    redisCacheDataProvider: redisCacheDataProvider,
-                    translationProvider: TranslationProviderFactory.GetTranslationProvider(
-                        configuration: configuration,
-                        cacheDataProvider: redisCacheDataProvider,
-                        translationRepository: new TranslationRepository(TranslationDbContextFactory.GetTranslationDbContext(configuration)),
-                        translationHelper: TranslationHelperFactory.Instance),
-                    transactionRepository: TransactionRepositoryFactory.GetInstance(unitOfWork),
-                    transactionItemRepository: TransactionItemRepositoryFactory.GetInstance(unitOfWork),
-                    departmentRepository: DepartmentRepositoryFactory.GetInstance(unitOfWork));
+                var service = new DepartmentService
+                    (
+                        mapper: mapper,
+                        unitOfWork: new UnitOfWork(configuration),
+                        redisCacheDataProvider: redisCacheDataProvider,
+                        translationProvider: TranslationProviderFactory.GetTranslationProvider
+                        (
+                            configuration: configuration,
+                            cacheDataProvider: redisCacheDataProvider,
+                            translationRepository: new TranslationRepository
+                            (
+                                translationDbContext: TranslationDbContextFactory.GetTranslationDbContext(configuration)
+                            ),
+                            translationHelper: TranslationHelperFactory.Instance
+                        ),
+                        transactionRepository: TransactionRepositoryFactory.GetInstance(unitOfWork),
+                        transactionItemRepository: TransactionItemRepositoryFactory.GetInstance(unitOfWork),
+                        departmentRepository: DepartmentRepositoryFactory.GetInstance(unitOfWork)
+                    );
 
                 service.TransactionIdentity = new Random().Next(int.MinValue, int.MaxValue).ToString();
 

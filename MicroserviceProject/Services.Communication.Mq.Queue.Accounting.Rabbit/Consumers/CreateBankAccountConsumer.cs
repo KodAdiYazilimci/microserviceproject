@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Communication.Mq.Rabbit;
 
-using Services.Communication.Http.Broker.Department.Accounting;
+using Services.Communication.Http.Broker.Department.Accounting.Abstract;
 using Services.Communication.Mq.Queue.Accounting.Configuration;
 using Services.Communication.Mq.Queue.Accounting.Models;
 
@@ -24,7 +24,7 @@ namespace Services.Communication.Mq.Queue.Accounting.Rabbit.Consumers
         /// <summary>
         /// Muhasebe departmanı servis iletişimcisi
         /// </summary>
-        private readonly AccountingCommunicator _accountingCommunicator;
+        private readonly IAccountingCommunicator _accountingCommunicator;
 
         /// <summary>
         /// Çalışana maaş hesabı açacak kayıtları tüketen sınıf
@@ -33,7 +33,7 @@ namespace Services.Communication.Mq.Queue.Accounting.Rabbit.Consumers
         /// <param name="accountingCommunicator">Muhasebe departmanı servis iletişimcisi</param>
         public CreateBankAccountConsumer(
             AccountingCreateBankAccountRabbitConfiguration rabbitConfiguration,
-            AccountingCommunicator accountingCommunicator)
+            IAccountingCommunicator accountingCommunicator)
         {
             _accountingCommunicator = accountingCommunicator;
 

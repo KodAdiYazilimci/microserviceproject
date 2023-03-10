@@ -1,37 +1,33 @@
-﻿using Infrastructure.Caching.InMemory;
-using Infrastructure.Communication.Http.Broker;
-using Infrastructure.Communication.Http.Endpoint.Abstract;
+﻿using Infrastructure.Communication.Http.Endpoint.Abstract;
 using Infrastructure.Communication.Http.Endpoint.Authentication;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Routing.Exceptions;
 using Infrastructure.Routing.Providers;
-using Infrastructure.Security.Authentication.Providers;
 
-using Services.Communication.Http.Broker.Authorization;
+using Services.Communication.Http.Broker.Department.Abstract;
+using Services.Communication.Http.Broker.Department.Storage.Abstract;
 using Services.Communication.Http.Broker.Department.Storage.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.Storage.Endpoints;
 using Services.Communication.Http.Broker.Department.Storage.Models;
 
 namespace Services.Communication.Http.Broker.Department.Storage
 {
-    public class StorageCommunicator : BaseDepartmentCommunicator, IDisposable
+    public class StorageCommunicator : IStorageCommunicator, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
         private bool disposed = false;
 
-        private readonly RouteProvider? _routeProvider;
+        private readonly RouteProvider _routeProvider;
+        public readonly IDepartmentCommunicator _departmentCommunicator;
 
         public StorageCommunicator(
-            AuthorizationCommunicator authorizationCommunicator,
-            InMemoryCacheDataProvider cacheProvider,
-            CredentialProvider credentialProvider,
-            HttpGetCaller httpGetCaller,
-            HttpPostCaller httpPostCaller,
-            RouteProvider? routeProvider) : base(authorizationCommunicator, cacheProvider, credentialProvider, httpGetCaller, httpPostCaller)
+            RouteProvider routeProvider,
+            IDepartmentCommunicator departmentCommunicator)
         {
             _routeProvider = routeProvider;
+            _departmentCommunicator = departmentCommunicator;
         }
 
         public async Task<ServiceResultModel<StockModel>> GetStockAsync(
@@ -43,13 +39,13 @@ namespace Services.Communication.Http.Broker.Department.Storage
 
             if (endpoint != null)
             {
-                string token = await GetServiceToken(cancellationTokenSource);
+                string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
                 endpoint.Headers["TransactionIdentity"] = transactionIdentity;
                 endpoint.Queries["productId"] = productId.ToString();
 
-                return await CallAsync<StockModel>(endpoint, cancellationTokenSource);
+                return await _departmentCommunicator.CallAsync<StockModel>(endpoint, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();
@@ -64,12 +60,12 @@ namespace Services.Communication.Http.Broker.Department.Storage
 
             if (endpoint != null)
             {
-                string token = await GetServiceToken(cancellationTokenSource);
+                string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
                 endpoint.Headers["TransactionIdentity"] = transactionIdentity;
 
-                return await CallAsync<DescendProductStockCommandRequest, Object>(endpoint, request, cancellationTokenSource);
+                return await _departmentCommunicator.CallAsync<DescendProductStockCommandRequest, Object>(endpoint, request, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();
@@ -84,12 +80,12 @@ namespace Services.Communication.Http.Broker.Department.Storage
 
             if (endpoint != null)
             {
-                string token = await GetServiceToken(cancellationTokenSource);
+                string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
                 endpoint.Headers["TransactionIdentity"] = transactionIdentity;
 
-                return await CallAsync<CreateStockCommandRequest, Object>(endpoint, request, cancellationTokenSource);
+                return await _departmentCommunicator.CallAsync<CreateStockCommandRequest, Object>(endpoint, request, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();
@@ -103,12 +99,12 @@ namespace Services.Communication.Http.Broker.Department.Storage
 
             if (endpoint != null)
             {
-                string token = await GetServiceToken(cancellationTokenSource);
+                string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
                 endpoint.Queries["tokenKey"] = tokenKey;
 
-                return await CallAsync<Object>(endpoint, cancellationTokenSource);
+                return await _departmentCommunicator.CallAsync<Object>(endpoint, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();

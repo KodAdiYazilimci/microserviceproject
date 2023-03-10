@@ -1,37 +1,34 @@
-﻿using Infrastructure.Caching.InMemory;
-using Infrastructure.Communication.Http.Broker;
-using Infrastructure.Communication.Http.Endpoint.Abstract;
+﻿using Infrastructure.Communication.Http.Endpoint.Abstract;
 using Infrastructure.Communication.Http.Endpoint.Authentication;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Routing.Exceptions;
 using Infrastructure.Routing.Providers;
-using Infrastructure.Security.Authentication.Providers;
 
-using Services.Communication.Http.Broker.Authorization;
+using Services.Communication.Http.Broker.Department.Abstract;
+using Services.Communication.Http.Broker.Department.Buying.Abstract;
 using Services.Communication.Http.Broker.Department.Buying.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.Buying.Endpoints;
 using Services.Communication.Http.Broker.Department.Buying.Models;
 
 namespace Services.Communication.Http.Broker.Department.Buying
 {
-    public class BuyingCommunicator : BaseDepartmentCommunicator, IDisposable
+    public class BuyingCommunicator : IBuyingCommunicator, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
         private bool disposed = false;
 
-        private readonly RouteProvider? _routeProvider;
+        private readonly RouteProvider _routeProvider;
+        private readonly IDepartmentCommunicator _departmentCommunicator;
+
 
         public BuyingCommunicator(
-            AuthorizationCommunicator authorizationCommunicator,
-            InMemoryCacheDataProvider cacheProvider,
-            CredentialProvider credentialProvider,
-            HttpGetCaller httpGetCaller,
-            HttpPostCaller httpPostCaller,
-            RouteProvider? routeProvider) : base(authorizationCommunicator, cacheProvider, credentialProvider, httpGetCaller, httpPostCaller)
+            RouteProvider routeProvider,
+            IDepartmentCommunicator departmentCommunicator)
         {
             _routeProvider = routeProvider;
+            _departmentCommunicator = departmentCommunicator;
         }
 
         public async Task<ServiceResultModel<List<InventoryRequestModel>>> GetInventoryRequestsAsync(
@@ -42,12 +39,12 @@ namespace Services.Communication.Http.Broker.Department.Buying
 
             if (endpoint != null)
             {
-                string token = await GetServiceToken(cancellationTokenSource);
+                string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
                 endpoint.Headers["TransactionIdentity"] = transactionIdentity;
 
-                return await CallAsync<List<InventoryRequestModel>>(endpoint, cancellationTokenSource);
+                return await _departmentCommunicator.CallAsync<List<InventoryRequestModel>>(endpoint, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();
@@ -62,12 +59,12 @@ namespace Services.Communication.Http.Broker.Department.Buying
 
             if (endpoint != null)
             {
-                string token = await GetServiceToken(cancellationTokenSource);
+                string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
                 endpoint.Headers["TransactionIdentity"] = transactionIdentity;
 
-                return await CallAsync<ValidateCostInventoryCommandRequest, Object>(endpoint, request, cancellationTokenSource);
+                return await _departmentCommunicator.CallAsync<ValidateCostInventoryCommandRequest, Object>(endpoint, request, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();
@@ -82,12 +79,12 @@ namespace Services.Communication.Http.Broker.Department.Buying
 
             if (endpoint != null)
             {
-                string token = await GetServiceToken(cancellationTokenSource);
+                string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
                 endpoint.Headers["TransactionIdentity"] = transactionIdentity;
 
-                return await CallAsync<CreateInventoryRequestCommandRequest, Object>(endpoint, request, cancellationTokenSource);
+                return await _departmentCommunicator.CallAsync<CreateInventoryRequestCommandRequest, Object>(endpoint, request, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();
@@ -101,12 +98,12 @@ namespace Services.Communication.Http.Broker.Department.Buying
 
             if (endpoint != null)
             {
-                string token = await GetServiceToken(cancellationTokenSource);
+                string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
                 endpoint.Queries["tokenKey"] = token;
 
-                return await CallAsync<object>(endpoint, cancellationTokenSource);
+                return await _departmentCommunicator.CallAsync<object>(endpoint, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();

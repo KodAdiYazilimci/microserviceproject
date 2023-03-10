@@ -4,28 +4,25 @@ using Infrastructure.Communication.Http.Models;
 using Infrastructure.Security.Authentication.Exceptions;
 using Infrastructure.Security.Authentication.Providers;
 
-using Services.Communication.Http.Broker.Authorization;
+using Services.Communication.Http.Broker.Authorization.Abstract;
 using Services.Communication.Http.Broker.Authorization.Models;
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Services.Communication.Http.Broker.Gateway
 {
-    public class BaseGatewayCommunicator : BaseCommunicator
+    public class BaseGatewayCommunicator : DefaultCommunicator
     {
         private const string TAKENTOKENFORTHISSERVICE = "TAKEN_TOKEN_FOR_THIS_SERVICE";
 
-        private readonly AuthorizationCommunicator _authorizationCommunicator;
+        private readonly IAuthorizationCommunicator _authorizationCommunicator;
         private readonly InMemoryCacheDataProvider _cacheProvider;
         private readonly CredentialProvider _credentialProvider;
 
         public BaseGatewayCommunicator(
-            AuthorizationCommunicator authorizationCommunicator,
+            IAuthorizationCommunicator authorizationCommunicator,
             InMemoryCacheDataProvider cacheProvider,
             CredentialProvider credentialProvider,
             HttpGetCaller httpGetCaller,

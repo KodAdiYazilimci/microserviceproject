@@ -1,10 +1,11 @@
-﻿using Infrastructure.Communication.Http.Broker;
-using Infrastructure.Communication.Http.Endpoint.Abstract;
+﻿using Infrastructure.Communication.Http.Endpoint.Abstract;
 using Infrastructure.Communication.Http.Endpoint.Authentication;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Routing.Exceptions;
 using Infrastructure.Routing.Providers;
 
+using Services.Communication.Http.Broker.Abstract;
+using Services.Communication.Http.Broker.Authorization.Abstract;
 using Services.Communication.Http.Broker.Authorization.Endpoints;
 using Services.Communication.Http.Broker.Authorization.Models;
 
@@ -14,51 +15,52 @@ using System.Threading.Tasks;
 
 namespace Services.Communication.Http.Broker.Authorization
 {
-    public class AuthorizationCommunicator : BaseCommunicator, IDisposable
+    public class AuthorizationCommunicator : IAuthorizationCommunicator, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
         private bool disposed = false;
 
-        private readonly RouteProvider? _routeProvider;
+        private readonly ICommunicator _communicator;
+        private readonly RouteProvider _routeProvider;
 
         public AuthorizationCommunicator(
-            HttpGetCaller httpGetCaller,
-            HttpPostCaller httpPostCaller,
-            RouteProvider routeProvider) : base(httpGetCaller, httpPostCaller)
+            RouteProvider routeProvider,
+            ICommunicator communicator)
         {
             _routeProvider = routeProvider;
+            _communicator = communicator;
         }
 
         public async Task<ServiceResultModel<TokenModel>> GetTokenAsync(
             CredentialModel credential,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<GetTokenEndpoint>(cancellationTokenSource);
+            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<GetTokenEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {
                 endpoint.EndpointAuthentication = new AnonymouseAuthentication();
 
-                return await CallAsync<CredentialModel, TokenModel>(endpoint, credential, cancellationTokenSource);
+                return await _communicator.CallAsync<CredentialModel, TokenModel>(endpoint, credential, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();
         }
 
         public async Task<ServiceResultModel<UserModel>> GetUserAsync(
-            string headerToken, 
+            string headerToken,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<GetUserEndpoint>(cancellationTokenSource);
+            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<GetUserEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {
                 endpoint.EndpointAuthentication = new AnonymouseAuthentication();
-                endpoint.Queries["token"] = headerToken;   
+                endpoint.Queries["token"] = headerToken;
 
-                return await CallAsync<UserModel>(endpoint, cancellationTokenSource);
+                return await _communicator.CallAsync<UserModel>(endpoint, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();

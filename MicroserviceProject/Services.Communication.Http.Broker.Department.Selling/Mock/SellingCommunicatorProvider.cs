@@ -1,33 +1,23 @@
-﻿using Infrastructure.Caching.InMemory;
-using Infrastructure.Communication.Http.Broker;
-using Infrastructure.Routing.Providers;
-using Infrastructure.Security.Authentication.Providers;
+﻿using Infrastructure.Routing.Providers;
 
-using Services.Communication.Http.Broker.Authorization;
+using Services.Communication.Http.Broker.Department.Abstract;
+using Services.Communication.Http.Broker.Department.Selling.Abstract;
 
 namespace Services.Communication.Http.Broker.Department.Selling.Mock
 {
     public class SellingCommunicatorProvider
     {
-        private static SellingCommunicator sellingCommunicator;
+        private static ISellingCommunicator sellingCommunicator;
 
-        public static SellingCommunicator GetSellingCommunicator(
-            AuthorizationCommunicator authorizationCommunicator,
-            InMemoryCacheDataProvider inMemoryCacheDataProvider,
-            CredentialProvider credentialProvider,
-            HttpGetCaller httpGetCaller,
-            HttpPostCaller httpPostCaller,
-            RouteProvider routeProvider)
+        public static ISellingCommunicator GetSellingCommunicator(
+            RouteProvider routeProvider,
+            IDepartmentCommunicator departmentCommunicator)
         {
             if (sellingCommunicator == null)
             {
                 sellingCommunicator = new SellingCommunicator(
-                    authorizationCommunicator,
-                    inMemoryCacheDataProvider,
-                    credentialProvider,
-                    httpGetCaller,
-                    httpPostCaller,
-                    routeProvider);
+                    routeProvider,
+                    departmentCommunicator);
             }
 
             return sellingCommunicator;

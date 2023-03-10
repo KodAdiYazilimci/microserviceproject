@@ -8,6 +8,7 @@ using Infrastructure.Routing.Providers;
 using Infrastructure.Security.Authentication.Providers;
 
 using Services.Communication.Http.Broker.Authorization;
+using Services.Communication.Http.Broker.Authorization.Abstract;
 using Services.Communication.Http.Broker.Gateway.Endpoints;
 using Services.Communication.Http.Broker.Gateway.Public.Models;
 
@@ -28,7 +29,7 @@ namespace Services.Communication.Http.Broker.Gateway.Public
         private readonly RouteProvider _routeProvider;
 
         public HRCommunicator(
-            AuthorizationCommunicator authorizationCommunicator,
+            IAuthorizationCommunicator authorizationCommunicator,
             InMemoryCacheDataProvider cacheProvider,
             CredentialProvider credentialProvider,
             HttpGetCaller httpGetCaller,

@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Communication.Mq.Rabbit;
 
-using Services.Communication.Http.Broker.Department.Production;
+using Services.Communication.Http.Broker.Department.Production.Abstract;
 using Services.Communication.Http.Broker.Department.Production.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.Production.Models;
 using Services.Communication.Mq.Queue.Production.Configuration;
@@ -26,7 +26,7 @@ namespace Services.Communication.Mq.Queue.Production.Rabbit.Consumers
         /// <summary>
         /// Üretim departmanı servis iletişimcisi
         /// </summary>
-        private readonly ProductionCommunicator _productionCommunicator;
+        private readonly IProductionCommunicator _productionCommunicator;
 
         /// <summary>
         /// Üretim departmanına üretilmesi istenilen ürünleri tüketen sınıf
@@ -35,7 +35,7 @@ namespace Services.Communication.Mq.Queue.Production.Rabbit.Consumers
         /// <param name="productionCommunicator">Üretim departmanı servis iletişimcisi</param>
         public ProduceConsumer(
             ProductionProduceRabbitConfiguration rabbitConfiguration,
-            ProductionCommunicator productionCommunicator)
+            IProductionCommunicator productionCommunicator)
         {
             _productionCommunicator = productionCommunicator;
 

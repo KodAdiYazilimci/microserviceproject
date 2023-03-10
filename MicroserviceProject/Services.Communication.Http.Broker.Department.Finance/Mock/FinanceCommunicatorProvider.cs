@@ -1,34 +1,23 @@
-﻿using Infrastructure.Caching.InMemory;
-using Infrastructure.Communication.Http.Broker;
-using Infrastructure.Routing.Providers;
-using Infrastructure.Security.Authentication.Providers;
+﻿using Infrastructure.Routing.Providers;
 
-using Services.Communication.Http.Broker.Authorization;
+using Services.Communication.Http.Broker.Department.Abstract;
+using Services.Communication.Http.Broker.Department.Finance.Abstract;
 
 namespace Services.Communication.Http.Broker.Department.Finance.Mock
 {
     public class FinanceCommunicatorProvider
     {
-        private static FinanceCommunicator financeCommunicator;
+        private static IFinanceCommunicator financeCommunicator;
 
-        public static FinanceCommunicator GetFinanceCommunicator(
-            AuthorizationCommunicator authorizationCommunicator,
-            InMemoryCacheDataProvider inMemoryCacheDataProvider,
-            CredentialProvider credentialProvider,
-            HttpGetCaller httpGetCaller,
-            HttpPostCaller httpPostCaller,
-            RouteProvider routeProvider
-            )
+        public static IFinanceCommunicator GetFinanceCommunicator(
+            RouteProvider routeProvider,
+            IDepartmentCommunicator departmentCommunicator)
         {
             if (financeCommunicator == null)
             {
                 financeCommunicator = new FinanceCommunicator(
-                    authorizationCommunicator,
-                    inMemoryCacheDataProvider,
-                    credentialProvider,
-                    httpGetCaller,
-                    httpPostCaller,
-                    routeProvider);
+                    routeProvider,
+                    departmentCommunicator);
             }
 
             return financeCommunicator;

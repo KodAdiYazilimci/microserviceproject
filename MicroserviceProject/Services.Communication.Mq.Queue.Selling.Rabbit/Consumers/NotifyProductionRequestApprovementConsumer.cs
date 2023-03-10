@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Communication.Mq.Rabbit;
 
-using Services.Communication.Http.Broker.Department.Selling;
+using Services.Communication.Http.Broker.Department.Selling.Abstract;
 using Services.Communication.Http.Broker.Department.Selling.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.Selling.Models;
 using Services.Communication.Mq.Queue.Selling.Configuration;
@@ -26,7 +26,7 @@ namespace Services.Communication.Mq.Queue.Selling.Rabbit.Consumers
         /// <summary>
         /// Satış departmanı servis iletişimcisi
         /// </summary>
-        private readonly SellingCommunicator _sellingCommunicator;
+        private readonly ISellingCommunicator _sellingCommunicator;
 
         /// <summary>
         /// Üretilmesi planlanan ürünlere ait onay sonuçlarını tüketen sınıf
@@ -35,7 +35,7 @@ namespace Services.Communication.Mq.Queue.Selling.Rabbit.Consumers
         /// <param name="sellingCommunicator">Satış departmanı servis iletişimcisi</param>
         public NotifyProductionRequestApprovementConsumer(
             NotifyProductionRequestApprovementRabbitConfiguration rabbitConfiguration,
-            SellingCommunicator sellingCommunicator)
+            ISellingCommunicator sellingCommunicator)
         {
             _sellingCommunicator = sellingCommunicator;
 

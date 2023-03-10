@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Communication.Mq.Rabbit;
 
-using Services.Communication.Http.Broker.Department.Finance;
+using Services.Communication.Http.Broker.Department.Finance.Abstract;
 using Services.Communication.Http.Broker.Department.Finance.Models;
 using Services.Communication.Mq.Queue.Finance.Configuration;
 using Services.Communication.Mq.Queue.Finance.Models;
@@ -25,7 +25,7 @@ namespace Services.Communication.Mq.Queue.Finance.Rabbit.Consumers
         /// <summary>
         /// Finans departmanı servis iletişimcisi
         /// </summary>
-        private readonly FinanceCommunicator _financeCommunicator;
+        private readonly IFinanceCommunicator _financeCommunicator;
 
         /// <summary>
         /// Satınalma departmanından alınması istenilen envanter taleplerini tüketen sınıf
@@ -34,7 +34,7 @@ namespace Services.Communication.Mq.Queue.Finance.Rabbit.Consumers
         /// <param name="financeCommunicator">Finans departmanı servis iletişimcisi</param>
         public InventoryRequestConsumer(
             InventoryRequestRabbitConfiguration rabbitConfiguration,
-            FinanceCommunicator financeCommunicator)
+            IFinanceCommunicator financeCommunicator)
         {
             _financeCommunicator = financeCommunicator;
             _consumer = new Consumer<DecidedCostQueueModel>(rabbitConfiguration);

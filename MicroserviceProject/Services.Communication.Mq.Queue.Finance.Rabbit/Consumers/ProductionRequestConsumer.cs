@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Communication.Mq.Rabbit;
 
-using Services.Communication.Http.Broker.Department.Finance;
+using Services.Communication.Http.Broker.Department.Finance.Abstract;
 using Services.Communication.Http.Broker.Department.Finance.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.Finance.Models;
 using Services.Communication.Mq.Queue.Finance.Configuration;
@@ -26,7 +26,7 @@ namespace Services.Communication.Mq.Queue.Finance.Rabbit.Consumers
         /// <summary>
         /// Finans departmanı servis iletişimcisi
         /// </summary>
-        private readonly FinanceCommunicator _financeCommunicator;
+        private readonly IFinanceCommunicator _financeCommunicator;
 
         /// <summary>
         /// Finans departmanına üretilmesi istenilen ürünleri tüketen sınıf
@@ -35,7 +35,7 @@ namespace Services.Communication.Mq.Queue.Finance.Rabbit.Consumers
         /// <param name="financeCommunicator">Finans departmanı servis iletişimcisi</param>
         public ProductionRequestConsumer(
             ProductionRequestRabbitConfiguration rabbitConfiguration,
-            FinanceCommunicator financeCommunicator)
+            IFinanceCommunicator financeCommunicator)
         {
             _financeCommunicator = financeCommunicator;
             _consumer = new Consumer<ProductionRequestQueueModel>(rabbitConfiguration);

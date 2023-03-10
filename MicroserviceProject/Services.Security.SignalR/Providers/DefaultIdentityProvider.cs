@@ -5,6 +5,7 @@ using Infrastructure.Security.Authentication.SignalR.Abstract;
 using Infrastructure.Security.Model;
 
 using Services.Communication.Http.Broker.Authorization;
+using Services.Communication.Http.Broker.Authorization.Abstract;
 using Services.Communication.Http.Broker.Authorization.Models;
 
 using System;
@@ -25,7 +26,7 @@ namespace Services.Security.SignalR.Providers
         /// <summary>
         /// Kimlik denetimi servisi iletişimcisi
         /// </summary>
-        private readonly AuthorizationCommunicator _authorizationCommunicator;
+        private readonly IAuthorizationCommunicator _authorizationCommunicator;
 
         /// <summary>
         /// Oturum bilgilerinin saklanacağı önbellek nesnesi
@@ -33,7 +34,7 @@ namespace Services.Security.SignalR.Providers
         private readonly InMemoryCacheDataProvider _cacheProvider;
 
         public DefaultIdentityProvider(
-            AuthorizationCommunicator authorizationCommunicator,
+            IAuthorizationCommunicator authorizationCommunicator,
             InMemoryCacheDataProvider cacheProvider)
         {
             _authorizationCommunicator = authorizationCommunicator;

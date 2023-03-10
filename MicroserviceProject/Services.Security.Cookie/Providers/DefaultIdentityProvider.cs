@@ -6,7 +6,7 @@ using Infrastructure.Security.Authentication.Cookie.Abstract;
 using Infrastructure.Security.Authentication.Exceptions;
 using Infrastructure.Security.Model;
 
-using Services.Communication.Http.Broker.Authorization;
+using Services.Communication.Http.Broker.Authorization.Abstract;
 using Services.Communication.Http.Broker.Authorization.Models;
 
 using System;
@@ -28,12 +28,12 @@ namespace Services.Security.Cookie.Providers
         /// <summary>
         /// Kimlik denetimi servisi iletişimcisi
         /// </summary>
-        private readonly AuthorizationCommunicator _authorizationCommunicator;
+        private readonly IAuthorizationCommunicator _authorizationCommunicator;
 
         private readonly InMemoryCacheDataProvider _cacheProvider;
 
         public DefaultIdentityProvider(
-            AuthorizationCommunicator authorizationCommunicator,
+            IAuthorizationCommunicator authorizationCommunicator,
             InMemoryCacheDataProvider cacheProvider)
         {
             _cacheProvider = cacheProvider;
