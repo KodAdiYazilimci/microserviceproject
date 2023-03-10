@@ -1,5 +1,5 @@
 ﻿using Infrastructure.Caching.InMemory;
-using Infrastructure.Security.Authentication.Providers;
+using Infrastructure.Security.Authentication.Abstract;
 
 using Services.Communication.Http.Broker.Abstract;
 using Services.Communication.Http.Broker.Authorization.Abstract;
@@ -12,7 +12,7 @@ namespace Services.Communication.Http.Broker.Department.Mock
         public static IDepartmentCommunicator GetDepartmentCommunicator(
             IAuthorizationCommunicator authorizationCommunicator,
             InMemoryCacheDataProvider inMemoryCacheDataProvider,
-            CredentialProvider credentialProvider,
+            ICredentialProvider credentialProvider,
             ICommunicator communicator)
         {
             return new DepartmentCommunicator(

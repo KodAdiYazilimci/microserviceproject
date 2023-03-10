@@ -7,7 +7,7 @@ namespace Services.Communication.Http.Broker.Department.AA.Mock
 {
     public class AACommunicatorProvider
     {
-        private static IAACommunicator aaCommunicator;
+        private static AACommunicator aaCommunicator;
 
         public static IAACommunicator GetAACommunicator(
             RouteProvider routeProvider,

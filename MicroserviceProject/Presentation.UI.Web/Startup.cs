@@ -12,11 +12,11 @@ using Microsoft.Extensions.Hosting;
 using Presentation.UI.Web.DI;
 
 using Services.Communication.Http.Broker.Authorization.DI;
-using Services.Communication.Http.Broker.Gateway.DI;
 using Services.Logging.Exception;
 using Services.Logging.Exception.Configuration;
 using Services.Logging.Exception.DI;
 using Services.Security.Cookie.DI;
+using Services.Communication.Http.Broker.Gateway.Public.DI;
 
 using System;
 using System.Threading;
@@ -40,7 +40,7 @@ namespace Presentation.UI.Web
             services.RegisterCredentialProvider();
             services.RegisterExceptionLogger();
             services.RegisterHttpAuthorizationCommunicators();
-            services.RegisterHttpGatewayCommunicators();
+            services.RegisterPublicGatewayCommunicators();
             services.RegisterCookieAuthentication("/Login", "/Yetkisiz");
             services.RegisterInMemoryCaching();
             services.RegisterMappings();

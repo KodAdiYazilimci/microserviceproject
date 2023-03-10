@@ -34,7 +34,7 @@ namespace Services.Communication.Http.Broker.Department.Production
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<GetProductsEndpoint>(cancellationTokenSource);
+            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<GetProductsEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {
@@ -54,7 +54,7 @@ namespace Services.Communication.Http.Broker.Department.Production
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<ProduceProductEndpoint>(cancellationTokenSource);
+            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<ProduceProductEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {
@@ -74,7 +74,7 @@ namespace Services.Communication.Http.Broker.Department.Production
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<CreateProductEndpoint>(cancellationTokenSource);
+            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<CreateProductEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {
@@ -93,7 +93,7 @@ namespace Services.Communication.Http.Broker.Department.Production
             string tokenKey,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<RemoveSessionIfExistsInCacheEndpoint>(cancellationTokenSource);
+            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<RemoveSessionIfExistsInCacheEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {
@@ -113,7 +113,7 @@ namespace Services.Communication.Http.Broker.Department.Production
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<ReEvaluateProduceProductEndpoint>(cancellationTokenSource);
+            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<ReEvaluateProduceProductEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {

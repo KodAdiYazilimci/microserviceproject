@@ -1,4 +1,5 @@
 ﻿
+using Infrastructure.Security.Authentication.Abstract;
 using Infrastructure.Security.Authentication.Providers;
 
 using Microsoft.Extensions.Configuration;
@@ -15,9 +16,9 @@ namespace Infrastructure.Security.Authentication.Mock
         /// </summary>
         /// <param name="configuration">Yapılandırma arayüzü nesnesi</param>
         /// <returns></returns>
-        public static CredentialProvider GetCredentialProvider(IConfiguration configuration)
+        public static ICredentialProvider GetCredentialProvider(IConfiguration configuration)
         {
-            return new CredentialProvider(configuration);
+            return new AppConfigCredentialProvider(configuration);
         }
     }
 }

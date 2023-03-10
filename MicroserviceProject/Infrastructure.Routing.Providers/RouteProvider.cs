@@ -21,7 +21,7 @@ namespace Infrastructure.Routing.Providers
             _inMemoryCacheDataProvider = inMemoryCacheDataProvider;
         }
 
-        public async Task<IEndpoint?> GetRoutingEndpointAsync<TEndpoint>(CancellationTokenSource cancellationTokenSource) where TEndpoint : IEndpoint, new()
+        public async Task<IEndpoint> GetRoutingEndpointAsync<TEndpoint>(CancellationTokenSource cancellationTokenSource) where TEndpoint : IEndpoint, new()
         {
             IEndpoint endpointInstance = Activator.CreateInstance<TEndpoint>();
 

@@ -34,7 +34,7 @@ namespace Services.Communication.Http.Broker.Department.AA
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<AAGetInventoriesEndpoint>(cancellationTokenSource);
+            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<AAGetInventoriesEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {
@@ -54,7 +54,7 @@ namespace Services.Communication.Http.Broker.Department.AA
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<AACreateInventoryEndpoint>(cancellationTokenSource);
+            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<AACreateInventoryEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {
@@ -74,7 +74,7 @@ namespace Services.Communication.Http.Broker.Department.AA
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<AAGetInventoriesForNewWorkerEndpoint>(cancellationTokenSource);
+            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<AAGetInventoriesForNewWorkerEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {
@@ -94,7 +94,7 @@ namespace Services.Communication.Http.Broker.Department.AA
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<AACreateDefaultInventoryForNewWorkerEndpoint>(cancellationTokenSource);
+            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<AACreateDefaultInventoryForNewWorkerEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {
@@ -114,7 +114,7 @@ namespace Services.Communication.Http.Broker.Department.AA
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<AAAssignInventoryToWorkerEndpoint>(cancellationTokenSource);
+            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<AAAssignInventoryToWorkerEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {
@@ -134,7 +134,7 @@ namespace Services.Communication.Http.Broker.Department.AA
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<AAInformInventoryRequestEndpoint>(cancellationTokenSource);
+            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<AAInformInventoryRequestEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {
@@ -153,7 +153,7 @@ namespace Services.Communication.Http.Broker.Department.AA
             string tokenKey,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<AARemoveSessionIfExistsInCacheEndpoint>(cancellationTokenSource);
+            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<AARemoveSessionIfExistsInCacheEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {

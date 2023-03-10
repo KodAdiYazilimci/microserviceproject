@@ -1,58 +1,52 @@
-﻿using Infrastructure.Caching.InMemory;
-using Infrastructure.Communication.Http.Broker;
-using Infrastructure.Communication.Http.Endpoint.Abstract;
+﻿using Infrastructure.Communication.Http.Endpoint.Abstract;
 using Infrastructure.Communication.Http.Endpoint.Authentication;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Routing.Exceptions;
 using Infrastructure.Routing.Providers;
-using Infrastructure.Security.Authentication.Providers;
 
-using Services.Communication.Http.Broker.Authorization;
-using Services.Communication.Http.Broker.Authorization.Abstract;
+using Services.Communication.Http.Broker.Abstract;
+using Services.Communication.Http.Broker.Gateway.Abstract;
 using Services.Communication.Http.Broker.Gateway.Endpoints;
+using Services.Communication.Http.Broker.Gateway.Gateway.Public.Abstract;
 using Services.Communication.Http.Broker.Gateway.Public.Models;
-
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Services.Communication.Http.Broker.Gateway.Public
 {
-    public class HRCommunicator : BaseGatewayCommunicator, IDisposable
+    public class HRCommunicator : IHRCommunicator, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
         /// </summary>
         private bool disposed = false;
 
+        private readonly ICommunicator _communicator;
         private readonly RouteProvider _routeProvider;
+        private readonly IAuthenticationCommunicator _authenticationCommunicator;
 
         public HRCommunicator(
-            IAuthorizationCommunicator authorizationCommunicator,
-            InMemoryCacheDataProvider cacheProvider,
-            CredentialProvider credentialProvider,
-            HttpGetCaller httpGetCaller,
-            HttpPostCaller httpPostCaller,
-            RouteProvider routeProvider) : base(authorizationCommunicator, cacheProvider, credentialProvider, httpGetCaller, httpPostCaller)
+            ICommunicator communicator,
+            RouteProvider routeProvider,
+            IAuthenticationCommunicator authenticationCommunicator)
         {
             _routeProvider = routeProvider;
+            _authenticationCommunicator = authenticationCommunicator;
+            _communicator = communicator;
         }
 
         public async Task<ServiceResultModel<List<DepartmentModel>>> GetDepartmentsAsync(
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<GetDepartmentsEndpoint>(cancellationTokenSource);
+            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<GetDepartmentsEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {
-                string token = await GetServiceToken(cancellationTokenSource);
+                string token = await _authenticationCommunicator.GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
                 endpoint.Headers["TransactionIdentity"] = transactionIdentity;
 
-                return await CallAsync<List<DepartmentModel>>(endpoint, cancellationTokenSource);
+                return await _communicator.CallAsync<List<DepartmentModel>>(endpoint, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();
@@ -60,16 +54,16 @@ namespace Services.Communication.Http.Broker.Gateway.Public
 
         public async Task<ServiceResultModel> RemoveSessionIfExistsInCacheAsync(string tokenKey, CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<RemoveSessionIfExistsInCacheEndpoint>(cancellationTokenSource);
+            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<RemoveSessionIfExistsInCacheEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {
-                string token = await GetServiceToken(cancellationTokenSource);
+                string token = await _authenticationCommunicator.GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
                 endpoint.Queries["tokenKey"] = tokenKey;
 
-                return await CallAsync<Object>(endpoint, cancellationTokenSource);
+                return await _communicator.CallAsync<Object>(endpoint, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();

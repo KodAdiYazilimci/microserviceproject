@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Infrastructure.Security.Authentication.Abstract;
+
+using Microsoft.Extensions.Configuration;
 
 using System;
 using System.Diagnostics;
@@ -8,7 +10,7 @@ namespace Infrastructure.Security.Authentication.Providers
     /// <summary>
     /// Servis iletişimindeki yetki denetimi için kullanıcı bilgilerini sağlayan sınıf
     /// </summary>
-    public class CredentialProvider : IDisposable
+    public class AppConfigCredentialProvider : ICredentialProvider, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -24,7 +26,7 @@ namespace Infrastructure.Security.Authentication.Providers
         /// Servis iletişimindeki yetki denetimi için kullanıcı bilgilerini sağlayan sınıf
         /// </summary>
         /// <param name="configuration">Kullanıcı bilgilerini getiren configuration</param>
-        public CredentialProvider(IConfiguration configuration)
+        public AppConfigCredentialProvider(IConfiguration configuration)
         {
             _configuration = configuration;
         }
@@ -47,12 +49,12 @@ namespace Infrastructure.Security.Authentication.Providers
                         _configuration
                         .GetSection("Configuration")
                         .GetSection("Authorization")
-                        .GetSection("Credential")["EnvironmentVariableNamePrefix"] +"_Email")
+                        .GetSection("Credential")["EnvironmentVariableNamePrefix"] + "_Email")
                     :
                     _configuration
                     .GetSection("Configuration")
                     .GetSection("Authorization")
-                    .GetSection("Credential")["email"];                
+                    .GetSection("Credential")["email"];
             }
         }
 

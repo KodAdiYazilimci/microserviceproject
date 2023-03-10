@@ -1,13 +1,7 @@
 ﻿using Infrastructure.Caching.InMemory;
-using Infrastructure.Communication.Http.Broker;
-using Infrastructure.Communication.Http.Models;
 using Infrastructure.Communication.WebSockets.Models;
-using Infrastructure.Routing.Exceptions;
-using Infrastructure.Routing.Models;
 using Infrastructure.Routing.Persistence.Repositories.Sql;
-using Infrastructure.Security.Authentication.Exceptions;
-using Infrastructure.Security.Authentication.Providers;
-using Infrastructure.Security.Model;
+using Infrastructure.Security.Authentication.Abstract;
 using Infrastructure.Sockets.Exceptions;
 using Infrastructure.Sockets.Models;
 using Infrastructure.Sockets.Persistence.Repositories.Sql;
@@ -19,7 +13,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -58,7 +51,7 @@ namespace Infrastructure.Communication.WebSockets
         /// <summary>
         /// İletişimde kullanılacak yetkiler için sağlayıcı
         /// </summary>
-        private readonly CredentialProvider _credentialProvider;
+        private readonly ICredentialProvider _credentialProvider;
 
         /// <summary>
         /// Servis endpointleri sağlayıcısı
@@ -90,7 +83,7 @@ namespace Infrastructure.Communication.WebSockets
         /// <param name="socketRepository">Soket endpointlerinin sağlayıcısı</param>
         public SocketListener(
             InMemoryCacheDataProvider cacheProvider,
-            CredentialProvider credentialProvider,
+            ICredentialProvider credentialProvider,
             ServiceRouteRepository serviceRouteRepository,
             SocketRepository socketRepository)
         {

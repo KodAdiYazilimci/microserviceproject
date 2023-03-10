@@ -5,14 +5,13 @@ using Infrastructure.Communication.WebSockets;
 using Infrastructure.Communication.WebSockets.Models;
 using Infrastructure.Routing.Persistence.Mock;
 using Infrastructure.Routing.Providers.Mock;
+using Infrastructure.Security.Authentication.Abstract;
 using Infrastructure.Security.Authentication.Mock;
-using Infrastructure.Security.Authentication.Providers;
 using Infrastructure.Sockets.Persistence.Mock;
 
 using Microsoft.Extensions.Configuration;
 
 using Services.Communication.Http.Broker.Authorization;
-using Services.Communication.Http.Broker.Authorization.Abstract;
 using Services.Communication.Http.Broker.Authorization.Models;
 using Services.Communication.Http.Broker.Mock;
 
@@ -42,7 +41,7 @@ namespace Presentation.Monitoring.Reliability.Console
                 System.Console.WriteLine(webSocketResult.Content.Message);
             };
 
-            IAuthorizationCommunicator authorizationCommunicator =
+            AuthorizationCommunicator authorizationCommunicator =
                 new AuthorizationCommunicator
                 (
                     routeProvider: RouteProviderFactory.GetRouteProvider
@@ -57,7 +56,7 @@ namespace Presentation.Monitoring.Reliability.Console
                     )
                 );
 
-            CredentialProvider credentialProvider = CredentialProviderFactory.GetCredentialProvider(configuration: null);
+            ICredentialProvider credentialProvider = CredentialProviderFactory.GetCredentialProvider(configuration: null);
 
             ServiceResultModel<TokenModel> token = await authorizationCommunicator.GetTokenAsync(new CredentialModel()
             {
