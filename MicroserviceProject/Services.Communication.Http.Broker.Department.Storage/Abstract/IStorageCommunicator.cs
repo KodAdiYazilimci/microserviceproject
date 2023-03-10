@@ -5,7 +5,7 @@ using Services.Communication.Http.Broker.Department.Storage.Models;
 
 namespace Services.Communication.Http.Broker.Department.Storage.Abstract
 {
-    public interface IStorageCommunicator
+    public interface IStorageCommunicator : IDisposable
     {
         Task<ServiceResultModel<StockModel>> GetStockAsync(
             int productId,

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+using Services.Api.Business.Departments.CR.Configuration.Persistence;
 using Services.Api.Business.Departments.CR.DI;
 using Services.Communication.Http.Broker.Department.CR.DI;
 using Services.Diagnostics.HealthCheck.DI;
@@ -17,6 +18,7 @@ using Services.Logging.Aspect.DI;
 using Services.Logging.Exception.DI;
 using Services.Logging.RequestResponse.DI;
 using Services.Security.BasicToken.DI;
+using Services.UnitOfWork.EntityFramework.DI;
 using Services.Util.Exception.Handlers;
 
 namespace Services.Api.Business.Departments.CR
@@ -39,6 +41,7 @@ namespace Services.Api.Business.Departments.CR
             services.RegisterMappings();
             services.RegisterPersistence();
             services.RegisterRepositories();
+            services.RegisterEntityFrameworkUnitOfWork<CRContext>();
 
             services.RegisterBasicTokenAuthentication();
             services.RegisterExceptionLogger();

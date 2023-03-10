@@ -18,6 +18,7 @@ namespace Services.Api.Business.Departments.Production.DI
         public static IServiceCollection RegisterBusinessServices(this IServiceCollection services)
         {
             services.AddScoped<ProductService>();
+            services.AddScoped<ProductionService>();
 
             return services;
         }

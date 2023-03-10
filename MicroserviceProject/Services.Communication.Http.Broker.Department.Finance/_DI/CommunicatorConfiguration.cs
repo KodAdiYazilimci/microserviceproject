@@ -18,6 +18,7 @@ namespace Services.Communication.Http.Broker.Department.Finance.DI
         public static IServiceCollection RegisterHttpFinanceDepartmentCommunicators(this IServiceCollection services)
         {
             services.RegisterDepartmentCommunicator();
+
             services.AddSingleton<IFinanceCommunicator, FinanceCommunicator>();
 
             return services;

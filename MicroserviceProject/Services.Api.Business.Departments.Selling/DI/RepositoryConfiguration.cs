@@ -19,6 +19,8 @@ namespace Services.Api.Business.Departments.Selling.DI
         public static IServiceCollection RegisterRepositories(this IServiceCollection services)
         {
             services.AddScoped<SellRepository>();
+            services.AddScoped<TransactionRepository>();
+            services.AddScoped<TransactionItemRepository>();
 
             return services;
         }

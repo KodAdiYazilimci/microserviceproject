@@ -16,8 +16,7 @@ using Services.Api.Business.Departments.Production.Constants;
 using Services.Api.Business.Departments.Production.Entities.EntityFramework;
 using Services.Api.Business.Departments.Production.Repositories.EntityFramework;
 using Services.Communication.Http.Broker.Department.Production.Models;
-using Services.Communication.Http.Broker.Department.Storage;
-using Services.Communication.Http.Broker.Department.Storage.CQRS.Queries.Responses;
+using Services.Communication.Http.Broker.Department.Storage.Abstract;
 using Services.Communication.Http.Broker.Department.Storage.Models;
 using Services.Communication.Mq.Queue.Buying.Models;
 using Services.Communication.Mq.Queue.Buying.Rabbit.Publishers;
@@ -106,7 +105,7 @@ namespace Services.Api.Business.Departments.Production.Services
         /// <summary>
         /// Stok servisi iletişim sağlayıcı sınıf
         /// </summary>
-        private readonly StorageCommunicator _storageCommunicator;
+        private readonly IStorageCommunicator _storageCommunicator;
 
         /// <summary>
         /// Satınalma departmanına alınması istenilen ürün talepleri için kayıt açan sınıf
@@ -151,7 +150,7 @@ namespace Services.Api.Business.Departments.Production.Services
             ProductionRepository productionRepository,
             ProductionItemRepository productionItemRepository,
             ProductDependencyRepository productDependencyRepository,
-            StorageCommunicator storageCommunicator,
+            IStorageCommunicator storageCommunicator,
             CreateProductRequestPublisher createProductRequestPublisher,
             DescendProductStockPublisher descendProductStockPublisher,
             IncreaseProductStockPublisher increaseProductStockPublisher)

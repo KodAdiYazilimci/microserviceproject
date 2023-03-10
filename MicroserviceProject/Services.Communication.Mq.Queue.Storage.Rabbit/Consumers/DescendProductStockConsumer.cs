@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Communication.Mq.Rabbit;
 
-using Services.Communication.Http.Broker.Department.Storage;
+using Services.Communication.Http.Broker.Department.Storage.Abstract;
 using Services.Communication.Http.Broker.Department.Storage.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.Storage.Models;
 using Services.Communication.Mq.Queue.Storage.Configuration;
@@ -26,7 +26,7 @@ namespace Services.Communication.Mq.Queue.Storage.Rabbit.Consumers
         /// <summary>
         /// Depolama departmanı servis iletişimcisi
         /// </summary>
-        private readonly StorageCommunicator _storageCommunicator;
+        private readonly IStorageCommunicator _storageCommunicator;
 
         /// <summary>
         /// Depolama departmanına bir ürünün stoğunun düşürmeleri tüketen sınıf
@@ -35,7 +35,7 @@ namespace Services.Communication.Mq.Queue.Storage.Rabbit.Consumers
         /// <param name="storageCommunicator">Depolama departmanı servis iletişimcisi</param>
         public DescendProductStockConsumer(
             DescendProductStockRabbitConfiguration rabbitConfiguration,
-            StorageCommunicator storageCommunicator)
+            IStorageCommunicator storageCommunicator)
         {
             _storageCommunicator = storageCommunicator;
 

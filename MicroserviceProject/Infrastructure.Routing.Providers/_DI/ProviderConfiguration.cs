@@ -1,11 +1,17 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Infrastructure.Caching.InMemory.DI;
+using Infrastructure.Routing.Persistence.DI;
 
-namespace Infrastructure.Routing.Providers._DI
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Infrastructure.Routing.Providers.DI
 {
     public static class ProviderConfiguration
     {
         public static IServiceCollection RegisterRoutingProviders(this IServiceCollection services)
         {
+            services.RegisterHttpRouteRepositories();
+            services.RegisterInMemoryCaching();
+
             services.AddSingleton<RouteProvider>();
 
             return services;

@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Services.Api.Business.Departments.Production.Configuration.Persistence;
 using Services.Api.Business.Departments.Production.DI;
 using Services.Communication.Http.Broker.Department.Production.DI;
+using Services.Communication.Http.Broker.Department.Storage.DI;
 using Services.Communication.Mq.Queue.Buying.DI;
 using Services.Communication.Mq.Queue.Buying.Rabbit.DI;
 using Services.Communication.Mq.Queue.Storage.Configuration.DI;
@@ -57,6 +58,7 @@ namespace Services.Api.Business.Departments.Production
             services.RegisterSqlHealthChecking();
             services.RegisterStorageQueueConfigurations();
             services.RegisterStorageQueuePublishers();
+            services.RegisterHttpStorageDepartmentCommunicators();
             services.RegisterSwagger();
             services.RegisterEntityFrameworkUnitOfWork<ProductionContext>();
 

@@ -24,6 +24,7 @@ namespace Services.Api.Business.Departments.Buying.DI
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddScoped<DecidedCostRepository>();
+            services.AddScoped<ProductionRequestRepository>();  
             services.AddScoped<TransactionRepository>();
             services.AddScoped<TransactionItemRepository>();
 
