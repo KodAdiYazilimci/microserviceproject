@@ -35,7 +35,7 @@ namespace Services.Communication.Http.Broker.Department.Buying
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<GetInventoryRequestsEndpoint>(cancellationTokenSource);
+            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<GetInventoryRequestsEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {
@@ -55,7 +55,7 @@ namespace Services.Communication.Http.Broker.Department.Buying
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<ValidateCostInventoryEndpoint>(cancellationTokenSource);
+            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<ValidateCostInventoryEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {
@@ -75,7 +75,7 @@ namespace Services.Communication.Http.Broker.Department.Buying
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<CreateInventoryRequestEndpoint>(cancellationTokenSource);
+            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<CreateInventoryRequestEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {
@@ -94,7 +94,7 @@ namespace Services.Communication.Http.Broker.Department.Buying
             string tokenKey,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<RemoveSessionIfExistsInCacheEndpoint>(cancellationTokenSource);
+            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<RemoveSessionIfExistsInCacheEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {

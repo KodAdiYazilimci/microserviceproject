@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 
-using Services.Communication.Http.Broker.Gateway.Public;
-using Services.Communication.Http.Broker.Gateway.Public.Models;
-
 using Infrastructure.Communication.Http.Models;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
+using Services.Communication.Http.Broker.Gateway.Public.Abstract;
+using Services.Communication.Http.Broker.Gateway.Public.Models;
 
 using System;
 using System.Collections.Generic;
@@ -21,14 +21,14 @@ namespace Presentation.UI.Web.Controllers
     {
         private readonly IMapper _mapper;
 
-        private readonly HRCommunicator _hRCommunicator;
+        private readonly IPublicGatewayCommunicator _publicGatewayCommunicator;
 
         public HRController(
             IMapper mapper,
-            HRCommunicator hRCommunicator)
+            IPublicGatewayCommunicator publicGatewayCommunicator)
         {
             _mapper = mapper;
-            _hRCommunicator = hRCommunicator;
+            _publicGatewayCommunicator = publicGatewayCommunicator;
         }
 
         [Route(nameof(Departments))]
@@ -37,7 +37,7 @@ namespace Presentation.UI.Web.Controllers
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
             ServiceResultModel<List<DepartmentModel>> departmentsServiceResult = 
-                await _hRCommunicator.GetDepartmentsAsync(
+                await _publicGatewayCommunicator.GetDepartmentsAsync(
                     transactionIdentity: Guid.NewGuid().ToString(),
                     cancellationTokenSource: cancellationTokenSource);
 

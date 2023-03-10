@@ -34,7 +34,7 @@ namespace Services.Communication.Http.Broker.Department.HR
            string transactionIdentity,
            CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<GetDepartmentsEndpoint>(cancellationTokenSource);
+            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<GetDepartmentsEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {
@@ -54,7 +54,7 @@ namespace Services.Communication.Http.Broker.Department.HR
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<CreateDepartmentEndpoint>(cancellationTokenSource);
+            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<CreateDepartmentEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {
@@ -73,7 +73,7 @@ namespace Services.Communication.Http.Broker.Department.HR
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<GetPeopleEndpoint>(cancellationTokenSource);
+            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<GetPeopleEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {
@@ -93,7 +93,7 @@ namespace Services.Communication.Http.Broker.Department.HR
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<CreatePersonEndpoint>(cancellationTokenSource);
+            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<CreatePersonEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {
@@ -112,7 +112,7 @@ namespace Services.Communication.Http.Broker.Department.HR
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<GetTitlesEndpoint>(cancellationTokenSource);
+            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<GetTitlesEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {
@@ -132,7 +132,7 @@ namespace Services.Communication.Http.Broker.Department.HR
           string transactionIdentity,
           CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<CreateTitleEndpoint>(cancellationTokenSource);
+            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<CreateTitleEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {
@@ -151,7 +151,7 @@ namespace Services.Communication.Http.Broker.Department.HR
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<GetWorkersEndpoint>(cancellationTokenSource);
+            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<GetWorkersEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {
@@ -171,7 +171,7 @@ namespace Services.Communication.Http.Broker.Department.HR
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<CreateWorkerEndpoint>(cancellationTokenSource);
+            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<CreateWorkerEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {
@@ -190,7 +190,7 @@ namespace Services.Communication.Http.Broker.Department.HR
            string tokenKey,
            CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<RemoveSessionIfExistsInCacheEndpoint>(cancellationTokenSource);
+            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<RemoveSessionIfExistsInCacheEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {

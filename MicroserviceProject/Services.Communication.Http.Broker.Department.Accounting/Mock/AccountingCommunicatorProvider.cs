@@ -7,7 +7,7 @@ namespace Services.Communication.Http.Broker.Department.Accounting.Mock
 {
     public class AccountingCommunicatorProvider
     {
-        private static IAccountingCommunicator accountingCommunicator = null;
+        private static AccountingCommunicator accountingCommunicator = null;
 
         public static IAccountingCommunicator GetAccountingCommunicator(
             RouteProvider routeProvider,

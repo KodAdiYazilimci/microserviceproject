@@ -34,7 +34,7 @@ namespace Services.Communication.Http.Broker.Department.Selling
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<GetSoldsEndpoint>(cancellationTokenSource);
+            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<GetSoldsEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {
@@ -54,7 +54,7 @@ namespace Services.Communication.Http.Broker.Department.Selling
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<CreateSellingEndpoint>(cancellationTokenSource);
+            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<CreateSellingEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {
@@ -74,7 +74,7 @@ namespace Services.Communication.Http.Broker.Department.Selling
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<NotifyProductionRequestEndpoint>(cancellationTokenSource);
+            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<NotifyProductionRequestEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {
@@ -93,7 +93,7 @@ namespace Services.Communication.Http.Broker.Department.Selling
             string tokenKey,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint? endpoint = await _routeProvider.GetRoutingEndpointAsync<RemoveSessionIfExistsInCacheEndpoint>(cancellationTokenSource);
+            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<RemoveSessionIfExistsInCacheEndpoint>(cancellationTokenSource);
 
             if (endpoint != null)
             {

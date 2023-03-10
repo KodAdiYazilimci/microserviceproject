@@ -1,11 +1,11 @@
 ﻿using Infrastructure.Caching.InMemory;
-using Infrastructure.Communication.Http.Broker;
 using Infrastructure.Communication.Http.Models;
+using Infrastructure.Security.Authentication.Abstract;
 using Infrastructure.Security.Authentication.Exceptions;
-using Infrastructure.Security.Authentication.Providers;
 
 using Services.Communication.Http.Broker.Authorization.Abstract;
 using Services.Communication.Http.Broker.Authorization.Models;
+using Services.Communication.Http.Broker.Gateway.Abstract;
 
 using System;
 using System.Threading;
@@ -13,27 +13,25 @@ using System.Threading.Tasks;
 
 namespace Services.Communication.Http.Broker.Gateway
 {
-    public class BaseGatewayCommunicator : DefaultCommunicator
+    public class AuthenticationCommunicator : IAuthenticationCommunicator
     {
         private const string TAKENTOKENFORTHISSERVICE = "TAKEN_TOKEN_FOR_THIS_SERVICE";
 
         private readonly IAuthorizationCommunicator _authorizationCommunicator;
         private readonly InMemoryCacheDataProvider _cacheProvider;
-        private readonly CredentialProvider _credentialProvider;
+        private readonly ICredentialProvider _credentialProvider;
 
-        public BaseGatewayCommunicator(
-            IAuthorizationCommunicator authorizationCommunicator,
-            InMemoryCacheDataProvider cacheProvider,
-            CredentialProvider credentialProvider,
-            HttpGetCaller httpGetCaller,
-            HttpPostCaller httpPostCaller) : base(httpGetCaller, httpPostCaller)
+        public AuthenticationCommunicator(
+            IAuthorizationCommunicator authorizationCommunicator, 
+            InMemoryCacheDataProvider cacheProvider, 
+            ICredentialProvider credentialProvider)
         {
             _authorizationCommunicator = authorizationCommunicator;
-            _credentialProvider = credentialProvider;
             _cacheProvider = cacheProvider;
+            _credentialProvider = credentialProvider;
         }
 
-        protected async Task<string> GetServiceToken(CancellationTokenSource cancellationTokenSource)
+        public async Task<string> GetServiceToken(CancellationTokenSource cancellationTokenSource)
         {
             if (_cacheProvider.TryGetValue<TokenModel>(TAKENTOKENFORTHISSERVICE, out TokenModel takenTokenForThisService)
                 &&

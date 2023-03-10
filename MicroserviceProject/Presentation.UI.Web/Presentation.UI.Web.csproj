@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Presentation.Communication.Http.Broker.Identity\Presentation.Communication.Http.Broker.Identity.csproj" />
-    <ProjectReference Include="..\Services.Communication.Http.Broker.Gateway\Services.Communication.Http.Broker.Gateway.csproj" />
+    <ProjectReference Include="..\Services.Communication.Http.Broker.Gateway.Public\Services.Communication.Http.Broker.Gateway.Public.csproj" />
     <ProjectReference Include="..\Services.Logging.Exception\Services.Logging.Exception.csproj" />
     <ProjectReference Include="..\Services.Security.Cookie\Services.Security.Cookie.csproj" />
   </ItemGroup>

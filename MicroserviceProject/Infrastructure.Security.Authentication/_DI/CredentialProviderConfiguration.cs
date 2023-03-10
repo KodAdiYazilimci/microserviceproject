@@ -1,4 +1,5 @@
 ﻿
+using Infrastructure.Security.Authentication.Abstract;
 using Infrastructure.Security.Authentication.Providers;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -18,7 +19,7 @@ namespace Infrastructure.Security.Authentication.DI
         /// <returns></returns>
         public static IServiceCollection RegisterCredentialProvider(this IServiceCollection services)
         {
-            services.AddSingleton<CredentialProvider>();
+            services.AddSingleton<ICredentialProvider, AppConfigCredentialProvider>();
 
             return services;
         }
