@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using Presentation.UI.Web.Identity.Models;
 
-using Services.Communication.Http.Broker.Authorization;
+using Services.Communication.Http.Broker.Authorization.Abstract;
 using Services.Communication.Http.Broker.Authorization.Models;
 
 using System;
@@ -18,10 +18,10 @@ namespace Presentation.UI.Web.Identity.Controllers
 {
     public class UserController : Controller
     {
-        private readonly AuthorizationCommunicator _authorizationCommunicator;
+        private readonly IAuthorizationCommunicator _authorizationCommunicator;
 
         public UserController(
-            AuthorizationCommunicator authorizationCommunicator)
+            IAuthorizationCommunicator authorizationCommunicator)
         {
             _authorizationCommunicator = authorizationCommunicator;
         }

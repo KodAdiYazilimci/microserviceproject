@@ -3,6 +3,8 @@ using Infrastructure.Communication.Http.Broker.DI;
 
 using Microsoft.Extensions.DependencyInjection;
 
+using Services.Communication.Http.Broker.Authorization.Abstract;
+
 namespace Services.Communication.Http.Broker.Authorization.DI
 {
     /// <summary>
@@ -19,8 +21,8 @@ namespace Services.Communication.Http.Broker.Authorization.DI
         {
             services.RegisterHttpServiceCommunicator();
 
-            services.AddSingleton<AuthorizationCommunicator>();
-                        
+            services.AddSingleton<IAuthorizationCommunicator, AuthorizationCommunicator>();
+
             return services;
         }
     }

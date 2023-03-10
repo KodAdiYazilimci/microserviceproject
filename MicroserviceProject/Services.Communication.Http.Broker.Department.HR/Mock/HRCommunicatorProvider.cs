@@ -1,34 +1,23 @@
-﻿using Infrastructure.Caching.InMemory;
-using Infrastructure.Communication.Http.Broker;
-using Infrastructure.Routing.Providers;
-using Infrastructure.Security.Authentication.Providers;
+﻿using Infrastructure.Routing.Providers;
 
-using Services.Communication.Http.Broker.Authorization;
+using Services.Communication.Http.Broker.Department.Abstract;
+using Services.Communication.Http.Broker.Department.HR.Abstract;
 
 namespace Services.Communication.Http.Broker.Department.HR.Mock
 {
     public class HRCommunicatorProvider
     {
-        private static HRCommunicator hRCommunicator;
+        private static IHRCommunicator hRCommunicator;
 
-        public static HRCommunicator GetHRCommunicator(
-            AuthorizationCommunicator authorizationCommunicator,
-            InMemoryCacheDataProvider inMemoryCacheDataProvider,
-            CredentialProvider credentialProvider,
-            HttpGetCaller httpGetCaller,
-            HttpPostCaller httpPostCaller,
-            RouteProvider routeProvider
-            )
+        public static IHRCommunicator GetHRCommunicator(
+            RouteProvider routeProvider,
+            IDepartmentCommunicator departmentCommunicator)
         {
             if (hRCommunicator == null)
             {
                 hRCommunicator = new HRCommunicator(
-                    authorizationCommunicator,
-                    inMemoryCacheDataProvider,
-                    credentialProvider,
-                    httpGetCaller,
-                    httpPostCaller,
-                    routeProvider);
+                    routeProvider,
+                    departmentCommunicator);
             }
 
             return hRCommunicator;

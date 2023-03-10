@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Communication.Mq.Rabbit;
 
-using Services.Communication.Http.Broker.Department.Buying;
+using Services.Communication.Http.Broker.Department.Buying.Abstract;
 using Services.Communication.Http.Broker.Department.Buying.CQRS.Commands.Requests;
 using Services.Communication.Mq.Queue.Buying.Configuration;
 using Services.Communication.Mq.Queue.Buying.Models;
@@ -25,7 +25,7 @@ namespace Services.Communication.Mq.Queue.Buying.Rabbit.Consumers
         /// <summary>
         /// Satınalma departmanı servis iletişimcisi
         /// </summary>
-        private readonly BuyingCommunicator _buyingCommunicator;
+        private readonly IBuyingCommunicator _buyingCommunicator;
 
         /// <summary>
         /// Satın alınması planlanan envanterlere ait bütçenin sonuçlarını tüketen sınıf
@@ -34,7 +34,7 @@ namespace Services.Communication.Mq.Queue.Buying.Rabbit.Consumers
         /// <param name="buyingCommunicator">Satınalma departmanı servis iletişimcisi</param>
         public NotifyCostApprovementConsumer(
             NotifyCostApprovementRabbitConfiguration rabbitConfiguration,
-            BuyingCommunicator buyingCommunicator)
+            IBuyingCommunicator buyingCommunicator)
         {
             _buyingCommunicator = buyingCommunicator;
 

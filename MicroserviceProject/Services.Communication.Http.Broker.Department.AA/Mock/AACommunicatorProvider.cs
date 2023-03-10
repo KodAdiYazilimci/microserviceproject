@@ -1,33 +1,23 @@
-﻿using Infrastructure.Caching.InMemory;
-using Infrastructure.Communication.Http.Broker;
-using Infrastructure.Routing.Providers;
-using Infrastructure.Security.Authentication.Providers;
+﻿using Infrastructure.Routing.Providers;
 
-using Services.Communication.Http.Broker.Authorization;
+using Services.Communication.Http.Broker.Department.AA.Abstract;
+using Services.Communication.Http.Broker.Department.Abstract;
 
 namespace Services.Communication.Http.Broker.Department.AA.Mock
 {
     public class AACommunicatorProvider
     {
-        private static AACommunicator aaCommunicator;
+        private static IAACommunicator aaCommunicator;
 
-        public static AACommunicator GetAACommunicator(
-            AuthorizationCommunicator authorizationCommunicator,
-            InMemoryCacheDataProvider inMemoryCacheDataProvider,
-            CredentialProvider credentialProvider,
+        public static IAACommunicator GetAACommunicator(
             RouteProvider routeProvider,
-            HttpGetCaller httpGetCaller,
-            HttpPostCaller httpPostCaller)
+            IDepartmentCommunicator departmentCommunicator)
         {
             if (aaCommunicator == null)
             {
                 aaCommunicator = new AACommunicator(
-                    authorizationCommunicator,
-                    inMemoryCacheDataProvider,
-                    credentialProvider,
-                    httpGetCaller,
-                    httpPostCaller,
-                    routeProvider);
+                    routeProvider,
+                    departmentCommunicator);
             }
 
             return aaCommunicator;

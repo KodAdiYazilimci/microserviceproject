@@ -1,15 +1,15 @@
 ﻿using Infrastructure.Communication.Mq.Rabbit;
 
-using Services.Communication.Http.Broker.Department.AA;
-using Services.Communication.Http.Broker.Department.Accounting;
-using Services.Communication.Http.Broker.Department.Buying;
-using Services.Communication.Http.Broker.Department.CR;
-using Services.Communication.Http.Broker.Department.Finance;
-using Services.Communication.Http.Broker.Department.HR;
-using Services.Communication.Http.Broker.Department.IT;
-using Services.Communication.Http.Broker.Department.Production;
-using Services.Communication.Http.Broker.Department.Selling;
-using Services.Communication.Http.Broker.Department.Storage;
+using Services.Communication.Http.Broker.Department.AA.Abstract;
+using Services.Communication.Http.Broker.Department.Accounting.Abstract;
+using Services.Communication.Http.Broker.Department.Buying.Abstract;
+using Services.Communication.Http.Broker.Department.CR.Abstract;
+using Services.Communication.Http.Broker.Department.Finance.Abstract;
+using Services.Communication.Http.Broker.Department.HR.Abstract;
+using Services.Communication.Http.Broker.Department.IT.Abstract;
+using Services.Communication.Http.Broker.Department.Production.Abstract;
+using Services.Communication.Http.Broker.Department.Selling.Abstract;
+using Services.Communication.Http.Broker.Department.Storage.Abstract;
 using Services.Communication.Mq.Queue.Authorization.Configuration;
 using Services.Communication.Mq.Queue.Authorization.Models;
 
@@ -33,25 +33,25 @@ namespace Services.Communication.Mq.Queue.Authorization.Rabbit.Consumers
         /// <summary>
         /// İdari işler servis iletişimcisi
         /// </summary>
-        private readonly AACommunicator _aaCommunicator;
+        private readonly IAACommunicator _aaCommunicator;
 
-        private readonly AccountingCommunicator _accountingCommunicator;
+        private readonly IAccountingCommunicator _accountingCommunicator;
 
-        private readonly BuyingCommunicator _buyingCommunicator;
+        private readonly IBuyingCommunicator _buyingCommunicator;
 
-        private readonly CRCommunicator _crCommunicator;
+        private readonly ICRCommunicator _crCommunicator;
 
-        private readonly FinanceCommunicator _financeCommunicator;
+        private readonly IFinanceCommunicator _financeCommunicator;
 
-        private readonly HRCommunicator _hrCommunicator;
+        private readonly IHRCommunicator _hrCommunicator;
 
-        private readonly ITCommunicator _itCommunicator;
+        private readonly IITCommunicator _itCommunicator;
 
-        private readonly ProductionCommunicator _productionCommunicator;
+        private readonly IProductionCommunicator _productionCommunicator;
 
-        private readonly SellingCommunicator _sellingCommunicator;
+        private readonly ISellingCommunicator _sellingCommunicator;
 
-        private readonly StorageCommunicator _storageCommunicator;
+        private readonly IStorageCommunicator _storageCommunicator;
 
         /// <summary>
         /// Oturuma ait tokenın artık geçersiz token bilgilerini kuyruktan tüketen sınıf
@@ -59,16 +59,16 @@ namespace Services.Communication.Mq.Queue.Authorization.Rabbit.Consumers
         /// <param name="rabbitConfiguration">Kuyruk ayarlarının alınacağın configuration nesnesi</param>
         public InformInvalidTokenConsumer(
             InformInvalidTokenRabbitConfiguration rabbitConfiguration,
-            AACommunicator aaCommunicator,
-            AccountingCommunicator accountingCommunicator,
-            BuyingCommunicator buyingCommunicator,
-            CRCommunicator crCommunicator,
-            FinanceCommunicator financeCommunicator,
-            HRCommunicator hrCommunicator,
-            ITCommunicator itCommunicator,
-            ProductionCommunicator productionCommunicator,
-            SellingCommunicator sellingCommunicator,
-            StorageCommunicator storageCommunicator)
+            IAACommunicator aaCommunicator,
+            IAccountingCommunicator accountingCommunicator,
+            IBuyingCommunicator buyingCommunicator,
+            ICRCommunicator crCommunicator,
+            IFinanceCommunicator financeCommunicator,
+            IHRCommunicator hrCommunicator,
+            IITCommunicator itCommunicator,
+            IProductionCommunicator productionCommunicator,
+            ISellingCommunicator sellingCommunicator,
+            IStorageCommunicator storageCommunicator)
         {
             _consumer = new Consumer<InvalidTokenQueueModel>(rabbitConfiguration);
             _consumer.OnConsumed += Consumer_OnConsumed;

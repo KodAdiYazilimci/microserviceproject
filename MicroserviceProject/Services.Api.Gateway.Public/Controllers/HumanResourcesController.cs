@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Services.Api.Gateway.Util.Communication;
-using Services.Communication.Http.Broker.Department.HR;
+using Services.Communication.Http.Broker.Department.HR.Abstract;
 
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,11 +15,11 @@ namespace Services.Api.Gateway.Public.Controllers
     public class HumanResourcesController : Controller
     {
         private readonly ApiBridge _apiBridge;
-        private readonly HRCommunicator _hrCommunicator;
+        private readonly IHRCommunicator _hrCommunicator;
 
         public HumanResourcesController(
             ApiBridge apiBridge,
-            HRCommunicator hrCommunicator)
+            IHRCommunicator hrCommunicator)
         {
             _apiBridge = apiBridge;
             _hrCommunicator = hrCommunicator;

@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Communication.Mq.Rabbit;
 
-using Services.Communication.Http.Broker.Department.IT;
+using Services.Communication.Http.Broker.Department.IT.Abstract;
 using Services.Communication.Http.Broker.Department.IT.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.IT.Models;
 using Services.Communication.Mq.Queue.IT.Configuration;
@@ -26,7 +26,7 @@ namespace Services.Communication.Mq.Queue.IT.Rabbit.Consumers
         /// <summary>
         /// IT departmanı servis iletişimcisi
         /// </summary>
-        private readonly ITCommunicator _itCommunicator;
+        private readonly IITCommunicator _itCommunicator;
 
         /// <summary>
         /// Çalışana envanter ataması yapan kayıtları tüketen sınıf
@@ -35,7 +35,7 @@ namespace Services.Communication.Mq.Queue.IT.Rabbit.Consumers
         /// <param name="itCommunicator">IT departmanı servis iletişimcisi</param>
         public ITAssignInventoryToWorkerConsumer(
             ITAssignInventoryToWorkerRabbitConfiguration rabbitConfiguration,
-            ITCommunicator itCommunicator)
+            IITCommunicator itCommunicator)
         {
             _itCommunicator = itCommunicator;
             _consumer = new Consumer<ITWorkerQueueModel>(rabbitConfiguration);

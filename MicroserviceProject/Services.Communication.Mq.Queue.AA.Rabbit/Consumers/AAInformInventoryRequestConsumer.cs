@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Communication.Mq.Rabbit;
 
-using Services.Communication.Http.Broker.Department.AA;
+using Services.Communication.Http.Broker.Department.AA.Abstract;
 using Services.Communication.Http.Broker.Department.AA.CQRS.Commands.Requests;
 using Services.Communication.Mq.Queue.AA.Configuration;
 using Services.Communication.Mq.Queue.AA.Models;
@@ -25,7 +25,7 @@ namespace Services.Communication.Mq.Queue.AA.Rabbit.Consumers
         /// <summary>
         /// İdari işler servis iletişimcisi
         /// </summary>
-        private readonly AACommunicator _aaCommunicator;
+        private readonly IAACommunicator _aaCommunicator;
 
         /// <summary>
         /// Envanter talebiyle ilgili satınalma sonucunu tüketen sınıf
@@ -34,7 +34,7 @@ namespace Services.Communication.Mq.Queue.AA.Rabbit.Consumers
         /// <param name="aaCommunicator">İdari işler servis iletişimcisi</param>
         public AAInformInventoryRequestConsumer(
             AAInformInventoryRequestRabbitConfiguration rabbitConfiguration,
-            AACommunicator aaCommunicator)
+            IAACommunicator aaCommunicator)
         {
             _aaCommunicator = aaCommunicator;
 
@@ -46,7 +46,8 @@ namespace Services.Communication.Mq.Queue.AA.Rabbit.Consumers
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            Services.Communication.Http.Broker.Department.AA.Models.AAInventoryRequestModel inventoryRequestModel = new Services.Communication.Http.Broker.Department.AA.Models.AAInventoryRequestModel
+            Http.Broker.Department.AA.Models.AAInventoryRequestModel inventoryRequestModel = 
+                new Http.Broker.Department.AA.Models.AAInventoryRequestModel
             {
                 Amount = data.Amount,
                 Done = data.Done,

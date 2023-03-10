@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Communication.Mq.Rabbit;
 
-using Services.Communication.Http.Broker.Department.AA;
+using Services.Communication.Http.Broker.Department.AA.Abstract;
 using Services.Communication.Http.Broker.Department.AA.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.AA.Models;
 using Services.Communication.Mq.Queue.AA.Configuration;
@@ -26,7 +26,7 @@ namespace Services.Communication.Mq.Queue.AA.Rabbit.Consumers
         /// <summary>
         /// İdari işler servis iletişimcisi
         /// </summary>
-        private readonly AACommunicator _aaCommunicator;
+        private readonly IAACommunicator _aaCommunicator;
 
         /// <summary>
         /// Çalışana envanter ataması yapan kayıtları tüketen sınıf
@@ -34,7 +34,7 @@ namespace Services.Communication.Mq.Queue.AA.Rabbit.Consumers
         /// <param name="rabbitConfiguration">Kuyruk ayarlarının alınacağın configuration nesnesi</param>
         /// <param name="aaCommunicator">İdari işler servis iletişimcisi</param>
         public AAAssignInventoryToWorkerConsumer(
-            AACommunicator aaCommunicator,
+            IAACommunicator aaCommunicator,
             AAAssignInventoryToWorkerRabbitConfiguration rabbitConfiguration)
         {
             _aaCommunicator = aaCommunicator;

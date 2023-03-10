@@ -10,10 +10,10 @@ using Infrastructure.Transaction.UnitOfWork.Sql;
 
 using Services.Api.Business.Departments.Buying.Entities.Sql;
 using Services.Api.Business.Departments.Buying.Repositories.Sql;
-using Services.Communication.Http.Broker.Department.AA;
+using Services.Communication.Http.Broker.Department.AA.Abstract;
 using Services.Communication.Http.Broker.Department.AA.Models;
 using Services.Communication.Http.Broker.Department.Buying.Models;
-using Services.Communication.Http.Broker.Department.IT;
+using Services.Communication.Http.Broker.Department.IT.Abstract;
 using Services.Communication.Http.Broker.Department.IT.Models;
 using Services.Communication.Mq.Queue.AA.Models;
 using Services.Communication.Mq.Queue.AA.Rabbit.Publishers;
@@ -94,12 +94,12 @@ namespace Services.Api.Business.Departments.Buying.Services
         /// <summary>
         /// İdari işler servis iletişimcisi
         /// </summary>
-        private readonly AACommunicator _aaCommunicator;
+        private readonly IAACommunicator _aaCommunicator;
 
         /// <summary>
         /// IT departmanı servis iletişimcisi
         /// </summary>
-        private readonly ITCommunicator _itCommunicator;
+        private readonly IITCommunicator _itCommunicator;
 
         /// <summary>
         /// İdari işler departmanına satın alımla ilgili olumlu veya olumsuz dönüş verisini rabbit kuyruğuna ekleyecek nesne
@@ -141,8 +141,8 @@ namespace Services.Api.Business.Departments.Buying.Services
             TransactionRepository transactionRepository,
             TransactionItemRepository transactionItemRepository,
             InventoryRequestRepository inventoryRequestRepository,
-            AACommunicator aaCommunicator,
-            ITCommunicator itCommunicator,
+            IAACommunicator aaCommunicator,
+            IITCommunicator itCommunicator,
             AAInformInventoryRequestPublisher aaInformInventoryRequestPublisher,
             ITInformInventoryRequestPublisher itInformInventoryRequestPublisher,
             InventoryRequestPublisher inventoryRequestPublisher)

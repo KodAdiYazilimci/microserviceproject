@@ -13,6 +13,8 @@ using Services.Api.Gateway.Public.Controllers;
 using Services.Communication.Http.Broker.Authorization.Mock;
 using Services.Communication.Http.Broker.Department.HR.Mock;
 using Services.Communication.Http.Broker.Department.HR.Models;
+using Services.Communication.Http.Broker.Department.Mock;
+using Services.Communication.Http.Broker.Mock;
 
 namespace Test.Services.Api.Gateway.Public
 {
@@ -22,23 +24,34 @@ namespace Test.Services.Api.Gateway.Public
 
         public HumanResourcesControllerTest(IConfiguration configuration)
         {
+            var routeProvider = RouteProviderFactory.GetRouteProvider(
+                ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration),
+                InMemoryCacheDataProviderFactory.Instance);
+
+            var defaultCommunicator = DefaultCommunicatorProvider.GetDefaultCommunicator(
+                httpGetCaller: HttpGetCallerFactory.Instance,
+                httpPostCaller: HttpPostCallerFactory.Instance);
+
             humanResourcesController =
-               new HumanResourcesController(
-            apiBridge: ApiBridgeFactory.Instance,
-                   hrCommunicator: HRCommunicatorProvider.GetHRCommunicator(
-                       AuthorizationCommunicatorProvider.GetAuthorizationCommunicator(
-                           HttpGetCallerFactory.Instance,
-                           HttpPostCallerFactory.Instance,
-                           RouteProviderFactory.GetRouteProvider(
-                               ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration),
-            InMemoryCacheDataProviderFactory.Instance)),
-                       InMemoryCacheDataProviderFactory.Instance,
-                       CredentialProviderFactory.GetCredentialProvider(configuration),
-                       HttpGetCallerFactory.Instance,
-                       HttpPostCallerFactory.Instance,
-                       RouteProviderFactory.GetRouteProvider(
-                           ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration),
-                           InMemoryCacheDataProviderFactory.Instance)));
+               new HumanResourcesController
+               (
+                   apiBridge: ApiBridgeFactory.Instance,
+                   hrCommunicator: HRCommunicatorProvider.GetHRCommunicator
+                   (
+                       routeProvider: routeProvider,
+                       departmentCommunicator: DepartmentCommunicatorProvider.GetDepartmentCommunicator
+                       (
+                           authorizationCommunicator: AuthorizationCommunicatorProvider.GetAuthorizationCommunicator
+                           (
+                               routeProvider: routeProvider,
+                               communicator: defaultCommunicator
+                           ),
+                           inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance,
+                           credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),
+                           communicator: defaultCommunicator
+                       )
+                   )
+               );
         }
         public async Task<List<DepartmentModel>> GetDepartmentsAsync()
         {

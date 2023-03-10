@@ -5,16 +5,18 @@ using Infrastructure.Communication.Http.Models;
 
 using Newtonsoft.Json;
 
+using Services.Communication.Http.Broker.Abstract;
+
 using System.Net;
 
 namespace Services.Communication.Http.Broker
 {
-    public class BaseCommunicator
+    public class DefaultCommunicator : ICommunicator
     {
         private readonly HttpGetCaller _httpGetCaller;
         private readonly HttpPostCaller _httpPostCaller;
 
-        public BaseCommunicator(
+        public DefaultCommunicator(
             HttpGetCaller httpGetCaller,
             HttpPostCaller httpPostCaller)
         {
@@ -22,7 +24,7 @@ namespace Services.Communication.Http.Broker
             _httpPostCaller = httpPostCaller;
         }
 
-        protected async Task<ServiceResultModel<TResult>> CallAsync<TResult>(IEndpoint endpoint, CancellationTokenSource cancellationTokenSource)
+        public async Task<ServiceResultModel<TResult>> CallAsync<TResult>(IEndpoint endpoint, CancellationTokenSource cancellationTokenSource)
         {
             ErrorModel errorModel = new ErrorModel();
 
@@ -74,7 +76,7 @@ namespace Services.Communication.Http.Broker
             return new ServiceResultModel<TResult>() { IsSuccess = false, SourceApiService = endpoint.Name, ErrorModel = errorModel };
         }
 
-        protected async Task<ServiceResultModel<TResult>> CallAsync<TRequest, TResult>(IEndpoint endpoint, TRequest requestObject, CancellationTokenSource cancellationTokenSource)
+        public async Task<ServiceResultModel<TResult>> CallAsync<TRequest, TResult>(IEndpoint endpoint, TRequest requestObject, CancellationTokenSource cancellationTokenSource)
         {
             ErrorModel errorModel = new ErrorModel();
 

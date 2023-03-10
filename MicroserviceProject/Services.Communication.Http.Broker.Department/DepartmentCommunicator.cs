@@ -1,35 +1,48 @@
 ﻿using Infrastructure.Caching.InMemory;
-using Infrastructure.Communication.Http.Broker;
+using Infrastructure.Communication.Http.Endpoint.Abstract;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Security.Authentication.Exceptions;
 using Infrastructure.Security.Authentication.Providers;
 
-using Services.Communication.Http.Broker.Authorization;
+using Services.Communication.Http.Broker.Abstract;
+using Services.Communication.Http.Broker.Authorization.Abstract;
 using Services.Communication.Http.Broker.Authorization.Models;
+using Services.Communication.Http.Broker.Department.Abstract;
 
 namespace Services.Communication.Http.Broker
 {
-    public class BaseDepartmentCommunicator : BaseCommunicator
+    public class DepartmentCommunicator : IDepartmentCommunicator
     {
         private const string TAKENTOKENFORTHISSERVICE = "TAKEN_TOKEN_FOR_THIS_SERVICE";
 
-        private readonly AuthorizationCommunicator _authorizationCommunicator;
+        private readonly ICommunicator _communicator;
+        private readonly IAuthorizationCommunicator _authorizationCommunicator;
         private readonly InMemoryCacheDataProvider _cacheProvider;
         private readonly CredentialProvider _credentialProvider;
 
-        public BaseDepartmentCommunicator(
-            AuthorizationCommunicator authorizationCommunicator,
+        public DepartmentCommunicator(
+            IAuthorizationCommunicator authorizationCommunicator,
             InMemoryCacheDataProvider cacheProvider,
             CredentialProvider credentialProvider,
-            HttpGetCaller httpGetCaller,
-            HttpPostCaller httpPostCaller) : base(httpGetCaller, httpPostCaller)
+            ICommunicator communicator)
         {
             _authorizationCommunicator = authorizationCommunicator;
             _credentialProvider = credentialProvider;
             _cacheProvider = cacheProvider;
+            _communicator = communicator;
         }
 
-        protected async Task<string> GetServiceToken(CancellationTokenSource cancellationTokenSource)
+        public Task<ServiceResultModel<TResult>> CallAsync<TResult>(IEndpoint endpoint, CancellationTokenSource cancellationTokenSource)
+        {
+            return _communicator.CallAsync<TResult>(endpoint, cancellationTokenSource);
+        }
+
+        public Task<ServiceResultModel<TResult>> CallAsync<TRequest, TResult>(IEndpoint endpoint, TRequest requestObject, CancellationTokenSource cancellationTokenSource)
+        {
+            return _communicator.CallAsync<TRequest, TResult>(endpoint, requestObject, cancellationTokenSource);
+        }
+
+        public async Task<string> GetServiceToken(CancellationTokenSource cancellationTokenSource)
         {
             if (_cacheProvider.TryGetValue<TokenModel>(TAKENTOKENFORTHISSERVICE, out TokenModel takenTokenForThisService)
                 &&

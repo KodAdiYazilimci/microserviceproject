@@ -7,7 +7,7 @@ using Infrastructure.Security.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 
-using Services.Communication.Http.Broker.Authorization;
+using Services.Communication.Http.Broker.Authorization.Abstract;
 using Services.Communication.Http.Broker.Authorization.Models;
 
 using System;
@@ -33,14 +33,14 @@ namespace Services.Security.BasicToken.Providers
         /// <summary>
         /// Kimlik denetimi servisi iletişimcisi
         /// </summary>
-        private readonly AuthorizationCommunicator _authorizationCommunicator;
+        private readonly IAuthorizationCommunicator _authorizationCommunicator;
 
         private readonly InMemoryCacheDataProvider _cacheProvider;
 
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public DefaultIdentityProvider(
-            AuthorizationCommunicator authorizationCommunicator,
+            IAuthorizationCommunicator authorizationCommunicator,
             InMemoryCacheDataProvider cacheProvider,
             IHttpContextAccessor httpContextAccessor)
         {

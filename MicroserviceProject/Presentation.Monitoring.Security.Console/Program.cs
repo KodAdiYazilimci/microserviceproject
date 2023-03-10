@@ -12,7 +12,9 @@ using Infrastructure.Sockets.Persistence.Mock;
 using Microsoft.Extensions.Configuration;
 
 using Services.Communication.Http.Broker.Authorization;
+using Services.Communication.Http.Broker.Authorization.Abstract;
 using Services.Communication.Http.Broker.Authorization.Models;
+using Services.Communication.Http.Broker.Mock;
 
 using System;
 using System.Net;
@@ -40,13 +42,20 @@ namespace Presentation.Monitoring.Security.Console
                 System.Console.WriteLine(webSocketResult.Content.Message);
             };
 
-            AuthorizationCommunicator authorizationCommunicator =
-               new AuthorizationCommunicator(
-                   httpGetCaller: HttpGetCallerFactory.Instance,
-                   httpPostCaller: HttpPostCallerFactory.Instance,
-                   routeProvider: RouteProviderFactory.GetRouteProvider(
+            IAuthorizationCommunicator authorizationCommunicator =
+               new AuthorizationCommunicator
+               (
+                   routeProvider: RouteProviderFactory.GetRouteProvider
+                   (
                        serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration),
-                       inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance));
+                       inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance
+                   ),
+                   communicator: DefaultCommunicatorProvider.GetDefaultCommunicator
+                   (
+                       httpGetCaller: HttpGetCallerFactory.Instance,
+                       httpPostCaller: HttpPostCallerFactory.Instance
+                   )
+               );
 
             CredentialProvider credentialProvider = CredentialProviderFactory.GetCredentialProvider(configuration: null);
 
