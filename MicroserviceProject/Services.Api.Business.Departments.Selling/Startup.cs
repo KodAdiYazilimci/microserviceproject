@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Services.Api.Business.Departments.Selling.Configuration.Persistence;
 using Services.Api.Business.Departments.Selling.DI;
 using Services.Communication.Http.Broker.Department.Selling.DI;
+using Services.Communication.Http.Broker.Department.Storage.DI;
 using Services.Communication.Mq.Queue.Finance.DI;
 using Services.Communication.Mq.Queue.Finance.Rabbit.DI;
 using Services.Communication.Mq.Queue.Production.DI;
@@ -57,6 +58,7 @@ namespace Services.Api.Business.Departments.Selling
             services.RegisterRequestResponseLogger();
             services.RegisterRuntimeHandlers();
             services.RegisterSqlHealthChecking();
+            services.RegisterHttpStorageDepartmentCommunicators();
             services.RegisterSwagger();
             services.RegisterEntityFrameworkUnitOfWork<SellingContext>();
 

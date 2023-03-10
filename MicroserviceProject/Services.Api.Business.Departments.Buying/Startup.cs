@@ -11,7 +11,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using Services.Api.Business.Departments.Buying.DI;
+using Services.Communication.Http.Broker.Department.AA.DI;
 using Services.Communication.Http.Broker.Department.Buying.DI;
+using Services.Communication.Http.Broker.Department.IT.DI;
 using Services.Communication.Mq.Queue.AA.DI;
 using Services.Communication.Mq.Queue.AA.Rabbit.DI;
 using Services.Communication.Mq.Queue.Finance.DI;
@@ -50,6 +52,8 @@ namespace Services.Api.Business.Departments.Buying
 
             services.RegisterAAQueueConfigurations();
             services.RegisterAAQueuePublishers();
+            services.RegisterHttpAADepartmentCommunicators();
+            services.RegisterHttpAADepartmentCommunicators();
             services.RegisterBasicTokenAuthentication();
             services.RegisterExceptionLogger();
             services.RegisterFinanceQueueConfigurations();
@@ -57,6 +61,7 @@ namespace Services.Api.Business.Departments.Buying
             services.RegisterHttpBuyingDepartmentCommunicators();
             services.RegisterITQueueConfigurations();
             services.RegisterITQueuePublishers();
+            services.RegisterHttpITDepartmentCommunicators();
             services.RegisterLocalizationProviders();
             services.RegisterRequestResponseLogger();
             services.RegisterRuntimeHandlers();

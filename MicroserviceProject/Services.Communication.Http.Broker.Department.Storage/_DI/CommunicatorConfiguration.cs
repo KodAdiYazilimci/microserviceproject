@@ -18,6 +18,7 @@ namespace Services.Communication.Http.Broker.Department.Storage.DI
         public static IServiceCollection RegisterHttpStorageDepartmentCommunicators(this IServiceCollection services)
         {
             services.RegisterDepartmentCommunicator();
+
             services.AddSingleton<IStorageCommunicator, StorageCommunicator>();
 
             return services;

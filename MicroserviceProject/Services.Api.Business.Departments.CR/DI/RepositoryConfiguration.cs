@@ -19,6 +19,8 @@ namespace Services.Api.Business.Departments.CR.DI
         public static IServiceCollection RegisterRepositories(this IServiceCollection services)
         {
             services.AddScoped<CustomerRepository>();
+            services.AddScoped<TransactionRepository>();
+            services.AddScoped<TransactionItemRepository>();
 
             return services;
         }

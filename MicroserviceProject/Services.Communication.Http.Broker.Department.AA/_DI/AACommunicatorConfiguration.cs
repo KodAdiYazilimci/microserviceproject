@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Infrastructure.Routing.Providers.DI;
+
+using Microsoft.Extensions.DependencyInjection;
 
 using Services.Communication.Http.Broker.Department.AA.Abstract;
 using Services.Communication.Http.Broker.Department.DI;
@@ -18,6 +20,8 @@ namespace Services.Communication.Http.Broker.Department.AA.DI
         public static IServiceCollection RegisterHttpAADepartmentCommunicators(this IServiceCollection services)
         {
             services.RegisterDepartmentCommunicator();
+            services.RegisterRoutingProviders();
+
             services.AddSingleton<IAACommunicator, AACommunicator>();
 
             return services;

@@ -1,9 +1,11 @@
 ﻿
 using Infrastructure.Communication.Http.Broker.DI;
+using Infrastructure.Routing.Providers.DI;
 
 using Microsoft.Extensions.DependencyInjection;
 
 using Services.Communication.Http.Broker.Authorization.Abstract;
+using Services.Communication.Http.Broker.DI;
 
 namespace Services.Communication.Http.Broker.Authorization.DI
 {
@@ -19,7 +21,9 @@ namespace Services.Communication.Http.Broker.Authorization.DI
         /// <returns></returns>
         public static IServiceCollection RegisterHttpAuthorizationCommunicators(this IServiceCollection services)
         {
+            services.RegisterDefaultCommunicator();
             services.RegisterHttpServiceCommunicator();
+            services.RegisterRoutingProviders();
 
             services.AddSingleton<IAuthorizationCommunicator, AuthorizationCommunicator>();
 

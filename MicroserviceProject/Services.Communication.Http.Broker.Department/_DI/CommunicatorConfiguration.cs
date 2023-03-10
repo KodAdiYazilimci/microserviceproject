@@ -1,6 +1,5 @@
 ﻿using Infrastructure.Caching.InMemory.DI;
-using Infrastructure.Routing.Persistence.DI;
-using Infrastructure.Routing.Providers._DI;
+using Infrastructure.Routing.Providers.DI;
 using Infrastructure.Security.Authentication.DI;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -15,12 +14,10 @@ namespace Services.Communication.Http.Broker.Department.DI
     {
         public static IServiceCollection RegisterDepartmentCommunicator(this IServiceCollection services)
         {
-            services.RegisterDefaultCommunicator();
-
             services.RegisterCredentialProvider();
-            services.RegisterHttpRouteRepositories();
-            services.RegisterRoutingProviders();
+            services.RegisterDefaultCommunicator();
             services.RegisterInMemoryCaching();
+            services.RegisterRoutingProviders();
 
             services.RegisterHttpAuthorizationCommunicators();
             services.AddSingleton<IDepartmentCommunicator, DepartmentCommunicator>();

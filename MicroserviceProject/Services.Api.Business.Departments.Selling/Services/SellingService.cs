@@ -14,7 +14,7 @@ using Services.Api.Business.Departments.Selling.Constants;
 using Services.Api.Business.Departments.Selling.Entities.EntityFramework;
 using Services.Api.Business.Departments.Selling.Repositories.EntityFramework;
 using Services.Communication.Http.Broker.Department.Selling.Models;
-using Services.Communication.Http.Broker.Department.Storage;
+using Services.Communication.Http.Broker.Department.Storage.Abstract;
 using Services.Communication.Http.Broker.Department.Storage.Models;
 using Services.Communication.Mq.Queue.Finance.Models;
 using Services.Communication.Mq.Queue.Finance.Rabbit.Publishers;
@@ -88,7 +88,7 @@ namespace Services.Api.Business.Departments.Selling.Services
         /// <summary>
         /// Stok servisi sınıfı
         /// </summary>
-        private readonly StorageCommunicator _storageCommunicator;
+        private readonly IStorageCommunicator _storageCommunicator;
 
         /// <summary>
         /// Üretilecek ürünler için kuyruk sınıfı
@@ -121,7 +121,7 @@ namespace Services.Api.Business.Departments.Selling.Services
             TransactionRepository transactionRepository,
             TransactionItemRepository transactionItemRepository,
             SellRepository sellRepository,
-            StorageCommunicator storageCommunicator,
+            IStorageCommunicator storageCommunicator,
             ProductionProducePublisher productionProducePublisherPublisher,
             ProductionRequestPublisher productionRequestPublisher)
         {

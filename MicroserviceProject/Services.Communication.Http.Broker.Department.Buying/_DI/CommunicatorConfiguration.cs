@@ -18,6 +18,7 @@ namespace Services.Communication.Http.Broker.Department.Buying.DI
         public static IServiceCollection RegisterHttpBuyingDepartmentCommunicators(this IServiceCollection services)
         {
             services.RegisterDepartmentCommunicator();
+
             services.AddSingleton<IBuyingCommunicator, BuyingCommunicator>();
 
             return services;

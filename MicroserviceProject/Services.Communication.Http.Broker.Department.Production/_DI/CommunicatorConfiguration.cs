@@ -18,6 +18,7 @@ namespace Services.Communication.Http.Broker.Department.Production.DI
         public static IServiceCollection RegisterHttpProductionDepartmentCommunicators(this IServiceCollection services)
         {
             services.RegisterDepartmentCommunicator();
+
             services.AddSingleton<IProductionCommunicator, ProductionCommunicator>();
 
             return services;

@@ -18,6 +18,7 @@ namespace Services.Communication.Http.Broker.Department.CR.DI
         public static IServiceCollection RegisterHttpCRDepartmentCommunicators(this IServiceCollection services)
         {
             services.RegisterDepartmentCommunicator();
+
             services.AddSingleton<ICRCommunicator, CRCommunicator>();
 
             return services;
