@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-using Infrastructure.Caching.Redis;
+using Infrastructure.Caching.Abstraction;
 using Infrastructure.Communication.Http.Wrapper;
 using Infrastructure.Communication.Http.Wrapper.Disposing;
 using Infrastructure.Localization.Translation.Provider;
@@ -51,7 +51,7 @@ namespace Services.Api.Business.Departments.Storage.Services
         /// <summary>
         /// Rediste tutulan önbellek yönetimini sağlayan sınıf
         /// </summary>
-        private readonly RedisCacheDataProvider _redisCacheDataProvider;
+        private readonly IDistrubutedCacheProvider _distrubutedCacheProvider;
 
         /// <summary>
         /// Mapping işlemleri için mapper nesnesi
@@ -89,7 +89,7 @@ namespace Services.Api.Business.Departments.Storage.Services
         /// <param name="mapper">Mapping işlemleri için mapper nesnesi</param>
         /// <param name="unitOfWork">Veritabanı iş birimi nesnesi</param>
         /// <param name="translationProvider">Dil çeviri sağlayıcısı sınıf nesnesi</param>
-        /// <param name="redisCacheDataProvider">Rediste tutulan önbellek yönetimini sağlayan sınıf nesnesi</param>
+        /// <param name="distrubutedCacheProvider">Rediste tutulan önbellek yönetimini sağlayan sınıf nesnesi</param>
         /// <param name="transactionRepository">İşlem tablosu için repository sınıfı nesnesi</param>
         /// <param name="transactionItemRepository">İşlem öğesi tablosu için repository sınıfı nesnesi</param>
         /// <param name="stockRepository">Stoklar repository sınıfı nesnesi</param>
@@ -97,7 +97,7 @@ namespace Services.Api.Business.Departments.Storage.Services
             IMapper mapper,
             IUnitOfWork<StorageContext> unitOfWork,
             TranslationProvider translationProvider,
-            RedisCacheDataProvider redisCacheDataProvider,
+            IDistrubutedCacheProvider distrubutedCacheProvider,
             TransactionRepository transactionRepository,
             TransactionItemRepository transactionItemRepository,
             StockRepository stockRepository)
@@ -105,7 +105,7 @@ namespace Services.Api.Business.Departments.Storage.Services
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _translationProvider = translationProvider;
-            _redisCacheDataProvider = redisCacheDataProvider;
+            _distrubutedCacheProvider = distrubutedCacheProvider;
 
             _transactionRepository = transactionRepository;
             _transactionItemRepository = transactionItemRepository;
@@ -179,7 +179,7 @@ namespace Services.Api.Business.Departments.Storage.Services
 
         public async Task DisposeInjectionsAsync()
         {
-            _redisCacheDataProvider.Dispose();
+            _distrubutedCacheProvider.Dispose();
             await _stockRepository.DisposeAsync();
             await _transactionItemRepository.DisposeAsync();
             await _transactionRepository.DisposeAsync();
@@ -218,7 +218,7 @@ namespace Services.Api.Business.Departments.Storage.Services
         [LogAfterRuntimeAttr(nameof(GetStockAsync))]
         public async Task<StockModel> GetStockAsync(int productId, CancellationTokenSource cancellationTokenSource)
         {
-            if (_redisCacheDataProvider.TryGetValue(CACHED_STOCKS_KEY, out List<StockModel> cachedStocks)
+            if (_distrubutedCacheProvider.TryGetValue(CACHED_STOCKS_KEY, out List<StockModel> cachedStocks)
                  &&
                  cachedStocks != null && cachedStocks.Any())
             {
@@ -229,7 +229,7 @@ namespace Services.Api.Business.Departments.Storage.Services
 
             List<StockModel> mappedStocks = _mapper.Map<List<StockEntity>, List<StockModel>>(stocks);
 
-            _redisCacheDataProvider.Set(CACHED_STOCKS_KEY, mappedStocks);
+            _distrubutedCacheProvider.Set(CACHED_STOCKS_KEY, mappedStocks);
 
             return mappedStocks.FirstOrDefault(x => x.ProductId == productId);
         }
@@ -266,11 +266,11 @@ namespace Services.Api.Business.Departments.Storage.Services
 
                 await _unitOfWork.SaveAsync(cancellationTokenSource);
 
-                if (_redisCacheDataProvider.TryGetValue(CACHED_STOCKS_KEY, out List<StockModel> cachedStocks) && cachedStocks != null)
+                if (_distrubutedCacheProvider.TryGetValue(CACHED_STOCKS_KEY, out List<StockModel> cachedStocks) && cachedStocks != null)
                 {
                     cachedStocks.FirstOrDefault(x => x.ProductId == stockModel.ProductId).Amount += stockModel.Amount;
 
-                    _redisCacheDataProvider.Set(CACHED_STOCKS_KEY, cachedStocks);
+                    _distrubutedCacheProvider.Set(CACHED_STOCKS_KEY, cachedStocks);
                 }
 
                 return existingStock.Id;
@@ -303,11 +303,11 @@ namespace Services.Api.Business.Departments.Storage.Services
 
                 stockModel.ProductId = mappedStockEntity.Id;
 
-                if (_redisCacheDataProvider.TryGetValue(CACHED_STOCKS_KEY, out List<StockModel> cachedStocks) && cachedStocks != null)
+                if (_distrubutedCacheProvider.TryGetValue(CACHED_STOCKS_KEY, out List<StockModel> cachedStocks) && cachedStocks != null)
                 {
                     cachedStocks.Add(stockModel);
 
-                    _redisCacheDataProvider.Set(CACHED_STOCKS_KEY, cachedStocks);
+                    _distrubutedCacheProvider.Set(CACHED_STOCKS_KEY, cachedStocks);
                 }
 
                 return mappedStockEntity.Id;
@@ -353,11 +353,11 @@ namespace Services.Api.Business.Departments.Storage.Services
 
                 await _unitOfWork.SaveAsync(cancellationTokenSource);
 
-                if (_redisCacheDataProvider.TryGetValue(CACHED_STOCKS_KEY, out List<StockModel> cachedStocks) && cachedStocks != null)
+                if (_distrubutedCacheProvider.TryGetValue(CACHED_STOCKS_KEY, out List<StockModel> cachedStocks) && cachedStocks != null)
                 {
                     cachedStocks.FirstOrDefault(x => x.ProductId == stockModel.ProductId).Amount = stockEntity.Amount;
 
-                    _redisCacheDataProvider.Set(CACHED_STOCKS_KEY, cachedStocks);
+                    _distrubutedCacheProvider.Set(CACHED_STOCKS_KEY, cachedStocks);
                 }
 
                 return stockEntity.Id;

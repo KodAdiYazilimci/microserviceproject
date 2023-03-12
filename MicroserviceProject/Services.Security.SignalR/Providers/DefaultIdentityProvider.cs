@@ -1,10 +1,8 @@
-﻿
-using Infrastructure.Caching.InMemory;
+﻿using Infrastructure.Caching.Abstraction;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Security.Authentication.SignalR.Abstract;
 using Infrastructure.Security.Model;
 
-using Services.Communication.Http.Broker.Authorization;
 using Services.Communication.Http.Broker.Authorization.Abstract;
 using Services.Communication.Http.Broker.Authorization.Models;
 
@@ -31,11 +29,11 @@ namespace Services.Security.SignalR.Providers
         /// <summary>
         /// Oturum bilgilerinin saklanacağı önbellek nesnesi
         /// </summary>
-        private readonly InMemoryCacheDataProvider _cacheProvider;
+        private readonly IInMemoryCacheDataProvider _cacheProvider;
 
         public DefaultIdentityProvider(
             IAuthorizationCommunicator authorizationCommunicator,
-            InMemoryCacheDataProvider cacheProvider)
+            IInMemoryCacheDataProvider cacheProvider)
         {
             _authorizationCommunicator = authorizationCommunicator;
             _cacheProvider = cacheProvider;

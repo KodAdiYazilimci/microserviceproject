@@ -1,4 +1,6 @@
 ﻿
+using Infrastructure.Caching.Abstraction;
+
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Infrastructure.Caching.InMemory.Mock
@@ -11,7 +13,7 @@ namespace Infrastructure.Caching.InMemory.Mock
         /// <summary>
         /// Önbellek sağlayıcısı örneği
         /// </summary>
-        public static InMemoryCacheDataProvider Instance
+        public static IInMemoryCacheDataProvider Instance
         {
             get
             {

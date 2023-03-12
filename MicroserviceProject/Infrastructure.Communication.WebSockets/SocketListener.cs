@@ -1,7 +1,6 @@
-﻿using Infrastructure.Caching.InMemory;
+﻿using Infrastructure.Caching.Abstraction;
 using Infrastructure.Communication.WebSockets.Models;
 using Infrastructure.Routing.Persistence.Abstract;
-using Infrastructure.Routing.Persistence.Repositories.Sql;
 using Infrastructure.Security.Authentication.Abstract;
 using Infrastructure.Sockets.Exceptions;
 using Infrastructure.Sockets.Models;
@@ -47,7 +46,7 @@ namespace Infrastructure.Communication.WebSockets
         /// <summary>
         /// Önbellek nesnesi
         /// </summary>
-        private readonly InMemoryCacheDataProvider _cacheProvider;
+        private readonly IInMemoryCacheDataProvider _cacheProvider;
 
         /// <summary>
         /// İletişimde kullanılacak yetkiler için sağlayıcı
@@ -83,7 +82,7 @@ namespace Infrastructure.Communication.WebSockets
         /// <param name="serviceRouteRepository">Servis endpointleri sağlayıcısı</param>
         /// <param name="socketRepository">Soket endpointlerinin sağlayıcısı</param>
         public SocketListener(
-            InMemoryCacheDataProvider cacheProvider,
+            IInMemoryCacheDataProvider cacheProvider,
             ICredentialProvider credentialProvider,
             IServiceRouteRepository serviceRouteRepository,
             SocketRepository socketRepository)

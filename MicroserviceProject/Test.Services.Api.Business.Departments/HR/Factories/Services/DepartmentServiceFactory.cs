@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-using Infrastructure.Caching.Redis;
+using Infrastructure.Caching.Abstraction;
 using Infrastructure.Caching.Redis.Mock;
 using Infrastructure.Localization.Translation.Persistence.EntityFramework.Repositories;
 using Infrastructure.Localization.Translation.Persistence.Mock.EntityFramework.Persistence;
@@ -27,7 +27,7 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Services
             {
                 IConfiguration configuration = ConfigurationFactory.GetConfiguration();
                 IMapper mapper = MappingFactory.GetInstance(new MappingProfile());
-                RedisCacheDataProvider redisCacheDataProvider = CacheDataProviderFactory.GetInstance(configuration);
+                IDistrubutedCacheProvider redisCacheDataProvider = CacheDataProviderFactory.GetInstance(configuration);
                 IUnitOfWork unitOfWork = new UnitOfWork(configuration);
 
                 var service = new DepartmentService

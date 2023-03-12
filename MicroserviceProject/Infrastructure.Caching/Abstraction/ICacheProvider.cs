@@ -5,7 +5,7 @@ namespace Infrastructure.Caching.Abstraction
     /// <summary>
     /// Önbellek sağlayıcılarının uygulayacağı arayüz
     /// </summary>
-    public interface ICacheProvider
+    public interface ICacheProvider : IDisposable
     {
         /// <summary>
         /// Önbellekten bir veriyi getirir

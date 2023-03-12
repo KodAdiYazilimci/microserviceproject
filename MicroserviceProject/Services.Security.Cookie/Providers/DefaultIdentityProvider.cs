@@ -1,5 +1,4 @@
-﻿
-using Infrastructure.Caching.InMemory;
+﻿using Infrastructure.Caching.Abstraction;
 using Infrastructure.Communication.Http.Exceptions;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Security.Authentication.Cookie.Abstract;
@@ -30,11 +29,11 @@ namespace Services.Security.Cookie.Providers
         /// </summary>
         private readonly IAuthorizationCommunicator _authorizationCommunicator;
 
-        private readonly InMemoryCacheDataProvider _cacheProvider;
+        private readonly IInMemoryCacheDataProvider _cacheProvider;
 
         public DefaultIdentityProvider(
             IAuthorizationCommunicator authorizationCommunicator,
-            InMemoryCacheDataProvider cacheProvider)
+            IInMemoryCacheDataProvider cacheProvider)
         {
             _cacheProvider = cacheProvider;
             _authorizationCommunicator = authorizationCommunicator;

@@ -1,4 +1,4 @@
-﻿using Infrastructure.Caching.InMemory;
+﻿using Infrastructure.Caching.Abstraction;
 using Infrastructure.Communication.Http.Wrapper;
 using Infrastructure.Security.Model;
 
@@ -15,9 +15,9 @@ namespace Services.Api.Business.Departments.AA.Controllers
     [Route("Identity")]
     public class IdentityController : BaseController
     {
-        private readonly InMemoryCacheDataProvider _cacheProvider;
+        private readonly IInMemoryCacheDataProvider _cacheProvider;
 
-        public IdentityController(InMemoryCacheDataProvider cacheDataProvider)
+        public IdentityController(IInMemoryCacheDataProvider cacheDataProvider)
         {
             _cacheProvider = cacheDataProvider;
         }

@@ -1,5 +1,5 @@
 ﻿
-using Infrastructure.Caching.Redis;
+using Infrastructure.Caching.Abstraction;
 using Infrastructure.Communication.Http.Wrapper;
 using Infrastructure.Communication.Http.Wrapper.Disposing;
 using Infrastructure.Cryptography.Ciphers;
@@ -45,7 +45,7 @@ namespace Services.Api.Infrastructure.Authorization.Business.Services
         /// <summary>
         /// Rediste tutulan önbellek yönetimini sağlayan sınıf
         /// </summary>
-        private readonly RedisCacheDataProvider _redisCacheDataProvider;
+        private readonly IDistrubutedCacheProvider _redisCacheDataProvider;
 
         /// <summary>
         /// Veritabanı iş birimi nesnesi
@@ -65,7 +65,7 @@ namespace Services.Api.Infrastructure.Authorization.Business.Services
         public SessionService(
             SessionRepository sessionRepository,
             UserRepository userRepository,
-            RedisCacheDataProvider redisCacheDataProvider,
+            IDistrubutedCacheProvider redisCacheDataProvider,
             IUnitOfWork<AuthContext> unitOfWork,
             TranslationProvider translationProvider,
             InformInvalidTokenPublisher informInvalidTokenPublisher)

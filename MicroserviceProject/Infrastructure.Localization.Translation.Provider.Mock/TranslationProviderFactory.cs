@@ -1,4 +1,4 @@
-﻿using Infrastructure.Caching.Redis;
+﻿using Infrastructure.Caching.Abstraction;
 using Infrastructure.Localization.Translation.Persistence.Abstract;
 using Infrastructure.Localization.Translation.Provider.Helpers;
 
@@ -21,7 +21,7 @@ namespace Infrastructure.Localization.Translation.Provider.Mock
         /// <returns></returns>
         public static TranslationProvider GetTranslationProvider(
             IConfiguration configuration,
-            RedisCacheDataProvider cacheDataProvider,
+            IDistrubutedCacheProvider cacheDataProvider,
             ITranslationRepository translationRepository,
             TranslationHelper translationHelper)
         {

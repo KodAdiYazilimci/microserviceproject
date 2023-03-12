@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 
+using Infrastructure.Caching.Abstraction;
 using Infrastructure.Caching.InMemory.Mock;
 using Infrastructure.Caching.Redis;
 using Infrastructure.Caching.Redis.Mock;
@@ -45,7 +46,7 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Services
                 IConfiguration configuration = ConfigurationFactory.GetConfiguration();
                 IMapper mapper = MappingFactory.GetInstance(new MappingProfile());
                 var inMemoryCacheDataProvider = InMemoryCacheDataProviderFactory.Instance;
-                RedisCacheDataProvider redisCacheDataProvider = CacheDataProviderFactory.GetInstance(configuration);
+                IDistrubutedCacheProvider redisCacheDataProvider = CacheDataProviderFactory.GetInstance(configuration);
                 var serviceRouteRepository = ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration);
                 var routeProvider = RouteProviderFactory.GetRouteProvider(
                     serviceRouteRepository: serviceRouteRepository,

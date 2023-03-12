@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-using Infrastructure.Caching.Redis;
+using Infrastructure.Caching.Abstraction;
 using Infrastructure.Caching.Redis.Mock;
 using Infrastructure.Localization.Translation.Persistence.EntityFramework.Repositories;
 using Infrastructure.Localization.Translation.Persistence.Mock.EntityFramework.Persistence;
@@ -27,7 +27,7 @@ namespace Test.Services.Api.Business.Departments.Accounting.Factories.Services
             {
                 IConfiguration configuration = ConfigurationFactory.GetConfiguration();
                 IMapper mapper = MappingFactory.GetInstance(new MappingProfile());
-                RedisCacheDataProvider redisCacheDataProvider = CacheDataProviderFactory.GetInstance(configuration);
+                IDistrubutedCacheProvider distrubutedCacheProvider = CacheDataProviderFactory.GetInstance(configuration);
                 IUnitOfWork unitOfWork = new UnitOfWork(configuration);
 
                 var service = new BankService(
@@ -35,10 +35,10 @@ namespace Test.Services.Api.Business.Departments.Accounting.Factories.Services
                     unitOfWork: unitOfWork,
                     translationProvider: TranslationProviderFactory.GetTranslationProvider(
                         configuration: configuration,
-                        cacheDataProvider: redisCacheDataProvider,
+                        cacheDataProvider: distrubutedCacheProvider,
                         translationRepository: new EfTranslationRepository(TranslationDbContextFactory.GetTranslationDbContext(configuration)),
                         translationHelper: TranslationHelperFactory.Instance),
-                    redisCacheDataProvider: redisCacheDataProvider,
+                    distrubutedCacheProvider: distrubutedCacheProvider,
                     transactionItemRepository: TransactionItemRepositoryFactory.GetInstance(unitOfWork),
                     transactionRepository: TransactionRepositoryFactory.GetInstance(unitOfWork),
                     bankAccountRepository: BankAccountRepositoryFactory.GetInstance(unitOfWork),

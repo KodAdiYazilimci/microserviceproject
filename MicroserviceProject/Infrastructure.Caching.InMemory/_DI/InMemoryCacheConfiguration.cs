@@ -1,4 +1,6 @@
 ﻿
+using Infrastructure.Caching.Abstraction;
+
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.Caching.InMemory.DI
@@ -16,7 +18,7 @@ namespace Infrastructure.Caching.InMemory.DI
         public static IServiceCollection RegisterInMemoryCaching(this IServiceCollection services)
         {
             services.AddMemoryCache();
-            services.AddSingleton<InMemoryCacheDataProvider>();
+            services.AddSingleton<IInMemoryCacheDataProvider, InMemoryCacheDataProvider>();
 
             return services;
         }

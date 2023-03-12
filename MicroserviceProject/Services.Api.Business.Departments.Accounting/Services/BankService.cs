@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-using Infrastructure.Caching.Redis;
+using Infrastructure.Caching.Abstraction;
 using Infrastructure.Communication.Http.Wrapper;
 using Infrastructure.Localization.Translation.Provider;
 using Infrastructure.Transaction.Recovery;
@@ -47,7 +47,7 @@ namespace Services.Api.Business.Departments.Accounting.Services
         /// <summary>
         /// Rediste tutulan önbellek yönetimini sağlayan sınıf
         /// </summary>
-        private readonly RedisCacheDataProvider _redisCacheDataProvider;
+        private readonly IDistrubutedCacheProvider _distrubutedCacheProvider;
 
         /// <summary>
         /// Mapping işlemleri için mapper nesnesi
@@ -103,7 +103,7 @@ namespace Services.Api.Business.Departments.Accounting.Services
             IMapper mapper,
             IUnitOfWork unitOfWork,
             TranslationProvider translationProvider,
-            RedisCacheDataProvider redisCacheDataProvider,
+            IDistrubutedCacheProvider distrubutedCacheProvider,
             TransactionRepository transactionRepository,
             TransactionItemRepository transactionItemRepository,
             BankAccountRepository bankAccountRepository,
@@ -111,7 +111,7 @@ namespace Services.Api.Business.Departments.Accounting.Services
             SalaryPaymentRepository salaryPaymentRepository)
         {
             _mapper = mapper;
-            _redisCacheDataProvider = redisCacheDataProvider;
+            _distrubutedCacheProvider = distrubutedCacheProvider;
             _unitOfWork = unitOfWork;
             _translationProvider = translationProvider;
 
@@ -188,7 +188,7 @@ namespace Services.Api.Business.Departments.Accounting.Services
         [LogAfterRuntimeAttr(nameof(GetCurrenciesAsync))]
         public async Task<List<AccountingCurrencyModel>> GetCurrenciesAsync(CancellationTokenSource cancellationTokenSource)
         {
-            if (_redisCacheDataProvider.TryGetValue(CACHED_CURRENCIES_KEY, out List<AccountingCurrencyModel> cureencies)
+            if (_distrubutedCacheProvider.TryGetValue(CACHED_CURRENCIES_KEY, out List<AccountingCurrencyModel> cureencies)
                 &&
                 cureencies != null && cureencies.Any())
             {
@@ -200,7 +200,7 @@ namespace Services.Api.Business.Departments.Accounting.Services
             List<AccountingCurrencyModel> mappedDepartments =
                 _mapper.Map<List<CurrencyEntity>, List<AccountingCurrencyModel>>(currencies);
 
-            _redisCacheDataProvider.Set(CACHED_CURRENCIES_KEY, mappedDepartments);
+            _distrubutedCacheProvider.Set(CACHED_CURRENCIES_KEY, mappedDepartments);
 
             return mappedDepartments;
         }
@@ -241,11 +241,11 @@ namespace Services.Api.Business.Departments.Accounting.Services
 
             currency.Id = createdCurrencyId;
 
-            if (_redisCacheDataProvider.TryGetValue(CACHED_CURRENCIES_KEY, out List<AccountingCurrencyModel> cachedCurrencies) && cachedCurrencies != null)
+            if (_distrubutedCacheProvider.TryGetValue(CACHED_CURRENCIES_KEY, out List<AccountingCurrencyModel> cachedCurrencies) && cachedCurrencies != null)
             {
                 cachedCurrencies.Add(currency);
 
-                _redisCacheDataProvider.Set(CACHED_CURRENCIES_KEY, cachedCurrencies);
+                _distrubutedCacheProvider.Set(CACHED_CURRENCIES_KEY, cachedCurrencies);
             }
 
             return createdCurrencyId;
@@ -427,7 +427,7 @@ namespace Services.Api.Business.Departments.Accounting.Services
 
         public void DisposeInjections()
         {
-            _redisCacheDataProvider.Dispose();
+            _distrubutedCacheProvider.Dispose();
             _bankAccountRepository.Dispose();
             _currencyRepository.Dispose();
             _salaryPaymentRepository.Dispose();
