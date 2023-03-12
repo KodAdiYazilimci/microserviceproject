@@ -1,12 +1,8 @@
-﻿
-using Infrastructure.Communication.Http.Models;
-
-using Microsoft.AspNetCore.Http.Extensions;
+﻿using Microsoft.AspNetCore.Http.Extensions;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 
 namespace Infrastructure.Communication.Http.Providers

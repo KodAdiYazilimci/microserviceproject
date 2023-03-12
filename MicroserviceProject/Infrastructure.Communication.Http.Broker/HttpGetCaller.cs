@@ -1,13 +1,9 @@
 ﻿using Infrastructure.Communication.Http.Endpoint.Abstract;
 using Infrastructure.Communication.Http.Exceptions;
-using Infrastructure.Communication.Http.Models;
-
-using Microsoft.AspNetCore.Http.Extensions;
+using Infrastructure.Communication.Http.Helpers;
 
 using Newtonsoft.Json;
 
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
@@ -15,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Communication.Http.Broker
 {
-    public class HttpGetCaller : BaseCaller
+    public class HttpGetCaller
     {
         public async Task<TResult> CallAsync<TResult>(IEndpoint endpoint, CancellationTokenSource cancellationTokenSource)
         {
@@ -28,14 +24,14 @@ namespace Infrastructure.Communication.Http.Broker
                     throw new MissingHeaderException($"Belirtilmemiş header: {endpoint.Headers.FirstOrDefault(x => string.IsNullOrEmpty(x.Value)).Key}");
                 }
 
-                GenerateHeaders(httpClient, endpoint.Headers);
+                HttpHelper.GenerateHeaders(httpClient, endpoint.Headers);
 
                 if (endpoint.Queries.Any(x => string.IsNullOrEmpty(x.Value)))
                 {
                     throw new MissingQueryStringException($"Belirtilmemiş query: {endpoint.Queries.FirstOrDefault(x => string.IsNullOrEmpty(x.Value)).Key}");
                 }
 
-                string url = GenerateQueryString(endpoint.Url, endpoint.Queries);
+                string url = HttpHelper.GenerateQueryString(endpoint.Url, endpoint.Queries);
 
                 HttpResponseMessage getTask = await httpClient.GetAsync(url, cancellationTokenSource.Token);
 

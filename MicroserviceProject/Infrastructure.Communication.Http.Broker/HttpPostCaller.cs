@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Communication.Http.Endpoint.Abstract;
 using Infrastructure.Communication.Http.Exceptions;
+using Infrastructure.Communication.Http.Helpers;
 
 using Newtonsoft.Json;
 
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Communication.Http.Broker
 {
-    public class HttpPostCaller : BaseCaller
+    public class HttpPostCaller
     {
         public async Task<TResult> CallAsync<TRequest, TResult>(IEndpoint endpoint, TRequest requestObject, CancellationTokenSource cancellationTokenSource)
         {
@@ -24,14 +25,14 @@ namespace Infrastructure.Communication.Http.Broker
                     throw new MissingHeaderException($"Belirtilmemiş header: {endpoint.Headers.FirstOrDefault(x => string.IsNullOrEmpty(x.Value)).Key}");
                 }
 
-                GenerateHeaders(httpClient, endpoint.Headers);
+                HttpHelper.GenerateHeaders(httpClient, endpoint.Headers);
 
                 if (endpoint.Queries.Any(x => string.IsNullOrEmpty(x.Value)))
                 {
                     throw new MissingQueryStringException($"Belirtilmemiş query: {endpoint.Queries.FirstOrDefault(x => string.IsNullOrEmpty(x.Value)).Key}");
                 }
 
-                string url = GenerateQueryString(endpoint.Url, endpoint.Queries);
+                string url = HttpHelper.GenerateQueryString(endpoint.Url, endpoint.Queries);
 
                 HttpResponseMessage getTask =
                     await httpClient.PostAsync(
