@@ -1,4 +1,5 @@
 ﻿
+using Infrastructure.Routing.Persistence.Abstract;
 using Infrastructure.Routing.Persistence.Repositories.Sql;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -17,8 +18,8 @@ namespace Infrastructure.Routing.Persistence.DI
         /// <returns></returns>
         public static IServiceCollection RegisterHttpRouteRepositories(this IServiceCollection services)
         {
-            services.AddSingleton<HostsRepository>();
-            services.AddSingleton<ServiceRouteRepository>();
+            services.AddSingleton<IHostsRepository, SqlHostsRepository>();
+            services.AddSingleton<IServiceRouteRepository, SqlServiceRouteRepository>();
 
             return services;
         }
