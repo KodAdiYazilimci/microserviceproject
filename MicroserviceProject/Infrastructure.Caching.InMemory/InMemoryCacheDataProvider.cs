@@ -10,7 +10,7 @@ namespace Infrastructure.Caching.InMemory
     /// <summary>
     /// InMemory de tutulan önbellek yönetimini sağlar
     /// </summary>
-    public class InMemoryCacheDataProvider : ICacheProvider, IDisposable
+    public class InMemoryCacheDataProvider : IInMemoryCacheDataProvider, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi

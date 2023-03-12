@@ -1,9 +1,8 @@
-﻿using Infrastructure.Caching.InMemory;
+﻿using Infrastructure.Caching.Abstraction;
 using Infrastructure.Communication.Http.Endpoint.Abstract;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Security.Authentication.Abstract;
 using Infrastructure.Security.Authentication.Exceptions;
-using Infrastructure.Security.Authentication.Providers;
 
 using Services.Communication.Http.Broker.Abstract;
 using Services.Communication.Http.Broker.Authorization.Abstract;
@@ -18,12 +17,12 @@ namespace Services.Communication.Http.Broker
 
         private readonly ICommunicator _communicator;
         private readonly IAuthorizationCommunicator _authorizationCommunicator;
-        private readonly InMemoryCacheDataProvider _cacheProvider;
+        private readonly IInMemoryCacheDataProvider _cacheProvider;
         private readonly ICredentialProvider _credentialProvider;
 
         public DepartmentCommunicator(
             IAuthorizationCommunicator authorizationCommunicator,
-            InMemoryCacheDataProvider cacheProvider,
+            IInMemoryCacheDataProvider cacheProvider,
             ICredentialProvider credentialProvider,
             ICommunicator communicator)
         {

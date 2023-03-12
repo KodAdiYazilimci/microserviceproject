@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-using Infrastructure.Caching.Redis;
+using Infrastructure.Caching.Abstraction;
 using Infrastructure.Communication.Http.Wrapper;
 using Infrastructure.Localization.Translation.Provider;
 using Infrastructure.Transaction.Recovery;
@@ -49,7 +49,7 @@ namespace Services.Business.Departments.Finance.Services
         /// <summary>
         /// Rediste tutulan önbellek yönetimini sağlayan sınıf
         /// </summary>
-        private readonly RedisCacheDataProvider _redisCacheDataProvider;
+        private readonly IDistrubutedCacheProvider _redisCacheDataProvider;
 
         /// <summary>
         /// Mapping işlemleri için mapper nesnesi
@@ -104,7 +104,7 @@ namespace Services.Business.Departments.Finance.Services
             IMapper mapper,
             IUnitOfWork unitOfWork,
             TranslationProvider translationProvider,
-            RedisCacheDataProvider redisCacheDataProvider,
+            IDistrubutedCacheProvider redisCacheDataProvider,
             TransactionRepository transactionRepository,
             TransactionItemRepository transactionItemRepository,
             DecidedCostRepository decidedCostRepository,

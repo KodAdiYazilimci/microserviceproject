@@ -1,4 +1,6 @@
 ﻿
+using Infrastructure.Caching.Abstraction;
+
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.Caching.Redis.DI
@@ -15,7 +17,7 @@ namespace Infrastructure.Caching.Redis.DI
         /// <returns></returns>
         public static IServiceCollection RegisterRedisCaching(this IServiceCollection services)
         {
-            services.AddSingleton<RedisCacheDataProvider>();
+            services.AddSingleton<IDistrubutedCacheProvider, RedisCacheDataProvider>();
 
             return services;
         }

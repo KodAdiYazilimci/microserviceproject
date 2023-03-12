@@ -1,4 +1,4 @@
-﻿using Infrastructure.Caching.InMemory;
+﻿using Infrastructure.Caching.Abstraction;
 using Infrastructure.Communication.Http.Constants;
 using Infrastructure.Communication.Http.Endpoint.Abstract;
 using Infrastructure.Routing.Exceptions;
@@ -11,11 +11,11 @@ namespace Infrastructure.Routing.Providers
     {
         private const string CACHEDSERVICEROUTES = "CACHED_SERVICE_ROUTES";
         private readonly IServiceRouteRepository _serviceRouteRepository;
-        private readonly InMemoryCacheDataProvider _inMemoryCacheDataProvider;
+        private readonly IInMemoryCacheDataProvider _inMemoryCacheDataProvider;
 
         public SqlRouteProvider(
             IServiceRouteRepository serviceRouteRepository,
-            InMemoryCacheDataProvider inMemoryCacheDataProvider)
+            IInMemoryCacheDataProvider inMemoryCacheDataProvider)
         {
             _serviceRouteRepository = serviceRouteRepository;
             _inMemoryCacheDataProvider = inMemoryCacheDataProvider;

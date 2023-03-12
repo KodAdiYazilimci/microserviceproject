@@ -1,6 +1,6 @@
 ﻿using Hangfire.Common;
 
-using Infrastructure.Caching.InMemory;
+using Infrastructure.Caching.Abstraction;
 using Infrastructure.Communication.Http.Providers;
 
 using Services.Scheduling.Departments.Finance.Converters;
@@ -18,9 +18,9 @@ namespace Services.Scheduling.Departments.Finance.Jobs
         private const string STORED_LAST_EXCHANGE = "stored.last.exhange";
 
         private readonly IHttpClientFactory _httpClientFactory;
-        private readonly InMemoryCacheDataProvider _inMemoryCacheDataProvider;
+        private readonly IInMemoryCacheDataProvider _inMemoryCacheDataProvider;
 
-        public GetExchangeJob(InMemoryCacheDataProvider inMemoryCacheDataProvider, IHttpClientFactory httpClientFactory)
+        public GetExchangeJob(IInMemoryCacheDataProvider inMemoryCacheDataProvider, IHttpClientFactory httpClientFactory)
         {
             _inMemoryCacheDataProvider = inMemoryCacheDataProvider;
             _httpClientFactory = httpClientFactory;

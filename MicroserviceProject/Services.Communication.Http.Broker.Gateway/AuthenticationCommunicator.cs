@@ -1,4 +1,4 @@
-﻿using Infrastructure.Caching.InMemory;
+﻿using Infrastructure.Caching.Abstraction;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Security.Authentication.Abstract;
 using Infrastructure.Security.Authentication.Exceptions;
@@ -18,12 +18,12 @@ namespace Services.Communication.Http.Broker.Gateway
         private const string TAKENTOKENFORTHISSERVICE = "TAKEN_TOKEN_FOR_THIS_SERVICE";
 
         private readonly IAuthorizationCommunicator _authorizationCommunicator;
-        private readonly InMemoryCacheDataProvider _cacheProvider;
+        private readonly IInMemoryCacheDataProvider _cacheProvider;
         private readonly ICredentialProvider _credentialProvider;
 
         public AuthenticationCommunicator(
             IAuthorizationCommunicator authorizationCommunicator, 
-            InMemoryCacheDataProvider cacheProvider, 
+            IInMemoryCacheDataProvider cacheProvider, 
             ICredentialProvider credentialProvider)
         {
             _authorizationCommunicator = authorizationCommunicator;

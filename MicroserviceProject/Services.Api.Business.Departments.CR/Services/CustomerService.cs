@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-using Infrastructure.Caching.Redis;
+using Infrastructure.Caching.Abstraction;
 using Infrastructure.Communication.Http.Wrapper;
 using Infrastructure.Communication.Http.Wrapper.Disposing;
 using Infrastructure.Localization.Translation.Provider;
@@ -49,7 +49,7 @@ namespace Services.Api.Business.Departments.CR.Services
         /// <summary>
         /// Rediste tutulan önbellek yönetimini sağlayan sınıf
         /// </summary>
-        private readonly RedisCacheDataProvider _redisCacheDataProvider;
+        private readonly IDistrubutedCacheProvider _distrubutedCacheProvider;
 
         /// <summary>
         /// Mapping işlemleri için mapper nesnesi
@@ -87,7 +87,7 @@ namespace Services.Api.Business.Departments.CR.Services
         /// <param name="mapper">Mapping işlemleri için mapper nesnesi</param>
         /// <param name="unitOfWork">Veritabanı iş birimi nesnesi</param>
         /// <param name="translationProvider">Dil çeviri sağlayıcısı sınıf nesnesi</param>
-        /// <param name="redisCacheDataProvider">Rediste tutulan önbellek yönetimini sağlayan sınıf nesnesi</param>
+        /// <param name="distrubutedCacheProvider">Rediste tutulan önbellek yönetimini sağlayan sınıf nesnesi</param>
         /// <param name="transactionRepository">İşlem tablosu için repository sınıfı nesnesi</param>
         /// <param name="transactionItemRepository">İşlem öğesi tablosu için repository sınıfı nesnesi</param>
         /// <param name="customerRepository">Müşteriler repository sınıfı nesnesi</param>
@@ -95,7 +95,7 @@ namespace Services.Api.Business.Departments.CR.Services
             IMapper mapper,
             IUnitOfWork<CRContext> unitOfWork,
             TranslationProvider translationProvider,
-            RedisCacheDataProvider redisCacheDataProvider,
+            IDistrubutedCacheProvider distrubutedCacheProvider,
             TransactionRepository transactionRepository,
             TransactionItemRepository transactionItemRepository,
             CustomerRepository customerRepository)
@@ -103,7 +103,7 @@ namespace Services.Api.Business.Departments.CR.Services
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _translationProvider = translationProvider;
-            _redisCacheDataProvider = redisCacheDataProvider;
+            _distrubutedCacheProvider = distrubutedCacheProvider;
 
             _transactionRepository = transactionRepository;
             _transactionItemRepository = transactionItemRepository;
@@ -119,7 +119,7 @@ namespace Services.Api.Business.Departments.CR.Services
         [LogAfterRuntimeAttr(nameof(GetCustomersAsync))]
         public async Task<List<CustomerModel>> GetCustomersAsync(CancellationTokenSource cancellationTokenSource)
         {
-            if (_redisCacheDataProvider.TryGetValue(CACHED_CUSTOMERS_KEY, out List<CustomerModel> cachedCustomers)
+            if (_distrubutedCacheProvider.TryGetValue(CACHED_CUSTOMERS_KEY, out List<CustomerModel> cachedCustomers)
                 &&
                 cachedCustomers != null && cachedCustomers.Any())
             {
@@ -130,7 +130,7 @@ namespace Services.Api.Business.Departments.CR.Services
 
             List<CustomerModel> mappedCustomers = _mapper.Map<List<CustomerEntity>, List<CustomerModel>>(customers);
 
-            _redisCacheDataProvider.Set(CACHED_CUSTOMERS_KEY, mappedCustomers);
+            _distrubutedCacheProvider.Set(CACHED_CUSTOMERS_KEY, mappedCustomers);
 
             return mappedCustomers;
         }
@@ -169,7 +169,7 @@ namespace Services.Api.Business.Departments.CR.Services
 
             await _unitOfWork.SaveAsync(cancellationTokenSource);
 
-            if (_redisCacheDataProvider.TryGetValue(CACHED_CUSTOMERS_KEY, out List<CustomerModel> cachedCustomers)
+            if (_distrubutedCacheProvider.TryGetValue(CACHED_CUSTOMERS_KEY, out List<CustomerModel> cachedCustomers)
                 &&
                 cachedCustomers != null)
             {
@@ -177,7 +177,7 @@ namespace Services.Api.Business.Departments.CR.Services
 
                 cachedCustomers.Add(customerModel);
 
-                _redisCacheDataProvider.Set(CACHED_CUSTOMERS_KEY, cachedCustomers);
+                _distrubutedCacheProvider.Set(CACHED_CUSTOMERS_KEY, cachedCustomers);
             }
 
             return mappedCustomerEntity.Id;
@@ -250,7 +250,7 @@ namespace Services.Api.Business.Departments.CR.Services
 
         public async Task DisposeInjectionsAsync()
         {
-            _redisCacheDataProvider.Dispose();
+            _distrubutedCacheProvider.Dispose();
             await _customerRepository.DisposeAsync();
             await _transactionItemRepository.DisposeAsync();
             await _transactionRepository.DisposeAsync();

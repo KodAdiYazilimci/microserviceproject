@@ -14,4 +14,8 @@
     <ProjectReference Include="..\Infrastructure.Caching\Infrastructure.Caching.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Abstraction\" />
+  </ItemGroup>
+
 </Project>

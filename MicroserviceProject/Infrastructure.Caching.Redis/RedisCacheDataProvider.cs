@@ -15,7 +15,7 @@ namespace Infrastructure.Caching.Redis
     /// <summary>
     /// Rediste tutulan önbellek yönetimini sağlar
     /// </summary>
-    public class RedisCacheDataProvider : ICacheProvider, IDisposable
+    public class RedisCacheDataProvider : IDistrubutedCacheProvider, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi

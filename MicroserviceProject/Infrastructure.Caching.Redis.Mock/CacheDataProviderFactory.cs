@@ -1,4 +1,6 @@
 ﻿
+using Infrastructure.Caching.Abstraction;
+
 using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.Caching.Redis.Mock
@@ -13,7 +15,7 @@ namespace Infrastructure.Caching.Redis.Mock
         /// </summary>
         /// <param name="configuration">Yapılandırma arayüzü nesnesi</param>
         /// <returns></returns>
-        public static RedisCacheDataProvider GetInstance(IConfiguration configuration)
+        public static IDistrubutedCacheProvider GetInstance(IConfiguration configuration)
         {
             return new RedisCacheDataProvider(configuration);
         }

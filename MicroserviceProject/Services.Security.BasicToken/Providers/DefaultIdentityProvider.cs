@@ -1,5 +1,4 @@
-﻿
-using Infrastructure.Caching.InMemory;
+﻿using Infrastructure.Caching.Abstraction;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Security.Authentication.BasicToken.Abstracts;
 using Infrastructure.Security.Model;
@@ -35,13 +34,13 @@ namespace Services.Security.BasicToken.Providers
         /// </summary>
         private readonly IAuthorizationCommunicator _authorizationCommunicator;
 
-        private readonly InMemoryCacheDataProvider _cacheProvider;
+        private readonly IInMemoryCacheDataProvider _cacheProvider;
 
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public DefaultIdentityProvider(
             IAuthorizationCommunicator authorizationCommunicator,
-            InMemoryCacheDataProvider cacheProvider,
+            IInMemoryCacheDataProvider cacheProvider,
             IHttpContextAccessor httpContextAccessor)
         {
             _authorizationCommunicator = authorizationCommunicator;
