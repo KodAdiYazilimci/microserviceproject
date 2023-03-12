@@ -1,4 +1,5 @@
-﻿using Infrastructure.Routing.Persistence.Repositories.Sql;
+﻿using Infrastructure.Routing.Persistence.Abstract;
+using Infrastructure.Routing.Persistence.Repositories.Sql;
 
 using Microsoft.Extensions.Configuration;
 
@@ -14,9 +15,9 @@ namespace Infrastructure.Routing.Persistence.Mock
         /// </summary>
         /// <param name="configuration">Yapılandırma arayüzü nesnesi</param>
         /// <returns></returns>
-        public static ServiceRouteRepository GetServiceRouteRepository(IConfiguration configuration)
+        public static IServiceRouteRepository GetServiceRouteRepository(IConfiguration configuration)
         {
-            return new ServiceRouteRepository(configuration);
+            return new SqlServiceRouteRepository(configuration);
         }
     }
 }

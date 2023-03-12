@@ -1,5 +1,6 @@
 ﻿
 using Infrastructure.Routing.Models;
+using Infrastructure.Routing.Persistence.Abstract;
 
 using Microsoft.Extensions.Configuration;
 
@@ -17,7 +18,7 @@ namespace Infrastructure.Routing.Persistence.Repositories.Sql
     /// <summary>
     /// Servis rotaları repository sınıfı
     /// </summary>
-    public class ServiceRouteRepository : IDisposable
+    public class SqlServiceRouteRepository : IServiceRouteRepository, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -33,7 +34,7 @@ namespace Infrastructure.Routing.Persistence.Repositories.Sql
         /// Servis rotaları repository sınıfı
         /// </summary>
         /// <param name="configuration">Veritabanı bağlantı cümlesini sağlayacak connection nesnesi</param>
-        public ServiceRouteRepository(IConfiguration configuration)
+        public SqlServiceRouteRepository(IConfiguration configuration)
         {
             this._configuration = configuration;
         }

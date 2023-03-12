@@ -1,5 +1,6 @@
 ﻿
 using Infrastructure.Routing.Models;
+using Infrastructure.Routing.Persistence.Abstract;
 
 using Microsoft.Extensions.Configuration;
 
@@ -8,7 +9,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,7 +17,7 @@ namespace Infrastructure.Routing.Persistence.Repositories.Sql
     /// <summary>
     /// Servis host adresleri repository sınıfı
     /// </summary>
-    public class HostsRepository : IDisposable
+    public class SqlHostsRepository : IHostsRepository, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -33,7 +33,7 @@ namespace Infrastructure.Routing.Persistence.Repositories.Sql
         /// Servis host adresleri repository sınıfı
         /// </summary>
         /// <param name="configuration">Veritabanı bağlantı cümlesini sağlayacak connection nesnesi</param>
-        public HostsRepository(IConfiguration configuration)
+        public SqlHostsRepository(IConfiguration configuration)
         {
             this._configuration = configuration;
         }

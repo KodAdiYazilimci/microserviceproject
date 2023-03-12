@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Caching.InMemory;
 using Infrastructure.Communication.WebSockets.Models;
+using Infrastructure.Routing.Persistence.Abstract;
 using Infrastructure.Routing.Persistence.Repositories.Sql;
 using Infrastructure.Security.Authentication.Abstract;
 using Infrastructure.Sockets.Exceptions;
@@ -56,7 +57,7 @@ namespace Infrastructure.Communication.WebSockets
         /// <summary>
         /// Servis endpointleri sağlayıcısı
         /// </summary>
-        private readonly ServiceRouteRepository _serviceRouteRepository;
+        private readonly IServiceRouteRepository _serviceRouteRepository;
 
         /// <summary>
         /// Soket endpointlerinin sağlayıcısı
@@ -84,7 +85,7 @@ namespace Infrastructure.Communication.WebSockets
         public SocketListener(
             InMemoryCacheDataProvider cacheProvider,
             ICredentialProvider credentialProvider,
-            ServiceRouteRepository serviceRouteRepository,
+            IServiceRouteRepository serviceRouteRepository,
             SocketRepository socketRepository)
         {
             _cacheProvider = cacheProvider;

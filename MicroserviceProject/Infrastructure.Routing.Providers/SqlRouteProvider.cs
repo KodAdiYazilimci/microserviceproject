@@ -2,7 +2,7 @@
 using Infrastructure.Communication.Http.Constants;
 using Infrastructure.Communication.Http.Endpoint.Abstract;
 using Infrastructure.Routing.Exceptions;
-using Infrastructure.Routing.Persistence.Repositories.Sql;
+using Infrastructure.Routing.Persistence.Abstract;
 using Infrastructure.Routing.Providers.Abstract;
 
 namespace Infrastructure.Routing.Providers
@@ -10,11 +10,11 @@ namespace Infrastructure.Routing.Providers
     public class SqlRouteProvider : IRouteProvider
     {
         private const string CACHEDSERVICEROUTES = "CACHED_SERVICE_ROUTES";
-        private readonly ServiceRouteRepository _serviceRouteRepository;
+        private readonly IServiceRouteRepository _serviceRouteRepository;
         private readonly InMemoryCacheDataProvider _inMemoryCacheDataProvider;
 
         public SqlRouteProvider(
-            ServiceRouteRepository serviceRouteRepository,
+            IServiceRouteRepository serviceRouteRepository,
             InMemoryCacheDataProvider inMemoryCacheDataProvider)
         {
             _serviceRouteRepository = serviceRouteRepository;

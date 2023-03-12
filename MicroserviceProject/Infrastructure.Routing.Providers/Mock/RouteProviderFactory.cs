@@ -1,5 +1,5 @@
 ﻿using Infrastructure.Caching.InMemory;
-using Infrastructure.Routing.Persistence.Repositories.Sql;
+using Infrastructure.Routing.Persistence.Abstract;
 using Infrastructure.Routing.Providers.Abstract;
 
 namespace Infrastructure.Routing.Providers.Mock
@@ -9,7 +9,7 @@ namespace Infrastructure.Routing.Providers.Mock
         private static IRouteProvider routeProvider = null;
 
         public static IRouteProvider GetRouteProvider(
-            ServiceRouteRepository serviceRouteRepository,
+            IServiceRouteRepository serviceRouteRepository,
             InMemoryCacheDataProvider inMemoryCacheDataProvider)
         {
             if (routeProvider == null)

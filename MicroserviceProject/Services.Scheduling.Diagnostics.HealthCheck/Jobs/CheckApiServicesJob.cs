@@ -4,11 +4,9 @@ using Infrastructure.Communication.Http.Models;
 using Infrastructure.Communication.Http.Providers;
 using Infrastructure.Diagnostics.HealthCheck.Util.Model;
 using Infrastructure.Routing.Models;
-using Infrastructure.Routing.Persistence.Repositories.Sql;
+using Infrastructure.Routing.Persistence.Abstract;
 
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-
-using Newtonsoft.Json;
 
 using System;
 using System.Collections.Generic;
@@ -21,10 +19,10 @@ namespace Services.Scheduling.Diagnostics.HealthCheck.Jobs
     public class CheckApiServicesJob
     {
         private readonly HttpGetProvider _httpGetProvider;
-        private readonly HostsRepository _hostsRepository;
+        private readonly IHostsRepository _hostsRepository;
 
         public CheckApiServicesJob(
-            HostsRepository hostsRepository,
+            IHostsRepository hostsRepository,
             HttpGetProvider httpGetProvider)
         {
             _hostsRepository = hostsRepository;
