@@ -1,17 +1,15 @@
-﻿using Infrastructure.Communication.Http.Endpoint.Abstract;
-
-using Microsoft.AspNetCore.Http.Extensions;
+﻿using Microsoft.AspNetCore.Http.Extensions;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 
-namespace Infrastructure.Communication.Http.Broker
+namespace Infrastructure.Communication.Http.Helpers
 {
-    public class BaseCaller
+    public class HttpHelper
     {
-        protected string GenerateQueryString(string baseUrl, Dictionary<string,string> httpQueries)
+        public static string GenerateQueryString(string baseUrl, Dictionary<string, string> httpQueries)
         {
             QueryBuilder queryBuilder = new QueryBuilder();
 
@@ -35,7 +33,7 @@ namespace Infrastructure.Communication.Http.Broker
             return url;
         }
 
-        protected void GenerateHeaders(HttpClient httpClient, Dictionary<string,string> headers)
+        public static void GenerateHeaders(HttpClient httpClient, Dictionary<string, string> headers)
         {
             Dictionary<string, bool> headerChecks = headers.ToDictionary(x => x.Key, y => false);
 
