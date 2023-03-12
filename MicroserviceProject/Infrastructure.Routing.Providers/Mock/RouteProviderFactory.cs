@@ -1,19 +1,20 @@
 ﻿using Infrastructure.Caching.InMemory;
 using Infrastructure.Routing.Persistence.Repositories.Sql;
+using Infrastructure.Routing.Providers.Abstract;
 
 namespace Infrastructure.Routing.Providers.Mock
 {
     public class RouteProviderFactory
     {
-        private static RouteProvider routeProvider = null;
+        private static IRouteProvider routeProvider = null;
 
-        public static RouteProvider GetRouteProvider(
+        public static IRouteProvider GetRouteProvider(
             ServiceRouteRepository serviceRouteRepository,
             InMemoryCacheDataProvider inMemoryCacheDataProvider)
         {
             if (routeProvider == null)
             {
-                routeProvider = new RouteProvider(serviceRouteRepository, inMemoryCacheDataProvider);
+                routeProvider = new SqlRouteProvider(serviceRouteRepository, inMemoryCacheDataProvider);
             }
 
             return routeProvider;

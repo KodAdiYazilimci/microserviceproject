@@ -1,5 +1,5 @@
 ﻿using Infrastructure.Communication.Http.Endpoint.Abstract;
-using Infrastructure.Routing.Providers;
+using Infrastructure.Routing.Providers.Abstract;
 using Infrastructure.Security.Authentication.Cookie.Handlers;
 using Infrastructure.Security.Model;
 
@@ -20,14 +20,14 @@ namespace Presentation.UI.Web.Controllers
 {
     public class UserController : Controller
     {
-        private readonly RouteProvider _routeProvider;
+        private readonly IRouteProvider _routeProvider;
         private readonly CookieHandler _sessionProvider;
         private readonly IConfiguration _configuration;
 
         public UserController(
             IConfiguration configuration,
             CookieHandler sessionProvider,
-            RouteProvider routeProvider)
+            IRouteProvider routeProvider)
         {
             _configuration = configuration;
             _sessionProvider = sessionProvider;

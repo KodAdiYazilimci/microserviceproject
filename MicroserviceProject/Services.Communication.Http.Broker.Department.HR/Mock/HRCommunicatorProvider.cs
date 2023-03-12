@@ -1,4 +1,4 @@
-﻿using Infrastructure.Routing.Providers;
+﻿using Infrastructure.Routing.Providers.Abstract;
 
 using Services.Communication.Http.Broker.Department.Abstract;
 using Services.Communication.Http.Broker.Department.HR.Abstract;
@@ -10,7 +10,7 @@ namespace Services.Communication.Http.Broker.Department.HR.Mock
         private static IHRCommunicator hRCommunicator;
 
         public static IHRCommunicator GetHRCommunicator(
-            RouteProvider routeProvider,
+            IRouteProvider routeProvider,
             IDepartmentCommunicator departmentCommunicator)
         {
             if (hRCommunicator == null)

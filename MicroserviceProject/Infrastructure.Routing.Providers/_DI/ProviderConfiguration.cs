@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Routing.Persistence.DI;
+using Infrastructure.Routing.Providers.Abstract;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,7 +13,7 @@ namespace Infrastructure.Routing.Providers.DI
             services.RegisterHttpRouteRepositories();
             services.RegisterInMemoryCaching();
 
-            services.AddSingleton<RouteProvider>();
+            services.AddSingleton<IRouteProvider, SqlRouteProvider>();
 
             return services;
         }

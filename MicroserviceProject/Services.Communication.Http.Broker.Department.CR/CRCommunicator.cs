@@ -2,7 +2,7 @@
 using Infrastructure.Communication.Http.Endpoint.Authentication;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Routing.Exceptions;
-using Infrastructure.Routing.Providers;
+using Infrastructure.Routing.Providers.Abstract;
 
 using Services.Communication.Http.Broker.Department.Abstract;
 using Services.Communication.Http.Broker.Department.CR.Abstract;
@@ -19,11 +19,11 @@ namespace Services.Communication.Http.Broker.Department.CR
         /// </summary>
         private bool disposed = false;
 
-        private readonly RouteProvider _routeProvider;
+        private readonly IRouteProvider _routeProvider;
         private readonly IDepartmentCommunicator _departmentCommunicator;
 
         public CRCommunicator(
-            RouteProvider routeProvider,
+            IRouteProvider routeProvider,
             IDepartmentCommunicator departmentCommunicator)
         {
             _routeProvider = routeProvider;

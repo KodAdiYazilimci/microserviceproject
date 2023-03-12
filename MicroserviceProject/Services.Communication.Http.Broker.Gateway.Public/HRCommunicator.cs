@@ -2,7 +2,7 @@
 using Infrastructure.Communication.Http.Endpoint.Authentication;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Routing.Exceptions;
-using Infrastructure.Routing.Providers;
+using Infrastructure.Routing.Providers.Abstract;
 
 using Services.Communication.Http.Broker.Abstract;
 using Services.Communication.Http.Broker.Gateway.Abstract;
@@ -20,12 +20,12 @@ namespace Services.Communication.Http.Broker.Gateway.Public
         private bool disposed = false;
 
         private readonly ICommunicator _communicator;
-        private readonly RouteProvider _routeProvider;
+        private readonly IRouteProvider _routeProvider;
         private readonly IAuthenticationCommunicator _authenticationCommunicator;
 
         public HRCommunicator(
             ICommunicator communicator,
-            RouteProvider routeProvider,
+            IRouteProvider routeProvider,
             IAuthenticationCommunicator authenticationCommunicator)
         {
             _routeProvider = routeProvider;
