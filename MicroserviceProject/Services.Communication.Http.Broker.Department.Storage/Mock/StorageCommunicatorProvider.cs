@@ -1,4 +1,4 @@
-﻿using Infrastructure.Routing.Providers;
+﻿using Infrastructure.Routing.Providers.Abstract;
 
 using Services.Communication.Http.Broker.Department.Abstract;
 using Services.Communication.Http.Broker.Department.Storage.Abstract;
@@ -10,7 +10,7 @@ namespace Services.Communication.Http.Broker.Department.Storage.Mock
         private static IStorageCommunicator storageCommunicator;
 
         public static IStorageCommunicator GetStorageCommunicator(
-            RouteProvider routeProvider,
+            IRouteProvider routeProvider,
             IDepartmentCommunicator departmentCommunicator)
         {
             if (storageCommunicator == null)

@@ -1,19 +1,19 @@
 ﻿using Infrastructure.Caching.InMemory;
 using Infrastructure.Communication.Http.Constants;
 using Infrastructure.Communication.Http.Endpoint.Abstract;
-using Infrastructure.Communication.Http.Models;
 using Infrastructure.Routing.Exceptions;
 using Infrastructure.Routing.Persistence.Repositories.Sql;
+using Infrastructure.Routing.Providers.Abstract;
 
 namespace Infrastructure.Routing.Providers
 {
-    public class RouteProvider
+    public class SqlRouteProvider : IRouteProvider
     {
         private const string CACHEDSERVICEROUTES = "CACHED_SERVICE_ROUTES";
         private readonly ServiceRouteRepository _serviceRouteRepository;
         private readonly InMemoryCacheDataProvider _inMemoryCacheDataProvider;
 
-        public RouteProvider(
+        public SqlRouteProvider(
             ServiceRouteRepository serviceRouteRepository,
             InMemoryCacheDataProvider inMemoryCacheDataProvider)
         {
