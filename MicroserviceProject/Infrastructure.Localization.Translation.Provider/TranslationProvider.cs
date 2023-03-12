@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Caching.Redis;
 using Infrastructure.Localization.Translation.Models;
+using Infrastructure.Localization.Translation.Persistence.Abstract;
 using Infrastructure.Localization.Translation.Persistence.EntityFramework.Repositories;
 using Infrastructure.Localization.Translation.Provider.Helpers;
 
@@ -37,7 +38,7 @@ namespace Infrastructure.Localization.Translation.Provider
         /// <summary>
         /// Dil çeviri kayıtlarını yöneten repository sınıfı
         /// </summary>
-        private TranslationRepository translationRepository;
+        private ITranslationRepository translationRepository;
 
         /// <summary>
         /// Dil çeviri yardımcısı
@@ -54,7 +55,7 @@ namespace Infrastructure.Localization.Translation.Provider
         public TranslationProvider(
             IConfiguration configuration,
             RedisCacheDataProvider cacheDataProvider,
-            TranslationRepository translationRepository,
+            ITranslationRepository translationRepository,
             TranslationHelper translationHelper)
         {
             this.configuration = configuration;

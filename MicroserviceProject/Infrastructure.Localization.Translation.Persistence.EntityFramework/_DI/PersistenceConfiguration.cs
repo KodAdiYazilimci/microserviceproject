@@ -1,4 +1,5 @@
-﻿using Infrastructure.Localization.Translation.Persistence.EntityFramework.Persistence;
+﻿using Infrastructure.Localization.Translation.Persistence.Abstract;
+using Infrastructure.Localization.Translation.Persistence.EntityFramework.Persistence;
 using Infrastructure.Localization.Translation.Persistence.EntityFramework.Repositories;
 
 using Microsoft.EntityFrameworkCore;
@@ -45,7 +46,7 @@ namespace Infrastructure.Localization.Translation.Persistence.EntityFramework.DI
                 optionBuilder.EnableDetailedErrors();
             }, ServiceLifetime.Scoped);
 
-            services.AddScoped<TranslationRepository>();
+            services.AddScoped<ITranslationRepository, EfTranslationRepository>();
 
             return services;
         }

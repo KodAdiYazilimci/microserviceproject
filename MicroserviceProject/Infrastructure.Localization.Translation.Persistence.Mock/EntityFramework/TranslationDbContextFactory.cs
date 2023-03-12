@@ -24,7 +24,7 @@ namespace Infrastructure.Localization.Translation.Persistence.Mock.EntityFramewo
     /// <summary>
     /// Dil çeviri context nesnesi için test yapılandırma sınıfı
     /// </summary>
-    internal class TestDbContextOptions : DbContextOptionsBuilder<TranslationDbContext>
+    public class TestDbContextOptions : DbContextOptionsBuilder<TranslationDbContext>
     {
         /// <summary>
         /// Dil çeviri context nesnesi için test yapılandırma sınıfı

@@ -36,7 +36,7 @@ namespace Test.Services.Api.Business.Departments.Accounting.Factories.Services
                     translationProvider: TranslationProviderFactory.GetTranslationProvider(
                         configuration: configuration,
                         cacheDataProvider: redisCacheDataProvider,
-                        translationRepository: new TranslationRepository(TranslationDbContextFactory.GetTranslationDbContext(configuration)),
+                        translationRepository: new EfTranslationRepository(TranslationDbContextFactory.GetTranslationDbContext(configuration)),
                         translationHelper: TranslationHelperFactory.Instance),
                     redisCacheDataProvider: redisCacheDataProvider,
                     transactionItemRepository: TransactionItemRepositoryFactory.GetInstance(unitOfWork),
