@@ -39,7 +39,7 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Services
                         (
                             configuration: configuration,
                             cacheDataProvider: redisCacheDataProvider,
-                            translationRepository: new TranslationRepository
+                            translationRepository: new EfTranslationRepository
                             (
                                 translationDbContext: TranslationDbContextFactory.GetTranslationDbContext(configuration)
                             ),

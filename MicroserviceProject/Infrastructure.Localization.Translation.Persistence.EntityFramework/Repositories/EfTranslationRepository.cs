@@ -15,7 +15,7 @@ namespace Infrastructure.Localization.Translation.Persistence.EntityFramework.Re
     /// <summary>
     /// Dil çeviri repository sınıfı
     /// </summary>
-    public class TranslationRepository : ITranslationRepository, IDisposable
+    public class EfTranslationRepository : ITranslationRepository, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -31,7 +31,7 @@ namespace Infrastructure.Localization.Translation.Persistence.EntityFramework.Re
         /// Dil çeviri repository sınıfı
         /// </summary>
         /// <param name="translationDbContext">Veritabanı bağlantı cümlesi</param>
-        public TranslationRepository(TranslationDbContext translationDbContext)
+        public EfTranslationRepository(TranslationDbContext translationDbContext)
         {
             this.translationDbContext = translationDbContext;
         }

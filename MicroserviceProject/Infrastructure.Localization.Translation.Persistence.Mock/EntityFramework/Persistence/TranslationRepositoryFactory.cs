@@ -1,4 +1,5 @@
-﻿using Infrastructure.Localization.Translation.Persistence.EntityFramework.Persistence;
+﻿using Infrastructure.Localization.Translation.Persistence.Abstract;
+using Infrastructure.Localization.Translation.Persistence.EntityFramework.Persistence;
 using Infrastructure.Localization.Translation.Persistence.EntityFramework.Repositories;
 
 namespace Infrastructure.Localization.Translation.Persistence.EntityFramework.Mock.Persistence
@@ -13,9 +14,9 @@ namespace Infrastructure.Localization.Translation.Persistence.EntityFramework.Mo
         /// </summary>
         /// <param name="translationDbContext">Dil çeviri context sınıfı nesnesi</param>
         /// <returns></returns>
-        public static TranslationRepository GetTranslationRepository(TranslationDbContext translationDbContext)
+        public static ITranslationRepository GetTranslationRepository(TranslationDbContext translationDbContext)
         {
-            return new TranslationRepository(translationDbContext);
+            return new EfTranslationRepository(translationDbContext);
         }
     }
 }

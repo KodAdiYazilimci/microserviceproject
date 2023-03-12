@@ -39,7 +39,7 @@ namespace Test.Services.Api.Business.Departments.AA.Factories.Services
                     translationProvider: TranslationProviderFactory.GetTranslationProvider(
                         configuration: configuration,
                         cacheDataProvider: redisCacheDataProvider,
-                        translationRepository: new TranslationRepository(TranslationDbContextFactory.GetTranslationDbContext(configuration)),
+                        translationRepository: new EfTranslationRepository(TranslationDbContextFactory.GetTranslationDbContext(configuration)),
                         translationHelper: TranslationHelperFactory.Instance),
                     createInventoryRequestPublisher: CreateInventoryRequestPublisherProvider.GetCreateInventoryRequestPublisher(
                         configuration: CreateInventoryRequestRabbitConfigurationProvider.GetCreateInventoryRequestPublisher(configuration)),

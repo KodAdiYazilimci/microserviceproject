@@ -1,5 +1,5 @@
 ﻿using Infrastructure.Caching.Redis;
-using Infrastructure.Localization.Translation.Persistence.EntityFramework.Repositories;
+using Infrastructure.Localization.Translation.Persistence.Abstract;
 using Infrastructure.Localization.Translation.Provider.Helpers;
 
 using Microsoft.Extensions.Configuration;
@@ -22,7 +22,7 @@ namespace Infrastructure.Localization.Translation.Provider.Mock
         public static TranslationProvider GetTranslationProvider(
             IConfiguration configuration,
             RedisCacheDataProvider cacheDataProvider,
-            TranslationRepository translationRepository,
+            ITranslationRepository translationRepository,
             TranslationHelper translationHelper)
         {
             return new TranslationProvider(configuration, cacheDataProvider, translationRepository, translationHelper);
