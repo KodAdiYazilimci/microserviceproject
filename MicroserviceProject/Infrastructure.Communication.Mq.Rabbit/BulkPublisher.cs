@@ -1,4 +1,5 @@
-﻿using Infrastructure.Communication.Mq.Configuration;
+﻿using Infrastructure.Communication.Mq.Abstraction;
+using Infrastructure.Communication.Mq.Configuration;
 
 using Newtonsoft.Json;
 
@@ -16,7 +17,7 @@ namespace Infrastructure.Communication.Mq.Rabbit
     /// Rabbit sunucusuna data üretecek sınıf
     /// </summary>
     /// <typeparam name="TModel">Data modelinin tipi</typeparam>
-    public class BulkPublisher<TModel> : IDisposable
+    public class BulkPublisher<TModel> : IBulkPublisher<TModel>, IDisposable where TModel : class
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi

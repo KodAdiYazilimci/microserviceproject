@@ -3,6 +3,8 @@ using Microsoft.Extensions.Hosting;
 
 using Services.Communication.Mq.Queue.Authorization.Rabbit.Consumers;
 
+using System.Threading;
+
 namespace Services.MQ.Authorization
 {
     public class Program
@@ -14,7 +16,7 @@ namespace Services.MQ.Authorization
             InformInvalidTokenConsumer informInvalidTokenConsumer =
                     (InformInvalidTokenConsumer)host.Services.GetService(typeof(InformInvalidTokenConsumer));
 
-            informInvalidTokenConsumer.StartToConsume();
+            informInvalidTokenConsumer.StartConsumeAsync(new CancellationTokenSource());
 
             host.Run();
         }

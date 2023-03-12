@@ -4,6 +4,8 @@ using Microsoft.Extensions.Hosting;
 
 using Services.Communication.Mq.Queue.Finance.Rabbit.Consumers;
 
+using System.Threading;
+
 namespace Services.MQ.Finance
 {
     public class Program
@@ -15,12 +17,14 @@ namespace Services.MQ.Finance
             InventoryRequestConsumer inventoryRequestConsumer =
                 (InventoryRequestConsumer)host.Services.GetService(typeof(InventoryRequestConsumer));
 
-            inventoryRequestConsumer.StartToConsume();
+            var cancellationTokenSource = new CancellationTokenSource();
+
+            inventoryRequestConsumer.StartConsumeAsync(cancellationTokenSource);
 
             ProductionRequestConsumer productionRequestConsumer =
                 (ProductionRequestConsumer)host.Services.GetService(typeof(ProductionRequestConsumer));
 
-            productionRequestConsumer.StartToConsume();
+            productionRequestConsumer.StartConsumeAsync(cancellationTokenSource);
 
             host.Run();
         }

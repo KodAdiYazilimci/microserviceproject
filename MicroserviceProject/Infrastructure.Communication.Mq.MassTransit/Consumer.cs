@@ -4,7 +4,7 @@ using MassTransit;
 
 namespace Infrastructure.Communication.Mq.MassTransit
 {
-    public class Consumer<TConsumer, TModel> : IDisposable where TConsumer : ConsumeHandler<TModel>, new() where TModel : class
+    public class Consumer<TConsumer, TModel> : IConsumer, IDisposable where TConsumer : ConsumeHandler<TModel>, new() where TModel : class
     {
         private bool disposed = false;
         private IBusControl? busControl = null;

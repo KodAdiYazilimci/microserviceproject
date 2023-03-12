@@ -3,6 +3,8 @@ using Microsoft.Extensions.Hosting;
 
 using Services.Communication.Mq.Queue.Production.Rabbit.Consumers;
 
+using System.Threading;
+
 namespace Services.MQ.Production
 {
     public class Program
@@ -14,7 +16,7 @@ namespace Services.MQ.Production
             ProduceConsumer createInventoryRequestConsumer =
                     (ProduceConsumer)host.Services.GetService(typeof(ProduceConsumer));
 
-            createInventoryRequestConsumer.StartToConsume();
+            createInventoryRequestConsumer.StartConsumeAsync(new CancellationTokenSource());
 
             host.Run();
         }

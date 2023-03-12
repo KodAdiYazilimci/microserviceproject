@@ -4,6 +4,8 @@ using Microsoft.Extensions.Hosting;
 
 using Services.Communication.Mq.Queue.Accounting.Rabbit.Consumers;
 
+using System.Threading;
+
 namespace Services.MQ.Accounting
 {
     public class Program
@@ -15,7 +17,7 @@ namespace Services.MQ.Accounting
             CreateBankAccountConsumer assignInventoryToWorkerConsumer =
                     (CreateBankAccountConsumer)host.Services.GetService(typeof(CreateBankAccountConsumer));
 
-            assignInventoryToWorkerConsumer.StartToConsume();
+            assignInventoryToWorkerConsumer.StartConsumeAsync(new CancellationTokenSource());
 
             host.Run();
         }

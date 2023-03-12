@@ -1,7 +1,9 @@
-﻿using Services.Api.Infrastructure.Logging.Util.Logging.Consumers;
-
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+
+using Services.Api.Infrastructure.Logging.Util.Logging.Consumers;
+
+using System.Threading;
 
 namespace Services.Api.Infrastructure.Logging.DI
 {
@@ -21,7 +23,7 @@ namespace Services.Api.Infrastructure.Logging.DI
                 (IConfiguration)hostBuilder.Services.GetService(typeof(IConfiguration));
 
             RequestResponseLogConsumer requestResponseLogConsumer = new RequestResponseLogConsumer(configuration);
-            requestResponseLogConsumer.StartToConsume();
+            requestResponseLogConsumer.StartConsumeAsync(new CancellationTokenSource());
 
             return hostBuilder;
         }

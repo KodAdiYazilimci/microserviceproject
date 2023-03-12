@@ -63,9 +63,9 @@ namespace Services.Communication.Mq.Queue.Buying.Rabbit.Consumers
         /// <summary>
         /// Kayıtları yakalamaya başlar
         /// </summary>
-        public void StartToConsume()
+        public async Task StartConsumeAsync(CancellationTokenSource cancellationTokenSource)
         {
-            _consumer.StartToConsume();
+            await _consumer.StartConsumeAsync(cancellationTokenSource);
         }
 
         /// <summary>
