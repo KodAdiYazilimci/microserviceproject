@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Data.SqlClient;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Transaction.UnitOfWork.Sql
 {
     /// <summary>
     /// Ms SQL veritabanı işlemleri transaction için iş birimi arayüzü
     /// </summary>
-    public interface IUnitOfWork : IDisposable
+    public interface ISqlUnitOfWork : IUnitOfWork, IDisposable
     {
         /// <summary>
         /// Sql bütünlük yönetiminden sorumlu transaction nesnesi
@@ -19,12 +17,5 @@ namespace Infrastructure.Transaction.UnitOfWork.Sql
         /// Veritabanı bağlantı nesnesi
         /// </summary>
         SqlConnection SqlConnection { get; }
-
-        /// <summary>
-        /// Veritabanı işlem bütünlüğünü çalıştırır
-        /// </summary>
-        /// <param name="cancellationTokenSource">İptal tokenı</param>
-        /// <returns></returns>
-        Task SaveAsync(CancellationTokenSource cancellationTokenSource);
     }
 }

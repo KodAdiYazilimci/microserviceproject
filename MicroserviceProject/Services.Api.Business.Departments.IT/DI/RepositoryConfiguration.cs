@@ -20,7 +20,7 @@ namespace Services.Api.Business.Departments.IT.DI
         /// <returns></returns>
         public static IServiceCollection RegisterRepositories(this IServiceCollection services)
         {
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ISqlUnitOfWork, UnitOfWork>();
 
             services.AddScoped<InventoryRepository>();
             services.AddScoped<InventoryDefaultsRepository>();

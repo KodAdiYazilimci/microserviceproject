@@ -74,7 +74,7 @@ namespace Services.Business.Departments.Finance.Services
         /// <summary>
         /// Veritabanı iş birimi nesnesi
         /// </summary>
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly ISqlUnitOfWork _unitOfWork;
 
         /// <summary>
         /// Dil çeviri sağlayıcısı sınıf
@@ -102,7 +102,7 @@ namespace Services.Business.Departments.Finance.Services
         /// rabbit kuyruğuna ekleyen nesne</param>
         public CostService(
             IMapper mapper,
-            IUnitOfWork unitOfWork,
+            ISqlUnitOfWork unitOfWork,
             TranslationProvider translationProvider,
             IDistrubutedCacheProvider redisCacheDataProvider,
             TransactionRepository transactionRepository,

@@ -17,7 +17,7 @@ namespace Services.UnitOfWork.EntityFramework.DI
         /// <returns></returns>
         public static IServiceCollection RegisterEntityFrameworkUnitOfWork<TContext>(this IServiceCollection services) where TContext:DbContext
         {
-            services.AddScoped<IUnitOfWork<TContext>, UnitOfWork<TContext>>();
+            services.AddScoped<IEfUnitOfWork<TContext>, EfUnitOfWork<TContext>>();
 
             return services;
         }

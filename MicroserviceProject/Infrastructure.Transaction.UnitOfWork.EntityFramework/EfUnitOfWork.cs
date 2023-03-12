@@ -14,7 +14,7 @@ namespace Infrastructure.Transaction.UnitOfWork.EntityFramework
     /// Entity Framework veritabanı işlemleri transaction için iş birimi sınıfı
     /// </summary>
     /// <typeparam name="TContext">Veritabanıyla iletişim kuracak context sınıfı tipi</typeparam>
-    public class UnitOfWork<TContext> : IUnitOfWork<TContext>, IAsyncDisposable where TContext : DbContext
+    public class EfUnitOfWork<TContext> : IEfUnitOfWork<TContext>, IAsyncDisposable where TContext : DbContext
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -41,7 +41,7 @@ namespace Infrastructure.Transaction.UnitOfWork.EntityFramework
         /// Entity Framework veritabanı işlemleri transaction için iş birimi sınıfı
         /// </summary>
         /// <param name="dbContext">Veritabanıyla iletişim kuracak context sınıfı nesnesi</param>
-        public UnitOfWork(TContext dbContext)
+        public EfUnitOfWork(TContext dbContext)
         {
             this.Context = dbContext;
         }

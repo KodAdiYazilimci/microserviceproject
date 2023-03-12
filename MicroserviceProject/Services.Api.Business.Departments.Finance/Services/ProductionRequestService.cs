@@ -74,7 +74,7 @@ namespace Services.Business.Departments.Finance.Services
         /// <summary>
         /// Veritabanı iş birimi nesnesi
         /// </summary>
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly ISqlUnitOfWork _unitOfWork;
 
         /// <summary>
         /// Dil çeviri sağlayıcısı sınıf
@@ -101,7 +101,7 @@ namespace Services.Business.Departments.Finance.Services
         /// <param name="notifyProductionRequesApprovementPublisher">Üretilmesi talep edilen üretimlere ait kararları rabbit kuyruğuna ekleyen nesne</param>
         public ProductionRequestService(
             IMapper mapper,
-            IUnitOfWork unitOfWork,
+            ISqlUnitOfWork unitOfWork,
             TranslationProvider translationProvider,
             IDistrubutedCacheProvider redisCacheDataProvider,
             TransactionRepository transactionRepository,

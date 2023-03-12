@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace Services.Api.Business.Departments.Buying.Configuration.Persistence
 {
-    public class UnitOfWork : BaseUnitOfWork
+    public class UnitOfWork : SqlUnitOfWork
     {
         private readonly IConfiguration _configuration;
 

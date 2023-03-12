@@ -78,7 +78,7 @@ namespace Services.Api.Business.Departments.Selling.Services
         /// <summary>
         /// Veritabanı iş birimi nesnesi
         /// </summary>
-        private readonly IUnitOfWork<SellingContext> _unitOfWork;
+        private readonly IEfUnitOfWork<SellingContext> _unitOfWork;
 
         /// <summary>
         /// Dil çeviri sağlayıcısı sınıf
@@ -115,7 +115,7 @@ namespace Services.Api.Business.Departments.Selling.Services
         /// <param name="productionRequestPublisher">Üretilecek ürünler için finans departmanına üretim talebi ileten sınıf nesnesi</param>
         public SellingService(
             IMapper mapper,
-            IUnitOfWork<SellingContext> unitOfWork,
+            IEfUnitOfWork<SellingContext> unitOfWork,
             TranslationProvider translationProvider,
             IDistrubutedCacheProvider redisCacheDataProvider,
             TransactionRepository transactionRepository,

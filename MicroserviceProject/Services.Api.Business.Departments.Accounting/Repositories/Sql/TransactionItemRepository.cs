@@ -30,7 +30,7 @@ namespace Services.Api.Business.Departments.Accounting.Repositories.Sql
         /// İdari işler işlem tablosu için repository sınıfı
         /// </summary>
         /// <param name="unitOfWork">Veritabanı işlemlerini kapsayan iş birimi nesnesi</param>
-        public TransactionItemRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public TransactionItemRepository(ISqlUnitOfWork unitOfWork) : base(unitOfWork)
         {
 
         }

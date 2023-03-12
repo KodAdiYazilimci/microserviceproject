@@ -74,7 +74,7 @@ namespace Services.Api.Business.Departments.CR.Services
         /// <summary>
         /// Veritabanı iş birimi nesnesi
         /// </summary>
-        private readonly IUnitOfWork<CRContext> _unitOfWork;
+        private readonly IEfUnitOfWork<CRContext> _unitOfWork;
 
         /// <summary>
         /// Dil çeviri sağlayıcısı sınıf
@@ -93,7 +93,7 @@ namespace Services.Api.Business.Departments.CR.Services
         /// <param name="customerRepository">Müşteriler repository sınıfı nesnesi</param>
         public CustomerService(
             IMapper mapper,
-            IUnitOfWork<CRContext> unitOfWork,
+            IEfUnitOfWork<CRContext> unitOfWork,
             TranslationProvider translationProvider,
             IDistrubutedCacheProvider distrubutedCacheProvider,
             TransactionRepository transactionRepository,

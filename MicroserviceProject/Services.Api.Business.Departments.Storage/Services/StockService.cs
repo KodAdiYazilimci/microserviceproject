@@ -71,7 +71,7 @@ namespace Services.Api.Business.Departments.Storage.Services
         /// <summary>
         /// Veritabanı iş birimi nesnesi
         /// </summary>
-        private readonly IUnitOfWork<StorageContext> _unitOfWork;
+        private readonly IEfUnitOfWork<StorageContext> _unitOfWork;
 
         /// <summary>
         /// Müşteriler repository sınıfı
@@ -95,7 +95,7 @@ namespace Services.Api.Business.Departments.Storage.Services
         /// <param name="stockRepository">Stoklar repository sınıfı nesnesi</param>
         public StockService(
             IMapper mapper,
-            IUnitOfWork<StorageContext> unitOfWork,
+            IEfUnitOfWork<StorageContext> unitOfWork,
             TranslationProvider translationProvider,
             IDistrubutedCacheProvider distrubutedCacheProvider,
             TransactionRepository transactionRepository,

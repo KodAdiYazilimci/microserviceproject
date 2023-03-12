@@ -31,7 +31,7 @@ namespace Services.Api.Business.Departments.Accounting.Repositories.Sql
         /// Maaş ödemesi tablosu için repository sınıfı
         /// </summary>
         /// <param name="unitOfWork">Veritabanı işlemlerini kapsayan iş birimi nesnesi</param>
-        public SalaryPaymentRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public SalaryPaymentRepository(ISqlUnitOfWork unitOfWork) : base(unitOfWork)
         {
 
         }

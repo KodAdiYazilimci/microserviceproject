@@ -6,7 +6,7 @@ namespace Test.Services.Api.Business.Departments.Accounting.Factories.Repositori
 {
     public class BankAccountRepositoryFactory
     {
-        public static BankAccountRepository GetInstance(IUnitOfWork unitOfWork)
+        public static BankAccountRepository GetInstance(ISqlUnitOfWork unitOfWork)
         {
             return new BankAccountRepository(unitOfWork);
         }

@@ -6,7 +6,7 @@ namespace Test.Services.Api.Business.Departments.IT.Factories.Repositories
 {
     public class WorkerInventoryRepositoryFactory
     {
-        public static WorkerInventoryRepository GetInstance(IUnitOfWork unitOfWork)
+        public static WorkerInventoryRepository GetInstance(ISqlUnitOfWork unitOfWork)
         {
             return new WorkerInventoryRepository(unitOfWork);
         }

@@ -50,7 +50,7 @@ namespace Services.Api.Infrastructure.Authorization.Business.Services
         /// <summary>
         /// Veritabanı iş birimi nesnesi
         /// </summary>
-        private readonly IUnitOfWork<AuthContext> _unitOfWork;
+        private readonly IEfUnitOfWork<AuthContext> _unitOfWork;
 
         private readonly SessionRepository _sessionRepository;
         private readonly UserRepository _userRepository;
@@ -66,7 +66,7 @@ namespace Services.Api.Infrastructure.Authorization.Business.Services
             SessionRepository sessionRepository,
             UserRepository userRepository,
             IDistrubutedCacheProvider redisCacheDataProvider,
-            IUnitOfWork<AuthContext> unitOfWork,
+            IEfUnitOfWork<AuthContext> unitOfWork,
             TranslationProvider translationProvider,
             InformInvalidTokenPublisher informInvalidTokenPublisher)
         {

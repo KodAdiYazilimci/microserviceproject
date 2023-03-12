@@ -6,7 +6,7 @@ namespace Test.Services.Api.Business.Departments.IT.Factories.Repositories
 {
     public class TransactionRepositoryFactory
     {
-        public static TransactionRepository GetInstance(IUnitOfWork unitOfWork)
+        public static TransactionRepository GetInstance(ISqlUnitOfWork unitOfWork)
         {
             return new TransactionRepository(unitOfWork);
         }

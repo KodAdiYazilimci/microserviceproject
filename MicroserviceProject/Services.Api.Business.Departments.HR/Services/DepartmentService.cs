@@ -72,7 +72,7 @@ namespace Services.Api.Business.Departments.HR.Services
         /// <summary>
         /// Veritabanı iş birimi nesnesi
         /// </summary>
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly ISqlUnitOfWork _unitOfWork;
 
         private readonly TranslationProvider _translationProvider;
 
@@ -85,7 +85,7 @@ namespace Services.Api.Business.Departments.HR.Services
         /// <param name="departmentRepository">Departman tablosu için repository sınıfı</param>
         public DepartmentService(
             IMapper mapper,
-            IUnitOfWork unitOfWork,
+            ISqlUnitOfWork unitOfWork,
             TranslationProvider translationProvider,
             IDistrubutedCacheProvider redisCacheDataProvider,
             TransactionRepository transactionRepository,

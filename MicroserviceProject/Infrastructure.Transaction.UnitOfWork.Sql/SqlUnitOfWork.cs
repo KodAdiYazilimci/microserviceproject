@@ -11,7 +11,7 @@ namespace Infrastructure.Transaction.UnitOfWork.Sql
     /// <summary>
     /// Ms SQL veritabanı işlemleri transaction için iş birimi sınıfının temeli
     /// </summary>
-    public abstract class BaseUnitOfWork : IUnitOfWork, IDisposable
+    public abstract class SqlUnitOfWork : ISqlUnitOfWork, IDisposable
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -84,7 +84,7 @@ namespace Infrastructure.Transaction.UnitOfWork.Sql
         /// Ms SQL veritabanı işlemleri transaction için iş birimi sınıfı
         /// </summary>
         /// <param name="configuration">Repository yapılandırmaları için configuration nesnesi</param>
-        public BaseUnitOfWork(IConfiguration configuration)
+        public SqlUnitOfWork(IConfiguration configuration)
         {
             _configuration = configuration;
         }

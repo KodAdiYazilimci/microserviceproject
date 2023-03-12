@@ -32,7 +32,7 @@ namespace Services.Api.Business.Departments.Accounting.Repositories.Sql
         /// Para birimleri tablosu için repository sınıfı
         /// </summary>
         /// <param name="unitOfWork">Veritabanı işlemlerini kapsayan iş birimi nesnesi</param>
-        public CurrencyRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public CurrencyRepository(ISqlUnitOfWork unitOfWork) : base(unitOfWork)
         {
 
         }

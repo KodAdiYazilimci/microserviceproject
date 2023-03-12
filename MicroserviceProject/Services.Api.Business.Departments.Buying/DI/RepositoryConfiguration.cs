@@ -21,7 +21,7 @@ namespace Services.Api.Business.Departments.Buying.DI
         /// <returns></returns>
         public static IServiceCollection RegisterRepositories(this IServiceCollection services)
         {
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ISqlUnitOfWork, UnitOfWork>();
 
             services.AddScoped<InventoryRequestRepository>();
             services.AddScoped<TransactionRepository>();

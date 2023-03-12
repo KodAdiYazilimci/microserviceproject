@@ -21,13 +21,13 @@ namespace Services.Api.Business.Departments.HR.Repositories.Sql
         /// <summary>
         /// Veritabanı işlemlerini kapsayan iş birimi nesnesi
         /// </summary>
-        protected readonly IUnitOfWork UnitOfWork;
+        protected readonly ISqlUnitOfWork UnitOfWork;
 
         /// <summary>
         /// Repository sınıfları için temel sınıf
         /// </summary>
         /// <param name="configuration">Veritabanı işlemlerini kapsayan iş birimi nesnesi</param>
-        public BaseRepository(IUnitOfWork unitOfWork)
+        public BaseRepository(ISqlUnitOfWork unitOfWork)
         {
             UnitOfWork = unitOfWork;
         }

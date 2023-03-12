@@ -6,7 +6,7 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Repositories
 {
     public class TitleRepositoryFactory
     {
-        public static TitleRepository GetInstance(IUnitOfWork unitOfWork)
+        public static TitleRepository GetInstance(ISqlUnitOfWork unitOfWork)
         {
             return new TitleRepository(unitOfWork);
         }

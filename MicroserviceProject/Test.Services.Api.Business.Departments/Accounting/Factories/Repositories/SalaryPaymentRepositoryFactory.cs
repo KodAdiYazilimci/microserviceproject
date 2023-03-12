@@ -6,7 +6,7 @@ namespace Test.Services.Api.Business.Departments.Accounting.Factories.Repositori
 {
     public class SalaryPaymentRepositoryFactory
     {
-        public static SalaryPaymentRepository GetInstance(IUnitOfWork unitOfWork)
+        public static SalaryPaymentRepository GetInstance(ISqlUnitOfWork unitOfWork)
         {
             return new SalaryPaymentRepository(unitOfWork);
         }

@@ -32,7 +32,7 @@ namespace Services.Api.Business.Departments.Accounting.Repositories.Sql
         /// Banka hesabı tablosu için repository sınıfı
         /// </summary>
         /// <param name="unitOfWork">Veritabanı işlemlerini kapsayan iş birimi nesnesi</param>
-        public BankAccountRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public BankAccountRepository(ISqlUnitOfWork unitOfWork) : base(unitOfWork)
         {
 
         }

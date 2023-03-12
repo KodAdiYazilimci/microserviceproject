@@ -20,7 +20,7 @@ namespace Services.Api.Infrastructure.Logging.Configuration.Services.Repositorie
         /// <returns></returns>
         public static IServiceCollection RegisterRepositories(this IServiceCollection services)
         {
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ISqlUnitOfWork, UnitOfWork>();
 
             services.AddSingleton<RequestResponseLogRepository>();
 

@@ -31,7 +31,7 @@ namespace Services.Business.Departments.Finance.Repositories.Sql
         /// Üretilecek ürünlerin üretim talepleri tablosu için repository sınıfı
         /// </summary>
         /// <param name="unitOfWork">Veritabanı işlemlerini kapsayan iş birimi nesnesi</param>
-        public ProductionRequestRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public ProductionRequestRepository(ISqlUnitOfWork unitOfWork) : base(unitOfWork)
         {
 
         }
