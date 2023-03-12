@@ -69,7 +69,7 @@ namespace Services.Api.Business.Departments.Production.Services
         /// <summary>
         /// Veritabanı iş birimi nesnesi
         /// </summary>
-        private readonly IUnitOfWork<ProductionContext> _unitOfWork;
+        private readonly IEfUnitOfWork<ProductionContext> _unitOfWork;
 
         /// <summary>
         /// Müşteriler repository sınıfı
@@ -93,7 +93,7 @@ namespace Services.Api.Business.Departments.Production.Services
         /// <param name="productRepository">Ürünler repository sınıfı nesnesi</param>
         public ProductService(
             IMapper mapper,
-            IUnitOfWork<ProductionContext> unitOfWork,
+            IEfUnitOfWork<ProductionContext> unitOfWork,
             TranslationProvider translationProvider,
             IDistrubutedCacheProvider redisCacheDataProvider,
             TransactionRepository transactionRepository,

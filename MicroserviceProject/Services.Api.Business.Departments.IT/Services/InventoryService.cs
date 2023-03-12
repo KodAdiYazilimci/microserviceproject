@@ -99,7 +99,7 @@ namespace Services.Api.Business.Departments.IT.Services
         /// <summary>
         /// Veritabanı iş birimi nesnesi
         /// </summary>
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly ISqlUnitOfWork _unitOfWork;
 
         /// <summary>
         /// Dil çeviri sağlayıcısı sınıf
@@ -120,7 +120,7 @@ namespace Services.Api.Business.Departments.IT.Services
         /// <param name="pendingWorkerInventoryRepository">Çalışanlara verilecek stoğu olmayan envanterler tablosu nesnesi</param>
         public InventoryService(
             IMapper mapper,
-            IUnitOfWork unitOfWork,
+            ISqlUnitOfWork unitOfWork,
             TranslationProvider translationProvider,
             IDistrubutedCacheProvider redisCacheDataProvider,
             CreateInventoryRequestPublisher createInventoryRequestPublisher,

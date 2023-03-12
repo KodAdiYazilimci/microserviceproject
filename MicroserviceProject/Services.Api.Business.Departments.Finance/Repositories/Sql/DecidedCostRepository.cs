@@ -31,7 +31,7 @@ namespace Services.Business.Departments.Finance.Repositories.Sql
         /// Karar verilen masraflar tablosu için repository sınıfı
         /// </summary>
         /// <param name="unitOfWork">Veritabanı işlemlerini kapsayan iş birimi nesnesi</param>
-        public DecidedCostRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public DecidedCostRepository(ISqlUnitOfWork unitOfWork) : base(unitOfWork)
         {
 
         }

@@ -84,7 +84,7 @@ namespace Services.Api.Business.Departments.Buying.Services
         /// <summary>
         /// Veritabanı iş birimi nesnesi
         /// </summary>
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly ISqlUnitOfWork _unitOfWork;
 
         /// <summary>
         /// Dil çeviri sağlayıcısı sınıf
@@ -135,7 +135,7 @@ namespace Services.Api.Business.Departments.Buying.Services
         /// <param name="inventoryRequestPublisher">Satınalma departmanından alınması istenilen envanter talepleri için kayıt açan nesne</param>
         public RequestService(
             IMapper mapper,
-            IUnitOfWork unitOfWork,
+            ISqlUnitOfWork unitOfWork,
             TranslationProvider translationProvider,
             IDistrubutedCacheProvider redisCacheDataProvider,
             TransactionRepository transactionRepository,

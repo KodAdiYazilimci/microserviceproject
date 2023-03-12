@@ -32,7 +32,7 @@ namespace Services.Api.Business.Departments.AA.Repositories.Sql
         /// Envanter varsayılanları tablosu için repository sınıfı
         /// </summary>
         /// <param name="unitOfWork">Veritabanı işlemlerini kapsayan iş birimi nesnesi</param>
-        public InventoryDefaultsRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public InventoryDefaultsRepository(ISqlUnitOfWork unitOfWork) : base(unitOfWork)
         {
 
         }

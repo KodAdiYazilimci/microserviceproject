@@ -75,7 +75,7 @@ namespace Services.Api.Business.Departments.Production.Services
         /// <summary>
         /// Veritabanı iş birimi nesnesi
         /// </summary>
-        private readonly IUnitOfWork<ProductionContext> _unitOfWork;
+        private readonly IEfUnitOfWork<ProductionContext> _unitOfWork;
 
         /// <summary>
         /// Ürünler repository sınıfı
@@ -141,7 +141,7 @@ namespace Services.Api.Business.Departments.Production.Services
         /// <param name="increaseProductStockPublisher">Depolama departmanına ürün stoğunu artıran kuyruğa kayıt atan sınıf</param>
         public ProductionService(
             IMapper mapper,
-            IUnitOfWork<ProductionContext> unitOfWork,
+            IEfUnitOfWork<ProductionContext> unitOfWork,
             TranslationProvider translationProvider,
             IDistrubutedCacheProvider redisCacheDataProvider,
             TransactionRepository transactionRepository,

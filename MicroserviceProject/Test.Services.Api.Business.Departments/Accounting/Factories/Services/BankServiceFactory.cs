@@ -28,7 +28,7 @@ namespace Test.Services.Api.Business.Departments.Accounting.Factories.Services
                 IConfiguration configuration = ConfigurationFactory.GetConfiguration();
                 IMapper mapper = MappingFactory.GetInstance(new MappingProfile());
                 IDistrubutedCacheProvider distrubutedCacheProvider = CacheDataProviderFactory.GetInstance(configuration);
-                IUnitOfWork unitOfWork = new UnitOfWork(configuration);
+                ISqlUnitOfWork unitOfWork = new UnitOfWork(configuration);
 
                 var service = new BankService(
                     mapper: mapper,

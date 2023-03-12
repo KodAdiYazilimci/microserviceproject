@@ -6,7 +6,7 @@ namespace Test.Services.Api.Business.Departments.Accounting.Factories.Repositori
 {
     public class CurrencyRepositoryFactory
     {
-        public static CurrencyRepository GetInstance(IUnitOfWork unitOfWork)
+        public static CurrencyRepository GetInstance(ISqlUnitOfWork unitOfWork)
         {
             return new CurrencyRepository(unitOfWork);
         }

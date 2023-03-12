@@ -64,7 +64,7 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Services
                     credentialProvider: credentialProvider,
                     communicator: defaultCommunicator);
 
-                IUnitOfWork unitOfWork = new UnitOfWork(configuration);
+                ISqlUnitOfWork unitOfWork = new UnitOfWork(configuration);
 
                 var service = new PersonService
                     (

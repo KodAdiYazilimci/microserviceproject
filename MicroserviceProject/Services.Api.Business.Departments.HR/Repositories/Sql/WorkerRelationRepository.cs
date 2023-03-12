@@ -31,7 +31,7 @@ namespace Services.Api.Business.Departments.HR.Repositories.Sql
         /// Çalışan ilişkileri tablosu için repository sınıfı
         /// </summary>
         /// <param name="unitOfWork">Veritabanı işlemlerini kapsayan iş birimi nesnesi</param>
-        public WorkerRelationRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public WorkerRelationRepository(ISqlUnitOfWork unitOfWork) : base(unitOfWork)
         {
 
         }

@@ -6,7 +6,7 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Repositories
 {
     public class WorkerRelationRepositoryFactory
     {
-        public static WorkerRelationRepository GetInstance(IUnitOfWork unitOfWork)
+        public static WorkerRelationRepository GetInstance(ISqlUnitOfWork unitOfWork)
         {
             return new WorkerRelationRepository(unitOfWork);
         }

@@ -28,7 +28,7 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Services
                 IConfiguration configuration = ConfigurationFactory.GetConfiguration();
                 IMapper mapper = MappingFactory.GetInstance(new MappingProfile());
                 IDistrubutedCacheProvider redisCacheDataProvider = CacheDataProviderFactory.GetInstance(configuration);
-                IUnitOfWork unitOfWork = new UnitOfWork(configuration);
+                ISqlUnitOfWork unitOfWork = new UnitOfWork(configuration);
 
                 var service = new DepartmentService
                     (
