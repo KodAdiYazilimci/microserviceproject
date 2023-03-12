@@ -4,6 +4,8 @@ using Microsoft.Extensions.Hosting;
 
 using Services.Communication.Mq.Queue.Storage.Rabbit.Consumers;
 
+using System.Threading;
+
 namespace Services.MQ.Storage
 {
     public class Program
@@ -15,7 +17,7 @@ namespace Services.MQ.Storage
             DescendProductStockConsumer descendProductStockConsumer =
                     (DescendProductStockConsumer)host.Services.GetService(typeof(DescendProductStockConsumer));
 
-            descendProductStockConsumer.StartToConsume();
+            descendProductStockConsumer.StartConsumeAsync(new CancellationTokenSource());
 
             host.Run();
         }

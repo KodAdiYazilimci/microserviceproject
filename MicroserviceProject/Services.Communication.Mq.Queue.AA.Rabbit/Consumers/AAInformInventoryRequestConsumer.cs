@@ -46,14 +46,14 @@ namespace Services.Communication.Mq.Queue.AA.Rabbit.Consumers
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            Http.Broker.Department.AA.Models.AAInventoryRequestModel inventoryRequestModel = 
+            Http.Broker.Department.AA.Models.AAInventoryRequestModel inventoryRequestModel =
                 new Http.Broker.Department.AA.Models.AAInventoryRequestModel
-            {
-                Amount = data.Amount,
-                Done = data.Done,
-                InventoryId = data.InventoryId,
-                Revoked = data.Revoked
-            };
+                {
+                    Amount = data.Amount,
+                    Done = data.Done,
+                    InventoryId = data.InventoryId,
+                    Revoked = data.Revoked
+                };
 
             await _aaCommunicator.InformInventoryRequestAsync(new AAInformInventoryRequestCommandRequest()
             {
@@ -64,9 +64,9 @@ namespace Services.Communication.Mq.Queue.AA.Rabbit.Consumers
         /// <summary>
         /// Kayıtları yakalamaya başlar
         /// </summary>
-        public void StartToConsume()
+        public async Task StartToConsumeAsync(CancellationTokenSource cancellationTokenSource)
         {
-            _consumer.StartToConsume();
+            await _consumer.StartConsumeAsync(cancellationTokenSource);
         }
 
         /// <summary>

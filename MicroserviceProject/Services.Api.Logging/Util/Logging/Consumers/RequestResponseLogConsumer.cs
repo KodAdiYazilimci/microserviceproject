@@ -43,9 +43,9 @@ namespace Services.Api.Infrastructure.Logging.Util.Logging.Consumers
             _requestResponseRepository = new RequestResponseLogRepository(configuration);
         }
 
-        public void StartToConsume()
+        public async Task StartConsumeAsync(CancellationTokenSource cancellationTokenSource)
         {
-            _defaultLogProducer.StartToConsume();
+            await _defaultLogProducer.StartConsumeAsync(cancellationTokenSource);
         }
 
         /// <summary>

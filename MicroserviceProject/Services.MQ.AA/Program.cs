@@ -4,6 +4,8 @@ using Microsoft.Extensions.Hosting;
 
 using Services.Communication.Mq.Queue.AA.Rabbit.Consumers;
 
+using System.Threading;
+
 namespace Services.MQ.AA
 {
     public class Program
@@ -15,12 +17,14 @@ namespace Services.MQ.AA
             AAAssignInventoryToWorkerConsumer assignInventoryToWorkerConsumer =
                     (AAAssignInventoryToWorkerConsumer)host.Services.GetService(typeof(AAAssignInventoryToWorkerConsumer));
 
-            assignInventoryToWorkerConsumer.StartToConsume();
+            var cancellationTokenSource = new CancellationTokenSource();
+
+            assignInventoryToWorkerConsumer.StartConsumeAsync(cancellationTokenSource);
 
             AAInformInventoryRequestConsumer informInventoryRequestConsumer =
                 (AAInformInventoryRequestConsumer)host.Services.GetService(typeof(AAInformInventoryRequestConsumer));
 
-            informInventoryRequestConsumer.StartToConsume();
+            informInventoryRequestConsumer.StartToConsumeAsync(cancellationTokenSource);
 
             host.Run();
         }

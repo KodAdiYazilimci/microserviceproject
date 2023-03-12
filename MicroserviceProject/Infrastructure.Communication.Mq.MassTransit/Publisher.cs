@@ -1,10 +1,11 @@
-﻿using Infrastructure.Communication.Mq.Configuration;
+﻿using Infrastructure.Communication.Mq.Abstraction;
+using Infrastructure.Communication.Mq.Configuration;
 
 using MassTransit;
 
 namespace Infrastructure.Communication.Mq.MassTransit
 {
-    public class Publisher<TModel> : IDisposable where TModel : class
+    public class Publisher<TModel> : IPublisher<TModel>, IDisposable where TModel : class
     {
         private bool disposed = false;
         private IBusControl? busControl = null;
@@ -15,7 +16,7 @@ namespace Infrastructure.Communication.Mq.MassTransit
             _rabbitConfiguration = rabbitConfiguration;
         }
 
-        public async Task PublishAsync(TModel model, CancellationToken cancellationToken = default)
+        public async Task PublishAsync(TModel model, CancellationTokenSource cancellationTokenSource)
         {
             busControl = Bus.Factory.CreateUsingRabbitMq(factory =>
             {
@@ -26,11 +27,11 @@ namespace Infrastructure.Communication.Mq.MassTransit
                 });
             });
 
-            await busControl.StartAsync(cancellationToken);
+            await busControl.StartAsync(cancellationTokenSource.Token);
 
-            await busControl.Publish<TModel>(model, cancellationToken);
+            await busControl.Publish<TModel>(model, cancellationTokenSource.Token);
 
-            await busControl.StopAsync(cancellationToken);
+            await busControl.StopAsync(cancellationTokenSource.Token);
         }
 
         public void Dispose()

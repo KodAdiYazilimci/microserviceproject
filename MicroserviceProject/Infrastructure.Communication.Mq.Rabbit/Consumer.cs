@@ -1,4 +1,5 @@
 ﻿
+using Infrastructure.Communication.Mq.Abstraction;
 using Infrastructure.Communication.Mq.Configuration;
 
 using Newtonsoft.Json;
@@ -8,6 +9,7 @@ using RabbitMQ.Client.Events;
 
 using System;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Communication.Mq.Rabbit
@@ -16,7 +18,7 @@ namespace Infrastructure.Communication.Mq.Rabbit
     /// Rabbit sunucusundaki dataları tüketecek varsayılan sınıf
     /// </summary>
     /// <typeparam name="TModel">Data modelinin tipi</typeparam>
-    public class Consumer<TModel> : IDisposable
+    public class Consumer<TModel> : IConsumer, IDisposable where TModel : class
     {
         /// <summary>
         /// Kaynakların serbest bırakılıp bırakılmadığı bilgisi
@@ -52,7 +54,7 @@ namespace Infrastructure.Communication.Mq.Rabbit
         /// <summary>
         /// Data tüketimini başlatır
         /// </summary>
-        public virtual void StartToConsume()
+        public virtual Task StartConsumeAsync(CancellationTokenSource cancellationTokenSource)
         {
             var factory = new ConnectionFactory()
             {
@@ -75,15 +77,20 @@ namespace Infrastructure.Communication.Mq.Rabbit
 
             consumer.Received += (obj, args) =>
             {
-                var jsonObject = Encoding.UTF8.GetString(args.Body.ToArray());
-
-                if (this.OnConsumed != null)
+                if (!cancellationTokenSource.IsCancellationRequested)
                 {
-                    this.OnConsumed(JsonConvert.DeserializeObject<TModel>(jsonObject));
+                    var jsonObject = Encoding.UTF8.GetString(args.Body.ToArray());
+
+                    if (this.OnConsumed != null)
+                    {
+                        this.OnConsumed(JsonConvert.DeserializeObject<TModel>(jsonObject));
+                    }
                 }
             };
 
             channel.BasicConsume(_rabbitConfiguration.QueueName, autoAck: true, consumer);
+
+            return Task.CompletedTask;
         }
 
         /// <summary>
@@ -111,6 +118,11 @@ namespace Infrastructure.Communication.Mq.Rabbit
 
                 disposed = true;
             }
+        }
+
+        public Task StopConsumeAsync(CancellationTokenSource cancellationTokenSource)
+        {
+            return Task.CompletedTask;
         }
     }
 }

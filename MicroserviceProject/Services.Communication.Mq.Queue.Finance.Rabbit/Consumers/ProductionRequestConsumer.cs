@@ -56,16 +56,16 @@ namespace Services.Communication.Mq.Queue.Finance.Rabbit.Consumers
 
             await _financeCommunicator.CreateProductionRequestAsync(new CreateProductionRequestCommandRequest()
             {
-                 ProductionRequest = productionRequest,
+                ProductionRequest = productionRequest,
             }, data?.TransactionIdentity, cancellationTokenSource);
         }
 
         /// <summary>
         /// Kayıtları yakalamaya başlar
         /// </summary>
-        public void StartToConsume()
+        public async Task StartConsumeAsync(CancellationTokenSource cancellationTokenSource)
         {
-            _consumer.StartToConsume();
+            await _consumer.StartConsumeAsync(cancellationTokenSource);
         }
 
         /// <summary>

@@ -4,6 +4,8 @@ using Microsoft.Extensions.Hosting;
 
 using Services.Communication.Mq.Queue.Buying.Rabbit.Consumers;
 
+using System.Threading;
+
 namespace Services.MQ.Buying
 {
     public class Program
@@ -15,12 +17,14 @@ namespace Services.MQ.Buying
             CreateInventoryRequestConsumer createInventoryRequestConsumer =
                     (CreateInventoryRequestConsumer)host.Services.GetService(typeof(CreateInventoryRequestConsumer));
 
-            createInventoryRequestConsumer.StartToConsume();
+            var cancellationTokenSource = new CancellationTokenSource();
+
+            createInventoryRequestConsumer.StartConsumeAsync(cancellationTokenSource);
 
             NotifyCostApprovementConsumer notifyCostApprovementConsumer =
                 (NotifyCostApprovementConsumer)host.Services.GetService(typeof(NotifyCostApprovementConsumer));
 
-            notifyCostApprovementConsumer.StartToConsume();
+            notifyCostApprovementConsumer.StartConsumeAsync(cancellationTokenSource);
 
             host.Run();
         }
