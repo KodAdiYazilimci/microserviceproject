@@ -28,10 +28,10 @@ spec:
         - name: RABBIT_USERNAME
           valueFrom:
             secretKeyRef:
-              name: rabbitmq-publisher
+              name: rabbitmq-secret
               key: RABBIT_USERNAME
         - name: RABBIT_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: rabbitmq-publisher
+              name: rabbitmq-secret
               key: RABBIT_PASSWORD

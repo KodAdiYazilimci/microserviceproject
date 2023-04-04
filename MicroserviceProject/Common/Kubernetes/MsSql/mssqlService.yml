@@ -9,8 +9,8 @@ spec:
   - port: 1433
     targetPort: 1433
     protocol: TCP
-    # nodePort: 31433
-  type: LoadBalancer
+    nodePort: 31433
+  type: NodePort
   clusterIP: 10.111.80.236
 
   #kubectl port-forward pod/mssql-deployment-7686d78bd5-tcqpj 1433:1433
