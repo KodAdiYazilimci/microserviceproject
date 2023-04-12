@@ -26,10 +26,10 @@ namespace Services.Communication.Http.Broker.Authorization
         private readonly IRouteProvider _routeProvider;
 
         public AuthorizationCommunicator(
-            IRouteProvider routeProvider,
+            //IRouteProvider routeProvider,
             ICommunicator communicator)
         {
-            _routeProvider = routeProvider;
+            //_routeProvider = routeProvider;
             _communicator = communicator;
         }
 
