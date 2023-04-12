@@ -423,6 +423,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Security", "Security", "{F7
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logging", "Logging", "{26C1B188-7BD6-4509-8AFF-E729CA8A7D59}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Api.ServiceDiscovery", "Services.Api.ServiceDiscovery\Services.Api.ServiceDiscovery.csproj", "{AE389247-E7FE-4BE9-8C84-55EC67116626}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure.ServiceDiscovery", "Infrastructure.ServiceDiscovery", "{A73D96AE-0A6C-4543-9EAA-3208F0432413}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.ServiceDiscovery", "Infrastructure.ServiceDiscovery\Infrastructure.ServiceDiscovery.csproj", "{B756C412-16AA-452C-880C-061143955943}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.ServiceDiscovery.Register", "Infrastructure.ServiceDiscovery.Register\Infrastructure.ServiceDiscovery.Register.csproj", "{D600B4EE-E510-4220-B7CB-B3CA3ABF0C21}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.ServiceDiscovery.Discoverer", "Infrastructure.ServiceDiscovery.Discoverer\Infrastructure.ServiceDiscovery.Discoverer.csproj", "{CBC39E7A-13E5-4EFB-9426-7A8411472405}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -961,6 +971,22 @@ Global
 		{7630105B-9A2B-49BC-8095-CDC379BE9151}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7630105B-9A2B-49BC-8095-CDC379BE9151}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7630105B-9A2B-49BC-8095-CDC379BE9151}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE389247-E7FE-4BE9-8C84-55EC67116626}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE389247-E7FE-4BE9-8C84-55EC67116626}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE389247-E7FE-4BE9-8C84-55EC67116626}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE389247-E7FE-4BE9-8C84-55EC67116626}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B756C412-16AA-452C-880C-061143955943}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B756C412-16AA-452C-880C-061143955943}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B756C412-16AA-452C-880C-061143955943}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B756C412-16AA-452C-880C-061143955943}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D600B4EE-E510-4220-B7CB-B3CA3ABF0C21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D600B4EE-E510-4220-B7CB-B3CA3ABF0C21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D600B4EE-E510-4220-B7CB-B3CA3ABF0C21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D600B4EE-E510-4220-B7CB-B3CA3ABF0C21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBC39E7A-13E5-4EFB-9426-7A8411472405}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBC39E7A-13E5-4EFB-9426-7A8411472405}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBC39E7A-13E5-4EFB-9426-7A8411472405}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBC39E7A-13E5-4EFB-9426-7A8411472405}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1125,6 +1151,11 @@ Global
 		{7541C820-F43F-4E74-BDA8-1DF45AE410D2} = {2EE70AFD-E3E7-49A0-9A36-5C36844C0EA0}
 		{F704CBBF-9C07-4979-8205-B9FD7C8080B8} = {2EE70AFD-E3E7-49A0-9A36-5C36844C0EA0}
 		{26C1B188-7BD6-4509-8AFF-E729CA8A7D59} = {2EE70AFD-E3E7-49A0-9A36-5C36844C0EA0}
+		{AE389247-E7FE-4BE9-8C84-55EC67116626} = {1B7B3E01-E070-44FD-9E87-9B6072018B09}
+		{A73D96AE-0A6C-4543-9EAA-3208F0432413} = {B29D6F56-F461-4BE8-80D8-6F92897F9EAA}
+		{B756C412-16AA-452C-880C-061143955943} = {A73D96AE-0A6C-4543-9EAA-3208F0432413}
+		{D600B4EE-E510-4220-B7CB-B3CA3ABF0C21} = {A73D96AE-0A6C-4543-9EAA-3208F0432413}
+		{CBC39E7A-13E5-4EFB-9426-7A8411472405} = {A73D96AE-0A6C-4543-9EAA-3208F0432413}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5FD68A04-D16D-49EC-9D04-25E6B952DA89}
