@@ -1,5 +1,4 @@
 ﻿using Infrastructure.Communication.Http.Constants;
-using Infrastructure.Communication.Http.Models;
 
 namespace Infrastructure.Communication.Http.Endpoint.Abstract
 {

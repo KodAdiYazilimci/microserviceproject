@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Services.Api.Infrastructure.Authorization.Persistence.Sql.Exceptions
+namespace Services.Api.Authorization.Persistence.Sql.Exceptions
 {
     /// <summary>
     /// Kullanıcı bulunamadı istisnası

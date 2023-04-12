@@ -1,4 +1,4 @@
-﻿namespace Services.Api.Infrastructure.Authorization.Entities.EntityFramework
+﻿namespace Services.Api.Authorization.Entities.EntityFramework
 {
     public class PolicyRole : BaseEntity
     {

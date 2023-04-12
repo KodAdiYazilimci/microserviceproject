@@ -6,7 +6,7 @@ using Infrastructure.ServiceDiscovery.Register.Registerers;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Infrastructure.ServiceDiscovery.Register._DI
+namespace Infrastructure.ServiceDiscovery.Register.DI
 {
     public static class ServiceRegistererConfiguration
     {

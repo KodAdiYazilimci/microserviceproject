@@ -1,9 +1,9 @@
 ﻿
 using Microsoft.Extensions.DependencyInjection;
 
-using Services.Api.Infrastructure.Authorization.Repositories;
+using Services.Api.Authorization.Repositories;
 
-namespace Services.Api.Infrastructure.Authorization.DI
+namespace Services.Api.Authorization.DI
 {
     /// <summary>
     /// Repository DI sınıfı

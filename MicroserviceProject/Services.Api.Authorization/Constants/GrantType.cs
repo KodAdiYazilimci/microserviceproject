@@ -1,4 +1,4 @@
-﻿namespace Services.Api.Infrastructure.Authorization.Constants
+﻿namespace Services.Api.Authorization.Constants
 {
     /// <summary>
     /// Token talep tipleri

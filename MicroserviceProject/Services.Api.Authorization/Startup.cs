@@ -2,6 +2,7 @@
 using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Diagnostics.HealthCheck.Util;
 using Infrastructure.Localization.Translation.Provider.DI;
+using Infrastructure.ServiceDiscovery.Register.DI;
 using Infrastructure.Util.DI;
 
 using Microsoft.AspNetCore.Builder;
@@ -10,9 +11,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+using Services.Api.Authorization.Configuration.Persistence;
 using Services.Api.Authorization.DI;
-using Services.Api.Infrastructure.Authorization.Configuration.Persistence;
-using Services.Api.Infrastructure.Authorization.DI;
 using Services.Communication.Mq.Queue.Authorization.DI;
 using Services.Communication.Mq.Queue.Authorization.Rabbit.DI;
 using Services.Logging.Exception.DI;
@@ -20,7 +20,7 @@ using Services.Logging.RequestResponse.DI;
 using Services.UnitOfWork.EntityFramework.DI;
 using Services.Util.Exception.Handlers;
 
-namespace Services.Api.Infrastructure.Authorization
+namespace Services.Api.Authorization
 {
     public class Startup
     {
@@ -46,6 +46,7 @@ namespace Services.Api.Infrastructure.Authorization
             services.RegisterRequestResponseLogger();
             services.RegisterSqlHealthChecking();
             services.RegisterSwagger();
+            services.RegisterServiceRegisterers();
 
             services.AddControllers();
         }
@@ -82,6 +83,8 @@ namespace Services.Api.Infrastructure.Authorization
             {
                 options.SwaggerEndpoint("/swagger/CoreSwagger/swagger.json", "CoreSwagger");
             });
+
+            app.RegisterService();
         }
     }
 }

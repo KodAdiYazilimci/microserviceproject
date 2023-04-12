@@ -44,11 +44,6 @@ namespace Presentation.Monitoring.Security.Console
             AuthorizationCommunicator authorizationCommunicator =
                new AuthorizationCommunicator
                (
-                   routeProvider: RouteProviderFactory.GetRouteProvider
-                   (
-                       serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration),
-                       inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance
-                   ),
                    communicator: DefaultCommunicatorProvider.GetDefaultCommunicator
                    (
                        httpGetCaller: HttpGetCallerFactory.Instance,

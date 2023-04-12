@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-using Services.Api.Infrastructure.Authorization.Entities.EntityFramework;
+using Services.Api.Authorization.Entities.EntityFramework;
 
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Services.Api.Infrastructure.Authorization.Repositories
+namespace Services.Api.Authorization.Repositories
 {
     /// <summary>
     /// Repository sınıfları için temel sınıf

@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-using Services.Api.Infrastructure.Authorization.Entities.EntityFramework;
+using Services.Api.Authorization.Entities.EntityFramework;
 
-namespace Services.Api.Infrastructure.Authorization.Configuration.Persistence
+namespace Services.Api.Authorization.Configuration.Persistence
 {
     public class AuthContext : DbContext
     {

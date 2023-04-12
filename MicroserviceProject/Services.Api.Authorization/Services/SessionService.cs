@@ -8,11 +8,11 @@ using Infrastructure.Transaction.UnitOfWork.EntityFramework;
 
 using Microsoft.EntityFrameworkCore;
 
-using Services.Api.Infrastructure.Authorization.Configuration.Persistence;
-using Services.Api.Infrastructure.Authorization.Constants;
-using Services.Api.Infrastructure.Authorization.Entities.EntityFramework;
-using Services.Api.Infrastructure.Authorization.Persistence.Sql.Exceptions;
-using Services.Api.Infrastructure.Authorization.Repositories;
+using Services.Api.Authorization.Configuration.Persistence;
+using Services.Api.Authorization.Constants;
+using Services.Api.Authorization.Entities.EntityFramework;
+using Services.Api.Authorization.Persistence.Sql.Exceptions;
+using Services.Api.Authorization.Repositories;
 using Services.Communication.Http.Broker.Authorization.Models;
 using Services.Communication.Mq.Queue.Authorization.Models;
 using Services.Communication.Mq.Queue.Authorization.Rabbit.Publishers;
@@ -23,7 +23,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Services.Api.Infrastructure.Authorization.Business.Services
+namespace Services.Api.Authorization.Business.Services
 {
     public class SessionService : BaseService, IDisposable, IDisposableInjectionsAsync
     {

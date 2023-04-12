@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace Services.Api.Infrastructure.Authorization.Entities.EntityFramework
+namespace Services.Api.Authorization.Entities.EntityFramework
 {
     /// <summary>
     /// Kullanıcının modeli

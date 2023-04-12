@@ -1,14 +1,14 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
 
-using Services.Api.Infrastructure.Authorization.Configuration.Persistence;
-using Services.Api.Infrastructure.Authorization.Entities.EntityFramework;
+using Services.Api.Authorization.Configuration.Persistence;
+using Services.Api.Authorization.Entities.EntityFramework;
 
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Services.Api.Infrastructure.Authorization.Repositories
+namespace Services.Api.Authorization.Repositories
 {
     /// <summary>
     /// Kullanıcı repository sınıfı

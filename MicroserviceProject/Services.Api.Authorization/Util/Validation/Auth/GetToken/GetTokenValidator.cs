@@ -5,14 +5,14 @@ using Infrastructure.Communication.Http.Models;
 using Infrastructure.Validation.Models;
 
 using Services.Communication.Http.Broker.Authorization.Models;
-using Services.Api.Infrastructure.Authorization.Configuration.Validation.Auth.GetToken;
+using Services.Api.Authorization.Configuration.Validation.Auth.GetToken;
 
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Services.Api.Infrastructure.Authorization.Util.Validation.Auth.GetToken
+namespace Services.Api.Authorization.Util.Validation.Auth.GetToken
 {
     /// <summary>
     /// Auth/GetToken endpoint için validasyon
