@@ -2,12 +2,12 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-using Services.Api.Infrastructure.Authorization.Configuration.Persistence;
+using Services.Api.Authorization.Configuration.Persistence;
 
 using System;
 using System.Diagnostics;
 
-namespace Services.Api.Infrastructure.Authorization.DI
+namespace Services.Api.Authorization.DI
 {
     /// <summary>
     /// Veri saklayıcıların DI sınıfı

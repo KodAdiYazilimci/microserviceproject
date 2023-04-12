@@ -3,7 +3,7 @@ using FluentValidation;
 
 using Services.Communication.Http.Broker.Authorization.Models;
 
-namespace Services.Api.Infrastructure.Authorization.Configuration.Validation.Auth.GetToken
+namespace Services.Api.Authorization.Configuration.Validation.Auth.GetToken
 {
     /// <summary>
     /// Auth/GetToken endpoint için validasyon kuralı

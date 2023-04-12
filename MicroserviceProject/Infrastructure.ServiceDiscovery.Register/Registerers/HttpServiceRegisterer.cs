@@ -31,12 +31,12 @@ namespace Infrastructure.ServiceDiscovery.Register.Registerers
             {
                 ServiceResultModel serviceResult = await _httpPostCaller.CallAsync<ServiceModel, ServiceResultModel>(new RegisterEndpoint()
                 {
-                    Url = solidService.Address,
+                    Url = solidService.RegisterAddress,
                     HttpAction = HttpAction.POST,
                     EndpointAuthentication = new AnonymouseAuthentication()
                 }, service, cancellationTokenSource);
 
-                if (serviceResult == null || serviceResult.IsSuccess)
+                if (serviceResult == null || !serviceResult.IsSuccess)
                     throw new ServiceCouldtNotRegisteredToSolidException(serviceResult?.ErrorModel?.Description ?? "Service couldn't registered to solid");
             }
             else

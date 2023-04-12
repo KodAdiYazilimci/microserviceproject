@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Services.Api.Infrastructure.Authorization.Migrations
+namespace Services.Api.Authorization.Migrations
 {
     public partial class update3 : Migration
     {

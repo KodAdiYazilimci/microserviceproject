@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Services.Api.Infrastructure.Authorization.Persistence.Sql.Exceptions
+namespace Services.Api.Authorization.Persistence.Sql.Exceptions
 {
     /// <summary>
     /// Oturum bilgisi bulunamadı istisnası

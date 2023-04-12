@@ -8,7 +8,7 @@ using Infrastructure.ServiceDiscovery.Providers;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Infrastructure.ServiceDiscovery.Discoverer._DI
+namespace Infrastructure.ServiceDiscovery.Discoverer.DI
 {
     public static class ServiceDiscovererConfiguration
     {

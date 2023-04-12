@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Services.Communication.Http.Broker\Services.Communication.Http.Broker.csproj" />
+    <ProjectReference Include="..\Services.Communication.Http.Endpoints.Authorization\Services.Communication.Http.Endpoints.Authorization.csproj" />
   </ItemGroup>
 
 </Project>

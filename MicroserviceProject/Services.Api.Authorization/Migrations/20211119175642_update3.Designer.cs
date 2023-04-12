@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Services.Api.Infrastructure.Authorization.Configuration.Persistence;
+using Services.Api.Authorization.Configuration.Persistence;
 
-namespace Services.Api.Infrastructure.Authorization.Migrations
+namespace Services.Api.Authorization.Migrations
 {
     [DbContext(typeof(AuthContext))]
     [Migration("20211119175642_update3")]

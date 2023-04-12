@@ -10,8 +10,8 @@ namespace Infrastructure.ServiceDiscovery.Models
         public string Name { get; set; }
         public string Url { get; set; }
         public HttpAction HttpAction { get; set; }
-        public List<HttpHeaderModel> Headers { get; set; }
-        public List<HttpQueryModel> Queries { get; set; }
+        public List<HttpHeaderModel> Headers { get; set; } = new List<HttpHeaderModel>();
+        public List<HttpQueryModel> Queries { get; set; } = new List<HttpQueryModel>();
         public EndpointAuthentications EndpointAuthentication { get; set; }
         public List<HttpStatusCode> StatusCodes { get; set; }
     }

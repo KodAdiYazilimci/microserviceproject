@@ -4,15 +4,15 @@ using Infrastructure.Communication.Http.Models;
 using Microsoft.AspNetCore.Mvc;
 
 using Services.Communication.Http.Broker.Authorization.Models;
-using Services.Api.Infrastructure.Authorization.Business.Services;
-using Services.Api.Infrastructure.Authorization.Persistence.Sql.Exceptions;
-using Services.Api.Infrastructure.Authorization.Util.Validation.Auth.GetToken;
+using Services.Api.Authorization.Business.Services;
+using Services.Api.Authorization.Persistence.Sql.Exceptions;
+using Services.Api.Authorization.Util.Validation.Auth.GetToken;
 
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Services.Api.Infrastructure.Authorization.Controllers
+namespace Services.Api.Authorization.Controllers
 {
     [Route("Auth")]
     public class AuthController : Controller

@@ -49,7 +49,7 @@ namespace Infrastructure.ServiceDiscovery.Discoverer.Discovers
                 {
                     ServiceResultModel<ServiceModel> serviceResult = await _httpGetCaller.CallAsync<ServiceResultModel<ServiceModel>>(new DiscoverEndpoint()
                     {
-                        Url = solidService.Address,
+                        Url = solidService.DiscoverAddress,
                         HttpAction = HttpAction.GET,
                         EndpointAuthentication = new AnonymouseAuthentication(),
                         Queries = new Dictionary<string, string>(new List<KeyValuePair<string, string>>()

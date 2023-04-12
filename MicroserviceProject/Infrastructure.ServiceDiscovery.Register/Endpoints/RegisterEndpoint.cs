@@ -9,8 +9,8 @@ namespace Infrastructure.ServiceDiscovery.Register.Endpoints
         public string Name { get; set; }
         public object? Payload { get; set; }
         public HttpAction HttpAction { get; set; }
-        public Dictionary<string, string> Headers { get; set; }
-        public Dictionary<string, string> Queries { get; set; }
+        public Dictionary<string, string> Headers { get; set; } = new Dictionary<string, string>();
+        public Dictionary<string, string> Queries { get; set; } = new Dictionary<string, string>();
         public IEndpointAuthentication EndpointAuthentication { get; set; }
     }
 }

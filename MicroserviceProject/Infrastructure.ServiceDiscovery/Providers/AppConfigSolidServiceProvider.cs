@@ -19,7 +19,8 @@ namespace Infrastructure.ServiceDiscovery.Providers
             return new SolidServiceModel()
             {
                 Name = _configuration.GetSection("Configuration").GetSection("SolidService")["Name"].ToString(),
-                Address = _configuration.GetSection("Configuration").GetSection("SolidService")["Address"].ToString()
+                RegisterAddress = _configuration.GetSection("Configuration").GetSection("SolidService")["RegisterAddress"].ToString(),
+                DiscoverAddress = _configuration.GetSection("Configuration").GetSection("SolidService")["DiscoverAddress"].ToString()
             };
         }
     }

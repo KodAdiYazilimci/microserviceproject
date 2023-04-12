@@ -12,7 +12,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Services.Api.Infrastructure.Authorization
+namespace Services.Api.Authorization
 {
     public interface IHttpRequestTimeFeature
     {

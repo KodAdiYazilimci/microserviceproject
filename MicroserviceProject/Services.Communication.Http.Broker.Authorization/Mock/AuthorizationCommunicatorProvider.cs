@@ -11,7 +11,7 @@ namespace Services.Communication.Http.Broker.Authorization.Mock
             IRouteProvider routeProvider,
             ICommunicator communicator)
         {
-            return new AuthorizationCommunicator(routeProvider, communicator);
+            return new AuthorizationCommunicator(communicator);
         }
     }
 }

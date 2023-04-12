@@ -1,9 +1,9 @@
 ﻿
 using Microsoft.Extensions.DependencyInjection;
 
-using Services.Api.Infrastructure.Authorization.Business.Services;
+using Services.Api.Authorization.Business.Services;
 
-namespace Services.Api.Infrastructure.Authorization.DI
+namespace Services.Api.Authorization.DI
 {
     /// <summary>
     /// İş mantığı servisleri DI sınıfı

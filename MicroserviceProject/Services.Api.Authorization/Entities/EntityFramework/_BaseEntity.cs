@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Services.Api.Infrastructure.Authorization.Entities.EntityFramework
+namespace Services.Api.Authorization.Entities.EntityFramework
 {
     public abstract class BaseEntity
     {
