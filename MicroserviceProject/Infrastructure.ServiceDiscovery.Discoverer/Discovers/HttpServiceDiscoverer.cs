@@ -1,4 +1,4 @@
-﻿using Infrastructure.Caching.InMemory;
+﻿using Infrastructure.Caching.Abstraction;
 using Infrastructure.Communication.Http.Broker;
 using Infrastructure.Communication.Http.Constants;
 using Infrastructure.Communication.Http.Endpoint.Authentication;
@@ -19,10 +19,10 @@ namespace Infrastructure.ServiceDiscovery.Discoverer.Discovers
         private readonly ISolidServiceProvider _solidServiceProvider;
         private readonly ISolidServiceConfiguration _solidServiceConfiguration;
         private readonly HttpGetCaller _httpGetCaller;
-        private readonly InMemoryCacheDataProvider _inMemoryCacheDataProvider;
+        private readonly IInMemoryCacheDataProvider _inMemoryCacheDataProvider;
 
         public HttpServiceDiscoverer(
-            InMemoryCacheDataProvider inMemoryCacheDataProvider,
+            IInMemoryCacheDataProvider inMemoryCacheDataProvider,
             HttpGetCaller httpGetCaller,
             ISolidServiceProvider solidServiceProvider,
             ISolidServiceConfiguration solidServiceConfiguration)
