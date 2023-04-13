@@ -11,10 +11,10 @@ namespace Infrastructure.ServiceDiscovery.Discoverer.Mock
         public static IServiceDiscoverer GetServiceDiscoverer(
             IInMemoryCacheDataProvider inMemoryCacheDataProvider,
             HttpGetCaller httpGetCaller,
-            ISolidServiceProvider solidServiceProvider,
-            ISolidServiceConfiguration solidServiceConfiguration)
+            ISolidServiceConfiguration solidServiceProvider,
+            IDiscoveryConfiguration discoveryConfiguration)
         {
-            return new HttpServiceDiscoverer(inMemoryCacheDataProvider, httpGetCaller, solidServiceProvider, solidServiceConfiguration);
+            return new HttpServiceDiscoverer(inMemoryCacheDataProvider, httpGetCaller, solidServiceProvider, discoveryConfiguration);
         }
     }
 }

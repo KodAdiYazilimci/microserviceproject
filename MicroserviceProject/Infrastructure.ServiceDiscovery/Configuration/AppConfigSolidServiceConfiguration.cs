@@ -2,7 +2,7 @@
 
 using Microsoft.Extensions.Configuration;
 
-namespace Infrastructure.ServiceDiscovery.Configuration
+namespace Infrastructure.ServiceDiscovery.Providers
 {
     public class AppConfigSolidServiceConfiguration : ISolidServiceConfiguration
     {
@@ -13,40 +13,37 @@ namespace Infrastructure.ServiceDiscovery.Configuration
             _configuration = configuration;
         }
 
-        public long ExpirationServiceInfo
+        public string Name
         {
             get
             {
                 return
-                    Convert.ToInt64(
                     _configuration
                     .GetSection("Configuration")
                     .GetSection("ServiceDiscovery")
-                    .GetSection("Discovery")["ExpirationServiceInfo"]);
+                    .GetSection("SolidService")["Name"].ToString();
             }
         }
-
-        public bool OverrideDnsName
+        public string RegisterAddress
         {
             get
             {
                 return
-                    Convert.ToBoolean(
                     _configuration
                     .GetSection("Configuration")
                     .GetSection("ServiceDiscovery")
-                    .GetSection("Registeration")["OverrideDnsName"]);
+                    .GetSection("SolidService")["RegisterAddress"].ToString();
             }
         }
-        public string OverridenDnsName
+        public string DiscoverAddress
         {
             get
             {
                 return
-                   _configuration
-                   .GetSection("Configuration")
-                   .GetSection("ServiceDiscovery")
-                   .GetSection("Registeration")["OverridenDnsName"].ToString();
+                     _configuration
+                     .GetSection("Configuration")
+                     .GetSection("ServiceDiscovery")
+                     .GetSection("SolidService")["DiscoverAddress"].ToString();
             }
         }
     }

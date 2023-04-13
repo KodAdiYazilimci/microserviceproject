@@ -8,29 +8,27 @@ using Infrastructure.ServiceDiscovery.Discoverer.Abstract;
 using Infrastructure.ServiceDiscovery.Discoverer.Endpoints;
 using Infrastructure.ServiceDiscovery.Discoverer.Exceptions;
 using Infrastructure.ServiceDiscovery.Discoverer.Models;
-using Infrastructure.ServiceDiscovery.Exceptions;
-using Infrastructure.ServiceDiscovery.Models;
 
 namespace Infrastructure.ServiceDiscovery.Discoverer.Discovers
 {
     public class HttpServiceDiscoverer : IServiceDiscoverer
     {
         private const string CACHED_SERVICE_NAME_PREFIX = "CACHED_SERVICE_NAME_";
-        private readonly ISolidServiceProvider _solidServiceProvider;
         private readonly ISolidServiceConfiguration _solidServiceConfiguration;
+        private readonly IDiscoveryConfiguration _discoveryConfiguration;
         private readonly HttpGetCaller _httpGetCaller;
         private readonly IInMemoryCacheDataProvider _inMemoryCacheDataProvider;
 
         public HttpServiceDiscoverer(
             IInMemoryCacheDataProvider inMemoryCacheDataProvider,
             HttpGetCaller httpGetCaller,
-            ISolidServiceProvider solidServiceProvider,
-            ISolidServiceConfiguration solidServiceConfiguration)
+            ISolidServiceConfiguration solidServiceConfiguration,
+            IDiscoveryConfiguration discoveryConfiguration)
         {
             _inMemoryCacheDataProvider = inMemoryCacheDataProvider;
             _httpGetCaller = httpGetCaller;
-            _solidServiceProvider = solidServiceProvider;
             _solidServiceConfiguration = solidServiceConfiguration;
+            _discoveryConfiguration = discoveryConfiguration;
         }
 
         public async Task<CachedServiceModel> GetServiceAsync(string serviceName, CancellationTokenSource cancellationTokenSource)
@@ -43,41 +41,34 @@ namespace Infrastructure.ServiceDiscovery.Discoverer.Discovers
             }
             else
             {
-                SolidServiceModel solidService = _solidServiceProvider.GetSolidService();
-
-                if (solidService != null)
+                ServiceResultModel<DiscoveredServiceModel> serviceResult = await _httpGetCaller.CallAsync<ServiceResultModel<DiscoveredServiceModel>>(new DiscoverEndpoint()
                 {
-                    ServiceResultModel<DiscoveredServiceModel> serviceResult = await _httpGetCaller.CallAsync<ServiceResultModel<DiscoveredServiceModel>>(new DiscoverEndpoint()
-                    {
-                        Url = solidService.DiscoverAddress,
-                        HttpAction = HttpAction.GET,
-                        EndpointAuthentication = new AnonymouseAuthentication(),
-                        Queries = new List<HttpQueryModel>()
+                    Url = _solidServiceConfiguration.DiscoverAddress,
+                    HttpAction = HttpAction.GET,
+                    EndpointAuthentication = new AnonymouseAuthentication(),
+                    Queries = new List<HttpQueryModel>()
                         {
                             new HttpQueryModel(){ Name = "ServiceName", Value = serviceName}
                         }
-                    }, cancellationTokenSource);
+                }, cancellationTokenSource);
 
-                    if (serviceResult != null && serviceResult.IsSuccess && serviceResult.Data != null)
+                if (serviceResult != null && serviceResult.IsSuccess && serviceResult.Data != null)
+                {
+                    DateTime validTo = DateTime.Now.AddMinutes(_discoveryConfiguration.ExpirationServiceInfo);
+
+                    return new CachedServiceModel()
                     {
-                        DateTime validTo = DateTime.Now.AddMinutes(_solidServiceConfiguration.ExpirationServiceInfo);
-
-                        return new CachedServiceModel()
-                        {
-                            ValidTo = validTo,
-                            Endpoints = serviceResult.Data.Endpoints,
-                            Port = serviceResult.Data.Port,
-                            Protocol = serviceResult.Data.Protocol,
-                            ServiceName = serviceResult.Data.ServiceName,
-                            DnsName = serviceResult.Data.DnsName,
-                            IpAddresses = serviceResult.Data.IpAddresses,
-                        };
-                    }
-                    else
-                        throw new SolidServiceCouldtNotFetchException(serviceResult?.ErrorModel?.Description ?? "Solid service couldn't fetch");
+                        ValidTo = validTo,
+                        Endpoints = serviceResult.Data.Endpoints,
+                        Port = serviceResult.Data.Port,
+                        Protocol = serviceResult.Data.Protocol,
+                        ServiceName = serviceResult.Data.ServiceName,
+                        DnsName = serviceResult.Data.DnsName,
+                        IpAddresses = serviceResult.Data.IpAddresses,
+                    };
                 }
                 else
-                    throw new SolidServiceNotDefinedException();
+                    throw new SolidServiceCouldtNotFetchException(serviceResult?.ErrorModel?.Description ?? "Solid service couldn't fetch");
             }
         }
     }

@@ -1,8 +1,8 @@
 ﻿using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Communication.Http.Broker.DI;
 using Infrastructure.ServiceDiscovery.Abstract;
-using Infrastructure.ServiceDiscovery.Configuration;
 using Infrastructure.ServiceDiscovery.Discoverer.Abstract;
+using Infrastructure.ServiceDiscovery.Discoverer.Configuration;
 using Infrastructure.ServiceDiscovery.Discoverer.Discovers;
 using Infrastructure.ServiceDiscovery.Providers;
 
@@ -17,8 +17,8 @@ namespace Infrastructure.ServiceDiscovery.Discoverer.DI
             services.RegisterInMemoryCaching();
             services.RegisterHttpServiceCommunicator();
 
+            services.AddSingleton<IDiscoveryConfiguration, AppConfigDiscoveryConfiguration>();
             services.AddSingleton<ISolidServiceConfiguration, AppConfigSolidServiceConfiguration>();
-            services.AddSingleton<ISolidServiceProvider, AppConfigSolidServiceProvider>();
             services.AddSingleton<IServiceDiscoverer, HttpServiceDiscoverer>();
 
             return services;
