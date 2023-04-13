@@ -433,8 +433,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.ServiceDisco
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.ServiceDiscovery.Discoverer", "Infrastructure.ServiceDiscovery.Discoverer\Infrastructure.ServiceDiscovery.Discoverer.csproj", "{CBC39E7A-13E5-4EFB-9426-7A8411472405}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Http.Endpoints.Authorization", "Services.Communication.Http.Endpoints.Authorization\Services.Communication.Http.Endpoints.Authorization.csproj", "{1D8DE53F-2F13-42E0-B86F-4188379E70F1}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -989,10 +987,6 @@ Global
 		{CBC39E7A-13E5-4EFB-9426-7A8411472405}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBC39E7A-13E5-4EFB-9426-7A8411472405}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBC39E7A-13E5-4EFB-9426-7A8411472405}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1D8DE53F-2F13-42E0-B86F-4188379E70F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1D8DE53F-2F13-42E0-B86F-4188379E70F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1D8DE53F-2F13-42E0-B86F-4188379E70F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1D8DE53F-2F13-42E0-B86F-4188379E70F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1162,7 +1156,6 @@ Global
 		{B756C412-16AA-452C-880C-061143955943} = {A73D96AE-0A6C-4543-9EAA-3208F0432413}
 		{D600B4EE-E510-4220-B7CB-B3CA3ABF0C21} = {A73D96AE-0A6C-4543-9EAA-3208F0432413}
 		{CBC39E7A-13E5-4EFB-9426-7A8411472405} = {A73D96AE-0A6C-4543-9EAA-3208F0432413}
-		{1D8DE53F-2F13-42E0-B86F-4188379E70F1} = {C8865F6F-B43B-46D6-9854-42E43A5F82EC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5FD68A04-D16D-49EC-9D04-25E6B952DA89}
