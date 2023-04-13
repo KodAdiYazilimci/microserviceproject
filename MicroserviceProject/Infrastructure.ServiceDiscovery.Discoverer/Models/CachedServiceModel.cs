@@ -1,8 +1,6 @@
-﻿using Infrastructure.ServiceDiscovery.Models;
-
-namespace Infrastructure.ServiceDiscovery.Discoverer.Models
+﻿namespace Infrastructure.ServiceDiscovery.Discoverer.Models
 {
-    public class CachedServiceModel : ServiceModel
+    public class CachedServiceModel : DiscoveredServiceModel
     {
         public DateTime ValidTo { get; set; }
     }

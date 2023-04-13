@@ -4,6 +4,8 @@ using Infrastructure.Communication.Http.Models;
 using Infrastructure.Routing.Persistence.Mock;
 using Infrastructure.Routing.Providers.Mock;
 using Infrastructure.Security.Authentication.Mock;
+using Infrastructure.ServiceDiscovery.Discoverer.Mock;
+using Infrastructure.ServiceDiscovery.Mock;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -43,8 +45,12 @@ namespace Test.Services.Api.Gateway.Public
                        (
                            authorizationCommunicator: AuthorizationCommunicatorProvider.GetAuthorizationCommunicator
                            (
-                               routeProvider: routeProvider,
-                               communicator: defaultCommunicator
+                               communicator: defaultCommunicator,
+                               serviceDiscoverer: HttpServiceDiscovererProvider.GetServiceDiscoverer(
+                                   inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance,
+                                   httpGetCaller: HttpGetCallerFactory.Instance,
+                                   solidServiceProvider: AppConfigSolidServiceProviderProvider.GetSolidServiceConfiguration(configuration),
+                                   solidServiceConfiguration: AppConfigSolidServiceConfigurationProvider.GetSolidServiceConfiguration(configuration))
                            ),
                            inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance,
                            credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),

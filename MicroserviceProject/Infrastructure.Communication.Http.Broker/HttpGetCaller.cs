@@ -21,21 +21,23 @@ namespace Infrastructure.Communication.Http.Broker
 
                 if (endpoint.Headers.Any(x => string.IsNullOrEmpty(x.Value)))
                 {
-                    throw new MissingHeaderException($"Belirtilmemiş header: {endpoint.Headers.FirstOrDefault(x => string.IsNullOrEmpty(x.Value)).Key}");
+                    throw new MissingHeaderException($"Belirtilmemiş header: {endpoint.Headers.FirstOrDefault(x => string.IsNullOrEmpty(x.Value)).Name}");
                 }
 
                 HttpHelper.GenerateHeaders(httpClient, endpoint.Headers);
 
                 if (endpoint.Queries.Any(x => string.IsNullOrEmpty(x.Value)))
                 {
-                    throw new MissingQueryStringException($"Belirtilmemiş query: {endpoint.Queries.FirstOrDefault(x => string.IsNullOrEmpty(x.Value)).Key}");
+                    throw new MissingQueryStringException($"Belirtilmemiş query: {endpoint.Queries.FirstOrDefault(x => string.IsNullOrEmpty(x.Value)).Name}");
                 }
 
                 string url = HttpHelper.GenerateQueryString(endpoint.Url, endpoint.Queries);
 
                 HttpResponseMessage getTask = await httpClient.GetAsync(url, cancellationTokenSource.Token);
 
-                return JsonConvert.DeserializeObject<TResult>(await getTask.Content.ReadAsStringAsync(cancellationTokenSource.Token));
+                string result = await getTask.Content.ReadAsStringAsync(cancellationTokenSource.Token);
+
+                return JsonConvert.DeserializeObject<TResult>(result);
             }
         }
     }

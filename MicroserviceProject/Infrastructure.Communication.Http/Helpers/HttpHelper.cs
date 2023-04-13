@@ -1,31 +1,21 @@
-﻿using Microsoft.AspNetCore.Http.Extensions;
+﻿using Infrastructure.Communication.Http.Models;
 
-using System;
+using Microsoft.AspNetCore.Http.Extensions;
+
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 
 namespace Infrastructure.Communication.Http.Helpers
 {
     public class HttpHelper
     {
-        public static string GenerateQueryString(string baseUrl, Dictionary<string, string> httpQueries)
+        public static string GenerateQueryString(string baseUrl, List<HttpQueryModel> httpQueries)
         {
             QueryBuilder queryBuilder = new QueryBuilder();
 
-            Dictionary<string, bool> queryChecks = httpQueries.ToDictionary(x => x.Key, y => false);
-
-            foreach (KeyValuePair<string, string> query in httpQueries)
+            foreach (HttpQueryModel query in httpQueries)
             {
-                if (queryChecks.Any(x => x.Key == query.Key))
-                    queryChecks[query.Key] = true;
-
-                queryBuilder.Add(query.Key, query.Value);
-            }
-
-            if (queryChecks.Any(x => !x.Value))
-            {
-                throw new Exception();
+                queryBuilder.Add(query.Name, query.Value);
             }
 
             string url = baseUrl + queryBuilder.ToQueryString();
@@ -33,21 +23,11 @@ namespace Infrastructure.Communication.Http.Helpers
             return url;
         }
 
-        public static void GenerateHeaders(HttpClient httpClient, Dictionary<string, string> headers)
+        public static void GenerateHeaders(HttpClient httpClient, List<HttpHeaderModel> headers)
         {
-            Dictionary<string, bool> headerChecks = headers.ToDictionary(x => x.Key, y => false);
-
-            foreach (KeyValuePair<string, string> header in headers)
+            foreach (HttpHeaderModel header in headers)
             {
-                if (headerChecks.Any(x => x.Key == header.Key))
-                    headerChecks[header.Key] = true;
-
-                httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
-            }
-
-            if (headerChecks.Any(x => !x.Value))
-            {
-                throw new Exception();
+                httpClient.DefaultRequestHeaders.Add(header.Name, header.Value);
             }
         }
     }

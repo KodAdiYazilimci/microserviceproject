@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.ServiceDiscovery.Discoverer\Infrastructure.ServiceDiscovery.Discoverer.csproj" />
     <ProjectReference Include="..\Services.Communication.Http.Broker\Services.Communication.Http.Broker.csproj" />
   </ItemGroup>
 

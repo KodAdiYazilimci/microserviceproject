@@ -1,9 +1,9 @@
-﻿using Infrastructure.ServiceDiscovery.Models;
+﻿using Infrastructure.ServiceDiscovery.Register.Models;
 
 namespace Infrastructure.ServiceDiscovery.Register.Abstract
 {
     public interface IServiceRegisterer
     {
-        Task RegisterServiceAsync(ServiceModel service, CancellationTokenSource cancellationTokenSource);
+        Task RegisterServiceAsync(RegisteredServiceModel service, CancellationTokenSource cancellationTokenSource);
     }
 }

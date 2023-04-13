@@ -10,4 +10,8 @@
     <ProjectReference Include="..\Infrastructure.Communication.Http.Endpoint\Infrastructure.Communication.Http.Endpoint.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Constants\" />
+  </ItemGroup>
+
 </Project>

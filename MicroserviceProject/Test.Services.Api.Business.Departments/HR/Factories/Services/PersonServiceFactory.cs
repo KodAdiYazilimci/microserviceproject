@@ -2,7 +2,6 @@
 
 using Infrastructure.Caching.Abstraction;
 using Infrastructure.Caching.InMemory.Mock;
-using Infrastructure.Caching.Redis;
 using Infrastructure.Caching.Redis.Mock;
 using Infrastructure.Communication.Http.Broker.Mock;
 using Infrastructure.Localization.Translation.Persistence.EntityFramework.Mock.Persistence;
@@ -12,6 +11,8 @@ using Infrastructure.Mock.Factories;
 using Infrastructure.Routing.Persistence.Mock;
 using Infrastructure.Routing.Providers.Mock;
 using Infrastructure.Security.Authentication.Mock;
+using Infrastructure.ServiceDiscovery.Discoverer.Mock;
+using Infrastructure.ServiceDiscovery.Mock;
 using Infrastructure.Transaction.UnitOfWork.Sql;
 
 using Microsoft.Extensions.Configuration;
@@ -55,8 +56,12 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Services
                 var httpPostCaller = HttpPostCallerFactory.Instance;
                 var defaultCommunicator = DefaultCommunicatorProvider.GetDefaultCommunicator(httpGetCaller, httpPostCaller);
                 var authorizationCommunicator = AuthorizationCommunicatorProvider.GetAuthorizationCommunicator(
-                    routeProvider: routeProvider,
-                    defaultCommunicator);
+                    communicator: defaultCommunicator,
+                    serviceDiscoverer: HttpServiceDiscovererProvider.GetServiceDiscoverer(
+                        inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance,
+                        httpGetCaller: HttpGetCallerFactory.Instance,
+                        solidServiceProvider: AppConfigSolidServiceProviderProvider.GetSolidServiceConfiguration(configuration),
+                        solidServiceConfiguration: AppConfigSolidServiceConfigurationProvider.GetSolidServiceConfiguration(configuration)));
                 var credentialProvider = CredentialProviderFactory.GetCredentialProvider(configuration);
                 var departmentCommunicator = DepartmentCommunicatorProvider.GetDepartmentCommunicator(
                     authorizationCommunicator: authorizationCommunicator,

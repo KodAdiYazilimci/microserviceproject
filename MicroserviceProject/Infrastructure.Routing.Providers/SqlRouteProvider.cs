@@ -1,6 +1,7 @@
 ﻿using Infrastructure.Caching.Abstraction;
 using Infrastructure.Communication.Http.Constants;
 using Infrastructure.Communication.Http.Endpoint.Abstract;
+using Infrastructure.Communication.Http.Models;
 using Infrastructure.Routing.Exceptions;
 using Infrastructure.Routing.Persistence.Abstract;
 using Infrastructure.Routing.Providers.Abstract;
@@ -42,8 +43,8 @@ namespace Infrastructure.Routing.Providers
                 {
                     endpointInstance.Url = route.Endpoint;
                     endpointInstance.HttpAction = route.CallType == "GET" ? HttpAction.GET : HttpAction.POST;
-                    endpointInstance.Queries = route.QueryKeys.ToDictionary(x => x.Key, y => string.Empty);
-                    endpointInstance.Headers = new Dictionary<string, string>();
+                    endpointInstance.Queries = route.QueryKeys.Select(x => new HttpQueryModel() { Name = x.Key }).ToList();
+                    endpointInstance.Headers = new List<HttpHeaderModel>();
 
                     endpoints.Add(endpointInstance);
 

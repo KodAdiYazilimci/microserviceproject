@@ -41,7 +41,7 @@ namespace Services.Communication.Http.Broker.Department.HR
                 string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers["TransactionIdentity"] = transactionIdentity;
+                endpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
 
                 return await _departmentCommunicator.CallAsync<List<DepartmentModel>>(endpoint, cancellationTokenSource);
             }
@@ -61,7 +61,7 @@ namespace Services.Communication.Http.Broker.Department.HR
                 string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers["TransactionIdentity"] = transactionIdentity;
+                endpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
 
                 return await _departmentCommunicator.CallAsync<CreateDepartmentCommandRequest, Object>(endpoint, request, cancellationTokenSource);
             }
@@ -80,7 +80,7 @@ namespace Services.Communication.Http.Broker.Department.HR
                 string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers["TransactionIdentity"] = transactionIdentity;
+                endpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
 
                 return await _departmentCommunicator.CallAsync<List<PersonModel>>(endpoint, cancellationTokenSource);
             }
@@ -100,7 +100,7 @@ namespace Services.Communication.Http.Broker.Department.HR
                 string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers["TransactionIdentity"] = transactionIdentity;
+                endpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
 
                 return await _departmentCommunicator.CallAsync<CreatePersonCommandRequest, Object>(endpoint, request, cancellationTokenSource);
             }
@@ -119,7 +119,7 @@ namespace Services.Communication.Http.Broker.Department.HR
                 string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers["TransactionIdentity"] = transactionIdentity;
+                endpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
 
                 return await _departmentCommunicator.CallAsync<List<TitleModel>>(endpoint, cancellationTokenSource);
             }
@@ -139,7 +139,7 @@ namespace Services.Communication.Http.Broker.Department.HR
                 string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers["TransactionIdentity"] = transactionIdentity;
+                endpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
 
                 return await _departmentCommunicator.CallAsync<CreateTitleCommandRequest, Object>(endpoint, request, cancellationTokenSource);
             }
@@ -158,7 +158,7 @@ namespace Services.Communication.Http.Broker.Department.HR
                 string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers["TransactionIdentity"] = transactionIdentity;
+                endpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
 
                 return await _departmentCommunicator.CallAsync<List<WorkerModel>>(endpoint, cancellationTokenSource);
             }
@@ -178,7 +178,7 @@ namespace Services.Communication.Http.Broker.Department.HR
                 string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers["TransactionIdentity"] = transactionIdentity;
+                endpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
 
                 return await _departmentCommunicator.CallAsync<CreateWorkerCommandRequest, Object>(endpoint, request, cancellationTokenSource);
             }
@@ -197,7 +197,7 @@ namespace Services.Communication.Http.Broker.Department.HR
                 string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Queries["tokenKey"] = tokenKey;
+                endpoint.Queries.Add(new HttpQueryModel() { Name = "tokenKey", Value = tokenKey });
 
                 return await _departmentCommunicator.CallAsync<List<InventoryModel>>(endpoint, cancellationTokenSource);
             }

@@ -44,7 +44,7 @@ namespace Services.Communication.Http.Broker.Gateway.Public
                 string token = await _authenticationCommunicator.GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers["TransactionIdentity"] = transactionIdentity;
+                endpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
 
                 return await _communicator.CallAsync<List<DepartmentModel>>(endpoint, cancellationTokenSource);
             }
@@ -61,7 +61,7 @@ namespace Services.Communication.Http.Broker.Gateway.Public
                 string token = await _authenticationCommunicator.GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Queries["tokenKey"] = tokenKey;
+                endpoint.Queries.Add(new HttpQueryModel() { Name = "tokenKey", Value = tokenKey });
 
                 return await _communicator.CallAsync<Object>(endpoint, cancellationTokenSource);
             }

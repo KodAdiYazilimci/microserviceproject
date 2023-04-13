@@ -8,6 +8,7 @@ using Infrastructure.ServiceDiscovery.Models;
 using Infrastructure.ServiceDiscovery.Register.Abstract;
 using Infrastructure.ServiceDiscovery.Register.Endpoints;
 using Infrastructure.ServiceDiscovery.Register.Exceptions;
+using Infrastructure.ServiceDiscovery.Register.Models;
 
 namespace Infrastructure.ServiceDiscovery.Register.Registerers
 {
@@ -24,12 +25,12 @@ namespace Infrastructure.ServiceDiscovery.Register.Registerers
             _httpPostCaller = httpPostCaller;
         }
 
-        public async Task RegisterServiceAsync(ServiceModel service, CancellationTokenSource cancellationTokenSource)
+        public async Task RegisterServiceAsync(RegisteredServiceModel service, CancellationTokenSource cancellationTokenSource)
         {
             SolidServiceModel solidService = _solidServiceProvider.GetSolidService();
             if (solidService != null)
             {
-                ServiceResultModel serviceResult = await _httpPostCaller.CallAsync<ServiceModel, ServiceResultModel>(new RegisterEndpoint()
+                ServiceResultModel serviceResult = await _httpPostCaller.CallAsync<RegisteredServiceModel, ServiceResultModel>(new RegisterEndpoint()
                 {
                     Url = solidService.RegisterAddress,
                     HttpAction = HttpAction.POST,

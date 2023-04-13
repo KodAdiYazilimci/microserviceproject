@@ -41,7 +41,7 @@ namespace Services.Communication.Http.Broker.Department.IT
                 string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers["TransactionIdentity"] = transactionIdentity;
+                endpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
 
                 return await _departmentCommunicator.CallAsync<List<ITInventoryModel>>(endpoint, cancellationTokenSource);
             }
@@ -61,7 +61,7 @@ namespace Services.Communication.Http.Broker.Department.IT
                 string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers["TransactionIdentity"] = transactionIdentity;
+                endpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
 
                 return await _departmentCommunicator.CallAsync<ITCreateInventoryCommandRequest, Object>(endpoint, request, cancellationTokenSource);
             }
@@ -80,7 +80,7 @@ namespace Services.Communication.Http.Broker.Department.IT
                 string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers["TransactionIdentity"] = transactionIdentity;
+                endpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
 
                 return await _departmentCommunicator.CallAsync<List<ITDefaultInventoryForNewWorkerModel>>(endpoint, cancellationTokenSource);
             }
@@ -100,7 +100,7 @@ namespace Services.Communication.Http.Broker.Department.IT
                 string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers["TransactionIdentity"] = transactionIdentity;
+                endpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
 
                 return await _departmentCommunicator.CallAsync<ITAssignInventoryToWorkerCommandRequest, Object>(endpoint, request, cancellationTokenSource);
             }
@@ -120,7 +120,7 @@ namespace Services.Communication.Http.Broker.Department.IT
                 string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers["TransactionIdentity"] = transactionIdentity;
+                endpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
 
                 return await _departmentCommunicator.CallAsync<ITCreateDefaultInventoryForNewWorkerCommandRequest, Object>(endpoint, request, cancellationTokenSource);
             }
@@ -140,7 +140,7 @@ namespace Services.Communication.Http.Broker.Department.IT
                 string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers["TransactionIdentity"] = transactionIdentity;
+                endpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
 
                 return await _departmentCommunicator.CallAsync<ITInformInventoryRequestCommandRequest, Object>(endpoint, request, cancellationTokenSource);
             }
@@ -159,7 +159,7 @@ namespace Services.Communication.Http.Broker.Department.IT
                 string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
                 endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Queries["tokenKey"] = tokenKey;
+                endpoint.Queries.Add(new HttpQueryModel() { Name = "tokenKey", Value = tokenKey });
 
                 return await _departmentCommunicator.CallAsync<List<ITInventoryModel>>(endpoint, cancellationTokenSource);
             }
