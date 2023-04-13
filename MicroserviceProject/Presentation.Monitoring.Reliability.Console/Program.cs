@@ -1,4 +1,5 @@
-﻿using Infrastructure.Caching.InMemory.Mock;
+﻿using Infrastructure.Caching.InMemory;
+using Infrastructure.Caching.InMemory.Mock;
 using Infrastructure.Communication.Http.Broker.Mock;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Communication.WebSockets;
@@ -7,6 +8,9 @@ using Infrastructure.Routing.Persistence.Mock;
 using Infrastructure.Routing.Providers.Mock;
 using Infrastructure.Security.Authentication.Abstract;
 using Infrastructure.Security.Authentication.Mock;
+using Infrastructure.ServiceDiscovery.Discoverer.Mock;
+using Infrastructure.ServiceDiscovery.Mock;
+using Infrastructure.ServiceDiscovery.Providers;
 using Infrastructure.Sockets.Persistence.Mock;
 
 using Microsoft.Extensions.Configuration;
@@ -48,7 +52,12 @@ namespace Presentation.Monitoring.Reliability.Console
                     (
                         httpGetCaller: HttpGetCallerFactory.Instance,
                         httpPostCaller: HttpPostCallerFactory.Instance
-                    )
+                    ),
+                    serviceDiscoverer: HttpServiceDiscovererProvider.GetServiceDiscoverer(
+                        inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance,
+                        httpGetCaller: HttpGetCallerFactory.Instance,
+                        solidServiceProvider: AppConfigSolidServiceProviderProvider.GetSolidServiceConfiguration(configuration),
+                        solidServiceConfiguration: AppConfigSolidServiceConfigurationProvider.GetSolidServiceConfiguration(configuration))
                 );
 
             ICredentialProvider credentialProvider = CredentialProviderFactory.GetCredentialProvider(configuration: null);

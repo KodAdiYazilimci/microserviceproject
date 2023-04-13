@@ -47,15 +47,15 @@ namespace Infrastructure.ServiceDiscovery.Discoverer.Discovers
 
                 if (solidService != null)
                 {
-                    ServiceResultModel<ServiceModel> serviceResult = await _httpGetCaller.CallAsync<ServiceResultModel<ServiceModel>>(new DiscoverEndpoint()
+                    ServiceResultModel<DiscoveredServiceModel> serviceResult = await _httpGetCaller.CallAsync<ServiceResultModel<DiscoveredServiceModel>>(new DiscoverEndpoint()
                     {
                         Url = solidService.DiscoverAddress,
                         HttpAction = HttpAction.GET,
                         EndpointAuthentication = new AnonymouseAuthentication(),
-                        Queries = new Dictionary<string, string>(new List<KeyValuePair<string, string>>()
+                        Queries = new List<HttpQueryModel>()
                         {
-                            new KeyValuePair<string, string>("ServiceName", serviceName)
-                        })
+                            new HttpQueryModel(){ Name = "ServiceName", Value = serviceName}
+                        }
                     }, cancellationTokenSource);
 
                     if (serviceResult != null && serviceResult.IsSuccess && serviceResult.Data != null)
@@ -68,7 +68,9 @@ namespace Infrastructure.ServiceDiscovery.Discoverer.Discovers
                             Endpoints = serviceResult.Data.Endpoints,
                             Port = serviceResult.Data.Port,
                             Protocol = serviceResult.Data.Protocol,
-                            ServiceName = serviceResult.Data.ServiceName
+                            ServiceName = serviceResult.Data.ServiceName,
+                            DnsName = serviceResult.Data.DnsName,
+                            IpAddresses = serviceResult.Data.IpAddresses,
                         };
                     }
                     else

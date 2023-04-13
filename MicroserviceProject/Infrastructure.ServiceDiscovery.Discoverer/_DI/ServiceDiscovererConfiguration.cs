@@ -1,8 +1,8 @@
 ﻿using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Communication.Http.Broker.DI;
 using Infrastructure.ServiceDiscovery.Abstract;
+using Infrastructure.ServiceDiscovery.Configuration;
 using Infrastructure.ServiceDiscovery.Discoverer.Abstract;
-using Infrastructure.ServiceDiscovery.Discoverer.Configuration;
 using Infrastructure.ServiceDiscovery.Discoverer.Discovers;
 using Infrastructure.ServiceDiscovery.Providers;
 

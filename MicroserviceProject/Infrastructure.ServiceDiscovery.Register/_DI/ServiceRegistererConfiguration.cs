@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Communication.Http.Broker.DI;
 using Infrastructure.ServiceDiscovery.Abstract;
+using Infrastructure.ServiceDiscovery.Configuration;
 using Infrastructure.ServiceDiscovery.Providers;
 using Infrastructure.ServiceDiscovery.Register.Abstract;
 using Infrastructure.ServiceDiscovery.Register.Registerers;
@@ -14,6 +15,7 @@ namespace Infrastructure.ServiceDiscovery.Register.DI
         {
             services.RegisterHttpServiceCommunicator();
 
+            services.AddSingleton<ISolidServiceConfiguration, AppConfigSolidServiceConfiguration>();
             services.AddSingleton<ISolidServiceProvider, AppConfigSolidServiceProvider>();
             services.AddSingleton<IServiceRegisterer, HttpServiceRegisterer>();
 

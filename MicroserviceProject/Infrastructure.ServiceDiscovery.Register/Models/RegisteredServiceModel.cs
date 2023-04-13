@@ -1,19 +1,22 @@
-﻿namespace Infrastructure.ServiceDiscovery.Models
+﻿using Infrastructure.Communication.Http.Endpoint.Abstract;
+using Infrastructure.ServiceDiscovery.Models;
+
+namespace Infrastructure.ServiceDiscovery.Register.Models
 {
-    public class ServiceModel
+    public class RegisteredServiceModel
     {
         public string ServiceName { get; set; }
         public string Protocol { get; set; }
         public int Port { get; set; }
-        public List<EndpointModel> Endpoints { get; set; }
+        public List<IEndpoint> Endpoints { get; set; }
         public string DnsName { get; set; }
         public List<IpModel> IpAddresses { get; set; }
 
-        public EndpointModel? GetEndpoint(string name)
+        public IEndpoint GetEndpoint(string name)
         {
             if (Endpoints != null)
             {
-                EndpointModel? endpoint = this.Endpoints.FirstOrDefault(x => x.Name == name);
+                IEndpoint? endpoint = Endpoints.FirstOrDefault(x => x.Name == name);
 
                 if (endpoint != null)
                 {
