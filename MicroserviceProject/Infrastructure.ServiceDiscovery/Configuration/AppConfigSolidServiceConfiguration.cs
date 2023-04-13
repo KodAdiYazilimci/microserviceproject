@@ -21,7 +21,8 @@ namespace Infrastructure.ServiceDiscovery.Configuration
                     Convert.ToInt64(
                     _configuration
                     .GetSection("Configuration")
-                    .GetSection("SolidServiceConfiguration")["ExpirationServiceInfo"]);
+                    .GetSection("ServiceDiscovery")
+                    .GetSection("Discovery")["ExpirationServiceInfo"]);
             }
         }
 
@@ -33,7 +34,8 @@ namespace Infrastructure.ServiceDiscovery.Configuration
                     Convert.ToBoolean(
                     _configuration
                     .GetSection("Configuration")
-                    .GetSection("SolidServiceConfiguration")["OverrideDnsName"]);
+                    .GetSection("ServiceDiscovery")
+                    .GetSection("Registeration")["OverrideDnsName"]);
             }
         }
         public string OverridenDnsName
@@ -43,7 +45,8 @@ namespace Infrastructure.ServiceDiscovery.Configuration
                 return
                    _configuration
                    .GetSection("Configuration")
-                   .GetSection("SolidServiceConfiguration")["OverridenDnsName"].ToString();
+                   .GetSection("ServiceDiscovery")
+                   .GetSection("Registeration")["OverridenDnsName"].ToString();
             }
         }
     }

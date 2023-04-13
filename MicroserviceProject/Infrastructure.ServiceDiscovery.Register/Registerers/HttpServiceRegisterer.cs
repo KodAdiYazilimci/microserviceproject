@@ -28,6 +28,7 @@ namespace Infrastructure.ServiceDiscovery.Register.Registerers
         public async Task RegisterServiceAsync(RegisteredServiceModel service, CancellationTokenSource cancellationTokenSource)
         {
             SolidServiceModel solidService = _solidServiceProvider.GetSolidService();
+
             if (solidService != null)
             {
                 ServiceResultModel serviceResult = await _httpPostCaller.CallAsync<RegisteredServiceModel, ServiceResultModel>(new RegisterEndpoint()
