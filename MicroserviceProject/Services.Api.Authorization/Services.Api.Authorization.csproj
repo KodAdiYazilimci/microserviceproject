@@ -45,7 +45,6 @@
     <ProjectReference Include="..\Infrastructure.ServiceDiscovery.Register\Infrastructure.ServiceDiscovery.Register.csproj" />
     <ProjectReference Include="..\Infrastructure.Transaction.UnitOfWork.EntityFramework\Infrastructure.Transaction.UnitOfWork.EntityFramework.csproj" />
     <ProjectReference Include="..\Infrastructure.Util.DI\Infrastructure.Util.DI.csproj" />
-    <ProjectReference Include="..\Services.Communication.Http.Endpoints.Authorization\Services.Communication.Http.Endpoints.Authorization.csproj" />
     <ProjectReference Include="..\Services.Communication.Mq.Queue.Authorization.Rabbit\Services.Communication.Mq.Queue.Authorization.Rabbit.csproj" />
     <ProjectReference Include="..\Services.Communication.Mq.Queue.Authorization\Services.Communication.Mq.Queue.Authorization.csproj" />
     <ProjectReference Include="..\Services.Communication.Mq.Rabbit.Publisher\Services.Communication.Mq.Rabbit.Publisher.csproj" />
