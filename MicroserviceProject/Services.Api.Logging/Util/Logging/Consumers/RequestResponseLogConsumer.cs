@@ -9,7 +9,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Services.Api.Infrastructure.Logging.Util.Logging.Consumers
+namespace Services.Api.Logging.Util.Logging.Consumers
 {
     /// <summary>
     /// Rabbit sunucusundaki request-response loglarını tüketecek varsayılan sınıf

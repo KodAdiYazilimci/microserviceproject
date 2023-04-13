@@ -11,7 +11,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Services.Api.Infrastructure.Logging
+namespace Services.Api.Logging
 {
     public interface IHttpRequestTimeFeature
     {
@@ -38,7 +38,7 @@ namespace Services.Api.Infrastructure.Logging
             _next = next;
         }
 
-        public async Task Invoke(HttpContext httpContext, Util.Logging.Loggers.RequestResponseLogger requestResponseLogger)
+        public async Task Invoke(HttpContext httpContext, Services.Api.Logging.Util.Logging.Loggers.RequestResponseLogger requestResponseLogger)
         {
             var httpRequestTimeFeature = new HttpRequestTimeFeature();
             httpContext.Features.Set<IHttpRequestTimeFeature>(httpRequestTimeFeature);

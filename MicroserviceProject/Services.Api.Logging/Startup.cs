@@ -9,15 +9,15 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-using Services.Api.Infrastructure.Logging.Configuration.Services.Repositories;
-using Services.Api.Infrastructure.Logging.DI;
+using Services.Api.Logging.Configuration.Services.Repositories;
+using Services.Api.Logging.DI;
 using Services.Api.Logging.DI;
 using Services.Diagnostics.HealthCheck.DI;
 using Services.Logging.Exception.DI;
 using Services.Security.BasicToken.DI;
 using Services.Util.Exception.Handlers;
 
-namespace Services.Api.Infrastructure.Logging
+namespace Services.Api.Logging
 {
     public class Startup
     {
@@ -69,6 +69,8 @@ namespace Services.Api.Infrastructure.Logging
             {
                 options.SwaggerEndpoint("/swagger/CoreSwagger/swagger.json", "CoreSwagger");
             });
+
+            app.RegisterService();
         }
     }
 }

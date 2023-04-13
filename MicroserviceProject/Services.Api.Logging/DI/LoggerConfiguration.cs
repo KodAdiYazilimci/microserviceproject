@@ -1,8 +1,8 @@
-﻿using Services.Api.Infrastructure.Logging.Util.Logging.Loggers;
+﻿using Services.Api.Logging.Util.Logging.Loggers;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Services.Api.Infrastructure.Logging.DI
+namespace Services.Api.Logging.DI
 {
     public static class LoggerConfiguration
     {

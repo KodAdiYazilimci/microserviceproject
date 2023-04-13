@@ -1,9 +1,9 @@
-using Services.Api.Infrastructure.Logging.DI;
+using Services.Api.Logging.DI;
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Services.Api.Infrastructure.Logging
+namespace Services.Api.Logging
 {
     public class Program
     {

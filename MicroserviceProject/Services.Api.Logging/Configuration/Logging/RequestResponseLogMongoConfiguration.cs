@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Diagnostics;
 
-namespace Services.Api.Infrastructure.Logging.Configuration.Logging
+namespace Services.Api.Logging.Configuration.Logging
 {
     /// <summary>
     /// Request-response logları için MongoDB yapılandırma ayarları
