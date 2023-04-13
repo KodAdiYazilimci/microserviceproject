@@ -40,11 +40,16 @@ namespace Services.Api.Authorization.DI
                         Name = nameof(Controllers.AuthController.GetToken),
                         EndpointAuthentication = EndpointAuthentications.Anonymouse,
                         HttpAction = HttpAction.POST,
-                        Url = $"http://{Dns.GetHostName()}:15455/Auth/GetToken",
-                        //IpList = Dns.GetHostByName( Dns.GetHostName()).AddressList.LastOrDefault(x => x.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork),
+                        Url = $"/Auth/GetToken",
                         StatusCodes = new List<HttpStatusCode>() { HttpStatusCode.OK, HttpStatusCode.BadRequest, HttpStatusCode.Unauthorized }
                     }
-                }
+                },
+                IpAddresses = Dns.GetHostByName(Dns.GetHostName()).AddressList.Select(x => new IpModel()
+                {
+                    Address = x.ToString(),
+                    AddressFamily = x.AddressFamily
+                }).ToList(),
+                DnsName = Dns.GetHostName()
             }, new CancellationTokenSource());
 
             registerServiceTask.Wait();
