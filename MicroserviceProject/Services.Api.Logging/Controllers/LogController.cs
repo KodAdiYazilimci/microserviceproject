@@ -3,7 +3,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using Services.Api.Infrastructure.Logging.Util.Validation.Logging.WriteRequestResponseLog;
+using Services.Api.Logging.Util.Validation.Logging.WriteRequestResponseLog;
 using Services.Logging.RequestResponse.Configuration;
 using Services.Logging.RequestResponse.Persistence;
 
@@ -11,7 +11,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Services.Api.Infrastructure.Logging.Controllers
+namespace Services.Api.Logging.Controllers
 {
     [Authorize]
     [Route("Logging")]

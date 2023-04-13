@@ -2,7 +2,7 @@
 
 using Services.Logging.RequestResponse.Configuration;
 
-namespace Services.Api.Infrastructure.Logging.Configuration.Validation.Logging.WriteRequestResponseLog
+namespace Services.Api.Logging.Configuration.Validation.Logging.WriteRequestResponseLog
 {
     /// <summary>
     /// Logging/WriteRequestResponseLog Http endpoint için validasyon kuralı

@@ -5,7 +5,7 @@ using Infrastructure.Logging.MongoDb.Loggers;
 
 using Microsoft.Extensions.Configuration;
 
-using Services.Api.Infrastructure.Logging.Configuration.Logging;
+using Services.Api.Logging.Configuration.Logging;
 using Services.Logging.RequestResponse.Configuration;
 
 using System;
@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Services.Api.Infrastructure.Logging.Util.Logging.Loggers
+namespace Services.Api.Logging.Util.Logging.Loggers
 {
     /// <summary>
     /// Request-Response loglarını yazan sınıf

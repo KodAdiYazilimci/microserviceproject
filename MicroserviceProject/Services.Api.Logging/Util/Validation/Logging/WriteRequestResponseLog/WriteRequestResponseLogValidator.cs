@@ -10,7 +10,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Services.Api.Infrastructure.Logging.Util.Validation.Logging.WriteRequestResponseLog
+namespace Services.Api.Logging.Util.Validation.Logging.WriteRequestResponseLog
 {
     /// <summary>
     /// Logging/WriteRequestResponseLog Http endpoint için validasyon

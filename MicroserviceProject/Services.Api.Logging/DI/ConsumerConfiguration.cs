@@ -1,11 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
-using Services.Api.Infrastructure.Logging.Util.Logging.Consumers;
+using Services.Api.Logging.Util.Logging.Consumers;
 
 using System.Threading;
 
-namespace Services.Api.Infrastructure.Logging.DI
+namespace Services.Api.Logging.DI
 {
     /// <summary>
     /// Rabbit kuyruk tüketici sınıfların DI sınıfı
