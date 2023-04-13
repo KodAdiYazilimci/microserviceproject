@@ -2,8 +2,8 @@
 {
     public interface ISolidServiceConfiguration
     {
-        long ExpirationServiceInfo { get; }
-        bool OverrideDnsName { get; }
-        string OverridenDnsName { get; }
+        public string Name { get; }
+        public string RegisterAddress { get; }
+        public string DiscoverAddress { get; }
     }
 }

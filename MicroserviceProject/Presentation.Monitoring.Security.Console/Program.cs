@@ -54,7 +54,7 @@ namespace Presentation.Monitoring.Security.Console
                         inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance,
                         httpGetCaller: HttpGetCallerFactory.Instance,
                         solidServiceProvider: AppConfigSolidServiceProviderProvider.GetSolidServiceConfiguration(configuration),
-                        solidServiceConfiguration: AppConfigSolidServiceConfigurationProvider.GetSolidServiceConfiguration(configuration))
+                        discoveryConfiguration: AppConfigDiscoveryConfigurationProvider.GetDiscoveryConfiguration(configuration))
                );
 
             ICredentialProvider credentialProvider = CredentialProviderFactory.GetCredentialProvider(configuration: null);

@@ -61,7 +61,7 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Services
                         inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance,
                         httpGetCaller: HttpGetCallerFactory.Instance,
                         solidServiceProvider: AppConfigSolidServiceProviderProvider.GetSolidServiceConfiguration(configuration),
-                        solidServiceConfiguration: AppConfigSolidServiceConfigurationProvider.GetSolidServiceConfiguration(configuration)));
+                        discoveryConfiguration: AppConfigDiscoveryConfigurationProvider.GetDiscoveryConfiguration(configuration)));
                 var credentialProvider = CredentialProviderFactory.GetCredentialProvider(configuration);
                 var departmentCommunicator = DepartmentCommunicatorProvider.GetDepartmentCommunicator(
                     authorizationCommunicator: authorizationCommunicator,

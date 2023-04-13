@@ -7,9 +7,9 @@ namespace Infrastructure.ServiceDiscovery.Mock
 {
     public static class AppConfigSolidServiceProviderProvider
     {
-        public static ISolidServiceProvider GetSolidServiceConfiguration(IConfiguration configuration)
+        public static ISolidServiceConfiguration GetSolidServiceConfiguration(IConfiguration configuration)
         {
-            return new AppConfigSolidServiceProvider(configuration);
+            return new AppConfigSolidServiceConfiguration(configuration);
         }
     }
 }

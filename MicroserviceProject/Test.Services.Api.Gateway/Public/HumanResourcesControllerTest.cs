@@ -50,7 +50,7 @@ namespace Test.Services.Api.Gateway.Public
                                    inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance,
                                    httpGetCaller: HttpGetCallerFactory.Instance,
                                    solidServiceProvider: AppConfigSolidServiceProviderProvider.GetSolidServiceConfiguration(configuration),
-                                   solidServiceConfiguration: AppConfigSolidServiceConfigurationProvider.GetSolidServiceConfiguration(configuration))
+                                   discoveryConfiguration: AppConfigDiscoveryConfigurationProvider.GetDiscoveryConfiguration(configuration))
                            ),
                            inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance,
                            credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),

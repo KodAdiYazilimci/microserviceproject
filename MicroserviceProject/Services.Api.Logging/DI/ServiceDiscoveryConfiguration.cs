@@ -30,7 +30,7 @@ namespace Services.Api.Logging.DI
         public static IApplicationBuilder RegisterService(this IApplicationBuilder applicationBuilder)
         {
             IServiceRegisterer serviceRegisterer = applicationBuilder.ApplicationServices.GetRequiredService<IServiceRegisterer>();
-            ISolidServiceConfiguration solidServiceConfiguration = applicationBuilder.ApplicationServices.GetRequiredService<ISolidServiceConfiguration>();
+            IRegisterationConfiguration registerationConfiguration = applicationBuilder.ApplicationServices.GetRequiredService<IRegisterationConfiguration>();
 
             Task registerServiceTask = serviceRegisterer.RegisterServiceAsync(new RegisteredServiceModel()
             {
@@ -47,7 +47,7 @@ namespace Services.Api.Logging.DI
                     Address = x.ToString(),
                     AddressFamily = x.AddressFamily
                 }).ToList(),
-                DnsName = solidServiceConfiguration.OverrideDnsName ? solidServiceConfiguration.OverridenDnsName : Dns.GetHostName()
+                DnsName = registerationConfiguration.OverrideDnsName ? registerationConfiguration.OverridenDnsName : Dns.GetHostName()
             }, new CancellationTokenSource());
 
             registerServiceTask.Wait();
