@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Communication.Http.Endpoint.Abstract;
 using Infrastructure.Communication.Http.Endpoint.Authentication;
+using Infrastructure.Communication.Http.Endpoint.Util;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Routing.Exceptions;
 using Infrastructure.Routing.Providers.Abstract;
@@ -7,8 +8,8 @@ using Infrastructure.Routing.Providers.Abstract;
 using Services.Communication.Http.Broker.Department.Abstract;
 using Services.Communication.Http.Broker.Department.Selling.Abstract;
 using Services.Communication.Http.Broker.Department.Selling.CQRS.Commands.Requests;
-using Services.Communication.Http.Broker.Department.Selling.Endpoints;
 using Services.Communication.Http.Broker.Department.Selling.Models;
+using Services.Communication.Http.Endpoint.Department.Selling;
 
 namespace Services.Communication.Http.Broker.Department.Selling
 {

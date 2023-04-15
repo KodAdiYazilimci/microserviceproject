@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure.Transaction.Recovery\Infrastructure.Transaction.Recovery.csproj" />
     <ProjectReference Include="..\Services.Communication.Http.Broker.Department\Services.Communication.Http.Broker.Department.csproj" />
+    <ProjectReference Include="..\Services.Communication.Http.Endpoint.Department.CR\Services.Communication.Http.Endpoint.Department.CR.csproj" />
   </ItemGroup>
 
   <ItemGroup>
