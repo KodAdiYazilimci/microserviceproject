@@ -8,8 +8,8 @@ using Infrastructure.Routing.Providers.Abstract;
 using Services.Communication.Http.Broker.Department.Abstract;
 using Services.Communication.Http.Broker.Department.IT.Abstract;
 using Services.Communication.Http.Broker.Department.IT.CQRS.Commands.Requests;
-using Services.Communication.Http.Broker.Department.IT.Endpoints;
 using Services.Communication.Http.Broker.Department.IT.Models;
+using Services.Communication.Http.Endpoint.Department.IT;
 
 namespace Services.Communication.Http.Broker.Department.IT
 {

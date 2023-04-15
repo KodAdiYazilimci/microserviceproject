@@ -7,9 +7,9 @@ using Infrastructure.Routing.Providers.Abstract;
 
 using Services.Communication.Http.Broker.Abstract;
 using Services.Communication.Http.Broker.Gateway.Abstract;
-using Services.Communication.Http.Broker.Gateway.Endpoints;
 using Services.Communication.Http.Broker.Gateway.Gateway.Public.Abstract;
 using Services.Communication.Http.Broker.Gateway.Public.Models;
+using Services.Communication.Http.Endpoint.Gateway;
 
 namespace Services.Communication.Http.Broker.Gateway.Public
 {

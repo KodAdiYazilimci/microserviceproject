@@ -1,5 +1,4 @@
 ﻿using Infrastructure.Communication.Http.Endpoint.Abstract;
-using Infrastructure.ServiceDiscovery.Abstract;
 using Infrastructure.ServiceDiscovery.Models;
 using Infrastructure.ServiceDiscovery.Register.Abstract;
 using Infrastructure.ServiceDiscovery.Register.DI;
@@ -8,7 +7,7 @@ using Infrastructure.ServiceDiscovery.Register.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-using Services.Communication.Http.Broker.Authorization.Endpoints;
+using Services.Communication.Http.Endpoint.Authorization.Endpoints;
 
 using System.Collections.Generic;
 using System.Linq;

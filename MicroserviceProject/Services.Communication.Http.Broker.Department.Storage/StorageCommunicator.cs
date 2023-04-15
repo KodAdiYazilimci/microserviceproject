@@ -8,8 +8,8 @@ using Infrastructure.Routing.Providers.Abstract;
 using Services.Communication.Http.Broker.Department.Abstract;
 using Services.Communication.Http.Broker.Department.Storage.Abstract;
 using Services.Communication.Http.Broker.Department.Storage.CQRS.Commands.Requests;
-using Services.Communication.Http.Broker.Department.Storage.Endpoints;
 using Services.Communication.Http.Broker.Department.Storage.Models;
+using Services.Communication.Http.Endpoint.Department.Storage;
 
 namespace Services.Communication.Http.Broker.Department.Storage
 {

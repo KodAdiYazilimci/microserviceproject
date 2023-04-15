@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Services.Communication.Http.Broker.Gateway\Services.Communication.Http.Broker.Gateway.csproj" />
+    <ProjectReference Include="..\Services.Communication.Http.Endpoint.Gateway\Services.Communication.Http.Endpoint.Gateway.csproj" />
   </ItemGroup>
 
 </Project>

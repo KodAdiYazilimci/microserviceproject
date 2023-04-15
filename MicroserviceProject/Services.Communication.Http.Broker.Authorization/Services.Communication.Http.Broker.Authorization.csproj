@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure.ServiceDiscovery.Discoverer\Infrastructure.ServiceDiscovery.Discoverer.csproj" />
     <ProjectReference Include="..\Services.Communication.Http.Broker\Services.Communication.Http.Broker.csproj" />
+    <ProjectReference Include="..\Services.Communication.Http.Endpoint.Authorization\Services.Communication.Http.Endpoint.Authorization.csproj" />
   </ItemGroup>
 
 </Project>

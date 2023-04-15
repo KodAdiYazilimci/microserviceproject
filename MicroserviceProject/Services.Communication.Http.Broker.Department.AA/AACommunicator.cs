@@ -7,9 +7,9 @@ using Infrastructure.Routing.Providers.Abstract;
 
 using Services.Communication.Http.Broker.Department.AA.Abstract;
 using Services.Communication.Http.Broker.Department.AA.CQRS.Commands.Requests;
-using Services.Communication.Http.Broker.Department.AA.Endpoints;
 using Services.Communication.Http.Broker.Department.AA.Models;
 using Services.Communication.Http.Broker.Department.Abstract;
+using Services.Communication.Http.Endpoint.Department.AA;
 
 namespace Services.Communication.Http.Broker.Department.AA
 {
