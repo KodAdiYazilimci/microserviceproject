@@ -25,7 +25,7 @@ namespace Services.Communication.Http.Broker.Authorization
         private bool disposed = false;
 
         private readonly ICommunicator _communicator;
-        private readonly IRouteProvider _routeProvider;
+        //private readonly IRouteProvider _routeProvider;
         private readonly IServiceDiscoverer _serviceDiscoverer;
 
         public AuthorizationCommunicator(

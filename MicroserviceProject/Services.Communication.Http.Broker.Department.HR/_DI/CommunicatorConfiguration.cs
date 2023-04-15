@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Infrastructure.ServiceDiscovery.Discoverer.DI;
+
+using Microsoft.Extensions.DependencyInjection;
 
 using Services.Communication.Http.Broker.Department.DI;
 using Services.Communication.Http.Broker.Department.HR.Abstract;
@@ -18,6 +20,8 @@ namespace Services.Communication.Http.Broker.Department.HR.DI
         public static IServiceCollection RegisterHttpHRDepartmentCommunicators(this IServiceCollection services)
         {
             services.RegisterDepartmentCommunicator();
+
+            services.RegisterServiceDiscoverers();
 
             services.AddSingleton<IHRCommunicator, HRCommunicator>();
 

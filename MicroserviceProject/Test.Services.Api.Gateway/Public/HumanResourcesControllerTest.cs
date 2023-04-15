@@ -40,7 +40,6 @@ namespace Test.Services.Api.Gateway.Public
                    apiBridge: ApiBridgeFactory.Instance,
                    hrCommunicator: HRCommunicatorProvider.GetHRCommunicator
                    (
-                       routeProvider: routeProvider,
                        departmentCommunicator: DepartmentCommunicatorProvider.GetDepartmentCommunicator
                        (
                            authorizationCommunicator: AuthorizationCommunicatorProvider.GetAuthorizationCommunicator
@@ -55,7 +54,12 @@ namespace Test.Services.Api.Gateway.Public
                            inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance,
                            credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),
                            communicator: defaultCommunicator
-                       )
+                       ),
+                       serviceDiscoverer: HttpServiceDiscovererProvider.GetServiceDiscoverer(
+                           inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance,
+                           httpGetCaller: HttpGetCallerFactory.Instance,
+                           solidServiceProvider: AppConfigSolidServiceProviderProvider.GetSolidServiceConfiguration(configuration),
+                           discoveryConfiguration: AppConfigDiscoveryConfigurationProvider.GetDiscoveryConfiguration(configuration))
                    )
                );
         }
