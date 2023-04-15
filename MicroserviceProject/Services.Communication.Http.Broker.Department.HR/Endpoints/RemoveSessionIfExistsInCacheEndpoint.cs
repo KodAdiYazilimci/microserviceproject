@@ -18,7 +18,6 @@ namespace Services.Communication.Http.Broker.Department.HR.Endpoints
         {
             new HttpQueryModel(){ Name = "tokenKey", Required = true }
         };
-        public IEndpointAuthentication EndpointAuthentication { get; set; }
         public AuthenticationType AuthenticationType { get; set; } = AuthenticationType.Token;
         public List<HttpStatusCode> StatusCodes { get; set; } = new List<HttpStatusCode>() { HttpStatusCode.OK, HttpStatusCode.BadRequest, HttpStatusCode.Unauthorized };
     }

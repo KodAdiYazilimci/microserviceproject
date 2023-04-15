@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Communication.Http.Endpoint.Abstract;
 using Infrastructure.Communication.Http.Endpoint.Authentication;
+using Infrastructure.Communication.Http.Endpoint.Util;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Routing.Exceptions;
 using Infrastructure.Routing.Providers.Abstract;
@@ -40,10 +41,11 @@ namespace Services.Communication.Http.Broker.Department.Finance
             {
                 string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
-                endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
+                IAuthenticatedEndpoint authenticatedEndpoint = endpoint.ConvertToAuthenticatedEndpoint(new TokenAuthentication(token));
 
-                return await _departmentCommunicator.CallAsync<CreateCostCommandRequest, Object>(endpoint, request, cancellationTokenSource);
+                authenticatedEndpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
+
+                return await _departmentCommunicator.CallAsync<CreateCostCommandRequest, Object>(authenticatedEndpoint, request, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();
@@ -60,10 +62,10 @@ namespace Services.Communication.Http.Broker.Department.Finance
             {
                 string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
-                endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
+                IAuthenticatedEndpoint authenticatedEndpoint = endpoint.ConvertToAuthenticatedEndpoint(new TokenAuthentication(token));
+                authenticatedEndpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
 
-                return await _departmentCommunicator.CallAsync<CreateProductionRequestCommandRequest, Object>(endpoint, request, cancellationTokenSource);
+                return await _departmentCommunicator.CallAsync<CreateProductionRequestCommandRequest, Object>(authenticatedEndpoint, request, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();
@@ -79,8 +81,9 @@ namespace Services.Communication.Http.Broker.Department.Finance
             {
                 string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
-                endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
+                IAuthenticatedEndpoint authenticatedEndpoint = endpoint.ConvertToAuthenticatedEndpoint(new TokenAuthentication(token));
+
+                authenticatedEndpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
 
                 return await _departmentCommunicator.CallAsync<List<DecidedCostModel>>(endpoint, cancellationTokenSource);
             }
@@ -99,10 +102,10 @@ namespace Services.Communication.Http.Broker.Department.Finance
             {
                 string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
-                endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
+                IAuthenticatedEndpoint authenticatedEndpoint = endpoint.ConvertToAuthenticatedEndpoint(new TokenAuthentication(token));
+                authenticatedEndpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
 
-                return await _departmentCommunicator.CallAsync<DecideCostCommandRequest, Object>(endpoint, request, cancellationTokenSource);
+                return await _departmentCommunicator.CallAsync<DecideCostCommandRequest, Object>(authenticatedEndpoint, request, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();
@@ -118,10 +121,11 @@ namespace Services.Communication.Http.Broker.Department.Finance
             {
                 string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
-                endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Queries.Add(new HttpQueryModel() { Name = "tokenKey", Value = tokenKey });
+                IAuthenticatedEndpoint authenticatedEndpoint = endpoint.ConvertToAuthenticatedEndpoint(new TokenAuthentication(token));
 
-                return await _departmentCommunicator.CallAsync<Object>(endpoint, cancellationTokenSource);
+                authenticatedEndpoint.Queries.Add(new HttpQueryModel() { Name = "tokenKey", Value = tokenKey });
+
+                return await _departmentCommunicator.CallAsync<Object>(authenticatedEndpoint, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();

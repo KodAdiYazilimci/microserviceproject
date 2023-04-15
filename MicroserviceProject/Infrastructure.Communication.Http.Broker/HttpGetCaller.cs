@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Communication.Http.Endpoint.Abstract;
+using Infrastructure.Communication.Http.Endpoint.Util;
 using Infrastructure.Communication.Http.Exceptions;
 using Infrastructure.Communication.Http.Helpers;
 
@@ -17,21 +18,24 @@ namespace Infrastructure.Communication.Http.Broker
         {
             using (HttpClient httpClient = new HttpClient())
             {
-                endpoint.EndpointAuthentication.SetAuthentication(httpClient);
 
-                if (endpoint.Headers.Any(x => string.IsNullOrEmpty(x.Value)))
+                IAuthenticatedEndpoint authenticatedEndpoint = endpoint.ConvertToAuthenticatedEndpoint();
+
+                authenticatedEndpoint.EndpointAuthentication.SetAuthentication(httpClient);
+
+                if (authenticatedEndpoint.Headers.Any(x => string.IsNullOrEmpty(x.Value)))
                 {
-                    throw new MissingHeaderException($"Belirtilmemiş header: {endpoint.Headers.FirstOrDefault(x => string.IsNullOrEmpty(x.Value)).Name}");
+                    throw new MissingHeaderException($"Belirtilmemiş header: {authenticatedEndpoint.Headers.FirstOrDefault(x => string.IsNullOrEmpty(x.Value)).Name}");
                 }
 
                 HttpHelper.GenerateHeaders(httpClient, endpoint.Headers);
 
-                if (endpoint.Queries.Any(x => string.IsNullOrEmpty(x.Value)))
+                if (authenticatedEndpoint.Queries.Any(x => string.IsNullOrEmpty(x.Value)))
                 {
-                    throw new MissingQueryStringException($"Belirtilmemiş query: {endpoint.Queries.FirstOrDefault(x => string.IsNullOrEmpty(x.Value)).Name}");
+                    throw new MissingQueryStringException($"Belirtilmemiş query: {authenticatedEndpoint.Queries.FirstOrDefault(x => string.IsNullOrEmpty(x.Value)).Name}");
                 }
 
-                string url = HttpHelper.GenerateQueryString(endpoint.Url, endpoint.Queries);
+                string url = HttpHelper.GenerateQueryString(authenticatedEndpoint.Url, authenticatedEndpoint.Queries);
 
                 HttpResponseMessage getTask = await httpClient.GetAsync(url, cancellationTokenSource.Token);
 

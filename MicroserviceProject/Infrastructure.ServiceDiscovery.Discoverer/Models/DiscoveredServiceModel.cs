@@ -23,7 +23,6 @@ namespace Infrastructure.ServiceDiscovery.Discoverer.Models
                     EndpointModel shadowEndpoint = new EndpointModel();
                     shadowEndpoint.Name = endpoint.Name;
                     shadowEndpoint.AuthenticationType = endpoint.AuthenticationType;
-                    shadowEndpoint.EndpointAuthentication = endpoint.EndpointAuthentication;
                     shadowEndpoint.HttpAction = endpoint.HttpAction;
                     shadowEndpoint.Headers = endpoint.Headers;
                     shadowEndpoint.Payload = endpoint.Payload;
