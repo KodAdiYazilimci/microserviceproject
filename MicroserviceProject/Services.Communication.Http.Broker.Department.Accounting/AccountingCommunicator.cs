@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Communication.Http.Endpoint.Abstract;
 using Infrastructure.Communication.Http.Endpoint.Authentication;
+using Infrastructure.Communication.Http.Endpoint.Util;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Routing.Exceptions;
 using Infrastructure.Routing.Providers.Abstract;
@@ -41,11 +42,11 @@ namespace Services.Communication.Http.Broker.Department.Accounting
             {
                 string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
-                endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
-                endpoint.Queries.Add(new HttpQueryModel() { Name = "workerId", Value = workerId.ToString() });
+                IAuthenticatedEndpoint authenticatedEndpoint = endpoint.ConvertToAuthenticatedEndpoint(new TokenAuthentication(token));
+                authenticatedEndpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
+                authenticatedEndpoint.Queries.Add(new HttpQueryModel() { Name = "workerId", Value = workerId.ToString() });
 
-                return await _departmentCommunicator.CallAsync<List<AccountingBankAccountModel>>(endpoint, cancellationTokenSource);
+                return await _departmentCommunicator.CallAsync<List<AccountingBankAccountModel>>(authenticatedEndpoint, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();
@@ -62,10 +63,10 @@ namespace Services.Communication.Http.Broker.Department.Accounting
             {
                 string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
-                endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
+                IAuthenticatedEndpoint authenticatedEndpoint = endpoint.ConvertToAuthenticatedEndpoint(new TokenAuthentication(token));
+                authenticatedEndpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
 
-                return await _departmentCommunicator.CallAsync<AccountingCreateBankAccountCommandRequest, Object>(endpoint, request, cancellationTokenSource);
+                return await _departmentCommunicator.CallAsync<AccountingCreateBankAccountCommandRequest, Object>(authenticatedEndpoint, request, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();
@@ -81,10 +82,10 @@ namespace Services.Communication.Http.Broker.Department.Accounting
             {
                 string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
-                endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
+                IAuthenticatedEndpoint authenticatedEndpoint = endpoint.ConvertToAuthenticatedEndpoint(new TokenAuthentication(token));
+                authenticatedEndpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
 
-                return await _departmentCommunicator.CallAsync<List<AccountingCurrencyModel>>(endpoint, cancellationTokenSource);
+                return await _departmentCommunicator.CallAsync<List<AccountingCurrencyModel>>(authenticatedEndpoint, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();
@@ -101,10 +102,10 @@ namespace Services.Communication.Http.Broker.Department.Accounting
             {
                 string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
-                endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
+                IAuthenticatedEndpoint authenticatedEndpoint = endpoint.ConvertToAuthenticatedEndpoint(new TokenAuthentication(token));
+                authenticatedEndpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
 
-                return await _departmentCommunicator.CallAsync<AccountingCreateCurrencyCommandRequest, Object>(endpoint, request, cancellationTokenSource);
+                return await _departmentCommunicator.CallAsync<AccountingCreateCurrencyCommandRequest, Object>(authenticatedEndpoint, request, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();
@@ -121,11 +122,11 @@ namespace Services.Communication.Http.Broker.Department.Accounting
             {
                 string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
-                endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
-                endpoint.Queries.Add(new HttpQueryModel() { Name = "workerId", Value = workerId.ToString() });
+                IAuthenticatedEndpoint authenticatedEndpoint = endpoint.ConvertToAuthenticatedEndpoint(new TokenAuthentication(token));
+                authenticatedEndpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
+                authenticatedEndpoint.Queries.Add(new HttpQueryModel() { Name = "workerId", Value = workerId.ToString() });
 
-                return await _departmentCommunicator.CallAsync<List<AccountingSalaryPaymentModel>>(endpoint, cancellationTokenSource);
+                return await _departmentCommunicator.CallAsync<List<AccountingSalaryPaymentModel>>(authenticatedEndpoint, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();
@@ -142,10 +143,10 @@ namespace Services.Communication.Http.Broker.Department.Accounting
             {
                 string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
-                endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
+                IAuthenticatedEndpoint authenticatedEndpoint = endpoint.ConvertToAuthenticatedEndpoint(new TokenAuthentication(token));
+                authenticatedEndpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
 
-                return await _departmentCommunicator.CallAsync<AccountingCreateSalaryPaymentCommandRequest, Object>(endpoint, request, cancellationTokenSource);
+                return await _departmentCommunicator.CallAsync<AccountingCreateSalaryPaymentCommandRequest, Object>(authenticatedEndpoint, request, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();
@@ -161,10 +162,10 @@ namespace Services.Communication.Http.Broker.Department.Accounting
             {
                 string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
-                endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Queries.Add(new HttpQueryModel() { Name = "tokenKey", Value = tokenKey });
+                IAuthenticatedEndpoint authenticatedEndpoint = endpoint.ConvertToAuthenticatedEndpoint(new TokenAuthentication(token));
+                authenticatedEndpoint.Queries.Add(new HttpQueryModel() { Name = "tokenKey", Value = tokenKey });
 
-                return await _departmentCommunicator.CallAsync<Object>(endpoint, cancellationTokenSource);
+                return await _departmentCommunicator.CallAsync<Object>(authenticatedEndpoint, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();

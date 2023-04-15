@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Communication.Http.Endpoint.Abstract;
 using Infrastructure.Communication.Http.Endpoint.Authentication;
+using Infrastructure.Communication.Http.Endpoint.Util;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Routing.Exceptions;
 using Infrastructure.Routing.Providers.Abstract;
@@ -41,10 +42,11 @@ namespace Services.Communication.Http.Broker.Department.Buying
             {
                 string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
-                endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
+                IAuthenticatedEndpoint authenticatedEndpoint = endpoint.ConvertToAuthenticatedEndpoint(new TokenAuthentication(token));
 
-                return await _departmentCommunicator.CallAsync<List<InventoryRequestModel>>(endpoint, cancellationTokenSource);
+                authenticatedEndpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
+
+                return await _departmentCommunicator.CallAsync<List<InventoryRequestModel>>(authenticatedEndpoint, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();
@@ -61,10 +63,11 @@ namespace Services.Communication.Http.Broker.Department.Buying
             {
                 string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
-                endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
+                IAuthenticatedEndpoint authenticatedEndpoint = endpoint.ConvertToAuthenticatedEndpoint(new TokenAuthentication(token));
 
-                return await _departmentCommunicator.CallAsync<ValidateCostInventoryCommandRequest, Object>(endpoint, request, cancellationTokenSource);
+                authenticatedEndpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
+
+                return await _departmentCommunicator.CallAsync<ValidateCostInventoryCommandRequest, Object>(authenticatedEndpoint, request, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();
@@ -81,10 +84,10 @@ namespace Services.Communication.Http.Broker.Department.Buying
             {
                 string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
-                endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
+                IAuthenticatedEndpoint authenticatedEndpoint = endpoint.ConvertToAuthenticatedEndpoint(new TokenAuthentication(token));
+                authenticatedEndpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
 
-                return await _departmentCommunicator.CallAsync<CreateInventoryRequestCommandRequest, Object>(endpoint, request, cancellationTokenSource);
+                return await _departmentCommunicator.CallAsync<CreateInventoryRequestCommandRequest, Object>(authenticatedEndpoint, request, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();
@@ -100,10 +103,10 @@ namespace Services.Communication.Http.Broker.Department.Buying
             {
                 string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
-                endpoint.EndpointAuthentication = new TokenAuthentication(token);
-                endpoint.Queries.Add(new HttpQueryModel() { Name = "tokenKey", Value = token });
+                IAuthenticatedEndpoint authenticatedEndpoint = endpoint.ConvertToAuthenticatedEndpoint(new TokenAuthentication(token));
+                authenticatedEndpoint.Queries.Add(new HttpQueryModel() { Name = "tokenKey", Value = token });
 
-                return await _departmentCommunicator.CallAsync<object>(endpoint, cancellationTokenSource);
+                return await _departmentCommunicator.CallAsync<object>(authenticatedEndpoint, cancellationTokenSource);
             }
             else
                 throw new GetRouteException();

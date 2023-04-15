@@ -16,7 +16,6 @@ namespace Services.Communication.Http.Broker.Authorization.Endpoints
         public HttpAction HttpAction { get; set; } = HttpAction.GET;
         public List<HttpHeaderModel> Headers { get; set; } = new List<HttpHeaderModel>();
         public List<HttpQueryModel> Queries { get; set; } = new List<HttpQueryModel>() { new HttpQueryModel() { Name = "token" } };
-        public IEndpointAuthentication EndpointAuthentication { get; set; }
         public AuthenticationType AuthenticationType { get; set; } = AuthenticationType.Anonymouse;
         public List<HttpStatusCode> StatusCodes { get; set; } = new List<HttpStatusCode>() { HttpStatusCode.OK, HttpStatusCode.BadRequest, HttpStatusCode.Unauthorized };
     }

@@ -14,7 +14,6 @@ namespace Infrastructure.Communication.Http.Endpoint.Abstract
         HttpAction HttpAction { get; set; }
         List<HttpHeaderModel> Headers { get; set; }
         List<HttpQueryModel> Queries { get; set; }
-        IEndpointAuthentication EndpointAuthentication { get; set; }
         AuthenticationType AuthenticationType { get; set; }
         List<HttpStatusCode> StatusCodes { get; set; }
     }
