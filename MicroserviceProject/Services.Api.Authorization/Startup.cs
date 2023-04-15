@@ -20,6 +20,11 @@ using Services.Logging.RequestResponse.DI;
 using Services.UnitOfWork.EntityFramework.DI;
 using Services.Util.Exception.Handlers;
 
+using Services.ServiceDiscovery.DI;
+using Infrastructure.Communication.Http.Endpoint.Abstract;
+using System.Collections.Generic;
+using Services.Communication.Http.Broker.Authorization.Endpoints;
+
 namespace Services.Api.Authorization
 {
     public class Startup
@@ -84,7 +89,7 @@ namespace Services.Api.Authorization
                 options.SwaggerEndpoint("/swagger/CoreSwagger/swagger.json", "CoreSwagger");
             });
 
-            app.RegisterService();
+            app.RegisterService(new List<IEndpoint>() { new GetTokenEndpoint(), new GetUserEndpoint() });
         }
     }
 }
