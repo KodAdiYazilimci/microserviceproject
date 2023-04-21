@@ -1,12 +1,12 @@
 {
   "profiles": {
-    "Infrastructure.Routing": {
+    "Services.Logging.RequestResponse": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:62231;http://localhost:62232"
+      "applicationUrl": "https://localhost:60793;http://localhost:60794"
     }
   }
 }

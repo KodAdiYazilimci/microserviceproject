@@ -2,8 +2,9 @@
 using Infrastructure.Communication.Http.Endpoint.Authentication;
 using Infrastructure.Communication.Http.Endpoint.Util;
 using Infrastructure.Communication.Http.Models;
-using Infrastructure.Routing.Exceptions;
-using Infrastructure.Routing.Providers.Abstract;
+using Infrastructure.ServiceDiscovery.Discoverer.Abstract;
+using Infrastructure.ServiceDiscovery.Discoverer.Exceptions;
+using Infrastructure.ServiceDiscovery.Discoverer.Models;
 
 using Services.Communication.Http.Broker.Department.Abstract;
 using Services.Communication.Http.Broker.Department.Finance.Abstract;
@@ -20,14 +21,15 @@ namespace Services.Communication.Http.Broker.Department.Finance
         /// </summary>
         private bool disposed = false;
 
-        private readonly IRouteProvider _routeProvider;
         private readonly IDepartmentCommunicator _departmentCommunicator;
+        private readonly IServiceDiscoverer _serviceDiscoverer;
 
         public FinanceCommunicator(
-            IRouteProvider routeProvider, IDepartmentCommunicator departmentCommunicator)
+            IDepartmentCommunicator departmentCommunicator,
+            IServiceDiscoverer serviceProvider)
         {
-            _routeProvider = routeProvider;
             _departmentCommunicator = departmentCommunicator;
+            _serviceDiscoverer = serviceProvider;
         }
 
         public async Task<ServiceResultModel> CreateCostAsync(
@@ -35,7 +37,9 @@ namespace Services.Communication.Http.Broker.Department.Finance
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<CreateCostEndpoint>(cancellationTokenSource);
+            CachedServiceModel service = await _serviceDiscoverer.GetServiceAsync("Services.Api.Business.Departments.Finance", cancellationTokenSource);
+
+            IEndpoint endpoint = service.GetEndpoint(CreateCostEndpoint.Path);
 
             if (endpoint != null)
             {
@@ -48,7 +52,7 @@ namespace Services.Communication.Http.Broker.Department.Finance
                 return await _departmentCommunicator.CallAsync<CreateCostCommandRequest, Object>(authenticatedEndpoint, request, cancellationTokenSource);
             }
             else
-                throw new GetRouteException();
+                throw new EndpointNotFoundException();
         }
 
         public async Task<ServiceResultModel> CreateProductionRequestAsync(
@@ -56,7 +60,9 @@ namespace Services.Communication.Http.Broker.Department.Finance
            string transactionIdentity,
            CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<CreateProductionRequestEndpoint>(cancellationTokenSource);
+            CachedServiceModel service = await _serviceDiscoverer.GetServiceAsync("Services.Api.Business.Departments.Finance", cancellationTokenSource);
+
+            IEndpoint endpoint = service.GetEndpoint(CreateProductionRequestEndpoint.Path);
 
             if (endpoint != null)
             {
@@ -68,14 +74,16 @@ namespace Services.Communication.Http.Broker.Department.Finance
                 return await _departmentCommunicator.CallAsync<CreateProductionRequestCommandRequest, Object>(authenticatedEndpoint, request, cancellationTokenSource);
             }
             else
-                throw new GetRouteException();
+                throw new EndpointNotFoundException();
         }
 
         public async Task<ServiceResultModel<List<DecidedCostModel>>> GetDecidedCostsAsync(
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<GetDecidedCostsEndpoint>(cancellationTokenSource);
+            CachedServiceModel service = await _serviceDiscoverer.GetServiceAsync("Services.Api.Business.Departments.Finance", cancellationTokenSource);
+
+            IEndpoint endpoint = service.GetEndpoint(GetDecidedCostsEndpoint.Path);
 
             if (endpoint != null)
             {
@@ -88,7 +96,7 @@ namespace Services.Communication.Http.Broker.Department.Finance
                 return await _departmentCommunicator.CallAsync<List<DecidedCostModel>>(endpoint, cancellationTokenSource);
             }
             else
-                throw new GetRouteException();
+                throw new EndpointNotFoundException();
         }
 
         public async Task<ServiceResultModel> DecideCostAsync(
@@ -96,7 +104,9 @@ namespace Services.Communication.Http.Broker.Department.Finance
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<DecideCostEndpoint>(cancellationTokenSource);
+            CachedServiceModel service = await _serviceDiscoverer.GetServiceAsync("Services.Api.Business.Departments.Finance", cancellationTokenSource);
+
+            IEndpoint endpoint = service.GetEndpoint(DecideCostEndpoint.Path);
 
             if (endpoint != null)
             {
@@ -108,14 +118,16 @@ namespace Services.Communication.Http.Broker.Department.Finance
                 return await _departmentCommunicator.CallAsync<DecideCostCommandRequest, Object>(authenticatedEndpoint, request, cancellationTokenSource);
             }
             else
-                throw new GetRouteException();
+                throw new EndpointNotFoundException();
         }
 
         public async Task<ServiceResultModel> RemoveSessionIfExistsInCacheAsync(
             string tokenKey,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<RemoveSessionIfExistsInCacheEndpoint>(cancellationTokenSource);
+            CachedServiceModel service = await _serviceDiscoverer.GetServiceAsync("Services.Api.Business.Departments.Finance", cancellationTokenSource);
+
+            IEndpoint endpoint = service.GetEndpoint(RemoveSessionIfExistsInCacheEndpoint.Path);
 
             if (endpoint != null)
             {
@@ -128,7 +140,7 @@ namespace Services.Communication.Http.Broker.Department.Finance
                 return await _departmentCommunicator.CallAsync<Object>(authenticatedEndpoint, cancellationTokenSource);
             }
             else
-                throw new GetRouteException();
+                throw new EndpointNotFoundException();
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-﻿using Infrastructure.Routing.Providers.Abstract;
+﻿using Infrastructure.ServiceDiscovery.Discoverer.Abstract;
 
 using Services.Communication.Http.Broker.Department.Abstract;
 using Services.Communication.Http.Broker.Department.CR.Abstract;
@@ -10,14 +10,14 @@ namespace Services.Communication.Http.Broker.Department.CR.Mock
         private static ICRCommunicator crCommunicator;
 
         public static ICRCommunicator GetCRCommunicator(
-            IRouteProvider routeProvider,
-            IDepartmentCommunicator departmentCommunicator)
+            IDepartmentCommunicator departmentCommunicator,
+            IServiceDiscoverer serviceDiscoverer)
         {
             if (crCommunicator == null)
             {
                 crCommunicator = new CRCommunicator(
-                    routeProvider,
-                    departmentCommunicator);
+                    departmentCommunicator,
+                    serviceDiscoverer);
             }
 
             return crCommunicator;

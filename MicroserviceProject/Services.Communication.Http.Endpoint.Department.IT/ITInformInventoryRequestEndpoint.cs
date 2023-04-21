@@ -9,8 +9,9 @@ namespace Services.Communication.Http.Endpoint.Department.IT
 {
     public class ITInformInventoryRequestEndpoint : IEndpoint
     {
+        public static string Path => "it.inventory.informinventoryrequest";
         public string Url { get; set; } = "/Inventory/InformInventoryRequest";
-        public string Name { get; set; } = "it.inventory.informinventoryrequest";
+        public string Name { get; set; } = Path;
         public object Payload { get; set; }
         public HttpAction HttpAction { get; set; } = HttpAction.POST;
         public List<HttpHeaderModel> Headers { get; set; } = new List<HttpHeaderModel>();

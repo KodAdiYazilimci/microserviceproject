@@ -9,8 +9,9 @@ namespace Services.Communication.Http.Endpoint.Department.Finance
 {
     public class CreateCostEndpoint : IEndpoint
     {
+        public static string Path => "finance.cost.createcost";
         public string Url { get; set; } = "/Cost/CreateCost";
-        public string Name { get; set; } = "finance.cost.createcost";
+        public string Name { get; set; } = Path;
         public object Payload { get; set; }
         public HttpAction HttpAction { get; set; } = HttpAction.POST;
         public List<HttpHeaderModel> Headers { get; set; } = new List<HttpHeaderModel>();

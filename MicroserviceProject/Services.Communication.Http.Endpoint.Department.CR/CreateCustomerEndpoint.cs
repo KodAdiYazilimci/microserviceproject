@@ -9,8 +9,9 @@ namespace Services.Communication.Http.Endpoint.Department.CR
 {
     public class CreateCustomerEndpoint : IEndpoint
     {
+        public static string Path => "cr.customers.createcustomer";
         public string Url { get; set; } = "/Customers/Createcustomer";
-        public string Name { get; set; } = "cr.customers.createcustomer";
+        public string Name { get; set; } = Path;
         public object Payload { get; set; }
         public HttpAction HttpAction { get; set; } = HttpAction.POST;
         public List<HttpHeaderModel> Headers { get; set; } = new List<HttpHeaderModel>();

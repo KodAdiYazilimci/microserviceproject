@@ -9,8 +9,9 @@ namespace Services.Communication.Http.Endpoint.Department.Finance
 {
     public class RemoveSessionIfExistsInCacheEndpoint : IEndpoint
     {
+        public static string Path => "finance.identity.removesessionifexistsincache";
         public string Url { get; set; } = "/Identity/RemoveSessionIfExistsInCache";
-        public string Name { get; set; } = "finance.identity.removesessionifexistsincache";
+        public string Name { get; set; } = Path;
         public object Payload { get; set; }
         public HttpAction HttpAction { get; set; } = HttpAction.GET;
         public List<HttpHeaderModel> Headers { get; set; } = new List<HttpHeaderModel>();

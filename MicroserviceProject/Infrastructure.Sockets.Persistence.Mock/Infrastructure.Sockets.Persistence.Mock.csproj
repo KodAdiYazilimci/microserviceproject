@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Publishers\**" />
+    <EmbeddedResource Remove="Publishers\**" />
+    <None Remove="Publishers\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Infrastructure.Sockets.Persistence\Infrastructure.Sockets.Persistence.csproj" />
   </ItemGroup>
 

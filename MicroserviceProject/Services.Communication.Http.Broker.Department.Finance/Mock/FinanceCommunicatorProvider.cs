@@ -1,4 +1,4 @@
-﻿using Infrastructure.Routing.Providers.Abstract;
+﻿using Infrastructure.ServiceDiscovery.Discoverer.Abstract;
 
 using Services.Communication.Http.Broker.Department.Abstract;
 using Services.Communication.Http.Broker.Department.Finance.Abstract;
@@ -10,14 +10,14 @@ namespace Services.Communication.Http.Broker.Department.Finance.Mock
         private static IFinanceCommunicator financeCommunicator;
 
         public static IFinanceCommunicator GetFinanceCommunicator(
-            IRouteProvider routeProvider,
-            IDepartmentCommunicator departmentCommunicator)
+            IDepartmentCommunicator departmentCommunicator,
+            IServiceDiscoverer serviceDiscoverer)
         {
             if (financeCommunicator == null)
             {
                 financeCommunicator = new FinanceCommunicator(
-                    routeProvider,
-                    departmentCommunicator);
+                    departmentCommunicator,
+                    serviceDiscoverer);
             }
 
             return financeCommunicator;

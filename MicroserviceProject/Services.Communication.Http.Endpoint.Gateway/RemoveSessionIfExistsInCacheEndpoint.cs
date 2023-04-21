@@ -9,8 +9,9 @@ namespace Services.Communication.Http.Endpoint.Gateway
 {
     public class RemoveSessionIfExistsInCacheEndpoint : IEndpoint
     {
+        public static string Path => "gateway.public.identity.removesessionifexistsincache";
         public string Url { get; set; } = "/Identity/RemoveSessionIfExistsInCache";
-        public string Name { get; set; } = "gateway.public.identity.removesessionifexistsincache";
+        public string Name { get; set; } = Path;
         public object Payload { get; set; }
         public HttpAction HttpAction { get; set; } = HttpAction.GET;
         public List<HttpHeaderModel> Headers { get; set; } = new List<HttpHeaderModel>();

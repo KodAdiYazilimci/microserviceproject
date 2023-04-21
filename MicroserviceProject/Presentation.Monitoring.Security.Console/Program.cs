@@ -3,7 +3,6 @@ using Infrastructure.Communication.Http.Broker.Mock;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Communication.WebSockets;
 using Infrastructure.Communication.WebSockets.Models;
-using Infrastructure.Routing.Persistence.Mock;
 using Infrastructure.Security.Authentication.Abstract;
 using Infrastructure.Security.Authentication.Mock;
 using Infrastructure.ServiceDiscovery.Discoverer.Mock;
@@ -34,7 +33,6 @@ namespace Presentation.Monitoring.Security.Console
             SocketListener socketListener = new SocketListener(
                 cacheProvider: InMemoryCacheDataProviderFactory.Instance,
                 credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),
-                serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration),
                 socketRepository: SocketRepositoryFactory.GetSocketRepository(configuration));
 
             socketListener.OnMessageReceived += (WebSocketResultModel webSocketResult) =>

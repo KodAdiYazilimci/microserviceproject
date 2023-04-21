@@ -2,14 +2,15 @@
 using Infrastructure.Communication.Http.Endpoint.Authentication;
 using Infrastructure.Communication.Http.Endpoint.Util;
 using Infrastructure.Communication.Http.Models;
-using Infrastructure.Routing.Exceptions;
 using Infrastructure.ServiceDiscovery.Discoverer.Abstract;
+using Infrastructure.ServiceDiscovery.Discoverer.Exceptions;
 using Infrastructure.ServiceDiscovery.Discoverer.Models;
 
 using Services.Communication.Http.Broker.Department.Abstract;
 using Services.Communication.Http.Broker.Department.HR.Abstract;
 using Services.Communication.Http.Broker.Department.HR.CQRS.Commands.Requests;
 using Services.Communication.Http.Broker.Department.HR.Models;
+using Services.Communication.Http.Endpoint.Department.HR;
 
 namespace Services.Communication.Http.Broker.Department.HR
 {
@@ -40,21 +41,19 @@ namespace Services.Communication.Http.Broker.Department.HR
         {
             CachedServiceModel service = await _serviceDiscoverer.GetServiceAsync("Services.Api.Business.Departments.HR", cancellationTokenSource);
 
-            //IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<GetDepartmentsEndpoint>(cancellationTokenSource);
-
-            IEndpoint endpoint = service.GetEndpoint("hr.department.getdepartments");
+            IEndpoint endpoint = service.GetEndpoint(GetDepartmentsEndpoint.Path);
 
             if (endpoint != null)
             {
                 string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
-                IAuthenticatedEndpoint authenticatedEndpoint = endpoint.ConvertToAuthenticatedEndpoint(new TokenAuthentication(token)); 
+                IAuthenticatedEndpoint authenticatedEndpoint = endpoint.ConvertToAuthenticatedEndpoint(new TokenAuthentication(token));
                 authenticatedEndpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
 
                 return await _departmentCommunicator.CallAsync<List<DepartmentModel>>(authenticatedEndpoint, cancellationTokenSource);
             }
             else
-                throw new GetRouteException();
+                throw new EndpointNotFoundException();
         }
 
         public async Task<ServiceResultModel> CreateDepartmentAsync(
@@ -64,9 +63,7 @@ namespace Services.Communication.Http.Broker.Department.HR
         {
             CachedServiceModel service = await _serviceDiscoverer.GetServiceAsync("Services.Api.Business.Departments.HR", cancellationTokenSource);
 
-            //IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<CreateDepartmentEndpoint>(cancellationTokenSource);
-
-            IEndpoint endpoint = service.GetEndpoint("hr.department.createdepartment");
+            IEndpoint endpoint = service.GetEndpoint(CreateDepartmentEndpoint.Path);
 
             if (endpoint != null)
             {
@@ -79,19 +76,16 @@ namespace Services.Communication.Http.Broker.Department.HR
                 return await _departmentCommunicator.CallAsync<CreateDepartmentCommandRequest, Object>(authenticatedEndpoint, request, cancellationTokenSource);
             }
             else
-                throw new GetRouteException();
+                throw new EndpointNotFoundException();
         }
 
         public async Task<ServiceResultModel<List<PersonModel>>> GetPeopleAsync(
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-
             CachedServiceModel service = await _serviceDiscoverer.GetServiceAsync("Services.Api.Business.Departments.HR", cancellationTokenSource);
 
-            //IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<GetPeopleEndpoint>(cancellationTokenSource);
-
-            IEndpoint endpoint = service.GetEndpoint("hr.person.getpeople");
+            IEndpoint endpoint = service.GetEndpoint(GetPeopleEndpoint.Path);
 
             if (endpoint != null)
             {
@@ -104,7 +98,7 @@ namespace Services.Communication.Http.Broker.Department.HR
                 return await _departmentCommunicator.CallAsync<List<PersonModel>>(authenticatedEndpoint, cancellationTokenSource);
             }
             else
-                throw new GetRouteException();
+                throw new EndpointNotFoundException();
         }
 
         public async Task<ServiceResultModel> CreatePersonAsync(
@@ -114,9 +108,7 @@ namespace Services.Communication.Http.Broker.Department.HR
         {
             CachedServiceModel service = await _serviceDiscoverer.GetServiceAsync("Services.Api.Business.Departments.HR", cancellationTokenSource);
 
-            //IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<CreatePersonEndpoint>(cancellationTokenSource);
-
-            IEndpoint endpoint = service.GetEndpoint("hr.person.createperson");
+            IEndpoint endpoint = service.GetEndpoint(CreatePersonEndpoint.Path);
 
             if (endpoint != null)
             {
@@ -129,7 +121,7 @@ namespace Services.Communication.Http.Broker.Department.HR
                 return await _departmentCommunicator.CallAsync<CreatePersonCommandRequest, Object>(authenticatedEndpoint, request, cancellationTokenSource);
             }
             else
-                throw new GetRouteException();
+                throw new EndpointNotFoundException();
         }
 
         public async Task<ServiceResultModel<List<TitleModel>>> GetTitlesAsync(
@@ -138,9 +130,7 @@ namespace Services.Communication.Http.Broker.Department.HR
         {
             CachedServiceModel service = await _serviceDiscoverer.GetServiceAsync("Services.Api.Business.Departments.HR", cancellationTokenSource);
 
-            //IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<GetTitlesEndpoint>(cancellationTokenSource);
-
-            IEndpoint endpoint = service.GetEndpoint("hr.person.getitles");
+            IEndpoint endpoint = service.GetEndpoint(GetTitlesEndpoint.Path);
 
             if (endpoint != null)
             {
@@ -152,7 +142,7 @@ namespace Services.Communication.Http.Broker.Department.HR
                 return await _departmentCommunicator.CallAsync<List<TitleModel>>(authenticatedEndpoint, cancellationTokenSource);
             }
             else
-                throw new GetRouteException();
+                throw new EndpointNotFoundException();
         }
 
         public async Task<ServiceResultModel> CreateTitleAsync(
@@ -162,9 +152,7 @@ namespace Services.Communication.Http.Broker.Department.HR
         {
             CachedServiceModel service = await _serviceDiscoverer.GetServiceAsync("Services.Api.Business.Departments.HR", cancellationTokenSource);
 
-            //IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<CreateTitleEndpoint>(cancellationTokenSource);
-
-            IEndpoint endpoint = service.GetEndpoint("hr.person.createtitle");
+            IEndpoint endpoint = service.GetEndpoint(CreateTitleEndpoint.Path);
 
             if (endpoint != null)
             {
@@ -176,7 +164,7 @@ namespace Services.Communication.Http.Broker.Department.HR
                 return await _departmentCommunicator.CallAsync<CreateTitleCommandRequest, Object>(authenticatedEndpoint, request, cancellationTokenSource);
             }
             else
-                throw new GetRouteException();
+                throw new EndpointNotFoundException();
         }
 
         public async Task<ServiceResultModel<List<WorkerModel>>> GetWorkersAsync(
@@ -185,9 +173,7 @@ namespace Services.Communication.Http.Broker.Department.HR
         {
             CachedServiceModel service = await _serviceDiscoverer.GetServiceAsync("Services.Api.Business.Departments.HR", cancellationTokenSource);
 
-            //IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<GetWorkersEndpoint>(cancellationTokenSource);
-
-            IEndpoint endpoint = service.GetEndpoint("hr.person.getworkers");
+            IEndpoint endpoint = service.GetEndpoint(GetWorkersEndpoint.Path);
 
             if (endpoint != null)
             {
@@ -200,7 +186,7 @@ namespace Services.Communication.Http.Broker.Department.HR
                 return await _departmentCommunicator.CallAsync<List<WorkerModel>>(authenticatedEndpoint, cancellationTokenSource);
             }
             else
-                throw new GetRouteException();
+                throw new EndpointNotFoundException();
         }
 
         public async Task<ServiceResultModel> CreateWorkerAsync(
@@ -210,9 +196,7 @@ namespace Services.Communication.Http.Broker.Department.HR
         {
             CachedServiceModel service = await _serviceDiscoverer.GetServiceAsync("Services.Api.Business.Departments.HR", cancellationTokenSource);
 
-            //IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<CreateWorkerEndpoint>(cancellationTokenSource);
-
-            IEndpoint endpoint = service.GetEndpoint("hr.person.createworker");
+            IEndpoint endpoint = service.GetEndpoint(CreateWorkerEndpoint.Path);
 
             if (endpoint != null)
             {
@@ -224,7 +208,7 @@ namespace Services.Communication.Http.Broker.Department.HR
                 return await _departmentCommunicator.CallAsync<CreateWorkerCommandRequest, Object>(authenticatedEndpoint, request, cancellationTokenSource);
             }
             else
-                throw new GetRouteException();
+                throw new EndpointNotFoundException();
         }
 
         public async Task<ServiceResultModel> RemoveSessionIfExistsInCacheAsync(
@@ -233,9 +217,7 @@ namespace Services.Communication.Http.Broker.Department.HR
         {
             CachedServiceModel service = await _serviceDiscoverer.GetServiceAsync("Services.Api.Business.Departments.HR", cancellationTokenSource);
 
-            //IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<RemoveSessionIfExistsInCacheEndpoint>(cancellationTokenSource);
-
-            IEndpoint endpoint = service.GetEndpoint("hr.identity.removesessionifexistsincache");
+            IEndpoint endpoint = service.GetEndpoint(RemoveSessionIfExistsInCacheEndpoint.Path);
 
             if (endpoint != null)
             {
@@ -247,7 +229,7 @@ namespace Services.Communication.Http.Broker.Department.HR
                 return await _departmentCommunicator.CallAsync<List<InventoryModel>>(authenticatedEndpoint, cancellationTokenSource);
             }
             else
-                throw new GetRouteException();
+                throw new EndpointNotFoundException();
         }
 
         /// <summary>

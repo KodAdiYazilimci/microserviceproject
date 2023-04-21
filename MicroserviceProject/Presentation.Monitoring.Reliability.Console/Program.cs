@@ -1,16 +1,12 @@
-﻿using Infrastructure.Caching.InMemory;
-using Infrastructure.Caching.InMemory.Mock;
+﻿using Infrastructure.Caching.InMemory.Mock;
 using Infrastructure.Communication.Http.Broker.Mock;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Communication.WebSockets;
 using Infrastructure.Communication.WebSockets.Models;
-using Infrastructure.Routing.Persistence.Mock;
-using Infrastructure.Routing.Providers.Mock;
 using Infrastructure.Security.Authentication.Abstract;
 using Infrastructure.Security.Authentication.Mock;
 using Infrastructure.ServiceDiscovery.Discoverer.Mock;
 using Infrastructure.ServiceDiscovery.Mock;
-using Infrastructure.ServiceDiscovery.Providers;
 using Infrastructure.Sockets.Persistence.Mock;
 
 using Microsoft.Extensions.Configuration;
@@ -37,7 +33,6 @@ namespace Presentation.Monitoring.Reliability.Console
             SocketListener socketListener = new SocketListener(
                 cacheProvider: InMemoryCacheDataProviderFactory.Instance,
                 credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),
-                serviceRouteRepository: ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration),
                 socketRepository: SocketRepositoryFactory.GetSocketRepository(configuration));
 
             socketListener.OnMessageReceived += (WebSocketResultModel webSocketResult) =>

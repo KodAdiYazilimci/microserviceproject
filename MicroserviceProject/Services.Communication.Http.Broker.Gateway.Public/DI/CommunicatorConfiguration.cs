@@ -1,6 +1,5 @@
 ﻿
 using Infrastructure.Communication.Http.Broker.DI;
-using Infrastructure.Routing.Providers.DI;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -23,7 +22,6 @@ namespace Services.Communication.Http.Broker.Gateway.Public.DI
         public static IServiceCollection RegisterPublicGatewayCommunicators(this IServiceCollection services)
         {
             services.RegisterHttpServiceCommunicator();
-            services.RegisterRoutingProviders();
 
             services.RegisterGatewayCommunicators();
 

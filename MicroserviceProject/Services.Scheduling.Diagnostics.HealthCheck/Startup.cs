@@ -2,7 +2,6 @@ using Hangfire;
 using Hangfire.MemoryStorage;
 
 using Infrastructure.Communication.Http.Providers;
-using Infrastructure.Routing.Persistence.DI;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,7 +33,7 @@ namespace Services.Scheduling.Diagnostics.HealthCheck
             services.AddHangfireServer();
 
             services.AddSingleton<HttpGetProvider>();
-            services.RegisterHttpRouteRepositories();
+            //services.RegisterHttpRouteRepositories();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,6 +1,5 @@
 ﻿
 using Infrastructure.Communication.Http.Broker.DI;
-using Infrastructure.Routing.Providers.DI;
 using Infrastructure.ServiceDiscovery.Discoverer.DI;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -24,7 +23,6 @@ namespace Services.Communication.Http.Broker.Authorization.DI
         {
             services.RegisterDefaultCommunicator();
             services.RegisterHttpServiceCommunicator();
-            services.RegisterRoutingProviders();
 
             services.RegisterServiceDiscoverers();
 

@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure.Communication.Http\Infrastructure.Communication.Http.csproj" />
-    <ProjectReference Include="..\Infrastructure.Routing.Persistence\Infrastructure.Routing.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

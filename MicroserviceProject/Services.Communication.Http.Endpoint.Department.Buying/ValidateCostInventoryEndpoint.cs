@@ -9,8 +9,9 @@ namespace Services.Communication.Http.Endpoint.Department.Buying
 {
     public class ValidateCostInventoryEndpoint : IEndpoint
     {
+        public static string Path => "buying.request.validatecostinventory";
         public string Url { get; set; } = "/Request/ValidateCostInventory";
-        public string Name { get; set; } = "buying.request.validatecostinventory";
+        public string Name { get; set; } = Path;
         public object Payload { get; set; }
         public HttpAction HttpAction { get; set; } = HttpAction.POST;
         public List<HttpHeaderModel> Headers { get; set; } = new List<HttpHeaderModel>();
