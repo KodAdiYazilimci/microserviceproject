@@ -9,8 +9,9 @@ namespace Services.Communication.Http.Endpoint.Department.HR
 {
     public class CreatePersonEndpoint : IEndpoint
     {
+        public static string Path => "hr.person.createperson";
         public string Url { get; set; } = "/Person/CreatePerson";
-        public string Name { get; set; } = "hr.person.createperson";
+        public string Name { get; set; } = Path;
         public object Payload { get; set; }
         public HttpAction HttpAction { get; set; } = HttpAction.POST;
         public List<HttpHeaderModel> Headers { get; set; } = new List<HttpHeaderModel>();

@@ -9,8 +9,9 @@ namespace Services.Communication.Http.Endpoint.Department.Finance
 {
     public class CreateProductionRequestEndpoint : IEndpoint
     {
+        public static string Path => "finance.productionrequest.createproductionrequest";
         public string Url { get; set; } = "/ProductionRequest/CreateProductionRequest";
-        public string Name { get; set; } = "finance.productionrequest.createproductionrequest";
+        public string Name { get; set; } = Path;
         public object Payload { get; set; }
         public HttpAction HttpAction { get; set; } = HttpAction.POST;
         public List<HttpHeaderModel> Headers { get; set; } = new List<HttpHeaderModel>();

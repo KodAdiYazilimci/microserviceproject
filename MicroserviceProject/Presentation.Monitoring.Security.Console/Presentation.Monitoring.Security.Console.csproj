@@ -19,7 +19,6 @@
     <ProjectReference Include="..\Infrastructure.Communication.Http.Broker.Mock\Infrastructure.Communication.Http.Broker.Mock.csproj" />
     <ProjectReference Include="..\Infrastructure.Communication.WebSockets\Infrastructure.Communication.WebSockets.csproj" />
     <ProjectReference Include="..\Infrastructure.Mock\Infrastructure.Mock.csproj" />
-    <ProjectReference Include="..\Infrastructure.Routing.Persistence.Mock\Infrastructure.Routing.Persistence.Mock.csproj" />
     <ProjectReference Include="..\Infrastructure.Security.Authentication.Mock\Infrastructure.Security.Authentication.Mock.csproj" />
     <ProjectReference Include="..\Infrastructure.Sockets.Persistence.Mock\Infrastructure.Sockets.Persistence.Mock.csproj" />
     <ProjectReference Include="..\Services.Communication.Http.Broker.Authorization\Services.Communication.Http.Broker.Authorization.csproj" />

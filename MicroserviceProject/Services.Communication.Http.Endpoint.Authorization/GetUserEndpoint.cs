@@ -3,15 +3,15 @@ using Infrastructure.Communication.Http.Endpoint.Abstract;
 using Infrastructure.Communication.Http.Endpoint.Constants;
 using Infrastructure.Communication.Http.Models;
 
-using System.Collections.Generic;
 using System.Net;
 
 namespace Services.Communication.Http.Endpoint.Authorization.Endpoints
 {
     public class GetUserEndpoint : IEndpoint
     {
+        public static string Path => "authorization.auth.getuser";
         public string Url { get; set; } = "/Auth/GetUser";
-        public string Name { get; set; } = "authorization.auth.getuser";
+        public string Name { get; set; } = Path;
         public object Payload { get; set; }
         public HttpAction HttpAction { get; set; } = HttpAction.GET;
         public List<HttpHeaderModel> Headers { get; set; } = new List<HttpHeaderModel>();

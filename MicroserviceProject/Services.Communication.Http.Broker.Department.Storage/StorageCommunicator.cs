@@ -2,8 +2,9 @@
 using Infrastructure.Communication.Http.Endpoint.Authentication;
 using Infrastructure.Communication.Http.Endpoint.Util;
 using Infrastructure.Communication.Http.Models;
-using Infrastructure.Routing.Exceptions;
-using Infrastructure.Routing.Providers.Abstract;
+using Infrastructure.ServiceDiscovery.Discoverer.Abstract;
+using Infrastructure.ServiceDiscovery.Discoverer.Exceptions;
+using Infrastructure.ServiceDiscovery.Discoverer.Models;
 
 using Services.Communication.Http.Broker.Department.Abstract;
 using Services.Communication.Http.Broker.Department.Storage.Abstract;
@@ -20,15 +21,15 @@ namespace Services.Communication.Http.Broker.Department.Storage
         /// </summary>
         private bool disposed = false;
 
-        private readonly IRouteProvider _routeProvider;
-        public readonly IDepartmentCommunicator _departmentCommunicator;
+        private readonly IDepartmentCommunicator _departmentCommunicator;
+        private readonly IServiceDiscoverer _serviceDiscoverer;
 
         public StorageCommunicator(
-            IRouteProvider routeProvider,
-            IDepartmentCommunicator departmentCommunicator)
+            IDepartmentCommunicator departmentCommunicator, 
+            IServiceDiscoverer serviceDiscoverer)
         {
-            _routeProvider = routeProvider;
             _departmentCommunicator = departmentCommunicator;
+            _serviceDiscoverer = serviceDiscoverer;
         }
 
         public async Task<ServiceResultModel<StockModel>> GetStockAsync(
@@ -36,7 +37,9 @@ namespace Services.Communication.Http.Broker.Department.Storage
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<GetStockEndpoint>(cancellationTokenSource);
+            CachedServiceModel service = await _serviceDiscoverer.GetServiceAsync("Services.Api.Business.Departments.Storage", cancellationTokenSource);
+
+            IEndpoint endpoint = service.GetEndpoint(GetStockEndpoint.Path);
 
             if (endpoint != null)
             {
@@ -50,7 +53,7 @@ namespace Services.Communication.Http.Broker.Department.Storage
                 return await _departmentCommunicator.CallAsync<StockModel>(authenticatedEndpoint, cancellationTokenSource);
             }
             else
-                throw new GetRouteException();
+                throw new EndpointNotFoundException();
         }
 
         public async Task<ServiceResultModel> DescendStockAsync(
@@ -58,7 +61,9 @@ namespace Services.Communication.Http.Broker.Department.Storage
            string transactionIdentity,
            CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<DescendStockEndpoint>(cancellationTokenSource);
+            CachedServiceModel service = await _serviceDiscoverer.GetServiceAsync("Services.Api.Business.Departments.Storage", cancellationTokenSource);
+
+            IEndpoint endpoint = service.GetEndpoint(DescendStockEndpoint.Path);
 
             if (endpoint != null)
             {
@@ -70,7 +75,7 @@ namespace Services.Communication.Http.Broker.Department.Storage
                 return await _departmentCommunicator.CallAsync<DescendProductStockCommandRequest, Object>(authenticatedEndpoint, request, cancellationTokenSource);
             }
             else
-                throw new GetRouteException();
+                throw new EndpointNotFoundException();
         }
 
         public async Task<ServiceResultModel> CreateStockAsync(
@@ -78,7 +83,9 @@ namespace Services.Communication.Http.Broker.Department.Storage
            string transactionIdentity,
            CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<CreateStockEndpoint>(cancellationTokenSource);
+            CachedServiceModel service = await _serviceDiscoverer.GetServiceAsync("Services.Api.Business.Departments.Storage", cancellationTokenSource);
+
+            IEndpoint endpoint = service.GetEndpoint(CreateStockEndpoint.Path);
 
             if (endpoint != null)
             {
@@ -90,14 +97,16 @@ namespace Services.Communication.Http.Broker.Department.Storage
                 return await _departmentCommunicator.CallAsync<CreateStockCommandRequest, Object>(authenticatedEndpoint, request, cancellationTokenSource);
             }
             else
-                throw new GetRouteException();
+                throw new EndpointNotFoundException();
         }
 
         public async Task<ServiceResultModel> RemoveSessionIfExistsInCacheAsync(
             string tokenKey,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<RemoveSessionIfExistsInCacheEndpoint>(cancellationTokenSource);
+            CachedServiceModel service = await _serviceDiscoverer.GetServiceAsync("Services.Api.Business.Departments.Storage", cancellationTokenSource);
+
+            IEndpoint endpoint = service.GetEndpoint(RemoveSessionIfExistsInCacheEndpoint.Path);
 
             if (endpoint != null)
             {
@@ -109,7 +118,7 @@ namespace Services.Communication.Http.Broker.Department.Storage
                 return await _departmentCommunicator.CallAsync<Object>(authenticatedEndpoint, cancellationTokenSource);
             }
             else
-                throw new GetRouteException();
+                throw new EndpointNotFoundException();
         }
 
         /// <summary>

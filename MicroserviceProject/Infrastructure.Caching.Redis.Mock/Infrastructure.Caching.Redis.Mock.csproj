@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="_DI\**" />
+    <EmbeddedResource Remove="_DI\**" />
+    <None Remove="_DI\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Infrastructure.Caching.Redis\Infrastructure.Caching.Redis.csproj" />
   </ItemGroup>
 

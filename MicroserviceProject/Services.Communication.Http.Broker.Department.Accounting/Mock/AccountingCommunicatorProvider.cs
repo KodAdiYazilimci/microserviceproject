@@ -1,4 +1,4 @@
-﻿using Infrastructure.Routing.Providers.Abstract;
+﻿using Infrastructure.ServiceDiscovery.Discoverer.Abstract;
 
 using Services.Communication.Http.Broker.Department.Abstract;
 using Services.Communication.Http.Broker.Department.Accounting.Abstract;
@@ -10,14 +10,14 @@ namespace Services.Communication.Http.Broker.Department.Accounting.Mock
         private static AccountingCommunicator accountingCommunicator = null;
 
         public static IAccountingCommunicator GetAccountingCommunicator(
-            IRouteProvider routeProvider,
-            IDepartmentCommunicator departmentCommunicator)
+            IDepartmentCommunicator departmentCommunicator,
+            IServiceDiscoverer serviceDiscoverer)
         {
             if (accountingCommunicator == null)
             {
                 accountingCommunicator = new AccountingCommunicator(
-                    routeProvider,
-                    departmentCommunicator);
+                    departmentCommunicator,
+                    serviceDiscoverer);
             }
 
             return accountingCommunicator;

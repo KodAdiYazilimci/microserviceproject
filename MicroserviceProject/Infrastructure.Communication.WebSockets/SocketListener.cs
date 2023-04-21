@@ -1,6 +1,5 @@
 ﻿using Infrastructure.Caching.Abstraction;
 using Infrastructure.Communication.WebSockets.Models;
-using Infrastructure.Routing.Persistence.Abstract;
 using Infrastructure.Security.Authentication.Abstract;
 using Infrastructure.Sockets.Exceptions;
 using Infrastructure.Sockets.Models;
@@ -54,11 +53,6 @@ namespace Infrastructure.Communication.WebSockets
         private readonly ICredentialProvider _credentialProvider;
 
         /// <summary>
-        /// Servis endpointleri sağlayıcısı
-        /// </summary>
-        private readonly IServiceRouteRepository _serviceRouteRepository;
-
-        /// <summary>
         /// Soket endpointlerinin sağlayıcısı
         /// </summary>
         private readonly SocketRepository _socketRepository;
@@ -84,12 +78,10 @@ namespace Infrastructure.Communication.WebSockets
         public SocketListener(
             IInMemoryCacheDataProvider cacheProvider,
             ICredentialProvider credentialProvider,
-            IServiceRouteRepository serviceRouteRepository,
             SocketRepository socketRepository)
         {
             _cacheProvider = cacheProvider;
             _credentialProvider = credentialProvider;
-            _serviceRouteRepository = serviceRouteRepository;
             _socketRepository = socketRepository;
         }
 
@@ -165,9 +157,6 @@ namespace Infrastructure.Communication.WebSockets
                 {
                     if (_credentialProvider != null)
                         _credentialProvider.Dispose();
-
-                    if (_serviceRouteRepository != null)
-                        _serviceRouteRepository.Dispose();
 
                     if (_socketRepository != null)
                         _socketRepository.Dispose();

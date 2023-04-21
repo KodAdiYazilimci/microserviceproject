@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure.Diagnostics.HealthCheck.Util\Infrastructure.Diagnostics.HealthCheck.Util.csproj" />
-    <ProjectReference Include="..\Infrastructure.Routing.Persistence\Infrastructure.Routing.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

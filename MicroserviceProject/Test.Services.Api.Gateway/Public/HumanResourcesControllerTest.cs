@@ -1,8 +1,6 @@
 ﻿using Infrastructure.Caching.InMemory.Mock;
 using Infrastructure.Communication.Http.Broker.Mock;
 using Infrastructure.Communication.Http.Models;
-using Infrastructure.Routing.Persistence.Mock;
-using Infrastructure.Routing.Providers.Mock;
 using Infrastructure.Security.Authentication.Mock;
 using Infrastructure.ServiceDiscovery.Discoverer.Mock;
 using Infrastructure.ServiceDiscovery.Mock;
@@ -26,10 +24,6 @@ namespace Test.Services.Api.Gateway.Public
 
         public HumanResourcesControllerTest(IConfiguration configuration)
         {
-            var routeProvider = RouteProviderFactory.GetRouteProvider(
-                ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration),
-                InMemoryCacheDataProviderFactory.Instance);
-
             var defaultCommunicator = DefaultCommunicatorProvider.GetDefaultCommunicator(
                 httpGetCaller: HttpGetCallerFactory.Instance,
                 httpPostCaller: HttpPostCallerFactory.Instance);

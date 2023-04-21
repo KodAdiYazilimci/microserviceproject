@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Infrastructure.Routing.Providers\Infrastructure.Routing.Providers.csproj" />
+    <ProjectReference Include="..\Infrastructure.Communication.Http.Endpoint\Infrastructure.Communication.Http.Endpoint.csproj" />
     <ProjectReference Include="..\Infrastructure.Security.Authentication\Infrastructure.Security.Authentication.csproj" />
   </ItemGroup>
 

@@ -5,8 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="AA\**" />
     <Compile Remove="Abstraction\**" />
+    <EmbeddedResource Remove="AA\**" />
     <EmbeddedResource Remove="Abstraction\**" />
+    <None Remove="AA\**" />
     <None Remove="Abstraction\**" />
   </ItemGroup>
 

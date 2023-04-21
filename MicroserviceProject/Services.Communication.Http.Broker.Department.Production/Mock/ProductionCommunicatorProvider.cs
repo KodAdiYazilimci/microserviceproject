@@ -1,4 +1,4 @@
-﻿using Infrastructure.Routing.Providers.Abstract;
+﻿using Infrastructure.ServiceDiscovery.Discoverer.Abstract;
 
 using Services.Communication.Http.Broker.Department.Abstract;
 using Services.Communication.Http.Broker.Department.Production.Abstract;
@@ -10,14 +10,14 @@ namespace Services.Communication.Http.Broker.Department.Production.Mock
         private static IProductionCommunicator productionCommunicator;
 
         public static IProductionCommunicator GetProductionCommunicator(
-            IRouteProvider routeProvider,
-            IDepartmentCommunicator departmentCommunicator)
+            IDepartmentCommunicator departmentCommunicator,
+            IServiceDiscoverer serviceDiscoverer)
         {
             if (productionCommunicator == null)
             {
                 productionCommunicator = new ProductionCommunicator(
-                    routeProvider,
-                    departmentCommunicator);
+                    departmentCommunicator,
+                    serviceDiscoverer);
             }
 
             return productionCommunicator;

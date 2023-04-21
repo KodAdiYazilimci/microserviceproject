@@ -1,4 +1,4 @@
-﻿using Infrastructure.Routing.Providers.Abstract;
+﻿using Infrastructure.ServiceDiscovery.Discoverer.Abstract;
 
 using Services.Communication.Http.Broker.Department.AA.Abstract;
 using Services.Communication.Http.Broker.Department.Abstract;
@@ -10,14 +10,14 @@ namespace Services.Communication.Http.Broker.Department.AA.Mock
         private static AACommunicator aaCommunicator;
 
         public static IAACommunicator GetAACommunicator(
-            IRouteProvider routeProvider,
-            IDepartmentCommunicator departmentCommunicator)
+            IDepartmentCommunicator departmentCommunicator,
+            IServiceDiscoverer serviceDiscoverer)
         {
             if (aaCommunicator == null)
             {
                 aaCommunicator = new AACommunicator(
-                    routeProvider,
-                    departmentCommunicator);
+                    departmentCommunicator,
+                    serviceDiscoverer);
             }
 
             return aaCommunicator;

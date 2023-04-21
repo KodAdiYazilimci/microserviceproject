@@ -9,8 +9,9 @@ namespace Services.Communication.Http.Endpoint.Department.Storage
 {
     public class CreateStockEndpoint : IEndpoint
     {
+        public static string Path => "storage.stock.createstock";
         public string Url { get; set; } = "/Stock/CreateStock";
-        public string Name { get; set; } = "storage.stock.createstock";
+        public string Name { get; set; } = Path;
         public object Payload { get; set; }
         public HttpAction HttpAction { get; set; } = HttpAction.POST;
         public List<HttpHeaderModel> Headers { get; set; } = new List<HttpHeaderModel>();

@@ -2,13 +2,14 @@
 using Infrastructure.Communication.Http.Endpoint.Authentication;
 using Infrastructure.Communication.Http.Endpoint.Util;
 using Infrastructure.Communication.Http.Models;
-using Infrastructure.Routing.Exceptions;
 using Infrastructure.ServiceDiscovery.Discoverer.Abstract;
+using Infrastructure.ServiceDiscovery.Discoverer.Exceptions;
 using Infrastructure.ServiceDiscovery.Discoverer.Models;
 
 using Services.Communication.Http.Broker.Abstract;
 using Services.Communication.Http.Broker.Authorization.Abstract;
 using Services.Communication.Http.Broker.Authorization.Models;
+using Services.Communication.Http.Endpoint.Authorization.Endpoints;
 
 using System;
 using System.Threading;
@@ -40,7 +41,7 @@ namespace Services.Communication.Http.Broker.Authorization
         {
             CachedServiceModel service = await _serviceDiscoverer.GetServiceAsync("Services.Api.Authorization", cancellationTokenSource);
 
-            IEndpoint endpoint = service.GetEndpoint("GetToken");
+            IEndpoint endpoint = service.GetEndpoint(GetTokenEndpoint.Path);
 
             if (endpoint != null)
             {
@@ -49,7 +50,7 @@ namespace Services.Communication.Http.Broker.Authorization
                 return await _communicator.CallAsync<CredentialModel, TokenModel>(authenticatedEndpoint, credential, cancellationTokenSource);
             }
             else
-                throw new GetRouteException();
+                throw new EndpointNotFoundException();
         }
 
         public async Task<ServiceResultModel<UserModel>> GetUserAsync(
@@ -58,7 +59,7 @@ namespace Services.Communication.Http.Broker.Authorization
         {
             CachedServiceModel service = await _serviceDiscoverer.GetServiceAsync("Services.Api.Authorization", cancellationTokenSource);
 
-            IEndpoint endpoint = service.GetEndpoint("authorization.auth.gettoken");
+            IEndpoint endpoint = service.GetEndpoint(GetUserEndpoint.Path);
 
             if (endpoint != null)
             {
@@ -69,7 +70,7 @@ namespace Services.Communication.Http.Broker.Authorization
                 return await _communicator.CallAsync<object, UserModel>(authenticatedEndpoint, null, cancellationTokenSource);
             }
             else
-                throw new GetRouteException();
+                throw new EndpointNotFoundException();
         }
 
         /// <summary>

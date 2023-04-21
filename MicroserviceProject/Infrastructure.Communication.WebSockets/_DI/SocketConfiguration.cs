@@ -1,5 +1,4 @@
 ﻿using Infrastructure.Caching.InMemory.DI;
-using Infrastructure.Routing.Persistence.DI;
 using Infrastructure.Security.Authentication.DI;
 using Infrastructure.Sockets.Persistence.Repositories.Sql;
 
@@ -21,7 +20,6 @@ namespace Infrastructure.Communication.WebSockets.DI
         {
             services.RegisterCredentialProvider();
             services.RegisterInMemoryCaching();
-            services.RegisterHttpRouteRepositories();
 
             services.AddSingleton<SocketListener>();
             services.AddSingleton<SocketRepository>();

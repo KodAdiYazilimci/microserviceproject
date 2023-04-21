@@ -1,7 +1,8 @@
 ﻿using Infrastructure.Communication.Http.Endpoint.Abstract;
-using Infrastructure.Routing.Providers.Abstract;
 using Infrastructure.Security.Authentication.Cookie.Handlers;
 using Infrastructure.Security.Model;
+using Infrastructure.ServiceDiscovery.Discoverer.Abstract;
+using Infrastructure.ServiceDiscovery.Discoverer.Models;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -20,18 +21,18 @@ namespace Presentation.UI.Web.Controllers
 {
     public class UserController : Controller
     {
-        private readonly IRouteProvider _routeProvider;
         private readonly CookieHandler _sessionProvider;
         private readonly IConfiguration _configuration;
+        private readonly IServiceDiscoverer _serviceDiscoverer;
 
         public UserController(
             IConfiguration configuration,
             CookieHandler sessionProvider,
-            IRouteProvider routeProvider)
+            IServiceDiscoverer serviceDiscoverer)
         {
             _configuration = configuration;
             _sessionProvider = sessionProvider;
-            _routeProvider = routeProvider;
+            _serviceDiscoverer = serviceDiscoverer;
         }
 
         [AllowAnonymous]
@@ -61,11 +62,13 @@ namespace Presentation.UI.Web.Controllers
 
                 QueryString queryString = queryBuilder.ToQueryString();
 
-                IEndpoint loginEndpoint = await _routeProvider.GetRoutingEndpointAsync<LoginEndpoint>(cancellationTokenSource);
+                CachedServiceModel service = await _serviceDiscoverer.GetServiceAsync("Services.Api.Authorization", cancellationTokenSource);
 
-                string endpoint = loginEndpoint.Url + queryString.Value;
+                IEndpoint endpoint = service.GetEndpoint(LoginEndpoint.Path);
 
-                return Redirect(endpoint);
+                string endpointUrl = endpoint.Url + queryString.Value;
+
+                return Redirect(endpointUrl);
             }
 
             return View();

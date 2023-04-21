@@ -1,4 +1,4 @@
-﻿using Infrastructure.Routing.Providers.Abstract;
+﻿using Infrastructure.ServiceDiscovery.Discoverer.Abstract;
 
 using Services.Communication.Http.Broker.Department.Abstract;
 using Services.Communication.Http.Broker.Department.Buying.Abstract;
@@ -10,14 +10,14 @@ namespace Services.Communication.Http.Broker.Department.Buying.Mock
         private static IBuyingCommunicator buyingCommunicator;
 
         public static IBuyingCommunicator GetBuyingCommunicator(
-            IRouteProvider routeProvider,
-            IDepartmentCommunicator departmentCommunicator)
+            IDepartmentCommunicator departmentCommunicator,
+            IServiceDiscoverer serviceDiscoverer)
         {
             if (buyingCommunicator == null)
             {
                 buyingCommunicator = new BuyingCommunicator(
-                    routeProvider,
-                    departmentCommunicator);
+                    departmentCommunicator,
+                    serviceDiscoverer);
             }
 
             return buyingCommunicator;

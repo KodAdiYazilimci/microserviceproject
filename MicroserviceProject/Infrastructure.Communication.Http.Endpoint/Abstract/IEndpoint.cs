@@ -8,6 +8,7 @@ namespace Infrastructure.Communication.Http.Endpoint.Abstract
 {
     public interface IEndpoint
     {
+        static string Path { get; set; }
         string Url { get; set; }
         string Name { get; set; }
         object? Payload { get; set; }

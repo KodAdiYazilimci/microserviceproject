@@ -9,8 +9,9 @@ namespace Services.Communication.Http.Endpoint.Department.Accounting
 {
     public class GetBankAccountsOfWorkerEndpoint : IEndpoint
     {
+        public static string Path => "accounting.bankaccounts.getbankaccountsofworker";
         public string Url { get; set; } = "/BankAccounts/GetBankAccountsOfWorker";
-        public string Name { get; set; } = "accounting.bankaccounts.getbankaccountsofworker";
+        public string Name { get; set; } = Path;
         public object Payload { get; set; }
         public HttpAction HttpAction { get; set; } = HttpAction.GET;
         public List<HttpHeaderModel> Headers { get; set; } = new List<HttpHeaderModel>();

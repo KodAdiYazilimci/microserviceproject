@@ -2,8 +2,9 @@
 using Infrastructure.Communication.Http.Endpoint.Authentication;
 using Infrastructure.Communication.Http.Endpoint.Util;
 using Infrastructure.Communication.Http.Models;
-using Infrastructure.Routing.Exceptions;
-using Infrastructure.Routing.Providers.Abstract;
+using Infrastructure.ServiceDiscovery.Discoverer.Abstract;
+using Infrastructure.ServiceDiscovery.Discoverer.Exceptions;
+using Infrastructure.ServiceDiscovery.Discoverer.Models;
 
 using Services.Communication.Http.Broker.Department.Abstract;
 using Services.Communication.Http.Broker.Department.Buying.Abstract;
@@ -20,24 +21,24 @@ namespace Services.Communication.Http.Broker.Department.Buying
         /// </summary>
         private bool disposed = false;
 
-        private readonly IRouteProvider _routeProvider;
         private readonly IDepartmentCommunicator _departmentCommunicator;
-
+        private readonly IServiceDiscoverer _serviceDiscoverer;
 
         public BuyingCommunicator(
-            IRouteProvider routeProvider,
-            IDepartmentCommunicator departmentCommunicator)
+            IDepartmentCommunicator departmentCommunicator,
+            IServiceDiscoverer serviceDiscoverer)
         {
-            _routeProvider = routeProvider;
             _departmentCommunicator = departmentCommunicator;
+            _serviceDiscoverer = serviceDiscoverer;
         }
 
         public async Task<ServiceResultModel<List<InventoryRequestModel>>> GetInventoryRequestsAsync(
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<GetInventoryRequestsEndpoint>(cancellationTokenSource);
+            CachedServiceModel service = await _serviceDiscoverer.GetServiceAsync("Services.Api.Business.Departments.Buying", cancellationTokenSource);
 
+            IEndpoint endpoint = service.GetEndpoint(GetInventoryRequestsEndpoint.Path);
             if (endpoint != null)
             {
                 string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
@@ -49,7 +50,7 @@ namespace Services.Communication.Http.Broker.Department.Buying
                 return await _departmentCommunicator.CallAsync<List<InventoryRequestModel>>(authenticatedEndpoint, cancellationTokenSource);
             }
             else
-                throw new GetRouteException();
+                throw new EndpointNotFoundException();
         }
 
         public async Task<ServiceResultModel> ValidateCostInventoryAsync(
@@ -57,7 +58,9 @@ namespace Services.Communication.Http.Broker.Department.Buying
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<ValidateCostInventoryEndpoint>(cancellationTokenSource);
+            CachedServiceModel service = await _serviceDiscoverer.GetServiceAsync("Services.Api.Business.Departments.Buying", cancellationTokenSource);
+
+            IEndpoint endpoint = service.GetEndpoint(ValidateCostInventoryEndpoint.Path);
 
             if (endpoint != null)
             {
@@ -70,7 +73,7 @@ namespace Services.Communication.Http.Broker.Department.Buying
                 return await _departmentCommunicator.CallAsync<ValidateCostInventoryCommandRequest, Object>(authenticatedEndpoint, request, cancellationTokenSource);
             }
             else
-                throw new GetRouteException();
+                throw new EndpointNotFoundException();
         }
 
         public async Task<ServiceResultModel> CreateInventoryRequestAsync(
@@ -78,7 +81,9 @@ namespace Services.Communication.Http.Broker.Department.Buying
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<CreateInventoryRequestEndpoint>(cancellationTokenSource);
+            CachedServiceModel service = await _serviceDiscoverer.GetServiceAsync("Services.Api.Business.Departments.Buying", cancellationTokenSource);
+
+            IEndpoint endpoint = service.GetEndpoint(CreateInventoryRequestEndpoint.Path);
 
             if (endpoint != null)
             {
@@ -90,14 +95,16 @@ namespace Services.Communication.Http.Broker.Department.Buying
                 return await _departmentCommunicator.CallAsync<CreateInventoryRequestCommandRequest, Object>(authenticatedEndpoint, request, cancellationTokenSource);
             }
             else
-                throw new GetRouteException();
+                throw new EndpointNotFoundException();
         }
 
         public async Task<ServiceResultModel> RemoveSessionIfExistsInCacheAsync(
             string tokenKey,
             CancellationTokenSource cancellationTokenSource)
         {
-            IEndpoint endpoint = await _routeProvider.GetRoutingEndpointAsync<RemoveSessionIfExistsInCacheEndpoint>(cancellationTokenSource);
+            CachedServiceModel service = await _serviceDiscoverer.GetServiceAsync("Services.Api.Business.Departments.Buying", cancellationTokenSource);
+
+            IEndpoint endpoint = service.GetEndpoint(RemoveSessionIfExistsInCacheEndpoint.Path);
 
             if (endpoint != null)
             {
@@ -109,7 +116,7 @@ namespace Services.Communication.Http.Broker.Department.Buying
                 return await _departmentCommunicator.CallAsync<object>(authenticatedEndpoint, cancellationTokenSource);
             }
             else
-                throw new GetRouteException();
+                throw new EndpointNotFoundException();
         }
 
         /// <summary>

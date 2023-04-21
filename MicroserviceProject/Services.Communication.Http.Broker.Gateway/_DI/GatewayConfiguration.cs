@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Security.Authentication.DI;
+using Infrastructure.ServiceDiscovery.Discoverer.DI;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,6 +16,8 @@ namespace Services.Communication.Http.Broker.Gateway._DI
             services.RegisterCredentialProvider();
             services.RegisterInMemoryCaching();
             services.RegisterHttpAuthorizationCommunicators();
+
+            services.RegisterServiceDiscoverers();
 
             services.AddSingleton<IAuthenticationCommunicator, AuthenticationCommunicator>();
 

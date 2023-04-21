@@ -8,8 +8,6 @@ using Infrastructure.Localization.Translation.Persistence.EntityFramework.Mock.P
 using Infrastructure.Localization.Translation.Persistence.Mock.EntityFramework.Persistence;
 using Infrastructure.Localization.Translation.Provider.Mock;
 using Infrastructure.Mock.Factories;
-using Infrastructure.Routing.Persistence.Mock;
-using Infrastructure.Routing.Providers.Mock;
 using Infrastructure.Security.Authentication.Mock;
 using Infrastructure.ServiceDiscovery.Discoverer.Mock;
 using Infrastructure.ServiceDiscovery.Mock;
@@ -48,10 +46,6 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Services
                 IMapper mapper = MappingFactory.GetInstance(new MappingProfile());
                 var inMemoryCacheDataProvider = InMemoryCacheDataProviderFactory.Instance;
                 IDistrubutedCacheProvider redisCacheDataProvider = CacheDataProviderFactory.GetInstance(configuration);
-                var serviceRouteRepository = ServiceRouteRepositoryFactory.GetServiceRouteRepository(configuration);
-                var routeProvider = RouteProviderFactory.GetRouteProvider(
-                    serviceRouteRepository: serviceRouteRepository,
-                    inMemoryCacheDataProvider: inMemoryCacheDataProvider);
                 var httpGetCaller = HttpGetCallerFactory.Instance;
                 var httpPostCaller = HttpPostCallerFactory.Instance;
                 var defaultCommunicator = DefaultCommunicatorProvider.GetDefaultCommunicator(httpGetCaller, httpPostCaller);
@@ -69,6 +63,12 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Services
                     credentialProvider: credentialProvider,
                     communicator: defaultCommunicator);
 
+                var serviceDiscoverer = HttpServiceDiscovererProvider.GetServiceDiscoverer(
+                    inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance,
+                    httpGetCaller: HttpGetCallerFactory.Instance,
+                    solidServiceProvider: AppConfigSolidServiceProviderProvider.GetSolidServiceConfiguration(configuration),
+                    discoveryConfiguration: AppConfigDiscoveryConfigurationProvider.GetDiscoveryConfiguration(configuration));
+
                 ISqlUnitOfWork unitOfWork = new UnitOfWork(configuration);
 
                 var service = new PersonService
@@ -76,18 +76,18 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Services
                         mapper: mapper,
                         aACommunicator: AACommunicatorProvider.GetAACommunicator
                         (
-                            routeProvider: routeProvider,
-                            departmentCommunicator: departmentCommunicator
+                            departmentCommunicator: departmentCommunicator,
+                            serviceDiscoverer: serviceDiscoverer
                         ),
                         accountingCommunicator: AccountingCommunicatorProvider.GetAccountingCommunicator
                         (
-                            routeProvider: routeProvider,
-                            departmentCommunicator: departmentCommunicator
+                            departmentCommunicator: departmentCommunicator,
+                            serviceDiscoverer: serviceDiscoverer
                         ),
                         itCommunicator: ITCommunicatorProvider.GetITCommunicator
                         (
-                            routeProvider: routeProvider,
-                            departmentCommunicator: departmentCommunicator
+                            departmentCommunicator: departmentCommunicator,
+                            serviceDiscoverer: serviceDiscoverer
                         ),
                         AAassignInventoryToWorkerPublisher: AAAssignInventoryToWorkerPublisherProvider.GetPublisher
                         (

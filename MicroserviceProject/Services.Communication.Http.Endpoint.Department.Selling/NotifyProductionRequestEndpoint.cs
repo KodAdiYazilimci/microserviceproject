@@ -9,8 +9,9 @@ namespace Services.Communication.Http.Endpoint.Department.Selling
 {
     public class NotifyProductionRequestEndpoint : IEndpoint
     {
+        public static string Path => "selling.selling.notifyproductionrequest";
         public string Url { get; set; } = "/Selling/NotifyProductionRequest";
-        public string Name { get; set; } = "selling.selling.notifyproductionrequest";
+        public string Name { get; set; } = Path;
         public object Payload { get; set; }
         public HttpAction HttpAction { get; set; } = HttpAction.POST;
         public List<HttpHeaderModel> Headers { get; set; } = new List<HttpHeaderModel>();

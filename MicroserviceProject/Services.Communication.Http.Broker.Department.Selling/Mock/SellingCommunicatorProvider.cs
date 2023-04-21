@@ -1,4 +1,4 @@
-﻿using Infrastructure.Routing.Providers.Abstract;
+﻿using Infrastructure.ServiceDiscovery.Discoverer.Abstract;
 
 using Services.Communication.Http.Broker.Department.Abstract;
 using Services.Communication.Http.Broker.Department.Selling.Abstract;
@@ -10,14 +10,14 @@ namespace Services.Communication.Http.Broker.Department.Selling.Mock
         private static ISellingCommunicator sellingCommunicator;
 
         public static ISellingCommunicator GetSellingCommunicator(
-            IRouteProvider routeProvider,
-            IDepartmentCommunicator departmentCommunicator)
+            IDepartmentCommunicator departmentCommunicator,
+            IServiceDiscoverer serviceDiscoverer)
         {
             if (sellingCommunicator == null)
             {
                 sellingCommunicator = new SellingCommunicator(
-                    routeProvider,
-                    departmentCommunicator);
+                    departmentCommunicator,
+                    serviceDiscoverer);
             }
 
             return sellingCommunicator;
