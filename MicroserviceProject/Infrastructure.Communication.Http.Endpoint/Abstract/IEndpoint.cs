@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Communication.Http.Constants;
+using Infrastructure.Communication.Http.Endpoint.Authentication;
 using Infrastructure.Communication.Http.Endpoint.Constants;
 using Infrastructure.Communication.Http.Models;
 

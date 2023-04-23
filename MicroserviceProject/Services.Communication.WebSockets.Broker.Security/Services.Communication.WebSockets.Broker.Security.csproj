@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="11.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.Communication.Http.Endpoint\Infrastructure.Communication.Http.Endpoint.csproj" />
+    <ProjectReference Include="..\Infrastructure.Communication.Http\Infrastructure.Communication.Http.csproj" />
+    <ProjectReference Include="..\Infrastructure.Communication.WebSockets\Infrastructure.Communication.WebSockets.csproj" />
+    <ProjectReference Include="..\Services.Communication.Http.Broker\Services.Communication.Http.Broker.csproj" />
+    <ProjectReference Include="..\Services.Communication.WebSockets.Broker\Services.Communication.WebSockets.Broker.csproj" />
+    <ProjectReference Include="..\Services.Communication.WebSockets.Endpoint.Security\Services.Communication.WebSockets.Endpoint.Security.csproj" />
+  </ItemGroup>
+
+</Project>

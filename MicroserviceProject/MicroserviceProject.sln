@@ -446,7 +446,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Http
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Http.Endpoint.Logging", "Services.Communication.Http.Endpoint.Logging\Services.Communication.Http.Endpoint.Logging.csproj", "{A8050448-86D1-41A2-85A2-58BD4AAD5669}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Http.Endpoint.Presentation.UI.Web.Identity", "Services.Communication.Http.Endpoint.Presentation.UI.Web.Identity\Services.Communication.Http.Endpoint.Presentation.UI.Web.Identity.csproj", "{B6D79BDA-D558-4E12-8FF4-BF8125F0B6C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Http.Endpoint.Presentation.UI.Web.Identity", "Services.Communication.Http.Endpoint.Presentation.UI.Web.Identity\Services.Communication.Http.Endpoint.Presentation.UI.Web.Identity.csproj", "{B6D79BDA-D558-4E12-8FF4-BF8125F0B6C6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.WebSockets.Endpoint.Reliability", "Services.Communication.WebSockets.Endpoint.Reliability\Services.Communication.WebSockets.Endpoint.Reliability.csproj", "{644FD54F-EA78-4CF1-8C7F-1CBE65135AD5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.WebSockets.Endpoint.Security", "Services.Communication.WebSockets.Endpoint.Security\Services.Communication.WebSockets.Endpoint.Security.csproj", "{B6307F90-AE28-4DEC-8A70-6017A80721A2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.WebSockets.Broker.Reliability", "Services.Communication.WebSockets.Broker.Reliability\Services.Communication.WebSockets.Broker.Reliability.csproj", "{0DB222E5-17FD-4670-A07F-B32C808A6B8C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.WebSockets.Broker", "Services.Communication.WebSockets.Broker\Services.Communication.WebSockets.Broker.csproj", "{5076EF12-C164-4674-88C4-5E3ACB59E1EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.WebSockets.Broker.Security", "Services.Communication.WebSockets.Broker.Security\Services.Communication.WebSockets.Broker.Security.csproj", "{C4C2ED77-6EF9-4868-BCA4-5B6B22081167}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1042,6 +1052,26 @@ Global
 		{B6D79BDA-D558-4E12-8FF4-BF8125F0B6C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6D79BDA-D558-4E12-8FF4-BF8125F0B6C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6D79BDA-D558-4E12-8FF4-BF8125F0B6C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{644FD54F-EA78-4CF1-8C7F-1CBE65135AD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{644FD54F-EA78-4CF1-8C7F-1CBE65135AD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{644FD54F-EA78-4CF1-8C7F-1CBE65135AD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{644FD54F-EA78-4CF1-8C7F-1CBE65135AD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6307F90-AE28-4DEC-8A70-6017A80721A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6307F90-AE28-4DEC-8A70-6017A80721A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6307F90-AE28-4DEC-8A70-6017A80721A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6307F90-AE28-4DEC-8A70-6017A80721A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DB222E5-17FD-4670-A07F-B32C808A6B8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DB222E5-17FD-4670-A07F-B32C808A6B8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DB222E5-17FD-4670-A07F-B32C808A6B8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DB222E5-17FD-4670-A07F-B32C808A6B8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5076EF12-C164-4674-88C4-5E3ACB59E1EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5076EF12-C164-4674-88C4-5E3ACB59E1EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5076EF12-C164-4674-88C4-5E3ACB59E1EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5076EF12-C164-4674-88C4-5E3ACB59E1EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4C2ED77-6EF9-4868-BCA4-5B6B22081167}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4C2ED77-6EF9-4868-BCA4-5B6B22081167}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4C2ED77-6EF9-4868-BCA4-5B6B22081167}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4C2ED77-6EF9-4868-BCA4-5B6B22081167}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1220,6 +1250,11 @@ Global
 		{DFEFEAD5-604A-46B6-A16F-5C3B91F18C54} = {C8865F6F-B43B-46D6-9854-42E43A5F82EC}
 		{A8050448-86D1-41A2-85A2-58BD4AAD5669} = {C8865F6F-B43B-46D6-9854-42E43A5F82EC}
 		{B6D79BDA-D558-4E12-8FF4-BF8125F0B6C6} = {C8865F6F-B43B-46D6-9854-42E43A5F82EC}
+		{644FD54F-EA78-4CF1-8C7F-1CBE65135AD5} = {C8865F6F-B43B-46D6-9854-42E43A5F82EC}
+		{B6307F90-AE28-4DEC-8A70-6017A80721A2} = {C8865F6F-B43B-46D6-9854-42E43A5F82EC}
+		{0DB222E5-17FD-4670-A07F-B32C808A6B8C} = {C8865F6F-B43B-46D6-9854-42E43A5F82EC}
+		{5076EF12-C164-4674-88C4-5E3ACB59E1EA} = {C8865F6F-B43B-46D6-9854-42E43A5F82EC}
+		{C4C2ED77-6EF9-4868-BCA4-5B6B22081167} = {C8865F6F-B43B-46D6-9854-42E43A5F82EC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5FD68A04-D16D-49EC-9D04-25E6B952DA89}

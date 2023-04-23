@@ -1,4 +1,5 @@
-﻿using Infrastructure.Communication.WebSockets.Models;
+﻿using Infrastructure.Communication.Http.Wrapper;
+using Infrastructure.Communication.WebSockets.Models;
 using Infrastructure.Security.Model;
 
 using Microsoft.AspNetCore.Authorization;
@@ -22,24 +23,25 @@ namespace Services.WebSockets.Reliability.Controllers
             _tokensHub = tokensHub;
         }
 
-        [Route(nameof(SendErrorNofication))]
+        [Route(nameof(SendErrorNotification))]
         [HttpPost]
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser,WebPresentationUser")]
-        public async Task<IActionResult> SendErrorNofication([FromBody] WebSocketContentModel webSocketMessage)
+        public async Task<IActionResult> SendErrorNotification([FromBody] WebSocketContentModel webSocketMessage)
         {
-            AuthenticatedUser user = null;
-
-            foreach (var claim in this.User.Claims)
+            return await HttpResponseWrapper.WrapAsync(async () =>
             {
-                if (claim.Value != "User")
-                {
-                    user = JsonConvert.DeserializeObject<AuthenticatedUser>(claim.Value);
-                    break;
-                }
-            }
-            await _tokensHub.SendAsync(user, webSocketMessage);
+                AuthenticatedUser user = null;
 
-            return Ok();
+                foreach (var claim in this.User.Claims)
+                {
+                    if (claim.Value != "User")
+                    {
+                        user = JsonConvert.DeserializeObject<AuthenticatedUser>(claim.Value);
+                        break;
+                    }
+                }
+                await _tokensHub.SendAsync(user, webSocketMessage);
+            });
         }
     }
 }
