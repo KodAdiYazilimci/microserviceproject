@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Communication.Http.Endpoint.Abstract;
+using Infrastructure.Communication.Http.Endpoint.Authentication;
 using Infrastructure.Communication.Http.Endpoint.Models;
 
 namespace Infrastructure.Communication.Http.Endpoint.Util

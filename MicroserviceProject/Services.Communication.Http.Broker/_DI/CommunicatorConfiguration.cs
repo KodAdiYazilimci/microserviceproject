@@ -12,7 +12,7 @@ namespace Services.Communication.Http.Broker.DI
         {
             services.RegisterHttpServiceCommunicator();
 
-            services.AddSingleton<ICommunicator, DefaultCommunicator>();
+            services.AddSingleton<ICommunicator, AuthenticatedCommunicator>();
 
             return services;
         }

@@ -177,6 +177,7 @@ namespace Services.Communication.Http.Broker.Department.AA
                 string token = await _departmentCommunicator.GetServiceToken(cancellationTokenSource);
 
                 IAuthenticatedEndpoint authenticatedEndpoint = endpoint.ConvertToAuthenticatedEndpoint(new TokenAuthentication(token));
+
                 authenticatedEndpoint.Queries.Add(new HttpQueryModel() { Name = "tokenKey", Value = tokenKey });
 
                 return await _departmentCommunicator.CallAsync<Object>(authenticatedEndpoint, cancellationTokenSource);

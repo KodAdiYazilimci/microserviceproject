@@ -1,5 +1,7 @@
+using Infrastructure.Communication.Http.Endpoint.Abstract;
 using Infrastructure.Diagnostics.HealthCheck.Util;
 using Infrastructure.Localization.Translation.Provider.DI;
+using Infrastructure.ServiceDiscovery.Register.DI;
 using Infrastructure.Util.DI;
 
 using MediatR;
@@ -27,7 +29,10 @@ using Services.Logging.Aspect.DI;
 using Services.Logging.Exception.DI;
 using Services.Logging.RequestResponse.DI;
 using Services.Security.BasicToken.DI;
+using Services.ServiceDiscovery.DI;
 using Services.Util.Exception.Handlers;
+
+using System.Collections.Generic;
 
 namespace Services.Api.Business.Departments.HR
 {
@@ -67,6 +72,7 @@ namespace Services.Api.Business.Departments.HR
             services.RegisterRuntimeHandlers();
             services.RegisterSqlHealthChecking();
             services.RegisterSwagger();
+            services.RegisterServiceRegisterers();
 
             services.AddMediatR(typeof(Startup));
         }
@@ -97,6 +103,19 @@ namespace Services.Api.Business.Departments.HR
             app.UseSwaggerUI(options =>
             {
                 options.SwaggerEndpoint("/swagger/CoreSwagger/swagger.json", "CoreSwagger");
+            });
+
+            app.RegisterService(new List<IEndpoint>()
+            {
+                new global::Services.Communication.Http.Endpoint.Department.HR.CreateDepartmentEndpoint(),
+                new global::Services.Communication.Http.Endpoint.Department.HR.CreatePersonEndpoint (),
+                new global::Services.Communication.Http.Endpoint.Department.HR.CreateTitleEndpoint(),
+                new global::Services.Communication.Http.Endpoint.Department.HR.CreateWorkerEndpoint (),
+                new global::Services.Communication.Http.Endpoint.Department.HR.GetDepartmentsEndpoint(),
+                new global::Services.Communication.Http.Endpoint.Department.HR.GetPeopleEndpoint(),
+                new global::Services.Communication.Http.Endpoint.Department.HR.GetTitlesEndpoint  (),
+                new global::Services.Communication.Http.Endpoint.Department.HR.GetWorkersEndpoint(),
+                new global::Services.Communication.Http.Endpoint.Department.HR.RemoveSessionIfExistsInCacheEndpoint()
             });
         }
     }

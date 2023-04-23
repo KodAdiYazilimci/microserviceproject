@@ -1,5 +1,7 @@
+using Infrastructure.Communication.Http.Endpoint.Abstract;
 using Infrastructure.Diagnostics.HealthCheck.Util;
 using Infrastructure.Localization.Translation.Provider.DI;
+using Infrastructure.ServiceDiscovery.Register.DI;
 using Infrastructure.Util.DI;
 
 using MediatR;
@@ -14,6 +16,7 @@ using Services.Api.Business.Departments.Buying.DI;
 using Services.Api.Business.Departments.Finance.DI;
 using Services.Business.Departments.Finance.DI;
 using Services.Communication.Http.Broker.Department.Finance.DI;
+using Services.Communication.Http.Endpoint.Department.Finance;
 using Services.Communication.Mq.Queue.Buying.DI;
 using Services.Communication.Mq.Queue.Buying.Rabbit.DI;
 using Services.Communication.Mq.Queue.Selling.DI;
@@ -23,7 +26,10 @@ using Services.Logging.Aspect.DI;
 using Services.Logging.Exception.DI;
 using Services.Logging.RequestResponse.DI;
 using Services.Security.BasicToken.DI;
+using Services.ServiceDiscovery.DI;
 using Services.Util.Exception.Handlers;
+
+using System.Collections.Generic;
 
 namespace Services.Api.Business.Departments.Buying
 {
@@ -57,6 +63,7 @@ namespace Services.Api.Business.Departments.Buying
             services.RegisterSellingQueuePublishers();
             services.RegisterSqlHealthChecking();
             services.RegisterSwagger();
+            services.RegisterServiceRegisterers();
 
             services.AddMediatR(typeof(Startup));
         }
@@ -86,6 +93,15 @@ namespace Services.Api.Business.Departments.Buying
             app.UseSwaggerUI(options =>
             {
                 options.SwaggerEndpoint("/swagger/CoreSwagger/swagger.json", "CoreSwagger");
+            });
+
+            app.RegisterService(new List<IEndpoint>()
+            {
+                new CreateCostEndpoint(),
+                new CreateProductionRequestEndpoint(),
+                new DecideCostEndpoint(),
+                new GetDecidedCostsEndpoint(),
+                new RemoveSessionIfExistsInCacheEndpoint()
             });
         }
     }

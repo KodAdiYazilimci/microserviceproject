@@ -39,7 +39,7 @@ namespace Services.Communication.Http.Broker.Gateway.Public
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)
         {
-            CachedServiceModel service = await _serviceDiscoverer.GetServiceAsync("Services.Api.Business.Departments.HR", cancellationTokenSource);
+            CachedServiceModel service = await _serviceDiscoverer.GetServiceAsync("Services.Api.Gateway.Public", cancellationTokenSource);
 
             IEndpoint endpoint = service.GetEndpoint(GetDepartmentsEndpoint.Path);
 
@@ -58,7 +58,7 @@ namespace Services.Communication.Http.Broker.Gateway.Public
 
         public async Task<ServiceResultModel> RemoveSessionIfExistsInCacheAsync(string tokenKey, CancellationTokenSource cancellationTokenSource)
         {
-            CachedServiceModel service = await _serviceDiscoverer.GetServiceAsync("Services.Api.Business.Departments.HR", cancellationTokenSource);
+            CachedServiceModel service = await _serviceDiscoverer.GetServiceAsync("Services.Api.Gateway.Public", cancellationTokenSource);
 
             IEndpoint endpoint = service.GetEndpoint(RemoveSessionIfExistsInCacheEndpoint.Path);
 

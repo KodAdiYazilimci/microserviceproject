@@ -389,10 +389,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Http
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.Services.Api.Business.Departments", "Test.Services.Api.Business.Departments\Test.Services.Api.Business.Departments.csproj", "{38827248-699E-403C-9D26-380B3E07F1B5}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{AD77BE3B-9E79-491B-B741-3E21792FDA1E}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation.Communication.Http.Broker.Identity", "Presentation.Communication.Http.Broker.Identity\Presentation.Communication.Http.Broker.Identity.csproj", "{D21E9F5A-FEC6-4F79-98B2-DD8F4488D9EA}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.Services.Api.Gateway.Public", "Test.Services.Api.Gateway.Public\Test.Services.Api.Gateway.Public.csproj", "{F2093640-058D-41AC-9CDD-58AFFC93C188}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Api.Gateway", "Services.Api.Gateway\Services.Api.Gateway.csproj", "{441968C7-D47A-4C97-B015-E5319986497F}"
@@ -425,29 +421,33 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.ServiceDisco
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.ServiceDiscovery", "Services.ServiceDiscovery\Services.ServiceDiscovery.csproj", "{E33B0C21-7B6A-46F5-8BAD-627A5EE4ADC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Http.Endpoint.Authorization", "Services.Communication.Http.Endpoint.Authorization\Services.Communication.Http.Endpoint.Authorization.csproj", "{844A0BA9-FE62-4BEC-B281-AD5E7E2C7BC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Http.Endpoint.Authorization", "Services.Communication.Http.Endpoint.Authorization\Services.Communication.Http.Endpoint.Authorization.csproj", "{844A0BA9-FE62-4BEC-B281-AD5E7E2C7BC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Http.Endpoint.Department.AA", "Services.Communication.Http.Endpoint.Department.AA\Services.Communication.Http.Endpoint.Department.AA.csproj", "{4EC99519-8472-4395-82CA-4945770FB0D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Http.Endpoint.Department.AA", "Services.Communication.Http.Endpoint.Department.AA\Services.Communication.Http.Endpoint.Department.AA.csproj", "{4EC99519-8472-4395-82CA-4945770FB0D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Http.Endpoint.Department.Accounting", "Services.Communication.Http.Endpoint.Department.Accounting\Services.Communication.Http.Endpoint.Department.Accounting.csproj", "{470704A7-6F08-4FB4-992B-9E41DCE0C9CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Http.Endpoint.Department.Accounting", "Services.Communication.Http.Endpoint.Department.Accounting\Services.Communication.Http.Endpoint.Department.Accounting.csproj", "{470704A7-6F08-4FB4-992B-9E41DCE0C9CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Http.Endpoint.Department.Buying", "Services.Communication.Http.Endpoint.Department.Buying\Services.Communication.Http.Endpoint.Department.Buying.csproj", "{BBEF69B2-C265-4776-B50B-8BFB251F5338}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Http.Endpoint.Department.Buying", "Services.Communication.Http.Endpoint.Department.Buying\Services.Communication.Http.Endpoint.Department.Buying.csproj", "{BBEF69B2-C265-4776-B50B-8BFB251F5338}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Http.Endpoint.Department.CR", "Services.Communication.Http.Endpoint.Department.CR\Services.Communication.Http.Endpoint.Department.CR.csproj", "{EBC1E8B2-E9B2-46C8-BD33-402ED80AF9D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Http.Endpoint.Department.CR", "Services.Communication.Http.Endpoint.Department.CR\Services.Communication.Http.Endpoint.Department.CR.csproj", "{EBC1E8B2-E9B2-46C8-BD33-402ED80AF9D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Http.Endpoint.Department.Finance", "Services.Communication.Http.Endpoint.Department.Finance\Services.Communication.Http.Endpoint.Department.Finance.csproj", "{4C0B0373-C7AF-4064-B665-53A28C933E5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Http.Endpoint.Department.Finance", "Services.Communication.Http.Endpoint.Department.Finance\Services.Communication.Http.Endpoint.Department.Finance.csproj", "{4C0B0373-C7AF-4064-B665-53A28C933E5F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Http.Endpoint.Department.HR", "Services.Communication.Http.Endpoint.Department.HR\Services.Communication.Http.Endpoint.Department.HR.csproj", "{93A90D36-B0B2-4FC9-A196-265EEFB460AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Http.Endpoint.Department.HR", "Services.Communication.Http.Endpoint.Department.HR\Services.Communication.Http.Endpoint.Department.HR.csproj", "{93A90D36-B0B2-4FC9-A196-265EEFB460AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Http.Endpoint.Department.IT", "Services.Communication.Http.Endpoint.Department.IT\Services.Communication.Http.Endpoint.Department.IT.csproj", "{960CE9BC-1A22-48D5-9857-7B4888AAC152}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Http.Endpoint.Department.IT", "Services.Communication.Http.Endpoint.Department.IT\Services.Communication.Http.Endpoint.Department.IT.csproj", "{960CE9BC-1A22-48D5-9857-7B4888AAC152}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Http.Endpoint.Department.Production", "Services.Communication.Http.Endpoint.Department.Production\Services.Communication.Http.Endpoint.Department.Production.csproj", "{96120FF0-CDD4-4B59-9FF1-A85F76C16941}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Http.Endpoint.Department.Production", "Services.Communication.Http.Endpoint.Department.Production\Services.Communication.Http.Endpoint.Department.Production.csproj", "{96120FF0-CDD4-4B59-9FF1-A85F76C16941}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Http.Endpoint.Department.Selling", "Services.Communication.Http.Endpoint.Department.Selling\Services.Communication.Http.Endpoint.Department.Selling.csproj", "{2B1F9D99-26ED-4FB8-8179-65449F6F9E6C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Http.Endpoint.Department.Selling", "Services.Communication.Http.Endpoint.Department.Selling\Services.Communication.Http.Endpoint.Department.Selling.csproj", "{2B1F9D99-26ED-4FB8-8179-65449F6F9E6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Http.Endpoint.Department.Storage", "Services.Communication.Http.Endpoint.Department.Storage\Services.Communication.Http.Endpoint.Department.Storage.csproj", "{A84118C3-72F0-4F4A-AEB3-454592F2BF6C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Http.Endpoint.Department.Storage", "Services.Communication.Http.Endpoint.Department.Storage\Services.Communication.Http.Endpoint.Department.Storage.csproj", "{A84118C3-72F0-4F4A-AEB3-454592F2BF6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Http.Endpoint.Gateway", "Services.Communication.Http.Endpoint.Gateway\Services.Communication.Http.Endpoint.Gateway.csproj", "{DFEFEAD5-604A-46B6-A16F-5C3B91F18C54}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Http.Endpoint.Gateway", "Services.Communication.Http.Endpoint.Gateway\Services.Communication.Http.Endpoint.Gateway.csproj", "{DFEFEAD5-604A-46B6-A16F-5C3B91F18C54}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Http.Endpoint.Logging", "Services.Communication.Http.Endpoint.Logging\Services.Communication.Http.Endpoint.Logging.csproj", "{A8050448-86D1-41A2-85A2-58BD4AAD5669}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Communication.Http.Endpoint.Presentation.UI.Web.Identity", "Services.Communication.Http.Endpoint.Presentation.UI.Web.Identity\Services.Communication.Http.Endpoint.Presentation.UI.Web.Identity.csproj", "{B6D79BDA-D558-4E12-8FF4-BF8125F0B6C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -943,10 +943,6 @@ Global
 		{38827248-699E-403C-9D26-380B3E07F1B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38827248-699E-403C-9D26-380B3E07F1B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38827248-699E-403C-9D26-380B3E07F1B5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D21E9F5A-FEC6-4F79-98B2-DD8F4488D9EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D21E9F5A-FEC6-4F79-98B2-DD8F4488D9EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D21E9F5A-FEC6-4F79-98B2-DD8F4488D9EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D21E9F5A-FEC6-4F79-98B2-DD8F4488D9EA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F2093640-058D-41AC-9CDD-58AFFC93C188}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F2093640-058D-41AC-9CDD-58AFFC93C188}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2093640-058D-41AC-9CDD-58AFFC93C188}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -1039,6 +1035,14 @@ Global
 		{DFEFEAD5-604A-46B6-A16F-5C3B91F18C54}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFEFEAD5-604A-46B6-A16F-5C3B91F18C54}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFEFEAD5-604A-46B6-A16F-5C3B91F18C54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8050448-86D1-41A2-85A2-58BD4AAD5669}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8050448-86D1-41A2-85A2-58BD4AAD5669}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8050448-86D1-41A2-85A2-58BD4AAD5669}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8050448-86D1-41A2-85A2-58BD4AAD5669}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6D79BDA-D558-4E12-8FF4-BF8125F0B6C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6D79BDA-D558-4E12-8FF4-BF8125F0B6C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6D79BDA-D558-4E12-8FF4-BF8125F0B6C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6D79BDA-D558-4E12-8FF4-BF8125F0B6C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1187,8 +1191,6 @@ Global
 		{BB252D7D-82B6-4CA2-9253-5E8EC355E29B} = {C8865F6F-B43B-46D6-9854-42E43A5F82EC}
 		{4F218068-8763-4D35-B785-D1CCB785A543} = {C8865F6F-B43B-46D6-9854-42E43A5F82EC}
 		{38827248-699E-403C-9D26-380B3E07F1B5} = {732F396A-51BB-40FD-A22D-94BF3548D8C6}
-		{AD77BE3B-9E79-491B-B741-3E21792FDA1E} = {B29D6F56-F461-4BE8-80D8-6F92897F9EAA}
-		{D21E9F5A-FEC6-4F79-98B2-DD8F4488D9EA} = {AD77BE3B-9E79-491B-B741-3E21792FDA1E}
 		{F2093640-058D-41AC-9CDD-58AFFC93C188} = {732F396A-51BB-40FD-A22D-94BF3548D8C6}
 		{441968C7-D47A-4C97-B015-E5319986497F} = {0F4BF799-97BA-4E83-B809-6F5702884F6D}
 		{2C06E2E1-50FB-4FF4-9A69-626CC916DF41} = {0F4BF799-97BA-4E83-B809-6F5702884F6D}
@@ -1217,6 +1219,8 @@ Global
 		{2B1F9D99-26ED-4FB8-8179-65449F6F9E6C} = {C8865F6F-B43B-46D6-9854-42E43A5F82EC}
 		{A84118C3-72F0-4F4A-AEB3-454592F2BF6C} = {C8865F6F-B43B-46D6-9854-42E43A5F82EC}
 		{DFEFEAD5-604A-46B6-A16F-5C3B91F18C54} = {C8865F6F-B43B-46D6-9854-42E43A5F82EC}
+		{A8050448-86D1-41A2-85A2-58BD4AAD5669} = {C8865F6F-B43B-46D6-9854-42E43A5F82EC}
+		{B6D79BDA-D558-4E12-8FF4-BF8125F0B6C6} = {C8865F6F-B43B-46D6-9854-42E43A5F82EC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5FD68A04-D16D-49EC-9D04-25E6B952DA89}

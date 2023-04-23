@@ -24,6 +24,11 @@ using Services.RateLimiting.Policies;
 using Services.Security.BasicToken.DI;
 using Services.Util.Exception.Handlers;
 
+using Infrastructure.ServiceDiscovery.Register.DI;
+using Services.ServiceDiscovery.DI;
+using System.Collections.Generic;
+using Infrastructure.Communication.Http.Endpoint.Abstract;
+
 namespace Services.Api.Gateway.Public
 {
     public class Startup
@@ -60,6 +65,7 @@ namespace Services.Api.Gateway.Public
             //services.RegisterJWT();
             services.RegisterSwagger();
             services.RegisterDefaultFixedRateLimiterPolicy();
+            services.RegisterServiceRegisterers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -85,6 +91,12 @@ namespace Services.Api.Gateway.Public
             app.UseSwaggerUI(options =>
             {
                 options.SwaggerEndpoint("/swagger/CoreSwagger/swagger.json", "CoreSwagger");
+            });
+
+            app.RegisterService(new List<IEndpoint>()
+            {
+                new global::Services.Communication.Http.Endpoint.Gateway.GetDepartmentsEndpoint(),
+                new global::Services.Communication.Http.Endpoint.Gateway.RemoveSessionIfExistsInCacheEndpoint()
             });
         }
     }

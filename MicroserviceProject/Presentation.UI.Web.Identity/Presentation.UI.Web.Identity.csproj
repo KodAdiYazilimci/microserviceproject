@@ -9,9 +9,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.Communication.Http.Endpoint\Infrastructure.Communication.Http.Endpoint.csproj" />
     <ProjectReference Include="..\Infrastructure.Security.Authentication.BasicToken\Infrastructure.Security.Authentication.BasicToken.csproj" />
     <ProjectReference Include="..\Services.Communication.Http.Broker.Authorization\Services.Communication.Http.Broker.Authorization.csproj" />
+    <ProjectReference Include="..\Services.Communication.Http.Endpoint.Presentation.UI.Web.Identity\Services.Communication.Http.Endpoint.Presentation.UI.Web.Identity.csproj" />
     <ProjectReference Include="..\Services.Logging.Exception\Services.Logging.Exception.csproj" />
+    <ProjectReference Include="..\Services.ServiceDiscovery\Services.ServiceDiscovery.csproj" />
     <ProjectReference Include="..\Services.Util\Services.Util.csproj" />
   </ItemGroup>
 

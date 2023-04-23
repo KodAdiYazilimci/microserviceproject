@@ -47,16 +47,16 @@ namespace Infrastructure.ServiceDiscovery.Discoverer.Discovers
                     HttpAction = HttpAction.GET,
                     EndpointAuthentication = new AnonymouseAuthentication(),
                     Queries = new List<HttpQueryModel>()
-                        {
-                            new HttpQueryModel(){ Name = "ServiceName", Value = serviceName}
-                        }
+                    {
+                        new HttpQueryModel(){ Name = "ServiceName", Value = serviceName }
+                    }
                 }, cancellationTokenSource);
 
                 if (serviceResult != null && serviceResult.IsSuccess && serviceResult.Data != null)
                 {
                     DateTime validTo = DateTime.Now.AddMinutes(_discoveryConfiguration.ExpirationServiceInfo);
 
-                    return new CachedServiceModel()
+                    var cachedService = new CachedServiceModel()
                     {
                         ValidTo = validTo,
                         Endpoints = serviceResult.Data.Endpoints,
@@ -66,6 +66,10 @@ namespace Infrastructure.ServiceDiscovery.Discoverer.Discovers
                         DnsName = serviceResult.Data.DnsName,
                         IpAddresses = serviceResult.Data.IpAddresses,
                     };
+
+                    _inMemoryCacheDataProvider.Set<CachedServiceModel>(CACHED_SERVICE_NAME_PREFIX + serviceName, cachedService, validTo);
+
+                    return cachedService;
                 }
                 else
                     throw new SolidServiceCouldtNotFetchException(serviceResult?.ErrorModel?.Description ?? "Solid service couldn't fetch");

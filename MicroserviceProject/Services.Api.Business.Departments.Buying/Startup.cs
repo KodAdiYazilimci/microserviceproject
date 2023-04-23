@@ -1,5 +1,7 @@
+using Infrastructure.Communication.Http.Endpoint.Abstract;
 using Infrastructure.Diagnostics.HealthCheck.Util;
 using Infrastructure.Localization.Translation.Provider.DI;
+using Infrastructure.ServiceDiscovery.Register.DI;
 using Infrastructure.Util.DI;
 
 using MediatR;
@@ -14,6 +16,7 @@ using Services.Api.Business.Departments.Buying.DI;
 using Services.Communication.Http.Broker.Department.AA.DI;
 using Services.Communication.Http.Broker.Department.Buying.DI;
 using Services.Communication.Http.Broker.Department.IT.DI;
+using Services.Communication.Http.Endpoint.Department.Buying;
 using Services.Communication.Mq.Queue.AA.DI;
 using Services.Communication.Mq.Queue.AA.Rabbit.DI;
 using Services.Communication.Mq.Queue.Finance.DI;
@@ -25,6 +28,7 @@ using Services.Logging.Aspect.DI;
 using Services.Logging.Exception.DI;
 using Services.Logging.RequestResponse.DI;
 using Services.Security.BasicToken.DI;
+using Services.ServiceDiscovery.DI;
 using Services.Util.Exception.Handlers;
 
 using System;
@@ -71,6 +75,8 @@ namespace Services.Api.Business.Departments.Buying
                 applicationName: Environment.GetEnvironmentVariable("ApplicationName") ?? "Services.Api.Business.Departments.Buying",
                 description: "Buying Api Service");
 
+            services.RegisterServiceRegisterers();
+
             services.AddMediatR(typeof(Startup));
         }
 
@@ -99,6 +105,14 @@ namespace Services.Api.Business.Departments.Buying
             app.UseSwaggerUI(options =>
             {
                 options.SwaggerEndpoint("/swagger/CoreSwagger/swagger.json", "CoreSwagger");
+            });
+
+            app.RegisterService(new List<IEndpoint>()
+            {
+                new CreateInventoryRequestEndpoint(),
+                new GetInventoryRequestsEndpoint(),
+                new RemoveSessionIfExistsInCacheEndpoint(),
+                new ValidateCostInventoryEndpoint()
             });
         }
     }

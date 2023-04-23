@@ -43,7 +43,7 @@ namespace Presentation.Monitoring.Reliability.Console
             AuthorizationCommunicator authorizationCommunicator =
                 new AuthorizationCommunicator
                 (
-                    communicator: DefaultCommunicatorProvider.GetDefaultCommunicator
+                    communicator: AuthenticatedCommunicatorProvider.GetAuthenticatedCommunicator
                     (
                         httpGetCaller: HttpGetCallerFactory.Instance,
                         httpPostCaller: HttpPostCallerFactory.Instance

@@ -24,7 +24,7 @@ namespace Test.Services.Api.Gateway.Public
 
         public HumanResourcesControllerTest(IConfiguration configuration)
         {
-            var defaultCommunicator = DefaultCommunicatorProvider.GetDefaultCommunicator(
+            var authenticatedCommunicator = AuthenticatedCommunicatorProvider.GetAuthenticatedCommunicator(
                 httpGetCaller: HttpGetCallerFactory.Instance,
                 httpPostCaller: HttpPostCallerFactory.Instance);
 
@@ -38,7 +38,7 @@ namespace Test.Services.Api.Gateway.Public
                        (
                            authorizationCommunicator: AuthorizationCommunicatorProvider.GetAuthorizationCommunicator
                            (
-                               communicator: defaultCommunicator,
+                               communicator: authenticatedCommunicator,
                                serviceDiscoverer: HttpServiceDiscovererProvider.GetServiceDiscoverer(
                                    inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance,
                                    httpGetCaller: HttpGetCallerFactory.Instance,
@@ -47,7 +47,7 @@ namespace Test.Services.Api.Gateway.Public
                            ),
                            inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance,
                            credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),
-                           communicator: defaultCommunicator
+                           communicator: authenticatedCommunicator
                        ),
                        serviceDiscoverer: HttpServiceDiscovererProvider.GetServiceDiscoverer(
                            inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance,
