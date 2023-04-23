@@ -21,16 +21,13 @@ namespace Services.Communication.Http.Broker.Department.HR
         /// </summary>
         private bool disposed = false;
 
-        //private readonly IRouteProvider _routeProvider;
         private readonly IDepartmentCommunicator _departmentCommunicator;
         private readonly IServiceDiscoverer _serviceDiscoverer;
 
         public HRCommunicator(
-            //IRouteProvider routeProvider,
             IDepartmentCommunicator departmentCommunicator,
             IServiceDiscoverer serviceDiscoverer)
         {
-            //_routeProvider = routeProvider;
             _departmentCommunicator = departmentCommunicator;
             _serviceDiscoverer = serviceDiscoverer;
         }

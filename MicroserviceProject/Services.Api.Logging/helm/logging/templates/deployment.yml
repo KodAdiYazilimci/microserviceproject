@@ -33,8 +33,6 @@ spec:
               value: {{ .Values.deployment.application.containers.loggingContainer.environment.Configuration_Authorization_Credential_Email }}
             - name: Configuration_Authorization_Credential_Password
               value: "{{ .Values.deployment.application.containers.loggingContainer.environment.Configuration_Authorization_Credential_Password }}"
-            - name: Configuration_Routing_DataSource
-              value: {{ .Values.deployment.application.containers.loggingContainer.environment.Configuration_Routing_DataSource }}
             - name: Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Host
               value: {{ .Values.deployment.application.containers.loggingContainer.environment.Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Host }}
             - name: Configuration_Logging_RequestResponseLogging_RabbitConfiguration_UserName

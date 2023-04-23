@@ -33,7 +33,6 @@ deployment:
      Configuration_Logging_ExceptionLogging_RabbitConfiguration_Password: "rabbitpassword"
      Configuration_Logging_ExceptionLogging_DataBaseConfiguration_DataSource: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Logs_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true;TrustServerCertificate=Yes"
      Configuration_Logging_ExceptionLogging_MongoConfiguration_ConnectionString: "mongodb://adminuser:password123@mongo-service.default.svc.cluster.local:27017"
-     Configuration_Routing_DataSource: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Routing_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true;TrustServerCertificate=Yes"
      Configuration_RabbitQueues_Host_DefaultHost: "rabbitmq3.default.svc.cluster.local"
      Configuration_RabbitQueues_Host_DefaultUserName: "rabbituser"
      Configuration_RabbitQueues_Host_DefaultPassword: "rabbitpassword"

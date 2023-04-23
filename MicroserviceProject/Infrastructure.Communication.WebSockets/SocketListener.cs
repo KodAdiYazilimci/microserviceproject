@@ -30,16 +30,6 @@ namespace Infrastructure.Communication.WebSockets
         /// <summary>
         /// Servis endpointlerinin önbellekteki adı
         /// </summary>
-        private const string CACHEDSERVICEROUTES = "CACHED_SERVICE_ROUTES";
-
-        /// <summary>
-        /// Websocket ile iletişimde kullanılacak yetki tokenının önbellekteki saklama anahtarı
-        /// </summary>
-        private const string TAKENTOKENFORTHISSERVICE = "TAKEN_TOKEN_FOR_THIS_SERVICE";
-
-        /// <summary>
-        /// Servis endpointlerinin önbellekteki adı
-        /// </summary>
         private const string CACHEDWEBSOCKETS = "CACHED_WEBSOCKETS";
 
         /// <summary>

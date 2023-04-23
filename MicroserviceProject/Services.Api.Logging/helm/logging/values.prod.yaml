@@ -17,7 +17,6 @@ deployment:
      ApplicationName: "Logging Service Prod Environment"
      Configuration_Authorization_Credential_Email: "Services.Api.Logging@service.service"
      Configuration_Authorization_Credential_Password: "1234"
-     Configuration_Routing_DataSource: "server=mssql-service.default.svc.cluster.local;DataBase=Microservice_Routing_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true;TrustServerCertificate=Yes"
      Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Host: "rabbitmq3.default.svc.cluster.local"
      Configuration_Logging_RequestResponseLogging_RabbitConfiguration_UserName: "rabbituser"
      Configuration_Logging_RequestResponseLogging_RabbitConfiguration_Password: "rabbitpassword"

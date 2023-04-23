@@ -4,8 +4,6 @@ using Infrastructure.Mock.Providers.Configuration.Sections.AuthorizationNode;
 using Infrastructure.Mock.Providers.Configuration.Sections.LocalizationNode;
 using Infrastructure.Mock.Providers.Configuration.Sections.LoggingNode;
 using Infrastructure.Mock.Providers.Configuration.Sections.RabbitQueuesNode;
-using Infrastructure.Mock.Providers.Configuration.Sections.RoutingNode;
-using Infrastructure.Mock.Providers.Configuration.Sections.WebSocketsNode;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
@@ -41,11 +39,6 @@ namespace Infrastructure.Mock.Providers.Configuration.Sections
         public RabbitQueuesSection RabbitQueuesSection { get; set; } = new RabbitQueuesSection();
 
         /// <summary>
-        /// Routing düğümğ
-        /// </summary>
-        public RoutingSection RoutingSection { get; set; } = new RoutingSection();
-
-        /// <summary>
         /// WebSockets düğümğ
         /// </summary>
         public WebSocketsSection WebSocketsSection { get; set; } = new WebSocketsSection();
@@ -62,7 +55,6 @@ namespace Infrastructure.Mock.Providers.Configuration.Sections
                 LocalizationSection,
                 LoggingSection,
                 RabbitQueuesSection,
-                RoutingSection,
                 WebSocketsSection
             };
         }
@@ -89,7 +81,6 @@ namespace Infrastructure.Mock.Providers.Configuration.Sections
                 case "Localization": return LocalizationSection;
                 case "Logging": return LoggingSection;
                 case "RabbitQueues": return RabbitQueuesSection;
-                case "Routing": return RoutingSection;
                 case "WebSockets": return WebSocketsSection;
                 default:
                     return null;

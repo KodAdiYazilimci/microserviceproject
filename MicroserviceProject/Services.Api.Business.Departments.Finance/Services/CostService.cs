@@ -92,7 +92,6 @@ namespace Services.Business.Departments.Finance.Services
         /// <param name="mapper">Mapping işlemleri için mapper nesnesi</param>
         /// <param name="unitOfWork">Veritabanı iş birimi nesnesi</param>
         /// <param name="translationProvider">Dil çeviri sağlayıcısı sınıf</param>
-        /// <param name="routeNameProvider">Servislerin rota isimlerini sağlayan sınıf</param>
         /// <param name="serviceCommunicator">Diğer servislerle iletişim kuracak ara bulucu</param>
         /// <param name="redisCacheDataProvider">Rediste tutulan önbellek yönetimini sağlayan sınıf</param>
         /// <param name="transactionRepository">İşlem tablosu için repository sınıfı</param>

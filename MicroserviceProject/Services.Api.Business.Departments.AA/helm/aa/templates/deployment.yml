@@ -65,8 +65,6 @@ spec:
               value: {{ .Values.deployment.application.containers.aaContainer.environment.Configuration_Logging_ExceptionLogging_DataBaseConfiguration_DataSource }}
             - name: Configuration_Logging_ExceptionLogging_MongoConfiguration_ConnectionString
               value: {{ .Values.deployment.application.containers.aaContainer.environment.Configuration_Logging_ExceptionLogging_MongoConfiguration_ConnectionString }}
-            - name: Configuration_Routing_DataSource
-              value: {{ .Values.deployment.application.containers.aaContainer.environment.Configuration_Routing_DataSource }}
             - name: Configuration_RabbitQueues_Host_DefaultHost
               value: {{ .Values.deployment.application.containers.aaContainer.environment.Configuration_RabbitQueues_Host_DefaultHost }}
             - name: Configuration_RabbitQueues_Host_DefaultUserName
