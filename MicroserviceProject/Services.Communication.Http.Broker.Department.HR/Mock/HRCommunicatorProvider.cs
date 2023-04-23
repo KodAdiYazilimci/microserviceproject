@@ -10,7 +10,6 @@ namespace Services.Communication.Http.Broker.Department.HR.Mock
         private static IHRCommunicator hRCommunicator;
 
         public static IHRCommunicator GetHRCommunicator(
-            //IRouteProvider routeProvider,
             IDepartmentCommunicator departmentCommunicator,
             IServiceDiscoverer serviceDiscoverer)
         {

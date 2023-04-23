@@ -33,7 +33,6 @@ namespace Services.Scheduling.Diagnostics.HealthCheck
             services.AddHangfireServer();
 
             services.AddSingleton<HttpGetProvider>();
-            //services.RegisterHttpRouteRepositories();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

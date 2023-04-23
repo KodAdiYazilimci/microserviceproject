@@ -326,7 +326,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DB Scripts", "DB Scripts", 
 		Common\DB Scripts\Microservice_Localization_DB.sql = Common\DB Scripts\Microservice_Localization_DB.sql
 		Common\DB Scripts\Microservice_Logs_DB.sql = Common\DB Scripts\Microservice_Logs_DB.sql
 		Common\DB Scripts\Microservice_Production_DB.sql = Common\DB Scripts\Microservice_Production_DB.sql
-		Common\DB Scripts\Microservice_Routing_DB.sql = Common\DB Scripts\Microservice_Routing_DB.sql
 		Common\DB Scripts\Microservice_Security_DB.sql = Common\DB Scripts\Microservice_Security_DB.sql
 		Common\DB Scripts\Microservice_Selling_DB.sql = Common\DB Scripts\Microservice_Selling_DB.sql
 		Common\DB Scripts\Microservice_Socket_DB.sql = Common\DB Scripts\Microservice_Socket_DB.sql
