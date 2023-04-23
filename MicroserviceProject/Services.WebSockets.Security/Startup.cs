@@ -1,5 +1,7 @@
 
+using Infrastructure.Communication.Http.Endpoint.Abstract;
 using Infrastructure.Communication.Http.Models;
+using Infrastructure.ServiceDiscovery.Register.DI;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -12,9 +14,12 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 
 using Services.Communication.Http.Broker.Authorization.DI;
+using Services.Communication.WebSockets.Endpoint.Security;
 using Services.Security.SignalR.DI;
+using Services.ServiceDiscovery.DI;
 using Services.WebSockets.Security.Hubs;
 
+using System.Collections.Generic;
 using System.Net;
 
 namespace Services.WebSockets.Security
@@ -30,6 +35,7 @@ namespace Services.WebSockets.Security
 
             services.RegisterHttpAuthorizationCommunicators();
             services.RegisterSignalRAuthentication(policyName: "TokensPolicy");
+            services.RegisterServiceRegisterers();
 
             services.AddControllers();
         }
@@ -73,6 +79,11 @@ namespace Services.WebSockets.Security
                 {
                     options.Transports = HttpTransportType.WebSockets;
                 });
+            });
+
+            app.RegisterService(new List<IEndpoint>()
+            {
+                new SendTokenNotificationEndpoint()
             });
         }
     }
