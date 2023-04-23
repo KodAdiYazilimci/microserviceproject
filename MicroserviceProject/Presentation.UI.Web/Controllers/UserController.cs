@@ -10,8 +10,9 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
-using Presentation.UI.Web.Endpoints;
 using Presentation.UI.Web.Models;
+
+using Services.Communication.Http.Endpoint.Presentation.UI.Web.Identity;
 
 using System;
 using System.Threading;
@@ -62,7 +63,7 @@ namespace Presentation.UI.Web.Controllers
 
                 QueryString queryString = queryBuilder.ToQueryString();
 
-                CachedServiceModel service = await _serviceDiscoverer.GetServiceAsync("Services.Api.Authorization", cancellationTokenSource);
+                CachedServiceModel service = await _serviceDiscoverer.GetServiceAsync("Presentation.UI.Web.Identity", cancellationTokenSource);
 
                 IEndpoint endpoint = service.GetEndpoint(LoginEndpoint.Path);
 

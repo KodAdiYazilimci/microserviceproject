@@ -11,12 +11,12 @@ using System.Net;
 
 namespace Services.Communication.Http.Broker
 {
-    public class DefaultCommunicator : ICommunicator
+    public class AuthenticatedCommunicator : ICommunicator
     {
         private readonly HttpGetCaller _httpGetCaller;
         private readonly HttpPostCaller _httpPostCaller;
 
-        public DefaultCommunicator(
+        public AuthenticatedCommunicator(
             HttpGetCaller httpGetCaller,
             HttpPostCaller httpPostCaller)
         {
@@ -24,7 +24,7 @@ namespace Services.Communication.Http.Broker
             _httpPostCaller = httpPostCaller;
         }
 
-        public async Task<ServiceResultModel<TResult>> CallAsync<TResult>(IEndpoint endpoint, CancellationTokenSource cancellationTokenSource)
+        public async Task<ServiceResultModel<TResult>> CallAsync<TResult>(IAuthenticatedEndpoint endpoint, CancellationTokenSource cancellationTokenSource)
         {
             ErrorModel errorModel = new ErrorModel();
 
@@ -76,7 +76,7 @@ namespace Services.Communication.Http.Broker
             return new ServiceResultModel<TResult>() { IsSuccess = false, SourceApiService = endpoint.Name, ErrorModel = errorModel };
         }
 
-        public async Task<ServiceResultModel<TResult>> CallAsync<TRequest, TResult>(IEndpoint endpoint, TRequest requestObject, CancellationTokenSource cancellationTokenSource)
+        public async Task<ServiceResultModel<TResult>> CallAsync<TRequest, TResult>(IAuthenticatedEndpoint endpoint, TRequest requestObject, CancellationTokenSource cancellationTokenSource)
         {
             ErrorModel errorModel = new ErrorModel();
 

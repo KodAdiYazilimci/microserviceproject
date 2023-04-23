@@ -48,9 +48,9 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Services
                 IDistrubutedCacheProvider redisCacheDataProvider = CacheDataProviderFactory.GetInstance(configuration);
                 var httpGetCaller = HttpGetCallerFactory.Instance;
                 var httpPostCaller = HttpPostCallerFactory.Instance;
-                var defaultCommunicator = DefaultCommunicatorProvider.GetDefaultCommunicator(httpGetCaller, httpPostCaller);
+                var authenticatedCommunicator = AuthenticatedCommunicatorProvider.GetAuthenticatedCommunicator(httpGetCaller, httpPostCaller);
                 var authorizationCommunicator = AuthorizationCommunicatorProvider.GetAuthorizationCommunicator(
-                    communicator: defaultCommunicator,
+                    communicator: authenticatedCommunicator,
                     serviceDiscoverer: HttpServiceDiscovererProvider.GetServiceDiscoverer(
                         inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance,
                         httpGetCaller: HttpGetCallerFactory.Instance,
@@ -61,7 +61,7 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Services
                     authorizationCommunicator: authorizationCommunicator,
                     inMemoryCacheDataProvider: inMemoryCacheDataProvider,
                     credentialProvider: credentialProvider,
-                    communicator: defaultCommunicator);
+                    communicator: authenticatedCommunicator);
 
                 var serviceDiscoverer = HttpServiceDiscovererProvider.GetServiceDiscoverer(
                     inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance,

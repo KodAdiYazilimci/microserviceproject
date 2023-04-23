@@ -1,6 +1,8 @@
 using Infrastructure.Caching.Redis.DI;
 using Infrastructure.Communication.Http.Broker.DI;
+using Infrastructure.Communication.Http.Endpoint.Abstract;
 using Infrastructure.Diagnostics.HealthCheck.Util;
+using Infrastructure.ServiceDiscovery.Register.DI;
 using Infrastructure.Util.DI;
 
 using Microsoft.AspNetCore.Builder;
@@ -11,11 +13,14 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Services.Api.Logging.Configuration.Services.Repositories;
 using Services.Api.Logging.DI;
-using Services.Api.Logging.DI;
+using Services.Communication.Http.Endpoint.Logging;
 using Services.Diagnostics.HealthCheck.DI;
 using Services.Logging.Exception.DI;
 using Services.Security.BasicToken.DI;
+using Services.ServiceDiscovery.DI;
 using Services.Util.Exception.Handlers;
+
+using System.Collections.Generic;
 
 namespace Services.Api.Logging
 {
@@ -41,6 +46,7 @@ namespace Services.Api.Logging
             services.RegisterHttpServiceCommunicator();
             services.RegisterSqlHealthChecking();
             services.RegisterSwagger();
+            services.RegisterServiceRegisterers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,7 +76,7 @@ namespace Services.Api.Logging
                 options.SwaggerEndpoint("/swagger/CoreSwagger/swagger.json", "CoreSwagger");
             });
 
-            app.RegisterService();
+            app.RegisterService(new List<IEndpoint>() { new WriteRequestResponseLogEndpoint() });
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Util.DI;
 
 using Microsoft.Extensions.DependencyInjection;
-
+using Services.Api.Business.Departments.AA.DI;
 using System;
 
 namespace Services.Api.Business.Departments.AA.DI

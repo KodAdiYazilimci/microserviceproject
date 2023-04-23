@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.Communication.Http.Endpoint\Infrastructure.Communication.Http.Endpoint.csproj" />
     <ProjectReference Include="..\Infrastructure.Cryptography\Infrastructure.Cryptography.csproj" />
     <ProjectReference Include="..\Infrastructure.Communication.Http.Wrapper\Infrastructure.Communication.Http.Wrapper.csproj" />
     <ProjectReference Include="..\Infrastructure.Localization.Translation.Provider\Infrastructure.Localization.Translation.Provider.csproj" />
@@ -30,10 +31,12 @@
     <ProjectReference Include="..\Services.Communication.Http.Broker.Department.Production\Services.Communication.Http.Broker.Department.Production.csproj" />
     <ProjectReference Include="..\Services.Communication.Http.Broker.Department.Selling\Services.Communication.Http.Broker.Department.Selling.csproj" />
     <ProjectReference Include="..\Services.Communication.Http.Broker.Department.Storage\Services.Communication.Http.Broker.Department.Storage.csproj" />
+    <ProjectReference Include="..\Services.Communication.Http.Endpoint.Gateway\Services.Communication.Http.Endpoint.Gateway.csproj" />
     <ProjectReference Include="..\Services.Logging.Exception\Services.Logging.Exception.csproj" />
     <ProjectReference Include="..\Services.Logging.RequestResponse\Services.Logging.RequestResponse.csproj" />
     <ProjectReference Include="..\Services.RateLimiting\Services.RateLimiting.csproj" />
     <ProjectReference Include="..\Services.Security.BasicToken\Services.Security.BasicToken.csproj" />
+    <ProjectReference Include="..\Services.ServiceDiscovery\Services.ServiceDiscovery.csproj" />
     <ProjectReference Include="..\Services.Util\Services.Util.csproj" />
   </ItemGroup>
 

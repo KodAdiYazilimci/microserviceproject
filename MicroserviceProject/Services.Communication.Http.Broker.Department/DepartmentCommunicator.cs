@@ -32,12 +32,12 @@ namespace Services.Communication.Http.Broker
             _communicator = communicator;
         }
 
-        public Task<ServiceResultModel<TResult>> CallAsync<TResult>(IEndpoint endpoint, CancellationTokenSource cancellationTokenSource)
+        public Task<ServiceResultModel<TResult>> CallAsync<TResult>(IAuthenticatedEndpoint endpoint, CancellationTokenSource cancellationTokenSource)
         {
             return _communicator.CallAsync<TResult>(endpoint, cancellationTokenSource);
         }
 
-        public Task<ServiceResultModel<TResult>> CallAsync<TRequest, TResult>(IEndpoint endpoint, TRequest requestObject, CancellationTokenSource cancellationTokenSource)
+        public Task<ServiceResultModel<TResult>> CallAsync<TRequest, TResult>(IAuthenticatedEndpoint endpoint, TRequest requestObject, CancellationTokenSource cancellationTokenSource)
         {
             return _communicator.CallAsync<TRequest, TResult>(endpoint, requestObject, cancellationTokenSource);
         }

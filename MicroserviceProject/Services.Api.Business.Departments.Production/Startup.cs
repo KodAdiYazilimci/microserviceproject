@@ -1,5 +1,7 @@
+using Infrastructure.Communication.Http.Endpoint.Abstract;
 using Infrastructure.Diagnostics.HealthCheck.Util;
 using Infrastructure.Localization.Translation.Provider.DI;
+using Infrastructure.ServiceDiscovery.Register.DI;
 using Infrastructure.Util.DI;
 
 using MediatR;
@@ -14,6 +16,7 @@ using Services.Api.Business.Departments.Production.Configuration.Persistence;
 using Services.Api.Business.Departments.Production.DI;
 using Services.Communication.Http.Broker.Department.Production.DI;
 using Services.Communication.Http.Broker.Department.Storage.DI;
+using Services.Communication.Http.Endpoint.Department.Production;
 using Services.Communication.Mq.Queue.Buying.DI;
 using Services.Communication.Mq.Queue.Buying.Rabbit.DI;
 using Services.Communication.Mq.Queue.Storage.Configuration.DI;
@@ -23,8 +26,11 @@ using Services.Logging.Aspect.DI;
 using Services.Logging.Exception.DI;
 using Services.Logging.RequestResponse.DI;
 using Services.Security.BasicToken.DI;
+using Services.ServiceDiscovery.DI;
 using Services.UnitOfWork.EntityFramework.DI;
 using Services.Util.Exception.Handlers;
+
+using System.Collections.Generic;
 
 namespace Services.Api.Business.Departments.Production
 {
@@ -61,6 +67,7 @@ namespace Services.Api.Business.Departments.Production
             services.RegisterHttpStorageDepartmentCommunicators();
             services.RegisterSwagger();
             services.RegisterEntityFrameworkUnitOfWork<ProductionContext>();
+            services.RegisterServiceRegisterers();
 
             services.AddMediatR(typeof(Startup));
         }
@@ -90,6 +97,15 @@ namespace Services.Api.Business.Departments.Production
             app.UseSwaggerUI(options =>
             {
                 options.SwaggerEndpoint("/swagger/CoreSwagger/swagger.json", "CoreSwagger");
+            });
+
+            app.RegisterService(new List<IEndpoint>()
+            {
+                new CreateProductEndpoint(),
+                new GetProductsEndpoint(),
+                new ProduceProductEndpoint(),
+                new ReEvaluateProduceProductEndpoint(),
+                new RemoveSessionIfExistsInCacheEndpoint()
             });
         }
     }

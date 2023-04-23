@@ -15,7 +15,8 @@ namespace Infrastructure.Communication.Http.Helpers
 
             foreach (HttpQueryModel query in httpQueries)
             {
-                queryBuilder.Add(query.Name, query.Value);
+                if (!string.IsNullOrWhiteSpace(query.Value))
+                    queryBuilder.Add(query.Name, query.Value);
             }
 
             string url = baseUrl + queryBuilder.ToQueryString();
@@ -27,6 +28,7 @@ namespace Infrastructure.Communication.Http.Helpers
         {
             foreach (HttpHeaderModel header in headers)
             {
+                httpClient.DefaultRequestHeaders.Remove(header.Name);
                 httpClient.DefaultRequestHeaders.Add(header.Name, header.Value);
             }
         }

@@ -1,12 +1,12 @@
 {
   "profiles": {
-    "Presentation.Communication.Http.Broker.Identity": {
+    "Infrastructure.ServiceDiscovery": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:62345;http://localhost:62346"
+      "applicationUrl": "https://localhost:61664;http://localhost:61665"
     }
   }
 }

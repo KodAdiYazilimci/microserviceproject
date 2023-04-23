@@ -93,7 +93,7 @@ namespace Services.Communication.Http.Broker.Department.Finance
 
                 authenticatedEndpoint.Headers.Add(new HttpHeaderModel() { Name = "TransactionIdentity", Value = transactionIdentity });
 
-                return await _departmentCommunicator.CallAsync<List<DecidedCostModel>>(endpoint, cancellationTokenSource);
+                return await _departmentCommunicator.CallAsync<List<DecidedCostModel>>(authenticatedEndpoint, cancellationTokenSource);
             }
             else
                 throw new EndpointNotFoundException();

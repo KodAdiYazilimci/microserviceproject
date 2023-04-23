@@ -21,31 +21,18 @@ namespace Services.Api.ServiceDiscovery.Controllers
         [HttpGet]
         public IActionResult Discover(string serviceName)
         {
-            if (!string.IsNullOrEmpty(serviceName))
+            return HttpResponseWrapper.Wrap(() =>
             {
-                return HttpResponseWrapper.Wrap(() =>
+                if (!string.IsNullOrWhiteSpace(serviceName))
                 {
-
-                    if (_distrubutedCacheProvider.TryGetValue("Cached_Services", out List<ServiceDto> services) && services != null)
+                    if (_distrubutedCacheProvider.TryGetValue($"Cached_Services_{serviceName}", out ServiceDto _service) && _service != null)
                     {
-                        return services.FirstOrDefault(x => x.ServiceName == serviceName);
+                        return _service;
                     }
+                }
 
-                    return null;
-                });
-            }
-            else
-            {
-                return HttpResponseWrapper.Wrap(() =>
-                {
-                    if (_distrubutedCacheProvider.TryGetValue("Cached_Services", out List<ServiceDto> services) && services != null)
-                    {
-                        return services;
-                    }
-
-                    return new List<ServiceDto>();
-                });
-            }
+                return null;
+            });
         }
     }
 }

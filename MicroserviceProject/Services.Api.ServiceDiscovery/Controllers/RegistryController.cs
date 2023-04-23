@@ -28,22 +28,7 @@ namespace Services.Api.ServiceDiscovery.Controllers
             {
                 await RegisterValidator.ValidateAsync(serviceDto, new CancellationTokenSource());
 
-                List<ServiceDto>? services = new List<ServiceDto>();
-
-                if (_distrubutedCacheProvider.TryGetValue("Cached_Services", out string cachedJson) && !string.IsNullOrEmpty(cachedJson))
-                {
-                    services = JsonConvert.DeserializeObject<List<ServiceDto>>(cachedJson);
-                }
-
-                if (services.Any(x => x.ServiceName == serviceDto.ServiceName))
-                {
-                    services.RemoveAll(x => x.ServiceName == serviceDto.ServiceName);
-                    services.Add(serviceDto);
-                }
-                else
-                    services.Add(serviceDto);
-
-                _distrubutedCacheProvider.Set<List<ServiceDto>>("Cached_Services", services, DateTime.UtcNow.AddYears(1));
+                _distrubutedCacheProvider.Set<ServiceDto>($"Cached_Services_{serviceDto.ServiceName}", serviceDto, DateTime.UtcNow.AddYears(1));
             });
         }
     }

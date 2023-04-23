@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
+using Services.Api.Business.Departments.AA.DI;
 using Services.Diagnostics.HealthCheck.DI;
 
 

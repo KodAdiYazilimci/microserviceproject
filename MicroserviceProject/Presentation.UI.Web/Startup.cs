@@ -1,6 +1,7 @@
 
 using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Security.Authentication.DI;
+using Infrastructure.ServiceDiscovery.Register.DI;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -12,11 +13,11 @@ using Microsoft.Extensions.Hosting;
 using Presentation.UI.Web.DI;
 
 using Services.Communication.Http.Broker.Authorization.DI;
+using Services.Communication.Http.Broker.Gateway.Public.DI;
 using Services.Logging.Exception;
 using Services.Logging.Exception.Configuration;
 using Services.Logging.Exception.DI;
 using Services.Security.Cookie.DI;
-using Services.Communication.Http.Broker.Gateway.Public.DI;
 
 using System;
 using System.Threading;
@@ -44,6 +45,7 @@ namespace Presentation.UI.Web
             services.RegisterCookieAuthentication("/Login", "/Yetkisiz");
             services.RegisterInMemoryCaching();
             services.RegisterMappings();
+            services.RegisterServiceRegisterers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
