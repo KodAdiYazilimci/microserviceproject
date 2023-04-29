@@ -4,4 +4,8 @@
     <TargetFramework>net7.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.Security\Infrastructure.Security.csproj" />
+  </ItemGroup>
+
 </Project>

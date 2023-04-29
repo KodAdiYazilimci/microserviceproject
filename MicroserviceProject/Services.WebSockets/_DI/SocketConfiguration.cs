@@ -1,10 +1,9 @@
 ﻿using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Security.Authentication.DI;
-using Infrastructure.Sockets.Persistence.Repositories.Sql;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Infrastructure.Communication.WebSockets.DI
+namespace Services.WebSockets.DI
 {
     /// <summary>
     /// Web soketlerin DI sınıfı
@@ -22,7 +21,6 @@ namespace Infrastructure.Communication.WebSockets.DI
             services.RegisterInMemoryCaching();
 
             services.AddSingleton<SocketListener>();
-            services.AddSingleton<SocketRepository>();
 
             return services;
         }

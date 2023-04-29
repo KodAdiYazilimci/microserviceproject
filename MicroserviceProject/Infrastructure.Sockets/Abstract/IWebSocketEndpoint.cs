@@ -1,12 +1,9 @@
-﻿namespace Infrastructure.Sockets.Models
+﻿namespace Infrastructure.Sockets.Abstract
 {
-    /// <summary>
-    /// Soket modeli
-    /// </summary>
-    public class SocketModel
+    public interface IWebSocketEndpoint
     {
         /// <summary>
-        /// Soketin I değeri
+        /// Soketin Id değeri
         /// </summary>
         public int Id { get; set; }
 

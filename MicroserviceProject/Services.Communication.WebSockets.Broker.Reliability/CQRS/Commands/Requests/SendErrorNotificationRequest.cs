@@ -1,4 +1,4 @@
-﻿using Infrastructure.Communication.WebSockets.Models;
+﻿using Infrastructure.Sockets.Models;
 
 using MediatR;
 

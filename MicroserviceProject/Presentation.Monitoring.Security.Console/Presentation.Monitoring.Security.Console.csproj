@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="7.0.1" />
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="7.0.0" />
@@ -17,11 +16,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure.Caching.InMemory.Mock\Infrastructure.Caching.InMemory.Mock.csproj" />
     <ProjectReference Include="..\Infrastructure.Communication.Http.Broker.Mock\Infrastructure.Communication.Http.Broker.Mock.csproj" />
-    <ProjectReference Include="..\Infrastructure.Communication.WebSockets\Infrastructure.Communication.WebSockets.csproj" />
     <ProjectReference Include="..\Infrastructure.Mock\Infrastructure.Mock.csproj" />
     <ProjectReference Include="..\Infrastructure.Security.Authentication.Mock\Infrastructure.Security.Authentication.Mock.csproj" />
-    <ProjectReference Include="..\Infrastructure.Sockets.Persistence.Mock\Infrastructure.Sockets.Persistence.Mock.csproj" />
     <ProjectReference Include="..\Services.Communication.Http.Broker.Authorization\Services.Communication.Http.Broker.Authorization.csproj" />
+    <ProjectReference Include="..\Services.WebSockets\Services.WebSockets.csproj" />
   </ItemGroup>
 
   <ItemGroup>
