@@ -105,7 +105,8 @@ namespace Services.Api.Business.Departments.Production
                 new GetProductsEndpoint(),
                 new ProduceProductEndpoint(),
                 new ReEvaluateProduceProductEndpoint(),
-                new RemoveSessionIfExistsInCacheEndpoint()
+                new RemoveSessionIfExistsInCacheEndpoint(),
+                new HealthCheckEndpoint()
             });
         }
     }

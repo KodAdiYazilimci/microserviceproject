@@ -94,7 +94,8 @@ namespace Services.Api.Business.Departments.Accounting
                 new GetBankAccountsOfWorkerEndpoint(),
                 new GetCurrenciesEndpoint(),
                 new GetSalaryPaymentsOfWorkerEndpoint(),
-                new RemoveSessionIfExistsInCacheEndpoint()
+                new RemoveSessionIfExistsInCacheEndpoint(),
+                new HealthCheckEndpoint()
             });
         }
     }

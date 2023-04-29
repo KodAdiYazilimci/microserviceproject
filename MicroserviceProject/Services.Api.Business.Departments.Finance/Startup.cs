@@ -101,7 +101,8 @@ namespace Services.Api.Business.Departments.Buying
                 new CreateProductionRequestEndpoint(),
                 new DecideCostEndpoint(),
                 new GetDecidedCostsEndpoint(),
-                new RemoveSessionIfExistsInCacheEndpoint()
+                new RemoveSessionIfExistsInCacheEndpoint(),
+                new HealthCheckEndpoint()
             });
         }
     }

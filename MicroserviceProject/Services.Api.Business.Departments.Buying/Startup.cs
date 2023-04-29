@@ -112,7 +112,8 @@ namespace Services.Api.Business.Departments.Buying
                 new CreateInventoryRequestEndpoint(),
                 new GetInventoryRequestsEndpoint(),
                 new RemoveSessionIfExistsInCacheEndpoint(),
-                new ValidateCostInventoryEndpoint()
+                new ValidateCostInventoryEndpoint(),
+                new HealthCheckEndpoint()
             });
         }
     }

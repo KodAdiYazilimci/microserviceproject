@@ -89,7 +89,7 @@ namespace Services.Api.Authorization
                 options.SwaggerEndpoint("/swagger/CoreSwagger/swagger.json", "CoreSwagger");
             });
 
-            app.RegisterService(new List<IEndpoint>() { new GetTokenEndpoint(), new GetUserEndpoint() });
+            app.RegisterService(new List<IEndpoint>() { new GetTokenEndpoint(), new GetUserEndpoint(), new HealthCheckEndpoint() });
         }
     }
 }

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
 using Services.Api.Business.Departments.AA.DI;
 using Services.Communication.Http.Broker.Department.AA.DI;
 using Services.Communication.Http.Endpoint.Department.AA;
@@ -101,7 +102,8 @@ namespace Services.Api.Business.Departments.AA
                 new AAGetInventoriesEndpoint(),
                 new AAGetInventoriesForNewWorkerEndpoint(),
                 new AAInformInventoryRequestEndpoint(),
-                new AARemoveSessionIfExistsInCacheEndpoint()
+                new AARemoveSessionIfExistsInCacheEndpoint(),
+                new HealthCheckEndpoint()
             });
         }
     }
