@@ -5,11 +5,11 @@ using Infrastructure.Communication.Http.Models;
 
 using System.Net;
 
-namespace Services.Communication.Http.Endpoint.Authorization.Endpoints
+namespace Services.Communication.Http.Endpoint.Authorization
 {
     public class HealthCheckEndpoint : IEndpoint
     {
-        public static string Path => "Services.Api.Authorization.Health";
+        public static string Path => "authorization.health";
         public string Url { get; set; } = "/health";
         public string Name { get; set; } = Path;
         public object? Payload { get; set; }

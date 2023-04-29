@@ -9,7 +9,7 @@ using Infrastructure.ServiceDiscovery.Discoverer.Models;
 using Services.Communication.Http.Broker.Abstract;
 using Services.Communication.Http.Broker.Authorization.Abstract;
 using Services.Communication.Http.Broker.Authorization.Models;
-using Services.Communication.Http.Endpoint.Authorization.Endpoints;
+using Services.Communication.Http.Endpoint.Authorization;
 
 using System;
 using System.Threading;

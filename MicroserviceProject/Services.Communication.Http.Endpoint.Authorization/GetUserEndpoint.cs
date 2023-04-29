@@ -5,7 +5,7 @@ using Infrastructure.Communication.Http.Models;
 
 using System.Net;
 
-namespace Services.Communication.Http.Endpoint.Authorization.Endpoints
+namespace Services.Communication.Http.Endpoint.Authorization
 {
     public class GetUserEndpoint : IEndpoint
     {

@@ -15,7 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Services.Communication.Http.Broker.Authorization;
 using Services.Communication.Http.Broker.Authorization.Models;
 using Services.Communication.Http.Broker.Mock;
-using Services.Communication.Http.Endpoint.Authorization.Endpoints;
+using Services.Communication.Http.Endpoint.Authorization;
 using Services.WebSockets;
 
 using System;

@@ -9,7 +9,7 @@ namespace Services.Communication.Http.Endpoint.Department.Buying
 {
     public class HealthCheckEndpoint : IEndpoint
     {
-        public static string Path => "Services.Api.Business.Departments.Buying.Health";
+        public static string Path => "buying.health";
         public string Url { get; set; } = "/health";
         public string Name { get; set; } = Path;
         public object? Payload { get; set; }

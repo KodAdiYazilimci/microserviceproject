@@ -14,7 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Services.Api.Authorization.Configuration.Persistence;
 using Services.Api.Authorization.DI;
-using Services.Communication.Http.Endpoint.Authorization.Endpoints;
+using Services.Communication.Http.Endpoint.Authorization;
 using Services.Communication.Mq.Queue.Authorization.DI;
 using Services.Communication.Mq.Queue.Authorization.Rabbit.DI;
 using Services.Logging.Exception.DI;
