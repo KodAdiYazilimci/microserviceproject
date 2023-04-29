@@ -1,19 +1,18 @@
 ﻿using Infrastructure.Caching.InMemory.Mock;
 using Infrastructure.Communication.Http.Broker.Mock;
 using Infrastructure.Communication.Http.Models;
-using Infrastructure.Communication.WebSockets;
-using Infrastructure.Communication.WebSockets.Models;
 using Infrastructure.Security.Authentication.Abstract;
 using Infrastructure.Security.Authentication.Mock;
 using Infrastructure.ServiceDiscovery.Discoverer.Mock;
 using Infrastructure.ServiceDiscovery.Mock;
-using Infrastructure.Sockets.Persistence.Mock;
+using Infrastructure.Sockets.Models;
 
 using Microsoft.Extensions.Configuration;
 
 using Services.Communication.Http.Broker.Authorization;
 using Services.Communication.Http.Broker.Authorization.Models;
 using Services.Communication.Http.Broker.Mock;
+using Services.WebSockets;
 
 using System;
 using System.Net;
@@ -31,9 +30,7 @@ namespace Presentation.Monitoring.Reliability.Console
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
             SocketListener socketListener = new SocketListener(
-                cacheProvider: InMemoryCacheDataProviderFactory.Instance,
-                credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration),
-                socketRepository: SocketRepositoryFactory.GetSocketRepository(configuration));
+                credentialProvider: CredentialProviderFactory.GetCredentialProvider(configuration));
 
             socketListener.OnMessageReceived += (WebSocketResultModel webSocketResult) =>
             {
@@ -68,7 +65,7 @@ namespace Presentation.Monitoring.Reliability.Console
                 try
                 {
                     await socketListener.ListenAsync(
-                        socketName: "websockets.reliability.errorhub.geterrormessages",
+                        socketEndpoint: null,
                         token: token.Data.TokenKey,
                         cancellationTokenSource: cancellationTokenSource);
                 }

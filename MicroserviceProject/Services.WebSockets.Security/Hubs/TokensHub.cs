@@ -1,5 +1,5 @@
-﻿using Infrastructure.Communication.WebSockets.Models;
-using Infrastructure.Security.Model;
+﻿using Infrastructure.Security.Model;
+using Infrastructure.Sockets.Models;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;

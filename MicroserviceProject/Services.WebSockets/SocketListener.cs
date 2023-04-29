@@ -1,21 +1,12 @@
-﻿using Infrastructure.Caching.Abstraction;
-using Infrastructure.Communication.WebSockets.Models;
-using Infrastructure.Security.Authentication.Abstract;
-using Infrastructure.Sockets.Exceptions;
+﻿using Infrastructure.Security.Authentication.Abstract;
+using Infrastructure.Sockets.Abstract;
 using Infrastructure.Sockets.Models;
-using Infrastructure.Sockets.Persistence.Repositories.Sql;
 
 using Microsoft.AspNetCore.SignalR.Client;
 
 using Newtonsoft.Json;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Infrastructure.Communication.WebSockets
+namespace Services.WebSockets
 {
     /// <summary>
     /// Bir websocket bağlantısını dinleyen sınıf
@@ -28,24 +19,9 @@ namespace Infrastructure.Communication.WebSockets
         private bool disposed = false;
 
         /// <summary>
-        /// Servis endpointlerinin önbellekteki adı
-        /// </summary>
-        private const string CACHEDWEBSOCKETS = "CACHED_WEBSOCKETS";
-
-        /// <summary>
-        /// Önbellek nesnesi
-        /// </summary>
-        private readonly IInMemoryCacheDataProvider _cacheProvider;
-
-        /// <summary>
         /// İletişimde kullanılacak yetkiler için sağlayıcı
         /// </summary>
         private readonly ICredentialProvider _credentialProvider;
-
-        /// <summary>
-        /// Soket endpointlerinin sağlayıcısı
-        /// </summary>
-        private readonly SocketRepository _socketRepository;
 
         /// <summary>
         /// Gelen soket verisini yakalayacak handler
@@ -63,16 +39,9 @@ namespace Infrastructure.Communication.WebSockets
         /// </summary>
         /// <param name="cacheProvider">Önbellek nesnesi</param>
         /// <param name="credentialProvider">İletişimde kullanılacak yetkiler için sağlayıcı</param>
-        /// <param name="serviceRouteRepository">Servis endpointleri sağlayıcısı</param>
-        /// <param name="socketRepository">Soket endpointlerinin sağlayıcısı</param>
-        public SocketListener(
-            IInMemoryCacheDataProvider cacheProvider,
-            ICredentialProvider credentialProvider,
-            SocketRepository socketRepository)
+        public SocketListener(ICredentialProvider credentialProvider)
         {
-            _cacheProvider = cacheProvider;
             _credentialProvider = credentialProvider;
-            _socketRepository = socketRepository;
         }
 
         /// <summary>
@@ -81,16 +50,14 @@ namespace Infrastructure.Communication.WebSockets
         /// <param name="socketName">Dinlenecek soketin adı</param>
         /// <param name="cancellationTokenSource">İptal tokenı</param>
         /// <returns></returns>
-        public async Task ListenAsync(string socketName, string token, CancellationTokenSource cancellationTokenSource)
+        public async Task ListenAsync(IWebSocketEndpoint socketEndpoint, string token, CancellationTokenSource cancellationTokenSource)
         {
-            SocketModel socket = await GetSocketAsync(socketName, cancellationTokenSource);
-
-            HubConnection hubConnection = new HubConnectionBuilder().WithUrl(socket.Endpoint, options =>
+            HubConnection hubConnection = new HubConnectionBuilder().WithUrl(socketEndpoint.Endpoint, options =>
             {
                 options.Headers.Add("Authorization", token);
             }).Build();
 
-            hubConnection.On<object>(socket.Method, param =>
+            hubConnection.On<object>(socketEndpoint.Method, param =>
             {
                 if (OnMessageReceived != null)
                 {
@@ -101,29 +68,6 @@ namespace Infrastructure.Communication.WebSockets
             });
 
             await hubConnection.StartAsync(cancellationTokenSource.Token);
-        }
-
-        /// <summary>
-        /// Soket bilgisini verir
-        /// </summary>
-        /// <param name="socketName">Bilgisi getirilecek soketin adı</param>
-        /// <param name="cancellationTokenSource">İptal tokenı</param>
-        /// <returns></returns>
-        private async Task<SocketModel> GetSocketAsync(string socketName, CancellationTokenSource cancellationTokenSource)
-        {
-            List<SocketModel> sockets = _cacheProvider.Get<List<SocketModel>>(CACHEDWEBSOCKETS);
-
-            if (sockets == null || !sockets.Any())
-            {
-                sockets = await _socketRepository.GetSocketsAsync(cancellationTokenSource);
-
-                _cacheProvider.Set<List<SocketModel>>(CACHEDWEBSOCKETS, sockets, DateTime.UtcNow.AddMinutes(60));
-            }
-
-            if (sockets.Any(x => x.Name == socketName))
-                return sockets.FirstOrDefault(x => x.Name == socketName);
-            else
-                throw new GetSocketException("Soket bilgisi bulunamadı");
         }
 
         /// <summary>
@@ -147,9 +91,6 @@ namespace Infrastructure.Communication.WebSockets
                 {
                     if (_credentialProvider != null)
                         _credentialProvider.Dispose();
-
-                    if (_socketRepository != null)
-                        _socketRepository.Dispose();
                 }
 
                 disposed = true;

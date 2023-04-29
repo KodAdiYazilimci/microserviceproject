@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Communication.Http.Wrapper;
-using Infrastructure.Communication.WebSockets.Models;
 using Infrastructure.Security.Model;
+using Infrastructure.Sockets.Models;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

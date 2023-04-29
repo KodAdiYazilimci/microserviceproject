@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Communication.WebSockets.Models
+﻿namespace Infrastructure.Sockets.Models
 {
     /// <summary>
     /// Websocketten gelen içerik

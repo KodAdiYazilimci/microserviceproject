@@ -13,8 +13,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure.Communication.Http.Endpoint\Infrastructure.Communication.Http.Endpoint.csproj" />
     <ProjectReference Include="..\Infrastructure.Communication.Http\Infrastructure.Communication.Http.csproj" />
-    <ProjectReference Include="..\Infrastructure.Communication.WebSockets\Infrastructure.Communication.WebSockets.csproj" />
     <ProjectReference Include="..\Infrastructure.ServiceDiscovery.Discoverer\Infrastructure.ServiceDiscovery.Discoverer.csproj" />
+    <ProjectReference Include="..\Infrastructure.Sockets\Infrastructure.Sockets.csproj" />
     <ProjectReference Include="..\Services.Communication.Http.Broker\Services.Communication.Http.Broker.csproj" />
     <ProjectReference Include="..\Services.Communication.WebSockets.Broker\Services.Communication.WebSockets.Broker.csproj" />
     <ProjectReference Include="..\Services.Communication.WebSockets.Endpoint.Reliability\Services.Communication.WebSockets.Endpoint.Reliability.csproj" />
