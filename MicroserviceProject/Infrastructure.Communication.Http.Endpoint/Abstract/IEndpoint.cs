@@ -1,5 +1,4 @@
 ﻿using Infrastructure.Communication.Http.Constants;
-using Infrastructure.Communication.Http.Endpoint.Authentication;
 using Infrastructure.Communication.Http.Endpoint.Constants;
 using Infrastructure.Communication.Http.Models;
 
@@ -17,6 +16,7 @@ namespace Infrastructure.Communication.Http.Endpoint.Abstract
         List<HttpHeaderModel> Headers { get; set; }
         List<HttpQueryModel> Queries { get; set; }
         AuthenticationType AuthenticationType { get; set; }
+        EndpointPurpose EndpointPurpose { get; set; }
         List<HttpStatusCode> StatusCodes { get; set; }
     }
 }

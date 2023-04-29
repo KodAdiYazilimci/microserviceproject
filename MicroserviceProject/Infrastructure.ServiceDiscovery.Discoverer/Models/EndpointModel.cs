@@ -14,6 +14,7 @@ namespace Infrastructure.ServiceDiscovery.Discoverer.Models
         public object? Payload { get; set; }
         public HttpAction HttpAction { get; set; }
         public AuthenticationType AuthenticationType { get; set; }
+        public EndpointPurpose EndpointPurpose { get; set; }
         public List<HttpStatusCode> StatusCodes { get; set; }
         public List<HttpHeaderModel> Headers { get; set; } = new List<HttpHeaderModel>();
         public List<HttpQueryModel> Queries { get; set; } = new List<HttpQueryModel>();

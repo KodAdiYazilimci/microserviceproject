@@ -17,6 +17,7 @@ namespace Services.Communication.Http.Endpoint.Presentation.UI.Web.Identity
         public List<HttpHeaderModel> Headers { get; set; }
         public List<HttpQueryModel> Queries { get; set; } = new List<HttpQueryModel>() { new HttpQueryModel() { Name = "redirectInfo", Required = true } };
         public AuthenticationType AuthenticationType { get; set; } = AuthenticationType.Anonymouse;
+        public EndpointPurpose EndpointPurpose { get; set; } = EndpointPurpose.Operation;
         public List<HttpStatusCode> StatusCodes { get; set; } = new List<HttpStatusCode>()
         {
             HttpStatusCode.OK,
