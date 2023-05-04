@@ -1,0 +1,42 @@
+#################################Setup:#############################
+#helm create servicediscovery
+#helm install <appName> <directoryName>
+#helm install servicediscovery servicediscovery
+#helm list
+#helm delete servicediscovery
+#########################Set Values with file#######################
+#helm upgrade <appName> <directoryName> --values <values.yaml.Path>
+#helm upgrade servicediscovery servicediscovery --values ./servicediscovery/values.yaml
+#helm list
+##########################Get Values################################
+#helm get values <appName>
+#helm get values servicediscovery
+##################Set Value with command-line:######################
+#helm upgrade <appName> <directoryName> --set <key>="<value>"
+#helm upgrade servicediscovery servicediscovery --set deployment.application.name="servicediscovery-pod"
+
+
+service:  
+ name: "servicediscovery-pod"
+ clusterIP: 10.102.2.96
+ #type: LoadBalancer
+ type: NodePort
+ ports:
+  internal: 5240
+  external: 5096
+  protocol: TCP
+  nodePort: 31094
+
+deployment:
+ application:
+  name: "servicediscovery-pod"
+  containers:
+   serviceDiscoveryContainer:
+    port: 5240
+    environment:
+     ApplicationName: "ServiceDiscovery Service Test Environment"
+     Caching_Redis_Server: "svc-redis.default.svc.cluster.local"
+  image:
+   imagePullPolicy: "Always"
+   name: "serkancamur/servicediscovery"
+   tag: "latest"

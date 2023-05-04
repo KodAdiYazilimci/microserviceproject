@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: servicediscovery-deployment
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.deployment.application.name }}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.deployment.application.name }}
+    spec:
+      volumes:
+        - name: volume
+          persistentVolumeClaim:
+            claimName: pv-claim
+      containers:
+        - name: servicediscovery-container
+          image: {{ .Values.deployment.application.image.name }}:{{ .Values.deployment.application.image.tag }}
+          imagePullPolicy: {{ .Values.deployment.application.image.imagePullPolicy }}
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: {{ .Values.deployment.application.containers.serviceDiscoveryContainer.port }}
+          env:
+            - name: ApplicationName
+              value: {{ .Values.deployment.application.containers.serviceDiscoveryContainer.environment.ApplicationName }}
+            - name: Caching_Redis_Server
+              value: {{ .Values.deployment.application.containers.serviceDiscoveryContainer.environment.Caching_Redis_Server }}
+          volumeMounts:
+            - mountPath: "mnt/data"
+              name: volume

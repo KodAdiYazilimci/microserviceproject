@@ -1,5 +1,6 @@
 
 using Infrastructure.Caching.InMemory.DI;
+using Infrastructure.Communication.Http.Endpoint.Abstract;
 using Infrastructure.Security.Authentication.DI;
 using Infrastructure.ServiceDiscovery.Register.DI;
 
@@ -18,8 +19,10 @@ using Services.Logging.Exception;
 using Services.Logging.Exception.Configuration;
 using Services.Logging.Exception.DI;
 using Services.Security.Cookie.DI;
+using Services.ServiceDiscovery.DI;
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace Presentation.UI.Web
@@ -83,6 +86,8 @@ namespace Presentation.UI.Web
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            app.RegisterService(new List<IEndpoint>());
         }
     }
 }

@@ -43,7 +43,6 @@ namespace Presentation.UI.Web.Controllers
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-
             bool useExternalLogin =
                 _configuration
                 .GetSection("Configuration")
@@ -52,7 +51,9 @@ namespace Presentation.UI.Web.Controllers
 
             if (useExternalLogin)
             {
-                string redirectInfo = $"{Request.Scheme}://{Request.Host.Value}{Request.PathBase.Value}/{nameof(LoggedIn)}";
+                CachedServiceModel thisService = await _serviceDiscoverer.GetServiceAsync("Presentation.UI.Web", cancellationTokenSource);
+
+                string redirectInfo = $"{thisService.Protocol}://{thisService.DnsName}:{thisService.Port}/{nameof(LoggedIn)}";
 
                 byte[] redirectInfoAsBytes = System.Text.Encoding.UTF8.GetBytes(redirectInfo);
 
@@ -63,9 +64,9 @@ namespace Presentation.UI.Web.Controllers
 
                 QueryString queryString = queryBuilder.ToQueryString();
 
-                CachedServiceModel service = await _serviceDiscoverer.GetServiceAsync("Presentation.UI.Web.Identity", cancellationTokenSource);
+                CachedServiceModel identityService = await _serviceDiscoverer.GetServiceAsync("Presentation.UI.Web.Identity", cancellationTokenSource);
 
-                IEndpoint endpoint = service.GetEndpoint(LoginEndpoint.Path);
+                IEndpoint endpoint = identityService.GetEndpoint(LoginEndpoint.Path);
 
                 string endpointUrl = endpoint.Url + queryString.Value;
 
