@@ -1,14 +1,17 @@
 ﻿using Hangfire.Common;
 
+using Infrastructure.Communication.Http.Constants;
+using Infrastructure.Communication.Http.Endpoint.Abstract;
+using Infrastructure.Communication.Http.Endpoint.Authentication;
+using Infrastructure.Communication.Http.Endpoint.Util;
 using Infrastructure.Communication.Http.Models;
-using Infrastructure.Communication.Http.Providers;
-using Infrastructure.Diagnostics.HealthCheck.Util.Model;
+using Infrastructure.ServiceDiscovery.Discoverer.Abstract;
+using Infrastructure.ServiceDiscovery.Discoverer.Models;
 
-using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Services.Communication.Http.Broker.Abstract;
+using Services.Communication.Http.Broker.ServiceDiscovery.Abstract;
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,45 +19,55 @@ namespace Services.Scheduling.Diagnostics.HealthCheck.Jobs
 {
     public class CheckApiServicesJob
     {
-        //private readonly HttpGetProvider _httpGetProvider;
-        //private readonly IHostsRepository _hostsRepository;
+        private readonly ICommunicator _communicator;
+        private readonly IServiceDiscoverer _serviceDiscoverer;
+        private readonly IServiceDiscoveryCommunicator _serviceDiscoveryCommunicator;
 
-        //public CheckApiServicesJob(
-        //    IHostsRepository hostsRepository,
-        //    HttpGetProvider httpGetProvider)
-        //{
-        //    _hostsRepository = hostsRepository;
-        //    _httpGetProvider = httpGetProvider;
-        //}
+        public CheckApiServicesJob(
+            ICommunicator communicator,
+            IServiceDiscoveryCommunicator serviceDiscoveryCommunicator,
+            IServiceDiscoverer serviceDiscoverer)
+        {
+            _communicator = communicator;
+            _serviceDiscoverer = serviceDiscoverer;
+            _serviceDiscoveryCommunicator = serviceDiscoveryCommunicator;
+        }
 
         public async Task CheckServicesAsync()
         {
-            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+            try
+            {
+                CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            //List<HostModel> hosts = await _hostsRepository.GetServiceHostsAsync(cancellationTokenSource);
+                var discoveredServices = await _serviceDiscoveryCommunicator.GetDiscoveredServicesAsync(cancellationTokenSource);
 
-            //foreach (var host in hosts)
-            //{
-            //    try
-            //    {
-            //        if (host.Enabled)
-            //        {
-            //            ServiceResultModel<List<CheckResultModel>> httpResult =
-            //                await _httpGetProvider.GetAsync<ServiceResultModel<List<CheckResultModel>>>(host.Host + "/health", cancellationTokenSource);
+                if (discoveredServices != null && discoveredServices.IsSuccess)
+                {
+                    foreach (DiscoveredServiceModel discoveredService in discoveredServices.Data)
+                    {
+                        CachedServiceModel service = await _serviceDiscoverer.GetServiceAsync(discoveredService.ServiceName, cancellationTokenSource);
 
-            //            if (!httpResult.IsSuccess || httpResult.Data.Any(x => x.Status != HealthStatus.Healthy.ToString()))
-            //            {
+                        if (service != null)
+                        {
+                            IEndpoint endpoint = service.GetEndpoint(x => x.Name.Contains("health"));
 
-            //            }
+                            if (endpoint != null)
+                            {
+                                if (endpoint.HttpAction == HttpAction.GET)
+                                {
+                                    ServiceResultModel<object> healthCheckResult = await _communicator.CallAsync<object>(endpoint.ConvertToAuthenticatedEndpoint(new AnonymouseAuthentication()), cancellationTokenSource);
 
-            //            // TODO: Kuyruğa veya web sokete bildirim yapılacak veya loglanacak
-            //        }
-            //    }
-            //    catch (Exception ex)
-            //    {
-
-            //    }
-            //}
+                                    if (!healthCheckResult.IsSuccess)
+                                    {
+                                        await _serviceDiscoveryCommunicator.DropServiceAsync(service.ServiceName, cancellationTokenSource);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex) { }
         }
 
         public static Job MethodJob

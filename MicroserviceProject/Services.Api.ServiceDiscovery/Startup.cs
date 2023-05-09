@@ -1,6 +1,9 @@
-﻿using Infrastructure.Caching.Redis.DI;
+﻿using Infrastructure.Caching.Abstraction;
+using Infrastructure.Caching.InMemory.DI;
+using Infrastructure.Caching.Redis.DI;
 
 using Services.Api.Infrastructure.ServiceDiscovery;
+using Services.Api.ServiceDiscovery.DI;
 using Services.Api.ServiceDiscovery.DI;
 using Services.Logging.Exception.DI;
 using Services.Logging.RequestResponse.DI;
@@ -22,6 +25,7 @@ namespace Services.Api.ServiceDiscovery
         {
             services.RegisterRequestResponseLogger();
             services.RegisterExceptionLogger();
+            services.RegisterInMemoryCaching();
             services.RegisterRedisCaching();
             services.RegisterSwagger();
             services.AddControllers();
@@ -55,6 +59,11 @@ namespace Services.Api.ServiceDiscovery
             {
                 options.SwaggerEndpoint("/swagger/CoreSwagger/swagger.json", "CoreSwagger");
             });
+
+            app.RegisterService(
+                configuration: Configuration,
+                distrubutedCacheProvider: app.ApplicationServices.GetRequiredService<IDistrubutedCacheProvider>(),
+                inMemoryCacheDataProvider: app.ApplicationServices.GetRequiredService<IInMemoryCacheDataProvider>());
         }
     }
 }

@@ -5,19 +5,22 @@ using Infrastructure.Communication.Http.Models;
 
 using System.Net;
 
-namespace Services.Communication.Http.Endpoint.Department.Buying
+namespace Services.Communication.Http.Endpoint.ServiceDiscovery
 {
-    public class HealthCheckEndpoint : IEndpoint
+    public class DropServiceEndpoint : IEndpoint
     {
-        public static string Path => "buying.health";
-        public string Url { get; set; } = "/health";
+        public static string Path => "servicediscoery.dropservice";
+        public string Url { get; set; } = "/Registry/DropService";
         public string Name { get; set; } = Path;
         public object? Payload { get; set; }
         public HttpAction HttpAction { get; set; } = HttpAction.GET;
         public List<HttpHeaderModel> Headers { get; set; } = new List<HttpHeaderModel>();
-        public List<HttpQueryModel> Queries { get; set; } = new List<HttpQueryModel>();
+        public List<HttpQueryModel> Queries { get; set; } = new List<HttpQueryModel>()
+        {
+            new HttpQueryModel(){ Name  = "serviceName", Required = true }
+        };
         public AuthenticationType AuthenticationType { get; set; } = AuthenticationType.Anonymouse;
-        public EndpointPurpose EndpointPurpose { get; set; } = EndpointPurpose.HealthCheck;
+        public EndpointPurpose EndpointPurpose { get; set; } = EndpointPurpose.Operation;
         public List<HttpStatusCode> StatusCodes { get; set; } = new List<HttpStatusCode>()
         {
             HttpStatusCode.OK,
