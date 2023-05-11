@@ -19,13 +19,13 @@ namespace Services.Api.Logging.DI
             services.RegisterSqlHealthChecking(
                 connectionStrings: new List<string>()
                 {
-                    Convert.ToBoolean(configuration.GetSection("Persistence").GetSection("Databases").GetSection("Microservice_Logging_DB")["IsSensitiveData"] ?? false.ToString())
+                    Convert.ToBoolean(configuration.GetSection("Persistence").GetSection("Databases").GetSection("Microservice_Logs_DB")["IsSensitiveData"] ?? false.ToString())
                     &&
                     !Debugger.IsAttached
                     ?
-                    Environment.GetEnvironmentVariable(configuration.GetSection("Persistence").GetSection("Databases").GetSection("Microservice_Logging_DB")["EnvironmentVariableName"])
+                    Environment.GetEnvironmentVariable(configuration.GetSection("Persistence").GetSection("Databases").GetSection("Microservice_Logs_DB")["EnvironmentVariableName"])
                     :
-                    configuration.GetSection("Persistence").GetSection("Databases").GetSection("Microservice_Logging_DB")["ConnectionString"]
+                    configuration.GetSection("Persistence").GetSection("Databases").GetSection("Microservice_Logs_DB")["ConnectionString"]
                 });
 
             return services;

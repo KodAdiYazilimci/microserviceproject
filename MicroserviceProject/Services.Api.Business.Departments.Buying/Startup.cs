@@ -70,7 +70,7 @@ namespace Services.Api.Business.Departments.Buying
             services.RegisterRequestResponseLogger();
             services.RegisterRuntimeHandlers();
             services.RegisterSqlHealthChecking(
-                connectionStrings: new List<string>() { Configuration.GetSection("Persistence")["DataSource"] });
+                connectionStrings: new List<string>() { Configuration.GetSection("Persistence").GetSection("Databases").GetSection("Microservice_Buying_DB")["ConnectionString"] });
             services.RegisterSwagger(
                 applicationName: Environment.GetEnvironmentVariable("ApplicationName") ?? "Services.Api.Business.Departments.Buying",
                 description: "Buying Api Service");
