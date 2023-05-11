@@ -1,0 +1,39 @@
+#################################Setup:#############################
+#helm create healthcheck
+#helm install <appName> <directoryName>
+#helm install healthcheck healthcheck
+#helm list
+#helm delete healthcheck
+#########################Set Values with file#######################
+#helm upgrade <appName> <directoryName> --values <values.yaml.Path>
+#helm upgrade healthcheck healthcheck --values ./healthcheck/values.yaml
+#helm list
+##########################Get Values################################
+#helm get values <appName>
+#helm get values healthcheck
+##################Set Value with command-line:######################
+#helm upgrade <appName> <directoryName> --set <key>="<value>"
+#helm upgrade healthcheck healthcheck --set deployment.application.name="healthcheck-pod"
+
+service:  
+ name: "healthcheck-pod"
+ clusterIP: 10.102.2.95
+ type: NodePort
+ ports:
+  internal: 5239
+  external: 5095
+  protocol: TCP
+  nodePort: 31093
+
+deployment:
+ application:
+  name: "healthcheck-pod"
+  containers:
+   aaContainer:
+    port: 34308
+    environment:
+     ApplicationName: "HealthCheck Service Test Environment"    
+  image:
+   imagePullPolicy: "Always"
+   name: "serkancamur/healthcheck"
+   tag: "latest"

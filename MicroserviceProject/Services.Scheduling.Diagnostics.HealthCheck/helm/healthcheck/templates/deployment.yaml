@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: healthcheck-deployment
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.deployment.application.name }}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.deployment.application.name }}
+    spec:
+      volumes:
+        - name: volume
+          persistentVolumeClaim:
+            claimName: pv-claim
+      containers:
+        - name: aa-container
+          image: {{ .Values.deployment.application.image.name }}:{{ .Values.deployment.application.image.tag }}
+          imagePullPolicy: {{ .Values.deployment.application.image.imagePullPolicy }}
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: {{ .Values.deployment.application.containers.aaContainer.port }}
+          env:
+            - name: ApplicationName
+              value: {{ .Values.deployment.application.containers.aaContainer.environment.ApplicationName }}
+          volumeMounts:
+            - mountPath: "mnt/data"
+              name: volume
