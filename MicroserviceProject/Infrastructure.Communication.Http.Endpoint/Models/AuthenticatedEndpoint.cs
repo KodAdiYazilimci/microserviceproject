@@ -18,6 +18,7 @@ namespace Infrastructure.Communication.Http.Endpoint.Models
         public List<HttpHeaderModel> Headers { get; set; }
         public List<HttpQueryModel> Queries { get; set; }
         public AuthenticationType AuthenticationType { get; set; }
+        public EndpointPurpose EndpointPurpose { get; set; }
         public List<HttpStatusCode> StatusCodes { get; set; }
         public IEndpointAuthentication EndpointAuthentication { get; set; }
     }

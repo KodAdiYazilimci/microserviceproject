@@ -101,7 +101,8 @@ namespace Services.Api.Business.Departments.AA
                 new AAGetInventoriesEndpoint(),
                 new AAGetInventoriesForNewWorkerEndpoint(),
                 new AAInformInventoryRequestEndpoint(),
-                new AARemoveSessionIfExistsInCacheEndpoint()
+                new AARemoveSessionIfExistsInCacheEndpoint(),
+                new HealthCheckEndpoint()
             });
         }
     }

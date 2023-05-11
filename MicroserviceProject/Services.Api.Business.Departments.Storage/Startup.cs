@@ -95,6 +95,7 @@ namespace Services.Api.Business.Departments.Storage
                 new DescendStockEndpoint(),
                 new GetStockEndpoint(),
                 new RemoveSessionIfExistsInCacheEndpoint(),
+                new HealthCheckEndpoint()
             });
         }
     }

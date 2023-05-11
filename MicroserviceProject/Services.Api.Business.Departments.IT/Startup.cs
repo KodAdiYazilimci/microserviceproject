@@ -97,7 +97,8 @@ namespace Services.Api.Business.Departments.IT
                 new ITGetInventoriesEndpoint(),
                 new ITGetInventoriesForNewWorkerEndpoint(),
                 new ITInformInventoryRequestEndpoint(),
-                new ITRemoveSessionIfExistsInCacheEndpoint()
+                new ITRemoveSessionIfExistsInCacheEndpoint(),
+                new HealthCheckEndpoint()
             });
         }
     }

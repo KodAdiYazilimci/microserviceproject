@@ -27,7 +27,7 @@ namespace Services.Api.Logging.Configuration.Persistence
                     ?
                     Environment.GetEnvironmentVariable(_configuration.GetSection("Persistence").GetSection("Databases").GetSection("Microservice_Logs_DB")["EnvironmentVariableName"])
                     :
-                    _configuration.GetSection("Persistence").GetSection("Databases").GetSection("Microservice_Logs_DB")["DataSource"];
+                    _configuration.GetSection("Persistence").GetSection("Databases").GetSection("Microservice_Logs_DB")["ConnectionString"];
             }
         }
     }

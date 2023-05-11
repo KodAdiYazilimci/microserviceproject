@@ -17,6 +17,7 @@ namespace Services.Communication.WebSockets.Endpoint.Security
         public List<HttpHeaderModel> Headers { get; set; }
         public List<HttpQueryModel> Queries { get; set; }
         public AuthenticationType AuthenticationType { get; set; } = AuthenticationType.Token;
+        public EndpointPurpose EndpointPurpose { get; set; } = EndpointPurpose.Operation;
         public List<HttpStatusCode> StatusCodes { get; set; } = new List<HttpStatusCode>()
         {
             HttpStatusCode.OK,

@@ -64,9 +64,9 @@ namespace Presentation.UI.Web.Controllers
 
                 QueryString queryString = queryBuilder.ToQueryString();
 
-                CachedServiceModel identityService = await _serviceDiscoverer.GetServiceAsync("Presentation.UI.Web.Identity", cancellationTokenSource);
+                CachedServiceModel service = await _serviceDiscoverer.GetServiceAsync("Presentation.UI.Web.Identity", cancellationTokenSource);
 
-                IEndpoint endpoint = identityService.GetEndpoint(LoginEndpoint.Path);
+                IEndpoint endpoint = service.GetEndpoint(LoginEndpoint.Path);
 
                 string endpointUrl = endpoint.Url + queryString.Value;
 

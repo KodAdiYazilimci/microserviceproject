@@ -115,7 +115,8 @@ namespace Services.Api.Business.Departments.HR
                 new global::Services.Communication.Http.Endpoint.Department.HR.GetPeopleEndpoint(),
                 new global::Services.Communication.Http.Endpoint.Department.HR.GetTitlesEndpoint  (),
                 new global::Services.Communication.Http.Endpoint.Department.HR.GetWorkersEndpoint(),
-                new global::Services.Communication.Http.Endpoint.Department.HR.RemoveSessionIfExistsInCacheEndpoint()
+                new global::Services.Communication.Http.Endpoint.Department.HR.RemoveSessionIfExistsInCacheEndpoint(),
+                new global::Services.Communication.Http.Endpoint.Department.HR.HealthCheckEndpoint()
             });
         }
     }

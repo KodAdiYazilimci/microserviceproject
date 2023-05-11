@@ -7,7 +7,7 @@ using Infrastructure.ServiceDiscovery.Register.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-using Services.Communication.Http.Endpoint.Authorization.Endpoints;
+using Services.Communication.Http.Endpoint.Authorization;
 
 using System.Collections.Generic;
 using System.Linq;

@@ -1,14 +1,13 @@
 using Hangfire;
 using Hangfire.MemoryStorage;
 
-using Infrastructure.Communication.Http.Providers;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+using Services.Communication.Http.Broker.ServiceDiscovery.DI;
 using Services.Scheduling.Diagnostics.HealthCheck.Jobs;
 
 using System;
@@ -21,6 +20,8 @@ namespace Services.Scheduling.Diagnostics.HealthCheck
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.RegisterHttpServiceDiscoveryCommunicators();
+
             services.AddHangfire(config =>
             {
                 config
@@ -31,8 +32,6 @@ namespace Services.Scheduling.Diagnostics.HealthCheck
             });
 
             services.AddHangfireServer();
-
-            services.AddSingleton<HttpGetProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

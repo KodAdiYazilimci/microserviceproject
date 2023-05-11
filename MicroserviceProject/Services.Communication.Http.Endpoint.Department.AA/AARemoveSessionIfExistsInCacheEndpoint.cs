@@ -20,6 +20,7 @@ namespace Services.Communication.Http.Endpoint.Department.AA
             new HttpQueryModel(){ Name = "tokenKey", Required = true }
         };
         public AuthenticationType AuthenticationType { get; set; } = AuthenticationType.Token;
+        public EndpointPurpose EndpointPurpose { get; set; } = EndpointPurpose.Operation;
         public List<HttpStatusCode> StatusCodes { get; set; } = new List<HttpStatusCode>() { HttpStatusCode.OK, HttpStatusCode.BadRequest, HttpStatusCode.Unauthorized };
     }
 }

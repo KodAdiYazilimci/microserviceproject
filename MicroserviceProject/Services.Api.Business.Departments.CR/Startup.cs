@@ -100,7 +100,8 @@ namespace Services.Api.Business.Departments.CR
             {
                 new CreateCustomerEndpoint(),
                 new GetCustomersEndpoint(),
-                new RemoveSessionIfExistsInCacheEndpoint()
+                new RemoveSessionIfExistsInCacheEndpoint(),
+                new HealthCheckEndpoint()
             });
         }
     }

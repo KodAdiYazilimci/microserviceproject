@@ -37,5 +37,31 @@ namespace Infrastructure.ServiceDiscovery.Discoverer.Models
 
             return null;
         }
+
+        public IEndpoint GetEndpoint(Func<EndpointModel, bool> expression)
+        {
+            if (Endpoints != null)
+            {
+                IEndpoint? endpoint = Endpoints.Where(expression).FirstOrDefault();
+
+                if (endpoint != null)
+                {
+                    EndpointModel shadowEndpoint = new EndpointModel();
+                    shadowEndpoint.Name = endpoint.Name;
+                    shadowEndpoint.AuthenticationType = endpoint.AuthenticationType;
+                    shadowEndpoint.HttpAction = endpoint.HttpAction;
+                    shadowEndpoint.Headers = endpoint.Headers;
+                    shadowEndpoint.Payload = endpoint.Payload;
+                    shadowEndpoint.Queries = endpoint.Queries;
+                    shadowEndpoint.StatusCodes = endpoint.StatusCodes;
+
+                    shadowEndpoint.Url = $"{Protocol}://{DnsName}:{Port}{endpoint.Url}";
+
+                    return shadowEndpoint;
+                }
+            }
+
+            return null;
+        }
     }
 }

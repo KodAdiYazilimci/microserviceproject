@@ -104,7 +104,8 @@ namespace Services.Api.Business.Departments.Selling
                 new CreateSellingEndpoint(),
                 new GetSoldsEndpoint(),
                 new NotifyProductionRequestEndpoint(),
-                new RemoveSessionIfExistsInCacheEndpoint()
+                new RemoveSessionIfExistsInCacheEndpoint(),
+                new HealthCheckEndpoint()
             });
         }
     }

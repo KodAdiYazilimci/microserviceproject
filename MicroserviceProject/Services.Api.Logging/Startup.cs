@@ -76,7 +76,7 @@ namespace Services.Api.Logging
                 options.SwaggerEndpoint("/swagger/CoreSwagger/swagger.json", "CoreSwagger");
             });
 
-            app.RegisterService(new List<IEndpoint>() { new WriteRequestResponseLogEndpoint() });
+            app.RegisterService(new List<IEndpoint>() { new WriteRequestResponseLogEndpoint(), new HealthCheckEndpoint() });
         }
     }
 }

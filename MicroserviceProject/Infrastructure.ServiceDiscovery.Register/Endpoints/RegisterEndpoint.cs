@@ -18,6 +18,7 @@ namespace Infrastructure.ServiceDiscovery.Register.Endpoints
         public List<HttpQueryModel> Queries { get; set; } = new List<HttpQueryModel>();
         public IEndpointAuthentication EndpointAuthentication { get; set; } = new AnonymouseAuthentication();
         public AuthenticationType AuthenticationType { get; set; }
+        public EndpointPurpose EndpointPurpose { get; set; } = EndpointPurpose.Operation;
         public List<HttpStatusCode> StatusCodes { get; set; } = new List<HttpStatusCode>();
     }
 }

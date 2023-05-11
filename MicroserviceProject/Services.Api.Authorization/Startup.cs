@@ -14,7 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Services.Api.Authorization.Configuration.Persistence;
 using Services.Api.Authorization.DI;
-using Services.Communication.Http.Endpoint.Authorization.Endpoints;
+using Services.Communication.Http.Endpoint.Authorization;
 using Services.Communication.Mq.Queue.Authorization.DI;
 using Services.Communication.Mq.Queue.Authorization.Rabbit.DI;
 using Services.Logging.Exception.DI;
@@ -89,7 +89,7 @@ namespace Services.Api.Authorization
                 options.SwaggerEndpoint("/swagger/CoreSwagger/swagger.json", "CoreSwagger");
             });
 
-            app.RegisterService(new List<IEndpoint>() { new GetTokenEndpoint(), new GetUserEndpoint() });
+            app.RegisterService(new List<IEndpoint>() { new GetTokenEndpoint(), new GetUserEndpoint(), new HealthCheckEndpoint() });
         }
     }
 }

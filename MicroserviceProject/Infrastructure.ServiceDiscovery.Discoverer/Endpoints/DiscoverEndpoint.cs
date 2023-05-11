@@ -14,10 +14,11 @@ namespace Infrastructure.ServiceDiscovery.Discoverer.Endpoints
         public string Name { get; set; }
         public object? Payload { get; set; }
         public HttpAction HttpAction { get; set; }
-        public IEndpointAuthentication EndpointAuthentication { get; set; } = new AnonymouseAuthentication();
-        public AuthenticationType AuthenticationType { get; set; }
-        public List<HttpStatusCode> StatusCodes { get; set; } = new List<HttpStatusCode>();
         public List<HttpHeaderModel> Headers { get; set; } = new List<HttpHeaderModel>();
         public List<HttpQueryModel> Queries { get; set; } = new List<HttpQueryModel>();
+        public IEndpointAuthentication EndpointAuthentication { get; set; } = new AnonymouseAuthentication();
+        public AuthenticationType AuthenticationType { get; set; }
+        public EndpointPurpose EndpointPurpose { get; set; } = EndpointPurpose.Operation;
+        public List<HttpStatusCode> StatusCodes { get; set; } = new List<HttpStatusCode>();
     }
 }
