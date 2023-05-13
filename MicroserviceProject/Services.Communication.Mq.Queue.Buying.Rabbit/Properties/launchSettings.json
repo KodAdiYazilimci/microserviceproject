@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Services.Communication.Mq.Queue.Buying.Rabbit": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:54950;http://localhost:54951"
+    }
+  }
+}

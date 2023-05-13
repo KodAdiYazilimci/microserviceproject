@@ -9,8 +9,10 @@ using Microsoft.Extensions.Hosting;
 
 using Services.Communication.Http.Broker.ServiceDiscovery.DI;
 using Services.Scheduling.Diagnostics.HealthCheck.Jobs;
+using Services.Scheduling.Diagnostics.HealthCheck.Persistence;
 
 using System;
+using System.Text;
 
 namespace Services.Scheduling.Diagnostics.HealthCheck
 {
@@ -30,6 +32,8 @@ namespace Services.Scheduling.Diagnostics.HealthCheck
                 .UseDefaultTypeSerializer()
                 .UseMemoryStorage();
             });
+
+            services.AddSingleton<TempData>();
 
             services.AddHangfireServer();
         }
@@ -58,6 +62,31 @@ namespace Services.Scheduling.Diagnostics.HealthCheck
                 {
                     await context.Response.WriteAsync("Scheduler is running");
                 });
+
+                endpoints.MapGet("/events", async context =>
+                {
+                    var tempData = app.ApplicationServices.GetRequiredService<TempData>();
+
+                    if (tempData != null && tempData.Logs.Count > 1000)
+                    {
+                        tempData.Logs.RemoveAt(0);
+                    }
+
+                    StringBuilder sbLogs = new StringBuilder();
+
+                    foreach (var log in tempData.Logs)
+                    {
+                        sbLogs.Append(log.LogText + Environment.NewLine);
+                    }
+
+                    await context.Response.WriteAsync(sbLogs.ToString());
+                });
+
+                app.ApplicationServices.GetRequiredService<TempData>().Logs.Add(new Log()
+                {
+                    LogText = "Logging has been started"
+                });
+
             });
 
             // 1 defa çalýþtýrýr

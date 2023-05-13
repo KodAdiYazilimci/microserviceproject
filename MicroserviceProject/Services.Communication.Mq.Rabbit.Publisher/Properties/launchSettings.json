@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Services.Communication.Mq.Rabbit.Publisher": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:54940;http://localhost:54941"
+    }
+  }
+}
