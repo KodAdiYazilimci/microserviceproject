@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Services.Communication.Http.Broker.Department.Production": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:54944;http://localhost:54945"
+    }
+  }
+}

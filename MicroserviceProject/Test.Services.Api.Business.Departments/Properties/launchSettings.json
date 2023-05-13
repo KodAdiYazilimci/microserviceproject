@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Test.Services.Api.Business.Departments": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:54954;http://localhost:54955"
+    }
+  }
+}
