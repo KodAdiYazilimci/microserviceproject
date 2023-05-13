@@ -12,6 +12,7 @@ using Infrastructure.Diagnostics.HealthCheck.Util.Model;
 
 using Services.Communication.Http.Broker.Abstract;
 using Services.Communication.Http.Broker.ServiceDiscovery.Abstract;
+using Services.Scheduling.Diagnostics.HealthCheck.Persistence;
 
 using System;
 using System.Threading;
@@ -24,15 +25,19 @@ namespace Services.Scheduling.Diagnostics.HealthCheck.Jobs
         private readonly ICommunicator _communicator;
         private readonly IServiceDiscoverer _serviceDiscoverer;
         private readonly IServiceDiscoveryCommunicator _serviceDiscoveryCommunicator;
+        private readonly TempData _tempData;
+
 
         public CheckApiServicesJob(
             ICommunicator communicator,
             IServiceDiscoveryCommunicator serviceDiscoveryCommunicator,
-            IServiceDiscoverer serviceDiscoverer)
+            IServiceDiscoverer serviceDiscoverer,
+            TempData tempData)
         {
             _communicator = communicator;
             _serviceDiscoverer = serviceDiscoverer;
             _serviceDiscoveryCommunicator = serviceDiscoveryCommunicator;
+            _tempData = tempData;
         }
 
         public async Task CheckServicesAsync()
@@ -62,6 +67,11 @@ namespace Services.Scheduling.Diagnostics.HealthCheck.Jobs
                                     if (!healthCheckResult.IsSuccess)
                                     {
                                         await _serviceDiscoveryCommunicator.DropServiceAsync(service.ServiceName, cancellationTokenSource);
+
+                                        _tempData.Logs.Add(new Log()
+                                        {
+                                            LogText = $"Endpoint {endpoint.Name} has been deleted, url was {endpoint.Url}"
+                                        });
                                     }
                                 }
                             }
