@@ -455,6 +455,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.WebSockets", "Serv
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Http.Broker.ServiceDiscovery", "Services.Communication.Http.Broker.ServiceDiscovery\Services.Communication.Http.Broker.ServiceDiscovery.csproj", "{294D2F7F-E357-401B-9450-ABC263283DF6}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Http.Endpoint.ServiceDiscovery", "Services.Communication.Http.Endpoint.ServiceDiscovery\Services.Communication.Http.Endpoint.ServiceDiscovery.csproj", "{90DE0952-9E7B-46E5-BBB7-054679D0BF12}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1061,6 +1063,10 @@ Global
 		{294D2F7F-E357-401B-9450-ABC263283DF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{294D2F7F-E357-401B-9450-ABC263283DF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{294D2F7F-E357-401B-9450-ABC263283DF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90DE0952-9E7B-46E5-BBB7-054679D0BF12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90DE0952-9E7B-46E5-BBB7-054679D0BF12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90DE0952-9E7B-46E5-BBB7-054679D0BF12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90DE0952-9E7B-46E5-BBB7-054679D0BF12}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1242,6 +1248,7 @@ Global
 		{C4C2ED77-6EF9-4868-BCA4-5B6B22081167} = {C8865F6F-B43B-46D6-9854-42E43A5F82EC}
 		{3E37A48D-CBDE-424E-A2A5-BE04316C2CED} = {2EE70AFD-E3E7-49A0-9A36-5C36844C0EA0}
 		{294D2F7F-E357-401B-9450-ABC263283DF6} = {C8865F6F-B43B-46D6-9854-42E43A5F82EC}
+		{90DE0952-9E7B-46E5-BBB7-054679D0BF12} = {C8865F6F-B43B-46D6-9854-42E43A5F82EC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5FD68A04-D16D-49EC-9D04-25E6B952DA89}
