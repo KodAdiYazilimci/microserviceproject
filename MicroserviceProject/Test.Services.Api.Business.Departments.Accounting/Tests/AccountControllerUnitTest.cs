@@ -38,15 +38,15 @@ namespace Test.Services.Api.Business.Departments.Accounting.Tests
         [TestMethod]
         public async Task GetBankAccountsOfWorkerTest()
         {
-            List<global::Services.Communication.Http.Broker.Department.HR.Models.WorkerModel> workers = await dataProvider.GetWorkersAsync();
+            List<global::Services.Communication.Http.Broker.Department.HR.Models.WorkerModel> workers = await dataProvider.GetWorkersAsync(byPassMediatR: true);
 
             var randomWorkerId = workers.ElementAt(new Random().Next(0, workers.Count - 1)).Id;
 
-            var bankAccounts = await accountControllerTest.GetBankAccountsOfWorkerAsync(randomWorkerId);
+            var bankAccounts = await accountControllerTest.GetBankAccountsOfWorkerAsync(randomWorkerId, byPassMediatR: true);
 
             if (bankAccounts != null && !bankAccounts.Any())
             {
-                await dataProvider.CreateBankAccountToWorker(randomWorkerId);
+                await dataProvider.CreateBankAccountToWorker(randomWorkerId, byPassMediatR: true);
             }
 
             Assert.IsTrue(bankAccounts != null && bankAccounts.Any());
@@ -55,24 +55,24 @@ namespace Test.Services.Api.Business.Departments.Accounting.Tests
         [TestMethod]
         public async Task CreateBankAccountTest()
         {
-            var workers = await dataProvider.GetWorkersAsync();
+            var workers = await dataProvider.GetWorkersAsync(byPassMediatR: true);
 
             var randomWorkerId = workers.ElementAt(new Random().Next(0, workers.Count - 1)).Id;
 
-            ServiceResultModel result = await dataProvider.CreateBankAccountToWorker(randomWorkerId);
+            ServiceResultModel result = await dataProvider.CreateBankAccountToWorker(randomWorkerId, byPassMediatR: true);
 
             Assert.IsTrue(result != null && result.IsSuccess);
         }
 
         public async Task GetCurrenciesTest()
         {
-            var currencies = await accountControllerTest.GetCurrenciesAsync();
+            var currencies = await accountControllerTest.GetCurrenciesAsync(byPassMediatR: true);
 
             if (currencies != null && !currencies.Any())
             {
-                await CreateCurrencyTest();
+                await CreateCurrencyTest(byPassMediatR: true);
 
-                currencies = await accountControllerTest.GetCurrenciesAsync();
+                currencies = await accountControllerTest.GetCurrenciesAsync(byPassMediatR: true);
             }
 
             Assert.IsTrue(currencies != null && currencies.Any());
@@ -81,6 +81,11 @@ namespace Test.Services.Api.Business.Departments.Accounting.Tests
         [TestMethod]
         public async Task CreateCurrencyTest()
         {
+            await CreateCurrencyTest(byPassMediatR: true);
+        }
+
+        public async Task CreateCurrencyTest(bool byPassMediatR = true)
+        {
             var result = await accountControllerTest.CreateCurrencyAsync(new AccountingCreateCurrencyCommandRequest()
             {
                 Currency = new AccountingCurrencyModel()
@@ -88,7 +93,7 @@ namespace Test.Services.Api.Business.Departments.Accounting.Tests
                     Name = new Random().Next(int.MinValue, int.MaxValue).ToString(),
                     ShortName = new Random().Next(int.MinValue, int.MaxValue).ToString()
                 }
-            });
+            }, byPassMediatR);
 
             Assert.IsTrue(result != null && result.IsSuccess);
         }
@@ -96,7 +101,7 @@ namespace Test.Services.Api.Business.Departments.Accounting.Tests
         [TestMethod]
         public async Task GetCurrencyTest()
         {
-            var result = await accountControllerTest.GetCurrenciesAsync();
+            var result = await accountControllerTest.GetCurrenciesAsync(byPassMediatR: true);
 
             Assert.IsTrue(result != null && result.Any());
         }
@@ -104,17 +109,17 @@ namespace Test.Services.Api.Business.Departments.Accounting.Tests
         [TestMethod]
         public async Task GetSalaryPaymentsOfWorkerTest()
         {
-            var workers = await dataProvider.GetWorkersAsync();
+            var workers = await dataProvider.GetWorkersAsync(byPassMediatR: true);
 
             var randomWorkerId = workers.ElementAt(new Random().Next(0, workers.Count - 1)).Id;
 
-            var payments = await accountControllerTest.GetSalaryPaymentsOfWorkerAsync(randomWorkerId);
+            var payments = await accountControllerTest.GetSalaryPaymentsOfWorkerAsync(randomWorkerId, byPassMediatR: true);
 
             if (payments != null && !payments.Any())
             {
-                await dataProvider.CreateSalaryPaymentToWorker(randomWorkerId);
+                await dataProvider.CreateSalaryPaymentToWorker(randomWorkerId, byPassMediatR: true);
 
-                payments = await accountControllerTest.GetSalaryPaymentsOfWorkerAsync(randomWorkerId);
+                payments = await accountControllerTest.GetSalaryPaymentsOfWorkerAsync(randomWorkerId, byPassMediatR: true);
             }
 
             Assert.IsTrue(payments != null && payments.Any());
@@ -123,11 +128,11 @@ namespace Test.Services.Api.Business.Departments.Accounting.Tests
         [TestMethod]
         public async Task CreateSalaryPaymentTest()
         {
-            var workers = await dataProvider.GetWorkersAsync();
+            var workers = await dataProvider.GetWorkersAsync(byPassMediatR: true);
 
             var randomWorkerId = workers.ElementAt(new Random().Next(0, workers.Count - 1)).Id;
 
-            var result = await dataProvider.CreateSalaryPaymentToWorker(randomWorkerId);
+            var result = await dataProvider.CreateSalaryPaymentToWorker(randomWorkerId, byPassMediatR: true);
 
             Assert.IsTrue(result != null && result.IsSuccess);
         }
