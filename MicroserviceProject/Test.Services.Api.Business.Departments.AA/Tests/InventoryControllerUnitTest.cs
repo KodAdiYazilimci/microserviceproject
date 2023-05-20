@@ -77,7 +77,7 @@ namespace Test.Services.Api.Business.Departments.AA.Tests
         }
 
         [TestMethod]
-        public async Task CreateDefaultInventoryForNwWorkerTest()
+        public async Task CreateDefaultInventoryForNewWorkerTest()
         {
             await CreateDefaultInventoryForNewWorkerTest(byPassMediatR: true);
         }
