@@ -31,21 +31,21 @@ namespace Test.Services.Api.Business.Departments
             this.accountControllerTest = accountControllerTest;
         }
 
-        public async Task<List<AAInventoryModel>> GetAAInventoriesAsync()
+        public async Task<List<AAInventoryModel>> GetAAInventoriesAsync(bool byPassMediatR = true)
         {
-            var inventories = await inventoryControllerTest.GetInventoriesAsync();
+            var inventories = await inventoryControllerTest.GetInventoriesAsync(byPassMediatR);
 
             if (inventories != null && !inventories.Any())
             {
-                await CreateAAInventoryAsync();
+                await CreateAAInventoryAsync(byPassMediatR);
 
-                inventories = await inventoryControllerTest.GetInventoriesAsync();
+                inventories = await inventoryControllerTest.GetInventoriesAsync(byPassMediatR);
             }
 
             return inventories;
         }
 
-        public async Task<ServiceResultModel> CreateAAInventoryAsync()
+        public async Task<ServiceResultModel> CreateAAInventoryAsync(bool byPassMediatR = true)
         {
             return await inventoryControllerTest.CreateInventoryAsync(new AACreateInventoryCommandRequest()
             {
@@ -53,12 +53,12 @@ namespace Test.Services.Api.Business.Departments
                 {
                     Name = new Random().Next(int.MinValue, int.MaxValue).ToString()
                 }
-            });
+            }, byPassMediatR);
         }
 
-        public async Task<List<DepartmentModel>> GetAADepartmentsAsync()
+        public async Task<List<DepartmentModel>> GetAADepartmentsAsync(bool byPassMediatR = true)
         {
-            var departments = await departmentControllerTest.GetDepartmentsAsync();
+            var departments = await departmentControllerTest.GetDepartmentsAsync(byPassMediatR);
 
             if (departments != null && !departments.Any())
             {
@@ -68,21 +68,21 @@ namespace Test.Services.Api.Business.Departments
                     {
                         Name = new Random().Next(int.MinValue, int.MaxValue).ToString()
                     }
-                });
+                }, byPassMediatR);
 
-                departments = await departmentControllerTest.GetDepartmentsAsync();
+                departments = await departmentControllerTest.GetDepartmentsAsync(byPassMediatR);
             }
 
             return departments;
         }
 
-        public async Task<List<WorkerModel>> GetWorkersAsync()
+        public async Task<List<WorkerModel>> GetWorkersAsync(bool byPassMediatR = true)
         {
-            var workers = await personControllerTest.GetWorkersAsync();
+            var workers = await personControllerTest.GetWorkersAsync(byPassMediatR);
 
             if (workers != null && !workers.Any())
             {
-                var people = await personControllerTest.GetPeopleAsync();
+                var people = await personControllerTest.GetPeopleAsync(byPassMediatR);
 
                 if (people != null && !people.Any())
                 {
@@ -92,9 +92,9 @@ namespace Test.Services.Api.Business.Departments
                         {
                             Name = new Random().Next(int.MinValue, int.MaxValue).ToString()
                         }
-                    });
+                    }, byPassMediatR);
 
-                    people = await personControllerTest.GetPeopleAsync();
+                    people = await personControllerTest.GetPeopleAsync(byPassMediatR);
                 }
 
                 var createWorkerResult = await personControllerTest.CreateWorkerAsync(new CreateWorkerCommandRequest()
@@ -103,15 +103,15 @@ namespace Test.Services.Api.Business.Departments
                     {
                         Person = people.ElementAt(new Random().Next(0, people.Count - 1))
                     }
-                });
+                }, byPassMediatR);
 
-                workers = await personControllerTest.GetWorkersAsync();
+                workers = await personControllerTest.GetWorkersAsync(byPassMediatR);
             }
 
             return workers;
         }
 
-        public async Task<ServiceResultModel> CreateBankAccountToWorker(int workerId)
+        public async Task<ServiceResultModel> CreateBankAccountToWorker(int workerId, bool byPassMediatR = true)
         {
             return await accountControllerTest.CreateBankAccountTestAsync(new AccountingCreateBankAccountCommandRequest()
             {
@@ -123,23 +123,23 @@ namespace Test.Services.Api.Business.Departments
                         Id = workerId,
                     }
                 }
-            });
+            }, byPassMediatR);
         }
 
-        public async Task<ServiceResultModel> CreateSalaryPaymentToWorker(int workerId)
+        public async Task<ServiceResultModel> CreateSalaryPaymentToWorker(int workerId, bool byPassMediatR = true)
         {
-            var bankAccounts = await accountControllerTest.GetBankAccountsOfWorkerAsync(workerId);
+            var bankAccounts = await accountControllerTest.GetBankAccountsOfWorkerAsync(workerId, byPassMediatR);
 
             if (bankAccounts != null && !bankAccounts.Any())
             {
-                await CreateBankAccountToWorker(workerId);
+                await CreateBankAccountToWorker(workerId, byPassMediatR);
 
-                bankAccounts = await accountControllerTest.GetBankAccountsOfWorkerAsync(workerId);
+                bankAccounts = await accountControllerTest.GetBankAccountsOfWorkerAsync(workerId, byPassMediatR);
             }
 
             var randomBankAccount = bankAccounts.ElementAt(new Random().Next(0, bankAccounts.Count - 1));
 
-            var currencies = await GetCurrenciesAsync();
+            var currencies = await GetCurrenciesAsync(byPassMediatR);
 
             var randomCurrency = currencies.ElementAt(new Random().Next(0, currencies.Count - 1));
 
@@ -152,13 +152,14 @@ namespace Test.Services.Api.Business.Departments
                     BankAccount = randomBankAccount,
                     Currency = randomCurrency
                 }
-            });
+            }, byPassMediatR);
+
             return result;
         }
 
-        public async Task<List<AccountingCurrencyModel>> GetCurrenciesAsync()
+        public async Task<List<AccountingCurrencyModel>> GetCurrenciesAsync(bool byPassMediatR = true)
         {
-            var accounts = await accountControllerTest.GetCurrenciesAsync();
+            var accounts = await accountControllerTest.GetCurrenciesAsync(byPassMediatR);
 
             if (accounts != null && !accounts.Any())
             {
@@ -168,17 +169,17 @@ namespace Test.Services.Api.Business.Departments
                     {
                         Name = new Random().Next(int.MinValue, int.MaxValue).ToString()
                     }
-                });
+                }, byPassMediatR);
 
-                accounts = await accountControllerTest.GetCurrenciesAsync();
+                accounts = await accountControllerTest.GetCurrenciesAsync(byPassMediatR);
             }
 
             return accounts;
         }
 
-        public async Task<List<PersonModel>> GetPeopleAsync()
+        public async Task<List<PersonModel>> GetPeopleAsync(bool byPassMediatR = true)
         {
-            var people = await personControllerTest.GetPeopleAsync();
+            var people = await personControllerTest.GetPeopleAsync(byPassMediatR);
 
             if (people != null && !people.Any())
             {
@@ -188,18 +189,18 @@ namespace Test.Services.Api.Business.Departments
                     {
                         Name = new Random().Next(int.MinValue, int.MaxValue).ToString()
                     }
-                });
+                }, byPassMediatR);
 
-                people = await personControllerTest.GetPeopleAsync();
+                people = await personControllerTest.GetPeopleAsync(byPassMediatR);
             }
 
             return people;
         }
 
 
-        public async Task<List<TitleModel>> GetTitlesAsync()
+        public async Task<List<TitleModel>> GetTitlesAsync(bool byPassMediatR = true)
         {
-            var titles = await personControllerTest.GetTitles();
+            var titles = await personControllerTest.GetTitles(byPassMediatR);
 
             if (titles != null && !titles.Any())
             {
@@ -209,9 +210,9 @@ namespace Test.Services.Api.Business.Departments
                     {
                         Name = new Random().Next(int.MinValue, int.MaxValue).ToString()
                     }
-                });
+                }, byPassMediatR);
 
-                titles = await personControllerTest.GetTitles();
+                titles = await personControllerTest.GetTitles(byPassMediatR);
             }
 
             return titles;

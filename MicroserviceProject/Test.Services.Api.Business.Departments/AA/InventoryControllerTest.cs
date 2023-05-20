@@ -1,149 +1,246 @@
 ﻿using Infrastructure.Communication.Http.Models;
+using Infrastructure.Mock.Factories;
+
+using MediatR;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
+using Services.Api.Business.Departments.AA.Configuration.CQRS.Handlers.CommandHandlers;
+using Services.Api.Business.Departments.AA.Configuration.CQRS.Handlers.QueryHandlers;
 using Services.Api.Business.Departments.AA.Controllers;
+using Services.Api.Business.Departments.AA.Services;
 using Services.Communication.Http.Broker.Department.AA.CQRS.Commands.Requests;
+using Services.Communication.Http.Broker.Department.AA.CQRS.Commands.Responses;
+using Services.Communication.Http.Broker.Department.AA.CQRS.Queries.Requests;
+using Services.Communication.Http.Broker.Department.AA.CQRS.Queries.Responses;
 using Services.Communication.Http.Broker.Department.AA.Models;
+using Services.Logging.Aspect.Handlers;
+using Services.Runtime.Aspect.Mock;
 
+using Test.Services.Api.Business.Departments.AA.Factories.Infrastructure;
 using Test.Services.Api.Business.Departments.AA.Factories.Services;
 
 namespace Test.Services.Api.Business.Departments.AA
 {
     public class InventoryControllerTest
     {
+        private readonly RuntimeHandler runtimeHandler;
+        private readonly InventoryService inventoryService;
         private readonly InventoryController inventoryController;
 
         public InventoryControllerTest()
         {
-            //IMediator mediator = MediatorFactory.GetInstance(typeof(global::Services.Api.Business.Departments.AA.Program));
+            runtimeHandler = RuntimeHandlerFactory.GetInstance(
+                runtimeLogger: RuntimeLoggerFactory.GetInstance(
+                    configuration: ConfigurationFactory.GetConfiguration()));
 
-            inventoryController = new InventoryController(null, InventoryServiceFactory.Instance);
+            inventoryService = InventoryServiceFactory.Instance;
+            inventoryController = new InventoryController(null, inventoryService);
             inventoryController.ByPassMediatR = true;
         }
 
-        public async Task<List<AAInventoryModel>> GetInventoriesAsync()
+        public async Task<List<AAInventoryModel>> GetInventoriesAsync(bool byPassMediatR = true)
         {
-            IActionResult actionResult = await inventoryController.GetInventories();
-
-            if (actionResult is OkObjectResult)
+            if (byPassMediatR)
             {
-                OkObjectResult okObjectResult = (OkObjectResult)actionResult;
+                IActionResult actionResult = await inventoryController.GetInventories();
 
-                var inventories = okObjectResult.Value as ServiceResultModel<List<AAInventoryModel>>;
+                if (actionResult is OkObjectResult)
+                {
+                    OkObjectResult okObjectResult = (OkObjectResult)actionResult;
 
-                return inventories.Data;
+                    var inventories = okObjectResult.Value as ServiceResultModel<List<AAInventoryModel>>;
+
+                    return inventories.Data;
+                }
+                else if (actionResult is BadRequestObjectResult)
+                {
+                    BadRequestObjectResult badRequestObjectResult = (BadRequestObjectResult)actionResult;
+
+                    throw new Exception((badRequestObjectResult.Value as ServiceResultModel).ErrorModel.Description);
+                }
+
+                return null;
             }
-            else if (actionResult is BadRequestObjectResult)
+            else
             {
-                BadRequestObjectResult badRequestObjectResult = (BadRequestObjectResult)actionResult;
+                var response = MediatorFactory.GetInstance<AAGetInventoriesQueryRequest, AAGetInventoriesQueryResponse>(
+                    request: new AAGetInventoriesQueryRequest(),
+                    requestHandler: new GetInventoriesQueryHandler(
+                        runtimeHandler: runtimeHandler,
+                        inventoryService: inventoryService));
 
-                throw new Exception((badRequestObjectResult.Value as ServiceResultModel).ErrorModel.Description);
+                return response.Inventories;
             }
-
-            return null;
         }
 
-        public async Task<ServiceResultModel> CreateInventoryAsync(AACreateInventoryCommandRequest createInventoryCommandRequest)
+        public async Task<ServiceResultModel> CreateInventoryAsync(AACreateInventoryCommandRequest createInventoryCommandRequest, bool byPassMediatR = true)
         {
-            IActionResult actionResult = await inventoryController.CreateInventory(createInventoryCommandRequest);
-
-            if (actionResult is OkObjectResult)
+            if (byPassMediatR)
             {
-                OkObjectResult okObjectResult = (OkObjectResult)actionResult;
+                IActionResult actionResult = await inventoryController.CreateInventory(createInventoryCommandRequest);
 
-                return okObjectResult.Value as ServiceResultModel;
+                if (actionResult is OkObjectResult)
+                {
+                    OkObjectResult okObjectResult = (OkObjectResult)actionResult;
+
+                    return okObjectResult.Value as ServiceResultModel;
+                }
+                else if (actionResult is BadRequestObjectResult)
+                {
+                    BadRequestObjectResult badRequestObjectResult = (BadRequestObjectResult)actionResult;
+
+                    throw new Exception((badRequestObjectResult.Value as ServiceResultModel).ErrorModel.Description);
+                }
+
+                return null;
             }
-            else if (actionResult is BadRequestObjectResult)
+            else
             {
-                BadRequestObjectResult badRequestObjectResult = (BadRequestObjectResult)actionResult;
+                var response = MediatorFactory.GetInstance<AACreateInventoryCommandRequest, AACreateInventoryCommandResponse>(
+                    request: createInventoryCommandRequest,
+                    requestHandler: new CreateInventoryCommandHandler(
+                        runtimeHandler: runtimeHandler,
+                        inventoryService: inventoryService));
 
-                throw new Exception((badRequestObjectResult.Value as ServiceResultModel).ErrorModel.Description);
+                return new ServiceResultModel() { IsSuccess = response.CreatedInventoryId > 0 };
             }
-
-            return null;
         }
 
-        public async Task<ServiceResultModel> AssignInventoryToWorkerTest(AAAssignInventoryToWorkerCommandRequest assignInventoryToWorkerCommandRequest)
+        public async Task<ServiceResultModel> AssignInventoryToWorkerTest(AAAssignInventoryToWorkerCommandRequest assignInventoryToWorkerCommandRequest, bool byPassMediatR = true)
         {
-            IActionResult actionResult = await inventoryController.AssignInventoryToWorker(assignInventoryToWorkerCommandRequest);
-
-            if (actionResult is OkObjectResult)
+            if (byPassMediatR)
             {
-                OkObjectResult okObjectResult = (OkObjectResult)actionResult;
+                IActionResult actionResult = await inventoryController.AssignInventoryToWorker(assignInventoryToWorkerCommandRequest);
 
-                return okObjectResult.Value as ServiceResultModel;
+                if (actionResult is OkObjectResult)
+                {
+                    OkObjectResult okObjectResult = (OkObjectResult)actionResult;
+
+                    return okObjectResult.Value as ServiceResultModel;
+                }
+                else if (actionResult is BadRequestObjectResult)
+                {
+                    BadRequestObjectResult badRequestObjectResult = (BadRequestObjectResult)actionResult;
+
+                    throw new Exception((badRequestObjectResult.Value as ServiceResultModel).ErrorModel.Description);
+                }
+
+                return null;
             }
-            else if (actionResult is BadRequestObjectResult)
+            else
             {
-                BadRequestObjectResult badRequestObjectResult = (BadRequestObjectResult)actionResult;
+                var response = MediatorFactory.GetInstance<AAAssignInventoryToWorkerCommandRequest, AAAssignInventoryToWorkerCommandResponse>(
+                    request: assignInventoryToWorkerCommandRequest,
+                    requestHandler: new AssignInventoryToWorkerCommandHandler(
+                        runtimeHandler: runtimeHandler,
+                        inventoryService: InventoryServiceFactory.Instance));
 
-                throw new Exception((badRequestObjectResult.Value as ServiceResultModel).ErrorModel.Description);
+                return new ServiceResultModel() { IsSuccess = response != null };
             }
-
-            return null;
         }
 
-        public async Task<ServiceResultModel> CreateDefaultInventoryForNewWorker(AACreateDefaultInventoryForNewWorkerCommandRequest createDefaultInventoryForNewWorkerCommandRequest)
+        public async Task<ServiceResultModel> CreateDefaultInventoryForNewWorker(AACreateDefaultInventoryForNewWorkerCommandRequest createDefaultInventoryForNewWorkerCommandRequest,
+            bool byPassMediatR = true)
         {
-            IActionResult actionResult = await inventoryController.CreateDefaultInventoryForNewWorker(createDefaultInventoryForNewWorkerCommandRequest);
-
-            if (actionResult is OkObjectResult)
+            if (byPassMediatR)
             {
-                OkObjectResult okObjectResult = (OkObjectResult)actionResult;
+                IActionResult actionResult = await inventoryController.CreateDefaultInventoryForNewWorker(createDefaultInventoryForNewWorkerCommandRequest);
 
-                var result = okObjectResult.Value as ServiceResultModel;
+                if (actionResult is OkObjectResult)
+                {
+                    OkObjectResult okObjectResult = (OkObjectResult)actionResult;
 
-                return result;
+                    var result = okObjectResult.Value as ServiceResultModel;
+
+                    return result;
+                }
+                else if (actionResult is BadRequestObjectResult)
+                {
+                    BadRequestObjectResult badRequestObjectResult = (BadRequestObjectResult)actionResult;
+
+                    throw new Exception((badRequestObjectResult.Value as ServiceResultModel).ErrorModel.Description);
+                }
+
+                return null;
             }
-            else if (actionResult is BadRequestObjectResult)
+            else
             {
-                BadRequestObjectResult badRequestObjectResult = (BadRequestObjectResult)actionResult;
+                var response = MediatorFactory.GetInstance<AACreateDefaultInventoryForNewWorkerCommandRequest, AACreateDefaultInventoryForNewWorkerCommandResponse>(
+                    request: createDefaultInventoryForNewWorkerCommandRequest,
+                    requestHandler: new CreateDefaultInventoryForNewWorkerCommandHandler(
+                        runtimeHandler: runtimeHandler,
+                        inventoryService: inventoryService));
 
-                throw new Exception((badRequestObjectResult.Value as ServiceResultModel).ErrorModel.Description);
+                return new ServiceResultModel() { IsSuccess = response != null };
             }
-
-            return null;
         }
 
-        public async Task<List<AADefaultInventoryForNewWorkerModel>> GetInventoriesForNewWorker()
+        public async Task<List<AADefaultInventoryForNewWorkerModel>> GetInventoriesForNewWorker(bool byPassMediatR = true)
         {
-            IActionResult actionResult = await inventoryController.GetInventoriesForNewWorker();
-
-            if (actionResult is OkObjectResult)
+            if (byPassMediatR)
             {
-                OkObjectResult okObjectResult = (OkObjectResult)actionResult;
+                IActionResult actionResult = await inventoryController.GetInventoriesForNewWorker();
 
-                return (okObjectResult.Value as ServiceResultModel<List<AADefaultInventoryForNewWorkerModel>>).Data;
+                if (actionResult is OkObjectResult)
+                {
+                    OkObjectResult okObjectResult = (OkObjectResult)actionResult;
+
+                    return (okObjectResult.Value as ServiceResultModel<List<AADefaultInventoryForNewWorkerModel>>).Data;
+                }
+                else if (actionResult is BadRequestObjectResult)
+                {
+                    BadRequestObjectResult badRequestObjectResult = (BadRequestObjectResult)actionResult;
+
+                    throw new Exception((badRequestObjectResult.Value as ServiceResultModel).ErrorModel.Description);
+                }
+
+                return null;
             }
-            else if (actionResult is BadRequestObjectResult)
+            else
             {
-                BadRequestObjectResult badRequestObjectResult = (BadRequestObjectResult)actionResult;
+                var response = MediatorFactory.GetInstance<AAGetInventoriesForNewWorkerQueryRequest, AAGetInventoriesForNewWorkerQueryResponse>(
+                    request: new AAGetInventoriesForNewWorkerQueryRequest(),
+                    requestHandler: new GetInventoriesForNewWorkerQueryHandler(
+                        runtimeHandler: runtimeHandler,
+                        inventoryService: inventoryService));
 
-                throw new Exception((badRequestObjectResult.Value as ServiceResultModel).ErrorModel.Description);
+                return response.Inventories;
             }
-
-            return null;
         }
 
-        public async Task<ServiceResultModel> InformInventoryRequest(AAInformInventoryRequestCommandRequest informInventoryRequestCommandRequest)
+        public async Task<ServiceResultModel> InformInventoryRequest(AAInformInventoryRequestCommandRequest informInventoryRequestCommandRequest, bool byPassMediatR = true)
         {
-            IActionResult actionResult = await inventoryController.InformInventoryRequest(informInventoryRequestCommandRequest);
-
-            if (actionResult is OkObjectResult)
+            if (byPassMediatR)
             {
-                OkObjectResult okObjectResult = (OkObjectResult)actionResult;
+                IActionResult actionResult = await inventoryController.InformInventoryRequest(informInventoryRequestCommandRequest);
 
-                return okObjectResult.Value as ServiceResultModel;
+                if (actionResult is OkObjectResult)
+                {
+                    OkObjectResult okObjectResult = (OkObjectResult)actionResult;
+
+                    return okObjectResult.Value as ServiceResultModel;
+                }
+                else if (actionResult is BadRequestObjectResult)
+                {
+                    BadRequestObjectResult badRequestObjectResult = (BadRequestObjectResult)actionResult;
+
+                    throw new Exception((badRequestObjectResult.Value as ServiceResultModel).ErrorModel.Description);
+                }
+
+                return null;
             }
-            else if (actionResult is BadRequestObjectResult)
+            else
             {
-                BadRequestObjectResult badRequestObjectResult = (BadRequestObjectResult)actionResult;
+                var response = MediatorFactory.GetInstance<AAInformInventoryRequestCommandRequest, AAInformInventoryRequestCommandResponse>(
+                    request: informInventoryRequestCommandRequest,
+                    requestHandler: new InformInventoryRequestCommandHandler(
+                        runtimeHandler: runtimeHandler,
+                        inventoryService: inventoryService));
 
-                throw new Exception((badRequestObjectResult.Value as ServiceResultModel).ErrorModel.Description);
+                return new ServiceResultModel() { IsSuccess = response != null };
             }
-
-            return null;
         }
     }
 }

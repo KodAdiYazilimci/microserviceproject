@@ -37,7 +37,7 @@ namespace Test.Services.Api.Business.Departments.AA.Tests
         [TestMethod]
         public async Task GetInventoriesTest()
         {
-            List<AAInventoryModel> inventories = await dataProvider.GetAAInventoriesAsync();
+            List<AAInventoryModel> inventories = await dataProvider.GetAAInventoriesAsync(byPassMediatR: true);
 
             Assert.IsTrue(inventories != null && inventories.Any());
         }
@@ -45,7 +45,7 @@ namespace Test.Services.Api.Business.Departments.AA.Tests
         [TestMethod]
         public async Task CreateInventoryTest()
         {
-            Infrastructure.Communication.Http.Models.ServiceResultModel result = await dataProvider.CreateAAInventoryAsync();
+            Infrastructure.Communication.Http.Models.ServiceResultModel result = await dataProvider.CreateAAInventoryAsync(byPassMediatR: true);
 
             Assert.IsTrue(result != null && result.IsSuccess);
         }
@@ -56,7 +56,7 @@ namespace Test.Services.Api.Business.Departments.AA.Tests
         {
             List<WorkerModel> workers = await dataProvider.GetWorkersAsync();
 
-            var inventories = await dataProvider.GetAAInventoriesAsync();
+            var inventories = await dataProvider.GetAAInventoriesAsync(byPassMediatR: true);
 
             var result = await inventoryControllerTest.AssignInventoryToWorkerTest(new AAAssignInventoryToWorkerCommandRequest()
             {
@@ -71,15 +71,20 @@ namespace Test.Services.Api.Business.Departments.AA.Tests
                         Amount = new Random().Next(1, byte.MaxValue)
                     }
                 }
-            });
+            }, byPassMediatR: true);
 
             Assert.IsTrue(result != null && result.IsSuccess);
         }
 
         [TestMethod]
-        public async Task CreateDefaultInventoryForNewWorkerTest()
+        public async Task CreateDefaultInventoryForNwWorkerTest()
         {
-            var inventories = await dataProvider.GetAAInventoriesAsync();
+            await CreateDefaultInventoryForNewWorkerTest(byPassMediatR: true);
+        }
+
+        private async Task CreateDefaultInventoryForNewWorkerTest(bool byPassMediatR = true)
+        {
+            var inventories = await dataProvider.GetAAInventoriesAsync(byPassMediatR);
 
             var result = await inventoryControllerTest.CreateDefaultInventoryForNewWorker(new AACreateDefaultInventoryForNewWorkerCommandRequest()
             {
@@ -88,7 +93,7 @@ namespace Test.Services.Api.Business.Departments.AA.Tests
                     Id = inventories.ElementAt(new Random().Next(0, inventories.Count - 1)).Id,
                     Amount = new Random().Next(1, byte.MaxValue)
                 }
-            });
+            }, byPassMediatR);
 
             Assert.IsTrue(result != null && result.IsSuccess);
         }
@@ -96,13 +101,13 @@ namespace Test.Services.Api.Business.Departments.AA.Tests
         [TestMethod]
         public async Task GetInventoriesForNewWorkerTest()
         {
-            var inventories = await inventoryControllerTest.GetInventoriesForNewWorker();
+            var inventories = await inventoryControllerTest.GetInventoriesForNewWorker(byPassMediatR: true);
 
             if (inventories != null && !inventories.Any())
             {
-                await CreateDefaultInventoryForNewWorkerTest();
+                await CreateDefaultInventoryForNewWorkerTest(byPassMediatR: true);
 
-                inventories = await inventoryControllerTest.GetInventoriesForNewWorker();
+                inventories = await inventoryControllerTest.GetInventoriesForNewWorker(byPassMediatR: true);
             }
 
             Assert.IsTrue(inventories != null && inventories.Any());
@@ -111,9 +116,9 @@ namespace Test.Services.Api.Business.Departments.AA.Tests
         [TestMethod]
         public async Task InformInventoryRequestTest()
         {
-            var inventories = await dataProvider.GetAAInventoriesAsync();
+            var inventories = await dataProvider.GetAAInventoriesAsync(byPassMediatR: true);
 
-            List<DepartmentModel> departments = await dataProvider.GetAADepartmentsAsync();
+            List<DepartmentModel> departments = await dataProvider.GetAADepartmentsAsync(byPassMediatR: true);
 
             var result = await inventoryControllerTest.InformInventoryRequest(new AAInformInventoryRequestCommandRequest()
             {
@@ -122,7 +127,7 @@ namespace Test.Services.Api.Business.Departments.AA.Tests
                     Amount = new Random().Next(1, byte.MaxValue),
                     InventoryId = inventories.ElementAt(new Random().Next(0, inventories.Count - 1)).Id
                 }
-            });
+            }, byPassMediatR: true);
 
             Assert.IsTrue(result != null && result.IsSuccess);
         }

@@ -36,7 +36,7 @@ namespace Test.Services.Api.Business.Departments.HR.Tests
         [TestMethod]
         public async Task GetPeopleTest()
         {
-            List<PersonModel> people = await dataProvider.GetPeopleAsync();
+            List<PersonModel> people = await dataProvider.GetPeopleAsync(byPassMediatR: true);
 
             Assert.IsNotNull(people != null && people.Any());
         }
@@ -50,7 +50,7 @@ namespace Test.Services.Api.Business.Departments.HR.Tests
                 {
                     Name = new Random().Next(int.MinValue, int.MaxValue).ToString()
                 }
-            });
+            }, byPassMediatR: true);
 
             Assert.IsTrue(result != null && result.IsSuccess);
         }
@@ -58,13 +58,13 @@ namespace Test.Services.Api.Business.Departments.HR.Tests
         [TestMethod]
         public async Task GetTitlesTest()
         {
-            var titles = await personControllerTest.GetTitles();
+            var titles = await personControllerTest.GetTitles(byPassMediatR: true);
 
             if (titles != null && !titles.Any())
             {
-                await CreateTitleTest();
+                await CreateTitleTest(byPassMediatR: true);
 
-                titles = await personControllerTest.GetTitles();
+                titles = await personControllerTest.GetTitles(byPassMediatR: true);
             }
 
             Assert.IsTrue(titles != null && titles.Any());
@@ -73,13 +73,18 @@ namespace Test.Services.Api.Business.Departments.HR.Tests
         [TestMethod]
         public async Task CreateTitleTest()
         {
+            await CreateTitleTest(byPassMediatR: true);
+        }
+
+        public async Task CreateTitleTest(bool byPassMediatR = true)
+        {
             var result = await personControllerTest.CreateTitle(new CreateTitleCommandRequest()
             {
                 Title = new TitleModel()
                 {
                     Name = new Random().Next(int.MinValue, int.MaxValue).ToString()
                 }
-            });
+            }, byPassMediatR);
 
             Assert.IsTrue(result != null && result.IsSuccess);
         }
@@ -87,7 +92,7 @@ namespace Test.Services.Api.Business.Departments.HR.Tests
         [TestMethod]
         public async Task GetWorkersTest()
         {
-            var workers = await dataProvider.GetWorkersAsync();
+            var workers = await dataProvider.GetWorkersAsync(byPassMediatR: true);
 
             Assert.IsTrue(workers != null && workers.Any());
         }
@@ -95,11 +100,11 @@ namespace Test.Services.Api.Business.Departments.HR.Tests
         [TestMethod]
         public async Task CreateWorkerTest()
         {
-            var departments = await dataProvider.GetAADepartmentsAsync();
+            var departments = await dataProvider.GetAADepartmentsAsync(byPassMediatR: true);
 
-            var people = await dataProvider.GetPeopleAsync();
+            var people = await dataProvider.GetPeopleAsync(byPassMediatR: true);
 
-            var titles = await dataProvider.GetTitlesAsync();
+            var titles = await dataProvider.GetTitlesAsync(byPassMediatR: true);
 
             var result = await personControllerTest.CreateWorkerAsync(new CreateWorkerCommandRequest()
             {
@@ -118,7 +123,7 @@ namespace Test.Services.Api.Business.Departments.HR.Tests
                     FromDate = DateTime.Now,
                     ToDate = DateTime.Now.AddDays(new Random().Next(byte.MinValue, byte.MaxValue))
                 }
-            });
+            }, byPassMediatR: true);
 
             Assert.IsTrue(result != null && result.IsSuccess);
         }

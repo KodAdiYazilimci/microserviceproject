@@ -35,13 +35,13 @@ namespace Test.Services.Api.Business.Departments.HR.Tests
         [TestMethod]
         public async Task GetDepartmentsTest()
         {
-            var departments = await departmentControllerTest.GetDepartmentsAsync();
+            var departments = await departmentControllerTest.GetDepartmentsAsync(byPassMediatR: true);
 
             if (departments != null && !departments.Any())
             {
                 await CreateDepartmentTask();
 
-                departments = await departmentControllerTest.GetDepartmentsAsync();
+                departments = await departmentControllerTest.GetDepartmentsAsync(byPassMediatR: true);
             }
 
             Assert.IsTrue(departments != null && departments.Any());
@@ -56,7 +56,7 @@ namespace Test.Services.Api.Business.Departments.HR.Tests
                 {
                     Name = new Random().Next(int.MinValue, int.MaxValue).ToString()
                 }
-            });
+            }, byPassMediatR: true);
 
             Assert.IsTrue(result != null && result.IsSuccess);
         }
