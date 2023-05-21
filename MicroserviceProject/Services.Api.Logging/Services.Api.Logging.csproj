@@ -16,14 +16,11 @@
     <ProjectReference Include="..\Infrastructure.Diagnostics.HealthCheck.Util\Infrastructure.Diagnostics.HealthCheck.Util.csproj" />
     <ProjectReference Include="..\Infrastructure.Logging.MongoDb\Infrastructure.Logging.MongoDb.csproj" />
     <ProjectReference Include="..\Infrastructure.Communication.Http.Wrapper\Infrastructure.Communication.Http.Wrapper.csproj" />
-    <ProjectReference Include="..\Infrastructure.ServiceDiscovery.Register\Infrastructure.ServiceDiscovery.Register.csproj" />
     <ProjectReference Include="..\Infrastructure.Transaction.Recovery\Infrastructure.Transaction.Recovery.csproj" />
     <ProjectReference Include="..\Infrastructure.Transaction.UnitOfWork.Sql\Infrastructure.Transaction.UnitOfWork.Sql.csproj" />
     <ProjectReference Include="..\Infrastructure.Util.DI\Infrastructure.Util.DI.csproj" />
-    <ProjectReference Include="..\Services.Communication.Http.Broker.Authorization\Services.Communication.Http.Broker.Authorization.csproj" />
     <ProjectReference Include="..\Services.Communication.Http.Endpoint.Logging\Services.Communication.Http.Endpoint.Logging.csproj" />
     <ProjectReference Include="..\Services.Diagnostics.HealthCheck\Services.Diagnostics.HealthCheck.csproj" />
-    <ProjectReference Include="..\Services.Logging.Exception\Services.Logging.Exception.csproj" />
     <ProjectReference Include="..\Services.Logging.RequestResponse\Services.Logging.RequestResponse.csproj" />
     <ProjectReference Include="..\Services.Security.BasicToken\Services.Security.BasicToken.csproj" />
     <ProjectReference Include="..\Services.ServiceDiscovery\Services.ServiceDiscovery.csproj" />

@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Infrastructure.Communication.Http.Endpoint\Infrastructure.Communication.Http.Endpoint.csproj" />
     <ProjectReference Include="..\Infrastructure.Diagnostics.HealthCheck.Util\Infrastructure.Diagnostics.HealthCheck.Util.csproj" />
     <ProjectReference Include="..\Infrastructure.Localization.Translation.Provider\Infrastructure.Localization.Translation.Provider.csproj" />
     <ProjectReference Include="..\Infrastructure.Transaction.UnitOfWork.Sql\Infrastructure.Transaction.UnitOfWork.Sql.csproj" />
@@ -28,7 +27,6 @@
     <ProjectReference Include="..\Services.Communication.Mq.Queue.AA.Rabbit\Services.Communication.Mq.Queue.AA.Rabbit.csproj" />
     <ProjectReference Include="..\Services.Communication.Mq.Queue.Accounting.Rabbit\Services.Communication.Mq.Queue.Accounting.Rabbit.csproj" />
     <ProjectReference Include="..\Services.Communication.Mq.Queue.IT.Rabbit\Services.Communication.Mq.Queue.IT.Rabbit.csproj" />
-    <ProjectReference Include="..\Services.Communication.Mq\Services.Communication.Mq.csproj" />
     <ProjectReference Include="..\Services.Diagnostics.HealthCheck\Services.Diagnostics.HealthCheck.csproj" />
     <ProjectReference Include="..\Services.Logging.Exception\Services.Logging.Exception.csproj" />
     <ProjectReference Include="..\Services.Logging.RequestResponse\Services.Logging.RequestResponse.csproj" />
