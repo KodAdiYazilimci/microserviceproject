@@ -15,7 +15,6 @@
     <ProjectReference Include="..\Infrastructure.Security.Authentication.BasicToken\Infrastructure.Security.Authentication.BasicToken.csproj" />
     <ProjectReference Include="..\Infrastructure.Util.DI\Infrastructure.Util.DI.csproj" />
     <ProjectReference Include="..\Services.Communication.Mq.Queue.Accounting.Rabbit\Services.Communication.Mq.Queue.Accounting.Rabbit.csproj" />
-    <ProjectReference Include="..\Services.Communication.Mq.Queue.Accounting\Services.Communication.Mq.Queue.Accounting.csproj" />
     <ProjectReference Include="..\Services.Logging.Exception\Services.Logging.Exception.csproj" />
     <ProjectReference Include="..\Services.Util\Services.Util.csproj" />
   </ItemGroup>
