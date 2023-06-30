@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Communication.Http.Broker;
+using Infrastructure.Communication.Http.Constants;
 using Infrastructure.Communication.Http.Endpoint.Abstract;
 using Infrastructure.Communication.Http.Exceptions;
 using Infrastructure.Communication.Http.Models;
@@ -15,13 +16,19 @@ namespace Services.Communication.Http.Broker
     {
         private readonly HttpGetCaller _httpGetCaller;
         private readonly HttpPostCaller _httpPostCaller;
+        private readonly HttpPutCaller _httpPutCaller;
+        private readonly HttpDeleteCaller _httpDeleteCaller;
 
         public AuthenticatedCommunicator(
             HttpGetCaller httpGetCaller,
-            HttpPostCaller httpPostCaller)
+            HttpPostCaller httpPostCaller,
+            HttpPutCaller httpPutCaller,
+            HttpDeleteCaller httpDeleteCaller)
         {
             _httpGetCaller = httpGetCaller;
             _httpPostCaller = httpPostCaller;
+            _httpPutCaller = httpPutCaller;
+            _httpDeleteCaller = httpDeleteCaller;
         }
 
         public async Task<ServiceResultModel<TResult>> CallAsync<TResult>(IAuthenticatedEndpoint endpoint, CancellationTokenSource cancellationTokenSource)
@@ -32,8 +39,10 @@ namespace Services.Communication.Http.Broker
             {
                 switch (endpoint.HttpAction)
                 {
-                    case Infrastructure.Communication.Http.Constants.HttpAction.GET:
+                    case HttpAction.GET:
                         return await _httpGetCaller.CallAsync<ServiceResultModel<TResult>>(endpoint, cancellationTokenSource);
+                    case HttpAction.DELETE:
+                        return await _httpDeleteCaller.CallAsync<ServiceResultModel<TResult>>(endpoint, cancellationTokenSource);
                     default:
                         throw new UndefinedCallTypeException();
                 }
@@ -46,7 +55,7 @@ namespace Services.Communication.Http.Broker
                     {
                         errorModel.InnerErrors.Add(new ErrorModel()
                         {
-                            Code = "401",
+                            Code = ((int)HttpStatusCode.Unauthorized).ToString(),
                             Description = wex.Message
                         });
 
@@ -84,10 +93,14 @@ namespace Services.Communication.Http.Broker
             {
                 switch (endpoint.HttpAction)
                 {
-                    case Infrastructure.Communication.Http.Constants.HttpAction.GET:
+                    case HttpAction.GET:
                         return await _httpGetCaller.CallAsync<ServiceResultModel<TResult>>(endpoint, cancellationTokenSource);
-                    case Infrastructure.Communication.Http.Constants.HttpAction.POST:
+                    case HttpAction.POST:
                         return await _httpPostCaller.CallAsync<TRequest, ServiceResultModel<TResult>>(endpoint, requestObject, cancellationTokenSource);
+                    case HttpAction.PUT:
+                        return await _httpPutCaller.CallAsync<TRequest, ServiceResultModel<TResult>>(endpoint, requestObject, cancellationTokenSource);
+                    case HttpAction.DELETE:
+                        return await _httpDeleteCaller.CallAsync<ServiceResultModel<TResult>>(endpoint, cancellationTokenSource);
                     default:
                         throw new UndefinedCallTypeException();
                 }
@@ -100,7 +113,7 @@ namespace Services.Communication.Http.Broker
                     {
                         errorModel.InnerErrors.Add(new ErrorModel()
                         {
-                            Code = "401",
+                            Code = ((int)HttpStatusCode.Unauthorized).ToString(),
                             Description = wex.Message
                         });
 

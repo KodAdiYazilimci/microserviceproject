@@ -13,7 +13,7 @@ namespace Services.Communication.Http.Endpoint.Department.HR
         public string Url { get; set; } = "/Identity/RemoveSessionIfExistsInCache";
         public string Name { get; set; } = Path;
         public object Payload { get; set; }
-        public HttpAction HttpAction { get; set; } = HttpAction.GET;
+        public HttpAction HttpAction { get; set; } = HttpAction.DELETE;
         public List<HttpHeaderModel> Headers { get; set; } = new List<HttpHeaderModel>();
         public List<HttpQueryModel> Queries { get; set; } = new List<HttpQueryModel>()
         {

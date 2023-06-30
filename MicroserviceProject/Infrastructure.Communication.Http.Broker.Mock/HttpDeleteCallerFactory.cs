@@ -1,12 +1,12 @@
 ﻿namespace Infrastructure.Communication.Http.Broker.Mock
 {
-    public class HttpPostCallerFactory
+    public class HttpDeleteCallerFactory
     {
-        public static HttpPostCaller Instance
+        public static HttpDeleteCaller Instance
         {
             get
             {
-                return new HttpPostCaller();
+                return new HttpDeleteCaller();
             }
         }
     }

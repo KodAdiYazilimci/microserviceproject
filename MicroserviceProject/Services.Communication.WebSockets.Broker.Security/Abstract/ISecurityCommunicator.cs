@@ -7,7 +7,7 @@ namespace Services.Communication.WebSockets.Broker.Security.Abstract
 {
     public interface ISecurityCommunicator
     {
-        Task<ServiceResultModel<SendTokenNotificationResponse>> SendErrorNotificationAsync(
+        Task<ServiceResultModel<SendTokenNotificationResponse>> SendTokenNotificationAsync(
           SendTokenNotificationRequest request,
           string transactionIdentity,
           CancellationTokenSource cancellationTokenSource);

@@ -27,7 +27,7 @@ namespace Services.Communication.WebSockets.Broker.Security
             _serviceDiscoverer = serviceDiscoverer;
         }
 
-        public async Task<ServiceResultModel<SendTokenNotificationResponse>> SendErrorNotificationAsync(
+        public async Task<ServiceResultModel<SendTokenNotificationResponse>> SendTokenNotificationAsync(
             SendTokenNotificationRequest request,
             string transactionIdentity,
             CancellationTokenSource cancellationTokenSource)

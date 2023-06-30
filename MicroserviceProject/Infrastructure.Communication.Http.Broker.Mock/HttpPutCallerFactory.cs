@@ -1,12 +1,12 @@
 ﻿namespace Infrastructure.Communication.Http.Broker.Mock
 {
-    public class HttpPostCallerFactory
+    public class HttpPutCallerFactory
     {
-        public static HttpPostCaller Instance
+        public static HttpPutCaller Instance
         {
             get
             {
-                return new HttpPostCaller();
+                return new HttpPutCaller();
             }
         }
     }

@@ -4,6 +4,8 @@
     {
         Undefined,
         GET,
-        POST
+        POST,
+        PUT,
+        DELETE
     }
 }

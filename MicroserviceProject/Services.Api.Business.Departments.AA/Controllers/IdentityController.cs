@@ -22,6 +22,7 @@ namespace Services.Api.Business.Departments.AA.Controllers
             _cacheProvider = cacheDataProvider;
         }
 
+        [HttpDelete]
         [Route(nameof(RemoveSessionIfExistsInCache))]
         [Authorize(Roles = "ApiUser,QueueUser")]
         public IActionResult RemoveSessionIfExistsInCache(string tokenKey)
