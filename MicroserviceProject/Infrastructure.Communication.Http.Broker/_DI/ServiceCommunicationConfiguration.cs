@@ -16,6 +16,8 @@ namespace Infrastructure.Communication.Http.Broker.DI
         {
             services.AddSingleton<HttpGetCaller>();
             services.AddSingleton<HttpPostCaller>();
+            services.AddSingleton<HttpPutCaller>();
+            services.AddSingleton<HttpDeleteCaller>();
 
             return services;
         }

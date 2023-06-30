@@ -48,7 +48,13 @@ namespace Test.Services.Api.Business.Departments.HR.Factories.Services
                 IDistrubutedCacheProvider redisCacheDataProvider = CacheDataProviderFactory.GetInstance(configuration);
                 var httpGetCaller = HttpGetCallerFactory.Instance;
                 var httpPostCaller = HttpPostCallerFactory.Instance;
-                var authenticatedCommunicator = AuthenticatedCommunicatorProvider.GetAuthenticatedCommunicator(httpGetCaller, httpPostCaller);
+                var httpPutCaller = HttpPutCallerFactory.Instance;
+                var httpDeleteCaller = HttpDeleteCallerFactory.Instance;
+                var authenticatedCommunicator = AuthenticatedCommunicatorProvider.GetAuthenticatedCommunicator(
+                    httpGetCaller, 
+                    httpPostCaller, 
+                    httpPutCaller, 
+                    httpDeleteCaller);
                 var authorizationCommunicator = AuthorizationCommunicatorProvider.GetAuthorizationCommunicator(
                     communicator: authenticatedCommunicator,
                     serviceDiscoverer: HttpServiceDiscovererProvider.GetServiceDiscoverer(

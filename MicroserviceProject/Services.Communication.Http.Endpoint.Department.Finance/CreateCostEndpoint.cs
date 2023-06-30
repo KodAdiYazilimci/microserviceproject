@@ -13,7 +13,7 @@ namespace Services.Communication.Http.Endpoint.Department.Finance
         public string Url { get; set; } = "/Cost/CreateCost";
         public string Name { get; set; } = Path;
         public object Payload { get; set; }
-        public HttpAction HttpAction { get; set; } = HttpAction.POST;
+        public HttpAction HttpAction { get; set; } = HttpAction.PUT;
         public List<HttpHeaderModel> Headers { get; set; } = new List<HttpHeaderModel>();
         public List<HttpQueryModel> Queries { get; set; } = new List<HttpQueryModel>();
         public AuthenticationType AuthenticationType { get; set; } = AuthenticationType.Token;

@@ -46,7 +46,7 @@ namespace Services.Api.Business.Departments.AA.Controllers
             services: _inventoryService);
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route(nameof(CreateInventory))]
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> CreateInventory([FromBody] AACreateInventoryCommandRequest request)
@@ -82,7 +82,7 @@ namespace Services.Api.Business.Departments.AA.Controllers
             services: _inventoryService);
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route(nameof(CreateDefaultInventoryForNewWorker))]
         [Authorize(Roles = "ApiUser,GatewayUser,QueueUser")]
         public async Task<IActionResult> CreateDefaultInventoryForNewWorker([FromBody] AACreateDefaultInventoryForNewWorkerCommandRequest request)

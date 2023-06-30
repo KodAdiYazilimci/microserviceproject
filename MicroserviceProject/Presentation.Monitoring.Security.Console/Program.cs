@@ -53,7 +53,9 @@ namespace Presentation.Monitoring.Security.Console
                    communicator: AuthenticatedCommunicatorProvider.GetAuthenticatedCommunicator
                    (
                        httpGetCaller: HttpGetCallerFactory.Instance,
-                       httpPostCaller: HttpPostCallerFactory.Instance
+                       httpPostCaller: HttpPostCallerFactory.Instance,
+                       httpPutCaller: HttpPutCallerFactory.Instance,
+                       httpDeleteCaller: HttpDeleteCallerFactory.Instance
                    ),
                    serviceDiscoverer: serviceDiscoverer
                );

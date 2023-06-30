@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Caching.InMemory.Mock;
+using Infrastructure.Communication.Http.Broker;
 using Infrastructure.Communication.Http.Broker.Mock;
 using Infrastructure.Communication.Http.Models;
 using Infrastructure.Security.Authentication.Abstract;
@@ -43,7 +44,9 @@ namespace Presentation.Monitoring.Reliability.Console
                     communicator: AuthenticatedCommunicatorProvider.GetAuthenticatedCommunicator
                     (
                         httpGetCaller: HttpGetCallerFactory.Instance,
-                        httpPostCaller: HttpPostCallerFactory.Instance
+                        httpPostCaller: HttpPostCallerFactory.Instance,
+                        httpPutCaller: HttpPutCallerFactory.Instance,
+                        httpDeleteCaller: HttpDeleteCallerFactory.Instance
                     ),
                     serviceDiscoverer: HttpServiceDiscovererProvider.GetServiceDiscoverer(
                         inMemoryCacheDataProvider: InMemoryCacheDataProviderFactory.Instance,

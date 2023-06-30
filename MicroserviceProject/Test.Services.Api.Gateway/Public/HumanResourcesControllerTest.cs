@@ -26,7 +26,9 @@ namespace Test.Services.Api.Gateway.Public
         {
             var authenticatedCommunicator = AuthenticatedCommunicatorProvider.GetAuthenticatedCommunicator(
                 httpGetCaller: HttpGetCallerFactory.Instance,
-                httpPostCaller: HttpPostCallerFactory.Instance);
+                httpPostCaller: HttpPostCallerFactory.Instance,
+                httpPutCaller: HttpPutCallerFactory.Instance,
+                httpDeleteCaller: HttpDeleteCallerFactory.Instance);
 
             humanResourcesController =
                new HumanResourcesController
