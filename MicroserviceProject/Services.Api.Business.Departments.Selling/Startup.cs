@@ -52,6 +52,7 @@ namespace Services.Api.Business.Departments.Selling
             services.RegisterMappings();
             services.RegisterPersistence();
             services.RegisterRepositories();
+            services.RegisterValidators();
 
             services.RegisterBasicTokenAuthentication();
             services.RegisterExceptionLogger();

@@ -15,20 +15,23 @@ namespace Services.Api.Business.Departments.Accounting.Configuration.CQRS.Handle
     {
         private readonly RuntimeHandler _runtimeHandler;
         private readonly BankService _bankService;
+        private readonly CreateBankAccountValidator _createBankAccountValidator;
 
         public CreateBankAccountCommandHandler(
             RuntimeHandler runtimeHandler,
-            BankService bankService)
+            BankService bankService,
+            CreateBankAccountValidator createBankAccountValidator)
         {
             _runtimeHandler = runtimeHandler;
             _bankService = bankService;
+            _createBankAccountValidator = createBankAccountValidator;
         }
 
         public async Task<AccountingCreateBankAccountCommandResponse> Handle(AccountingCreateBankAccountCommandRequest request, CancellationToken cancellationToken)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            await CreateBankAccountValidator.ValidateAsync(request.BankAccount, cancellationTokenSource);
+            await _createBankAccountValidator.ValidateAsync(request.BankAccount, cancellationTokenSource);
 
             return new AccountingCreateBankAccountCommandResponse()
             {

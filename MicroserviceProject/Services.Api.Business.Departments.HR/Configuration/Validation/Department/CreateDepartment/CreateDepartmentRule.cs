@@ -7,12 +7,12 @@ namespace Services.Api.Business.Departments.HR.Configuration.Validation.Departme
     /// <summary>
     /// Department/CreateDepartment Http endpoint için validasyon kuralı
     /// </summary>
-    public class CreatePersonRule : AbstractValidator<DepartmentModel>
+    public class CreateDepartmentRule : AbstractValidator<DepartmentModel>
     {
         /// <summary>
         /// Department/CreateDepartment Http endpoint için validasyon kuralı
         /// </summary>
-        public CreatePersonRule()
+        public CreateDepartmentRule()
         {
             RuleFor(x => x.Name).NotEmpty().WithMessage("Departman adı boş geçilemez");
         }

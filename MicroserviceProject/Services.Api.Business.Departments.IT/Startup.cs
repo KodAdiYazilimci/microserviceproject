@@ -46,6 +46,7 @@ namespace Services.Api.Business.Departments.IT
             services.RegisterBusinessServices();
             services.RegisterMappings();
             services.RegisterRepositories();
+            services.RegisterValidators();
 
             services.RegisterBasicTokenAuthentication();
             services.RegisterBuyingQueueConfigurations();

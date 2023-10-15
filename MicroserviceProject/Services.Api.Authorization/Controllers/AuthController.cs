@@ -11,6 +11,7 @@ using Services.Api.Authorization.Util.Validation.Auth.GetToken;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Infrastructure.Validation.Exceptions;
 
 namespace Services.Api.Authorization.Controllers
 {
@@ -19,13 +20,16 @@ namespace Services.Api.Authorization.Controllers
     {
         private readonly SessionService _sessionService;
         private readonly UserService _userService;
+        private readonly GetTokenValidator _getTokenValidator;
 
         public AuthController(
             SessionService sessionService,
-            UserService userService)
+            UserService userService,
+            GetTokenValidator getTokenValidator)
         {
             _sessionService = sessionService;
             _userService = userService;
+            _getTokenValidator = getTokenValidator;
         }
 
         [Route("GetToken")]
@@ -34,12 +38,7 @@ namespace Services.Api.Authorization.Controllers
         {
             try
             {
-                var validateResult = await GetTokenValidator.ValidateAsync(credential, cancellationTokenSource);
-
-                if (!validateResult.IsSuccess)
-                {
-                    return BadRequest(validateResult);
-                }
+                await _getTokenValidator.ValidateAsync(credential, cancellationTokenSource);
 
                 var token = await _sessionService.GetTokenAsync(credential, new CancellationTokenSource());
 
@@ -48,6 +47,10 @@ namespace Services.Api.Authorization.Controllers
                     IsSuccess = true,
                     Data = token
                 });
+            }
+            catch (ValidationException vex)
+            {
+                return BadRequest(vex.ValidationResult);
             }
             catch (UserNotFoundException unf)
             {

@@ -99,7 +99,9 @@ namespace Test.Services.Api.Business.Departments.HR
                     request: createDepartmentCommandRequest,
                     requestHandler: new CreateDepartmentCommandHandler(
                         runtimeHandler: runtimeHandler,
-                        departmentService: departmentService));
+                        departmentService: departmentService,
+                        createDepartmentValidator: new global::Services.Api.Business.Departments.HR.Util.Validation.Department.CreateDepartment.CreateDepartmentValidator(
+                            validationRule: new global::Services.Api.Business.Departments.HR.Configuration.Validation.Department.CreateDepartment.CreateDepartmentRule())));
 
                 return new ServiceResultModel() { IsSuccess = response.CreatedDepartmentId > 0 };
             }

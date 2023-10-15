@@ -15,20 +15,23 @@ namespace Services.Api.Business.Departments.HR.Configuration.CQRS.Handlers.Comma
     {
         private readonly RuntimeHandler _runtimeHandler;
         private readonly PersonService _personService;
+        private readonly CreatePersonValidator _createPersonValidator;
 
         public CreatePersonCommandHandler(
             RuntimeHandler runtimeHandler,
-            PersonService personService)
+            PersonService personService,
+            CreatePersonValidator createPersonValidator)
         {
             _runtimeHandler = runtimeHandler;
             _personService = personService;
+            _createPersonValidator = createPersonValidator;
         }
 
         public async Task<CreatePersonCommandResponse> Handle(CreatePersonCommandRequest request, CancellationToken cancellationToken)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            await CreatePersonValidator.ValidateAsync(request.Person, cancellationTokenSource);
+            await _createPersonValidator.ValidateAsync(request.Person, cancellationTokenSource);
 
             return new CreatePersonCommandResponse()
             {

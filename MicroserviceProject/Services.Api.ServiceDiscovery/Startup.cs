@@ -3,6 +3,7 @@ using Infrastructure.Caching.InMemory.DI;
 using Infrastructure.Caching.Redis.DI;
 
 using Services.Api.Infrastructure.ServiceDiscovery;
+using Services.Api.ServiceDiscovery._DI;
 using Services.Api.ServiceDiscovery.DI;
 using Services.Api.ServiceDiscovery.DI;
 using Services.Logging.Exception.DI;
@@ -28,6 +29,7 @@ namespace Services.Api.ServiceDiscovery
             services.RegisterInMemoryCaching();
             services.RegisterRedisCaching();
             services.RegisterSwagger();
+            services.RegisterValidators();
             services.AddControllers();
         }
 

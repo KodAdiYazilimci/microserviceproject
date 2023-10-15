@@ -52,6 +52,7 @@ namespace Services.Api.Authorization
             services.RegisterSqlHealthChecking();
             services.RegisterSwagger();
             services.RegisterServiceRegisterers();
+            services.RegisterValidators();
 
             services.AddControllers();
         }

@@ -15,20 +15,23 @@ namespace Services.Api.Business.Departments.Buying.Configuration.CQRS.Handlers.C
     {
         private readonly RuntimeHandler _runtimeHandler;
         private readonly RequestService _requestService;
+        private readonly ValidateCostInventoryValidator _validateCostInventoryValidator;
 
         public ValidateCostInventoryCommandHandler(
             RuntimeHandler runtimeHandler,
-            RequestService requestService)
+            RequestService requestService,
+            ValidateCostInventoryValidator validateCostInventoryValidator)
         {
             _runtimeHandler = runtimeHandler;
             _requestService = requestService;
+            _validateCostInventoryValidator = validateCostInventoryValidator;
         }
 
         public async Task<ValidateCostInventoryCommandResponse> Handle(ValidateCostInventoryCommandRequest request, CancellationToken cancellationToken)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            await ValidateCostInventoryValidator.ValidateAsync(request.DecidedCost, cancellationTokenSource);
+            await _validateCostInventoryValidator.ValidateAsync(request.DecidedCost, cancellationTokenSource);
 
             return new ValidateCostInventoryCommandResponse()
             {

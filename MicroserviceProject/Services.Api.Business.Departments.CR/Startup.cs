@@ -47,6 +47,7 @@ namespace Services.Api.Business.Departments.CR
             services.RegisterMappings();
             services.RegisterPersistence();
             services.RegisterRepositories();
+            services.RegisterValidators();
             services.RegisterEntityFrameworkUnitOfWork<CRContext>();
 
             services.RegisterBasicTokenAuthentication();

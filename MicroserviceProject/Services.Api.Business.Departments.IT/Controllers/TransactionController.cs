@@ -16,10 +16,14 @@ namespace Services.Api.Business.Departments.IT.Controllers
     public class TransactionController : BaseController
     {
         private readonly InventoryService _inventoryService;
+        private readonly RollbackTransactionValidator _rollbackTransactionValidator;
 
-        public TransactionController(InventoryService inventoryService)
+        public TransactionController(
+            InventoryService inventoryService,
+            RollbackTransactionValidator rollbackTransactionValidator)
         {
             _inventoryService = inventoryService;
+            _rollbackTransactionValidator = rollbackTransactionValidator;
         }
 
         [HttpPost]
@@ -29,7 +33,7 @@ namespace Services.Api.Business.Departments.IT.Controllers
         {
             return await HttpResponseWrapper.WrapAsync<int>(async () =>
             {
-                await RollbackTransactionValidator.ValidateAsync(rollbackModel, cancellationTokenSource);
+                await _rollbackTransactionValidator.ValidateAsync(rollbackModel, cancellationTokenSource);
 
                 int rollbackResult = 0;
 

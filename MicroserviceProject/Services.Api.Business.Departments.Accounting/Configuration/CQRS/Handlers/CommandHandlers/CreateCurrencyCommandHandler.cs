@@ -15,20 +15,23 @@ namespace Services.Api.Business.Departments.Accounting.Configuration.CQRS.Handle
     {
         private readonly RuntimeHandler _runtimeHandler;
         private readonly BankService _bankService;
+        private readonly CreateCurrencyValidator _createCurrencyValidator;
 
         public CreateCurrencyCommandHandler(
             RuntimeHandler runtimeHandler,
-            BankService bankService)
+            BankService bankService,
+            CreateCurrencyValidator createCurrencyValidator)
         {
             _runtimeHandler = runtimeHandler;
             _bankService = bankService;
+            _createCurrencyValidator = createCurrencyValidator;
         }
 
         public async Task<AccountingCreateCurrencyCommandResponse> Handle(AccountingCreateCurrencyCommandRequest request, CancellationToken cancellationToken)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            await CreateCurrencyValidator.ValidateAsync(request.Currency, cancellationTokenSource);
+            await _createCurrencyValidator.ValidateAsync(request.Currency, cancellationTokenSource);
 
             return new AccountingCreateCurrencyCommandResponse()
             {

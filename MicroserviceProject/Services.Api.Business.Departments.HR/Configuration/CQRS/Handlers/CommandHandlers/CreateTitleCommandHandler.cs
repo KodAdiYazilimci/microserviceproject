@@ -15,20 +15,23 @@ namespace Services.Api.Business.Departments.HR.Configuration.CQRS.Handlers.Comma
     {
         private readonly RuntimeHandler _runtimeHandler;
         private readonly PersonService _personService;
+        private readonly CreateTitleValidator _createTitleValidator;
 
         public CreateTitleCommandHandler(
             RuntimeHandler runtimeHandler,
-            PersonService personService)
+            PersonService personService,
+            CreateTitleValidator createTitleValidator)
         {
             _runtimeHandler = runtimeHandler;
             _personService = personService;
+            _createTitleValidator = createTitleValidator;
         }
 
         public async Task<CreateTitleCommandResponse> Handle(CreateTitleCommandRequest request, CancellationToken cancellationToken)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            await CreateTitleValidator.ValidateAsync(request.Title, cancellationTokenSource);
+            await _createTitleValidator.ValidateAsync(request.Title, cancellationTokenSource);
 
             return new CreateTitleCommandResponse()
             {

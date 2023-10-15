@@ -1,14 +1,8 @@
-﻿using Services.Communication.Http.Broker.Department.AA.Models;
-
-using FluentValidation.Results;
-
-using Infrastructure.Validation.Exceptions;
-using Infrastructure.Validation.Models;
+﻿using Infrastructure.Validation;
 
 using Services.Api.Business.Departments.AA.Configuration.Validation.Inventory.CreateDefaultInventoryForNewWorker;
+using Services.Communication.Http.Broker.Department.AA.Models;
 
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,50 +11,20 @@ namespace Services.Api.Business.Departments.AA.Util.Validation.Inventory.CreateD
     /// <summary>
     /// Inventory/CreateDefaultInventoryForNewWorker Http endpoint için validasyon kuralını doğrulayan sınıf
     /// </summary>
-    public class CreateDefaultInventoryForNewWorkerValidator
+    public class CreateDefaultInventoryForNewWorkerValidator : BaseValidator<AADefaultInventoryForNewWorkerModel, CreateDefaultInventoryForNewWorkerRule>
     {
-        /// <summary>
-        /// Request body doğrular
-        /// </summary>
-        /// <param name="inventory">Doğrulanacak nesne</param>
-        /// <param name="cancellationTokenSource">İptal tokenı</param>
-        /// <returns></returns>
-        public static async Task ValidateAsync(AADefaultInventoryForNewWorkerModel inventory, CancellationTokenSource cancellationTokenSource)
+        public CreateDefaultInventoryForNewWorkerValidator(CreateDefaultInventoryForNewWorkerRule validationRule) : base(validationRule)
         {
-            CreateDefaultInventoryForNewWorkerRule validationRules = new CreateDefaultInventoryForNewWorkerRule();
+        }
 
-            if (inventory != null)
+        public override async Task ValidateAsync(AADefaultInventoryForNewWorkerModel entity, CancellationTokenSource cancellationTokenSource)
+        {
+            if (entity == null)
             {
-                ValidationResult validationResult = await validationRules.ValidateAsync(inventory, cancellationTokenSource.Token);
-
-                if (!validationResult.IsValid)
-                {
-                    ValidationModel validation = new ValidationModel()
-                    {
-                        IsValid = false,
-                        ValidationItems = new List<ValidationItemModel>()
-                    };
-
-                    validation.ValidationItems.AddRange(
-                        validationResult.Errors.Select(x => new ValidationItemModel()
-                        {
-                            Key = x.PropertyName,
-                            Value = x.AttemptedValue,
-                            Message = x.ErrorMessage
-                        }).ToList());
-
-                    throw new ValidationException(validation);
-                }
+                ThrowDefaultValidationException();
             }
-            else
-            {
-                ValidationModel validation = new ValidationModel()
-                {
-                    IsValid = false,
-                    ValidationItems = new List<ValidationItemModel>()
-                };
-                throw new ValidationException(validation);
-            }
+
+            await base.ValidateAsync(entity, cancellationTokenSource);
         }
     }
 }

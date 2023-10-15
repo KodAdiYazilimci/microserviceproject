@@ -15,20 +15,23 @@ namespace Services.Api.Business.Departments.AA.Configuration.CQRS.Handlers.Comma
     {
         private readonly RuntimeHandler _runtimeHandler;
         private readonly InventoryService _inventoryService;
+        private readonly RollbackTransactionValidator _rollbackTransactionValidator;
 
         public RollbackTransactionCommandHandler(
             RuntimeHandler runtimeHandler,
-            InventoryService inventoryService)
+            InventoryService inventoryService,
+            RollbackTransactionValidator rollbackTransactionValidator)
         {
             _runtimeHandler = runtimeHandler;
             _inventoryService = inventoryService;
+            _rollbackTransactionValidator = rollbackTransactionValidator;
         }
 
         public async Task<AARollbackTransactionCommandResponse> Handle(AARollbackTransactionCommandRequest request, CancellationToken cancellationToken)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            await RollbackTransactionValidator.ValidateAsync(request.Rollback, cancellationTokenSource);
+            await _rollbackTransactionValidator.ValidateAsync(request.Rollback, cancellationTokenSource);
 
             int rollbackResult = 0;
 

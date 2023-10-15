@@ -15,20 +15,23 @@ namespace Services.Api.Business.Departments.Accounting.Configuration.CQRS.Handle
     {
         private readonly RuntimeHandler _runtimeHandler;
         private readonly BankService _bankService;
+        private readonly RollbackTransactionValidator _rollbackTransactionValidator;
 
         public RollbackTransactionCommandHandler(
             RuntimeHandler runtimeHandler,
-            BankService bankService)
+            BankService bankService,
+            RollbackTransactionValidator rollbackTransactionValidator)
         {
             _runtimeHandler = runtimeHandler;
             _bankService = bankService;
+            _rollbackTransactionValidator = rollbackTransactionValidator;
         }
 
         public async Task<AccountingRollbackTransactionCommandResponse> Handle(AccountingRollbackTransactionCommandRequest request, CancellationToken cancellationToken)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            await RollbackTransactionValidator.ValidateAsync(request.Rollback, cancellationTokenSource);
+            await _rollbackTransactionValidator.ValidateAsync(request.Rollback, cancellationTokenSource);
 
             int rollbackResult = 0;
 

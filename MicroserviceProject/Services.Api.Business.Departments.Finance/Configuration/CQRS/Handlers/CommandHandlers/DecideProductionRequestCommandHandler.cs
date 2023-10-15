@@ -15,20 +15,23 @@ namespace Services.Api.Business.Departments.Finance.Configuration.CQRS.Handlers.
     {
         private readonly RuntimeHandler _runtimeHandler;
         private readonly ProductionRequestService _productionRequestService;
+        private readonly DecideProductionRequestValidator _decideProductionRequestValidator;
 
         public DecideProductionRequestCommandHandler(
             RuntimeHandler runtimeHandler,
-            ProductionRequestService productionRequestService)
+            ProductionRequestService productionRequestService,
+            DecideProductionRequestValidator decideProductionRequestValidator)
         {
             _runtimeHandler = runtimeHandler;
             _productionRequestService = productionRequestService;
+            _decideProductionRequestValidator = decideProductionRequestValidator;
         }
 
         public async Task<DecideProductionRequestCommandResponse> Handle(DecideProductionRequestCommandRequest request, CancellationToken cancellationToken)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            await DecideProductionRequestValidator.ValidateAsync(request.ProductionRequest, cancellationTokenSource);
+            await _decideProductionRequestValidator.ValidateAsync(request.ProductionRequest, cancellationTokenSource);
 
             if (request.ProductionRequest.Approved)
             {

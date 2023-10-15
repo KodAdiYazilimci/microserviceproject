@@ -15,20 +15,23 @@ namespace Services.Api.Business.Departments.Storage.Configuration.CQRS.Handlers.
     {
         private readonly RuntimeHandler _runtimeHandler;
         private readonly StockService _stockService;
+        private readonly DescendStockValidator _descendStockValidator;
 
         public DescendProductStockCommandHandler(
             RuntimeHandler runtimeHandler,
-            StockService stockService)
+            StockService stockService,
+            DescendStockValidator descendStockValidator)
         {
             _runtimeHandler = runtimeHandler;
             _stockService = stockService;
+            _descendStockValidator = descendStockValidator;
         }
 
         public async Task<DescendProductStockCommandResponse> Handle(DescendProductStockCommandRequest request, CancellationToken cancellationToken)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            await DescendStockValidator.ValidateAsync(request.Stock, cancellationTokenSource);
+            await _descendStockValidator.ValidateAsync(request.Stock, cancellationTokenSource);
 
             return new DescendProductStockCommandResponse()
             {

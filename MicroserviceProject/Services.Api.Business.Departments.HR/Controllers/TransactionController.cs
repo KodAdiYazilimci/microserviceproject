@@ -17,13 +17,16 @@ namespace Services.Api.Business.Departments.HR.Controllers
     {
         private readonly DepartmentService _departmentService;
         private readonly PersonService _personService;
+        private readonly RollbackTransactionValidator _rollbackTransactionValidator;
 
         public TransactionController(
             DepartmentService departmentService,
-            PersonService personService)
+            PersonService personService,
+            RollbackTransactionValidator rollbackTransactionValidator)
         {
             _departmentService = departmentService;
             _personService = personService;
+            _rollbackTransactionValidator = rollbackTransactionValidator;
         }
 
         [HttpPost]
@@ -33,7 +36,7 @@ namespace Services.Api.Business.Departments.HR.Controllers
         {
             return await HttpResponseWrapper.WrapAsync<int>(async () =>
             {
-                await RollbackTransactionValidator.ValidateAsync(rollbackModel, cancellationTokenSource);
+                await _rollbackTransactionValidator.ValidateAsync(rollbackModel, cancellationTokenSource);
 
                 int rollbackResult = 0;
 
