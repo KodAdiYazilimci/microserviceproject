@@ -33,7 +33,12 @@ namespace Test.Services.Api.Business.Departments.Accounting
                     configuration: ConfigurationFactory.GetConfiguration()));
 
             bankService = BankServiceFactory.Instance;
-            accountController = new AccountController(null, bankService);
+            accountController =
+                new AccountController(
+                    mediator: null,
+                bankService: bankService,
+                createSalaryPaymentValidator: new global::Services.Api.Business.Departments.Accounting.Util.Validation.Department.CreateDepartment.CreateSalaryPaymentValidator(
+                    validationRule: new global::Services.Api.Business.Departments.Accounting.Configuration.Validation.BankAccounts.CreateBankAccount.CreateSalaryPaymentRule()));
             accountController.ByPassMediatR = true;
         }
 
@@ -99,7 +104,9 @@ namespace Test.Services.Api.Business.Departments.Accounting
                     request: createBankAccountCommandRequest,
                     requestHandler: new CreateBankAccountCommandHandler(
                         runtimeHandler: runtimeHandler,
-                        bankService: bankService));
+                        bankService: bankService,
+                        createBankAccountValidator: new global::Services.Api.Business.Departments.Accounting.Util.Validation.Department.CreateDepartment.CreateBankAccountValidator(
+                            validationRule: new global::Services.Api.Business.Departments.Accounting.Configuration.Validation.BankAccounts.CreateBankAccount.CreateBankAccountRule())));
 
                 return new ServiceResultModel() { IsSuccess = response.CreatedBankAccountId > 0 };
             }
@@ -165,7 +172,9 @@ namespace Test.Services.Api.Business.Departments.Accounting
                     request: createCurrencyCommandRequest,
                     requestHandler: new CreateCurrencyCommandHandler(
                         runtimeHandler: runtimeHandler,
-                        bankService: bankService));
+                        bankService: bankService,
+                        createCurrencyValidator: new global::Services.Api.Business.Departments.Accounting.Util.Validation.Department.CreateDepartment.CreateCurrencyValidator(
+                            validationRule: new global::Services.Api.Business.Departments.Accounting.Configuration.Validation.BankAccounts.CreateBankAccount.CreateCurrencyRule())));
 
                 return new ServiceResultModel() { IsSuccess = response.CreatedCurrencyId > 0 };
             }
@@ -231,7 +240,9 @@ namespace Test.Services.Api.Business.Departments.Accounting
                     request: createSalaryPaymentCommandRequest,
                     requestHandler: new CreateSalaryPaymentCommandHandler(
                         runtimeHandler: runtimeHandler,
-                        bankService: bankService));
+                        bankService: bankService,
+                        createSalaryPaymentValidator: new global::Services.Api.Business.Departments.Accounting.Util.Validation.Department.CreateDepartment.CreateSalaryPaymentValidator(
+                            validationRule: new global::Services.Api.Business.Departments.Accounting.Configuration.Validation.BankAccounts.CreateBankAccount.CreateSalaryPaymentRule())));
 
                 return new ServiceResultModel() { IsSuccess = response.CreatedSalaryPaymentId > 0 };
             }

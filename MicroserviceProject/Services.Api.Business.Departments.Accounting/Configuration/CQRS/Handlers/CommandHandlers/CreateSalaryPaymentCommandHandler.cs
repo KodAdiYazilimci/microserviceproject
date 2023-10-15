@@ -15,20 +15,23 @@ namespace Services.Api.Business.Departments.Accounting.Configuration.CQRS.Handle
     {
         private readonly RuntimeHandler _runtimeHandler;
         private readonly BankService _bankService;
+        private readonly CreateSalaryPaymentValidator _createSalaryPaymentValidator;
 
         public CreateSalaryPaymentCommandHandler(
             RuntimeHandler runtimeHandler,
-            BankService bankService)
+            BankService bankService,
+            CreateSalaryPaymentValidator createSalaryPaymentValidator)
         {
             _runtimeHandler = runtimeHandler;
             _bankService = bankService;
+            _createSalaryPaymentValidator = createSalaryPaymentValidator;
         }
 
         public async Task<AccountingCreateSalaryPaymentCommandResponse> Handle(AccountingCreateSalaryPaymentCommandRequest request, CancellationToken cancellationToken)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            await CreateSalaryPaymentValidator.ValidateAsync(request.SalaryPayment, cancellationTokenSource);
+            await _createSalaryPaymentValidator.ValidateAsync(request.SalaryPayment, cancellationTokenSource);
 
             return new AccountingCreateSalaryPaymentCommandResponse()
             {

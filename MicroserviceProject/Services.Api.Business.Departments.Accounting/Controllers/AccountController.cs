@@ -21,13 +21,16 @@ namespace Services.Api.Business.Departments.Accounting.Controllers
     {
         private readonly IMediator _mediator;
         private readonly BankService _bankService;
+        private readonly CreateSalaryPaymentValidator _createSalaryPaymentValidator;
 
         public AccountController(
             IMediator mediator,
-            BankService bankService)
+            BankService bankService,
+            CreateSalaryPaymentValidator createSalaryPaymentValidator)
         {
             _mediator = mediator;
             _bankService = bankService;
+            _createSalaryPaymentValidator = createSalaryPaymentValidator;
         }
 
         [HttpGet]
@@ -118,7 +121,7 @@ namespace Services.Api.Business.Departments.Accounting.Controllers
                 {
                     CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-                    await CreateSalaryPaymentValidator.ValidateAsync(request.SalaryPayment, cancellationTokenSource);
+                    await _createSalaryPaymentValidator.ValidateAsync(request.SalaryPayment, cancellationTokenSource);
 
                     await _bankService.CreateSalaryPaymentAsync(request.SalaryPayment, cancellationTokenSource);
                 }

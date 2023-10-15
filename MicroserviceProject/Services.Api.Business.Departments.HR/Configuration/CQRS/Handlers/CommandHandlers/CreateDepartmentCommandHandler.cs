@@ -15,20 +15,23 @@ namespace Services.Api.Business.Departments.HR.Configuration.CQRS.Handlers.Comma
     {
         private readonly RuntimeHandler _runtimeHandler;
         private readonly DepartmentService _departmentService;
+        private readonly CreateDepartmentValidator _createDepartmentValidator;
 
         public CreateDepartmentCommandHandler(
             RuntimeHandler runtimeHandler,
-            DepartmentService departmentService)
+            DepartmentService departmentService,
+            CreateDepartmentValidator createDepartmentValidator)
         {
             _runtimeHandler = runtimeHandler;
             _departmentService = departmentService;
+            _createDepartmentValidator = createDepartmentValidator;
         }
 
         public async Task<CreateDepartmentCommandResponse> Handle(CreateDepartmentCommandRequest request, CancellationToken cancellationToken)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            await CreateDepartmentValidator.ValidateAsync(request.Department, cancellationTokenSource);
+            await _createDepartmentValidator.ValidateAsync(request.Department, cancellationTokenSource);
 
             return new CreateDepartmentCommandResponse()
             {

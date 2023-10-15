@@ -53,6 +53,7 @@ namespace Services.Api.Business.Departments.Buying
             services.RegisterBusinessServices();
             services.RegisterRepositories();
             services.RegisterMappings();
+            services.RegisterValidators();
 
             services.RegisterAAQueueConfigurations();
             services.RegisterAAQueuePublishers();

@@ -16,13 +16,16 @@ namespace Services.Api.Business.Departments.IT.Configuration.CQRS.Handlers.Comma
     {
         private readonly RuntimeHandler _runtimeHandler;
         private readonly InventoryService _inventoryService;
+        private readonly CreateDefaultInventoryForNewWorkerValidator _createDefaultInventoryForNewWorkerValidator;
 
         public CreateDefaultInventoryForNewWorkerCommandHandler(
             RuntimeHandler runtimeHandler,
-            InventoryService inventoryService)
+            InventoryService inventoryService,
+            CreateDefaultInventoryForNewWorkerValidator createDefaultInventoryForNewWorkerValidator)
         {
             _runtimeHandler = runtimeHandler;
             _inventoryService = inventoryService;
+            _createDefaultInventoryForNewWorkerValidator = createDefaultInventoryForNewWorkerValidator;
         }
 
         public async Task<ITCreateDefaultInventoryForNewWorkerCommandResponse> Handle(
@@ -31,7 +34,7 @@ namespace Services.Api.Business.Departments.IT.Configuration.CQRS.Handlers.Comma
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            await CreateDefaultInventoryForNewWorkerValidator.ValidateAsync(request.DefaultInventoryForNewWorkerModel, cancellationTokenSource);
+            await _createDefaultInventoryForNewWorkerValidator.ValidateAsync(request.DefaultInventoryForNewWorkerModel, cancellationTokenSource);
 
             await
             _runtimeHandler.ExecuteResultMethod<Task>(

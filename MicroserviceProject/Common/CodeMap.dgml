@@ -1054,7 +1054,7 @@
     <Node Id="@484" Category="CodeSchema_Assembly" Bounds="1222.88857758356,1815.81555314562,201.533333333333,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="NotFetched" FilePath="$(12ba2947-c5eb-4008-9ffb-73059fd3b035.OutputPath)" Group="Collapsed" Label="Infrastructure.Validation.dll">
       <Category Ref="FileSystem.Category.FileOfType.dll" />
     </Node>
-    <Node Id="@486" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" CodeSchemaProperty_StrongName="FluentValidation, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0" DelayedChildNodesState="NotFetched" FilePath="C:\Users\serka\.nuget\packages\fluentvalidation\11.4.0\lib\net7.0\FluentValidation.dll" Group="Collapsed" Label="FluentValidation.dll" UseManualLocation="True">
+    <Node Id="@486" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" CodeSchemaProperty_StrongName="FluentValidation, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0" DelayedChildNodesState="NotFetched" FilePath="C:\Users\serka\.nuget\packages\fluentvalidation\11.7.1\lib\net7.0\FluentValidation.dll" Group="Collapsed" Label="FluentValidation.dll" UseManualLocation="True">
       <Category Ref="FileSystem.Category.FileOfType.dll" />
     </Node>
     <Node Id="@488" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" CodeSchemaProperty_StrongName="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, Version=7.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60" DelayedChildNodesState="NotFetched" FilePath="C:\Users\serka\.nuget\packages\microsoft.aspnetcore.mvc.razor.runtimecompilation\7.0.1\lib\net7.0\Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation.dll" Group="Collapsed" Label="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation.dll" UseManualLocation="True">
@@ -34181,7 +34181,7 @@
     <Alias n="482" Id="(@481)" />
     <Alias n="483" Uri="Assembly=$(12ba2947-c5eb-4008-9ffb-73059fd3b035.OutputPathUri)" />
     <Alias n="484" Id="(@483)" />
-    <Alias n="485" Uri="Assembly=file:///C:/Users/serka/.nuget/packages/fluentvalidation/11.4.0/lib/net7.0/FluentValidation.dll" />
+    <Alias n="485" Uri="Assembly=file:///C:/Users/serka/.nuget/packages/fluentvalidation/11.7.1/lib/net7.0/FluentValidation.dll" />
     <Alias n="486" Id="(@485)" />
     <Alias n="487" Uri="Assembly=file:///C:/Users/serka/.nuget/packages/microsoft.aspnetcore.mvc.razor.runtimecompilation/7.0.1/lib/net7.0/Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation.dll" />
     <Alias n="488" Id="(@487)" />

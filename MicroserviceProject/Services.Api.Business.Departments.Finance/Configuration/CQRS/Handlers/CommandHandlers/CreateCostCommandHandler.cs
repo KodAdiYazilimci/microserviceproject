@@ -15,20 +15,23 @@ namespace Services.Api.Business.Departments.Finance.Configuration.CQRS.Handlers.
     {
         private readonly RuntimeHandler _runtimeHandler;
         private readonly CostService _costService;
+        private readonly CreateCostValidator _createCostValidator;
 
         public CreateCostCommandHandler(
             RuntimeHandler runtimeHandler,
-            CostService costService)
+            CostService costService,
+            CreateCostValidator createCostValidator)
         {
             _runtimeHandler = runtimeHandler;
             _costService = costService;
+            _createCostValidator = createCostValidator;
         }
 
         public async Task<CreateCostCommandResponse> Handle(CreateCostCommandRequest request, CancellationToken cancellationToken)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            await CreateCostValidator.ValidateAsync(request.Cost, cancellationTokenSource);
+            await _createCostValidator.ValidateAsync(request.Cost, cancellationTokenSource);
 
             return new CreateCostCommandResponse()
             {

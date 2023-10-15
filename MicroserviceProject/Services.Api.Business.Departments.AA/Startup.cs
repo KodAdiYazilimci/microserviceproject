@@ -48,6 +48,7 @@ namespace Services.Api.Business.Departments.AA
             services.RegisterBusinessServices();
             services.RegisterMappings();
             services.RegisterRepositories();
+            services.RegisterValidators();
 
             services.RegisterAAQueueConfigurations();
             services.RegisterAAQueuePublishers();

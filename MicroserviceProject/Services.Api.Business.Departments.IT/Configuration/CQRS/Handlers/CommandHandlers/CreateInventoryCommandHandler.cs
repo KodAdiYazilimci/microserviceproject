@@ -15,20 +15,23 @@ namespace Services.Api.Business.Departments.IT.Configuration.CQRS.Handlers.Comma
     {
         private readonly RuntimeHandler _runtimeHandler;
         private readonly InventoryService _inventoryService;
+        private readonly CreateInventoryValidator _createInventoryValidator;
 
         public CreateInventoryCommandHandler(
             RuntimeHandler runtimeHandler,
-            InventoryService inventoryService)
+            InventoryService inventoryService,
+            CreateInventoryValidator createInventoryValidator)
         {
             _runtimeHandler = runtimeHandler;
             _inventoryService = inventoryService;
+            _createInventoryValidator = createInventoryValidator;
         }
 
         public async Task<ITCreateInventoryCommandResponse> Handle(ITCreateInventoryCommandRequest request, CancellationToken cancellationToken)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            await CreateInventoryValidator.ValidateAsync(request.Inventory, cancellationTokenSource);
+            await _createInventoryValidator.ValidateAsync(request.Inventory, cancellationTokenSource);
 
             return new ITCreateInventoryCommandResponse()
             {

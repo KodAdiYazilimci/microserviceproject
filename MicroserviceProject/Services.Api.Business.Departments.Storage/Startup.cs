@@ -47,6 +47,7 @@ namespace Services.Api.Business.Departments.Storage
             services.RegisterMappings();
             services.RegisterPersistence();
             services.RegisterRepositories();
+            services.RegisterValidators();
 
             services.RegisterBasicTokenAuthentication();
             services.RegisterExceptionLogger();

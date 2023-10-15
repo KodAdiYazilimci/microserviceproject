@@ -22,13 +22,19 @@ namespace Services.Api.Business.Departments.AA.Controllers
     {
         private readonly IMediator _mediator;
         private readonly InventoryService _inventoryService;
+        private readonly CreateDefaultInventoryForNewWorkerValidator _createDefaultInventoryForNewWorkerValidator;
+        private readonly InformInventoryRequestValidator _informInventoryRequestValidator;
 
         public InventoryController(
             IMediator mediator,
-            InventoryService inventoryService)
+            InventoryService inventoryService,
+            CreateDefaultInventoryForNewWorkerValidator createDefaultInventoryForNewWorkerValidator,
+            InformInventoryRequestValidator informInventoryRequestValidator)
         {
             _mediator = mediator;
             _inventoryService = inventoryService;
+            _createDefaultInventoryForNewWorkerValidator = createDefaultInventoryForNewWorkerValidator;
+            _informInventoryRequestValidator = informInventoryRequestValidator;
         }
 
         [HttpGet]
@@ -93,7 +99,7 @@ namespace Services.Api.Business.Departments.AA.Controllers
                 {
                     CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-                    await CreateDefaultInventoryForNewWorkerValidator.ValidateAsync(request.DefaultInventoryForNewWorkerModel, cancellationTokenSource);
+                    await _createDefaultInventoryForNewWorkerValidator.ValidateAsync(request.DefaultInventoryForNewWorkerModel, cancellationTokenSource);
 
                     await _inventoryService.CreateDefaultInventoryForNewWorkerAsync(request.DefaultInventoryForNewWorkerModel, cancellationTokenSource);
                 }
@@ -129,7 +135,7 @@ namespace Services.Api.Business.Departments.AA.Controllers
                 {
                     CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-                    await InformInventoryRequestValidator.ValidateAsync(request.InventoryRequest, cancellationTokenSource);
+                    await _informInventoryRequestValidator.ValidateAsync(request.InventoryRequest, cancellationTokenSource);
 
                     await _inventoryService.InformInventoryRequestAsync(request.InventoryRequest, cancellationTokenSource);
                 }

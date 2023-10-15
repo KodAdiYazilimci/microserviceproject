@@ -99,7 +99,9 @@ namespace Test.Services.Api.Business.Departments.HR
                     request: createWorkerCommandRequest,
                     requestHandler: new CreateWorkerCommandHandler(
                         runtimeHandler: runtimeHandler,
-                        personService: personService));
+                        personService: personService,
+                        createWorkerValidator: new global::Services.Api.Business.Departments.HR.Util.Validation.Person.CreateWorker.CreateWorkerValidator(
+                            validationRule: new global::Services.Api.Business.Departments.HR.Configuration.Validation.Person.CreateWorker.CreateWorkerRule())));
 
                 return new ServiceResultModel() { IsSuccess = response.CreatedWorkerId > 0 };
             }
@@ -132,7 +134,9 @@ namespace Test.Services.Api.Business.Departments.HR
                     request: createPersonCommandRequest,
                     requestHandler: new CreatePersonCommandHandler(
                         runtimeHandler: runtimeHandler,
-                        personService: personService));
+                        personService: personService,
+                        createPersonValidator: new global::Services.Api.Business.Departments.HR.Util.Validation.Person.CreatePerson.CreatePersonValidator(
+                            validationRule: new global::Services.Api.Business.Departments.HR.Configuration.Validation.Person.CreatePerson.CreatePersonRule())));
 
                 return new ServiceResultModel() { IsSuccess = response.CreatedPersonId > 0 };
             }
@@ -233,7 +237,9 @@ namespace Test.Services.Api.Business.Departments.HR
                     request: createTitleCommandRequest,
                     requestHandler: new CreateTitleCommandHandler(
                         runtimeHandler: runtimeHandler,
-                        personService: personService));
+                        personService: personService,
+                        createTitleValidator: new global::Services.Api.Business.Departments.HR.Util.Validation.Person.CreateTitle.CreateTitleValidator(
+                            validationRule: new global::Services.Api.Business.Departments.HR.Configuration.Validation.Person.CreateTitle.CreateTitleRule())));
 
                 return new ServiceResultModel() { IsSuccess = response.CreatedTitleId > 0 };
             }

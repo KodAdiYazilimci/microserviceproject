@@ -50,6 +50,7 @@ namespace Services.Api.Business.Departments.Buying
             services.RegisterBusinessServices();
             services.RegisterMappings();
             services.RegisterRepositories();
+            services.RegisterValidators();
 
             services.RegisterBasicTokenAuthentication();
             services.RegisterBuyingQueueConfigurations();

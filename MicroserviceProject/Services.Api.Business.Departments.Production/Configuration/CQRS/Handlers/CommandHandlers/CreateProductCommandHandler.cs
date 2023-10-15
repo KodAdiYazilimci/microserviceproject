@@ -15,20 +15,23 @@ namespace Services.Api.Business.Departments.Production.Configuration.CQRS.Handle
     {
         private readonly RuntimeHandler _runtimeHandler;
         private readonly ProductService _productService;
+        private readonly CreateProductValidator _createProductValidator;
 
         public CreateProductCommandHandler(
             RuntimeHandler runtimeHandler,
-            ProductService productService)
+            ProductService productService,
+            CreateProductValidator createProductValidator)
         {
             _runtimeHandler = runtimeHandler;
             _productService = productService;
+            _createProductValidator = createProductValidator;
         }
 
         public async Task<CreateProductCommandResponse> Handle(CreateProductCommandRequest request, CancellationToken cancellationToken)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            await CreateProductValidator.ValidateAsync(request.Product, cancellationTokenSource);
+            await _createProductValidator.ValidateAsync(request.Product, cancellationTokenSource);
 
             return new CreateProductCommandResponse()
             {

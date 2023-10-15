@@ -13,12 +13,15 @@ namespace Services.Api.ServiceDiscovery.Controllers
     {
         private readonly IInMemoryCacheDataProvider _inMemoryCacheDataProvider;
         private readonly IDistrubutedCacheProvider _distrubutedCacheProvider;
+        private readonly RegisterValidator _registerValidator;
 
         public RegistryController(IDistrubutedCacheProvider distrubutedCacheProvider,
-            IInMemoryCacheDataProvider inMemoryCacheDataProvider)
+            IInMemoryCacheDataProvider inMemoryCacheDataProvider,
+            RegisterValidator registerValidator)
         {
             _distrubutedCacheProvider = distrubutedCacheProvider;
             _inMemoryCacheDataProvider = inMemoryCacheDataProvider;
+            _registerValidator = registerValidator;
         }
 
         [Route("Register")]
@@ -27,7 +30,7 @@ namespace Services.Api.ServiceDiscovery.Controllers
         {
             return await HttpResponseWrapper.WrapAsync(async delegate
             {
-                await RegisterValidator.ValidateAsync(serviceDto, new CancellationTokenSource());
+                await _registerValidator.ValidateAsync(serviceDto, new CancellationTokenSource());
 
                 _distrubutedCacheProvider.Set<ServiceDto>($"Cached_Services_{serviceDto.ServiceName}", serviceDto, DateTime.UtcNow.AddYears(1));
 

@@ -1,52 +1,24 @@
-﻿using FluentValidation.Results;
-
-using Infrastructure.Validation.Exceptions;
-using Infrastructure.Validation.Models;
+﻿using Infrastructure.Validation;
 
 using Services.Api.ServiceDiscovery.Configuration.Validation.Registry.Register;
 using Services.Api.ServiceDiscovery.Dto;
 
 namespace Services.Api.ServiceDiscovery.Util.Validation.Registry.Register
 {
-    public class RegisterValidator
+    public class RegisterValidator : BaseValidator<ServiceDto, RegisterRule>
     {
-        public static async Task ValidateAsync(ServiceDto serviceDto, CancellationTokenSource cancellationTokenSource)
+        public RegisterValidator(RegisterRule validationRule) : base(validationRule)
         {
-            RegisterRule validationRules = new RegisterRule();
+        }
 
-            if (serviceDto != null)
+        public override async Task ValidateAsync(ServiceDto entity, CancellationTokenSource cancellationTokenSource)
+        {
+            if (entity == null)
             {
-                ValidationResult validationResult = await validationRules.ValidateAsync(serviceDto, cancellationTokenSource.Token);
-
-                if (!validationResult.IsValid)
-                {
-                    ValidationModel validation = new ValidationModel()
-                    {
-                        IsValid = false,
-                        ValidationItems = new List<ValidationItemModel>()
-                    };
-
-                    validation.ValidationItems.AddRange(
-                        validationResult.Errors.Select(x => new ValidationItemModel()
-                        {
-                            Key = x.PropertyName,
-                            Value = x.AttemptedValue,
-                            Message = x.ErrorMessage
-                        }).ToList());
-
-                    throw new ValidationException(validation);
-                }
+                ThrowDefaultValidationException();
             }
-            else
-            {
-                ValidationModel validation = new ValidationModel()
-                {
-                    IsValid = false,
-                    ValidationItems = new List<ValidationItemModel>()
-                };
 
-                throw new ValidationException(validation);
-            }
+            await base.ValidateAsync(entity, cancellationTokenSource);
         }
     }
 }

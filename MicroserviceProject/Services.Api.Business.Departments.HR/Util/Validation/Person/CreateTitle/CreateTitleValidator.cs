@@ -1,13 +1,8 @@
-﻿using FluentValidation.Results;
-
-using Infrastructure.Validation.Exceptions;
-using Infrastructure.Validation.Models;
+﻿using Infrastructure.Validation;
 
 using Services.Api.Business.Departments.HR.Configuration.Validation.Person.CreateTitle;
 using Services.Communication.Http.Broker.Department.HR.Models;
 
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,51 +11,20 @@ namespace Services.Api.Business.Departments.HR.Util.Validation.Person.CreateTitl
     /// <summary>
     /// Person/CreateTitle Http endpoint için validasyon kuralını doğrulayan sınıf
     /// </summary>
-    public class CreateTitleValidator
+    public class CreateTitleValidator : BaseValidator<TitleModel, CreateTitleRule>
     {
-        /// <summary>
-        /// Request body doğrular
-        /// </summary>
-        /// <param name="title">Doğrulanacak nesne</param>
-        /// <param name="cancellationTokenSource">İptal tokenı</param>
-        /// <returns></returns>
-        public static async Task ValidateAsync(TitleModel title, CancellationTokenSource cancellationTokenSource)
+        public CreateTitleValidator(CreateTitleRule validationRule) : base(validationRule)
         {
-            CreateTitleRule validationRules = new CreateTitleRule();
+        }
 
-            if (title != null)
+        public override async Task ValidateAsync(TitleModel entity, CancellationTokenSource cancellationTokenSource)
+        {
+            if (entity == null)
             {
-                ValidationResult validationResult = await validationRules.ValidateAsync(title, cancellationTokenSource.Token);
-
-                if (!validationResult.IsValid)
-                {
-                    ValidationModel validation = new ValidationModel()
-                    {
-                        IsValid = false,
-                        ValidationItems = new List<ValidationItemModel>()
-                    };
-
-                    validation.ValidationItems.AddRange(
-                        validationResult.Errors.Select(x => new ValidationItemModel()
-                        {
-                            Key = x.PropertyName,
-                            Value = x.AttemptedValue,
-                            Message = x.ErrorMessage
-                        }).ToList());
-
-                    throw new ValidationException(validation);
-                }
+                ThrowDefaultValidationException();
             }
-            else
-            {
-                ValidationModel validation = new ValidationModel()
-                {
-                    IsValid = false,
-                    ValidationItems = new List<ValidationItemModel>()
-                };
 
-                throw new ValidationException(validation);
-            }
+            await base.ValidateAsync(entity, cancellationTokenSource);
         }
     }
 }

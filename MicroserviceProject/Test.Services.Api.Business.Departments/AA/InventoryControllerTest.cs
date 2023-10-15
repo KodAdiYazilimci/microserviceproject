@@ -36,7 +36,14 @@ namespace Test.Services.Api.Business.Departments.AA
                     configuration: ConfigurationFactory.GetConfiguration()));
 
             inventoryService = InventoryServiceFactory.Instance;
-            inventoryController = new InventoryController(null, inventoryService);
+            inventoryController =
+                new InventoryController(
+                    mediator: null,
+                    inventoryService: inventoryService,
+                    createDefaultInventoryForNewWorkerValidator: new global::Services.Api.Business.Departments.AA.Util.Validation.Inventory.CreateDefaultInventoryForNewWorker.CreateDefaultInventoryForNewWorkerValidator(
+                        validationRule: new global::Services.Api.Business.Departments.AA.Configuration.Validation.Inventory.CreateDefaultInventoryForNewWorker.CreateDefaultInventoryForNewWorkerRule()),
+                    informInventoryRequestValidator: new global::Services.Api.Business.Departments.AA.Util.Validation.Inventory.InformInventoryRequest.InformInventoryRequestValidator(
+                        validationRule: new global::Services.Api.Business.Departments.AA.Configuration.Validation.Inventory.InformInventoryRequest.InformInventoryRequestRule()));
             inventoryController.ByPassMediatR = true;
         }
 
@@ -102,7 +109,9 @@ namespace Test.Services.Api.Business.Departments.AA
                     request: createInventoryCommandRequest,
                     requestHandler: new CreateInventoryCommandHandler(
                         runtimeHandler: runtimeHandler,
-                        inventoryService: inventoryService));
+                        inventoryService: inventoryService,
+                        createInventoryValidator: new global::Services.Api.Business.Departments.AA.Util.Validation.Inventory.CreateInventory.CreateInventoryValidator(
+                            validationRule: new global::Services.Api.Business.Departments.AA.Configuration.Validation.Inventory.CreateInventory.CreateInventoryRule())));
 
                 return new ServiceResultModel() { IsSuccess = response.CreatedInventoryId > 0 };
             }
@@ -171,7 +180,9 @@ namespace Test.Services.Api.Business.Departments.AA
                     request: createDefaultInventoryForNewWorkerCommandRequest,
                     requestHandler: new CreateDefaultInventoryForNewWorkerCommandHandler(
                         runtimeHandler: runtimeHandler,
-                        inventoryService: inventoryService));
+                        inventoryService: inventoryService,
+                        createDefaultInventoryForNewWorkerValidator: new global::Services.Api.Business.Departments.AA.Util.Validation.Inventory.CreateDefaultInventoryForNewWorker.CreateDefaultInventoryForNewWorkerValidator(
+                            validationRule: new global::Services.Api.Business.Departments.AA.Configuration.Validation.Inventory.CreateDefaultInventoryForNewWorker.CreateDefaultInventoryForNewWorkerRule())));
 
                 return new ServiceResultModel() { IsSuccess = response != null };
             }
@@ -237,7 +248,9 @@ namespace Test.Services.Api.Business.Departments.AA
                     request: informInventoryRequestCommandRequest,
                     requestHandler: new InformInventoryRequestCommandHandler(
                         runtimeHandler: runtimeHandler,
-                        inventoryService: inventoryService));
+                        inventoryService: inventoryService,
+                        informInventoryRequestValidator: new global::Services.Api.Business.Departments.AA.Util.Validation.Inventory.InformInventoryRequest.InformInventoryRequestValidator(
+                            validationRule: new global::Services.Api.Business.Departments.AA.Configuration.Validation.Inventory.InformInventoryRequest.InformInventoryRequestRule())));
 
                 return new ServiceResultModel() { IsSuccess = response != null };
             }
