@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 9311
 
@@ -9,7 +9,7 @@ ENV ASPNETCORE_URLS=http://+:9311
 RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
 USER appuser
 
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 COPY ["Services.Api.Business.Departments.Production/Services.Api.Business.Departments.Production.csproj", "Services.Api.Business.Departments.Production/"]
 RUN dotnet restore "Services.Api.Business.Departments.Production/Services.Api.Business.Departments.Production.csproj"
