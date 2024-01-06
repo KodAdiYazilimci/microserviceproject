@@ -70,7 +70,7 @@ namespace Services.Api.Business.Departments.Selling
             services.RegisterEntityFrameworkUnitOfWork<SellingContext>();
             services.RegisterServiceRegisterers();
 
-            services.AddMediatR(typeof(Startup));
+            services.AddMediatR(x => x.RegisterServicesFromAssembly(typeof(Startup).Assembly));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -2,10 +2,6 @@
 
 using Microsoft.Extensions.DependencyInjection;
 
-using Moq;
-
-using System;
-using System.Linq;
 using System.Threading;
 
 namespace Infrastructure.Mock.Factories
@@ -19,15 +15,8 @@ namespace Infrastructure.Mock.Factories
             return mediator;
         }
 
-        public static IMediator GetInstance(Type type)
-        {
-            return new Mediator(x => type);
-        }
-
         public static TResponse GetInstance<TRequest, TResponse>(TRequest request, IRequestHandler<TRequest, TResponse> requestHandler) where TRequest : IRequest<TResponse>
         {
-            Mock<IMediator> mockedMediator = new Mock<IMediator>();
-
             TResponse handled = requestHandler.Handle(request, new CancellationToken()).GetAwaiter().GetResult();
 
             return handled;
