@@ -45,6 +45,14 @@ spec:
               value: {{ .Values.deployment.application.containers.financeContainer.environment.Configuration_Logging_RequestResponseLogging_DataBaseConfiguration_DataSource }}
             - name: Configuration_Logging_RequestResponseLogging_MongoConfiguration_ConnectionString
               value: {{ .Values.deployment.application.containers.financeContainer.environment.Configuration_Logging_RequestResponseLogging_MongoConfiguration_ConnectionString }}
+            - name: Configuration_Logging_RequestResponseLogging_ElasticConfiguration_Host
+              value: {{ .Values.deployment.application.containers.financeContainer.environment.Configuration_Logging_RequestResponseLogging_ElasticConfiguration_Host }}
+            - name: Configuration_Logging_RequestResponseLogging_ElasticConfiguration_UserName
+              value: {{ .Values.deployment.application.containers.financeContainer.environment.Configuration_Logging_RequestResponseLogging_ElasticConfiguration_UserName }}
+            - name: Configuration_Logging_RequestResponseLogging_ElasticConfiguration_Password
+              value: {{ .Values.deployment.application.containers.financeContainer.environment.Configuration_Logging_RequestResponseLogging_ElasticConfiguration_Password }}
+            - name: Configuration_Logging_RequestResponseLogging_ElasticConfiguration_Index
+              value: {{ .Values.deployment.application.containers.financeContainer.environment.Configuration_Logging_RequestResponseLogging_ElasticConfiguration_Index }}
             - name: Configuration_Logging_RuntimeLogging_RabbitConfiguration_Host
               value: {{ .Values.deployment.application.containers.financeContainer.environment.Configuration_Logging_RuntimeLogging_RabbitConfiguration_Host }}
             - name: Configuration_Logging_RuntimeLogging_RabbitConfiguration_UserName
@@ -55,6 +63,14 @@ spec:
               value: {{ .Values.deployment.application.containers.financeContainer.environment.Configuration_Logging_RuntimeLogging_DataBaseConfiguration_DataSource }}
             - name: Configuration_Logging_RuntimeLogging_MongoConfiguration_ConnectionString
               value: {{ .Values.deployment.application.containers.financeContainer.environment.Configuration_Logging_RuntimeLogging_MongoConfiguration_ConnectionString }}
+            - name: Configuration_Logging_RuntimeLogging_ElasticConfiguration_Host
+              value: {{ .Values.deployment.application.containers.financeContainer.environment.Configuration_Logging_RuntimeLogging_ElasticConfiguration_Host }}
+            - name: Configuration_Logging_RuntimeLogging_ElasticConfiguration_UserName
+              value: {{ .Values.deployment.application.containers.financeContainer.environment.Configuration_Logging_RuntimeLogging_ElasticConfiguration_UserName }}
+            - name: Configuration_Logging_RuntimeLogging_ElasticConfiguration_Password
+              value: {{ .Values.deployment.application.containers.financeContainer.environment.Configuration_Logging_RuntimeLogging_ElasticConfiguration_Password }}
+            - name: Configuration_Logging_RuntimeLogging_ElasticConfiguration_Index
+              value: {{ .Values.deployment.application.containers.financeContainer.environment.Configuration_Logging_RuntimeLogging_ElasticConfiguration_Index }}
             - name: Configuration_Logging_ExceptionLogging_RabbitConfiguration_Host
               value: {{ .Values.deployment.application.containers.financeContainer.environment.Configuration_Logging_ExceptionLogging_RabbitConfiguration_Host }}
             - name: Configuration_Logging_ExceptionLogging_RabbitConfiguration_UserName
@@ -65,6 +81,14 @@ spec:
               value: {{ .Values.deployment.application.containers.financeContainer.environment.Configuration_Logging_ExceptionLogging_DataBaseConfiguration_DataSource }}
             - name: Configuration_Logging_ExceptionLogging_MongoConfiguration_ConnectionString
               value: {{ .Values.deployment.application.containers.financeContainer.environment.Configuration_Logging_ExceptionLogging_MongoConfiguration_ConnectionString }}
+            - name: Configuration_Logging_ExceptionLogging_ElasticConfiguration_Host
+              value: {{ .Values.deployment.application.containers.financeContainer.environment.Configuration_Logging_ExceptionLogging_ElasticConfiguration_Host }}
+            - name: Configuration_Logging_ExceptionLogging_ElasticConfiguration_UserName
+              value: {{ .Values.deployment.application.containers.financeContainer.environment.Configuration_Logging_ExceptionLogging_ElasticConfiguration_UserName }}
+            - name: Configuration_Logging_ExceptionLogging_ElasticConfiguration_Password
+              value: {{ .Values.deployment.application.containers.financeContainer.environment.Configuration_Logging_ExceptionLogging_ElasticConfiguration_Password }}
+            - name: Configuration_Logging_ExceptionLogging_ElasticConfiguration_Index
+              value: {{ .Values.deployment.application.containers.financeContainer.environment.Configuration_Logging_ExceptionLogging_ElasticConfiguration_Index }}
             - name: Configuration_RabbitQueues_Host_DefaultHost
               value: {{ .Values.deployment.application.containers.financeContainer.environment.Configuration_RabbitQueues_Host_DefaultHost }}
             - name: Configuration_RabbitQueues_Host_DefaultUserName

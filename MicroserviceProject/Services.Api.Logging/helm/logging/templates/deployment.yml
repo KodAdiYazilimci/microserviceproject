@@ -44,6 +44,14 @@ spec:
             - name: Configuration_Logging_RequestResponseLogging_MongoConfiguration_ConnectionString
               value: {{ .Values.deployment.application.containers.loggingContainer.environment.Configuration_Logging_RequestResponseLogging_MongoConfiguration_ConnectionString }}
             - name: Configuration_Logging_ExceptionLogging_RabbitConfiguration_Host
+            - name: Configuration_Logging_RequestResponseLogging_ElasticConfiguration_Host
+              value: {{ .Values.deployment.application.containers.loggingContainer.environment.Configuration_Logging_RequestResponseLogging_ElasticConfiguration_Host }}
+            - name: Configuration_Logging_RequestResponseLogging_ElasticConfiguration_UserName
+              value: {{ .Values.deployment.application.containers.loggingContainer.environment.Configuration_Logging_RequestResponseLogging_ElasticConfiguration_UserName }}
+            - name: Configuration_Logging_RequestResponseLogging_ElasticConfiguration_Password
+              value: {{ .Values.deployment.application.containers.loggingContainer.environment.Configuration_Logging_RequestResponseLogging_ElasticConfiguration_Password }}
+            - name: Configuration_Logging_RequestResponseLogging_ElasticConfiguration_Index
+              value: {{ .Values.deployment.application.containers.loggingContainer.environment.Configuration_Logging_RequestResponseLogging_ElasticConfiguration_Index }}
               value: {{ .Values.deployment.application.containers.loggingContainer.environment.Configuration_Logging_ExceptionLogging_RabbitConfiguration_Host }}
             - name: Configuration_Logging_ExceptionLogging_RabbitConfiguration_UserName
               value: {{ .Values.deployment.application.containers.loggingContainer.environment.Configuration_Logging_ExceptionLogging_RabbitConfiguration_UserName }}
@@ -53,6 +61,14 @@ spec:
               value: {{ .Values.deployment.application.containers.loggingContainer.environment.Configuration_Logging_ExceptionLogging_DataBaseConfiguration_DataSource }}
             - name: Configuration_Logging_ExceptionLogging_MongoConfiguration_ConnectionString
               value: {{ .Values.deployment.application.containers.loggingContainer.environment.Configuration_Logging_ExceptionLogging_MongoConfiguration_ConnectionString }}
+            - name: Configuration_Logging_ExceptionLogging_ElasticConfiguration_Host
+              value: {{ .Values.deployment.application.containers.loggingContainer.environment.Configuration_Logging_ExceptionLogging_ElasticConfiguration_Host }}
+            - name: Configuration_Logging_ExceptionLogging_ElasticConfiguration_UserName
+              value: {{ .Values.deployment.application.containers.loggingContainer.environment.Configuration_Logging_ExceptionLogging_ElasticConfiguration_UserName }}
+            - name: Configuration_Logging_ExceptionLogging_ElasticConfiguration_Password
+              value: {{ .Values.deployment.application.containers.loggingContainer.environment.Configuration_Logging_ExceptionLogging_ElasticConfiguration_Password }}
+            - name: Configuration_Logging_ExceptionLogging_ElasticConfiguration_Index
+              value: {{ .Values.deployment.application.containers.loggingContainer.environment.Configuration_Logging_ExceptionLogging_ElasticConfiguration_Index }}
             - name: Configuration_WebSockets_DataSource
               value: {{ .Values.deployment.application.containers.loggingContainer.environment.Configuration_WebSockets_DataSource }}
             - name: Caching_Redis_Server

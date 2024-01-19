@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Logging.Abstraction;
+using Infrastructure.Logging.Elastic.Loggers;
 using Infrastructure.Logging.File.Loggers;
 using Infrastructure.Logging.Managers;
 using Infrastructure.Logging.RabbitMq.Producers;
@@ -48,9 +49,15 @@ namespace Services.Logging.RequestResponse
                 new DefaultBulkLogProducer<RequestResponseLogModel>(
                     new RequestResponseLogRabbitConfiguration(configuration));
 
+            BulkElasticLogger<RequestResponseLogModel> elasticLogger =
+                new BulkElasticLogger<RequestResponseLogModel>(
+                    new RequestResponseLogElasticConfiguration(configuration));
+
             loggers.Add(requestResponseRabbitLogger);
 
             loggers.Add(jsonFileLogger);
+
+            loggers.Add(elasticLogger);
 
             _logManager = new BulkLogManager<RequestResponseLogModel>(loggers);
         }
@@ -94,18 +101,20 @@ namespace Services.Logging.RequestResponse
         /// <param name="model">Yazılacak request-response logun nesnesi</param>
         public async Task LogAsync(RequestResponseLogModel model, CancellationTokenSource cancellationTokenSource)
         {
-            if (responseLogModels.Count > 100)
-            {
-                RequestResponseLogModel[] tempRequestResponseLogs = new RequestResponseLogModel[responseLogModels.Count];
-                responseLogModels.CopyTo(tempRequestResponseLogs);
-                responseLogModels.Clear();
+            //if (responseLogModels.Count > 100)
+            //{
+            //    RequestResponseLogModel[] tempRequestResponseLogs = new RequestResponseLogModel[responseLogModels.Count];
+            //    responseLogModels.CopyTo(tempRequestResponseLogs);
+            //    responseLogModels.Clear();
 
-                await _logManager.LogAsync(tempRequestResponseLogs.ToList(), cancellationTokenSource);
-            }
-            else
-            {
-                responseLogModels.Add(model);
-            }
+            //    await _logManager.LogAsync(tempRequestResponseLogs.ToList(), cancellationTokenSource);
+            //}
+            //else
+            //{
+            //responseLogModels.Add(model);
+            //}
+
+            await _logManager.LogAsync(new List<RequestResponseLogModel>() { model }, cancellationTokenSource);
         }
     }
 }
