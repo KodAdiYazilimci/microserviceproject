@@ -24,20 +24,21 @@ namespace Infrastructure.Logging.Elastic.Loggers
 
         public async Task LogAsync(List<TModel> model, CancellationTokenSource cancellationTokenSource)
         {
-            using (var pool = new SingleNodeConnectionPool(new Uri(uriString: elasticConfiguration.Host)))
+            try
             {
-                ConnectionSettings connection = new ConnectionSettings(pool);
-
-                connection.BasicAuthentication(
-                    username: elasticConfiguration.UserName,
-                    password: elasticConfiguration.Password);
-
-                connection.DefaultIndex(defaultIndex: elasticConfiguration.Index);
-
-                ElasticClient client = new ElasticClient(connection);
-
-                try
+                using (var pool = new SingleNodeConnectionPool(new Uri(uriString: elasticConfiguration.Host)))
                 {
+
+                    ConnectionSettings connection = new ConnectionSettings(pool);
+
+                    connection.BasicAuthentication(
+                        username: elasticConfiguration.UserName,
+                        password: elasticConfiguration.Password);
+
+                    connection.DefaultIndex(defaultIndex: elasticConfiguration.Index);
+
+                    ElasticClient client = new ElasticClient(connection);
+
                     CreateIndexResponse createIndexResponse = await client.Indices.CreateAsync(
                         index: elasticConfiguration.Index,
                         selector: index => index.Map<TModel>(x => x.AutoMap()),
@@ -47,10 +48,11 @@ namespace Infrastructure.Logging.Elastic.Loggers
                     {
                         return selector.CreateMany<TModel>(model, null).IndexMany<TModel>(model);
                     });
+
                 }
-                catch (Exception)
-                {
-                }
+            }
+            catch (Exception ex)
+            {
             }
         }
 

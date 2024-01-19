@@ -38,17 +38,17 @@ namespace Services.Logging.Exception
                 new BulkJsonFileLogger<ExceptionLogModel>(
                     new ExceptionLogFileConfiguration(configuration));
 
+            loggers.Add(jsonFileLogger);
+
             BulkTextFileLogger<ExceptionLogModel> exceptionRabbitLogger =
                 new BulkTextFileLogger<ExceptionLogModel>(
                     new ExceptionLogFileConfiguration(configuration));
 
-            BulkElasticLogger<ExceptionLogModel> elasticLogger =    
-                new BulkElasticLogger<ExceptionLogModel>(
-                    new ExceptionLogElasticConfiguration(configuration));   
-
             loggers.Add(exceptionRabbitLogger);
 
-            loggers.Add(jsonFileLogger);
+            BulkElasticLogger<ExceptionLogModel> elasticLogger =
+                new BulkElasticLogger<ExceptionLogModel>(
+                    new ExceptionLogElasticConfiguration(configuration));
 
             loggers.Add(elasticLogger);
 
