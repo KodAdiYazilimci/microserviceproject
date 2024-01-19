@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.Logging.Elastic\Infrastructure.Logging.Elastic.csproj" />
     <ProjectReference Include="..\Infrastructure.Logging.File\Infrastructure.Logging.File.csproj" />
     <ProjectReference Include="..\Infrastructure.Logging.RabbitMq\Infrastructure.Logging.RabbitMq.csproj" />
   </ItemGroup>

@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Logging.Abstraction;
+using Infrastructure.Logging.Elastic.Loggers;
 using Infrastructure.Logging.File.Loggers;
 using Infrastructure.Logging.Managers;
 
@@ -41,9 +42,15 @@ namespace Services.Logging.Exception
                 new BulkTextFileLogger<ExceptionLogModel>(
                     new ExceptionLogFileConfiguration(configuration));
 
+            BulkElasticLogger<ExceptionLogModel> elasticLogger =    
+                new BulkElasticLogger<ExceptionLogModel>(
+                    new ExceptionLogElasticConfiguration(configuration));   
+
             loggers.Add(exceptionRabbitLogger);
 
             loggers.Add(jsonFileLogger);
+
+            loggers.Add(elasticLogger);
 
             _logManager = new BulkLogManager<ExceptionLogModel>(loggers);
         }
