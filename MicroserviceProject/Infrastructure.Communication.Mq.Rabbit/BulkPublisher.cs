@@ -48,30 +48,35 @@ namespace Infrastructure.Communication.Mq.Rabbit
         /// <returns></returns>
         public virtual Task PublishAsync(List<TModel> models, CancellationTokenSource cancellationTokenSource)
         {
-            if (connection == null || channel == null)
+            try
             {
-                var factory = new ConnectionFactory()
+                if (connection == null || channel == null)
                 {
-                    HostName = _rabbitConfiguration.Host,
-                    UserName = _rabbitConfiguration.UserName,
-                    Password = _rabbitConfiguration.Password
-                };
+                    var factory = new ConnectionFactory()
+                    {
+                        HostName = _rabbitConfiguration.Host,
+                        UserName = _rabbitConfiguration.UserName,
+                        Password = _rabbitConfiguration.Password
+                    };
 
-                connection = factory.CreateConnection();
+                    connection = factory.CreateConnection();
 
-                channel = connection.CreateModel();
+                    channel = connection.CreateModel();
 
+                }
+
+                foreach (var model in models)
+                {
+                    string jsonLog = JsonConvert.SerializeObject(model);
+
+                    byte[] jsonBuffer = UTF8Encoding.UTF8.GetBytes(jsonLog);
+
+                    channel.BasicPublish(exchange: "", routingKey: _rabbitConfiguration.QueueName, mandatory: true, basicProperties: null, body: jsonBuffer);
+                }
             }
-
-            foreach (var model in models)
+            catch (Exception ex)
             {
-                string jsonLog = JsonConvert.SerializeObject(model);
-
-                byte[] jsonBuffer = UTF8Encoding.UTF8.GetBytes(jsonLog);
-
-                channel.BasicPublish(exchange: "", routingKey: _rabbitConfiguration.QueueName, mandatory: true, basicProperties: null, body: jsonBuffer);
             }
-
             return Task.CompletedTask;
         }
 

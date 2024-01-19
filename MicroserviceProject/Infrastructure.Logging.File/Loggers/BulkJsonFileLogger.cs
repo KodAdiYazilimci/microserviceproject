@@ -46,10 +46,10 @@ namespace Infrastructure.Logging.File.Loggers
         /// <param name="models">Yazılacak logun modeli</param>
         public async Task LogAsync(List<TModel> models, CancellationTokenSource cancellationTokenSource)
         {
-            ReaderWriterLockSlim.EnterWriteLock();
-
             try
             {
+                ReaderWriterLockSlim.EnterWriteLock();
+
                 StringBuilder sbJsonText = new StringBuilder();
 
                 foreach (var model in models)
@@ -88,6 +88,10 @@ namespace Infrastructure.Logging.File.Loggers
                         encoding: _fileConfiguration.Encoding,
                         cancellationToken: cancellationTokenSource.Token);
                 }
+            }
+            catch (Exception ex)
+            {
+
             }
             finally
             {
