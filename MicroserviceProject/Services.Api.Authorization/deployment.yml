@@ -46,7 +46,7 @@ spec:
             - name: Configuration_Logging_RequestResponseLogging_ElasticConfiguration_UserName
               value: "elastic"
             - name: Configuration_Logging_RequestResponseLogging_ElasticConfiguration_Password
-              value: "usTGa511ESFmHE-rNJTu"
+              value: "D4PXSUo+_-PK-HKmcR0i"
             - name: Configuration_Logging_RequestResponseLogging_ElasticConfiguration_Index
               value: "log-microservice-request-response"
             - name: Configuration_Logging_ExceptionLogging_RabbitConfiguration_Host
@@ -64,7 +64,7 @@ spec:
             - name: Configuration_Logging_ExceptionLogging_ElasticConfiguration_UserName
               value: "elastic"
             - name: Configuration_Logging_ExceptionLogging_ElasticConfiguration_Password
-              value: "usTGa511ESFmHE-rNJTu"
+              value: "D4PXSUo+_-PK-HKmcR0i"
             - name: Configuration_Logging_ExceptionLogging_ElasticConfiguration_Index
               value: "log-microservice-exception"
             - name: Configuration_RabbitQueues_Host_DefaultHost
