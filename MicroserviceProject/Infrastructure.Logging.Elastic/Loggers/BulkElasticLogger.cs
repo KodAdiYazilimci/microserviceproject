@@ -28,8 +28,15 @@ namespace Infrastructure.Logging.Elastic.Loggers
             {
                 using (var pool = new SingleNodeConnectionPool(new Uri(uriString: elasticConfiguration.Host)))
                 {
-
                     ConnectionSettings connection = new ConnectionSettings(pool);
+
+                    if (new Uri(elasticConfiguration.Host).Scheme == "https")
+                    {
+                        connection.ServerCertificateValidationCallback((obj, X509Certificate, X509Chain, SslPolicyErrors) =>
+                        {
+                            return true;
+                        });
+                    }
 
                     connection.BasicAuthentication(
                         username: elasticConfiguration.UserName,
