@@ -15,7 +15,7 @@ namespace Services.Logging.RequestResponse.DI
         /// <returns></returns>
         public static IServiceCollection RegisterRequestResponseLogger(this IServiceCollection services)
         {
-            services.AddScoped<RequestResponseLogger>();
+            services.AddSingleton<RequestResponseLogger>();
 
             return services;
         }
