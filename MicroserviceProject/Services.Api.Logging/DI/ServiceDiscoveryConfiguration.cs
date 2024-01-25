@@ -33,8 +33,8 @@ namespace Services.Api.Logging.DI
 
             Task registerServiceTask = serviceRegisterer.RegisterServiceAsync(new RegisteredServiceModel()
             {
-                ServiceName = "Services.Api.Authorization",
-                Port = 15455,
+                ServiceName = "Services.Api.Logging",
+                Port = 15456,
                 Protocol = "http",
                 Endpoints = new List<IEndpoint>()
                 {
