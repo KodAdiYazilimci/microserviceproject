@@ -457,7 +457,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Http
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Http.Endpoint.ServiceDiscovery", "Services.Communication.Http.Endpoint.ServiceDiscovery\Services.Communication.Http.Endpoint.ServiceDiscovery.csproj", "{AA7E0E0C-3797-4D01-A7A6-252E129BABA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Logging.Elastic", "Infrastructure.Logging.Elastic\Infrastructure.Logging.Elastic.csproj", "{DE69848F-AFD7-4FFB-BCAE-55B868AC6448}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Logging.Elastic", "Infrastructure.Logging.Elastic\Infrastructure.Logging.Elastic.csproj", "{DE69848F-AFD7-4FFB-BCAE-55B868AC6448}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{DC9B3588-0765-478F-A4C2-B42BD0FCAE53}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1073,6 +1075,10 @@ Global
 		{DE69848F-AFD7-4FFB-BCAE-55B868AC6448}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE69848F-AFD7-4FFB-BCAE-55B868AC6448}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE69848F-AFD7-4FFB-BCAE-55B868AC6448}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC9B3588-0765-478F-A4C2-B42BD0FCAE53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC9B3588-0765-478F-A4C2-B42BD0FCAE53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC9B3588-0765-478F-A4C2-B42BD0FCAE53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC9B3588-0765-478F-A4C2-B42BD0FCAE53}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

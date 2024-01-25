@@ -45,7 +45,7 @@ namespace Infrastructure.Localization.Translation.Persistence.EntityFramework.Pe
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("server=localhost;DataBase=Microservice_Localization_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true;TrustServerCertificate=Yes");
+            optionsBuilder.UseSqlServer("server=sql-server;DataBase=Microservice_Localization_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true;TrustServerCertificate=Yes");
 
             //optionsBuilder.UseSqlServer(
             //    configuration

@@ -44,11 +44,11 @@ spec:
             - name: Configuration_Logging_RequestResponseLogging_MongoConfiguration_ConnectionString
               value: "mongodb://adminuser:password123@mongo-service.default.svc.cluster.local:27017"
             - name: Configuration_Logging_RequestResponseLogging_ElasticConfiguration_Host
-              value: "https://192.168.1.177:9200"
+              value: "http://elasticsearch:9200"
             - name: Configuration_Logging_RequestResponseLogging_ElasticConfiguration_UserName
               value: "elastic"
             - name: Configuration_Logging_RequestResponseLogging_ElasticConfiguration_Password
-              value: "L1tO811luDVj-oTTbEHp"
+              value: "oKIw+_D5bKN=+V1FEESm"
             - name: Configuration_Logging_RequestResponseLogging_ElasticConfiguration_Index
               value: "log-microservice-request-response"
             - name: Configuration_Logging_ExceptionLogging_RabbitConfiguration_Host
@@ -62,11 +62,11 @@ spec:
             - name: Configuration_Logging_ExceptionLogging_MongoConfiguration_ConnectionString
               value: "mongodb://adminuser:password123@mongo-service.default.svc.cluster.local:27017"
             - name: Configuration_Logging_ExceptionLogging_ElasticConfiguration_Host
-              value: "https://192.168.1.177:9200"
+              value: "http://elasticsearch:9200"
             - name: Configuration_Logging_ExceptionLogging_ElasticConfiguration_UserName
               value: "elastic"
             - name: Configuration_Logging_ExceptionLogging_ElasticConfiguration_Password
-              value: "L1tO811luDVj-oTTbEHp"
+              value: "oKIw+_D5bKN=+V1FEESm"
             - name: Configuration_Logging_ExceptionLogging_ElasticConfiguration_Index
               value: "log-microservice-exception"
             - name: Configuration_WebSockets_DataSource

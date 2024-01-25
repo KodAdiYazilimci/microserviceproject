@@ -27,7 +27,7 @@ namespace Services.Api.Business.Departments.Storage.Configuration.Persistence
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("server=localhost;DataBase=Microservice_Storage_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true;TrustServerCertificate=Yes");
+                optionsBuilder.UseSqlServer("server=sql-server;DataBase=Microservice_Storage_DB;user=sa;password=Srkn_CMR*1987;MultipleActiveResultSets=true;TrustServerCertificate=Yes");
 
                 optionsBuilder.EnableSensitiveDataLogging();
                 optionsBuilder.EnableDetailedErrors();
