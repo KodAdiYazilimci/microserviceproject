@@ -5,10 +5,12 @@ using Infrastructure.ServiceDiscovery.Register.DI;
 using Infrastructure.ServiceDiscovery.Register.Models;
 
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using Services.Communication.Http.Endpoint.Authorization;
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -34,7 +36,7 @@ namespace Services.Api.Logging.DI
             Task registerServiceTask = serviceRegisterer.RegisterServiceAsync(new RegisteredServiceModel()
             {
                 ServiceName = "Services.Api.Logging",
-                Port = 15456,
+                Port = registerationConfiguration.Port,
                 Protocol = "http",
                 Endpoints = new List<IEndpoint>()
                 {
