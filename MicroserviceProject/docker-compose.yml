@@ -26,6 +26,7 @@ services:
       - internal
   rabbitmq:
     image: "rabbitmq:3-management"
+    container_name: rabbitmq-1
     hostname: "rabbit1"
     environment:
       RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
@@ -101,6 +102,9 @@ services:
       dockerfile: Services.Api.Authorization/Dockerfile
     networks:
      - internal
+    depends_on:
+      - mssql
+      - services.api.servicediscovery
   services.api.logging:
     image: ${DOCKER_REGISTRY-}servicesapilogging
     container_name: services.api.logging
@@ -111,6 +115,10 @@ services:
       dockerfile: Services.Api.Logging/Dockerfile
     networks:
      - internal
+    depends_on:
+      - mssql
+      - services.api.servicediscovery
+      - services.api.authorization 
   services.api.gateway.public:
     image: ${DOCKER_REGISTRY-}servicesapigatewaypublic
     container_name: services.api.gateway.public
@@ -121,6 +129,9 @@ services:
       dockerfile: Services.Api.Gateway.Public/Dockerfile
     networks:
      - internal
+    depends_on:
+      - services.api.servicediscovery
+      - services.api.authorization 
   services.api.business.departments.hr:
     image: ${DOCKER_REGISTRY-}servicesapibusinessdepartmentshr
     container_name: services.api.business.departments.hr
@@ -131,6 +142,10 @@ services:
       dockerfile: Services.Api.Business.Departments.HR/Dockerfile
     networks:
      - internal
+    depends_on:
+      - mssql
+      - services.api.servicediscovery
+      - services.api.authorization 
   presentation.ui.web.identity:
     image: ${DOCKER_REGISTRY-}presentationuiwebidentity
     container_name: presentation.ui.web.identity
@@ -141,6 +156,9 @@ services:
       dockerfile: Presentation.UI.Web.Identity/Dockerfile
     networks:
      - internal
+    depends_on:
+      - services.api.servicediscovery
+      - services.api.authorization 
   presentation.ui.web:
     image: ${DOCKER_REGISTRY-}presentationuiweb
     container_name: presentation.ui.web
@@ -151,6 +169,10 @@ services:
       dockerfile: Presentation.UI.Web/Dockerfile
     networks:
      - internal
+    depends_on:
+      - services.api.servicediscovery
+      - services.api.authorization
+      - services.api.gateway.public
   services.api.business.departments.aa:
     image: ${DOCKER_REGISTRY-}servicesapibusinessdepartmentsaa
     container_name: services.api.business.departments.aa
@@ -161,6 +183,10 @@ services:
       dockerfile: Services.Api.Business.Departments.AA/Dockerfile
     networks:
      - internal
+    depends_on:
+      - mssql
+      - services.api.servicediscovery
+      - services.api.authorization 
   services.api.business.departments.accounting:
     image: ${DOCKER_REGISTRY-}servicesapibusinessdepartmentsaccounting
     container_name: services.api.business.departments.accounting
@@ -171,6 +197,10 @@ services:
       dockerfile: Services.Api.Business.Departments.Accounting/Dockerfile
     networks:
      - internal
+    depends_on:
+      - mssql
+      - services.api.servicediscovery
+      - services.api.authorization 
   services.api.business.departments.buying:
     image: ${DOCKER_REGISTRY-}servicesapibusinessdepartmentsbuying
     container_name: services.api.business.departments.buying
@@ -181,6 +211,10 @@ services:
       dockerfile: Services.Api.Business.Departments.Buying/Dockerfile
     networks:
      - internal
+    depends_on:
+      - mssql
+      - services.api.servicediscovery
+      - services.api.authorization 
   services.api.business.departments.cr:
     image: ${DOCKER_REGISTRY-}servicesapibusinessdepartmentscr
     container_name: services.api.business.departments.cr
@@ -191,6 +225,10 @@ services:
       dockerfile: Services.Api.Business.Departments.CR/Dockerfile
     networks:
      - internal
+    depends_on:
+      - mssql
+      - services.api.servicediscovery
+      - services.api.authorization 
   services.api.business.departments.finance:
     image: ${DOCKER_REGISTRY-}servicesapibusinessdepartmentsfinance
     container_name: services.api.business.departments.finance
@@ -201,6 +239,10 @@ services:
       dockerfile: Services.Api.Business.Departments.Finance/Dockerfile
     networks:
      - internal
+    depends_on:
+      - mssql
+      - services.api.servicediscovery
+      - services.api.authorization 
   services.api.business.departments.it:
     image: ${DOCKER_REGISTRY-}servicesapibusinessdepartmentsit
     container_name: services.api.business.departments.it
@@ -211,6 +253,10 @@ services:
       dockerfile: Services.Api.Business.Departments.IT/Dockerfile
     networks:
      - internal
+    depends_on:
+      - mssql
+      - services.api.servicediscovery
+      - services.api.authorization 
   services.api.business.departments.production:
     image: ${DOCKER_REGISTRY-}servicesapibusinessdepartmentsproduction
     container_name: services.api.business.departments.production
@@ -221,6 +267,10 @@ services:
       dockerfile: Services.Api.Business.Departments.Production/Dockerfile
     networks:
      - internal
+    depends_on:
+      - mssql
+      - services.api.servicediscovery
+      - services.api.authorization 
   services.api.business.departments.selling:
     image: ${DOCKER_REGISTRY-}servicesapibusinessdepartmentsselling
     container_name: services.api.business.departments.selling
@@ -231,6 +281,10 @@ services:
       dockerfile: Services.Api.Business.Departments.Selling/Dockerfile
     networks:
      - internal
+    depends_on:
+      - mssql
+      - services.api.servicediscovery
+      - services.api.authorization 
   services.api.business.departments.storage:
     image: ${DOCKER_REGISTRY-}servicesapibusinessdepartmentsstorage
     container_name: services.api.business.departments.storage
@@ -241,21 +295,115 @@ services:
       dockerfile: Services.Api.Business.Departments.Storage/Dockerfile
     networks:
      - internal
+    depends_on:
+      - mssql
+      - services.api.servicediscovery
+      - services.api.authorization 
+  services.mq.authorization:
+    image: ${DOCKER_REGISTRY-}servicesmqauthorization
+    container_name: services.mq.authorization
+    build:
+      context: .
+      dockerfile: Services.MQ.Authorization/Dockerfile
+    networks:
+      - internal
+    depends_on:
+      - services.api.servicediscovery
+      - services.api.authorization 
+  services.mq.buying:
+    image: ${DOCKER_REGISTRY-}servicesmqbuying
+    container_name: services.mq.buying
+    build:
+      context: .
+      dockerfile: Services.MQ.Buying/Dockerfile
+    networks:
+      - internal
+    depends_on:
+      - services.api.servicediscovery
+      - services.api.authorization 
+  services.mq.accounting:
+    image: ${DOCKER_REGISTRY-}servicesmqaccounting
+    container_name: services.mq.accounting
+    build:
+      context: .
+      dockerfile: Services.MQ.Accounting/Dockerfile
+    networks:
+      - internal
+    depends_on:
+      - services.api.servicediscovery
+      - services.api.authorization 
+  services.mq.aa:
+    image: ${DOCKER_REGISTRY-}servicesmqaa
+    container_name: services.mq.aa
+    build:
+      context: .
+      dockerfile: Services.MQ.AA/Dockerfile
+    networks:
+      - internal
+    depends_on:
+      - services.api.servicediscovery
+      - services.api.authorization 
+  services.mq.finance:
+    image: ${DOCKER_REGISTRY-}servicesmqfinance
+    container_name: services.mq.finance
+    build:
+      context: .
+      dockerfile: Services.MQ.Finance/Dockerfile
+    networks:
+      - internal
+    depends_on:
+      - services.api.servicediscovery
+      - services.api.authorization 
+  services.mq.it:
+    image: ${DOCKER_REGISTRY-}servicesmqit
+    container_name: services.mq.it
+    build:
+      context: .
+      dockerfile: Services.MQ.IT/Dockerfile
+    networks:
+      - internal
+    depends_on:
+      - services.api.servicediscovery
+      - services.api.authorization 
+  services.mq.production:
+    image: ${DOCKER_REGISTRY-}servicesmqproduction
+    container_name: services.mq.production
+    build:
+      context: .
+      dockerfile: Services.MQ.Production/Dockerfile
+    networks:
+      - internal
+    depends_on:
+      - services.api.servicediscovery
+      - services.api.authorization 
+  services.mq.selling:
+    image: ${DOCKER_REGISTRY-}servicesmqselling
+    container_name: services.mq.selling
+    build:
+      context: .
+      dockerfile: Services.MQ.Selling/Dockerfile
+    networks:
+      - internal
+    depends_on:
+      - services.api.servicediscovery
+      - services.api.authorization 
+  services.mq.storage:
+    image: ${DOCKER_REGISTRY-}servicesmqstorage
+    container_name: services.mq.storage
+    build:
+      context: .
+      dockerfile: Services.MQ.Storage/Dockerfile
+    networks:
+      - internal
+    depends_on:
+      - services.api.servicediscovery
+      - services.api.authorization 
 networks:
   internal:
    driver: bridge
 
 volumes:
   dbVolume:  
-
-
-
-
-
-
-
-
-
 
 
 

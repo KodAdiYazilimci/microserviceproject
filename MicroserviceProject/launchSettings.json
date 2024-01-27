@@ -19,7 +19,16 @@
         "services.api.business.departments.it": "StartDebugging",
         "services.api.business.departments.production": "StartDebugging",
         "services.api.business.departments.selling": "StartDebugging",
-        "services.api.business.departments.storage": "StartDebugging"
+        "services.api.business.departments.storage": "StartDebugging",
+        "services.mq.authorization": "StartDebugging",
+        "services.mq.buying": "StartDebugging",
+        "services.mq.accounting": "StartDebugging",
+        "services.mq.aa": "StartDebugging",
+        "services.mq.finance": "StartDebugging",
+        "services.mq.it": "StartDebugging",
+        "services.mq.production": "StartDebugging",
+        "services.mq.selling": "StartDebugging",
+        "services.mq.storage": "StartDebugging"
       }
     }
   }
