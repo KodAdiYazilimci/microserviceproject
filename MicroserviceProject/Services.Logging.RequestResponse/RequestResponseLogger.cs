@@ -53,11 +53,11 @@ namespace Services.Logging.RequestResponse
 
             loggers.Add(requestResponseRabbitLogger);
 
-            BulkElasticLogger<RequestResponseLogModel> elasticLogger =
-                new BulkElasticLogger<RequestResponseLogModel>(
-                    new RequestResponseLogElasticConfiguration(configuration));
+            //BulkElasticLogger<RequestResponseLogModel> elasticLogger =
+            //    new BulkElasticLogger<RequestResponseLogModel>(
+            //        new RequestResponseLogElasticConfiguration(configuration));
 
-            loggers.Add(elasticLogger);
+            //loggers.Add(elasticLogger);
 
             _logManager = new BulkLogManager<RequestResponseLogModel>(loggers);
         }

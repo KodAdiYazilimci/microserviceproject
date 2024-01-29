@@ -44,11 +44,11 @@ namespace Services.Logging.Exception
 
             loggers.Add(exceptionRabbitLogger);
 
-            DefaultElasticLogger<ExceptionLogModel> elasticLogger =
-                new DefaultElasticLogger<ExceptionLogModel>(
-                    new ExceptionLogElasticConfiguration(configuration));
+            //DefaultElasticLogger<ExceptionLogModel> elasticLogger =
+            //    new DefaultElasticLogger<ExceptionLogModel>(
+            //        new ExceptionLogElasticConfiguration(configuration));
 
-            loggers.Add(elasticLogger);
+            //loggers.Add(elasticLogger);
 
             _logManager = new LogManager<ExceptionLogModel>(loggers);
         }
