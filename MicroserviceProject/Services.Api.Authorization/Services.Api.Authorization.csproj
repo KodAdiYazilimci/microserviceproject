@@ -55,8 +55,4 @@
     <ProjectReference Include="..\Services.Util\Services.Util.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="helm\authorization\charts\" />
-  </ItemGroup>
-
 </Project>
