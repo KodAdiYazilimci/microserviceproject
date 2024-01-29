@@ -41,11 +41,11 @@ namespace Services.Logging.RequestResponse
         {
             List<IBulkLogger<RequestResponseLogModel>> loggers = new List<IBulkLogger<RequestResponseLogModel>>();
 
-            BulkJsonFileLogger<RequestResponseLogModel> jsonFileLogger =
-                new BulkJsonFileLogger<RequestResponseLogModel>(
-                    new RequestResponseLogFileConfiguration(configuration));
+            //BulkJsonFileLogger<RequestResponseLogModel> jsonFileLogger =
+            //    new BulkJsonFileLogger<RequestResponseLogModel>(
+            //        new RequestResponseLogFileConfiguration(configuration));
 
-            loggers.Add(jsonFileLogger);
+            //loggers.Add(jsonFileLogger);
 
             DefaultBulkLogProducer<RequestResponseLogModel> requestResponseRabbitLogger =
                 new DefaultBulkLogProducer<RequestResponseLogModel>(

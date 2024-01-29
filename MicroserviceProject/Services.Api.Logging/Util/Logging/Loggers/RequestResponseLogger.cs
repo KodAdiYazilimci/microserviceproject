@@ -38,11 +38,11 @@ namespace Services.Api.Logging.Util.Logging.Loggers
         {
             List<ILogger<RequestResponseLogModel>> loggers = new List<ILogger<RequestResponseLogModel>>();
 
-            JsonFileLogger<RequestResponseLogModel> jsonFileLogger =
-                new JsonFileLogger<RequestResponseLogModel>(
-                    new Configuration.Logging.RequestResponseLogFileConfiguration(configuration));
+            //JsonFileLogger<RequestResponseLogModel> jsonFileLogger =
+            //    new JsonFileLogger<RequestResponseLogModel>(
+            //        new Configuration.Logging.RequestResponseLogFileConfiguration(configuration));
 
-            loggers.Add(jsonFileLogger);
+            //loggers.Add(jsonFileLogger);
 
             DefaultLogger<RequestResponseLogModel> defaultMongoLogger =
                 new DefaultLogger<RequestResponseLogModel>(

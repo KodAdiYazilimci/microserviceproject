@@ -34,11 +34,11 @@ namespace Services.Logging.Exception
         {
             List<IBulkLogger<ExceptionLogModel>> loggers = new List<IBulkLogger<ExceptionLogModel>>();
 
-            BulkJsonFileLogger<ExceptionLogModel> jsonFileLogger =
-                new BulkJsonFileLogger<ExceptionLogModel>(
-                    new ExceptionLogFileConfiguration(configuration));
+            //BulkJsonFileLogger<ExceptionLogModel> jsonFileLogger =
+            //    new BulkJsonFileLogger<ExceptionLogModel>(
+            //        new ExceptionLogFileConfiguration(configuration));
 
-            loggers.Add(jsonFileLogger);
+            //loggers.Add(jsonFileLogger);
 
             BulkTextFileLogger<ExceptionLogModel> exceptionRabbitLogger =
                 new BulkTextFileLogger<ExceptionLogModel>(
