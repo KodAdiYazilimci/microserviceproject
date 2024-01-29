@@ -274,33 +274,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Mq.Queue.Storage.Rabbit", "Services.Communication.Mq.Queue.Storage.Rabbit\Services.Communication.Mq.Queue.Storage.Rabbit.csproj", "{D75198D3-C7A0-4D83-85A2-6DB303C55760}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{040BFC8F-477D-4056-B6A1-9752CC46556D}"
-	ProjectSection(SolutionItems) = preProject
-		Dockerfile_AA = Dockerfile_AA
-		Dockerfile_Accounting = Dockerfile_Accounting
-		Dockerfile_AGW_Public = Dockerfile_AGW_Public
-		Dockerfile_Authorization = Dockerfile_Authorization
-		Dockerfile_Buying = Dockerfile_Buying
-		Dockerfile_CR = Dockerfile_CR
-		Dockerfile_Finance = Dockerfile_Finance
-		Dockerfile_HR = Dockerfile_HR
-		Dockerfile_IT = Dockerfile_IT
-		Dockerfile_Logging = Dockerfile_Logging
-		Dockerfile_MQ_AA = Dockerfile_MQ_AA
-		Dockerfile_MQ_Accounting = Dockerfile_MQ_Accounting
-		Dockerfile_MQ_Authorization = Dockerfile_MQ_Authorization
-		Dockerfile_MQ_Buying = Dockerfile_MQ_Buying
-		Dockerfile_MQ_Finance = Dockerfile_MQ_Finance
-		Dockerfile_MQ_IT = Dockerfile_MQ_IT
-		Dockerfile_MQ_Production = Dockerfile_MQ_Production
-		Dockerfile_MQ_Selling = Dockerfile_MQ_Selling
-		Dockerfile_MQ_Storage = Dockerfile_MQ_Storage
-		Dockerfile_PresentationUIWeb = Dockerfile_PresentationUIWeb
-		Dockerfile_PresentationUIWebIdentity = Dockerfile_PresentationUIWebIdentity
-		Dockerfile_Production = Dockerfile_Production
-		Dockerfile_Selling = Dockerfile_Selling
-		Dockerfile_ServiceDiscovery = Dockerfile_ServiceDiscovery
-		Dockerfile_Storage = Dockerfile_Storage
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{D97D927E-30E6-446F-8212-8A92042FE46F}"
 	ProjectSection(SolutionItems) = preProject
@@ -457,7 +430,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Http
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Http.Endpoint.ServiceDiscovery", "Services.Communication.Http.Endpoint.ServiceDiscovery\Services.Communication.Http.Endpoint.ServiceDiscovery.csproj", "{AA7E0E0C-3797-4D01-A7A6-252E129BABA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Logging.Elastic", "Infrastructure.Logging.Elastic\Infrastructure.Logging.Elastic.csproj", "{DE69848F-AFD7-4FFB-BCAE-55B868AC6448}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Logging.Elastic", "Infrastructure.Logging.Elastic\Infrastructure.Logging.Elastic.csproj", "{DE69848F-AFD7-4FFB-BCAE-55B868AC6448}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

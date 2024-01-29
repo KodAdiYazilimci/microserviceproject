@@ -27,8 +27,4 @@
     <ProjectReference Include="..\Services.Util\Services.Util.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="helm\logging\charts\" />
-  </ItemGroup>
-
 </Project>
