@@ -22,9 +22,7 @@ namespace Services.Logging.Exception
         /// <summary>
         /// Log yazma işlemlerini yürütecek yönetici
         /// </summary>
-        private readonly BulkLogManager<ExceptionLogModel> _logManager;
-
-        private List<ExceptionLogModel> exceptionLogModels = new List<ExceptionLogModel>();
+        private readonly LogManager<ExceptionLogModel> _logManager;
 
         /// <summary>
         /// Exception loglarını yazan sınıf
@@ -32,27 +30,27 @@ namespace Services.Logging.Exception
         /// <param name="configuration">Exception log ayarlarının çekileceği configuration</param>
         public ExceptionLogger(IConfiguration configuration)
         {
-            List<IBulkLogger<ExceptionLogModel>> loggers = new List<IBulkLogger<ExceptionLogModel>>();
+            List<ILogger<ExceptionLogModel>> loggers = new List<ILogger<ExceptionLogModel>>();
 
-            BulkJsonFileLogger<ExceptionLogModel> jsonFileLogger =
-                new BulkJsonFileLogger<ExceptionLogModel>(
+            JsonFileLogger<ExceptionLogModel> jsonFileLogger =
+                new JsonFileLogger<ExceptionLogModel>(
                     new ExceptionLogFileConfiguration(configuration));
 
             loggers.Add(jsonFileLogger);
 
-            BulkTextFileLogger<ExceptionLogModel> exceptionRabbitLogger =
-                new BulkTextFileLogger<ExceptionLogModel>(
+            TextFileLogger<ExceptionLogModel> exceptionRabbitLogger =
+                new TextFileLogger<ExceptionLogModel>(
                     new ExceptionLogFileConfiguration(configuration));
 
             loggers.Add(exceptionRabbitLogger);
 
-            BulkElasticLogger<ExceptionLogModel> elasticLogger =
-                new BulkElasticLogger<ExceptionLogModel>(
+            DefaultElasticLogger<ExceptionLogModel> elasticLogger =
+                new DefaultElasticLogger<ExceptionLogModel>(
                     new ExceptionLogElasticConfiguration(configuration));
 
             loggers.Add(elasticLogger);
 
-            _logManager = new BulkLogManager<ExceptionLogModel>(loggers);
+            _logManager = new LogManager<ExceptionLogModel>(loggers);
         }
 
         /// <summary>
@@ -76,12 +74,6 @@ namespace Services.Logging.Exception
                 {
                     if (_logManager != null)
                         _logManager.Dispose();
-
-                    if (exceptionLogModels != null)
-                    {
-                        exceptionLogModels.Clear();
-                        exceptionLogModels = null;
-                    }
                 }
 
                 disposed = true;
@@ -94,18 +86,7 @@ namespace Services.Logging.Exception
         /// <param name="model">Yazılacak Exception logun nesnesi</param>
         public async Task LogAsync(ExceptionLogModel model, CancellationTokenSource cancellationTokenSource)
         {
-            if (exceptionLogModels.Count > 100)
-            {
-                ExceptionLogModel[] tempExceptionLogs = new ExceptionLogModel[exceptionLogModels.Count];
-                exceptionLogModels.CopyTo(tempExceptionLogs);
-                exceptionLogModels.Clear();
-
-                await _logManager.LogAsync(tempExceptionLogs.ToList(), cancellationTokenSource);
-            }
-            else
-            {
-                exceptionLogModels.Add(model);
-            }
+            await _logManager.LogAsync(model, cancellationTokenSource);
         }
     }
 }

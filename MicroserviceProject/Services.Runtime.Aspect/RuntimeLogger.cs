@@ -1,5 +1,4 @@
 ﻿using Infrastructure.Logging.Abstraction;
-using Infrastructure.Logging.File.Loggers;
 using Infrastructure.Logging.Managers;
 using Infrastructure.Logging.RabbitMq.Producers;
 
@@ -23,9 +22,7 @@ namespace Services.Logging.Aspect
         /// <summary>
         /// Log yazma işlemlerini yürütecek yönetici
         /// </summary>
-        private readonly BulkLogManager<RuntimeLogModel> _logManager;
-
-        private List<RuntimeLogModel> runtimeLogModels = new List<RuntimeLogModel>();
+        private readonly LogManager<RuntimeLogModel> _logManager;
 
         /// <summary>
         /// Çalışma zamanı loglarını yazan sınıf
@@ -33,17 +30,17 @@ namespace Services.Logging.Aspect
         /// <param name="configuration">Çalışma zamanı log ayarlarının çekileceği configuration</param>
         public RuntimeLogger(IConfiguration configuration)
         {
-            List<IBulkLogger<RuntimeLogModel>> loggers = new List<IBulkLogger<RuntimeLogModel>>();
+            List<ILogger<RuntimeLogModel>> loggers = new List<ILogger<RuntimeLogModel>>();
 
             //BulkJsonFileLogger<RuntimeLogModel> jsonFileLogger =
             //    new BulkJsonFileLogger<RuntimeLogModel>(
             //        new RuntimeLogFileConfiguration(configuration));
 
-            DefaultBulkLogProducer<RuntimeLogModel> requestResponseRabbitLogger =
-                new DefaultBulkLogProducer<RuntimeLogModel>(
+            DefaultLogProducer<RuntimeLogModel> requestResponseRabbitLogger =
+                new DefaultLogProducer<RuntimeLogModel>(
                     new RuntimeLogRabbitConfiguration(configuration));
 
-            BulkRuntimeLogRepository runtimeLogRepository = new BulkRuntimeLogRepository(configuration);
+            RuntimeLogRepository runtimeLogRepository = new RuntimeLogRepository(configuration);
 
             loggers.Add(requestResponseRabbitLogger);
 
@@ -51,7 +48,7 @@ namespace Services.Logging.Aspect
 
             loggers.Add(runtimeLogRepository);
 
-            _logManager = new BulkLogManager<RuntimeLogModel>(loggers);
+            _logManager = new LogManager<RuntimeLogModel>(loggers);
         }
 
         /// <summary>
@@ -75,12 +72,6 @@ namespace Services.Logging.Aspect
                 {
                     if (_logManager != null)
                         _logManager.Dispose();
-
-                    if (runtimeLogModels != null)
-                    {
-                        runtimeLogModels.Clear();
-                        runtimeLogModels = null;
-                    }
                 }
 
                 disposed = true;
@@ -93,18 +84,7 @@ namespace Services.Logging.Aspect
         /// <param name="model">Yazılacak çalışma zamanı logun nesnesi</param>
         public async Task LogAsync(RuntimeLogModel model, CancellationTokenSource cancellationTokenSource)
         {
-            if (runtimeLogModels.Count > 100)
-            {
-                RuntimeLogModel[] tempLogModels = new RuntimeLogModel[runtimeLogModels.Count];
-                runtimeLogModels.CopyTo(tempLogModels);
-                runtimeLogModels.Clear();
-
-                await _logManager.LogAsync(tempLogModels.ToList(), cancellationTokenSource);
-            }
-            else
-            {
-                runtimeLogModels.Add(model);
-            }
+            await _logManager.LogAsync(model, cancellationTokenSource);
         }
     }
 }
