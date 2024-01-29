@@ -8,14 +8,16 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=admin
-    command: [--auth]
+    # command: [mongod,--auth]
     ports:
       - 27017:27017
     volumes:
+      # - mongoVol:/data/db
       - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo-js:ro
-      - './volumes/mongo:/data/db'
+      - './volumes/mongoVol:/data/db'
     networks:
-     - internal
+      - internal
+    # entrypoint: [ "/usr/bin/mongod"]
   redis:
     image: 'redis/redis-stack-server'
     container_name: redis
@@ -419,4 +421,4 @@ networks:
 
 volumes:
   dbVolume:
-  mongo:
+  mongoVol:

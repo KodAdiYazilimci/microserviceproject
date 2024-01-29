@@ -14,25 +14,35 @@ namespace Services.ServiceDiscovery.DI
     {
         public static IApplicationBuilder RegisterService(this IApplicationBuilder applicationBuilder, List<IEndpoint> endpoints)
         {
-            IServiceRegisterer serviceRegisterer = applicationBuilder.ApplicationServices.GetRequiredService<IServiceRegisterer>();
-            IRegisterationConfiguration registerationConfiguration = applicationBuilder.ApplicationServices.GetRequiredService<IRegisterationConfiguration>();
-
-            Task registerServiceTask = serviceRegisterer.RegisterServiceAsync(new RegisteredServiceModel()
+            while (true)
             {
-                ServiceName = registerationConfiguration.ServiceName,
-                Port = registerationConfiguration.Port,
-                Protocol = registerationConfiguration.Protocol,
-                Endpoints = endpoints,
-                IpAddresses = Dns.GetHostByName(Dns.GetHostName()).AddressList.Select(x => new IpModel()
+                try
                 {
-                    Address = x.ToString(),
-                    AddressFamily = x.AddressFamily
-                }).ToList(),
-                DnsName = registerationConfiguration.OverrideDnsName ? registerationConfiguration.OverridenDnsName : Dns.GetHostName()
-            }, new CancellationTokenSource());
+                    IServiceRegisterer serviceRegisterer = applicationBuilder.ApplicationServices.GetRequiredService<IServiceRegisterer>();
+                    IRegisterationConfiguration registerationConfiguration = applicationBuilder.ApplicationServices.GetRequiredService<IRegisterationConfiguration>();
 
-            registerServiceTask.Wait();
+                    Task registerServiceTask = serviceRegisterer.RegisterServiceAsync(new RegisteredServiceModel()
+                    {
+                        ServiceName = registerationConfiguration.ServiceName,
+                        Port = registerationConfiguration.Port,
+                        Protocol = registerationConfiguration.Protocol,
+                        Endpoints = endpoints,
+                        IpAddresses = Dns.GetHostByName(Dns.GetHostName()).AddressList.Select(x => new IpModel()
+                        {
+                            Address = x.ToString(),
+                            AddressFamily = x.AddressFamily
+                        }).ToList(),
+                        DnsName = registerationConfiguration.OverrideDnsName ? registerationConfiguration.OverridenDnsName : Dns.GetHostName()
+                    }, new CancellationTokenSource());
 
+                    registerServiceTask.Wait();
+                    break;
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
             return applicationBuilder;
         }
     }
