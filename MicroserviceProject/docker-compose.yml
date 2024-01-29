@@ -1,6 +1,21 @@
 version: '3.4'
 
 services:
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin
+    command: [--auth]
+    ports:
+      - 27017:27017
+    volumes:
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo-js:ro
+      - './volumes/mongo:/data/db'
+    networks:
+     - internal
   redis:
     image: 'redis/redis-stack-server'
     container_name: redis
@@ -218,8 +233,8 @@ services:
   services.api.business.departments.cr:
     image: ${DOCKER_REGISTRY-}servicesapibusinessdepartmentscr
     container_name: services.api.business.departments.cr
-    ports:
-     - 60403:8080
+    # ports:
+    #  - 60403:8080
     build:
       context: .
       dockerfile: Services.Api.Business.Departments.CR/Dockerfile
@@ -228,7 +243,7 @@ services:
     depends_on:
       - mssql
       - services.api.servicediscovery
-      - services.api.authorization 
+      - services.api.authorization
   services.api.business.departments.finance:
     image: ${DOCKER_REGISTRY-}servicesapibusinessdepartmentsfinance
     container_name: services.api.business.departments.finance
@@ -403,11 +418,5 @@ networks:
    driver: bridge
 
 volumes:
-  dbVolume:  
-
-
-
-
-
-
-
+  dbVolume:
+  mongo:
