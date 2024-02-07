@@ -70,10 +70,11 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.MQ.IT", "Services.MQ.IT\Services.MQ.IT.csproj", "{E7323F0E-BA04-4BFD-AE58-B73806CCD47F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services.WebSockets", "Services.WebSockets", "{9B8356C1-A6F0-4AA1-8F50-3C5A595B5ABE}"
+	ProjectSection(SolutionItems) = preProject
+		Services.WebSockets\Services.WebSockets.csproj = Services.WebSockets\Services.WebSockets.csproj
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Caching", "Infrastructure.Caching\Infrastructure.Caching.csproj", "{F27B0846-EA5C-4C40-A180-488540AEE910}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation.Monitoring", "Presentation.Monitoring", "{46613280-061A-4018-BE84-BB789E5C4525}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.WebSockets.Security", "Services.WebSockets.Security\Services.WebSockets.Security.csproj", "{1F59B10F-3F11-4394-9CCD-066D4B30139C}"
 EndProject
@@ -130,10 +131,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Communication.Mq.Rabbit.Publisher", "Services.Communication.Mq.Rabbit.Publisher\Services.Communication.Mq.Rabbit.Publisher.csproj", "{708E4341-956F-4962-8EAB-C50CC367D66C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{2EE70AFD-E3E7-49A0-9A36-5C36844C0EA0}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation.Monitoring.Reliability.Console", "Presentation.Monitoring.Reliability.Console\Presentation.Monitoring.Reliability.Console.csproj", "{7E62A379-41AB-4AFE-867D-840A5A7AEEDA}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation.Monitoring.Security.Console", "Presentation.Monitoring.Security.Console\Presentation.Monitoring.Security.Console.csproj", "{208EA143-EEDA-4DAE-9BB2-DBE46678EF2E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Api.Authorization", "Services.Api.Authorization\Services.Api.Authorization.csproj", "{EAF2E5D2-46B6-4EB1-84DA-5872C3EF4D06}"
 EndProject
@@ -566,14 +563,6 @@ Global
 		{708E4341-956F-4962-8EAB-C50CC367D66C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{708E4341-956F-4962-8EAB-C50CC367D66C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{708E4341-956F-4962-8EAB-C50CC367D66C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7E62A379-41AB-4AFE-867D-840A5A7AEEDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7E62A379-41AB-4AFE-867D-840A5A7AEEDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7E62A379-41AB-4AFE-867D-840A5A7AEEDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7E62A379-41AB-4AFE-867D-840A5A7AEEDA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{208EA143-EEDA-4DAE-9BB2-DBE46678EF2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{208EA143-EEDA-4DAE-9BB2-DBE46678EF2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{208EA143-EEDA-4DAE-9BB2-DBE46678EF2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{208EA143-EEDA-4DAE-9BB2-DBE46678EF2E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EAF2E5D2-46B6-4EB1-84DA-5872C3EF4D06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EAF2E5D2-46B6-4EB1-84DA-5872C3EF4D06}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAF2E5D2-46B6-4EB1-84DA-5872C3EF4D06}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -1068,8 +1057,6 @@ Global
 		{5AE83F61-BA34-4CEC-8164-DA25975C1887} = {C8865F6F-B43B-46D6-9854-42E43A5F82EC}
 		{94151CC5-230B-4BCB-AB12-0E005AD765D1} = {C8865F6F-B43B-46D6-9854-42E43A5F82EC}
 		{708E4341-956F-4962-8EAB-C50CC367D66C} = {7541C820-F43F-4E74-BDA8-1DF45AE410D2}
-		{7E62A379-41AB-4AFE-867D-840A5A7AEEDA} = {46613280-061A-4018-BE84-BB789E5C4525}
-		{208EA143-EEDA-4DAE-9BB2-DBE46678EF2E} = {46613280-061A-4018-BE84-BB789E5C4525}
 		{EAF2E5D2-46B6-4EB1-84DA-5872C3EF4D06} = {1B7B3E01-E070-44FD-9E87-9B6072018B09}
 		{C1560914-FB01-45E5-952D-68F6F8D3AAA2} = {1B7B3E01-E070-44FD-9E87-9B6072018B09}
 		{6A8A3096-75D5-46E7-AE7A-9FBAF3924AC0} = {0F4BF799-97BA-4E83-B809-6F5702884F6D}
