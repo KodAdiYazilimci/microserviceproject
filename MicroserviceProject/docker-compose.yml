@@ -12,9 +12,9 @@ services:
     ports:
       - 27017:27017
     volumes:
-      # - mongoVol:/data/db
-      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo-js:ro
-      - './volumes/mongoVol:/data/db'
+      - mongoVol:/data/db
+      # - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo-js:ro
+      # - './volumes/mongoVol:/data/db'
     networks:
       - internal
     # entrypoint: [ "/usr/bin/mongod"]
